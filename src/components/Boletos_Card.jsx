@@ -4,12 +4,12 @@ import Image from "next/image";
 
 function Boletos_Card() {
   return (
-    <div className="text-white rounded-xl  group flex flex-col bg-[#0F1322] hover:scale-105 drop-shadow-lg  ease-out duration-300 cursor-pointer  shadow-xl ">
-      <h3 className="font-MPLUS2 pl-7 pt-2 font-semibold text-[32px] text-left">
+    <div className="text-white pl-7  py-7 rounded-xl  group flex flex-col bg-[#0F1322] hover:scale-105 drop-shadow-lg  ease-out duration-300 cursor-pointer  shadow-xl ">
+      <h3 className="font-MPLUS2  font-semibold text-[32px] text-left">
         BOLETOS
       </h3>
 
-      <div className="flex gap-16 pl-10 items-center justify-center">
+      <div className="flex gap-16 items-center justify-center">
         <Image
           className="mx-auto block w-[115px] h-[116px] mt-12 rounded-lg"
           alt="pasajeThumbnail"
@@ -17,7 +17,7 @@ function Boletos_Card() {
           src={boletoThumbnail}
         />
         <div className="">
-          <div className=" mb-12 pr-10 font-MPLUS1">
+          <div className=" mb-12 font-MPLUS1">
             <div className="space-y-1.5">
               <h4 className="text-md text-justify">BOLETA B003</h4>
 

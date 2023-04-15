@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function PanelControl() {
 	return (
-		<div className="bg-[#F3F1EF] rounded-l-xl  grid-cols-2 ">
+		<div className="bg-[#F3F1EF] px-[75px] py-3 rounded-l-xl items-center justify-center grid grid-cols-2 gap-7 ">
 			<Link to="/pasajes">
 				<Pasajes_Card />
 			</Link>
