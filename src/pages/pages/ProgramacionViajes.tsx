@@ -95,7 +95,7 @@ function ProgramacionViajes() {
 												label: "BYZ-147",
 											},
 										]}
-									></Select>
+									/>
 								</div>
 								<div className="font-Roboto space-y-[6px] pt-[10px]">
 									<label className="pl-1 text-[16px]" htmlFor="datepicker">
@@ -118,7 +118,7 @@ function ProgramacionViajes() {
 										defaultOpenValue={dayjs("07:00", format)}
 										minuteStep={15}
 										placeholder="Selecciona la hora"
-									></TimePicker>
+									/>
 								</div>
 
 								<div className="">

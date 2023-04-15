@@ -26,7 +26,7 @@ import { Route, Routes, Link } from "react-router-dom";
 function LandingPage() {
 	return (
 		<div className="flex">
-			<div className="my-5 mt-5 mx-8 pr-1">
+			<div className=" mt-2 mx-8 pr-3">
 				<Link to="/">
 					<div className=" hover:text-slate-700 flex items-center ">
 						<Image className="w-[30px] h-[30px]" src={logo} alt="logo" />
@@ -35,14 +35,12 @@ function LandingPage() {
 						</h2>
 					</div>
 				</Link>
-				<div
-					className=" flex flex-col justify-center my-24 p-3 text-center font-Literata"
-					id="userVar"
-				>
+				<div className=" my-12 p-3 text-center font-Literata" id="userVar">
 					<Image
-						className="drop-shadow-lg rounded-full"
+						className="ml-12 drop-shadow-lg rounded-full"
 						src={userThumbnail}
 						alt="userThumbnail"
+						width={70}
 					/>
 					<h3 className="font-bold">Julio Osorio</h3>
 					<h4 className="text-sm">Gerente</h4>
@@ -100,9 +98,7 @@ function LandingPage() {
 										className="w-[20px] h-[22px]"
 										alt="home"
 									/>
-									<span className="pr-1 font-semibold flex-1">
-										Programacion
-									</span>
+									<span className="text-center">Programacion</span>
 								</div>
 
 								<span>
@@ -115,20 +111,20 @@ function LandingPage() {
 									</svg>
 								</span>
 							</button>
-							<ul className="bg-white rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top">
+							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
 								<Link to="/programacion-viajes">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200">
+									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Viajes
 									</li>
 								</Link>
 
 								<Link to="/programacion-bus-conductor">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200">
+									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Bus - Conductor
 									</li>
 								</Link>
 								<Link to="/programacion-comprobantes">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200">
+									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Comprobantes
 									</li>
 								</Link>
