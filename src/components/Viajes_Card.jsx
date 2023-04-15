@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function Viajes_Card() {
   return (
-    <div className="text-white w-[450px] h-[307px] rounded-xl mt-[64px] group flex flex-col bg-[#0F1322] hover:scale-105 drop-shadow-lg  ease-out duration-300 cursor-pointer  shadow-xl ">
+    <div className="text-white  rounded-xl group flex flex-col bg-[#0F1322] hover:scale-105 drop-shadow-lg  ease-out duration-300 cursor-pointer  shadow-xl ">
       <h3 className="font-MPLUS2 pl-7 pt-2 font-semibold text-[32px] text-left">
         VIAJES
       </h3>
