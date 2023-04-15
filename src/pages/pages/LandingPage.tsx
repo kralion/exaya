@@ -30,7 +30,7 @@ function LandingPage() {
 				<Link to="/">
 					<div className=" hover:text-slate-700 flex items-center ">
 						<Image className="w-[30px] h-[30px]" src={logo} alt="logo" />
-						<h2 className=" text-center text-sm font-bold font-Mansalva mt-1">
+						<h2 className=" text-center text-sm font-bold font-Dosis mt-1">
 							Expreso <br /> Ayacucho
 						</h2>
 					</div>
