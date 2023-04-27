@@ -22,7 +22,7 @@
     "next-auth": "^4.20.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.10.0",
+    "react-router-dom": "^6.0.1",
     "superjson": "1.12.2",
     "zod": "^3.21.4"
   },
@@ -46,5 +46,8 @@
   },
   "ct3aMetadata": {
     "initVersion": "7.10.0"
-  }
+  },
+  "presets": [
+    "next/babel"
+  ]
 }

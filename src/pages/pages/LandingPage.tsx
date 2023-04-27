@@ -19,20 +19,31 @@ import encomiendasIcon from "../../assets/icons/encomiendas_icon.png";
 import administracionIcon from "../../assets/icons/administracion_icon.png";
 import logo from "../../assets/logo.png";
 import userThumbnail from "../../assets/users_image/julio_osorio.png";
-import { Route, Routes, Link } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Importacion de React Router
 
 function LandingPage() {
+	const router = useRouter();
+	const handleLinkClick = (path: string) => {
+		router.push(path);
+	};
+
 	return (
 		<div className="flex">
 			<div className=" mt-2 mx-8 pr-3">
-				<Link to="/">
+				<Link href="/panel">
 					<div className=" hover:text-slate-700 flex items-center ">
 						<Image className="w-[30px] h-[30px]" src={logo} alt="logo" />
-						<h2 className=" text-center text-sm font-bold font-Dosis mt-1">
-							Expreso <br /> Ayacucho
-						</h2>
+						<a href="">
+							<button
+								onClick={() => handleLinkClick("/panel")}
+								className=" text-center text-sm font-bold font-Dosis mt-1"
+							>
+								Expreso <br /> Ayacucho
+							</button>
+						</a>
 					</div>
 				</Link>
 				<div className=" my-12 p-3 text-center font-Literata" id="userVar">
@@ -46,9 +57,12 @@ function LandingPage() {
 					<h4 className="text-sm">Gerente</h4>
 				</div>
 				<div className="text-[#353030]">
-					<Link to="/">
+					<Link href="/panel">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+							<button
+								onClick={() => handleLinkClick("/panel")}
+								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
+							>
 								<div className="flex gap-3">
 									<Image
 										src={panelControl}
@@ -60,9 +74,12 @@ function LandingPage() {
 							</button>
 						</div>
 					</Link>
-					<Link to="/pasajes">
+					<Link href="/pasajes">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+							<button
+								onClick={() => handleLinkClick("/pasajes")}
+								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
+							>
 								<div className="flex gap-3">
 									<Image
 										src={pasajesIcon}
@@ -74,9 +91,12 @@ function LandingPage() {
 							</button>
 						</div>
 					</Link>
-					<Link to="/contable">
+					<Link href="/contable">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+							<button
+								onClick={() => handleLinkClick("/contable")}
+								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
+							>
 								<div className="flex gap-3">
 									<Image
 										src={contableIcon}
@@ -112,29 +132,45 @@ function LandingPage() {
 								</span>
 							</button>
 							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
-								<Link to="/programacion-viajes">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+								<Link href="/programacion-viajes">
+									<button
+										onClick={() => handleLinkClick("/programacion-viajes")}
+										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+									>
 										Viajes
-									</li>
+									</button>
 								</Link>
 
-								<Link to="/programacion-bus-conductor">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+								<Link href="/programacion-bus-conductor">
+									<button
+										onClick={() =>
+											handleLinkClick("/programacion-bus-conductor")
+										}
+										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+									>
 										Bus - Conductor
-									</li>
+									</button>
 								</Link>
-								<Link to="/programacion-comprobantes">
-									<li className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+								<Link href="/programacion-comprobantes">
+									<button
+										onClick={() =>
+											handleLinkClick("/programacion-comprobantes")
+										}
+										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+									>
 										Comprobantes
-									</li>
+									</button>
 								</Link>
 							</ul>
 						</div>
 					</div>
 
-					<Link to="/encomiendas">
+					<Link href="/encomiendas">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+							<button
+								onClick={() => handleLinkClick("/encomiendas")}
+								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
+							>
 								<div className="flex gap-3">
 									<Image
 										src={encomiendasIcon}
@@ -146,9 +182,12 @@ function LandingPage() {
 							</button>
 						</div>
 					</Link>
-					<Link to="/administracion">
+					<Link href="/administracion">
 						<div className="flex flex-col gap-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+							<button
+								onClick={() => handleLinkClick("/administracion")}
+								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
+							>
 								<div className="flex gap-3">
 									<Image
 										src={administracionIcon}
@@ -162,22 +201,17 @@ function LandingPage() {
 					</Link>
 				</div>
 			</div>
-			<Routes>
-				<Route path="/" element={<PanelControl />} />
-				<Route path="/pasajes" element={<Pasajes />} />
-				<Route path="/contable" element={<Contable />} />
-				<Route path="/encomiendas" element={<Encomiendas />} />
-				<Route path="/programacion-viajes" element={<ProgramacionViajes />} />
-				<Route
-					path="/programacion-bus-conductor"
-					element={<ProgramacionBusConductor />}
-				/>
-				<Route
-					path="/programacion-comprobantes"
-					element={<ProgramacionComprobante />}
-				/>
-				<Route path="/administracion" element={<Administracion />} />
-			</Routes>
+
+			{router.pathname === "/panel" && <PanelControl />}
+			{router.pathname === "/pasajes" && <Pasajes />}
+			{router.pathname === "/contable" && <Contable />}
+			{router.pathname === "/encomiendas" && <Encomiendas />}
+			{router.pathname === "/programacion-viajes" && <ProgramacionViajes />}
+			{router.pathname === "/programacion-bus-conductor" && (
+				<ProgramacionBusConductor />
+			)}
+			{router.pathname === "/comprobantes" && <ProgramacionComprobante />}
+			{router.pathname === "/administracion" && <Administracion />}
 		</div>
 	);
 }

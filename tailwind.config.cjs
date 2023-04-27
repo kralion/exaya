@@ -5,6 +5,8 @@ const config = {
 		extend: {
 			fontFamily: {
 				Dosis: ["Dosis"],
+				Literata : ["Literata"],
+				Mansalva : ['Mansalva', 'serif'],
 			},
 		},
 	},

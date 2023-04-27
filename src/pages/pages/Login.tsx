@@ -1,23 +1,19 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 
-type LoginProps = {
-	setIsLogged: (value: boolean) => void;
-};
-
-function Login({ setIsLogged }: LoginProps) {
+function Login() {
 	return (
-		<div className="my-5 mx-5">
+		<div className="mx-5">
 			<header>
 				<div className="flex gap-1 ">
 					<Image width={60} height={60} src={logo} alt="logo" />
-					<h2 className="text-center font-bold font-Mansalva text-xl mt-1">
+					<h2 className="text-center font-bold font-Mansalva mt-1">
 						Expreso <br /> Ayacucho
 					</h2>
 				</div>
 			</header>
-			<div className="flex justify-center font-Literata h-96 mt-40">
+			<div className="flex justify-center font-Literata my-7 ">
 				<div className="flex flex-col justify-center w-1/2">
 					<div className="text-center mb-10">
 						<h1 className="text-4xl">LOGIN Molibus 2.0</h1>
@@ -56,11 +52,8 @@ function Login({ setIsLogged }: LoginProps) {
 									Recordar contraseña
 								</label>
 							</div>
-							<Link to="/">
-								<button
-									onClick={() => setIsLogged(true)}
-									className="bg-[#191818] mt-10 hover:bg-[#141313] text-white py-3 px-4"
-								>
+							<Link href="/">
+								<button className="bg-[#191818] mt-10 hover:bg-[#141313] active:bg-[#4d4c4c] text-white py-3 w-full px-4">
 									Ingresar
 								</button>
 							</Link>
