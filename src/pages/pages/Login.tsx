@@ -1,19 +1,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
+import { Dispatch, SetStateAction } from "react";
 
-function Login() {
+type LoginProps = {
+	setIsLogged: Dispatch<SetStateAction<boolean>>;
+};
+
+function Login({ setIsLogged }: LoginProps) {
 	return (
 		<div className="mx-5">
-			<header>
-				<div className="flex gap-1 ">
-					<Image width={60} height={60} src={logo} alt="logo" />
+			<header
+				data-aos="slide-right"
+				data-aos-delay="500"
+				data-aos-duration="2000"
+			>
+				<div className="flex items-center m-3">
+					<Image width={40} height={40} src={logo} alt="logo" />
 					<h2 className="text-center font-bold font-Mansalva mt-1">
 						Expreso <br /> Ayacucho
 					</h2>
 				</div>
 			</header>
-			<div className="flex justify-center font-Literata my-7 ">
+			<div
+				data-aos="flip-up"
+				data-aos-duration="1000"
+				data-aos-delay="200"
+				className="flex justify-center font-Literata my-7 "
+			>
 				<div className="flex flex-col justify-center w-1/2">
 					<div className="text-center mb-10">
 						<h1 className="text-4xl">LOGIN Molibus 2.0</h1>
@@ -53,7 +67,10 @@ function Login() {
 								</label>
 							</div>
 							<Link href="/">
-								<button className="bg-[#191818] mt-10 hover:bg-[#141313] active:bg-[#4d4c4c] text-white py-3 w-full px-4">
+								<button
+									onClick={() => setIsLogged(true)}
+									className="bg-[#191818] mt-10 hover:bg-[#141313] active:bg-[#4d4c4c] text-white py-3 w-full px-4"
+								>
 									Ingresar
 								</button>
 							</Link>

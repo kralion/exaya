@@ -32,29 +32,38 @@ function LandingPage() {
 
 	return (
 		<div className="flex">
-			<div className=" mt-2 mx-8 pr-3">
+			<div
+				data-aos="slide-right"
+				data-aos-duration="1000"
+				data-aos-delay="200"
+				className=" mt-2 mx-8 pr-3"
+			>
 				<Link href="/panel">
 					<div className=" hover:text-slate-700 flex items-center ">
-						<Image className="w-[30px] h-[30px]" src={logo} alt="logo" />
-						<a href="">
-							<button
-								onClick={() => handleLinkClick("/panel")}
-								className=" text-center text-sm font-bold font-Dosis mt-1"
-							>
-								Expreso <br /> Ayacucho
-							</button>
-						</a>
+						<Image width={40} height={40} src={logo} alt="logo" />
+
+						<button
+							onClick={() => handleLinkClick("/panel")}
+							className=" text-center text-sm font-bold font-Mansalva mt-1"
+						>
+							Expreso <br /> Ayacucho
+						</button>
 					</div>
 				</Link>
-				<div className=" my-12 p-3 text-center font-Literata" id="userVar">
+				<div
+					className=" my-12 p-3 flex flex-col justify-center items-center font-Literata"
+					id="userVar"
+				>
 					<Image
-						className="ml-12 drop-shadow-lg rounded-full"
+						className="drop-shadow-lg rounded-full"
 						src={userThumbnail}
 						alt="userThumbnail"
 						width={70}
 					/>
 					<h3 className="font-bold">Julio Osorio</h3>
-					<h4 className="text-sm">Gerente</h4>
+					<span className="bg-red-200 border-2 border-red-400 text-red-500 rounded px-2 pb-0.5 flex items-center text-sm">
+						Gerente
+					</span>
 				</div>
 				<div className="text-[#353030]">
 					<Link href="/panel">
@@ -121,7 +130,7 @@ function LandingPage() {
 									<span className="text-center">Programacion</span>
 								</div>
 
-								<span>
+								<span className="pl-5">
 									<svg
 										className="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out"
 										xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +144,7 @@ function LandingPage() {
 								<Link href="/programacion-viajes">
 									<button
 										onClick={() => handleLinkClick("/programacion-viajes")}
-										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
 									>
 										Viajes
 									</button>
@@ -146,7 +155,7 @@ function LandingPage() {
 										onClick={() =>
 											handleLinkClick("/programacion-bus-conductor")
 										}
-										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
 									>
 										Bus - Conductor
 									</button>
@@ -156,7 +165,7 @@ function LandingPage() {
 										onClick={() =>
 											handleLinkClick("/programacion-comprobantes")
 										}
-										className="rounded-md pl-5 pr-[75px] py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
+										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
 									>
 										Comprobantes
 									</button>
