@@ -35,57 +35,6 @@
   fill: black;
 }
 
-.btncrear {
-  --color: #1e293b;
-  --color2: rgb(219, 219, 220);
-  padding: 0.5em 1.2em;
-  background-color: transparent;
-  border-radius: 6px;
-  border: 0.3px solid var(--color);
-  transition: 0.5s;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 1;
-  color: var(--color);
-}
-
-.btncrear::after,
-.btncrear::before {
-  content: "";
-  display: block;
-  height: 100%;
-  width: 100%;
-  transform: skew(90deg) translate(-50%, -50%);
-  position: absolute;
-  inset: 50%;
-  left: 25%;
-  z-index: -1;
-  transition: 0.5s ease-out;
-  background-color: var(--color);
-}
-
-.btncrear::before {
-  top: -50%;
-  left: -25%;
-  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
-}
-
-.btncrear:hover::before {
-  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
-}
-
-.btncrear:hover::after {
-  transform: skew(45deg) translate(-50%, -50%);
-}
-
-.btncrear:hover {
-  color: var(--color2);
-}
-
-.btncrear:active {
-  filter: brightness(0.3);
-  transform: scale(1.5);
-}
 
 .dotspinner {
   --uib-size: 2.8rem;

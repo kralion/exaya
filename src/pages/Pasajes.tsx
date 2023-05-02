@@ -34,8 +34,8 @@ function Pasajes() {
 			<div className="mx-10 my-5">
 				<div className="sm:px-6 w-full">
 					<div className="px-4 md:px-10 py-4 md:py-7">
-						<div className="flex items-center justify-between">
-							<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 font-Nunito">
+						<div className="flex items-center justify-between font-Literata">
+							<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 ">
 								VIAJES DISPONIBLES
 							</p>
 							<div className="py-3 px-4 flex gap-5 text-sm font-medium text-gray-600">
@@ -182,7 +182,7 @@ function Pasajes() {
 										</td>
 
 										<td className="pl-4">
-											<button className="styled-btn font-bold">
+											<button className={`${style.styledbtn} font-bold`}>
 												Registrar
 											</button>
 										</td>
@@ -310,7 +310,7 @@ function Pasajes() {
 											</div>
 										</td>
 										<td className="pl-4">
-											<button className="styled-btn font-bold">
+											<button className={`${style.styledbtn} font-bold`}>
 												Registrar
 											</button>
 										</td>
@@ -439,7 +439,7 @@ function Pasajes() {
 										</td>
 
 										<td className="pl-4">
-											<button className="styled-btn font-bold">
+											<button className={`${style.styledbtn} font-bold`}>
 												Registrar
 											</button>
 										</td>
@@ -574,7 +574,7 @@ function Pasajes() {
 										</td>
 
 										<td className="pl-4">
-											<button className="styled-btn font-bold">
+											<button className={`${style.styledbtn} font-bold`}>
 												Registrar
 											</button>
 										</td>
