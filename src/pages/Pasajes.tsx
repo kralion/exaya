@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Space, DatePicker } from "antd";
 import Image from "next/image";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
-import llenoIcon from "../../assets/icons/lleno-icon.png";
-import llenandoIcon from "../../assets/icons/llenando-icon.png";
-import placaIcon from "../../assets/icons/placa-icon.png";
-import horaIcon from "../../assets/icons/hora-icon.png";
+import llenoIcon from "../assets/icons/lleno-icon.png";
+import llenandoIcon from "../assets/icons/llenando-icon.png";
+import placaIcon from "../assets/icons/placa-icon.png";
+import horaIcon from "../assets/icons/hora-icon.png";
 
-import style from "../../styles/extra.module.css";
+import style from "../styles/extra.module.css";
 
 const onChange = (
 	value: DatePickerProps["value"],

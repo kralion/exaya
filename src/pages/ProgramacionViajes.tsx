@@ -4,10 +4,10 @@ import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import placaIcon from "../../assets/icons/placa-icon.png";
-import horaIcon from "../../assets/icons/hora-icon.png";
+import placaIcon from "../assets/icons/placa-icon.png";
+import horaIcon from "../assets/icons/hora-icon.png";
 import Image from "next/image";
-import style from "../../styles/extra.module.css";
+import style from "../styles/extra.module.css";
 
 const format = "HH:mm";
 

@@ -6,9 +6,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import Image from "next/image";
 import type { ColumnsType } from "antd/es/table";
-import ingresoIcon from "../../assets/icons/ingresoIcon.png";
-import egresoIcon from "../../assets/icons/egresoIcon.png";
-import recaudadoIcon from "../../assets/icons/recaudadoIcon.png";
+import ingresoIcon from "../assets/icons/ingresoIcon.png";
+import egresoIcon from "../assets/icons/egresoIcon.png";
+import recaudadoIcon from "../assets/icons/recaudadoIcon.png";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 
 const onChange = (

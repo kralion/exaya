@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import React, { useState, useEffect } from "react";
-import Login from "./pages/Login";
-import LandingPage from "./pages/LandingPage";
+import React, { useState } from "react";
+import Login from "./Login";
+import LandingPage from "./LandingPage";
 import AOSWrapper from "./../utils/AOS";
 
 const Home: NextPage = () => {

@@ -1,35 +1,20 @@
 import Image from "next/image";
 
-// Importacion de Pages
-import PanelControl from "./PanelControl";
-import Pasajes from "./Pasajes";
-import Contable from "./Contable";
-import Encomiendas from "./Encomiendas";
-import ProgramacionViajes from "./ProgramacionViajes";
-import Administracion from "./Administracion";
-import ProgramacionComprobante from "./ProgramacionComprobante";
-import ProgramacionBusConductor from "./ProgramacionBusConductor";
-
 // Importacion de Assets
-import panelControl from "../../assets/icons/paneldecontrol_icon.png";
-import pasajesIcon from "../../assets/icons/pasajes_icon.png";
-import contableIcon from "../../assets/icons/contable_icon.png";
-import programacionIcon from "../../assets/icons/programacion_icon.png";
-import encomiendasIcon from "../../assets/icons/encomiendas_icon.png";
-import administracionIcon from "../../assets/icons/administracion_icon.png";
-import logo from "../../assets/logo.png";
-import userThumbnail from "../../assets/users_image/julio_osorio.png";
+import panelControl from "../assets/icons/paneldecontrol_icon.png";
+import pasajesIcon from "../assets/icons/pasajes_icon.png";
+import contableIcon from "../assets/icons/contable_icon.png";
+import programacionIcon from "../assets/icons/programacion_icon.png";
+import encomiendasIcon from "../assets/icons/encomiendas_icon.png";
+import administracionIcon from "../assets/icons/administracion_icon.png";
+import logo from "../assets/logo.png";
+import userThumbnail from "../assets/users_image/julio_osorio.png";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 // Importacion de React Router
 
 function LandingPage() {
-	const router = useRouter();
-	const handleLinkClick = (path: string) => {
-		router.push(path);
-	};
-
 	return (
 		<div className="flex">
 			<div
@@ -42,10 +27,7 @@ function LandingPage() {
 					<div className=" hover:text-slate-700 flex items-center ">
 						<Image width={40} height={40} src={logo} alt="logo" />
 
-						<button
-							onClick={() => handleLinkClick("/panel")}
-							className=" text-center text-sm font-bold font-Mansalva mt-1"
-						>
+						<button className=" text-center text-sm font-bold font-Mansalva mt-1">
 							Expreso <br /> Ayacucho
 						</button>
 					</div>
@@ -68,10 +50,7 @@ function LandingPage() {
 				<div className="text-[#353030]">
 					<Link href="/panel">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button
-								onClick={() => handleLinkClick("/panel")}
-								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
-							>
+							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
 										src={panelControl}
@@ -85,10 +64,7 @@ function LandingPage() {
 					</Link>
 					<Link href="/pasajes">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button
-								onClick={() => handleLinkClick("/pasajes")}
-								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
-							>
+							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
 										src={pasajesIcon}
@@ -102,10 +78,7 @@ function LandingPage() {
 					</Link>
 					<Link href="/contable">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button
-								onClick={() => handleLinkClick("/contable")}
-								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
-							>
+							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
 										src={contableIcon}
@@ -141,32 +114,19 @@ function LandingPage() {
 								</span>
 							</button>
 							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
-								<Link href="/programacion-viajes">
-									<button
-										onClick={() => handleLinkClick("/programacion-viajes")}
-										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
-									>
+								<Link href="/programacionviajes">
+									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Viajes
 									</button>
 								</Link>
 
-								<Link href="/programacion-bus-conductor">
-									<button
-										onClick={() =>
-											handleLinkClick("/programacion-bus-conductor")
-										}
-										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
-									>
+								<Link href="/programacionbusconductor">
+									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Bus - Conductor
 									</button>
 								</Link>
-								<Link href="/programacion-comprobantes">
-									<button
-										onClick={() =>
-											handleLinkClick("/programacion-comprobantes")
-										}
-										className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200"
-									>
+								<Link href="/programacioncomprobantes">
+									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Comprobantes
 									</button>
 								</Link>
@@ -176,10 +136,7 @@ function LandingPage() {
 
 					<Link href="/encomiendas">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button
-								onClick={() => handleLinkClick("/encomiendas")}
-								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
-							>
+							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
 										src={encomiendasIcon}
@@ -193,10 +150,7 @@ function LandingPage() {
 					</Link>
 					<Link href="/administracion">
 						<div className="flex flex-col gap-2 font-Literata font-bold text-[14px]">
-							<button
-								onClick={() => handleLinkClick("/administracion")}
-								className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg"
-							>
+							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
 										src={administracionIcon}
@@ -210,17 +164,6 @@ function LandingPage() {
 					</Link>
 				</div>
 			</div>
-
-			{router.pathname === "/panel" && <PanelControl />}
-			{router.pathname === "/pasajes" && <Pasajes />}
-			{router.pathname === "/contable" && <Contable />}
-			{router.pathname === "/encomiendas" && <Encomiendas />}
-			{router.pathname === "/programacion-viajes" && <ProgramacionViajes />}
-			{router.pathname === "/programacion-bus-conductor" && (
-				<ProgramacionBusConductor />
-			)}
-			{router.pathname === "/comprobantes" && <ProgramacionComprobante />}
-			{router.pathname === "/administracion" && <Administracion />}
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
-import Pasajes_Card from "../../components/Pasajes_Card";
-import Boletos_Card from "../../components/Boletos_Card";
-import Viajes_Card from "../../components/Viajes_Card";
+import Pasajes_Card from "../components/Pasajes_Card";
+import Boletos_Card from "../components/Boletos_Card";
+import Viajes_Card from "../components/Viajes_Card";
 import { Link } from "react-router-dom";
 
 function PanelControl() {

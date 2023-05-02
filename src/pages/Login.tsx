@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../assets/logo.png";
+import logo from "../assets/logo.png";
 import { Dispatch, SetStateAction } from "react";
 
 type LoginProps = {
