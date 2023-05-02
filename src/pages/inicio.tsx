@@ -23,7 +23,7 @@ function LandingPage() {
 				data-aos-delay="200"
 				className=" mt-2 mx-8 pr-3"
 			>
-				<Link href="/panel">
+				<Link href="/panel-de-control">
 					<div className=" hover:text-slate-700 flex items-center ">
 						<Image width={40} height={40} src={logo} alt="logo" />
 
@@ -48,7 +48,7 @@ function LandingPage() {
 					</span>
 				</div>
 				<div className="text-[#353030]">
-					<Link href="/panel">
+					<Link href="/panel-de-control">
 						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
 							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
@@ -114,18 +114,18 @@ function LandingPage() {
 								</span>
 							</button>
 							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
-								<Link href="/programacionviajes">
+								<Link href="/programacion-viajes">
 									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Viajes
 									</button>
 								</Link>
 
-								<Link href="/programacionbusconductor">
+								<Link href="/programacion-bus-conductor">
 									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Bus - Conductor
 									</button>
 								</Link>
-								<Link href="/programacioncomprobantes">
+								<Link href="/programacion-comprobantes">
 									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
 										Comprobantes
 									</button>

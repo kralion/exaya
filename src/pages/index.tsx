@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
 import Login from "./Login";
-import LandingPage from "./LandingPage";
+import LandingPage from "./inicio";
 import AOSWrapper from "./../utils/AOS";
 
 const Home: NextPage = () => {
