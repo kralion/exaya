@@ -43,14 +43,9 @@
   border-radius: 6px;
   border: 0.3px solid var(--color);
   transition: 0.5s;
-  position: relative;
   overflow: hidden;
   cursor: pointer;
   z-index: 1;
-  font-weight: 300;
-  font-size: 17px;
-  font-family: "Roboto", "Segoe UI", sans-serif;
-  text-transform: uppercase;
   color: var(--color);
 }
 

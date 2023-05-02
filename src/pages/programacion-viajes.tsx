@@ -44,7 +44,7 @@ function ProgramacionViajes() {
 
 					<div className="bg-white py-2 mb-5 pb-5 px-4 pl-16  rounded-lg drop-shadow-lg font-Roboto">
 						<form action="">
-							<div className="mt-2 overflow-x-auto flex gap-7">
+							<div className="mt-2 overflow-x-auto flex gap-7 items-center">
 								<div className="my-2">
 									<label htmlFor="rutaProgramacion" className=" pl-3">
 										Ruta :
@@ -120,9 +120,8 @@ function ProgramacionViajes() {
 										placeholder="Selecciona la hora"
 									/>
 								</div>
-
-								<div className="">
-									<button className="btn-crear mt-[35px] ml-12 text-sm">
+								<div className="mt-8 ml-6 font-semibold">
+									<button className="bg-gray-800 duration-200 text-neutral-100 rounded-lg hover:bg-gray-900 active:scale-105 py-2 px-7">
 										Crear
 									</button>
 								</div>
@@ -263,7 +262,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
@@ -419,7 +420,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
@@ -575,7 +578,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
@@ -731,7 +736,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
@@ -888,7 +895,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
@@ -1045,7 +1054,9 @@ function ProgramacionViajes() {
 										</td>
 										<td>
 											<div className="flex justify-center gap-7">
-												<button className="styled-btn font-bold">Editar</button>
+												<button className={`${style.styledbtn} font-bold`}>
+													Editar
+												</button>
 												<button
 													className={`${style.extrastyledbutton} duration-300 pr-3`}
 												>
