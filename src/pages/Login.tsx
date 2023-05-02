@@ -30,10 +30,10 @@ function Login({ setIsLogged }: LoginProps) {
 			>
 				<div className="flex flex-col justify-center w-1/2">
 					<div className="text-center mb-10">
-						<h1 className="text-4xl">LOGIN Molibus 2.0</h1>
+						<h1 className="text-4xl font-semibold">EXAYA</h1>
 
 						<h4 className="text-md mt-4">
-							Los credenciales para el ingreso lo maneja el área de Gerencia
+							Las credenciales son precreadas, solicítalas en el área de TI
 						</h4>
 					</div>
 					<div className="flex justify-center">

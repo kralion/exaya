@@ -42,8 +42,8 @@ function LandingPage() {
 						alt="userThumbnail"
 						width={70}
 					/>
-					<h3 className="font-bold">Julio Osorio</h3>
-					<span className="bg-red-200 border-2 border-red-400 text-red-500 rounded px-2 pb-0.5 flex items-center text-sm">
+					<h3 className="font-bold">Hugo Egoavil</h3>
+					<span className=" bg-zinc-800 text-white rounded mt-2 px-2 pb-0.5 flex items-center text-[11px]">
 						Gerente
 					</span>
 				</div>
