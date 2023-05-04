@@ -1,5 +1,6 @@
-import { DatePicker, Space, Input, Table, Card } from "antd";
+import { DatePicker, Space, Input, Table, Card, Select } from "antd";
 import dayjs from "dayjs";
+import "animate.css";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 import { SearchOutlined } from "@ant-design/icons";
@@ -77,7 +78,9 @@ const disabledDate: RangePickerProps["disabledDate"] = (current) => {
 };
 function Contable() {
 	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-
+	const handleRuta = (value: { value: string; label: React.ReactNode }) => {
+		console.log(value);
+	};
 	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
 		console.log("selectedRowKeys changed: ", newSelectedRowKeys);
 		setSelectedRowKeys(newSelectedRowKeys);
@@ -91,33 +94,54 @@ function Contable() {
 		<div className="bg-[#F3F1EF] w-[1450px] h-auto rounded-l-xl">
 			<div>
 				<div>
-					<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 mt-4 ">
+					<p className="animate__animated animate__flash animate__delay-500 focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 mt-4 ">
 						Bienvenido de nuevo, Julio
 					</p>
-					<div className="flex gap-3 ml-12 mt-10">
-						<button className="rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 9:30 PM
-						</button>
-						<button className="rounded-full  border border-zinc-500 font-Roboto px-5  bg-zinc-300 active:bg-zinc-400 ease-in-out text-zinc-600 duration-300 py-1 text-sm">
-							Horario 10:00 PM
-						</button>
-						<button className="rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 9:30 AM
-						</button>
-						<button className="rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 12:30 PM
-						</button>
-						<button className="rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 8:00 PM
-						</button>
+					<div className="flex gap-64 items-center">
+						<div className="flex gap-3 ml-12 mt-10">
+							<button className=" animate__animated animate__lightSpeedInRight rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+								Horario 9:30 PM
+							</button>
+							<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5  bg-zinc-300 active:bg-zinc-400 ease-in-out text-zinc-600 duration-300 py-1 text-sm">
+								Horario 10:00 PM
+							</button>
+							<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+								Horario 9:30 AM
+							</button>
+							<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+								Horario 12:30 PM
+							</button>
+							<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+								Horario 8:00 PM
+							</button>
+						</div>
+						<div className="">
+							<label htmlFor="rutaProgramacion">Ruta :</label>
+							<Select
+								placeholder="Selecciona la ruta"
+								style={{ width: 240 }}
+								className="mt-9 shadow-xl ml-2 font-semibold"
+								onChange={handleRuta}
+								options={[
+									{
+										value: "RUTA-HA",
+										label: "Huancayo - Ayacucho",
+									},
+									{
+										value: "RUTA-AH",
+										label: "Ayacucho - Huancayo",
+									},
+								]}
+							/>
+						</div>
 					</div>
 					<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 ">
-						Overview
+						Balance
 					</p>
 					<div className="flex gap-11 ml-12 mt-5">
 						<Card
 							style={{ width: 300 }}
-							className="shadow-lg duration-200 hover:scale-105 cursor-default"
+							className="animate__animated animate__flipInX shadow-lg duration-200 hover:scale-105 cursor-default"
 						>
 							<p className="text-sm text-slate-400 font-semibold">
 								Balance Total
@@ -138,7 +162,7 @@ function Contable() {
 						</Card>
 						<Card
 							style={{ width: 300 }}
-							className="shadow-lg duration-200 hover:scale-105 cursor-default"
+							className="animate__animated animate__flipInX shadow-lg duration-200 hover:scale-105 cursor-default"
 						>
 							<p className="text-sm text-slate-400 font-semibold">Comision</p>
 							<p className="text-2xl font-bold pt-2 font-Roboto">S./ 168.00</p>
@@ -157,7 +181,7 @@ function Contable() {
 						</Card>
 						<Card
 							style={{ width: 300 }}
-							className="shadow-lg duration-200 hover:scale-105 cursor-default"
+							className="animate__animated animate__flipInX  shadow-lg duration-200 hover:scale-105 cursor-default"
 						>
 							<p className="text-sm text-slate-400 font-semibold">
 								Encomiendas
@@ -176,7 +200,7 @@ function Contable() {
 						</Card>
 						<Card
 							style={{ width: 300 }}
-							className="shadow-lg duration-200 hover:scale-105 cursor-default"
+							className="animate__animated animate__flipInX  shadow-lg duration-200 hover:scale-105 cursor-default"
 						>
 							<p className="text-sm text-slate-400 font-semibold">
 								Total Bruto
