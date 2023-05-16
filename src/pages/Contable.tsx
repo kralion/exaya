@@ -120,7 +120,7 @@ function Contable() {
 							<Select
 								placeholder="Selecciona la ruta"
 								style={{ width: 240 }}
-								className="mt-9 shadow-xl ml-2 font-semibold"
+								className="mt-9 ml-2 font-semibold"
 								onChange={handleRuta}
 								options={[
 									{
