@@ -15,16 +15,19 @@ import { useRouter } from "next/router";
 // Importacion de React Router
 
 function LandingPage() {
+	const router = useRouter();
+
 	return (
 		<div className="flex">
 			<div
 				data-aos="slide-right"
 				data-aos-duration="1000"
 				data-aos-delay="200"
-				className=" mt-2 mx-8 pr-3"
+				className=" mt-2 pr-3"
 			>
+
 				<Link href="/panel-de-control">
-					<div className=" hover:text-slate-700 flex items-center ">
+					<div className={`hover:text-slate-700 flex items-center ${router.pathname === '/panel-de-control' ? 'active' : ''} `}>
 						<Image width={40} height={40} src={logo} alt="logo" />
 
 						<button className=" text-center text-sm font-bold font-Mansalva mt-1">
@@ -32,6 +35,7 @@ function LandingPage() {
 						</button>
 					</div>
 				</Link>
+
 				<div
 					className=" my-12 p-3 flex flex-col justify-center items-center font-Literata"
 					id="userVar"
@@ -49,7 +53,7 @@ function LandingPage() {
 				</div>
 				<div className="text-[#353030]">
 					<Link href="/panel-de-control">
-						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
+						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/pasajes' ? 'active' : ''}`}>
 							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
@@ -62,9 +66,10 @@ function LandingPage() {
 							</button>
 						</div>
 					</Link>
+
 					<Link href="/pasajes">
-						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
+						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/pasajes' ? 'active' : ''}`}>
+							<button className={`px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg `}>
 								<div className="flex gap-3">
 									<Image
 										src={pasajesIcon}
@@ -77,7 +82,7 @@ function LandingPage() {
 						</div>
 					</Link>
 					<Link href="/contable">
-						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
+						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
 							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
@@ -115,18 +120,18 @@ function LandingPage() {
 							</button>
 							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
 								<Link href="/programacion-viajes">
-									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-viajes' ? 'active' : ''}`}>
 										Viajes
 									</button>
 								</Link>
 
 								<Link href="/programacion-bus-conductor">
-									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-bus-conductor' ? 'active' : ''}`}>
 										Bus - Conductor
 									</button>
 								</Link>
 								<Link href="/programacion-comprobantes">
-									<button className="rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200">
+									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-comprobantes' ? 'active' : ''}`}>
 										Comprobantes
 									</button>
 								</Link>
@@ -135,7 +140,7 @@ function LandingPage() {
 					</div>
 
 					<Link href="/encomiendas">
-						<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
+						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
 							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
@@ -149,7 +154,7 @@ function LandingPage() {
 						</div>
 					</Link>
 					<Link href="/administracion">
-						<div className="flex flex-col gap-2 font-Literata font-bold text-[14px]">
+						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
 							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
 								<div className="flex gap-3">
 									<Image
