@@ -12,164 +12,142 @@ import userThumbnail from "../assets/users_image/julio_osorio.png";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+
 // Importacion de React Router
 
 function LandingPage() {
 	const router = useRouter();
 
 	return (
-		<div className="flex">
+
+		<div
+			data-aos="slide-right"
+			data-aos-duration="1000"
+			data-aos-delay="200"
+			className="h-screen flex flex-col text-zinc-900 gap-16 py-2 font-Literata"
+
+		>
+
+			<Link href="/panel-de-control">
+				<div className={`hover:text-slate-700 flex items-center ${router.pathname === '/panel-de-control' ? 'active' : ''} `}>
+					<Image width={40} height={40} src={logo} alt="logo" />
+
+					<button className=" text-center text-sm font-bold font-Mansalva mt-1">
+						Expreso <br /> Ayacucho
+					</button>
+				</div>
+			</Link>
+
 			<div
-				data-aos="slide-right"
-				data-aos-duration="1000"
-				data-aos-delay="200"
-				className=" mt-2 pr-3"
+				className=" bg-slate-600 flex flex-col justify-center font-Literata"
+				id="userVar"
 			>
+				<div className="">
 
+					<Image
+						className="drop-shadow-lg rounded-full bg-slate-400"
+						src={userThumbnail}
+						alt="userThumbnail"
+						height={50}
+					/>
+					<h3 className="font-semibold bg-slate-300">Hugo Egoavil</h3>
+				</div>
+
+			</div>
+			<div className="text-sm flex flex-col gap-5 w-44 ml-5">
 				<Link href="/panel-de-control">
-					<div className={`hover:text-slate-700 flex items-center ${router.pathname === '/panel-de-control' ? 'active' : ''} `}>
-						<Image width={40} height={40} src={logo} alt="logo" />
+					<div className={`hover:font-semibold flex gap-2  ${router.pathname === '/panel-de-control' ? 'active' : ''}`}>
+						<Image
+							src={panelControl}
+							width={20}
+							alt="frame"
+						/>
+						<h3>Panel de Control</h3>
 
-						<button className=" text-center text-sm font-bold font-Mansalva mt-1">
-							Expreso <br /> Ayacucho
-						</button>
 					</div>
 				</Link>
 
-				<div
-					className=" my-12 p-3 flex flex-col justify-center items-center font-Literata"
-					id="userVar"
-				>
-					<Image
-						className="drop-shadow-lg rounded-full"
-						src={userThumbnail}
-						alt="userThumbnail"
-						width={70}
-					/>
-					<h3 className="font-bold">Hugo Egoavil</h3>
-					<span className=" bg-zinc-800 text-white rounded mt-2 px-2 pb-0.5 flex items-center text-[11px]">
-						Gerente
-					</span>
-				</div>
-				<div className="text-[#353030]">
-					<Link href="/panel-de-control">
-						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/pasajes' ? 'active' : ''}`}>
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
-								<div className="flex gap-3">
-									<Image
-										src={panelControl}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<h3 className="text-center  ">Panel de Control</h3>
-								</div>
-							</button>
-						</div>
-					</Link>
+				<Link href="/pasajes">
+					<div className={`hover:font-semibold flex gap-2  ${router.pathname === '/pasajes' ? 'active' : ''}`}>
+						<Image
+							src={pasajesIcon}
+							width={20}
+							alt="frame"
+						/>
+						<h3>Pasajes</h3>
 
-					<Link href="/pasajes">
-						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/pasajes' ? 'active' : ''}`}>
-							<button className={`px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg `}>
-								<div className="flex gap-3">
-									<Image
-										src={pasajesIcon}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<h3 className="text-center  ">Venta de Pasajes</h3>
-								</div>
-							</button>
-						</div>
-					</Link>
-					<Link href="/contable">
-						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
-								<div className="flex gap-3">
-									<Image
-										src={contableIcon}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<h3 className="text-center  ">Contable</h3>
-								</div>
-							</button>
-						</div>
-					</Link>
-
-					<div className="flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]">
-						<div className="group inline-block">
-							<button className="px-6 py-3 rounded-lg  hover:bg-[#F3F1EF] flex items-center ">
-								<div className="flex gap-3">
-									<Image
-										src={programacionIcon}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<span className="text-center">Programacion</span>
-								</div>
-
-								<span className="pl-5">
-									<svg
-										className="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-									>
-										<path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-									</svg>
-								</span>
-							</button>
-							<ul className="bg-white hover:shadow-xl rounded-lg mt-0.5 transform border scale-0 group-hover:scale-100 absolute transition font-semibold duration-150 ease-in-out origin-top">
-								<Link href="/programacion-viajes">
-									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-viajes' ? 'active' : ''}`}>
-										Viajes
-									</button>
-								</Link>
-
-								<Link href="/programacion-bus-conductor">
-									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-bus-conductor' ? 'active' : ''}`}>
-										Bus - Conductor
-									</button>
-								</Link>
-								<Link href="/programacion-comprobantes">
-									<button className={`rounded-md w-full text-left pl-5 py-3 hover:bg-[#e6e4e3] active:bg-[#b6b5b4] duration-200 ${router.pathname === '/programacion-comprobantes' ? 'active' : ''}`}>
-										Comprobantes
-									</button>
-								</Link>
-							</ul>
-						</div>
 					</div>
+				</Link>
+				<Link href="/contable">
+					<div className={`hover:font-semibold flex gap-2  ${router.pathname === '/contable' ? 'active' : ''}`}>
+						<Image
+							src={panelControl}
+							width={20}
+							alt="frame"
+						/>
+						<h3>Contable</h3>
 
-					<Link href="/encomiendas">
-						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
-								<div className="flex gap-3">
-									<Image
-										src={encomiendasIcon}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<h3 className="text-center  ">Encomiendas</h3>
-								</div>
-							</button>
-						</div>
-					</Link>
-					<Link href="/administracion">
-						<div className={`flex flex-col gap-2 mb-2 font-Literata font-bold text-[14px]${router.pathname === '/contable' ? 'active' : ''}`}>
-							<button className="px-6 py-3 hover:bg-[#F3F1EF] active:bg-[#b6b5b4] duration-200 rounded-lg">
-								<div className="flex gap-3">
-									<Image
-										src={administracionIcon}
-										className="w-[20px] h-[22px]"
-										alt="home"
-									/>
-									<h3 className="text-center  ">Administracion</h3>
-								</div>
-							</button>
-						</div>
-					</Link>
+					</div>
+				</Link>
+
+				<div className="flex gap-2 ">
+					<div className="cursor-default group flex gap-2">
+						<Image
+							src={programacionIcon}
+							width={20}
+							alt="home"
+
+						/>
+						<span className="text-center">Programacion</span>
+						<span className="pl-3 pt-1">
+
+							<svg
+								className="fill-current h-4 w-4 transform group-hover:-rotate-180 transition duration-150 ease-in-out"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+							>
+								<path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+							</svg>
+						</span>
+
+						<ul className="bg-white shadow-md rounded-lg mt- transform border scale-0 group-hover:scale-100 absolute transition duration-150 ease-in-out origin-top mt-5 p-3 flex flex-col gap-5 pl-7 w-48">
+							<Link className={`hover:font-semibold ${router.pathname === '/programacion-viajes' ? 'active' : ''}`} href="/programacion-viajes">P. Viajes</Link>
+
+							<Link className={`hover:font-semibold ${router.pathname === '/programacion-bus-conductor' ? 'active' : ''}`} href="/programacion-bus-conductor">P. Bus/Conductor</Link>
+							<Link className={`hover:font-semibold ${router.pathname === '/programacion-comprobantes' ? 'active' : ''}`} href="/programacion-comprobantes">P. Comprobantes</Link>
+						</ul>
+					</div>
 				</div>
+
+				<Link href="/encomiendas">
+					<div className={`hover:font-semibold flex gap-2 ${router.pathname === '/encomiendas' ? 'active' : ''}`}>
+
+						<Image
+							src={encomiendasIcon}
+							width={20}
+							alt="frame"
+						/>
+
+						<h3>Encomiendas</h3>
+
+					</div>
+				</Link>
+				<Link href="/administracion">
+					<div className={`hover:font-semibold flex gap-2 ${router.pathname === '/administracion' ? 'active' : ''}`}>
+
+						<Image
+							src={administracionIcon}
+							width={20}
+							alt="frame"
+						/>
+						<h3>Administracion</h3>
+
+
+					</div>
+				</Link>
 			</div>
 		</div>
+
 	);
 }
 

@@ -91,163 +91,165 @@ function Contable() {
 		onChange: onSelectChange,
 	};
 	return (
-		<div className="bg-[#F3F1EF] w-[1450px] h-auto rounded-l-xl">
-			<div>
-				<div>
-					<p className="animate__animated animate__flash animate__delay-500 focus:outline-none text-base sm:text-lg md:text-xl lg:text-2xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 mt-4 ">
-						Bienvenido de nuevo, Julio
-					</p>
-					<div className="flex gap-64 items-center">
-						<div className="flex gap-3 ml-12 mt-10">
-							<button className=" animate__animated animate__lightSpeedInRight rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-								Horario 9:30 PM
-							</button>
-							<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5  bg-zinc-300 active:bg-zinc-400 ease-in-out text-zinc-600 duration-300 py-1 text-sm">
-								Horario 10:00 PM
-							</button>
-							<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-								Horario 9:30 AM
-							</button>
-							<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-								Horario 12:30 PM
-							</button>
-							<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-								Horario 8:00 PM
-							</button>
-						</div>
-						<div className="">
-							<label htmlFor="rutaProgramacion">Ruta :</label>
-							<Select
-								placeholder="Selecciona la ruta"
-								style={{ width: 240 }}
-								className="mt-9 ml-2 font-semibold"
-								onChange={handleRuta}
-								options={[
-									{
-										value: "RUTA-HA",
-										label: "Huancayo - Ayacucho",
-									},
-									{
-										value: "RUTA-AH",
-										label: "Ayacucho - Huancayo",
-									},
-								]}
-							/>
-						</div>
-					</div>
-					<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 ">
-						Balance
-					</p>
-					<div className="flex gap-11 ml-12 mt-5">
-						<Card
-							style={{ width: 300 }}
-							className="animate__animated animate__flipInX shadow-lg duration-200 hover:scale-105 cursor-default"
-						>
-							<p className="text-sm text-slate-400 font-semibold">
-								Balance Total
-							</p>
-							<p className="text-2xl font-bold pt-2 font-Roboto">S./ 750.00</p>
-							<div className="flex gap-2">
-								<Image
-									src={ingresoIcon}
-									alt="ingresoIcon"
-									width={22}
-									height={22}
-									className="mt-[17px]"
-								/>
-								<p className="text-slate-400 font-Roboto pt-5">
-									75% total bruto
-								</p>
-							</div>
-						</Card>
-						<Card
-							style={{ width: 300 }}
-							className="animate__animated animate__flipInX shadow-lg duration-200 hover:scale-105 cursor-default"
-						>
-							<p className="text-sm text-slate-400 font-semibold">Comision</p>
-							<p className="text-2xl font-bold pt-2 font-Roboto">S./ 168.00</p>
-							<div className="flex gap-2">
-								<Image
-									src={egresoIcon}
-									alt="egresoIcon"
-									width={22}
-									height={22}
-									className="mt-[17px]"
-								/>
-								<p className="text-slate-400 font-Roboto pt-5">
-									15% total bruto | encomiendas
-								</p>
-							</div>
-						</Card>
-						<Card
-							style={{ width: 300 }}
-							className="animate__animated animate__flipInX  shadow-lg duration-200 hover:scale-105 cursor-default"
-						>
-							<p className="text-sm text-slate-400 font-semibold">
-								Encomiendas
-							</p>
-							<p className="text-2xl font-bold pt-2 font-Roboto">S./ 80.00</p>
-							<div className="flex gap-2">
-								<Image
-									src={ingresoIcon}
-									alt="ingresoIcon"
-									className="w-[22px] h-6 mt-[17px]"
-								/>
-								<p className="text-slate-400 font-Roboto pt-5">
-									100% encomiendas registradas
-								</p>
-							</div>
-						</Card>
-						<Card
-							style={{ width: 300 }}
-							className="animate__animated animate__flipInX  shadow-lg duration-200 hover:scale-105 cursor-default"
-						>
-							<p className="text-sm text-slate-400 font-semibold">
-								Total Bruto
-							</p>
-							<p className="text-2xl font-bold pt-2 font-Roboto">S./ 1000.00</p>
-							<div className="flex gap-2">
-								<Image
-									src={recaudadoIcon}
-									alt="ingresoIcon"
-									className="w-[22px] h-6 mt-[17px]"
-								/>
-								<p className="text-slate-400 font-Roboto pt-5">
-									100% boletos vendidos
-								</p>
-							</div>
-						</Card>
+		<div className="bg-[#F3F1EF] w-screen p-7 h-auto rounded-l-xl flex flex-col gap-7 font-Literata">
+
+
+			<p className="animate__animated animate__flash animate__delay-500   text-2xl   text-gray-800 ">
+				Bienvenido de nuevo, <span className="font-semibold">Julio
+				</span>
+			</p>
+
+			<div className="flex flex-col gap-3">
+
+
+				<p className="text-xl">
+					Balance
+				</p><div className="flex gap-64 ">
+					<div className="flex gap-3">
+						<button className=" animate__animated animate__lightSpeedInRight rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+							Horario 9:30 PM
+						</button>
+						<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5  bg-zinc-300 active:bg-zinc-400 ease-in-out text-zinc-600 duration-300 py-1 text-sm">
+							Horario 10:00 PM
+						</button>
+						<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+							Horario 9:30 AM
+						</button>
+						<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
+							Horario 12:30 PM
+						</button>
+
 					</div>
 
-					<p className="focus:outline-none text-base sm:text-lg md:text-xl lg:text-xl font-bold leading-normal text-gray-800 font-Nunito pt-7 pl-12 ">
-						Historial de Registros
-					</p>
-					<div className=" my-4 ml-12 flex gap-3">
-						<Space direction="vertical">
-							<Input
-								placeholder="Buscar"
-								className="w-[350px] h-[35px] rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
-								suffix={<SearchOutlined className="cursor-pointer" />}
-							/>
-						</Space>
-						<Space direction="vertical" size={12}>
-							<DatePicker
-								className="cursor-pointer h-[35px] w-56"
-								onChange={onChange}
-								onOk={onOk}
-								placeholder="Selecciona una fecha"
-							/>
-						</Space>
-					</div>
-					<Table
-						className=" mx-12"
-						rowSelection={rowSelection}
-						columns={columns}
-						dataSource={data}
+					<Select
+						placeholder="Elige la ruta"
+						style={{ width: 180 }}
+						className="drop-shadow-sm"
+						onChange={handleRuta}
+						options={[
+							{
+								value: "RUTA-HA",
+								label: "Huancayo - Ayacucho",
+							},
+							{
+								value: "RUTA-AH",
+								label: "Ayacucho - Huancayo",
+							},
+						]}
 					/>
+
 				</div>
-			</div>
-		</div>
+				<div className="flex gap-5">
+					<Card
+						style={{ width: 260 }}
+						className="animate__animated animate__flipInX  shadow-md"
+					>
+						<p className="text-sm text-slate-400 ">
+							Total Bruto
+						</p>
+						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 1000.00</p>
+						<div className="flex gap-2">
+							<Image
+								src={recaudadoIcon}
+								alt="ingresoIcon"
+								className="w-[22px] h-6 mt-[17px]"
+							/>
+							<p className="text-slate-400 font-Roboto pt-5">
+								Viajes | Encomiendas
+							</p>
+						</div>
+					</Card>
+					<Card
+						style={{ width: 260 }}
+						className="animate__animated animate__flipInX shadow-md"
+					>
+						<p className="text-sm text-slate-400 ">
+							Balance Total
+						</p>
+						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 750.00</p>
+						<div className="flex gap-2">
+							<Image
+								src={ingresoIcon}
+								alt="ingresoIcon"
+								width={22}
+								height={22}
+								className="mt-[17px]"
+							/>
+							<p className="text-slate-400 font-Roboto pt-5">
+								75% | total bruto
+							</p>
+						</div>
+					</Card>
+					<Card
+						style={{ width: 260 }}
+						className="animate__animated animate__flipInX shadow-md"
+					>
+						<p className="text-sm text-slate-400 ">Comision</p>
+						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 168.00</p>
+						<div className="flex gap-2">
+							<Image
+								src={egresoIcon}
+								alt="egresoIcon"
+								width={22}
+								height={22}
+								className="mt-[17px]"
+							/>
+							<p className="text-slate-400 font-Roboto pt-5">
+								15% | total bruto
+							</p>
+						</div>
+					</Card>
+					<Card
+						style={{ width: 260 }}
+						className="animate__animated animate__flipInX  shadow-md"
+					>
+						<p className="text-sm text-slate-400 ">
+							Encomiendas
+						</p>
+						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 80.00</p>
+						<div className="flex gap-2">
+							<Image
+								src={ingresoIcon}
+								alt="ingresoIcon"
+								className="w-[22px] h-6 mt-[17px]"
+							/>
+							<p className="text-slate-400 font-Roboto pt-5">
+								100% encomiendas
+							</p>
+						</div>
+					</Card>
+
+				</div>
+			</div> <div className="flex flex-col gap-3">
+
+
+				<p className=" text-xl ">
+					Historial de Registros
+				</p>
+				<div className="flex gap-3">
+					<Space direction="vertical">
+						<Input
+							placeholder="Buscar"
+							className="w-[350px] h-[35px] rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+							suffix={<SearchOutlined className="cursor-pointer" />}
+						/>
+					</Space>
+					<Space direction="vertical" size={12}>
+						<DatePicker
+							className="cursor-pointer h-[35px] w-56"
+							onChange={onChange}
+							onOk={onOk}
+							placeholder="Buscar por fecha"
+						/>
+					</Space>
+				</div>
+				<Table
+					rowSelection={rowSelection}
+					columns={columns}
+					dataSource={data}
+				/>
+			</div></div>
+
 	);
 }
 
