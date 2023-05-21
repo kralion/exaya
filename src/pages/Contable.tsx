@@ -231,6 +231,7 @@ function Contable() {
 						<Input
 							placeholder="Buscar"
 							className="w-[350px] h-[35px] rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+
 							suffix={<SearchOutlined className="cursor-pointer" />}
 						/>
 					</Space>

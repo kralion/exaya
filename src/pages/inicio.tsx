@@ -12,9 +12,6 @@ import userThumbnail from "../assets/users_image/julio_osorio.png";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-
-// Importacion de React Router
-
 function LandingPage() {
 	const router = useRouter();
 
@@ -24,7 +21,7 @@ function LandingPage() {
 			data-aos="slide-right"
 			data-aos-duration="1000"
 			data-aos-delay="200"
-			className="h-screen flex flex-col text-zinc-900 gap-16 py-2 font-Literata"
+			className="h-screen flex flex-col text-zinc-900 gap-16 p-2 font-Literata "
 
 		>
 
@@ -39,22 +36,24 @@ function LandingPage() {
 			</Link>
 
 			<div
-				className=" bg-slate-600 flex flex-col justify-center font-Literata"
+				className="text-center text-sm"
 				id="userVar"
 			>
-				<div className="">
 
-					<Image
-						className="drop-shadow-lg rounded-full bg-slate-400"
-						src={userThumbnail}
-						alt="userThumbnail"
-						height={50}
-					/>
-					<h3 className="font-semibold bg-slate-300">Hugo Egoavil</h3>
-				</div>
+
+				<Image
+					className="drop-shadow-lg ml-[75px] rounded-full "
+					src={userThumbnail}
+					alt="userThumbnail"
+					height={50}
+				/>
+
+
+				Jhon Doe
+
 
 			</div>
-			<div className="text-sm flex flex-col gap-5 w-44 ml-5">
+			<div className="text-sm flex flex-col gap-7 w-44 ml-5">
 				<Link href="/panel-de-control">
 					<div className={`hover:font-semibold flex gap-2  ${router.pathname === '/panel-de-control' ? 'active' : ''}`}>
 						<Image
