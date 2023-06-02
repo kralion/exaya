@@ -1,0 +1,20 @@
+{
+  "dataDiaria": [
+    {
+      "key": "1",
+      "origen": "Ayacucho",
+      "destino": "Huancayo",
+      "placaBus": "ABC-123",
+      "horaSalida": "20:15",
+      "precios": [30, 35]
+    },
+    {
+      "key": "2",
+      "origen": "Huancayo",
+      "destino": "Ayacucho",
+      "placaBus": "C3V-233",
+      "horaSalida": "20:00",
+      "precios": [30, 35]
+    }
+  ]
+}

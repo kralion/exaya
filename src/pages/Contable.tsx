@@ -77,19 +77,10 @@ const disabledDate: RangePickerProps["disabledDate"] = (current) => {
 	return current && current < dayjs().endOf("day");
 };
 function Contable() {
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 	const handleRuta = (value: { value: string; label: React.ReactNode }) => {
 		console.log(value);
 	};
-	const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-		console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-		setSelectedRowKeys(newSelectedRowKeys);
-	};
 
-	const rowSelection = {
-		selectedRowKeys,
-		onChange: onSelectChange,
-	};
 	return (
 		<div className="bg-[#F3F1EF] w-screen p-7 h-auto rounded-l-xl flex flex-col gap-7 font-Literata">
 
@@ -245,7 +236,6 @@ function Contable() {
 					</Space>
 				</div>
 				<Table
-					rowSelection={rowSelection}
 					columns={columns}
 					dataSource={data}
 				/>
