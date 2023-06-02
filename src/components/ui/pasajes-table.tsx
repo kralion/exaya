@@ -26,7 +26,7 @@ const columns: ColumnsType<PasajesDataType> = [
         dataIndex: 'horaSalida',
         key: 'horaSalida',
         render: (horaSalida) => (
-            parseInt(horaSalida) < 12 ? <Tag color='green'>{horaSalida}</Tag> : <Tag color='red'>{horaSalida}</Tag>
+            parseInt(horaSalida) < 12 ? <Tag color='green'>{horaSalida} am</Tag> : <Tag color='red'>{horaSalida} pm</Tag>
         )
     },
     {

@@ -12,8 +12,8 @@ function Login({ setIsLogged }: LoginProps) {
 		<div className="mx-5">
 			<header
 				data-aos="slide-right"
-				data-aos-delay="500"
-				data-aos-duration="2000"
+				data-aos-delay="200"
+				data-aos-duration="1000"
 			>
 				<div className="flex items-center m-3">
 					<Image width={40} height={40} src={logo} alt="logo" />

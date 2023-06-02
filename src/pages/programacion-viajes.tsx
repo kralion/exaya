@@ -35,7 +35,7 @@ const onOk = (value: DatePickerProps["value"]) => {
 
 function ProgramacionViajes() {
 	return (
-		<div className="bg-[#F3F1EF] p-7 h-auto rounded-l-xl flex w-screen flex-col gap-7 font-Literata">
+		<div className="bg-[#F3F1EF] p-7 h-auto rounded-l-xl flex w-screen flex-col gap-7 ">
 
 			<div className="w-full">
 				<h2 className="text-gray-800  text-xl ">
