@@ -2,7 +2,9 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
+import Head from 'next/head'
 import "~/styles/globals.css";
+import icon from "../../public/icon.png"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -10,11 +12,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <div className="">
+      <Head>
+        <title>Exaya</title>
+        <meta name="description" content="This is my app's description." />
+        <link rel="icon" href="https://img.icons8.com/?size=1x&id=QDfTZFznbrDV&format=png" />
+      </Head>
 
-        <Component {...pageProps} />
+      <Component {...pageProps} />
 
-      </div>
+
     </SessionProvider>
   );
 };

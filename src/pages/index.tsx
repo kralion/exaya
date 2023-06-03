@@ -5,6 +5,7 @@ import { Layout, Menu, Typography, Switch, Avatar, Space } from 'antd';
 import type { MenuProps } from 'antd';
 import Pasajes from './pasajes';
 import { AppstoreOutlined, SettingOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
+import Contable from './contable';
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Header, Content, Sider } = Layout;
@@ -53,21 +54,30 @@ export default function Index() {
 	}
 
 	return (
+
+
+
 		<Layout >
-			<Header className='flex justify-between items-center' style={{ backgroundColor: '#E74646', borderBottomLeftRadius: '7px', borderBottomRightRadius: '7px' }}>
+			<Header className='flex justify-between items-center border-1 border-blue-500' style={{ backgroundColor: '#E6F4FF', borderBottomLeftRadius: 7, borderBottomRightRadius: 7 }}>
 				<div className="flex items-center gap-1">
 
 					<Image src={logo} width={50} height={50} alt='logo' />
-					<Title level={5} style={{ color: 'white' }} className='font-Mansalva'>Expreso Ayacucho</Title>
+					<Title level={5} style={{ color: '#EC9706' }} className='font-Kanit tracking-tight'>
+
+						Expreso
+
+						Ayacucho
+
+					</Title>
 				</div>
 				<Switch
 					onClick={onCollapse}
 				/>
 			</Header>
-			<Content style={{ padding: '0 28px', margin: '28px 0', borderRadius: '10px' }}>
+			<Content style={{ padding: '0 28px', margin: '28px 0' }}>
 
-				<Layout style={{ padding: '24px 0', }}>
-					<Sider style={{ backgroundColor: "white" }} collapsed={isCollapse} width={200}>
+				<Layout style={{ padding: '28px 0', }} className='flex gap-[14px]'>
+					<Sider style={{ backgroundColor: "white", borderRadius: 7 }} className='max-h-[600px]' collapsed={isCollapse} width={200} >
 						<Space wrap size={1} className='my-14 flex flex-col'>
 							<Avatar className='drop-shadow-md' size={60} src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg" />
 							{
@@ -78,17 +88,18 @@ export default function Index() {
 							mode="inline"
 							defaultSelectedKeys={['1']}
 							defaultOpenKeys={['sub1']}
-
 							items={items}
 						/>
 					</Sider>
-					<Content style={{ padding: '0 20px', minHeight: 590, }}>
-						<Pasajes />
+					<Content style={{ padding: '0 28px', minHeight: 590, borderRadius: 7, backgroundColor: 'white' }}>
+						<Contable />
 					</Content>
 				</Layout>
 			</Content>
 
 		</Layout>
+
+
 	);
 }
 

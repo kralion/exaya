@@ -82,14 +82,7 @@ function Contable() {
 	};
 
 	return (
-		<div className="bg-[#F3F1EF] w-screen p-7 h-auto rounded-l-xl flex flex-col gap-7 ">
-
-
-			<p className="animate__animated animate__flash animate__delay-500   text-2xl   text-gray-800 ">
-				Bienvenido de nuevo, <span className="font-semibold">Julio
-				</span>
-			</p>
-
+		<div >
 			<div className="flex flex-col gap-3">
 
 

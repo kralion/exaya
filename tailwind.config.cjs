@@ -6,8 +6,12 @@ const config = {
 			fontFamily: {
 				Dosis: ["Dosis"],
 				Literata : ["Literata"],
-				Mansalva : ['Mansalva', 'serif'],
+				Mansalva: ['Mansalva', 'serif'],
+				Kanit : ['Kanit', 'sans-serif'],
 			},
+			borderWidth: {
+				1: "1px",
+				}
 		},
 	},
 	plugins: [],

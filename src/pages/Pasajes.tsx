@@ -26,20 +26,18 @@ function Pasajes() {
 		setDate(newDate);
 	};
 	return (
-		<div>
 
+		<div className="p-7 flex flex-col gap-7 rounded-lg ">
+			<DatePicker
+				className="cursor-pointer self-end w-48 drop-shadow-sm"
+				onChange={onChange}
+				onOk={onOk}
+				placeholder="Búsqueda por fecha"
+			/>
 
-			<div className="p-7 flex flex-col gap-7 rounded-lg ">
-				<DatePicker
-					className="cursor-pointer w-48 font-Literata drop-shadow-sm"
-					onChange={onChange}
-					onOk={onOk}
-					placeholder="Buscar por fecha"
-				/>
-
-				<PasajesTable />
-			</div>
+			<PasajesTable />
 		</div>
+
 
 
 	);
