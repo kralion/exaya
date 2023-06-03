@@ -1,4 +1,4 @@
-import { DatePicker, Space, Input, Table, Card, Select } from "antd";
+import { DatePicker, Space, Input, Table, Select, Typography } from "antd";
 import dayjs from "dayjs";
 import "animate.css";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -10,7 +10,11 @@ import type { ColumnsType } from "antd/es/table";
 import ingresoIcon from "../assets/icons/ingresoIcon.png";
 import egresoIcon from "../assets/icons/egresoIcon.png";
 import recaudadoIcon from "../assets/icons/recaudadoIcon.png";
+import type { PasajesDataType } from "~/interfaces/interfaces";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
+import { RoundedButton } from "~/components/ui/rounded-button";
+import { ContableCard } from "~/components/ui/contable-card";
+import { Title } from "@mantine/core";
 
 const onChange = (
 	value: DatePickerProps["value"],
@@ -76,37 +80,28 @@ for (let i = 0; i < 46; i++) {
 const disabledDate: RangePickerProps["disabledDate"] = (current) => {
 	return current && current < dayjs().endOf("day");
 };
-function Contable() {
+export default function Contable() {
 	const handleRuta = (value: { value: string; label: React.ReactNode }) => {
 		console.log(value);
 	};
 
 	return (
-		<div >
-			<div className="flex flex-col gap-3">
+		<div className="p-7">
+			<div className="flex flex-col gap-3.5">
 
+				<Title order={4} className="text-slate-800">
+					Turnos
+				</Title>
+				<div className="flex justify-between ">
 
-				<p className="text-xl">
-					Balance
-				</p><div className="flex gap-64 ">
-					<div className="flex gap-3">
-						<button className=" animate__animated animate__lightSpeedInRight rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 9:30 PM
-						</button>
-						<button className="animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5  bg-zinc-300 active:bg-zinc-400 ease-in-out text-zinc-600 duration-300 py-1 text-sm">
-							Horario 10:00 PM
-						</button>
-						<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 9:30 AM
-						</button>
-						<button className=" animate__animated animate__lightSpeedInRight  rounded-full  border border-zinc-500 font-Roboto px-5 text-slate-600 hover:bg-zinc-300 active:bg-zinc-400 ease-in-out duration-300 py-1 text-sm">
-							Horario 12:30 PM
-						</button>
-
+					<div className="flex gap-[14px] items-center">
+						<RoundedButton horaSalida="20:15" />
+						<RoundedButton horaSalida="20:30" />
+						<RoundedButton horaSalida="21:00" />
 					</div>
 
 					<Select
-						placeholder="Elige la ruta"
+						placeholder="Ruta"
 						style={{ width: 180 }}
 						className="drop-shadow-sm"
 						onChange={handleRuta}
@@ -123,118 +118,61 @@ function Contable() {
 					/>
 
 				</div>
-				<div className="flex gap-5">
-					<Card
-						style={{ width: 260 }}
-						className="animate__animated animate__flipInX  shadow-md"
-					>
-						<p className="text-sm text-slate-400 ">
-							Total Bruto
-						</p>
-						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 1000.00</p>
-						<div className="flex gap-2">
-							<Image
-								src={recaudadoIcon}
-								alt="ingresoIcon"
-								className="w-[22px] h-6 mt-[17px]"
-							/>
-							<p className="text-slate-400 font-Roboto pt-5">
-								Viajes | Encomiendas
-							</p>
-						</div>
-					</Card>
-					<Card
-						style={{ width: 260 }}
-						className="animate__animated animate__flipInX shadow-md"
-					>
-						<p className="text-sm text-slate-400 ">
-							Balance Total
-						</p>
-						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 750.00</p>
-						<div className="flex gap-2">
-							<Image
-								src={ingresoIcon}
-								alt="ingresoIcon"
-								width={22}
-								height={22}
-								className="mt-[17px]"
-							/>
-							<p className="text-slate-400 font-Roboto pt-5">
-								75% | total bruto
-							</p>
-						</div>
-					</Card>
-					<Card
-						style={{ width: 260 }}
-						className="animate__animated animate__flipInX shadow-md"
-					>
-						<p className="text-sm text-slate-400 ">Comision</p>
-						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 168.00</p>
-						<div className="flex gap-2">
-							<Image
-								src={egresoIcon}
-								alt="egresoIcon"
-								width={22}
-								height={22}
-								className="mt-[17px]"
-							/>
-							<p className="text-slate-400 font-Roboto pt-5">
-								15% | total bruto
-							</p>
-						</div>
-					</Card>
-					<Card
-						style={{ width: 260 }}
-						className="animate__animated animate__flipInX  shadow-md"
-					>
-						<p className="text-sm text-slate-400 ">
-							Encomiendas
-						</p>
-						<p className="text-2xl font-bold pt-2 font-Roboto">S./ 80.00</p>
-						<div className="flex gap-2">
-							<Image
-								src={ingresoIcon}
-								alt="ingresoIcon"
-								className="w-[22px] h-6 mt-[17px]"
-							/>
-							<p className="text-slate-400 font-Roboto pt-5">
-								100% encomiendas
-							</p>
-						</div>
-					</Card>
+				<div className="flex gap-7">
+					<ContableCard cardTitle="Recaudado"
+						cardValue={1000}
+						cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
+						cardConcept="Viajes | Encomiendas"
 
+					/>
+					<ContableCard cardTitle="Ingresos"
+						cardValue={1000}
+						cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
+						cardConcept="75% recaudado"
+					/>
+					<ContableCard cardTitle="Comision"
+						cardValue={168}
+						cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
+						cardConcept="15% | total bruto"
+					/>
+					<ContableCard cardTitle="Encomiendas"
+						cardValue={80}
+						cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
+						cardConcept="Ingresos - Egresos"
+					/>
 				</div>
-			</div> <div className="flex flex-col gap-3">
-
-
-				<p className=" text-xl ">
+			</div> <div className="space-y-7">
+				<Title order={4} className="text-slate-800 pt-7 tracking-tight">
 					Historial de Registros
-				</p>
-				<div className="flex gap-3">
-					<Space direction="vertical">
-						<Input
-							placeholder="Buscar"
-							className="w-[350px] h-[35px] rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+				</Title>
+				<div className='space-y-3.5'>
 
-							suffix={<SearchOutlined className="cursor-pointer" />}
-						/>
-					</Space>
-					<Space direction="vertical" size={12}>
-						<DatePicker
-							className="cursor-pointer h-[35px] w-56"
-							onChange={onChange}
-							onOk={onOk}
-							placeholder="Buscar por fecha"
-						/>
-					</Space>
+					<div className="flex gap-7">
+						<Space direction="vertical">
+							<Input
+								placeholder="Buscar"
+								className="w-[350px] h-[35px] rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-transparent"
+
+								suffix={<SearchOutlined className="cursor-pointer" />}
+							/>
+						</Space>
+						<Space direction="vertical" size={12}>
+							<DatePicker
+								className="cursor-pointer h-[35px] w-56"
+								onChange={onChange}
+								onOk={onOk}
+								placeholder="Buscar por fecha"
+							/>
+						</Space>
+					</div>
+					<Table
+						columns={columns}
+						dataSource={data}
+					/>
 				</div>
-				<Table
-					columns={columns}
-					dataSource={data}
-				/>
-			</div></div>
+			</div>
+		</div>
 
 	);
 }
 
-export default Contable;

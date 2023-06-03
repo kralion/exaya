@@ -18,6 +18,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+    images: {
+    domains: ['img.icons8.com', 'icons8.com'],
+  },
 };
 
 export default config;
