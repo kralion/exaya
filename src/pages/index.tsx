@@ -6,6 +6,7 @@ import type { MenuProps } from 'antd';
 import Pasajes from './pasajes';
 import { AppstoreOutlined, SettingOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import Contable from './contable';
+import PanelControl from './panel-de-control';
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Header, Content, Sider } = Layout;
@@ -92,7 +93,7 @@ export default function Index() {
 						/>
 					</Sider>
 					<Content style={{ padding: '0 28px', minHeight: 590, borderRadius: 7, backgroundColor: 'white' }}>
-						<Contable />
+						<PanelControl />
 					</Content>
 				</Layout>
 			</Content>

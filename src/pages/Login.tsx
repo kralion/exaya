@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../assets/logo.png";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 type LoginProps = {
 	setIsLogged: Dispatch<SetStateAction<boolean>>;
