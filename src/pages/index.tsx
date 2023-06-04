@@ -7,6 +7,7 @@ import Pasajes from './pasajes';
 import { AppstoreOutlined, SettingOutlined, ExpandOutlined, CompressOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import Contable from './contable';
 import PanelControl from './panel-de-control';
+import style from '../styles/extra.module.css'
 
 type MenuItem = Required<MenuProps>['items'][number];
 const { Header, Content, Sider } = Layout;
@@ -104,10 +105,11 @@ export default function Index() {
 						margin: 0,
 						borderRadius: 7,
 						minHeight: 280,
-						background: 'white',
-					}}
+
+
+					}} className={style.gradient}
 				>
-					<Contable />
+					<PanelControl />
 				</Content>
 			</Layout>
 		</Layout>
