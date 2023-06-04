@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
 import Head from 'next/head'
 import "~/styles/globals.css";
-import icon from "../../public/icon.png"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -19,8 +18,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
 
       <Component {...pageProps} />
-
-
     </SessionProvider>
   );
 };

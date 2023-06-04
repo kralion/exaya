@@ -86,7 +86,7 @@ export default function Contable() {
 	};
 
 	return (
-		<div className="p-7">
+		<div>
 			<div className="flex flex-col gap-3.5">
 
 				<Title order={4} className="text-slate-800">

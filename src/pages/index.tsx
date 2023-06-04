@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import logo from '../../public/logo.png';
 import Image from 'next/image';
-import { Layout, Menu, Typography, Switch, Avatar, Space } from 'antd';
+import { Layout, Menu, Typography, Switch, Avatar, Space, Collapse, Button } from 'antd';
 import type { MenuProps } from 'antd';
 import Pasajes from './pasajes';
-import { AppstoreOutlined, SettingOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import Contable from './contable';
 import PanelControl from './panel-de-control';
 
@@ -49,56 +49,70 @@ const items: MenuProps['items'] = [
 const { Title } = Typography;
 
 export default function Index() {
-	const [isCollapse, setIsCollapse] = useState(false)
-	const onCollapse = () => {
-		setIsCollapse(!isCollapse)
-	}
+	const [collapsed, setCollapsed] = useState(false)
+
 
 	return (
 
 
+		<Layout style={{ padding: 28 }}>
+			<Sider trigger={null} collapsible collapsed={collapsed} width={200} style={{ background: 'white', borderRadius: 7, height: '100%' }}>
 
-		<Layout >
-			<Header className='flex justify-between items-center border-1 border-blue-500' style={{ backgroundColor: '#E6F4FF', borderBottomLeftRadius: 7, borderBottomRightRadius: 7 }}>
-				<div className="flex items-center gap-1">
+				{
+					!collapsed ? <div className="flex drop-shadow-md items-center  gap-1 justify-center	">
+						<Image src={logo} width={40} height={40} alt='logo' />
+						<div className="w-16">
+							<p className='leading-none font-semibold font-Kanit text-left '>
+								Expreso Ayacucho
+							</p>
+						</div>
+					</div> : <Image className='ml-5 drop-shadow-md' src={logo} width={40} height={40} alt='logo' />
+				}
 
-					<Image src={logo} width={50} height={50} alt='logo' />
-					<Title level={5} style={{ color: '#EC9706' }} className='font-Kanit tracking-tight'>
 
-						Expreso
+				<Space wrap size={1} className='my-14 flex flex-col'>
+					<Avatar className='drop-shadow-md' size={60} src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg" />
 
-						Ayacucho
+					{
+						!collapsed && <Title level={5} className='tracking-tight' >
+							Juan Perez
+						</Title>
+					}
 
-					</Title>
-				</div>
-				<Switch
-					onClick={onCollapse}
+				</Space><Menu
+					mode="inline"
+					defaultSelectedKeys={['1']}
+					defaultOpenKeys={['sub1']}
+					style={{ height: '100%', borderRight: 0 }}
+					items={items}
 				/>
-			</Header>
-			<Content style={{ padding: '0 28px', margin: '28px 0' }}>
-
-				<Layout style={{ padding: '28px 0', }} className='flex gap-[14px]'>
-					<Sider style={{ backgroundColor: "white", borderRadius: 7 }} className='max-h-[600px]' collapsed={isCollapse} width={200} >
-						<Space wrap size={1} className='my-14 flex flex-col'>
-							<Avatar className='drop-shadow-md' size={60} src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg" />
-							{
-								!isCollapse && <Title level={5} >Juan Perez</Title>
-							}
-						</Space>
-						<Menu
-							mode="inline"
-							defaultSelectedKeys={['1']}
-							defaultOpenKeys={['sub1']}
-							items={items}
-						/>
-					</Sider>
-					<Content style={{ padding: '0 28px', minHeight: 590, borderRadius: 7, backgroundColor: 'white' }}>
-						<PanelControl />
-					</Content>
-				</Layout>
-			</Content>
-
+				<Button
+					type="text"
+					icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+					onClick={() => setCollapsed(!collapsed)}
+					style={{
+						fontSize: '16px',
+						width: 64,
+						height: 64,
+					}}
+				/>
+			</Sider>
+			<Layout style={{ paddingLeft: 14 }}>
+				<Content
+					style={{
+						padding: 28,
+						margin: 0,
+						borderRadius: 7,
+						minHeight: 280,
+						background: 'white',
+					}}
+				>
+					<Contable />
+				</Content>
+			</Layout>
 		</Layout>
+
+
 
 
 	);

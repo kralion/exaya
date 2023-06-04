@@ -12,7 +12,7 @@ function PanelControl() {
 	return (
 		<div className="p-7 space-align-container flex flex-col gap-7">
 
-			<Title order={2} >
+			<Title order={4} >
 				Panel de Control
 			</Title>
 

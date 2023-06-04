@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 
 import { PasajesTable } from "~/components/ui/pasajes-table";
+import { Title } from "@mantine/core";
 
 const onChange = (
 	value: DatePickerProps["value"],
@@ -28,12 +29,17 @@ function Pasajes() {
 	return (
 
 		<div className="p-7 flex flex-col gap-7 rounded-lg ">
-			<DatePicker
-				className="cursor-pointer self-end w-48 drop-shadow-sm"
-				onChange={onChange}
-				onOk={onOk}
-				placeholder="Búsqueda por fecha"
-			/>
+			<div className="flex justify-between items-center">
+				<Title order={4}>
+					Venta de Pasajes
+				</Title>
+				<DatePicker
+					className="cursor-pointer self-end w-48 drop-shadow-sm"
+					onChange={onChange}
+					onOk={onOk}
+					placeholder="Búsqueda por fecha"
+				/>
+			</div>
 
 			<PasajesTable />
 		</div>
