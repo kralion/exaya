@@ -28,7 +28,7 @@ function Pasajes() {
 	};
 	return (
 
-		<div className="p-7 flex flex-col gap-7 rounded-lg ">
+		<div className="flex flex-col gap-7 rounded-lg ">
 			<div className="flex justify-between items-center">
 				<Title order={4}>
 					Venta de Pasajes

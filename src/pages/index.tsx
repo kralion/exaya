@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Layout, Menu, Typography, Switch, Avatar, Space, Collapse, Button } from 'antd';
 import type { MenuProps } from 'antd';
 import Pasajes from './pasajes';
-import { AppstoreOutlined, SettingOutlined, MenuFoldOutlined, MenuUnfoldOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, SettingOutlined, ExpandOutlined, CompressOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import Contable from './contable';
 import PanelControl from './panel-de-control';
 
@@ -56,21 +56,21 @@ export default function Index() {
 
 
 		<Layout style={{ padding: 28 }}>
-			<Sider trigger={null} collapsible collapsed={collapsed} width={200} style={{ background: 'white', borderRadius: 7, height: '100%' }}>
+			<Sider trigger={null} collapsible collapsed={collapsed} width={200} style={{ background: 'white', borderRadius: 7, padding: 7, height: '100%' }}>
 
 				{
-					!collapsed ? <div className="flex drop-shadow-md items-center  gap-1 justify-center	">
-						<Image src={logo} width={40} height={40} alt='logo' />
+					!collapsed ? <div className="flex drop-shadow-md items-center pt-2.5 gap-1 justify-center	">
+						<Image src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png" width={50} height={50} alt='logo' />
 						<div className="w-16">
 							<p className='leading-none font-semibold font-Kanit text-left '>
 								Expreso Ayacucho
 							</p>
 						</div>
-					</div> : <Image className='ml-5 drop-shadow-md' src={logo} width={40} height={40} alt='logo' />
+					</div> : <Image className='ml-2 mt-2.5 drop-shadow-md' src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png" width={50} height={50} alt='logo' />
 				}
 
 
-				<Space wrap size={1} className='my-14 flex flex-col'>
+				<Space wrap size={1} className='my-20 flex flex-col'>
 					<Avatar className='drop-shadow-md' size={60} src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg" />
 
 					{
@@ -88,7 +88,7 @@ export default function Index() {
 				/>
 				<Button
 					type="text"
-					icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+					icon={collapsed ? <ExpandOutlined /> : < CompressOutlined />}
 					onClick={() => setCollapsed(!collapsed)}
 					style={{
 						fontSize: '16px',

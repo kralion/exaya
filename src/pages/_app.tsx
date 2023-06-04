@@ -14,7 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <Head>
         <title>Exaya</title>
         <meta name="description" content="This is my app's description." />
-        <link rel="icon" href="https://img.icons8.com/?size=1x&id=QDfTZFznbrDV&format=png" />
+        <link rel="icon" href="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png" />
       </Head>
 
       <Component {...pageProps} />

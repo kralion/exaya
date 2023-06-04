@@ -166,6 +166,7 @@ export default function Contable() {
 						</Space>
 					</div>
 					<Table
+						className="shadow-md"
 						columns={columns}
 						dataSource={data}
 					/>
