@@ -1,7 +1,7 @@
 import { ControlPaneCard } from "~/components/ui/control-pane-card";
 import { Title } from "@mantine/core";
-import { Col, Progress, Row, Statistic, Typography, Card } from 'antd';
-import { FieldTimeOutlined, ArrowDownOutlined, ProfileOutlined, ContainerOutlined } from '@ant-design/icons';
+import { Progress, Statistic, Typography } from 'antd';
+import { FieldTimeOutlined, ContainerOutlined } from '@ant-design/icons';
 import { AIAssistantInput } from "~/components/ui/ai-assistant-input";
 
 
@@ -11,14 +11,14 @@ const viajesActivos = 2;
 function PanelControl() {
 
 	return (
-		<div className="flex flex-col gap-7">
+		<div className="flex flex-col gap-7 ">
 			<div className="flex justify-between">
 
-				<Title order={4}  >
+				< Title order={4} >
 					Panel de Control
-				</Title>
+				</Title >
 				<AIAssistantInput />
-			</div>
+			</div >
 
 
 			<div className="flex gap-7">

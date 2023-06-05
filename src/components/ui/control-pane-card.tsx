@@ -21,7 +21,7 @@ export const ControlPaneCard = ({ cardTitle, children, cardDescription }: Card) 
         <div >
 
             <Card
-                className='backdrop-blur-3xl duration-200 hover:shadow-md hover:scale-105 hover:rotate-1  ease-in-out dark:bg-white/20 '
+                className='backdrop-blur-3xl cursor-pointer duration-200 hover:shadow-md hover:scale-105 hover:rotate-1  ease-in-out dark:bg-white/20 '
                 type='inner'
                 loading={loading}
 

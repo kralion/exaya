@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
-import logo from '../../public/logo.png';
 import Image from 'next/image';
-import { Layout, Menu, Typography, Switch, Avatar, Space, Collapse, Button } from 'antd';
+import { Layout, Menu, Typography, Avatar, Space, Button } from 'antd';
 import type { MenuProps } from 'antd';
 import Pasajes from './pasajes';
 import { AppstoreOutlined, SettingOutlined, ExpandOutlined, CompressOutlined, FieldTimeOutlined, ScheduleOutlined, LineChartOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import Contable from './contable';
 import PanelControl from './panel-de-control';
-import style from '../styles/extra.module.css'
+import Encomiendas from './encomiendas';
+import Administracion from './administracion';
+import ProgramacionBusConductor from './programacion-bus-conductor';
+import ProgramacionComprobante from './programacion-comprobante';
+import ProgramacionViajes from './programacion-viajes';
 
-type MenuItem = Required<MenuProps>['items'][number];
-const { Header, Content, Sider } = Layout;
+type MenuItem = {
+	label: React.ReactNode;
+	key: React.Key;
+	icon?: React.ReactNode;
+	children?: MenuItem[];
+};
+const { Content, Sider } = Layout;
 function getItem(
 	label: React.ReactNode,
 	key: React.Key,
 	icon?: React.ReactNode,
 	children?: MenuItem[],
 	type?: 'group',
-	element?: React.ReactNode,
+
 ): MenuItem {
 	return {
 		key,
@@ -25,7 +33,7 @@ function getItem(
 		children,
 		label,
 		type,
-		element,
+
 	} as MenuItem;
 }
 const items: MenuProps['items'] = [
@@ -40,7 +48,7 @@ const items: MenuProps['items'] = [
 		getItem('Comprobantes', '6'),]),
 
 
-	getItem('Contable', '7', <LineChartOutlined />),
+	getItem('Contable', '7', <LineChartOutlined />,),
 	getItem('Administracion', '8', <SettingOutlined />),
 
 
@@ -50,8 +58,48 @@ const items: MenuProps['items'] = [
 const { Title } = Typography;
 
 export default function Index() {
-	const [collapsed, setCollapsed] = useState(false)
+	const [collapsed, setCollapsed] = useState(false);
+	const [activeWindow, setActiveWindow] = useState('Panel de Control');
 
+	const handleMenuItemClick = (key: React.Key) => {
+		const menuItem = findMenuItemByKey(items, key);
+		if (menuItem) {
+			setActiveWindow(menuItem.label as string);
+		}
+	};
+
+	const findMenuItemByKey = (menuItems: MenuItem[], key: React.Key): MenuItem | undefined => {
+		for (let i = 0; i < menuItems.length; i++) {
+			const menuItem = menuItems[i];
+			if (menuItem.key === key) {
+				return menuItem;
+			} else if (menuItem.children) {
+				const foundItem = findMenuItemByKey(menuItem.children, key);
+				if (foundItem) {
+					return foundItem;
+				}
+			}
+		}
+		return undefined;
+	};
+
+	const renderMenuItems = (menuItems: MenuItem[]): React.ReactNode => {
+		return menuItems.map((menuItem) => {
+			if (menuItem.children) {
+				return (
+					<Menu.SubMenu key={menuItem.key} icon={menuItem.icon} title={menuItem.label}>
+						{renderMenuItems(menuItem.children)}
+					</Menu.SubMenu>
+				);
+			} else {
+				return (
+					<Menu.Item key={menuItem.key} icon={menuItem.icon}>
+						{menuItem.label}
+					</Menu.Item>
+				);
+			}
+		});
+	};
 
 	return (
 
@@ -80,13 +128,18 @@ export default function Index() {
 						</Title>
 					}
 
-				</Space><Menu
+				</Space>
+				<Menu
 					mode="inline"
 					defaultSelectedKeys={['1']}
 					defaultOpenKeys={['sub1']}
 					style={{ height: '100%', borderRight: 0 }}
 					items={items}
-				/>
+					onClick={({ key }) => handleMenuItemClick(key)}
+				>
+					{renderMenuItems(items?.filter((item) => item?.type !== 'group') as MenuItem[])}
+				</Menu>
+
 				<Button
 					type="text"
 					icon={collapsed ? <ExpandOutlined /> : < CompressOutlined />}
@@ -105,18 +158,22 @@ export default function Index() {
 						margin: 0,
 						borderRadius: 7,
 						minHeight: 280,
+						background: 'white',
+					}}
 
-
-					}} className={style.gradient}
 				>
-					<PanelControl />
+					{activeWindow === 'Panel de Control' && <PanelControl />}
+					{activeWindow === 'Pasajes' && <Pasajes />}
+					{activeWindow === 'Contable' && <Contable />}
+					{activeWindow === 'Encomiendas' && <Encomiendas />}
+					{activeWindow === 'Viajes' && <ProgramacionBusConductor />}
+					{activeWindow === 'Conductores' && <ProgramacionComprobante />}
+					{activeWindow === 'Comprobantes' && <ProgramacionViajes />}
+					{activeWindow === 'Administracion' && <Administracion />}
 				</Content>
+
 			</Layout>
 		</Layout>
-
-
-
-
 	);
 }
 

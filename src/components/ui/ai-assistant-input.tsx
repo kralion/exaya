@@ -62,7 +62,7 @@ export const AIAssistantInput = () => {
 
             </AutoComplete >
 
-            <Button className='backdrop-blur-2xl animate-bounce shadow-md' size={size} icon={<ThunderboltOutlined title='Exaya Bot' />}>
+            <Button className='backdrop-blur-2xl animate-pulse shadow-md' size={size} icon={<ThunderboltOutlined title='Exaya Bot' />}>
                 Generar
             </Button>
         </div>
