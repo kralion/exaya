@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { AutoComplete, Button, Input, Space } from 'antd';
 import type { SelectProps } from 'antd/es/select';
-import { AliwangwangOutlined, ThunderboltOutlined } from '@ant-design/icons'
+import { AliwangwangOutlined, AudioOutlined } from '@ant-design/icons'
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 
 const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
-
+const suffix = (
+    <AudioOutlined
+        style={{
+            fontSize: 16,
+            color: '#1677ff',
+        }}
+    />
+);
 const searchResult = (query: string) =>
     new Array(getRandomInt(5))
         .join('.')
@@ -53,17 +60,21 @@ export const AIAssistantInput = () => {
         <div className='flex gap-2.5'>
             <AutoComplete
                 dropdownMatchSelectWidth={252}
-                style={{ width: 300 }}
+                style={{
+                    width: 400,
+                }}
                 options={options}
                 onSelect={onSelect}
                 onSearch={handleSearch}
                 size='large'
+
             >
+                <Input size='large' placeholder="Que desear hacer !" suffix={suffix} />
 
             </AutoComplete >
 
-            <Button className='backdrop-blur-2xl animate-pulse shadow-md' size={size} icon={<ThunderboltOutlined title='Exaya Bot' />}>
-                Generar
+            <Button className='backdrop-blur-2xl shadow-md' size={size} icon={<AliwangwangOutlined title='Exaya Bot' />}>
+                ExaIA
             </Button>
         </div>
     );
