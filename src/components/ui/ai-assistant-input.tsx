@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AutoComplete, Button, Input, Space } from 'antd';
+import { AutoComplete, Button, Input, Space, Tooltip } from 'antd';
 import type { SelectProps } from 'antd/es/select';
 import { AliwangwangOutlined, AudioOutlined } from '@ant-design/icons'
 import { SizeType } from 'antd/es/config-provider/SizeContext';
@@ -69,11 +69,15 @@ export const AIAssistantInput = () => {
                 size='large'
 
             >
-                <Input size='large' placeholder="Que desear hacer !" suffix={suffix} />
+                <Input size='large' placeholder="Que desear hacer !" suffix={
+                    <Tooltip title="Comando por voz">
+                        <AudioOutlined onClick={() => console.log('Grabando ...')} style={{ color: 'rgba(0,0,0,.45)' }} />
+                    </Tooltip>
+                } />
 
             </AutoComplete >
 
-            <Button className='backdrop-blur-2xl shadow-md' size={size} icon={<AliwangwangOutlined title='Exaya Bot' />}>
+            <Button className='backdrop-blur-2xl shadow-md' size={size} icon={<AliwangwangOutlined title='Asistente Artificial' />}>
                 ExaIA
             </Button>
         </div>

@@ -1,9 +1,12 @@
+import { Title } from "@mantine/core";
 import React from "react";
 
 function ProgramacionBusConductor() {
   return (
-    <div className="bg-[#F3F1EF] w-[1450px] h-screen rounded-l-xl">
-      Bus - Conductor
+    <div >
+      <Title order={4}>
+        Programacion Bus Conductor
+      </Title>
     </div>
   );
 }

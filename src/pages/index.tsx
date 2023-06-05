@@ -9,7 +9,7 @@ import PanelControl from './panel-de-control';
 import Encomiendas from './encomiendas';
 import Administracion from './administracion';
 import ProgramacionBusConductor from './programacion-bus-conductor';
-import ProgramacionComprobante from './programacion-comprobante';
+import ProgramacionComprobantes from './programacion-comprobantes';
 import ProgramacionViajes from './programacion-viajes';
 
 type MenuItem = {
@@ -43,9 +43,9 @@ const items: MenuProps['items'] = [
 	getItem('Encomiendas', '3', <ReconciliationOutlined />),
 
 	getItem('Programacion', 'programacion', <FieldTimeOutlined />, [
-		getItem('Viajes', '4'),
-		getItem('Conductores', '5'),
-		getItem('Comprobantes', '6'),]),
+		getItem('Conductores', '4'),
+		getItem('Comprobantes', '5'),
+		getItem('Viajes', '6'),]),
 
 
 	getItem('Contable', '7', <LineChartOutlined />,),
@@ -166,9 +166,9 @@ export default function Index() {
 					{activeWindow === 'Pasajes' && <Pasajes />}
 					{activeWindow === 'Contable' && <Contable />}
 					{activeWindow === 'Encomiendas' && <Encomiendas />}
-					{activeWindow === 'Viajes' && <ProgramacionBusConductor />}
-					{activeWindow === 'Conductores' && <ProgramacionComprobante />}
-					{activeWindow === 'Comprobantes' && <ProgramacionViajes />}
+					{activeWindow === 'Conductores' && <ProgramacionBusConductor />}
+					{activeWindow === 'Comprobantes' && <ProgramacionComprobantes />}
+					{activeWindow === 'Viajes' && <ProgramacionViajes />}
 					{activeWindow === 'Administracion' && <Administracion />}
 				</Content>
 

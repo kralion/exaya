@@ -1,7 +1,11 @@
+import { Title } from "@mantine/core";
+
 function Encomiendas() {
   return (
-    <div className="bg-[#F3F1EF] w-[1450px] h-screen rounded-l-xl">
-      Encomiendas
+    <div >
+      <Title order={4}>
+        Encomiendas
+      </Title>
     </div>
   );
 }
