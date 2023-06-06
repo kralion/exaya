@@ -4,7 +4,7 @@ import { ProgramacionTable } from '~/components/ui/programacion-viajes-table'
 
 function ProgramacionViajes() {
     return (
-        <div>
+        <div className='flex flex-col gap-7'>
             <Title order={4}>
                 Programacion de Viajes
             </Title>

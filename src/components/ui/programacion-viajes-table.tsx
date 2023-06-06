@@ -1,31 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
-
-interface Item {
-	key: string;
-	name: string;
-	age: number;
-	address: string;
-}
-
-const originData: Item[] = [];
-for (let i = 0; i < 100; i++) {
-	originData.push({
-		key: i.toString(),
-		name: `Edward ${i}`,
-		age: 32,
-		address: `London Park no. ${i}`,
-	});
-}
-interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-	editing: boolean;
-	dataIndex: string;
-	title: any;
-	inputType: 'number' | 'text';
-	record: Item;
-	index: number;
-	children: React.ReactNode;
-}
+import { Button, Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import type { Item, EditableCellProps } from '~/interfaces/interfaces';
+import { originData } from '~/data/programacion-viajes';
+import type { ColumnsType, TableProps } from 'antd/es/table';
 
 const EditableCell: React.FC<EditableCellProps> = ({
 	editing,
@@ -69,7 +46,16 @@ export function ProgramacionTable() {
 	const isEditing = (record: Item) => record.key === editingKey;
 
 	const edit = (record: Partial<Item> & { key: React.Key }) => {
-		form.setFieldsValue({ name: '', age: '', address: '', ...record });
+		form.setFieldsValue(
+			{
+				ruta: '',
+				bus: '',
+				fechaSalida: '',
+				horaSalida: '',
+				estado: '',
+				...record,
+			}
+		);
 		setEditingKey(record.key);
 	};
 
@@ -97,51 +83,101 @@ export function ProgramacionTable() {
 				setEditingKey('');
 			}
 		} catch (errInfo) {
-			console.log('Validate Failed:', errInfo);
+			console.log('Error de Validacion de Datos', errInfo);
 		}
 	};
 
 	const columns = [
 		{
-			title: 'name',
-			dataIndex: 'name',
-			width: '25%',
-			editable: true,
+			title: 'ID',
+			dataIndex: 'viajeId',
+			width: '5%',
 		},
 		{
-			title: 'age',
-			dataIndex: 'age',
+			title: 'Ruta',
+			dataIndex: 'ruta',
+			width: '20%',
+			editable: true,
+			filters: [
+				{
+					text: 'Huancayo - Ayacucho',
+					value: 'Huancayo - Ayacucho',
+				},
+				{
+					text: 'Ayacucho - Huancayo',
+					value: 'Ayacucho - Huancayo',
+				}
+			],
+			onFilter: (value: string, record) => record.ruta.indexOf(value) === 0,
+			sorter: (a, b) => a.ruta.length - b.ruta.length,
+			sortDirections: ['descend'],
+		},
+		{
+			title: 'Bus',
+			dataIndex: 'bus',
+			width: '15%',
+			editable: true,
+			render: (text: string) =>
+
+				<Typography.Link>
+					{text}
+				</Typography.Link>
+
+
+
+		},
+		{
+			title: 'Fecha Salida',
+			dataIndex: 'fechaSalida',
 			width: '15%',
 			editable: true,
 		},
 		{
-			title: 'address',
-			dataIndex: 'address',
-			width: '40%',
+			title: 'Hora Salida',
+			dataIndex: 'horaSalida',
+			width: '15%',
 			editable: true,
 		},
 		{
-			title: 'operation',
-			dataIndex: 'operation',
+			title: 'Estado',
+			dataIndex: 'estado',
+			width: '10%',
+			editable: true,
+		},
+		{
+			title: 'Acciones',
+			dataIndex: 'acciones',
 			render: (_: any, record: Item) => {
 				const editable = isEditing(record);
 				return editable ? (
 					<span>
 						<Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-							Save
+							<Button>
+								Guardar
+							</Button>
+
 						</Typography.Link>
-						<Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-							<a>Cancel</a>
+						<Popconfirm title="Seguro que quieres?" onConfirm={cancel}>
+							<a>Cancelar</a>
 						</Popconfirm>
 					</span>
 				) : (
-					<Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-						Edit
-					</Typography.Link>
+					<div className='flex items-baseline gap-7 justify-center'>
+
+						<Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+							Edit
+						</Typography.Link>
+						<Button >
+							Eliminar
+						</Button>
+					</div>
 				);
 			},
 		},
 	];
+	const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+		console.log('params', pagination, filters, sorter, extra);
+	};
 
 	const mergedColumns = columns.map((col) => {
 		if (!col.editable) {
@@ -151,13 +187,14 @@ export function ProgramacionTable() {
 			...col,
 			onCell: (record: Item) => ({
 				record,
-				inputType: col.dataIndex === 'age' ? 'number' : 'text',
+				inputType: col.dataIndex,
 				dataIndex: col.dataIndex,
 				title: col.title,
 				editing: isEditing(record),
 			}),
 		};
-	});
+	}
+	);
 
 	return (
 		<Form form={form} component={false}>
@@ -170,6 +207,7 @@ export function ProgramacionTable() {
 				bordered
 				dataSource={data}
 				columns={mergedColumns}
+				onChange={onChange}
 				rowClassName="editable-row"
 				pagination={{
 					onChange: cancel,
@@ -177,5 +215,5 @@ export function ProgramacionTable() {
 			/>
 		</Form>
 	);
-};
+}
 
