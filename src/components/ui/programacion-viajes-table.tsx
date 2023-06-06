@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import { Badge, Button, Form, Input, InputNumber, Popconfirm, Space, Table, Typography } from 'antd';
 import type { Item, EditableCellProps } from '~/interfaces/interfaces';
 import { originData } from '~/data/programacion-viajes';
 import type { ColumnsType, TableProps } from 'antd/es/table';
+import { FieldTimeOutlined } from '@ant-design/icons'
 
 const EditableCell: React.FC<EditableCellProps> = ({
 	editing,
@@ -109,8 +110,8 @@ export function ProgramacionTable() {
 				}
 			],
 			onFilter: (value: string, record) => record.ruta.indexOf(value) === 0,
-			sorter: (a, b) => a.ruta.length - b.ruta.length,
-			sortDirections: ['descend'],
+
+
 		},
 		{
 			title: 'Bus',
@@ -119,9 +120,9 @@ export function ProgramacionTable() {
 			editable: true,
 			render: (text: string) =>
 
-				<Typography.Link>
+				<Typography>
 					{text}
-				</Typography.Link>
+				</Typography>
 
 
 
@@ -137,12 +138,20 @@ export function ProgramacionTable() {
 			dataIndex: 'horaSalida',
 			width: '15%',
 			editable: true,
+			render: (text) => <Button className='flex items-center' type='text' icon={<FieldTimeOutlined />} >
+				{text}
+			</Button>
+
+
 		},
 		{
 			title: 'Estado',
 			dataIndex: 'estado',
 			width: '10%',
 			editable: true,
+			key: 'state',
+			render: () => <Badge status='success' text="Activo" />,
+
 		},
 		{
 			title: 'Acciones',
@@ -150,24 +159,33 @@ export function ProgramacionTable() {
 			render: (_: any, record: Item) => {
 				const editable = isEditing(record);
 				return editable ? (
-					<span>
+					<span className='flex gap-5 items-baseline'>
 						<Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
 							<Button>
 								Guardar
 							</Button>
 
 						</Typography.Link>
-						<Popconfirm title="Seguro que quieres?" onConfirm={cancel}>
-							<a>Cancelar</a>
+						<Popconfirm cancelText='Cancelar' okText="Sí" okButtonProps={{
+							style: {
+								backgroundColor: '#f5222d',
+								color: 'white',
+								borderRadius: '5px',
+								border: 'none'
+							}
+						}} title="Estás seguro ?" onConfirm={cancel}>
+							<a className='text-cyan-500'>Cancelar</a>
 						</Popconfirm>
 					</span>
 				) : (
-					<div className='flex items-baseline gap-7 justify-center'>
+					<div className='flex items-baseline gap-5 justify-center'>
 
 						<Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-							Edit
+							<Button>
+								Editar
+							</Button>
 						</Typography.Link>
-						<Button >
+						<Button danger type='text' >
 							Eliminar
 						</Button>
 					</div>
@@ -209,9 +227,8 @@ export function ProgramacionTable() {
 				columns={mergedColumns}
 				onChange={onChange}
 				rowClassName="editable-row"
-				pagination={{
-					onChange: cancel,
-				}}
+				pagination={{ pageSize: 10 }} scroll={{ y: 300 }}
+
 			/>
 		</Form>
 	);
