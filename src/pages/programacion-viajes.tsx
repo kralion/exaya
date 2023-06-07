@@ -1,6 +1,7 @@
 import { Title } from '@mantine/core'
 import React from 'react'
 import { ProgramacionTable } from '~/components/ui/programacion-viajes-table'
+import { ViajesForm } from '~/components/ui/programacion/viajes-form'
 
 function ProgramacionViajes() {
     return (
@@ -8,7 +9,10 @@ function ProgramacionViajes() {
             <Title order={4}>
                 Programacion de Viajes
             </Title>
-            <ProgramacionTable />
+            <div className='flex flex-col gap-7'>
+                <ViajesForm />
+                <ProgramacionTable />
+            </div>
         </div>
     )
 }

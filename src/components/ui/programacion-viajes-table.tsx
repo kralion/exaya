@@ -138,8 +138,10 @@ export function ProgramacionTable() {
 			dataIndex: 'horaSalida',
 			width: '15%',
 			editable: true,
-			render: (text) => <Button className='flex items-center' type='text' icon={<FieldTimeOutlined />} >
-				{text}
+			render: (text) => <Button className='flex items-center cursor-default' type='text' icon={<FieldTimeOutlined />} >
+				{
+					parseInt(text) < 12 ? `${text} AM` : `${text} PM`
+				}
 			</Button>
 
 
