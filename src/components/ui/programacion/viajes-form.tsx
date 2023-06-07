@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
-import { Button, Form, Input, Select, DatePicker, TimePicker } from 'antd'
-import { CalendarOutlined } from '@ant-design/icons';
+import React, { useState, useMemo } from 'react'
+import { Button, Form, Select, DatePicker, TimePicker, notification } from 'antd'
+import { CalendarOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import type { DatePickerProps } from 'antd';
 import dayjs from 'dayjs';
+import type { NotificationPlacement } from 'antd/es/notification/interface';
+
+
+const Context = React.createContext({ name: 'Default' });
 const { Option } = Select;
 const format = 'HH:mm';
 const onDateChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -17,12 +21,24 @@ const layout = {
     wrapperCol: { span: 16 },
 };
 
-const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-};
+
 export function ViajesForm() {
     const [form] = Form.useForm();
+    const [api, contextHolder] = notification.useNotification();
 
+
+    const openNotification = (placement: NotificationPlacement) => {
+        api.info({
+            type: 'success',
+            message: 'Operacion exitosa',
+            description: <Context.Consumer>{({ name }) => 'El viaje ha sido creado exitosamente y lo puede visualizar en la tabla'}</Context.Consumer>,
+            placement,
+
+            icon: < CheckCircleOutlined className='text-green-500' />
+        });
+    };
+
+    const contextValue = useMemo(() => ({ name: '' }), []);
     const onRutaChange = (value: string) => {
         switch (value) {
             case 'Ayacucho - Huancayo':
@@ -62,64 +78,61 @@ export function ViajesForm() {
             form={form}
             name="control-hooks"
             onFinish={onFinish}
-
-            style={{ maxWidth: 300 }}
+            className='flex justify-between'
         >
-            <Form.Item name="ruta" label="Ruta" rules={[{ required: true, message: 'La ruta es requerida' }]}>
-                <Select
-                    placeholder="Ruta"
-                    onChange={onRutaChange}
-                    allowClear
-                >
-                    <Option value="Ayacucho - Huancayo">Ayacucho - Huancayo </Option>
-                    <Option value="Huancayo - Ayacucho">Huancayo - Ayacucho</Option>
-                </Select>
-            </Form.Item>
-            <Form.Item name="bus" label="Bus" rules={[{ required: true, message: 'El bus es requerido' }]}>
-                <Select
-                    placeholder="Bus"
-                    onChange={onBusChange}
-                    allowClear
-                >
-                    <Option value="CV2-987">CV2-987</Option>
-                    <Option value="B9Z-78A">B9Z-78A</Option>
+            <div className="flex gap-3.5">
 
-                </Select>
+                <Form.Item className='b' name="ruta" rules={[{ required: true, message: 'Campo requerido' }]}>
+                    <Select style={{ width: 200 }}
+                        placeholder="Ruta"
+                        onChange={onRutaChange}
+                        allowClear
+                    >
+                        <Option value="Ayacucho - Huancayo">Ayacucho - Huancayo </Option>
+                        <Option value="Huancayo - Ayacucho">Huancayo - Ayacucho</Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item name="bus" rules={[{ required: true, message: '* Requerido' }]}>
+                    <Select style={{ width: 120 }}
+                        placeholder="Bus"
+                        onChange={onBusChange}
+                        allowClear
+                    >
+                        <Option value="CV2-987">CV2-987</Option>
+                        <Option value="B9Z-78A">B9Z-78A</Option>
 
-            </Form.Item>
-            <Form.Item
-                noStyle
-                shouldUpdate={(prevValues, currentValues) => prevValues.ruta !== currentValues.ruta}
-            >
-                {({ getFieldValue }) =>
-                    getFieldValue('ruta') === 'other' ? (
-                        <Form.Item name="customizeGender" label="Personalizar ruta" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                    ) : null
-                }
-            </Form.Item>
-            <Form.Item name="fecha" label="Fecha" rules={[{ required: true, message: 'La fecha es requerida' }]}>
-                <DatePicker placeholder='Fecha de Salida' onChange={onDateChange} />
-            </Form.Item>
-            <Form.Item name="hora" label="Hora" rules={[{ required: true, message: 'La hora es requerida' }]}>
-                <TimePicker
+                    </Select>
 
-                    minuteStep={15} format={format} onChange={onTimeChange} placeholder='Hora de Salida' />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <div className='flex gap-3 mt-7'>
-                    <Button className='flex items-center' icon={<CalendarOutlined />} htmlType="submit">
+                </Form.Item>
+                <Form.Item name="fecha" rules={[{ required: true, message: '* Requerido' }]}>
+                    <DatePicker style={{ width: 150 }} placeholder='Fecha de Salida' onChange={onDateChange} />
+                </Form.Item>
+                <Form.Item name="hora" rules={[{ required: true, message: '* Requerido' }]}>
+                    <TimePicker
+                        style={{ width: 150 }}
+                        minuteStep={15} format={format} onChange={onTimeChange} placeholder='Hora de Salida' />
+                </Form.Item>
+            </div>
 
-                        Crear Viaje
-                    </Button>
-                    <Button htmlType="button" danger onClick={onReset}>
+            <Form.Item >
+                <div className='flex gap-3.5'>
+                    <Context.Provider value={contextValue}>
+                        {contextHolder}
+
+                        <Button type='primary' className='flex items-center' onClick={
+                            () => openNotification('bottomRight')
+                        } icon={<CalendarOutlined />} htmlType="submit">
+
+                            Crear Viaje
+                        </Button>
+                    </Context.Provider>
+                    <Button htmlType="button" onClick={onReset}>
                         Cancelar
                     </Button>
                 </div>
 
             </Form.Item>
-        </Form>
+        </Form >
     )
 
 }

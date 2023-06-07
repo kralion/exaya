@@ -187,7 +187,7 @@ export function ProgramacionTable() {
 								Editar
 							</Button>
 						</Typography.Link>
-						<Button danger type='text' >
+						<Button danger type='link' >
 							Eliminar
 						</Button>
 					</div>

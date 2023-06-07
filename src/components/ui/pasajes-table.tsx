@@ -54,7 +54,7 @@ const columns: ColumnsType<PasajesDataType> = [
         key: 'acciones',
         render: () => (
             <Space size="middle">
-                <Button type='dashed' >Registrar</Button>
+                <Button type='primary' >Registrar</Button>
                 <Button className='flex items-center' icon={<EyeOutlined />} > Ver Manifiesto</Button>
 
             </Space>
