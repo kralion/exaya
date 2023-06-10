@@ -168,7 +168,7 @@ export function ProgramacionTable() {
 							</Button>
 
 						</Typography.Link>
-						<Popconfirm cancelText='Cancelar' okText="Sí" okButtonProps={{
+						<Popconfirm okButtonProps={{
 							style: {
 								backgroundColor: '#f5222d',
 								color: 'white',
