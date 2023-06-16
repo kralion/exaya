@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { AutoComplete, Button, Input, Space, Tooltip } from 'antd';
 import type { SelectProps } from 'antd/es/select';
-import { AliwangwangOutlined, AudioOutlined } from '@ant-design/icons'
+import { SendOutlined, AudioOutlined } from '@ant-design/icons'
 import { SizeType } from 'antd/es/config-provider/SizeContext';
+import TextArea from 'antd/es/input/TextArea';
 
 const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
 const suffix = (
@@ -69,16 +70,14 @@ export const AIAssistantInput = () => {
                 size='large'
 
             >
-                <Input size='large' placeholder="Que desear hacer !" suffix={
-                    <Tooltip title="Comando por voz">
-                        <AudioOutlined onClick={() => console.log('Grabando ...')} style={{ color: 'rgba(0,0,0,.45)' }} />
-                    </Tooltip>
-                } />
+                <TextArea size='large' autoSize placeholder="Que desear hacer !" />
 
             </AutoComplete >
 
-            <Button className='backdrop-blur-2xl shadow-md' size={size} icon={<AliwangwangOutlined title='Asistente Artificial' />}>
-                ExaIA
+            <Button type='primary' className='backdrop-blur-2xl flex items-center justify-center shadow-md' style={{
+                height: 40,
+                width: 40,
+            }} icon={<SendOutlined />}>
             </Button>
         </div>
     );
