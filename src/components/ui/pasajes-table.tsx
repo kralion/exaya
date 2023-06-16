@@ -1,8 +1,7 @@
 import type { ColumnsType } from 'antd/lib/table';
 import type { PasajesDataType } from '~/interfaces/interfaces';
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Tag, Space, Button, Drawer } from 'antd';
 import { EyeOutlined } from "@ant-design/icons"
-import dataDiaria from '~/data/viajes-diarios.json';
 import { dataSource } from '~/data/viajes-diarios';
 const columns: ColumnsType<PasajesDataType> = [
     {
@@ -54,12 +53,13 @@ const columns: ColumnsType<PasajesDataType> = [
         key: 'acciones',
         render: () => (
             <Space size="middle">
-                <Button type='primary' >Registrar</Button>
-                <Button className='flex items-center' icon={<EyeOutlined />} > Ver Manifiesto</Button>
+                <Button type='primary'>Registrar</Button>
+                <Button onClick={() => console.log('Manifiesto')}
+                    className='flex items-center' icon={<EyeOutlined />} >Ver Manifiesto</Button>
 
-            </Space>
-        ),
-    },
+            </Space >
+        )
+    }
 ];
 
 const pasajesDiarios: PasajesDataType[] = dataSource;

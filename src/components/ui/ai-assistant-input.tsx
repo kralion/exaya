@@ -1,19 +1,9 @@
 import React, { useState } from 'react';
-import { AutoComplete, Button, Input, Space, Tooltip } from 'antd';
+import { AutoComplete, Button, Input } from 'antd';
 import type { SelectProps } from 'antd/es/select';
 import { SendOutlined, AudioOutlined } from '@ant-design/icons'
-import { SizeType } from 'antd/es/config-provider/SizeContext';
-import TextArea from 'antd/es/input/TextArea';
-
+const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
-const suffix = (
-    <AudioOutlined
-        style={{
-            fontSize: 16,
-            color: '#1677ff',
-        }}
-    />
-);
 const searchResult = (query: string) =>
     new Array(getRandomInt(5))
         .join('.')
@@ -46,7 +36,6 @@ const searchResult = (query: string) =>
         });
 
 export const AIAssistantInput = () => {
-    const [size, setSize] = useState<SizeType>('large');
     const [options, setOptions] = useState<SelectProps<object>['options']>([]);
 
     const handleSearch = (value: string) => {
