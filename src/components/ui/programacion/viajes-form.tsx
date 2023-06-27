@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react'
 import { Button, Form, Select, DatePicker, TimePicker, notification } from 'antd'
 import { CalendarOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import type { DatePickerProps } from 'antd';
-import dayjs from 'dayjs';
 import type { NotificationPlacement } from 'antd/es/notification/interface';
+import { notifications } from '@mantine/notifications';
 
 
 const Context = React.createContext({ name: 'Default' });
@@ -22,7 +22,8 @@ const layout = {
 };
 
 
-export function ViajesForm() {
+
+export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
 
@@ -33,7 +34,7 @@ export function ViajesForm() {
             message: 'Operacion exitosa',
             description: <Context.Consumer>{({ name }) => 'El viaje ha sido creado exitosamente y lo puede visualizar en la tabla'}</Context.Consumer>,
             placement,
-
+            duration: 1,
             icon: < CheckCircleOutlined className='text-green-500' />
         });
     };
@@ -63,8 +64,14 @@ export function ViajesForm() {
     }
 
     const onFinish = (values: any) => {
-        console.log(values);
-    };
+        openNotification('topRight');
+        handleAddViaje(values);
+        form.resetFields();
+        alert('topRight');
+
+    }
+
+
 
     const onReset = () => {
         form.resetFields();
@@ -109,7 +116,8 @@ export function ViajesForm() {
                 </Form.Item>
                 <Form.Item name="hora" rules={[{ required: true, message: '* Requerido' }]}>
                     <TimePicker
-                        style={{ width: 150 }}
+                        use12Hours={true}
+                        style={{ width: 170 }}
                         minuteStep={15} format={format} onChange={onTimeChange} placeholder='Hora de Salida' />
                 </Form.Item>
             </div>
@@ -119,9 +127,7 @@ export function ViajesForm() {
                     <Context.Provider value={contextValue}>
                         {contextHolder}
 
-                        <Button type='primary' className='flex items-center' onClick={
-                            () => openNotification('bottomRight')
-                        } icon={<CalendarOutlined />} htmlType="submit">
+                        <Button type='primary' className='flex items-center' htmlType="submit">
 
                             Crear Viaje
                         </Button>

@@ -1,9 +1,9 @@
 import type { ColumnsType } from 'antd/lib/table';
-import type { PasajesDataType } from '~/interfaces/interfaces';
+import type { Pasajes } from '~/interfaces/interfaces';
 import { Table, Tag, Space, Button, Drawer } from 'antd';
 import { EyeOutlined } from "@ant-design/icons"
 import { dataSource } from '~/data/viajes-diarios';
-const columns: ColumnsType<PasajesDataType> = [
+const columns: ColumnsType<Pasajes> = [
     {
         title: 'Origen',
         dataIndex: 'origen',
@@ -62,7 +62,7 @@ const columns: ColumnsType<PasajesDataType> = [
     }
 ];
 
-const pasajesDiarios: PasajesDataType[] = dataSource;
+const pasajesDiarios: Pasajes[] = dataSource;
 
 export const PasajesTable: React.FC = () => <Table className='shadow-md rounded-md' columns={columns} dataSource={pasajesDiarios} />;
 

@@ -1,10 +1,10 @@
-import { CascaderProps, DatePicker, DatePickerProps } from 'antd';
+import type { CascaderProps, DatePickerProps } from 'antd';
 import {
 
     Button,
     Cascader,
 
-
+    DatePicker,
     Form,
     Input,
     InputNumber,
@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import React from 'react';
 import { PhoneOutlined } from '@ant-design/icons';
+import type { Encomienda } from '~/interfaces/interfaces';
 
 const { Option } = Select;
 
@@ -48,13 +49,18 @@ const formItemLayout = {
 
 };
 
-
+import { useEncomiendasContext } from '~/context/EncomiendasContext';
 
 export function EncomiendasForm() {
     const [form] = Form.useForm();
+    const { handleAddEncomienda } = useEncomiendasContext();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+    const onFinish = (values: Encomienda) => {
+        handleAddEncomienda(values);
+        form.resetFields();
+    };
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
     };
 
 
@@ -81,6 +87,7 @@ export function EncomiendasForm() {
             form={form}
             layout='vertical'
             name="register"
+            onFinishFailed={onFinishFailed}
             onFinish={onFinish}
             initialValues={{ prefix: '+51' }}
             style={{ maxWidth: 600 }}
@@ -88,7 +95,7 @@ export function EncomiendasForm() {
             className="grid grid-flow-row grid-cols-2 gap-x-7"
         >
             <Form.Item
-                name="senderName"
+                name="nombreRemitente"
                 label="Nombre del Remitente"
                 tooltip="Persona que va a enviar la encomienda"
                 rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
@@ -100,7 +107,7 @@ export function EncomiendasForm() {
             </Form.Item>
 
             <Form.Item
-                name="receiverName"
+                name="nombreReceptor"
                 label="Nombre del Receptor"
                 tooltip="Persona que va a recibir la encomienda"
                 rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
@@ -117,17 +124,16 @@ export function EncomiendasForm() {
 
 
             <Form.Item
-                name="senderPhoneNumber"
+                name="telefonoRemitente"
                 label="Remitente"
-
-                rules={[{ required: true, message: 'Inserta el número de telefono del remitente' }]}
+                rules={[{ required: true, message: 'Verifica este campo' },]}
             >
                 <InputNumber controls={false} maxLength={9} addonBefore={<PhoneOutlined title='N° celular' />} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
-                name="receiverPhoneNumber"
+                name="telefonoReceptor"
                 label="Receptor"
-                rules={[{ required: true, message: 'Inserta el número de telefono del receptor' }]}
+                rules={[{ required: true, message: 'Verifica este campo' },]}
 
             >
                 <InputNumber controls={false} maxLength={9} addonBefore={<PhoneOutlined title='N° celular' />} style={{ width: '100%' }} />
@@ -150,11 +156,11 @@ export function EncomiendasForm() {
                 label="Precio"
                 rules={[{ required: true, message: 'Insertar el precio de la encomienda' }]}
             >
-                <InputNumber controls={false} addonAfter={suffixSelector} style={{ width: '100%' }} />
+                <InputNumber type='number' controls={false} addonAfter={suffixSelector} style={{ width: '100%' }} />
             </Form.Item>
 
 
-            <Form.Item name="dateSent"
+            <Form.Item name="fechaEnvio"
                 label="Fecha de Envío"
                 tooltip="Fecha en la que se va a cargar al compartimento de encomiendas"
                 rules={[{ required: true, message: 'Selecciona la fecha' }]}
@@ -167,14 +173,14 @@ export function EncomiendasForm() {
 
 
             <Form.Item
-                name="packageContent"
+                name="contenido"
                 label="Contenido de la encomienda"
                 rules={[{ required: true, message: 'Que contiene la encomienda' }]}
             >
                 <Input maxLength={30} />
             </Form.Item>
             <Form.Item
-                name="packagePassword"
+                name="password"
                 label="Clave de Envío"
                 hasFeedback
             >
@@ -183,7 +189,7 @@ export function EncomiendasForm() {
             </Form.Item >
 
             <Form.Item
-                name="packageDescription"
+                name="descripcion"
                 label="Descripción de la encomienda"
                 rules={[{ required: true, message: 'Describe a la encomiendas' }]}
             >
@@ -192,7 +198,7 @@ export function EncomiendasForm() {
             <Button style={{ width: '100%' }} type="primary" htmlType="submit">
                 Registrar
             </Button>
-            <Button style={{ width: '100%' }} danger htmlType="submit">
+            <Button style={{ width: '100%' }} danger htmlType="reset" onClick={() => form.resetFields()}>
                 Cancelar
             </Button>
 

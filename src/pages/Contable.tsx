@@ -1,19 +1,14 @@
-import { DatePicker, Space, Input, Table, Select, Typography } from "antd";
+import { DatePicker, Space, Input, Table, Select } from "antd";
 import dayjs from "dayjs";
 import "animate.css";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 import { SearchOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import Image from "next/image";
+import React from "react";
 import type { ColumnsType } from "antd/es/table";
-import ingresoIcon from "../assets/icons/ingresoIcon.png";
-import egresoIcon from "../assets/icons/egresoIcon.png";
-import recaudadoIcon from "../assets/icons/recaudadoIcon.png";
-import type { PasajesDataType } from "~/interfaces/interfaces";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 import { RoundedButton } from "~/components/ui/rounded-button";
-import { ContableCard } from "~/components/ui/contable-card";
+import { ContableCard } from "~/components/ui/contable/contable-card";
 import { Title } from "@mantine/core";
 
 const onChange = (

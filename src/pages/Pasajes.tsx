@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { DatePicker } from "antd";
-import Image from "next/image";
-import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
+import type { DatePickerProps } from "antd/es/date-picker";
 
-import { PasajesTable } from "~/components/ui/pasajes-table";
+import { PasajesTable } from "~/components/ui/venta-pasajes/pasajes-table";
 import { Title } from "@mantine/core";
 
 const onChange = (
@@ -18,14 +17,8 @@ const onOk = (value: DatePickerProps["value"]) => {
 };
 
 function Pasajes() {
-	const [date, setDate] = useState({
-		startDate: null,
-		endDate: null,
-	});
 
-	const handleDateChange = (newDate: any) => {
-		setDate(newDate);
-	};
+
 	return (
 
 		<div className="flex flex-col gap-7 rounded-lg ">

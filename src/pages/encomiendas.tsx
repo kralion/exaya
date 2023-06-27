@@ -3,7 +3,9 @@ import { EncomiendasCalendar } from "~/components/ui/encomiendas/calendar";
 import { EncomiendasForm } from "~/components/ui/encomiendas/form";
 import { EncomiendasTable } from "~/components/ui/encomiendas/table";
 
+
 function Encomiendas() {
+
   return (
     <div className="flex flex-col gap-7">
       <div className="flex justify-between">
@@ -16,7 +18,7 @@ function Encomiendas() {
           Calendario
         </Title>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between ">
         <EncomiendasForm />
         <div>
           <EncomiendasCalendar />

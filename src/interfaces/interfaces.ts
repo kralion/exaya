@@ -1,4 +1,5 @@
-export interface PasajesDataType {
+import type { ColumnProps } from "antd/es/table";
+export interface Pasajes {
   key: string;
   origen: string;
   destino: string;
@@ -17,9 +18,38 @@ export interface Item {
 export interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
-  title: any;
+  title: string;
   inputType: "number" | "text";
   record: Item;
   index: number;
   children: React.ReactNode;
+}
+export interface EncomiendasProps {
+  encomiendas: Encomienda[];
+  setEncomiendas: React.Dispatch<React.SetStateAction<Encomienda[]>>;
+}
+export interface Encomienda {
+  key: string;
+  nombreRemitente: string;
+  nombreReceptor: string;
+  telefonoRemitente: number;
+  telefonoReceptor: number;
+  destino: string;
+  precio: number;
+  fechaEnvio: string;
+  contenido: string;
+  password: string;
+  descripcion: string;
+}
+export interface EncomiendasContextProps {
+  encomiendas: Encomienda[];
+  handleAddEncomienda: (encomienda: Encomienda) => void;
+  handleDeleteEncomienda: (key: string) => void;
+}
+export interface TableColumnPropsOption {
+  label: string;
+  value: any;
+}
+export interface EncomiendaTableColumnProps<T> extends ColumnProps<T> {
+  options?: TableColumnPropsOption[];
 }

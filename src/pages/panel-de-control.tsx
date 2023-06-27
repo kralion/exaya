@@ -1,8 +1,8 @@
-import { ControlPaneCard } from "~/components/ui/control-pane-card";
+import { ControlPaneCard } from "~/components/ui/panel-de-control/control-pane-card";
 import { Title } from "@mantine/core";
 import { Progress, Statistic, Typography } from 'antd';
 import { FieldTimeOutlined, ContainerOutlined } from '@ant-design/icons';
-import { AIAssistantInput } from "~/components/ui/ai-assistant-input";
+import { AIAssistantInput } from "~/components/ui/panel-de-control/ai-assistant-input";
 
 
 

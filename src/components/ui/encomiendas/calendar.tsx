@@ -17,7 +17,7 @@ export function EncomiendasCalendar() {
     };
 
     return (
-        <div style={wrapperStyle}>
+        <div className='hidden lg:block' style={wrapperStyle}>
             <Calendar className='hover:scale-105 hover:-rotate-3 hover:shadow-lg duration-300' fullscreen={false} onPanelChange={onPanelChange} />
         </div>
     );

@@ -39,7 +39,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 	);
 };
 
-export function ProgramacionTable() {
+export function ProgramacionTable({ originData }: { originData: any }) {
 	const [form] = Form.useForm();
 	const [data, setData] = useState(originData);
 	const [editingKey, setEditingKey] = useState('');
