@@ -72,9 +72,14 @@ const ManifiestoDrawer: React.FC = () => {
       </Button>
       <Drawer
         title={
-          <Title className="text-left" order={4}>
-            Manifiesto del Viaje
-          </Title>
+          <div className="flex items-center justify-between ">
+            <Title className="text-left" order={4}>
+              Manifiesto del Viaje
+            </Title>
+            <Button type="primary" color="green">
+              Imprimir
+            </Button>
+          </div>
         }
         placement="right"
         onClose={onClose}
