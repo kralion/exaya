@@ -1,12 +1,13 @@
 import type { ColumnsType } from "antd/lib/table";
-import type { Pasajes } from "~/interfaces/interfaces";
+import type { Pasajes } from "@/interfaces/interfaces";
 import { Table, Tag, Space, Button, Drawer, Avatar, List } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
-import { dataSource } from "~/data/viajes-diarios";
+import { dataSource } from "@/data/viajes-diarios";
 
 import React, { useState } from "react";
 import { Title } from "@mantine/core";
 import type { ZodNumberCheck } from "zod";
+import RegistrarPasajeModal from "./registrar-pasaje-modal";
 
 interface ManifiestoDataType {
   key: React.Key;
@@ -182,7 +183,7 @@ const columns: ColumnsType<Pasajes> = [
     key: "acciones",
     render: () => (
       <Space size="middle">
-        <Button type="primary">Registrar</Button>
+        <RegistrarPasajeModal />
         <ManifiestoDrawer />
       </Space>
     ),

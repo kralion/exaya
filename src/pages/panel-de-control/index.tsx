@@ -1,8 +1,8 @@
-import { ControlPaneCard } from "~/components/ui/panel-de-control/control-pane-card";
+import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import { Title } from "@mantine/core";
 import { Progress, Statistic, Typography } from "antd";
 import { FieldTimeOutlined, ContainerOutlined } from "@ant-design/icons";
-import { AIAssistantInput } from "~/components/ui/panel-de-control/ai-assistant-input";
+import { AIAssistantInput } from "@/components/ui/panel-de-control/ai-assistant-input";
 
 const totalViajesProgramados = 4;
 const viajesActivos = 2;
@@ -16,6 +16,7 @@ function PanelControl() {
 
       <div className="flex gap-7">
         <ControlPaneCard
+          href="/programacion/viajes"
           cardTitle="Viajes"
           cardDescription="Información sobre la cantidad de viajes programados para hoy"
         >
@@ -34,6 +35,7 @@ function PanelControl() {
           </div>
         </ControlPaneCard>
         <ControlPaneCard
+          href="/venta-pasajes"
           cardDescription="Último código de boleto de viaje vendido."
           cardTitle="Boletos"
         >
@@ -60,6 +62,7 @@ function PanelControl() {
           </div>
         </ControlPaneCard>
         <ControlPaneCard
+          href="/venta-pasajes"
           cardDescription="Porcentaje de ocupación de asientos para cada viaje."
           cardTitle="Asientos Ocupados"
         >

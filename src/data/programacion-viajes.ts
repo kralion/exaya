@@ -1,4 +1,4 @@
-import type { Item } from "~/interfaces/interfaces";
+import type { Item } from "@/interfaces/interfaces";
 export const originData: Item[] = [];
 for (let i = 0; i < 20; i++) {
   originData.push({
