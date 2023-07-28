@@ -1,33 +1,53 @@
 import type { StepsProps } from "antd";
-import { Avatar, List, Modal, Steps } from "antd";
+import { Avatar, Badge, List, Modal, Steps, Tag } from "antd";
 import React, { useState } from "react";
 
 const data = [
   {
     title: "Hector Ramirez",
     current: 0,
-    conductorInfo:
-      "Conductor que posee todos sus documentos al dia, lo puede visitar en la SUTRAN ",
-    sutranLink: " https://sutran.gob.pe",
+    conductorInfo: "Documentos actualizados",
+    profileIcon: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
+    disponibilidad: "activo",
   },
   {
     title: "Ramiro Villaverde",
-    conductorInfo: "Conductor que posee todos sus documentos al dia.",
+    conductorInfo: "Licencia de conducir en trámite",
+    profileIcon: "https://randomuser.me/api/portraits/men/86.jpg",
     current: 1,
     status: "error",
-    sutranLink: " https://sutran.gob.pe",
+    disponibilidad: "con permiso",
   },
   {
     title: "Julio Rojas",
-    conductorInfo: "Conductor que posee todos sus documentos al dia.",
+    conductorInfo: "Documentos actualizados",
+    profileIcon: "https://randomuser.me/api/portraits/men/1.jpg",
     current: 2,
-    sutranLink: " https://sutran.gob.pe",
+    disponibilidad: "vacaciones",
   },
   {
     title: "Danilo Alfaro",
-    conductorInfo: "Conductor que posee todos sus documentos al dia.",
+    conductorInfo: "Documentos actualizados",
+    profileIcon: "https://randomuser.me/api/portraits/men/46.jpg",
     current: 1,
-    sutranLink: " https://sutran.gob.pe",
+    disponibilidad: "inactivo",
+  },
+  {
+    title: "Roberto Almirante",
+    profileIcon:
+      "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=1229aa0db2a9a42022b7669f30784123",
+    conductorInfo: "Documentos actualizados",
+    current: 2,
+    disponibilidad: "activo",
+  },
+  {
+    profileIcon:
+      "https://images.unsplash.com/photo-1474533410427-a23da4fd49d0?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=ee9537f6365657688885825712e3349d",
+    title: "Camilo Paredes",
+    conductorInfo: "Documentos actualizados",
+    current: 1,
+    status: "error",
+    disponibilidad: "activo",
   },
 ];
 
@@ -80,18 +100,24 @@ export function ConductoresInformacion() {
             }}
           >
             <List.Item.Meta
-              avatar={
-                <Avatar
-                  src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
-                />
-              }
+              avatar={<Avatar src={item.profileIcon} />}
               title={<a href="https://ant.design">{item.title}</a>}
               description={
-                <div>
+                <div className="flex gap-3">
                   <p>{item.conductorInfo}</p>
-                  <a href={item.sutranLink} target="_blank" rel="noreferrer">
-                    {item.sutranLink}
-                  </a>
+                  <Tag
+                    color={
+                      item.disponibilidad === "activo"
+                        ? "green"
+                        : item.disponibilidad === "inactivo"
+                        ? "red"
+                        : item.disponibilidad === "vacaciones"
+                        ? "cyan"
+                        : "orange"
+                    }
+                  >
+                    {item.disponibilidad}
+                  </Tag>
                 </div>
               }
             />
