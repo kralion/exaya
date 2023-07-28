@@ -1,30 +1,28 @@
-{
-  "encomiendasDEFAULT": [
-    {
-      "key": "asawetwretew4t4886",
-      "nombreRemitente": "Juan Perez",
-      "nombreReceptor": "Pedro Gomez",
-      "telefonoRemitente": 123456788,
-      "telefonoReceptor": 987654321,
-      "destino": "Huancayo",
-      "precio": 10.0,
-      "fechaEnvio": "2017-10-10",
-      "contenido": "Ropa",
-      "password": "123456789",
-      "descripcion": "Camisa, pantalon, polo, etc"
-    },
-    {
-      "key": "asaw849tew4t4886",
-      "nombreRemitente": "Juan Per",
-      "nombreReceptor": "Pedro Gomez",
-      "telefonoRemitente": 123456788,
-      "telefonoReceptor": 987654321,
-      "destino": "Huancayo",
-      "precio": 10.0,
-      "fechaEnvio": "2017-10-10",
-      "contenido": "Ropa",
-      "password": "123456789",
-      "descripcion": "Camisa, pantalon, polo, etc"
-    }
-  ]
-}
+[
+  {
+    "key": "asawetwretew4t4886",
+    "nombreRemitente": "Juan Perez",
+    "nombreReceptor": "Pedro Gomez",
+    "telefonoRemitente": 123456788,
+    "telefonoReceptor": 987654321,
+    "destino": "Huancayo",
+    "precio": 10.0,
+    "fechaEnvio": "2017-10-10",
+    "contenido": "Ropa",
+    "password": "123456789",
+    "descripcion": "Camisa, pantalon, polo, etc"
+  },
+  {
+    "key": "asaw849tew4t4886",
+    "nombreRemitente": "Juan Per",
+    "nombreReceptor": "Pedro Gomez",
+    "telefonoRemitente": 123456788,
+    "telefonoReceptor": 987654321,
+    "destino": "Huancayo",
+    "precio": 10.0,
+    "fechaEnvio": "2017-10-10",
+    "contenido": "Ropa",
+    "password": "123456789",
+    "descripcion": "Camisa, pantalon, polo, etc"
+  }
+]

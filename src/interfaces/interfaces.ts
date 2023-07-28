@@ -42,7 +42,7 @@ export interface Encomienda {
   descripcion: string;
 }
 export interface EncomiendasContextProps {
-  encomiendas: Encomienda[];
+  encomiendasRegistradas: Encomienda[];
   handleAddEncomienda: (encomienda: Encomienda) => void;
   handleDeleteEncomienda: (key: string) => void;
 }

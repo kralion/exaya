@@ -3,9 +3,9 @@ import type {
   EncomiendasContextProps,
   Encomienda,
 } from "@/interfaces/interfaces";
-import { encomiendasDEFAULT } from "@/data";
+import INITIAL_ENCOMIENDAS from "@/data/encomiendas.json";
 export const EncomiendasContext = createContext<EncomiendasContextProps>({
-  encomiendas: encomiendasDEFAULT,
+  encomiendasRegistradas: INITIAL_ENCOMIENDAS as Encomienda[],
   handleAddEncomienda: () => void 0,
   handleDeleteEncomienda: () => void 0,
 });
@@ -15,24 +15,23 @@ type Props = {
 };
 
 export const EncomiendasContextProvider = ({ children }: Props) => {
-  const [encomiendas, setEncomiendas] = useState<Encomienda[]>(
-    encomiendasDEFAULT as Encomienda[]
-  );
+  const [encomiendasRegistradas, setEncomiendasRegistradas] =
+    useState<Encomienda[]>(INITIAL_ENCOMIENDAS);
 
   const handleAddEncomienda = (encomienda: Encomienda) => {
-    setEncomiendas([...encomiendas, encomienda]);
+    setEncomiendasRegistradas([...encomiendasRegistradas, encomienda]);
   };
   const handleDeleteEncomienda = (key: string) => {
-    const newEncomiendas = encomiendas.filter(
+    const newEncomienda = encomiendasRegistradas.filter(
       (encomienda) => encomienda.key !== key
     );
-    setEncomiendas(newEncomiendas);
+    setEncomiendasRegistradas(newEncomienda);
   };
 
   return (
     <EncomiendasContext.Provider
       value={{
-        encomiendas,
+        encomiendasRegistradas,
         handleAddEncomienda,
         handleDeleteEncomienda,
       }}

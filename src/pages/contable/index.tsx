@@ -84,7 +84,7 @@ export default function Contable() {
     <div>
       <div className="flex flex-col gap-3.5">
         <Title order={4} className="text-slate-800">
-          Turnos
+          Horarios
         </Title>
         <div className="flex justify-between ">
           <div className="flex items-center gap-[14px]">

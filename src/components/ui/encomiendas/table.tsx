@@ -5,14 +5,14 @@ import { Table } from "antd";
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
 
 export function EncomiendasTable() {
-  const { encomiendas } = useEncomiendasContext();
+  const { encomiendasRegistradas } = useEncomiendasContext();
 
   return (
     <div className="space-y-3.5">
       <Title order={4} className="mt-7">
         Historial de Encomiendas
       </Title>
-      <Table dataSource={encomiendas} columns={columns} />
+      <Table dataSource={encomiendasRegistradas} columns={columns} />
     </div>
   );
 }

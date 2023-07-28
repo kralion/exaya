@@ -5,7 +5,7 @@ const RegistrarPasajeModal: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <div>
       <Button type="primary" onClick={() => setOpen(true)}>
         Registrar
       </Button>
@@ -21,7 +21,7 @@ const RegistrarPasajeModal: React.FC = () => {
         <p>some contents...</p>
         <p>some contents...</p>
       </Modal>
-    </>
+    </div>
   );
 };
 
