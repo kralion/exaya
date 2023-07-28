@@ -1,46 +1,70 @@
 import type { StepsProps } from "antd";
-import { Avatar, List, Steps } from "antd";
-import React from "react";
+import { Avatar, List, Modal, Steps } from "antd";
+import React, { useState } from "react";
 
 const data = [
   {
-    title: "Ant Design Title 1",
+    title: "Hector Ramirez",
     current: 0,
+    conductorInfo:
+      "Conductor que posee todos sus documentos al dia, lo puede visitar en la SUTRAN ",
+    sutranLink: " https://sutran.gob.pe",
   },
   {
-    title: "Ant Design Title 2",
+    title: "Ramiro Villaverde",
+    conductorInfo: "Conductor que posee todos sus documentos al dia.",
     current: 1,
     status: "error",
+    sutranLink: " https://sutran.gob.pe",
   },
   {
-    title: "Ant Design Title 3",
+    title: "Julio Rojas",
+    conductorInfo: "Conductor que posee todos sus documentos al dia.",
     current: 2,
+    sutranLink: " https://sutran.gob.pe",
   },
   {
-    title: "Ant Design Title 4",
+    title: "Danilo Alfaro",
+    conductorInfo: "Conductor que posee todos sus documentos al dia.",
     current: 1,
+    sutranLink: " https://sutran.gob.pe",
   },
 ];
 
 const items = [
   {
-    title: "Step 1",
-    description: "This is a Step 1.",
+    title: "Nivel 1",
+    description: "Licencia A2B",
   },
   {
-    title: "Step 2",
-    description: "This is a Step 2.",
+    title: "Nivel 2",
+    description: "Licencia A3B",
   },
   {
-    title: "Step 3",
-    description: "This is a Step 3.",
+    title: "Nivel 3",
+    description: "Licencia A3C",
   },
 ];
 
 export function ConductoresInformacion() {
-  const handleOpenConductorInfoModal = () => {
-    alert("Info");
-  };
+  const [open, setOpen] = useState(false);
+  function handleConductorInfoModal(status: boolean) {
+    setOpen(status);
+    return (
+      <Modal
+        title="Modal 1000px width"
+        centered
+        open={open}
+        onOk={() => setOpen(status)}
+        onCancel={() => setOpen(status)}
+        width={1000}
+      >
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+      </Modal>
+    );
+  }
   return (
     <div className="rounded-lg shadow-xl">
       <List
@@ -48,8 +72,12 @@ export function ConductoresInformacion() {
         dataSource={data}
         renderItem={(item, index) => (
           <List.Item
-            onClick={handleOpenConductorInfoModal}
-            className="cursor-pointer duration-200 hover:scale-105 hover:bg-red-400"
+            onClick={() => handleConductorInfoModal}
+            className="cursor-pointer  rounded-lg duration-200 hover:scale-105 hover:bg-gray-200"
+            style={{
+              paddingLeft: 14,
+              paddingRight: 14,
+            }}
           >
             <List.Item.Meta
               avatar={
@@ -58,7 +86,14 @@ export function ConductoresInformacion() {
                 />
               }
               title={<a href="https://ant.design">{item.title}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              description={
+                <div>
+                  <p>{item.conductorInfo}</p>
+                  <a href={item.sutranLink} target="_blank" rel="noreferrer">
+                    {item.sutranLink}
+                  </a>
+                </div>
+              }
             />
             <Steps
               style={{ marginTop: 8 }}
