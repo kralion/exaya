@@ -1,5 +1,5 @@
 import type { StepsProps } from "antd";
-import { Avatar, Badge, List, Modal, Steps, Tag } from "antd";
+import { Avatar, List, Modal, Steps, Tag } from "antd";
 import React, { useState } from "react";
 
 const data = [
@@ -93,6 +93,7 @@ export function ConductoresInformacion() {
         renderItem={(item, index) => (
           <List.Item
             onClick={() => handleConductorInfoModal}
+            key={index}
             className="cursor-pointer  rounded-lg duration-200 hover:scale-105 hover:bg-gray-200"
             style={{
               paddingLeft: 14,

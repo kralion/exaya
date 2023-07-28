@@ -18,9 +18,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-    images: {
-      domains: ['img.icons8.com', 'icons8.com', 'images.pexels.com', 'upload.wikimedia.org',"media.istockphoto.com"
-      ],
+  images: {
+    domains: [
+      "img.icons8.com",
+      "icons8.com",
+      "images.pexels.com",
+      "upload.wikimedia.org",
+      "media.istockphoto.com",
+      "images.pexels.com",
+    ],
   },
 };
 
