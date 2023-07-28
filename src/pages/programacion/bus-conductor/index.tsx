@@ -7,9 +7,9 @@ import React from "react";
 
 function ProgramacionBusConductor() {
   return (
-    <div>
+    <div className="space-y-7">
       <Title order={4}>Programacion Bus Conductor</Title>
-      <div className="grid-f grid">
+      <div className="flex flex-col gap-7">
         <BusConductorCarousel />
         <ConductoresInformacion />
       </div>

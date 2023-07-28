@@ -37,31 +37,39 @@ const items = [
   },
 ];
 
-export const ConductoresInformacion: React.FC = () => (
-  <div className="rounded-lg shadow-xl">
-    <List
-      itemLayout="horizontal"
-      dataSource={data}
-      renderItem={(item, index) => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={
-              <Avatar
-                src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
-              />
-            }
-            title={<a href="https://ant.design">{item.title}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          />
-          <Steps
-            style={{ marginTop: 8 }}
-            type="inline"
-            current={item.current}
-            status={item.status as StepsProps["status"]}
-            items={items}
-          />
-        </List.Item>
-      )}
-    />
-  </div>
-);
+export function ConductoresInformacion() {
+  const handleOpenConductorInfoModal = () => {
+    alert("Info");
+  };
+  return (
+    <div className="rounded-lg shadow-xl">
+      <List
+        itemLayout="horizontal"
+        dataSource={data}
+        renderItem={(item, index) => (
+          <List.Item
+            onClick={handleOpenConductorInfoModal}
+            className="cursor-pointer duration-200 hover:scale-105 hover:bg-red-400"
+          >
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
+                />
+              }
+              title={<a href="https://ant.design">{item.title}</a>}
+              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            />
+            <Steps
+              style={{ marginTop: 8 }}
+              type="inline"
+              current={item.current}
+              status={item.status as StepsProps["status"]}
+              items={items}
+            />
+          </List.Item>
+        )}
+      />
+    </div>
+  );
+}

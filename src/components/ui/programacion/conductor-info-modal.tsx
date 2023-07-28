@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
 
-export const RegistrarPasajeModal: React.FC = () => {
+export function ConductorInfoModal() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -23,4 +23,4 @@ export const RegistrarPasajeModal: React.FC = () => {
       </Modal>
     </div>
   );
-};
+}

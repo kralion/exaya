@@ -7,7 +7,7 @@ import { dataSource } from "@/data/viajes-diarios";
 import React, { useState } from "react";
 import { Title } from "@mantine/core";
 import type { ZodNumberCheck } from "zod";
-import RegistrarPasajeModal from "./registrar-pasaje-modal";
+import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 
 interface ManifiestoDataType {
   key: React.Key;
