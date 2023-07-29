@@ -1,13 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../assets/logo.png";
-import type { Dispatch, SetStateAction } from "react";
 
-type LoginProps = {
-  setIsLogged: Dispatch<SetStateAction<boolean>>;
-};
-
-function Login({ setIsLogged }: LoginProps) {
+function Login() {
   return (
     <div className="mx-5">
       <header
@@ -67,10 +62,7 @@ function Login({ setIsLogged }: LoginProps) {
                 </label>
               </div>
               <Link href="/" replace>
-                <button
-                  onClick={() => setIsLogged(true)}
-                  className="mt-10 w-full bg-[#191818] px-4 py-3 text-white hover:bg-[#141313] active:bg-[#4d4c4c]"
-                >
+                <button className="mt-10 w-full bg-[#191818] px-4 py-3 text-white hover:bg-[#141313] active:bg-[#4d4c4c]">
                   Ingresar
                 </button>
               </Link>

@@ -14,10 +14,14 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
+model TravelTicket {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    seat      Int      @unique
+    passenger Passenger @relation(fields: [id], references: [id], onDelete: Cascade)
+    price    Float @unique
+    
 }
 
 // Necessary for Next auth
@@ -47,6 +51,7 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -57,6 +62,15 @@ model User {
     sessions      Session[]
 }
 
+model Passenger {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String
+    email     String
+    tickets   TravelTicket[]
+}
+
 model VerificationToken {
     identifier String
     token      String   @unique
@@ -64,3 +78,6 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+
+
