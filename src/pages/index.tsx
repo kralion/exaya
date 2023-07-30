@@ -58,7 +58,7 @@ const items: MenuProps["items"] = [
   getItem("Contable", "7", <LineChartOutlined />),
   getItem("Administracion", "8", <SettingOutlined />),
 ];
-const { Title } = Typography;
+const { Text } = Typography;
 
 export default function Index() {
   const [collapsed, setCollapsed] = useState(false);
@@ -151,16 +151,12 @@ export default function Index() {
 
         <Space wrap size={1} className="my-20 flex flex-col">
           <Avatar
-            className="drop-shadow-md"
+            className="box-border border-[2px] border-gray-400"
             size={60}
             src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg"
           />
 
-          {!collapsed && (
-            <Title level={5} className="tracking-tight">
-              Juan Perez
-            </Title>
-          )}
+          {!collapsed && <Text strong>Juan Perez</Text>}
         </Space>
         <Menu
           mode="inline"

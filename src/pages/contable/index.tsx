@@ -1,4 +1,4 @@
-import { DatePicker, Space, Input, Table, Select } from "antd";
+import { DatePicker, Space, Input, Table, Select, Typography } from "antd";
 import dayjs from "dayjs";
 import "animate.css";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -10,6 +10,9 @@ import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 import { RoundedButton } from "@/components/ui/rounded-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { Title } from "@mantine/core";
+import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
+
+const { Text } = Typography;
 
 const onChange = (
   value: DatePickerProps["value"],
@@ -77,17 +80,18 @@ const disabledDate: RangePickerProps["disabledDate"] = (current) => {
 };
 export default function Contable() {
   const handleRuta = (value: { value: string; label: React.ReactNode }) => {
-    console.log(value);
+    alert(`selected ${value.value}`);
   };
+  const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
 
   return (
-    <div>
-      <div className="flex flex-col gap-3.5">
+    <div className="space-y-7">
+      <div className="flex flex-col gap-7">
         <Title order={4} className="text-slate-800">
-          Horarios
+          Estadisticas por Horario
         </Title>
-        <div className="flex justify-between ">
-          <div className="flex items-center gap-[14px]">
+        <div className=" flex justify-between">
+          <div className="flex items-center gap-3.5">
             <RoundedButton horaSalida="20:15" />
             <RoundedButton horaSalida="20:30" />
             <RoundedButton horaSalida="21:00" />
@@ -113,54 +117,57 @@ export default function Contable() {
         <div className="flex gap-7">
           <ContableCard
             cardTitle="Recaudado"
-            cardValue={1000}
+            cardValue={5400}
             cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
-            cardConcept="Viajes | Encomiendas"
+            cardConcept="Viajes & Encomiendas"
           />
           <ContableCard
             cardTitle="Ingresos"
-            cardValue={1000}
+            cardValue={4800}
             cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
-            cardConcept="75% recaudado"
+            cardConcept="75% del recaudado"
           />
           <ContableCard
             cardTitle="Comision"
-            cardValue={168}
+            cardValue={590}
             cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
-            cardConcept="15% | total bruto"
+            cardConcept="15% del recaudado"
           />
           <ContableCard
             cardTitle="Encomiendas"
-            cardValue={80}
+            cardValue={315}
             cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
-            cardConcept="Ingresos - Egresos"
+            cardConcept="Ingresos"
           />
         </div>
-      </div>{" "}
-      <div className="space-y-7">
+        <EstadisticasNumericas />
+      </div>
+      <div className="space-y-3.5">
         <Title order={4} className="pt-7 tracking-tight text-slate-800">
           Historial de Registros
         </Title>
-        <div className="space-y-3.5">
-          <div className="flex gap-7">
-            <Space direction="vertical">
-              <Input
-                placeholder="Buscar"
-                className="h-[35px] w-[350px] rounded-lg border-2 border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-300"
-                suffix={<SearchOutlined className="cursor-pointer" />}
-              />
-            </Space>
-            <Space direction="vertical" size={12}>
-              <DatePicker
-                className="h-[35px] w-56 cursor-pointer"
-                onChange={onChange}
-                onOk={onOk}
-                placeholder="Buscar por fecha"
-              />
-            </Space>
-          </div>
-          <Table className="shadow-md" columns={columns} dataSource={data} />
+        <div className="flex justify-between">
+          <Space direction="vertical">
+            <Input
+              placeholder="Buscar"
+              className="h-[35px] w-[350px] rounded-lg border-[1px] border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-300"
+              onPressEnter={() => {
+                alert("Enter");
+              }}
+              suffix={<SearchOutlined className="cursor-pointer" />}
+            />
+          </Space>
+          <Space direction="horizontal" size={12}>
+            <Text strong>Fecha :</Text>
+            <DatePicker
+              className="h-[35px] w-56 cursor-pointer"
+              onChange={onChange}
+              onOk={onOk}
+              placeholder={placeHolderDate}
+            />
+          </Space>
         </div>
+        <Table className="shadow-md" columns={columns} dataSource={data} />
       </div>
     </div>
   );
