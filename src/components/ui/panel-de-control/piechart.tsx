@@ -1,55 +1,48 @@
-import { PieChart, Pie } from "recharts";
+import { PieChart, Pie, Legend, Tooltip } from "recharts";
 
 const data01 = [
   {
-    name: "Group A",
-    value: 400,
+    name: "A. Frontales",
+    value: 40,
   },
   {
-    name: "Group B",
-    value: 300,
+    name: "A. Medio",
+    value: 30,
   },
   {
-    name: "Group C",
-    value: 300,
+    name: "A. Traseros",
+    value: 30,
   },
   {
-    name: "Group D",
-    value: 200,
+    name: "Pasillo",
+    value: 20,
   },
   {
-    name: "Group E",
-    value: 278,
-  },
-  {
-    name: "Group F",
-    value: 189,
+    name: "Ventana",
+    value: 27,
   },
 ];
 const data02 = [
   {
-    name: "Group A",
-    value: 2400,
+    name: "Adultos",
+    value: 240,
   },
   {
-    name: "Group B",
-    value: 4567,
+    name: "Niños",
+    value: 456,
   },
   {
-    name: "Group C",
-    value: 1398,
+    name: "Discapacitados",
+    value: 139,
+  },
+
+  {
+    name: "Estudiantes",
+    value: 390,
   },
   {
-    name: "Group D",
-    value: 9800,
-  },
-  {
-    name: "Group E",
-    value: 3908,
-  },
-  {
-    name: "Group F",
-    value: 4800,
+    name: "Tercera Edad",
+    value: 480,
   },
 ];
 
@@ -58,6 +51,14 @@ import React from "react";
 function ControlPanePieChart() {
   return (
     <PieChart width={250} height={250}>
+      <Tooltip
+        contentStyle={{
+          backgroundColor: "rgba(255,255,255,0.8)",
+          color: "white",
+          borderRadius: "10px",
+          border: "none",
+        }}
+      />
       <Pie
         data={data01}
         dataKey="value"
