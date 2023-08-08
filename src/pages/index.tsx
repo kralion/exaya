@@ -20,6 +20,7 @@ import Administracion from "./administracion";
 import ProgramacionBusConductor from "./programacion/bus-conductor";
 import ProgramacionComprobantes from "./programacion/comprobantes";
 import ProgramacionViajes from "./programacion/viajes";
+import DBTable from "@/components/db-table";
 
 type MenuItem = {
   label: React.ReactNode;
@@ -202,6 +203,7 @@ export default function Index() {
           {activeWindow === "Administracion" && <Administracion />}
         </Content>
       </Layout>
+      <DBTable />
     </Layout>
   );
 }
