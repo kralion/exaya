@@ -24,7 +24,7 @@ export const ControlPaneCard = ({
   return (
     <a href={href}>
       <Card
-        className="cursor-pointer backdrop-blur-3xl duration-200 ease-in-out hover:rotate-1 hover:scale-105  hover:shadow-md dark:bg-white/20 "
+        className="cursor-pointer backdrop-blur-3xl   hover:shadow-md dark:bg-white/20 "
         type="inner"
         loading={loading}
         style={{ width: 300 }}

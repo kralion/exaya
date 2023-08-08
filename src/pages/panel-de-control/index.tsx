@@ -17,7 +17,7 @@ function PanelControl() {
       </div>
 
       <div className="grid grid-flow-row-dense grid-cols-3 gap-3">
-        <div>
+        <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/programacion/viajes"
             cardTitle="Viajes"
@@ -40,13 +40,13 @@ function PanelControl() {
             </div>
           </ControlPaneCard>
         </div>
-        <div>
+        <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/venta-pasajes"
             cardDescription="Último código de boleto de viaje vendido."
             cardTitle="Boletos"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex  items-center justify-between">
               <div className="flex flex-col gap-3 pt-7">
                 <Typography.Text type="secondary">Factura</Typography.Text>
                 <div className="flex items-center gap-1 text-2xl">
@@ -77,11 +77,32 @@ function PanelControl() {
           >
             <div style={{ width: 170, paddingTop: 28 }}>
               <Typography.Text strong>Horario 20:00</Typography.Text>
-              <Progress percent={100} size="small" />
+              <Progress
+                strokeColor={{
+                  "0%": "#4096FF",
+                  "100%": "#87d068",
+                }}
+                percent={100}
+                size="small"
+              />
               <Typography.Text>Horario 21:00</Typography.Text>
-              <Progress percent={70} size="small" />
+              <Progress
+                percent={70}
+                strokeColor={{
+                  "0%": "#4096FF",
+                  "100%": "#87d068",
+                }}
+                size="small"
+              />
               <Typography.Text>Horario 21:30</Typography.Text>
-              <Progress percent={30} size="small" />
+              <Progress
+                strokeColor={{
+                  "0%": "#4096FF",
+                  "100%": "#87d068",
+                }}
+                percent={30}
+                size="small"
+              />
             </div>
             <ControlPanePieChart />
           </ControlPaneCard>
