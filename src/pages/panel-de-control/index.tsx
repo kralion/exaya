@@ -10,13 +10,13 @@ const totalViajesProgramados = 4;
 const viajesActivos = 2;
 function PanelControl() {
   return (
-    <div className="flex flex-col gap-7 ">
+    <div className="flex flex-col gap-5">
       <div className="flex justify-between">
         <Title order={4}>Panel de Control</Title>
         <AIAssistantInput />
       </div>
 
-      <div className="grid grid-flow-row-dense grid-cols-3 gap-3">
+      <div className="grid grid-flow-row grid-cols-3 gap-7">
         <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/programacion/viajes"
@@ -40,7 +40,7 @@ function PanelControl() {
             </div>
           </ControlPaneCard>
         </div>
-        <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
+        <div className=" duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/venta-pasajes"
             cardDescription="Último código de boleto de viaje vendido."
@@ -75,7 +75,7 @@ function PanelControl() {
             cardDescription="Porcentaje de ocupación de asientos para cada viaje."
             cardTitle="Asientos Ocupados"
           >
-            <div style={{ width: 170, paddingTop: 28 }}>
+            <div style={{ width: 170, paddingTop: 17 }}>
               <Typography.Text strong>Horario 20:00</Typography.Text>
               <Progress
                 strokeColor={{

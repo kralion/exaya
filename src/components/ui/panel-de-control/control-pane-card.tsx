@@ -16,17 +16,11 @@ export const ControlPaneCard = ({
   cardDescription,
   href,
 }: Card) => {
-  const [loading, setLoading] = React.useState(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 500);
-
   return (
     <a href={href}>
       <Card
-        className="cursor-pointer backdrop-blur-3xl   hover:shadow-md dark:bg-white/20 "
+        className="cursor-pointer bg-cyan-100/20  backdrop-blur-3xl  hover:shadow-md  "
         type="inner"
-        loading={loading}
         style={{ width: 300 }}
         bordered={false}
         title={
@@ -36,10 +30,8 @@ export const ControlPaneCard = ({
         }
         extra={<ExpandAltOutlined title="Ver más" />}
       >
-        <Skeleton loading={loading} avatar active>
-          <Meta description={cardDescription} />
-          {children}
-        </Skeleton>
+        <Meta description={cardDescription} />
+        {children}
       </Card>
     </a>
   );

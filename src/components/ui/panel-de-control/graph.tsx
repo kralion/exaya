@@ -42,9 +42,12 @@ const data = [
 function ControlPaneGraph() {
   return (
     <AreaChart
-      width={617}
+      width={640}
       height={300}
-      className=" rounded-xl shadow-lg dark:bg-white/20 "
+      style={{
+        backgroundColor: "rgba(245, 254, 255,1)",
+      }}
+      className="rounded-xl shadow-md "
       data={data}
     >
       <Legend align="right" iconType="circle" verticalAlign="top" height={10} />

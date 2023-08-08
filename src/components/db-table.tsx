@@ -19,7 +19,7 @@ function DBTable() {
       });
   }, []);
   console.log("Hello World");
-  return <div>Tickets</div>;
+  return <div></div>;
 }
 
 export default DBTable;

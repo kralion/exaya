@@ -78,9 +78,9 @@ export default function Index() {
   ): MenuItem | undefined => {
     for (let i = 0; i < menuItems.length; i++) {
       const menuItem = menuItems[i];
-      if (menuItem.key === key) {
+      if (menuItem?.key === key) {
         return menuItem;
-      } else if (menuItem.children) {
+      } else if (menuItem?.children) {
         const foundItem = findMenuItemByKey(menuItem.children, key);
         if (foundItem) {
           return foundItem;
