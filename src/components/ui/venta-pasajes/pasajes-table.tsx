@@ -1,7 +1,11 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
-import { Table, Tag, Space, Button, Drawer, Avatar, List } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Table, Tag, Space, Button, Drawer, Avatar, List, Tooltip } from "antd";
+import Icon, {
+  EyeOutlined,
+  SafetyCertificateFilled,
+  SafetyCertificateOutlined,
+} from "@ant-design/icons";
 import { dataSource } from "@/data/viajes-diarios";
 
 import React, { useState } from "react";
@@ -65,12 +69,12 @@ const ManifiestoDrawer: React.FC = () => {
   return (
     <>
       <Button
+        title="Ver Manifiesto"
         onClick={showDrawer}
-        className="flex items-center"
+        className="flex items-center justify-center"
         icon={<EyeOutlined />}
-      >
-        Ver Manifiesto
-      </Button>
+      />
+
       <Drawer
         title={
           <div className="flex items-center justify-between ">
@@ -146,6 +150,12 @@ const columns: ColumnsType<Pasajes> = [
     title: "Bus",
     dataIndex: "placaBus",
     key: "placaBus",
+    width: 70,
+    render: (placaBus: string) => (
+      <Tooltip key={placaBus} title={placaBus.toUpperCase()}>
+        <Icon component={() => <SafetyCertificateOutlined />} />
+      </Tooltip>
+    ),
   },
   {
     title: "Hora Salida",
@@ -153,15 +163,16 @@ const columns: ColumnsType<Pasajes> = [
     key: "horaSalida",
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 12 ? (
-        <Tag color="green">{horaSalida} am</Tag>
+        <Tag color="cyan">{horaSalida} am</Tag>
       ) : (
-        <Tag color="red">{horaSalida} pm</Tag>
+        <Tag color="black">{horaSalida} pm</Tag>
       ),
   },
   {
     title: "Precios",
     key: "precios",
     dataIndex: "precios",
+
     render: (_, { precios }) => (
       <>
         {precios.map((precio) => {
@@ -170,7 +181,7 @@ const columns: ColumnsType<Pasajes> = [
             color = "volcano";
           }
           return (
-            <Tag color={color} key={precio}>
+            <Tag className="m-1" color={color} key={precio}>
               {precio}
             </Tag>
           );
@@ -182,7 +193,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Acciones",
     key: "acciones",
     render: () => (
-      <Space size="middle">
+      <Space size="small">
         <RegistrarPasajeModal />
         <ManifiestoDrawer />
       </Space>
@@ -195,6 +206,7 @@ const pasajesDiarios: Pasajes[] = dataSource;
 export function PasajesTable() {
   return (
     <Table
+      pagination={false}
       className="rounded-md shadow-md"
       columns={columns}
       dataSource={pasajesDiarios}

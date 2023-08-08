@@ -4,6 +4,7 @@ import type { DatePickerProps } from "antd/es/date-picker";
 
 import { PasajesTable } from "@/components/ui/venta-pasajes/";
 import { Title } from "@mantine/core";
+import { AvailableCalendar } from "@/components/ui/encomiendas/calendar";
 
 const onChange = (
   value: DatePickerProps["value"],
@@ -18,18 +19,12 @@ const onOk = (value: DatePickerProps["value"]) => {
 
 function Pasajes() {
   return (
-    <div className="flex flex-col gap-7 rounded-lg ">
-      <div className="flex items-center justify-between">
-        <Title order={4}>Venta de Pasajes</Title>
-        <DatePicker
-          className="w-48 cursor-pointer self-end drop-shadow-sm"
-          onChange={onChange}
-          onOk={onOk}
-          placeholder="Búsqueda por fecha"
-        />
+    <div className="flex gap-7 ">
+      <div className="space-y-7">
+        <Title order={4}>Viajes Disponibles</Title>
+        <PasajesTable />
       </div>
-
-      <PasajesTable />
+      <AvailableCalendar />
     </div>
   );
 }
