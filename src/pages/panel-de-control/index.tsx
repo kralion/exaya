@@ -2,12 +2,15 @@ import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-c
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import { Title } from "@mantine/core";
 import { Progress, Statistic, Typography } from "antd";
-import { FieldTimeOutlined, ContainerOutlined } from "@ant-design/icons";
+import { FieldTimeOutlined } from "@ant-design/icons";
 import { AIAssistantInput } from "@/components/ui/panel-de-control/ai-assistant-input";
 import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
+import BoletaIcon from "@/assets/icons/boleta.png";
+import FacturaIcon from "@/assets/icons/factura.png";
+import Image from "next/image";
 
-const totalViajesProgramados = 4;
-const viajesActivos = 2;
+const totalViajesProgramados = 12;
+const viajesActivos = 9;
 function PanelControl() {
   return (
     <div className="flex flex-col gap-5">
@@ -16,26 +19,26 @@ function PanelControl() {
         <AIAssistantInput />
       </div>
 
-      <div className="grid grid-flow-row grid-cols-3 gap-7">
+      <div className="grid grid-flow-row grid-cols-3 gap-7 ">
         <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/programacion/viajes"
             cardTitle="Viajes"
-            cardDescription="Información sobre la cantidad de viajes programados para hoy"
+            cardDescription="Información sobre la cantidad de viajes programados para hoy, los viajes activos que se registraron como disponibles"
           >
-            <div className="flex justify-between pt-7">
+            <div className="mt-7 flex justify-between">
               <Statistic
+                className="drop-shadow-lg"
                 title="Programados"
                 value={totalViajesProgramados}
-                prefix={
-                  <FieldTimeOutlined className="mr-3 flex items-stretch" />
-                }
+                prefix={<FieldTimeOutlined style={{ color: "red" }} />}
               />
 
               <Statistic
+                className="drop-shadow-lg"
                 title="Activos"
                 value={viajesActivos}
-                suffix={`/ ${totalViajesProgramados}`}
+                suffix={`/${totalViajesProgramados}`}
               />
             </div>
           </ControlPaneCard>
@@ -43,36 +46,48 @@ function PanelControl() {
         <div className=" duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/venta-pasajes"
-            cardDescription="Último código de boleto de viaje vendido."
+            cardDescription="Último código de boleto de viaje vendido y última factura generada registrados en el sistema."
             cardTitle="Boletos"
           >
-            <div className="flex  items-center justify-between">
-              <div className="flex flex-col gap-3 pt-7">
+            <div className=" flex items-center justify-between">
+              <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Factura</Typography.Text>
-                <div className="flex items-center gap-1 text-2xl">
-                  <ContainerOutlined />
-                  <Typography.Text strong className="text-xl">
-                    F003125
+                <span className="flex items-center gap-1 text-2xl">
+                  <Image
+                    src={FacturaIcon}
+                    className="drop-shadow-lg"
+                    width={17}
+                    height={17}
+                    alt="icon"
+                  />
+                  <Typography.Text strong className="text-xl drop-shadow-lg">
+                    F0042HD
                   </Typography.Text>
-                </div>
-              </div>
+                </span>
+              </p>
 
-              <div className="flex flex-col gap-3 pt-7">
+              <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Boleta</Typography.Text>
-                <div className="flex items-center gap-1 text-2xl">
-                  <ContainerOutlined />
-                  <Typography.Text strong className="text-xl">
-                    B003548
+                <p className="flex items-center gap-1 text-2xl">
+                  <Image
+                    src={BoletaIcon}
+                    className="drop-shadow-lg"
+                    width={17}
+                    height={17}
+                    alt="icon"
+                  />
+                  <Typography.Text strong className="text-xl drop-shadow-lg">
+                    B023DF
                   </Typography.Text>
-                </div>
-              </div>
+                </p>
+              </p>
             </div>
           </ControlPaneCard>
         </div>
         <div className="row-span-2">
           <ControlPaneCard
             href="/venta-pasajes"
-            cardDescription="Porcentaje de ocupación de asientos para cada viaje."
+            cardDescription="Porcentaje de ocupación de asientos para cada viaje, y la preferencia de los pasajeros por los asientos delanteros, traseros o del medio   "
             cardTitle="Asientos Ocupados"
           >
             <div style={{ width: 170, paddingTop: 17 }}>

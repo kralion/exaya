@@ -42,7 +42,7 @@ const data = [
 function ControlPaneGraph() {
   return (
     <AreaChart
-      width={640}
+      width={730}
       height={300}
       style={{
         backgroundColor: "rgba(245, 254, 255,1)",

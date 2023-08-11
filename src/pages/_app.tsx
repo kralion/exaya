@@ -10,6 +10,7 @@ import "dayjs/locale/es";
 import { ConfigProvider } from "antd";
 
 dayjs.locale("es");
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
@@ -18,7 +19,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <Head>
         <title>Exaya</title>
-        <meta name="description" content="This is my app's description." />
+        <meta name="Exaya" content="Transportations management service" />
         <link
           rel="icon"
           href="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"

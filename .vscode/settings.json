@@ -1,115 +1,43 @@
 {
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.bracketPairColorization.enabled": true,
     "editor.cursorBlinking": "expand",
-"editor.tokenColorCustomizations": {
-    "[Nord]": {
-      "textMateRules": [
-        {
-          "scope": "emphasis",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": "strong",
-          "settings": {
-            "fontStyle": "bold"
-          }
-        },
-        {
-          "scope": "entity.other.attribute-name",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": "markup.underline",
-          "settings": {
-            "fontStyle": "underline"
-          }
-        },
-        {
-          "scope": "markup.bold",
-          "settings": {
-            "fontStyle": "bold"
-          }
-        },
-        {
-          "scope": "markup.heading",
-          "settings": {
-            "fontStyle": "bold"
-          }
-        },
-        {
-          "scope": "markup.italic",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": "storage.type",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": "storage.modifier",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "name": "String interpolation",
-          "scope": [
-            "punctuation.definition.template-expression.begin",
-            "punctuation.definition.template-expression.end",
-            "punctuation.section.embedded"
-          ],
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": "keyword.control",
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": [
-            "keyword.operator.new",
-            "keyword.operator.expression",
-            "keyword.operator.cast",
-            "keyword.operator.sizeof",
-            "keyword.operator.logical.python"
-          ],
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "name": "this.self",
-          "scope": "variable.language",
-          "settings": {
-            "fontStyle": "italic",
-            "foreground": "#ff5874"
-          }
-        },
-        {
-          "name": "@Decorator",
-          "scope": ["meta.decorator punctuation.decorator"],
-          "settings": {
-            "fontStyle": "italic"
-          }
-        },
-        {
-          "scope": ["punctuation.definition.comment", "comment"],
-          "settings": {
-            // "foreground": "#ff5874",
-            "fontStyle": "italic"
-          }
-        }
-      ]
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.fontFamily": "Monolisa",
+    "editor.fontSize": 18,
+    "editor.formatOnPaste": true,
+    "editor.guides.indentation": false,
+    "editor.lineNumbers": "off",
+    "editor.minimap.enabled": false,
+    "editor.quickSuggestions": {
+      "strings": true
     },
-},
-"breadcrumbs.filePath": "off"
+    "editor.scrollbar.vertical": "auto",
+    "editor.suggest.insertMode": "replace"
+  },
+  "breadcrumbs.enabled": false,
+  "breadcrumbs.filePath": "off",
+  "editor.accessibilitySupport": "off",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.glyphMargin": false,
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.overviewRulerBorder": false,
+  "editor.scrollbar.vertical": "hidden",
+  "editor.tabSize": 2,
+  "files.autoSave": "onFocusChange",
+  "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+  "terminal.integrated.fontSize": 14,
+  "workbench.colorTheme": "Bearded Theme Arc Eggplant",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.sideBar.location": "right",
+  "workbench.statusBar.visible": false,
+  "workbench.view.alwaysShowHeaderActions": false,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
+  "editor.fontSize": 18
 }

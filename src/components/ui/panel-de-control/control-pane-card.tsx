@@ -19,13 +19,12 @@ export const ControlPaneCard = ({
   return (
     <a href={href}>
       <Card
-        className="cursor-pointer bg-cyan-100/20  backdrop-blur-3xl  hover:shadow-md  "
+        className="cursor-pointe min-h-[250px]  bg-cyan-100/20 backdrop-blur-3xl hover:shadow-md  "
         type="inner"
-        style={{ width: 300 }}
         bordered={false}
         title={
           <Title order={3} className="text-zinc-700">
-            {cardTitle}{" "}
+            {cardTitle}
           </Title>
         }
         extra={<ExpandAltOutlined title="Ver más" />}
