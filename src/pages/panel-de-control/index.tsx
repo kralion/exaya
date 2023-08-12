@@ -26,9 +26,9 @@ function PanelControl() {
             cardTitle="Viajes"
             cardDescription="Información sobre la cantidad de viajes programados para hoy, los viajes activos que se registraron como disponibles"
           >
-            <div className="mt-7 flex justify-between">
+            <div className="mt-7 flex justify-between font-semibold">
               <Statistic
-                className="drop-shadow-lg"
+                className="drop-shadow-lg "
                 title="Programados"
                 value={totalViajesProgramados}
                 prefix={<FieldTimeOutlined style={{ color: "red" }} />}

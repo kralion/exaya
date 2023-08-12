@@ -1,5 +1,4 @@
 import React from "react";
-import { DatePicker } from "antd";
 import type { DatePickerProps } from "antd/es/date-picker";
 
 import { PasajesTable } from "@/components/ui/venta-pasajes/";

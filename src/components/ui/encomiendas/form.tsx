@@ -11,6 +11,7 @@ import {
 import React from "react";
 import { PhoneOutlined } from "@ant-design/icons";
 import type { Encomienda } from "@/interfaces/interfaces";
+import style from "./frame.module.css";
 
 const { Option } = Select;
 
@@ -197,9 +198,9 @@ export function EncomiendasForm() {
           maxLength={100}
         />
       </Form.Item>
-      <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+      <button className={style.button} style={{ width: "100%" }}>
         Registrar
-      </Button>
+      </button>
       <Button
         style={{ width: "100%" }}
         danger

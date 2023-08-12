@@ -1,9 +1,9 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
 import { Table, Tag, Space, Button, Drawer, Avatar, List, Tooltip } from "antd";
+
 import Icon, {
   EyeOutlined,
-  SafetyCertificateFilled,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import { dataSource } from "@/data/viajes-diarios";
