@@ -1,5 +1,12 @@
 import React from "react";
-import { AreaChart, XAxis, Area, Tooltip, Legend } from "recharts";
+import {
+  AreaChart,
+  XAxis,
+  Area,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 const data = [
   {
@@ -41,51 +48,56 @@ const data = [
 
 function ControlPaneGraph() {
   return (
-    <AreaChart
-      width={730}
-      height={300}
-      style={{
-        backgroundColor: "rgba(245, 254, 255,1)",
-      }}
-      className="rounded-xl shadow-md "
-      data={data}
-    >
-      <Legend align="right" iconType="circle" verticalAlign="top" height={10} />
-      <defs>
-        <linearGradient id="colorencomiendas" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#82CA9D" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#82CA9D" stopOpacity={0} />
-        </linearGradient>
-        <linearGradient id="colorboletos" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#4096FF" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#4096FF" stopOpacity={0} />
-        </linearGradient>
-      </defs>
-      <XAxis dataKey="name" />
-      <Tooltip
-        cursor={{ strokeDasharray: "3 3" }}
-        contentStyle={{
-          backgroundColor: "rgba(0,0,0,0.8)",
-          color: "white",
-          borderRadius: "10px",
-          border: "none",
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart
+        style={{
+          backgroundColor: "rgba(245, 254, 255,1)",
         }}
-      />
-      <Area
-        type="monotone"
-        dataKey="encomiendas"
-        stroke="#82CA9D"
-        fillOpacity={1}
-        fill="url(#colorencomiendas)"
-      />
-      <Area
-        type="monotone"
-        dataKey="boletos"
-        stroke="#4096FF"
-        fillOpacity={1}
-        fill="url(#colorboletos)"
-      />
-    </AreaChart>
+        className="rounded-xl shadow-md "
+        data={data}
+      >
+        <Legend
+          align="right"
+          iconType="circle"
+          verticalAlign="top"
+          height={10}
+        />
+        <defs>
+          <linearGradient id="colorencomiendas" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#a5e65a" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#a5e65a" stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="colorboletos" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#4096FF" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#4096FF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <XAxis dataKey="name" />
+        <Tooltip
+          cursor={{ strokeDasharray: "3 3" }}
+          contentStyle={{
+            backgroundColor: "rgba(0,0,0,0.8)",
+            color: "white",
+            borderRadius: "10px",
+            border: "none",
+          }}
+        />
+        <Area
+          type="monotone"
+          dataKey="encomiendas"
+          stroke="#a5e65a"
+          fillOpacity={1}
+          fill="url(#colorencomiendas)"
+        />
+        <Area
+          type="monotone"
+          dataKey="boletos"
+          stroke="#4096FF"
+          fillOpacity={1}
+          fill="url(#colorboletos)"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
 

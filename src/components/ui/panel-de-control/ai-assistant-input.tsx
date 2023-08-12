@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { AutoComplete, Button, Input } from "antd";
+import { AutoComplete, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
-import { SendOutlined, AudioOutlined } from "@ant-design/icons";
-import CustomIcon from "./custom-icon";
+import GlitterIcon from "@/assets/icons/glitter.svg";
+import style from "./frame.module.css";
+import Image from "next/image";
 const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -74,22 +75,12 @@ export const AIAssistantInput = () => {
           placeholder="Que quieres hacer !"
         />
       </AutoComplete>
-      <Button
-        title="Exaya AI"
-        onClick={() => {
-          alert("Exaya AI");
-        }}
-        type="primary"
-        className="flex  animate-pulse items-center justify-center  backdrop-blur-2xl"
-        style={{
-          height: 40,
-          width: 40,
-          borderRadius: 0,
-          borderTopRightRadius: 24,
-          borderBottomRightRadius: 24,
-        }}
-        icon={<CustomIcon />}
-      />
+
+      <button className={style.button}>
+        <span className="font-semibold">
+          <Image src={GlitterIcon} width={20} height={20} alt="icon" />
+        </span>
+      </button>
     </div>
   );
 };

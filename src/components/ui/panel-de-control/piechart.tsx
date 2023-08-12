@@ -66,7 +66,7 @@ function ControlPanePieChart() {
         cx="50%"
         cy="50%"
         outerRadius={50}
-        fill="#4096FF"
+        fill="#a5e65a"
       />
       <Pie
         data={data02}
@@ -76,7 +76,7 @@ function ControlPanePieChart() {
         cy="50%"
         innerRadius={60}
         outerRadius={80}
-        fill="#82ca9d"
+        fill="#4096FF"
         label
       />
     </PieChart>
