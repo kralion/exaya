@@ -18,9 +18,9 @@ const onOk = (value: DatePickerProps["value"]) => {
 
 function Pasajes() {
   return (
-    <div className="flex gap-7 space-y-7 ">
-      <Title order={4}>Viajes Disponibles</Title>
+    <div className="flex justify-between ">
       <section className="space-y-7">
+        <Title order={4}>Viajes Disponibles</Title>
         <PasajesTable />
       </section>
       <AvailableCalendar />

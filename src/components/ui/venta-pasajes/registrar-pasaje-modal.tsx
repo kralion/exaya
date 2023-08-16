@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import style from "./frame.module.css";
 
 export const RegistrarPasajeModal: React.FC = () => {
@@ -18,9 +18,7 @@ export const RegistrarPasajeModal: React.FC = () => {
         onCancel={() => setOpen(false)}
         width={1000}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <span>some contents...</span>
       </Modal>
     </div>
   );

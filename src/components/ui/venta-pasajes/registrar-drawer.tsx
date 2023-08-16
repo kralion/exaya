@@ -17,9 +17,7 @@ const App: React.FC = () => {
         onCancel={() => setOpen(false)}
         width={1000}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <span>some contents...</span>
       </Modal>
     </>
   );

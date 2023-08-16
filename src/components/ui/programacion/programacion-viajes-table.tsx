@@ -161,7 +161,7 @@ export function ProgramacionTable({ originData }: { originData: any }) {
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return editable ? (
-          <span className="flex items-baseline gap-5">
+          <p className="flex items-baseline gap-5">
             <Typography.Link
               onClick={() => save(record.key)}
               style={{ marginRight: 8 }}
@@ -182,7 +182,7 @@ export function ProgramacionTable({ originData }: { originData: any }) {
             >
               <a className="text-cyan-500">Cancelar</a>
             </Popconfirm>
-          </span>
+          </p>
         ) : (
           <div className="flex items-baseline justify-center gap-5">
             <Typography.Link

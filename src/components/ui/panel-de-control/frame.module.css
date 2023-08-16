@@ -5,7 +5,12 @@
   border-top-right-radius: 7px;
   border-bottom-right-radius: 7px;
   border: none;
-  background: #1875ff;
+  background: rgb(24, 117, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(24, 117, 255, 1) 0%,
+    rgb(26, 36, 179) 100%
+  );
   color: white;
   font-family: inherit;
   text-align: center;
@@ -23,7 +28,7 @@
 }
 
 .button span:after {
-  content: "Hazlo";
+  content: "Enviar";
   position: absolute;
   opacity: 0;
   top: 0;

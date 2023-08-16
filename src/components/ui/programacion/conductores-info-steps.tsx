@@ -79,9 +79,7 @@ export function ConductoresInformacion() {
         onCancel={() => setOpen(status)}
         width={1000}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <span>some contents...</span>
       </Modal>
     );
   }

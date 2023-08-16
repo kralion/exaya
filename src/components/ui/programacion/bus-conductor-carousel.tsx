@@ -36,16 +36,15 @@ export const BusConductorCarousel: React.FC = () => (
     autoplaySpeed={1500}
   >
     {carouselCoves.map((cover, index) => (
-      <div key={index}>
-        <Image
-          style={contentStyle}
-          className="rounded-lg object-cover"
-          src={cover.src}
-          alt="Picture of the author"
-          width={600}
-          height={300}
-        />
-      </div>
+      <Image
+        key={index}
+        style={contentStyle}
+        className="object-fit rounded-lg"
+        src={cover.src}
+        alt="Picture of the author"
+        width={600}
+        height={300}
+      />
     ))}
   </Carousel>
 );

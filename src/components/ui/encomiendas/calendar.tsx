@@ -20,14 +20,13 @@ export function AvailableCalendar() {
   return (
     <div className="space-y-7">
       <Title order={4}>Checker de Disponibilidad </Title>
-      <div className="hidden lg:block" style={wrapperStyle}>
-        <Calendar
-          className="duration-300  hover:scale-105 hover:shadow-lg"
-          fullscreen={false}
-          onSelect={(value: Dayjs) => alert(value.format("YYYY-MM-DD"))}
-          onPanelChange={onPanelChange}
-        />
-      </div>
+      <Calendar
+        className="hidden duration-300 hover:scale-105  hover:shadow-lg lg:block"
+        style={wrapperStyle}
+        fullscreen={false}
+        onSelect={(value: Dayjs) => alert(value.format("YYYY-MM-DD"))}
+        onPanelChange={onPanelChange}
+      />
     </div>
   );
 }

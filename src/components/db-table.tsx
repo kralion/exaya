@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { Ticket } from "@/interfaces";
+import Loader from "./Loader";
 
 export default function DBTable() {
   const { data, error, isLoading } = useQuery<Ticket[], Error>(
@@ -12,11 +13,11 @@ export default function DBTable() {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
-    return <div>Error: </div>;
+    return <div>Error: {error.message} </div>;
   }
 
   return (

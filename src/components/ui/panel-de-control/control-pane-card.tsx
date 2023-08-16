@@ -1,6 +1,6 @@
 import React from "react";
 import { ExpandAltOutlined } from "@ant-design/icons";
-import { Card, Skeleton } from "antd";
+import { Card } from "antd";
 import { Title } from "@mantine/core";
 type Card = {
   cardTitle: string;
