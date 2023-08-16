@@ -191,6 +191,8 @@ export default function Index() {
             background: "white",
           }}
         >
+          {/* //! Probablemente sea aqui el error de Hydration, por el mal manejo de las rutas, deberiamos usar Router de next
+           */}
           {activeWindow === "Panel de Control" && <PanelControl />}
           {activeWindow === "Pasajes" && <VentaPasajes />}
           {activeWindow === "Contable" && <Contable />}
