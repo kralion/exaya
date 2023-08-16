@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../assets/logo.png";
 
 function Login() {
   return (
@@ -9,13 +8,17 @@ function Login() {
         data-aos="slide-right"
         data-aos-delay="200"
         data-aos-duration="1000"
+        className="m-3 flex items-center"
       >
-        <div className="m-3 flex items-center">
-          <Image width={40} height={40} src={logo} alt="logo" />
-          <h2 className="mt-1 text-center font-Mansalva font-bold">
-            Expreso <br /> Ayacucho
-          </h2>
-        </div>
+        <Image
+          width={40}
+          height={40}
+          src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
+          alt="logo"
+        />
+        <h2 className="mt-1 text-center font-Mansalva font-bold">
+          Expreso <br /> Ayacucho
+        </h2>
       </header>
       <div
         data-aos="flip-up"

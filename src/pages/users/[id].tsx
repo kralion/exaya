@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import Login from "../login";
+import Login from "@/components/Login";
 import { getServerAuthSession } from "@/server/auth";
 import type { GetServerSideProps } from "next";
 
@@ -17,5 +17,5 @@ const User = () => {
     return <Login />;
   }
 
-  return <p>Welcome {session.user?.name}!</p>;
+  return <div>Welcome {session.user?.name}!</div>;
 };

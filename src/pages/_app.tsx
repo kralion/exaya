@@ -8,6 +8,9 @@ import esEs from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import { ConfigProvider } from "antd";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 dayjs.locale("es");
 
@@ -25,9 +28,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
           href="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
         />
       </Head>
-      <ConfigProvider locale={esEs}>
-        <Component {...pageProps} />
-      </ConfigProvider>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider locale={esEs}>
+          <Component {...pageProps} />
+        </ConfigProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 };

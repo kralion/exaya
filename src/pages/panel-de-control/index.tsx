@@ -68,7 +68,7 @@ function PanelControl() {
 
               <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Boleta</Typography.Text>
-                <p className="flex items-center gap-1 text-2xl">
+                <span className="flex items-center gap-1 text-2xl">
                   <Image
                     src={BoletaIcon}
                     className="drop-shadow-lg"
@@ -79,7 +79,7 @@ function PanelControl() {
                   <Typography.Text strong className="text-xl drop-shadow-lg">
                     B023DF
                   </Typography.Text>
-                </p>
+                </span>
               </p>
             </div>
           </ControlPaneCard>
@@ -122,9 +122,9 @@ function PanelControl() {
             <ControlPanePieChart />
           </ControlPaneCard>
         </div>
-        <div className="col-span-2 ">
+        <section className="col-span-2 ">
           <ControlPaneGraph />
-        </div>
+        </section>
       </div>
     </div>
   );

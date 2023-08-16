@@ -12,10 +12,10 @@ function ProgramacionViajes() {
   return (
     <div className="flex flex-col gap-7">
       <Title order={4}>Programacion de Viajes</Title>
-      <div className="flex flex-col ">
+      <section className="flex flex-col ">
         <ViajesForm handleAddViaje={handleAddViaje} />
         <ProgramacionTable originData={originData} />
-      </div>
+      </section>
     </div>
   );
 }

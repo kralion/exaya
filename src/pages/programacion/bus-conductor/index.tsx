@@ -9,10 +9,10 @@ function ProgramacionBusConductor() {
   return (
     <div className="space-y-7">
       <Title order={4}>Programacion Bus Conductor</Title>
-      <div className="flex flex-col gap-7">
+      <section className="flex flex-col gap-7">
         <BusConductorCarousel />
         <ConductoresInformacion />
-      </div>
+      </section>
     </div>
   );
 }

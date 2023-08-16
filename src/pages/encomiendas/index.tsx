@@ -6,13 +6,13 @@ import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 function Encomiendas() {
   return (
     <div className="flex flex-col gap-7">
-      <div className="flex justify-between">
+      <section className="flex justify-between">
         <div className="space-y-7">
           <Title order={4}>Registro de Encomiendas</Title>
           <EncomiendasForm />
         </div>
         <AvailableCalendar />
-      </div>
+      </section>
       <EncomiendasTable />
     </div>
   );

@@ -1,25 +1,32 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { supabase } from "api/supabase";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { Ticket } from "@/interfaces";
 
-function DBTable() {
-  const [tickets, setTickets] = useState<any>([]);
-  const getData = async () => {
-    const { data, error } = await supabase.from("tickets").select("*");
-    if (error) console.log("error", error);
-    else setTickets(data);
-  };
-  useEffect(() => {
-    getData()
-      .then(() => {
-        console.log("tickets", tickets);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  }, []);
-  console.log("Hello World");
-  return <div></div>;
+export default function DBTable() {
+  const { data, error, isLoading } = useQuery<Ticket[], Error>(
+    ["/api/tickets"],
+    async () => {
+      const response = await fetch("/api/tickets");
+      return response.json();
+    }
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: </div>;
+  }
+
+  return (
+    <div>
+      {data.map((ticket: Ticket) => (
+        <div key={ticket.id}>
+          <h3>{ticket.price}</h3>
+          <p>{ticket.seat}</p>
+        </div>
+      ))}
+    </div>
+  );
 }
-
-export default DBTable;

@@ -18,11 +18,11 @@ const onOk = (value: DatePickerProps["value"]) => {
 
 function Pasajes() {
   return (
-    <div className="flex gap-7 ">
-      <div className="space-y-7">
-        <Title order={4}>Viajes Disponibles</Title>
+    <div className="flex gap-7 space-y-7 ">
+      <Title order={4}>Viajes Disponibles</Title>
+      <section className="space-y-7">
         <PasajesTable />
-      </div>
+      </section>
       <AvailableCalendar />
     </div>
   );

@@ -134,11 +134,9 @@ export default function Index() {
               height={50}
               alt="logo"
             />
-            <div className="w-16">
-              <p className="text-left font-Kanit font-semibold leading-none ">
-                Expreso Ayacucho
-              </p>
-            </div>
+            <p className="w-16 text-left font-Kanit font-semibold leading-none ">
+              Expreso Ayacucho
+            </p>
           </div>
         ) : (
           <Image
