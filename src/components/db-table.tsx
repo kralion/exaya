@@ -22,12 +22,13 @@ export default function DBTable() {
 
   return (
     <div>
-      {data.map((ticket: Ticket) => (
+      {/* {data.map((ticket: Ticket) => (
         <div key={ticket.id}>
           <h3>{ticket.price}</h3>
           <p>{ticket.seat}</p>
         </div>
-      ))}
+      ))} */}
+      Fetched
     </div>
   );
 }
