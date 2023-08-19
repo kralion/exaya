@@ -15,25 +15,14 @@
   cursor: pointer;
 }
 
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.4s;
-}
-
-.button:hover span {
-  padding-right: 3.55em;
-}
-
-.button:hover span:after {
-  opacity: 4;
-  right: 0;
-}
-
 .button:active {
   box-shadow: 0 5px #666;
   transition-duration: 100;
   transform: translateY(3px);
   background-color: #096dd9;
+}
+
+.createButton {
+  composes: button;
+  padding-inline: 20px;
 }
