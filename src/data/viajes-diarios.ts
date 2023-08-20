@@ -3,7 +3,7 @@ export const dataSource = [
     key: "1",
     origen: "Ayacucho",
     destino: "Huancayo",
-    placaBus: "ABC-148",
+    placaBus: "ABC-1",
     horaSalida: "20:15",
     precios: [30, 35, 40],
   },

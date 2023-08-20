@@ -1,10 +1,11 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
-import { Table, Tag, Space, Button, Drawer, Avatar, List, Tooltip } from "antd";
+import { Table, Tag, Button, Drawer, Avatar, List, Tooltip } from "antd";
 
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
+  PicRightOutlined,
 } from "@ant-design/icons";
 import { dataSource } from "@/data/viajes-diarios";
 
@@ -14,45 +15,126 @@ import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 
 interface ManifiestoDataType {
-  key: React.Key;
-  nombres: string;
-  asiento: number;
   dni: number extends ZodNumberCheck ? number : string;
+  nombres: string;
+  apellidos: string;
+  asiento: number;
+  precio: number;
 }
 
 const manifiestoColumns: ColumnsType<ManifiestoDataType> = [
   {
-    title: "Nombres (según DNI o Pasaporte)",
+    title: "Nombres ",
     dataIndex: "nombres",
     key: "nombres",
     responsive: ["lg"],
     render: (text) => <a>{text}</a>,
   },
   {
-    title: "Asiento N°",
+    title: "Apellidos",
+    dataIndex: "apellidos",
+    key: "apellidos",
+    responsive: ["lg"],
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: "N° Asiento ",
     dataIndex: "asiento",
     key: "asiento",
     responsive: ["md"],
   },
   {
-    title: "DNI",
+    title: "Precio",
+    dataIndex: "precio",
+    key: "precio",
+    responsive: ["md"],
+    render: (precio) => (
+      <Tag>
+        {precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        })}
+      </Tag>
+    ),
+  },
+  {
+    title: "DNI / Pasaporte",
     dataIndex: "dni",
     key: "dni",
     responsive: ["md"],
   },
 ];
 
-const data: ManifiestoDataType[] = [
+const pasajeros: ManifiestoDataType[] = [
   {
-    key: "1",
-    nombres: "Hugo Fernandez Saavedra",
-    asiento: 32,
     dni: "12345678",
+    nombres: "Hugo",
+    apellidos: "Fernandez Saavedra",
+    asiento: 32,
+    precio: 40,
+  },
+  {
+    dni: "12345678",
+    nombres: "Sofía",
+    apellidos: "Montesinos Rodríguez",
+    asiento: 14,
+    precio: 40,
+  },
+  {
+    dni: "12345678",
+    nombres: "Martín",
+    apellidos: "García Alvarado",
+    asiento: 25,
+    precio: 45,
+  },
+
+  {
+    dni: "12345678",
+    nombres: "Valentina",
+    apellidos: "Huamaní Salcedo",
+    asiento: 35,
+    precio: 50,
+  },
+  {
+    dni: "12345678",
+    nombres: "Ana María",
+    apellidos: "Vargas Chávez",
+    asiento: 7,
+    precio: 45,
+  },
+  {
+    dni: "12345678",
+    nombres: "Martín",
+    apellidos: "García Alvarado",
+    asiento: 25,
+    precio: 45,
+  },
+
+  {
+    dni: "12345678",
+    nombres: "Valentina",
+    apellidos: "Huamaní Salcedo",
+    asiento: 35,
+    precio: 50,
+  },
+  {
+    dni: "12345678",
+    nombres: "Ana María",
+    apellidos: "Vargas Chávez",
+    asiento: 7,
+    precio: 45,
   },
 ];
 
 export const ManifiestoTable: React.FC = () => (
-  <Table columns={manifiestoColumns} dataSource={data} />
+  <Table
+    pagination={{
+      defaultPageSize: 5,
+      position: ["bottomRight"],
+    }}
+    columns={manifiestoColumns}
+    dataSource={pasajeros}
+  />
 );
 
 const ManifiestoDrawer: React.FC = () => {
@@ -81,9 +163,12 @@ const ManifiestoDrawer: React.FC = () => {
             <Title className="text-left" order={4}>
               Manifiesto del Viaje
             </Title>
-            <Button type="primary" color="green">
-              Imprimir
-            </Button>
+            <Button
+              title="Imprimir Manifiesto"
+              onClick={() => alert("Manifiesto Impreso")}
+              className="flex items-center justify-center"
+              icon={<PicRightOutlined />}
+            />
           </div>
         }
         placement="right"
@@ -98,29 +183,44 @@ const ManifiestoDrawer: React.FC = () => {
             dataSource={[
               {
                 id: 1,
-                name: "Rafael",
+                name: "Rafael Paredes",
+                profilePic: "https://randomuser.me/api/portraits/men/46.jpg",
+                license: "A III-C",
               },
               {
                 id: 2,
-                name: "Lorenzo",
+                name: "Lorenzo Armendari",
+                profilePic: "https://randomuser.me/api/portraits/men/26.jpg",
+                license: "B II-C",
+              },
+              {
+                id: 1,
+                name: "Julio Jaramillo",
+                profilePic: "https://randomuser.me/api/portraits/men/24.jpg",
+                license: "A II-C",
               },
             ]}
             bordered
-            renderItem={(item) => (
+            renderItem={(driver, index) => (
               <List.Item
-                key={item.id}
+                key={index}
                 actions={[
-                  <a onClick={showDrawer} key={`a-${item.id}`}>
+                  <a
+                    href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
+                    target="_blank"
+                    rel="noreferrer"
+                    key={`a-${driver.id}`}
+                  >
                     Ver Perfil
                   </a>,
                 ]}
               >
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src="https://randomuser.me/api/portraits/men/46.jpg" />
+                  avatar={<Avatar src={driver.profilePic} />}
+                  title={
+                    <a href="https://ant.design/index-cn">{driver.name}</a>
                   }
-                  title={<a href="https://ant.design/index-cn">{item.name}</a>}
-                  description="Conductor con licencia A3C"
+                  description={`Conductor con licencia ${driver.license}`}
                 />
               </List.Item>
             )}
@@ -140,11 +240,13 @@ const columns: ColumnsType<Pasajes> = [
     title: "Origen",
     dataIndex: "origen",
     key: "origen",
+    width: 120,
   },
   {
     title: "Destino",
     dataIndex: "destino",
     key: "destino",
+    width: 120,
   },
   {
     title: "Bus",
