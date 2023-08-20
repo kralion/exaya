@@ -12,7 +12,13 @@ export function EncomiendasTable() {
       <Title order={4} className="mt-7">
         Historial de Encomiendas
       </Title>
-      <Table dataSource={encomiendasRegistradas} columns={columns} />
+      <Table
+        pagination={{
+          defaultPageSize: 5,
+        }}
+        dataSource={encomiendasRegistradas}
+        columns={columns}
+      />
     </div>
   );
 }

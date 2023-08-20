@@ -17,7 +17,11 @@ export const columns = [
     title: "Precio",
     dataIndex: "precio",
     key: "precio",
-    render: (text: number) => <Tag color="green">S/. {text} .00</Tag>,
+    render: (precio: number) => (
+      <Tag color="green">
+        {precio.toLocaleString("es-PE", { style: "currency", currency: "PEN" })}
+      </Tag>
+    ),
   },
   {
     title: "Destino",

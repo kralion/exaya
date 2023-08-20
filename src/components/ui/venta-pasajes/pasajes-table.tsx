@@ -131,6 +131,8 @@ export const ManifiestoTable: React.FC = () => (
     pagination={{
       defaultPageSize: 5,
       position: ["bottomRight"],
+      pageSizeOptions: ["5", "10", "20", "50"],
+      showSizeChanger: true,
     }}
     columns={manifiestoColumns}
     dataSource={pasajeros}
