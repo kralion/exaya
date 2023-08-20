@@ -1,4 +1,10 @@
 import React from "react";
+import { PT_Sans } from "next/font/google";
+
+const pt_sans = PT_Sans({
+  weight: "400",
+  subsets: ["latin-ext"],
+});
 import {
   AreaChart,
   XAxis,
@@ -49,13 +55,7 @@ const data = [
 function ControlPaneGraph() {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart
-        style={{
-          backgroundColor: "rgba(245, 254, 255,1)",
-        }}
-        className="rounded-xl shadow-md "
-        data={data}
-      >
+      <AreaChart className="rounded-xl bg-cyan-100/10  shadow-md " data={data}>
         <Legend
           align="right"
           iconType="circle"
@@ -64,15 +64,15 @@ function ControlPaneGraph() {
         />
         <defs>
           <linearGradient id="colorencomiendas" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#a5e65a" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#a5e65a" stopOpacity={0} />
+            <stop offset="5%" stopColor="#1CFF69" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#1CFF69" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorboletos" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#4096FF" stopOpacity={0.8} />
             <stop offset="95%" stopColor="#4096FF" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name" className={pt_sans.className} />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
           contentStyle={{
@@ -85,13 +85,15 @@ function ControlPaneGraph() {
         <Area
           type="monotone"
           dataKey="encomiendas"
-          stroke="#a5e65a"
+          stroke="#00E396"
+          strokeWidth={4}
           fillOpacity={1}
           fill="url(#colorencomiendas)"
         />
         <Area
           type="monotone"
           dataKey="boletos"
+          strokeWidth={4}
           stroke="#4096FF"
           fillOpacity={1}
           fill="url(#colorboletos)"

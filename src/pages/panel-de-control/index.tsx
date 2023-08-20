@@ -24,7 +24,7 @@ function PanelControl() {
           <ControlPaneCard
             href="/programacion/viajes"
             cardTitle="Viajes"
-            cardDescription="Información sobre la cantidad de viajes programados para hoy, los viajes activos que se registraron como disponibles"
+            cardDescription="Numero de viajes programados para hoy y los viajes que figuran como disponibles en el sistema del total de registrados"
           >
             <div className="mt-7 flex justify-between font-semibold">
               <Statistic
@@ -46,10 +46,10 @@ function PanelControl() {
         <div className=" duration-200 ease-in-out hover:rotate-1 hover:scale-105">
           <ControlPaneCard
             href="/venta-pasajes"
-            cardDescription="Último código de boleto de viaje vendido y última factura generada registrados en el sistema."
+            cardDescription="Último código de boleto de viaje vendido y última factura generada registrados en el sistema, con su respectivo número de serie."
             cardTitle="Boletos"
           >
-            <div className=" flex items-center justify-between">
+            <div className=" flex items-center justify-between font-semibold">
               <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Factura</Typography.Text>
                 <span className="flex items-center gap-1 text-2xl">

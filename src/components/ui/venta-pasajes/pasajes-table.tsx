@@ -150,7 +150,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Bus",
     dataIndex: "placaBus",
     key: "placaBus",
-    width: 70,
+
     render: (placaBus: string) => (
       <Tooltip key={placaBus} title={placaBus.toUpperCase()}>
         <Icon component={() => <SafetyCertificateOutlined />} />
@@ -162,7 +162,7 @@ const columns: ColumnsType<Pasajes> = [
     dataIndex: "horaSalida",
     key: "horaSalida",
     render: (horaSalida: string) =>
-      parseInt(horaSalida) < 12 ? (
+      parseInt(horaSalida) < 18 ? (
         <Tag color="cyan">{horaSalida} am</Tag>
       ) : (
         <Tag color="black">{horaSalida} pm</Tag>
@@ -176,12 +176,10 @@ const columns: ColumnsType<Pasajes> = [
     render: (_, { precios }) => (
       <>
         {precios.map((precio) => {
-          let color = precio > 25 ? "green" : "geekblue";
-          if (precio === 20) {
-            color = "volcano";
-          }
+          let color;
+          precio > 40 ? (color = "green") : (color = "yellow");
           return (
-            <Tag className="m-1" color={color} key={precio}>
+            <Tag color={color} key={precio}>
               {precio}
             </Tag>
           );
@@ -192,11 +190,12 @@ const columns: ColumnsType<Pasajes> = [
   {
     title: "Acciones",
     key: "acciones",
+    width: 200,
     render: () => (
-      <Space size="small">
+      <div className="flex gap-7">
         <RegistrarPasajeModal />
         <ManifiestoDrawer />
-      </Space>
+      </div>
     ),
   },
 ];
@@ -207,6 +206,7 @@ export function PasajesTable() {
   return (
     <Table
       pagination={false}
+      loading={false}
       className="rounded-md shadow-md"
       columns={columns}
       dataSource={pasajesDiarios}

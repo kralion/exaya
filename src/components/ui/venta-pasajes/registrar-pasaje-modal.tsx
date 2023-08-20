@@ -5,7 +5,6 @@ import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import busPreview from "@/assets/bus-preview.png";
 import { Title } from "@mantine/core";
-import { array } from "zod";
 
 const concertOne = Concert_One({
   subsets: ["latin"],
@@ -24,18 +23,15 @@ export const RegistrarPasajeModal: React.FC = () => {
   return (
     <div>
       <button className={style.button} onClick={() => setOpen(true)}>
-        Registrar
+        <span className="px-3.5"> Registrar</span>
       </button>
       <Modal
         title="Registro de Asientos"
         centered
         open={open}
-        okButtonProps={{
-          className: style.createButton,
-        }}
-        onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
+        footer={null}
       >
         <div className="flex items-start justify-center  gap-7">
           <div className=" mt-10 grid w-1/3 grid-flow-row grid-cols-4 ">
