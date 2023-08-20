@@ -1,5 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Literata, Mansalva } from "next/font/google";
+
+const literata = Literata({
+  weight: "400",
+  subsets: ["latin-ext"],
+  preload: true,
+});
+
+const mansalva = Mansalva({
+  weight: "400",
+  subsets: ["latin-ext"],
+  preload: true,
+});
 
 function Login() {
   return (
@@ -16,7 +29,7 @@ function Login() {
           src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
           alt="logo"
         />
-        <h2 className="mt-1 text-center font-Mansalva font-bold">
+        <h2 className={`mt-1 text-center font-bold  ${mansalva.className} `}>
           Expreso <br /> Ayacucho
         </h2>
       </header>
@@ -24,7 +37,7 @@ function Login() {
         data-aos="flip-up"
         data-aos-duration="1000"
         data-aos-delay="200"
-        className="my-7 flex justify-center font-Literata "
+        className={` ${literata.className} my-7 flex justify-center `}
       >
         <div className="flex w-1/2 flex-col justify-center">
           <div className="mb-10 text-center">

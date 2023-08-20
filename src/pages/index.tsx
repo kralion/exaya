@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Layout, Menu, Typography, Avatar, Space, Button } from "antd";
 import type { MenuProps } from "antd";
 import VentaPasajes from "./venta-pasajes";
+import { Kanit } from "next/font/google";
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -21,6 +22,12 @@ import ProgramacionBusConductor from "./programacion/bus-conductor";
 import ProgramacionComprobantes from "./programacion/comprobantes";
 import ProgramacionViajes from "./programacion/viajes";
 import DBTable from "@/components/db-table";
+
+const kanit = Kanit({
+  weight: "600",
+  subsets: ["latin-ext"],
+  preload: true,
+});
 
 type MenuItem = {
   label: React.ReactNode;
@@ -134,7 +141,9 @@ export default function Index() {
               height={50}
               alt="logo"
             />
-            <p className="w-16 text-left font-Kanit font-semibold leading-none ">
+            <p
+              className={`w-16 text-left font-semibold leading-none ${kanit.className} `}
+            >
               Expreso Ayacucho
             </p>
           </div>

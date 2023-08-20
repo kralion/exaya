@@ -1,4 +1,4 @@
-.button {
+.registerButton {
   display: inline-block;
 
   border-radius: 7px;
@@ -15,25 +15,42 @@
   cursor: pointer;
 }
 
-.button span {
+.registerButton span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.4s;
 }
 
-.button:hover span {
+.registerButton:hover span {
   padding-right: 3.55em;
 }
 
-.button:hover span:after {
+.registerButton:hover span:after {
   opacity: 4;
   right: 0;
 }
 
-.button:active {
+.registerButton:active {
   box-shadow: 0 5px #666;
   transition-duration: 100;
   transform: translateY(3px);
   background-color: #096dd9;
+}
+
+.basicButton {
+  display: inline-block;
+
+  border-radius: 7px;
+
+  border: none;
+  background: #1890ff;
+  color: white;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0px 14px 56px -11px #1875ff;
+  padding: 5px;
+  padding-inline: 15px;
+  transition: all 0.7s;
+  cursor: pointer;
 }

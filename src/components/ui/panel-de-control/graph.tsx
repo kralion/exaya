@@ -4,6 +4,7 @@ import { PT_Sans } from "next/font/google";
 const pt_sans = PT_Sans({
   weight: "400",
   subsets: ["latin-ext"],
+  preload: true,
 });
 import {
   AreaChart,

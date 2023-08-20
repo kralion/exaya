@@ -198,7 +198,7 @@ export function EncomiendasForm() {
           maxLength={100}
         />
       </Form.Item>
-      <button className={style.button} style={{ width: "100%" }}>
+      <button className={style.registerButton} style={{ width: "100%" }}>
         Registrar
       </button>
       <Button
