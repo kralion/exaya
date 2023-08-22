@@ -1,7 +1,16 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
-import { Table, Tag, Button, Drawer, Avatar, List, Tooltip } from "antd";
-
+import {
+  Table,
+  Tag,
+  Button,
+  Drawer,
+  Avatar,
+  List,
+  Tooltip,
+  Skeleton,
+} from "antd";
+import { Suspense } from "react";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
@@ -14,6 +23,8 @@ import { Title } from "@mantine/core";
 import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import ImprimirNotification from "./imprimir-notificacion";
+import { useQuery } from "@tanstack/react-query";
+import { Boleto } from "@/interfaces";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -238,13 +249,13 @@ const columns: ColumnsType<Pasajes> = [
     title: "Origen",
     dataIndex: "origen",
     key: "origen",
-    width: 120,
+    width: 140,
   },
   {
     title: "Destino",
     dataIndex: "destino",
     key: "destino",
-    width: 120,
+    width: 140,
   },
   {
     title: "Bus",
@@ -261,6 +272,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Hora Salida",
     dataIndex: "horaSalida",
     key: "horaSalida",
+    width: 100,
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 18 ? (
         <Tag color="cyan">{horaSalida} am</Tag>
@@ -303,13 +315,30 @@ const columns: ColumnsType<Pasajes> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
+  const { isLoading, data, error } = useQuery<Boleto[]>(
+    ["boletos"],
+    async () => {
+      const response = await fetch("/api/boletos");
+      return response.json();
+    }
+  );
+
+  if (error) {
+    console.log(error);
+  }
+
   return (
     <Table
       pagination={false}
-      loading={false}
+      loading={
+        isLoading && {
+          spinning: true,
+          size: "large",
+        }
+      }
       className="rounded-md shadow-md"
       columns={columns}
-      dataSource={pasajesDiarios}
+      dataSource={pasajesDiarios || data}
     />
   );
 }

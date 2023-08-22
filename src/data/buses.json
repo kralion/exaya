@@ -1,0 +1,10 @@
+[
+  {
+    "placa": "ABC-123",
+    "chassi": "12345678901234567",
+    "conductor": "Luis Romero Tovar",
+    "marca": "Mercedez Benz",
+    "modelo": "Clase A",
+    "asientos": 5
+  }
+]

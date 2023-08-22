@@ -212,7 +212,7 @@ export default function Index() {
           {activeWindow === "Administracion" && <Administracion />}
         </Content>
       </Layout>
-      <DBTable />
+      {/* <DBTable /> */}
     </Layout>
   );
 }
