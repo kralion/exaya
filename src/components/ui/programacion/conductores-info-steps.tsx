@@ -1,7 +1,6 @@
 import type { StepsProps } from "antd";
 import { Avatar, List, Modal, Steps, Tag } from "antd";
 import React, { useState } from "react";
-import { EllipsisOutlined } from "@ant-design/icons";
 
 const data = [
   {
@@ -69,29 +68,17 @@ const items = [
 
 export function ConductoresInformacion() {
   const [open, setOpen] = useState(false);
-  function handleConductorInfoModal(status: boolean) {
-    setOpen(status);
-    return (
-      <Modal
-        title="Modal 1000px width"
-        centered
-        open={open}
-        onOk={() => setOpen(status)}
-        onCancel={() => setOpen(status)}
-        width={1000}
-      >
-        <span>some contents...</span>
-      </Modal>
-    );
-  }
+
   return (
     <div className="rounded-lg shadow-xl">
       <List
         itemLayout="horizontal"
         dataSource={data}
-        renderItem={(item, index) => (
+        renderItem={(conductor, index) => (
           <List.Item
-            onClick={() => handleConductorInfoModal(true)}
+            onClick={() => {
+              setOpen(true);
+            }}
             key={index}
             className="cursor-pointer  rounded-lg duration-200 hover:bg-gray-100"
             style={{
@@ -100,32 +87,32 @@ export function ConductoresInformacion() {
             }}
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.profileIcon} />}
+              avatar={<Avatar src={conductor.profileIcon} />}
               title={
                 <a
                   href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {item.title}
+                  {conductor.title}
                 </a>
               }
               description={
                 <div className="flex gap-3">
-                  <p>{item.conductorInfo}</p>
+                  <p>{conductor.conductorInfo}</p>
 
                   <Tag
                     color={
-                      item.disponibilidad === "activo"
+                      conductor.disponibilidad === "activo"
                         ? "green"
-                        : item.disponibilidad === "inactivo"
+                        : conductor.disponibilidad === "inactivo"
                         ? "red"
-                        : item.disponibilidad === "vacaciones"
+                        : conductor.disponibilidad === "vacaciones"
                         ? "cyan"
                         : "orange"
                     }
                   >
-                    {item.disponibilidad}
+                    {conductor.disponibilidad}
                   </Tag>
                 </div>
               }
@@ -133,13 +120,28 @@ export function ConductoresInformacion() {
             <Steps
               style={{ marginTop: 8 }}
               type="inline"
-              current={item.current}
-              status={item.status as StepsProps["status"]}
+              current={conductor.current}
+              status={conductor.status as StepsProps["status"]}
               items={items}
             />
           </List.Item>
         )}
       />
+
+      <Modal
+        title="Modal 1000px width"
+        centered
+        open={open}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        onOk={() => {
+          setOpen(false);
+        }}
+        width={1000}
+      >
+        <span>Conductor Info </span>
+      </Modal>
     </div>
   );
 }
