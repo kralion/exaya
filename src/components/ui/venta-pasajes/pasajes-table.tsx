@@ -5,7 +5,7 @@ import { Table, Tag, Button, Drawer, Avatar, List, Tooltip } from "antd";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
-  PicRightOutlined,
+  SnippetsOutlined,
 } from "@ant-design/icons";
 import { dataSource } from "@/data/viajes-diarios";
 
@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { Title } from "@mantine/core";
 import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import ImprimirNotification from "./imprimir-notificacion";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -48,7 +49,7 @@ const manifiestoColumns: ColumnsType<ManifiestoDataType> = [
     dataIndex: "precio",
     key: "precio",
     responsive: ["md"],
-    render: (precio) => (
+    render: (precio: number) => (
       <Tag>
         {precio.toLocaleString("es-PE", {
           style: "currency",
@@ -165,12 +166,7 @@ const ManifiestoDrawer: React.FC = () => {
             <Title className="text-left" order={4}>
               Manifiesto del Viaje
             </Title>
-            <Button
-              title="Imprimir Manifiesto"
-              onClick={() => alert("Manifiesto Impreso")}
-              className="flex items-center justify-center"
-              icon={<PicRightOutlined />}
-            />
+            <ImprimirNotification printerButton={<SnippetsOutlined />} />
           </div>
         }
         placement="right"
