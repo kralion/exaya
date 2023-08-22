@@ -96,25 +96,31 @@ export default function Contable() {
             <RoundedButton horaSalida="20:30" />
             <RoundedButton horaSalida="21:00" />
           </div>
+          <div className="flex gap-3.5">
+            <DatePicker
+              onChange={onChange}
+              onOk={onOk}
+              placeholder={placeHolderDate}
+            />
 
-          <Select
-            placeholder="Ruta"
-            style={{ width: 180 }}
-            className="drop-shadow-sm"
-            onChange={handleRuta}
-            options={[
-              {
-                value: "RUTA-HA",
-                label: "Huancayo - Ayacucho",
-              },
-              {
-                value: "RUTA-AH",
-                label: "Ayacucho - Huancayo",
-              },
-            ]}
-          />
+            <Select
+              placeholder="Ruta"
+              style={{ width: 180 }}
+              onChange={handleRuta}
+              options={[
+                {
+                  value: "RUTA-HA",
+                  label: "Huancayo - Ayacucho",
+                },
+                {
+                  value: "RUTA-AH",
+                  label: "Ayacucho - Huancayo",
+                },
+              ]}
+            />
+          </div>
         </div>
-        <div className="flex gap-7">
+        <div className="flex gap-3.5">
           <ContableCard
             cardTitle="Recaudado"
             cardValue={5400}
@@ -143,31 +149,30 @@ export default function Contable() {
         <EstadisticasNumericas />
       </div>
       <div className="space-y-3.5">
-        <Title order={4} className="pt-7 tracking-tight text-slate-800">
-          Historial de Registros
-        </Title>
-        <div className="flex justify-between">
-          <Space direction="vertical">
-            <Input
-              placeholder="Buscar"
-              className="h-[35px] w-[350px] rounded-lg border-[1px] border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-300"
-              onPressEnter={() => {
-                alert("Enter");
-              }}
-              suffix={<SearchOutlined className="cursor-pointer" />}
-            />
-          </Space>
-          <Space direction="horizontal" size={12}>
-            <Text strong>Fecha :</Text>
-            <DatePicker
-              className="h-[35px] w-56 cursor-pointer"
-              onChange={onChange}
-              onOk={onOk}
-              placeholder={placeHolderDate}
-            />
-          </Space>
+        <div className="flex items-baseline justify-between">
+          <Title order={4} className="pt-7 tracking-tight text-slate-800">
+            Historial de Registros
+          </Title>
+          <Input
+            placeholder="Buscar"
+            className="h-[35px] w-[350px] rounded-lg border-[1px] border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-300"
+            onPressEnter={() => {
+              alert("Enter");
+            }}
+            suffix={<SearchOutlined className="cursor-pointer" />}
+          />
         </div>
-        <Table className="shadow-md" columns={columns} dataSource={data} />
+        <Table
+          pagination={{
+            position: ["bottomCenter"],
+            defaultPageSize: 5,
+            showSizeChanger: true,
+            pageSizeOptions: ["5", "10"],
+          }}
+          className="shadow-md"
+          columns={columns}
+          dataSource={data}
+        />
       </div>
     </div>
   );

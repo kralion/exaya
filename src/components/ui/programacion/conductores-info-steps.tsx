@@ -1,6 +1,7 @@
 import type { StepsProps } from "antd";
 import { Avatar, List, Modal, Steps, Tag } from "antd";
 import React, { useState } from "react";
+import style from "./frame.module.css";
 
 const data = [
   {
@@ -132,9 +133,11 @@ export function ConductoresInformacion() {
         title="Modal 1000px width"
         centered
         open={open}
+        cancelText="Editar"
         onCancel={() => {
           setOpen(false);
         }}
+        okText="Guardar"
         onOk={() => {
           setOpen(false);
         }}

@@ -1,6 +1,4 @@
 import buses from "./buses.json";
 import conductores from "./conductores.json";
-export default {
-  buses,
-  conductores,
-};
+import mockData from "./mockdata.json";
+export { buses, mockData, conductores };

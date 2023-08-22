@@ -37,3 +37,20 @@
   transform: translateY(3px);
   background-color: #096dd9;
 }
+
+.basicButton {
+  display: inline-block;
+
+  border-radius: 7px;
+
+  border: none;
+  background: #1890ff;
+  color: white;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0px 14px 56px -11px #1875ff;
+  padding: 5px;
+  padding-inline: 15px;
+  transition: all 0.7s;
+  cursor: pointer;
+}
