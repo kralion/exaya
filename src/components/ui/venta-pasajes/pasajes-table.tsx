@@ -1,16 +1,6 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
-import {
-  Table,
-  Tag,
-  Button,
-  Drawer,
-  Avatar,
-  List,
-  Tooltip,
-  Skeleton,
-} from "antd";
-import { Suspense } from "react";
+import { Table, Tag, Button, Drawer, Avatar, List, Tooltip } from "antd";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
@@ -24,7 +14,7 @@ import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import ImprimirNotification from "./imprimir-notificacion";
 import { useQuery } from "@tanstack/react-query";
-import { Boleto } from "@/interfaces";
+import type { IBoleto } from "@/interfaces";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -315,7 +305,7 @@ const columns: ColumnsType<Pasajes> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const { isLoading, data, error } = useQuery<Boleto[]>(
+  const { isLoading, data, error } = useQuery<IBoleto[]>(
     ["boletos"],
     async () => {
       const response = await fetch("/api/boletos");

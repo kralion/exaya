@@ -1,4 +1,4 @@
-export interface Boleto {
+export interface IBoleto {
   id: number;
   created_at: Date;
   id_viaje: number;

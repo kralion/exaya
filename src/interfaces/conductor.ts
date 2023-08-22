@@ -1,6 +1,6 @@
-import { Cliente } from "./cliente";
+import type { ICliente } from "./cliente";
 
-export interface Conductor extends Cliente {
+export interface IConductor extends ICliente {
   licencia_conducir: string;
   disponibilidad: boolean;
 }

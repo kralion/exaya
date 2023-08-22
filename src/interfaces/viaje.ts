@@ -1,4 +1,4 @@
-export interface Viaje {
+export interface IViaje {
   id_viaje: number;
   id_bus: number;
   id_conductor_principal: number;
