@@ -39,25 +39,31 @@ export const columns = [
   {
     title: "Acciones",
     key: "action",
-    render: (record: Encomienda) => {
+    render: (encomienda: Encomienda) => {
       const { handleDeleteEncomienda } = Context();
       return (
         <div className="flex items-baseline gap-5">
           <EncomiendaDetails modalActivator="Ver Detalles">
-            <div className="flex items-end justify-between pb-5">
+            <div className="flex items-center justify-between pb-5">
               <div className="mt-7 space-y-3.5">
                 <p>
+                  <Typography.Text strong>Guía: </Typography.Text>
+                  <Tag color="red-inverse"> {encomienda.key}</Tag>
+                </p>
+                <p>
                   <Typography.Text strong>Receptor: </Typography.Text>
-                  <Typography.Text>{record.nombreReceptor}</Typography.Text>
+                  <Typography.Text>{encomienda.nombreReceptor}</Typography.Text>
                 </p>
                 <p>
                   <Typography.Text strong>Remitente: </Typography.Text>
-                  <Typography.Text>{record.nombreRemitente}</Typography.Text>
+                  <Typography.Text>
+                    {encomienda.nombreRemitente}
+                  </Typography.Text>
                 </p>
                 <p>
                   <Typography.Text strong>Precio: </Typography.Text>
                   <Tag color="green">
-                    {record.precio.toLocaleString("es-PE", {
+                    {encomienda.precio.toLocaleString("es-PE", {
                       style: "currency",
                       currency: "PEN",
                     })}
@@ -65,24 +71,33 @@ export const columns = [
                 </p>
                 <p>
                   <Typography.Text strong>Destino: </Typography.Text>
-                  <Typography.Text>{record.destino}</Typography.Text>
+                  <Typography.Text>{encomienda.destino}</Typography.Text>
                 </p>
                 <p>
                   <Typography.Text strong>Fecha de Envío: </Typography.Text>
-                  <Typography.Text>{record.fechaEnvio}</Typography.Text>
+                  <Typography.Text>{encomienda.fechaEnvio}</Typography.Text>
+                </p>
+                <p>
+                  <Typography.Text strong>Descripción: </Typography.Text>
+                  <Typography.Text>{encomienda.descripcion}</Typography.Text>
+                </p>
+                <p>
+                  <Typography.Text strong>Contenido: </Typography.Text>
+                  <Typography.Text>{encomienda.contenido}</Typography.Text>
                 </p>
               </div>
               <Image
                 src={ShippingBoxAssets}
+                className="drop-shadow-xl"
                 alt="Shipping Box"
-                width={200}
-                height={200}
+                width={300}
+                height={300}
               />
             </div>
           </EncomiendaDetails>
 
           <Button
-            onClick={() => handleDeleteEncomienda(record.key)}
+            onClick={() => handleDeleteEncomienda(encomienda.key)}
             danger
             type="link"
           >

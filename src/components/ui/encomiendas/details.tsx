@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
+import { Title } from "@mantine/core";
 
 type Props = {
   modalActivator: string;
@@ -31,7 +32,13 @@ export default function EncomiendaDetails({ modalActivator, children }: Props) {
     <>
       <Button onClick={showModal}>{modalActivator}</Button>
       <Modal
-        title="Detalles del Envío"
+        width={700}
+        title={
+          <Title order={3} style={{ marginBottom: 0 }}>
+            Detalles de la Encomienda
+            <hr className="mt-3 rounded-lg border-[1.5px] border-dashed border-slate-600" />
+          </Title>
+        }
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}

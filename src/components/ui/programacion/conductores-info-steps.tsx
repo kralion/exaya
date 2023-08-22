@@ -1,6 +1,7 @@
 import type { StepsProps } from "antd";
 import { Avatar, List, Modal, Steps, Tag } from "antd";
 import React, { useState } from "react";
+import { EllipsisOutlined } from "@ant-design/icons";
 
 const data = [
   {
@@ -90,9 +91,9 @@ export function ConductoresInformacion() {
         dataSource={data}
         renderItem={(item, index) => (
           <List.Item
-            onClick={() => handleConductorInfoModal}
+            onClick={() => handleConductorInfoModal(true)}
             key={index}
-            className="cursor-pointer  rounded-lg duration-200 hover:scale-105 hover:bg-gray-200"
+            className="cursor-pointer  rounded-lg duration-200 hover:bg-gray-100"
             style={{
               paddingLeft: 14,
               paddingRight: 14,
@@ -100,10 +101,19 @@ export function ConductoresInformacion() {
           >
             <List.Item.Meta
               avatar={<Avatar src={item.profileIcon} />}
-              title={<a href="https://ant.design">{item.title}</a>}
+              title={
+                <a
+                  href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.title}
+                </a>
+              }
               description={
                 <div className="flex gap-3">
                   <p>{item.conductorInfo}</p>
+
                   <Tag
                     color={
                       item.disponibilidad === "activo"

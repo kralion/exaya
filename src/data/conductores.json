@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Hector Ramirez",
+    "current": 0,
+    "conductorInfo": "Documentos actualizados",
+    "profileIcon": "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
+    "disponibilidad": "activo"
+  },
+  {
+    "title": "Ramiro Villaverde",
+    "conductorInfo": "Licencia de conducir en trámite",
+    "profileIcon": "https://randomuser.me/api/portraits/men/86.jpg",
+    "current": 1,
+    "status": "error",
+    "disponibilidad": "con permiso"
+  },
+  {
+    "title": "Julio Rojas",
+    "conductorInfo": "Documentos actualizados",
+    "profileIcon": "https://randomuser.me/api/portraits/men/1.jpg",
+    "current": 2,
+    "disponibilidad": "vacaciones"
+  },
+  {
+    "title": "Danilo Alfaro",
+    "conductorInfo": "Documentos actualizados",
+    "profileIcon": "https://randomuser.me/api/portraits/men/46.jpg",
+    "current": 1,
+    "disponibilidad": "inactivo"
+  },
+  {
+    "title": "Roberto Almirante",
+    "profileIcon": "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=1229aa0db2a9a42022b7669f30784123",
+    "conductorInfo": "Documentos actualizados",
+    "current": 2,
+    "disponibilidad": "activo"
+  },
+  {
+    "profileIcon": "https://images.unsplash.com/photo-1474533410427-a23da4fd49d0?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=ee9537f6365657688885825712e3349d",
+    "title": "Camilo Paredes",
+    "conductorInfo": "Documentos actualizados",
+    "current": 1,
+    "status": "error",
+    "disponibilidad": "activo"
+  }
+]
