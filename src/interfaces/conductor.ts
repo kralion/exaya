@@ -1,3 +1,5 @@
+import type { StaticImageData } from "next/image";
+
 export interface IConductor {
   id: number;
   created_at: string;
@@ -8,6 +10,7 @@ export interface IConductor {
   licencia_conducir: string;
   disponibilidad: boolean;
   foto_perfil: string;
+  foto_bus?: StaticImageData;
   estado_documentario: "Documentos Actualizados" | "En Trámite" | "Rechazado";
   nivel: 0 | 1 | 2;
 }

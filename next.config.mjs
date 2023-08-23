@@ -26,6 +26,7 @@ const config = {
       "upload.wikimedia.org",
       "media.istockphoto.com",
       "images.pexels.com",
+      "img.freepik.com",
     ],
   },
 };

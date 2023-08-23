@@ -1,8 +1,18 @@
 import type { IConductor } from "@/interfaces";
-import type { StepsProps } from "antd";
-import { Avatar, List, Modal, Steps, Tag } from "antd";
-import React, { useState } from "react";
-import style from "./frame.module.css";
+import { Avatar, List, Modal, Steps, Tag, Typography } from "antd";
+import { useState } from "react";
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
+import { Title } from "@mantine/core";
+import Image from "next/image";
+import Bus1 from "@/assets/buses/bus-1.png";
+import Bus2 from "@/assets/buses/bus-2.png";
+import Bus3 from "@/assets/buses/bus-3.png";
+import Bus4 from "@/assets/buses/bus-4.png";
+import Bus5 from "@/assets/buses/bus-5.png";
 
 const data: IConductor[] = [
   {
@@ -13,6 +23,7 @@ const data: IConductor[] = [
     apellidos: "Ramirez",
     dni: "12345678",
     telefono: "+123456789",
+    foto_bus: Bus1,
     licencia_conducir: "LC12345",
     disponibilidad: true,
     foto_perfil: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
@@ -26,6 +37,7 @@ const data: IConductor[] = [
     nivel: 1,
     dni: "87654321",
     telefono: "+987654321",
+    foto_bus: Bus2,
     licencia_conducir: "LC67890",
     disponibilidad: true,
     foto_perfil: "https://randomuser.me/api/portraits/men/86.jpg",
@@ -39,6 +51,7 @@ const data: IConductor[] = [
     dni: "54321678",
     nivel: 2,
     telefono: "+543216789",
+    foto_bus: Bus3,
     licencia_conducir: "LC54321",
     disponibilidad: true,
     foto_perfil: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -50,6 +63,7 @@ const data: IConductor[] = [
     nombres: "Danilo",
     apellidos: "Alfaro",
     dni: "98761234",
+    foto_bus: Bus5,
     telefono: "+987612345",
     licencia_conducir: "LC98765",
     nivel: 2,
@@ -70,6 +84,7 @@ const data: IConductor[] = [
     foto_perfil:
       "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=1229aa0db2a9a42022b7669f30784123",
     estado_documentario: "Documentos Actualizados",
+    foto_bus: Bus4,
   },
   {
     id: 6,
@@ -104,8 +119,10 @@ const items = [
 
 export function ConductoresInformacion() {
   const [open, setOpen] = useState(false);
+  const [conductor, setConductor] = useState<IConductor | null>(null);
 
   const openModal = (conductor: IConductor) => {
+    setConductor(conductor);
     setOpen(true);
   };
 
@@ -167,9 +184,16 @@ export function ConductoresInformacion() {
       />
 
       <Modal
-        title="Modal 1000px width"
+        title={
+          <Title order={3} style={{ marginBottom: 0 }}>
+            Información del Conductor
+            <hr className="mt-3 rounded-lg border-[1.5px] border-dashed border-slate-600" />
+          </Title>
+        }
         centered
-        open={open}
+        open={
+          open && conductor !== null && conductor !== undefined ? true : false
+        }
         cancelText="Editar"
         onCancel={() => {
           setOpen(false);
@@ -178,9 +202,81 @@ export function ConductoresInformacion() {
         onOk={() => {
           setOpen(false);
         }}
-        width={1000}
+        width={700}
       >
-        <span>Conductor Info </span>
+        <div className="flex items-center justify-between pb-5">
+          <div className="mt-7 space-y-3.5">
+            <p>
+              <Typography.Text strong>Cod Licencia: </Typography.Text>
+              <Tag color="volcano"> {conductor?.licencia_conducir}</Tag>
+            </p>
+
+            <p>
+              <Typography.Text strong>Nombre: </Typography.Text>
+              <Typography.Text>{conductor?.nombres}</Typography.Text>
+            </p>
+            <p>
+              <Typography.Text strong>Apellidos: </Typography.Text>
+              <Typography.Text>{conductor?.apellidos}</Typography.Text>
+            </p>
+
+            <p>
+              <Typography.Text strong>Télefono: </Typography.Text>
+              <Typography.Text>{conductor?.telefono}</Typography.Text>
+            </p>
+            <p>
+              <Typography.Text strong>Disponibilidad: </Typography.Text>
+              <Tag
+                color={
+                  conductor?.disponibilidad === true
+                    ? "green-inverse"
+                    : "red-inverse"
+                }
+              >
+                {conductor?.disponibilidad === true
+                  ? "Disponible"
+                  : "No Disponible"}
+              </Tag>
+            </p>
+            <p>
+              <Typography.Text strong>Télefono: </Typography.Text>
+              <Typography.Text>{conductor?.telefono}</Typography.Text>
+            </p>
+            <p>
+              <Typography.Text strong>Estado: </Typography.Text>
+              <Typography.Text>
+                {conductor?.estado_documentario ===
+                "Documentos Actualizados" ? (
+                  <Tag color="green">
+                    {conductor?.estado_documentario}
+                    <CheckCircleOutlined className="ml-2 " />
+                  </Tag>
+                ) : conductor?.estado_documentario === "En Trámite" ? (
+                  <Tag color="yellow">
+                    {conductor?.estado_documentario}
+                    <ClockCircleOutlined className="ml-2 " />
+                  </Tag>
+                ) : (
+                  <Tag color="red">
+                    {conductor?.estado_documentario}
+                    <CloseCircleOutlined className="ml-2 " />
+                  </Tag>
+                )}
+              </Typography.Text>
+            </p>
+          </div>
+          <Image
+            src={
+              conductor?.foto_bus !== undefined
+                ? conductor?.foto_bus
+                : "https://img.freepik.com/premium-vector/no-data-concept-illustration_86047-486.jpg?size=626&ext=jpg"
+            }
+            className="drop-shadow-xl"
+            alt="Shipping Box"
+            width={400}
+            height={400}
+          />
+        </div>
       </Modal>
     </div>
   );
