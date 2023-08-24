@@ -1,6 +1,16 @@
 import type { ColumnsType } from "antd/lib/table";
 import type { Pasajes } from "@/interfaces/interfaces";
-import { Table, Tag, Button, Drawer, Avatar, List, Tooltip } from "antd";
+import {
+  Table,
+  Tag,
+  Button,
+  Drawer,
+  Avatar,
+  List,
+  Tooltip,
+  Space,
+  Progress,
+} from "antd";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
@@ -176,6 +186,17 @@ const ManifiestoDrawer: React.FC = () => {
         size="large"
       >
         <div className="flex flex-col gap-2">
+          <Progress
+            children={
+              <div className="flex items-center justify-between">
+                <span>Progreso</span>
+                <span>50%</span>
+              </div>
+            }
+            status="active"
+            percent={50}
+            size={[680, 10]}
+          />
           <Title order={4}>Conductores</Title>
 
           <List
