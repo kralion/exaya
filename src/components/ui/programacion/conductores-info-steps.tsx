@@ -1,5 +1,5 @@
 import type { IConductor } from "@/interfaces";
-import { Avatar, List, Modal, Steps, Tag, Typography } from "antd";
+import { Avatar, List, Modal, Button, Steps, Tag, Typography } from "antd";
 import { useState } from "react";
 import {
   CheckCircleOutlined,
@@ -13,6 +13,7 @@ import Bus2 from "@/assets/buses/bus-2.png";
 import Bus3 from "@/assets/buses/bus-3.png";
 import Bus4 from "@/assets/buses/bus-4.png";
 import Bus5 from "@/assets/buses/bus-5.png";
+import { type } from "os";
 
 const data: IConductor[] = [
   {
@@ -127,7 +128,7 @@ export function ConductoresInformacion() {
   };
 
   return (
-    <div className="rounded-lg shadow-xl">
+    <div className="rounded-lg shadow-md">
       <List
         itemLayout="horizontal"
         dataSource={data}
@@ -203,6 +204,32 @@ export function ConductoresInformacion() {
           setOpen(false);
         }}
         width={700}
+        footer={
+          <div className="">
+            <Button onClick={() => {}}>Editar</Button>
+            <Button
+              type="dashed"
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              Guardar
+            </Button>
+            <Button
+              danger
+              onClick={() => {
+                setOpen(false);
+                typeof conductor?.id === "number" &&
+                  data.splice(
+                    data.findIndex((item) => item.id === conductor?.id),
+                    1
+                  );
+              }}
+            >
+              Eliminar
+            </Button>
+          </div>
+        }
       >
         <div className="flex items-center justify-between pb-5">
           <div className="mt-7 space-y-3.5">
