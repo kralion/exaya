@@ -14,16 +14,19 @@ const contentStyle: React.CSSProperties = {
 
 const carouselCoves = [
   {
-    src: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg?auto=compress&cs=tinysrgb&w=600",
+    src: "https://as2.ftcdn.net/v2/jpg/00/15/87/43/1000_F_15874302_bLzQdaHAna8f2B6U9AB9VfBjsZs73wXU.jpg",
   },
   {
-    src: "https://images.pexels.com/photos/13861/IMG_3496bfree.jpg?auto=compress&cs=tinysrgb&w=600",
+    src: "https://as2.ftcdn.net/v2/jpg/00/79/37/93/1000_F_79379331_whtyjmrNLOopad3WLx2fcOBu9MWahqtT.jpg",
   },
   {
-    src: "https://images.pexels.com/photos/1386649/pexels-photo-1386649.jpeg?auto=compress&cs=tinysrgb&w=600",
+    src: "https://as2.ftcdn.net/v2/jpg/00/83/85/71/1000_F_83857168_WPpPQ43NSulwOfRAlxfspdUe8C3b1rnO.jpg",
   },
   {
-    src: "https://images.pexels.com/photos/1135379/pexels-photo-1135379.jpeg?auto=compress&cs=tinysrgb&w=600",
+    src: "https://as1.ftcdn.net/v2/jpg/00/26/35/76/1000_F_26357625_vY97e3M5M2XjyHHm4naUIb1AqnAsmFvY.jpg",
+  },
+  {
+    src: "https://as1.ftcdn.net/v2/jpg/02/51/00/36/1000_F_251003601_0su7oPQkRf93HTByHOA7oFhC0ZdExXRo.jpg",
   },
 ];
 

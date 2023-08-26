@@ -27,6 +27,8 @@ const config = {
       "media.istockphoto.com",
       "images.pexels.com",
       "img.freepik.com",
+      "as2.ftcdn.net",
+      "as1.ftcdn.net",
     ],
   },
 };
