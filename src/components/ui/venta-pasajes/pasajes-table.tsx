@@ -1,30 +1,29 @@
-import type { ColumnsType } from "antd/lib/table";
+import { dataSource } from "@/data/viajes-diarios";
 import type { Pasajes } from "@/interfaces/interfaces";
-import {
-  Table,
-  Tag,
-  Button,
-  Drawer,
-  Avatar,
-  List,
-  Tooltip,
-  Space,
-  Progress,
-} from "antd";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
   SnippetsOutlined,
 } from "@ant-design/icons";
-import { dataSource } from "@/data/viajes-diarios";
+import {
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  Progress,
+  Table,
+  Tag,
+  Tooltip,
+} from "antd";
+import type { ColumnsType } from "antd/es/table";
 
-import React, { useState } from "react";
-import { Title } from "@mantine/core";
-import type { ZodNumberCheck } from "zod";
-import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import ImprimirNotification from "./imprimir-notificacion";
-import { useQuery } from "@tanstack/react-query";
 import type { IBoleto } from "@/interfaces";
+import { Title } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import type { ZodNumberCheck } from "zod";
+import ImprimirNotification from "./imprimir-notificacion";
+import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -186,17 +185,8 @@ const ManifiestoDrawer: React.FC = () => {
         size="large"
       >
         <div className="flex flex-col gap-2">
-          <Progress
-            children={
-              <div className="flex items-center justify-between">
-                <span>Progreso</span>
-                <span>50%</span>
-              </div>
-            }
-            status="active"
-            percent={50}
-            size={[680, 10]}
-          />
+          <Progress status="active" percent={50} size={[665, 10]} />
+
           <Title order={4}>Conductores</Title>
 
           <List
@@ -231,15 +221,18 @@ const ManifiestoDrawer: React.FC = () => {
                     rel="noreferrer"
                     key={`a-${driver.id}`}
                   >
-                    Ver Perfil
+                    Ver Informacion
                   </a>,
                 ]}
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={driver.profilePic} />}
-                  title={
-                    <a href="https://ant.design/index-cn">{driver.name}</a>
+                  avatar={
+                    <Avatar
+                      className="h-12 w-12 border-slate-400"
+                      src={driver.profilePic}
+                    />
                   }
+                  title={<span>{driver.name}</span>}
                   description={`Conductor con licencia ${driver.license}`}
                 />
               </List.Item>
@@ -261,12 +254,42 @@ const columns: ColumnsType<Pasajes> = [
     dataIndex: "origen",
     key: "origen",
     width: 140,
+    filters: [
+      {
+        text: "Huancayo",
+        value: "Huancayo",
+      },
+      {
+        text: "Ayacucho",
+        value: "Ayacucho",
+      },
+    ],
+    filterSearch: true,
+
+    onFilter: (value, record) => record.origen.includes(value as string),
   },
   {
     title: "Destino",
     dataIndex: "destino",
     key: "destino",
     width: 140,
+    filters: [
+      {
+        text: "Huancayo",
+        value: "Huancayo",
+      },
+      {
+        text: "Ayacucho",
+        value: "Ayacucho",
+      },
+      {
+        text: "Lima",
+        value: "Lima",
+      },
+    ],
+    filterSearch: true,
+
+    onFilter: (value, record) => record.destino.includes(value as string),
   },
   {
     title: "Bus",
@@ -341,12 +364,6 @@ export function PasajesTable() {
   return (
     <Table
       pagination={false}
-      loading={
-        isLoading && {
-          spinning: true,
-          size: "large",
-        }
-      }
       className="rounded-md shadow-md"
       columns={columns}
       dataSource={pasajesDiarios || data}
