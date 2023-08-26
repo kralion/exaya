@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import { Button, notification } from "antd";
+import { Button, Tag, notification } from "antd";
 import type { NotificationPlacement } from "antd/es/notification/interface";
 
 const manifiestoData = {
@@ -22,12 +22,12 @@ export default function ImprimirNotification({
   const openNotification = (placement: NotificationPlacement) => {
     api.info({
       message: `Operación Existosa`,
-      icon: <CheckCircleOutlined color="green" />,
+      icon: <CheckCircleOutlined className="text-green-500" />,
       description: (
         <Context.Consumer>
-          {({ manifiestoData }) =>
-            `La impresion corresponde al viaje , ${manifiestoData.fechaSalida}!`
-          }
+          {({ manifiestoData }) => (
+            <div>Impreso el {manifiestoData.fechaSalida}</div>
+          )}
         </Context.Consumer>
       ),
       placement,
@@ -41,7 +41,7 @@ export default function ImprimirNotification({
       {contextHolder}
 
       <Button
-        title="Imprimir Manifiesto"
+        title="Imprimir"
         className="flex items-center"
         onClick={() => openNotification("bottomLeft")}
       >

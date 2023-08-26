@@ -5,19 +5,48 @@ import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import busPreview from "@/assets/bus-preview.png";
 import { Title } from "@mantine/core";
+import { SnippetsOutlined } from "@ant-design/icons";
 
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
   preload: true,
 });
+import { Button, Form, Input, Select } from "antd";
+import ImprimirNotification from "./imprimir-notificacion";
+
+const { Option } = Select;
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
 
 const seats = Array.from({ length: 50 }, (_, i) => i + 1);
 
 export const RegistrarPasajeModal: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+  const [form] = Form.useForm();
+
+  const onPriceChange = (value: string) => {
+    alert(`El precio es ${value}`);
+  };
+
+  const onFinish = (values: any) => {
+    alert(`El precio es ${values.precio}, para ${values.nombre}`);
+  };
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
   const handleSeatClick = (seatNumber: number) => {
-    console.log(seatNumber);
+    setOpenRegister(true);
   };
 
   return (
@@ -83,6 +112,119 @@ export const RegistrarPasajeModal: React.FC = () => {
           </div>
         </div>
       </Modal>
+      <Modal
+        title={
+          <div className="flex items-center gap-4">
+            <Title className="text-left" order={4}>
+              Registro de Pasajeros
+            </Title>
+            <ImprimirNotification
+              printerButton={<SnippetsOutlined className="animate-bounce" />}
+            />
+          </div>
+        }
+        centered
+        open={openRegister}
+        onCancel={() => setOpenRegister(false)}
+        width={700}
+        footer={null}
+      >
+        <Form
+          {...layout}
+          form={form}
+          className="mt-10"
+          name="control-hooks"
+          onFinish={onFinish}
+          style={{ width: 500 }}
+        >
+          <Form.Item
+            name="dni"
+            label="DNI"
+            rules={[
+              { required: true },
+              { min: 8, message: "El DNI debe tener 8 dígitos" },
+              { max: 8, message: "El DNI debe tener 8 dígitos" },
+            ]}
+            validateStatus="validating"
+            help="La informacion está siendo validada..."
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            name="asiento"
+            label="Asiento"
+            rules={[{ required: true }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="origen" label="Origen" rules={[{ required: true }]}>
+            <Input type="text" />
+          </Form.Item>
+          <Form.Item
+            name="destino"
+            label="Destino"
+            rules={[{ required: true }]}
+          >
+            <Input type="text" />
+          </Form.Item>
+          <Form.Item name="nombres" label="Nombre" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="apellidos"
+            label="Apellidos"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="precio" label="Precio" rules={[{ required: true }]}>
+            <Select
+              placeholder="Selecciona un precio"
+              onChange={onPriceChange}
+              allowClear
+            >
+              <Option value="30">30</Option>
+              <Option value="45">45</Option>
+              <Option value="otro">Otro</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) =>
+              prevValues.precio !== currentValues.precio
+            }
+          >
+            {({ getFieldValue }) =>
+              getFieldValue("precio") === "otro" ? (
+                <Form.Item
+                  name="precioCustomizado"
+                  label="Precio Customizado"
+                  rules={[{ required: true }]}
+                >
+                  <Input type="number" />
+                </Form.Item>
+              ) : null
+            }
+          </Form.Item>
+          <Form.Item {...tailLayout}>
+            <div className="mt-10 flex justify-between">
+              <Button className="w-40" htmlType="button" onClick={onReset}>
+                Limpiar
+              </Button>
+              <button
+                style={{
+                  width: 160,
+                }}
+                className={style.button}
+                type="submit"
+              >
+                Registrar
+              </button>
+            </div>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };
+7;
