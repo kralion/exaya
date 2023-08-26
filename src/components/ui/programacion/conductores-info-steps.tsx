@@ -1,19 +1,27 @@
+import Bus1 from "@/assets/buses/bus-1.png";
+import Bus2 from "@/assets/buses/bus-2.png";
+import Bus3 from "@/assets/buses/bus-3.png";
+import Bus4 from "@/assets/buses/bus-4.png";
+import Bus5 from "@/assets/buses/bus-5.png";
 import type { IConductor } from "@/interfaces";
-import { Avatar, List, Modal, Button, Steps, Tag, Typography } from "antd";
-import { useState } from "react";
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { Title } from "@mantine/core";
+import {
+  Avatar,
+  Button,
+  Empty,
+  List,
+  Modal,
+  Steps,
+  Tag,
+  Typography,
+} from "antd";
 import Image from "next/image";
-import Bus1 from "@/assets/buses/bus-1.png";
-import Bus2 from "@/assets/buses/bus-2.png";
-import Bus3 from "@/assets/buses/bus-3.png";
-import Bus4 from "@/assets/buses/bus-4.png";
-import Bus5 from "@/assets/buses/bus-5.png";
-import { type } from "os";
+import { useState } from "react";
 
 const data: IConductor[] = [
   {
@@ -119,69 +127,131 @@ const items = [
 ];
 
 export function ConductoresInformacion() {
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [conductor, setConductor] = useState<IConductor | null>(null);
+
+  const handleDelete = () => {
+    setOpenConfirmModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    typeof conductor !== "undefined" &&
+      data.splice(
+        data.findIndex((item) => item.id === conductor?.id),
+        1
+      );
+
+    setOpenConfirmModal(false);
+    setOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setOpenConfirmModal(false);
+  };
 
   const openModal = (conductor: IConductor) => {
     setConductor(conductor);
     setOpen(true);
   };
+  const handleEdit = () => {
+    alert("Editando");
+  };
+  const handleSave = () => {
+    setOpen(false);
+  };
 
   return (
     <div className="rounded-lg shadow-md">
+      <Modal
+        title="Confirmar"
+        centered
+        open={openConfirmModal}
+        onOk={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        width={400}
+        footer={
+          <div className="flex justify-end gap-4">
+            <CloseCircleOutlined
+              width={100}
+              title="Cancelar"
+              className="text-green-500"
+              onClick={handleCancelDelete}
+            />
+            <CheckCircleOutlined
+              width={100}
+              title="Confirmar"
+              className="text-red-500"
+              onClick={handleConfirmDelete}
+            />
+          </div>
+        }
+      >
+        <p>¿Estás seguro de eliminar este conductor?</p>
+      </Modal>
       <List
         itemLayout="horizontal"
         dataSource={data}
-        renderItem={(conductor, index) => (
-          <List.Item
-            onClick={() => {
-              openModal(conductor);
-            }}
-            key={index}
-            className="cursor-pointer  rounded-lg duration-200 hover:bg-gray-100"
-            style={{
-              paddingLeft: 14,
-              paddingRight: 14,
-            }}
-          >
-            <List.Item.Meta
-              avatar={<Avatar src={conductor.foto_perfil} />}
-              title={
-                <a
-                  href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {conductor.nombres}
-                </a>
-              }
-              description={
-                <div className="flex gap-3">
-                  <p>{conductor.licencia_conducir}</p>
-
-                  <Tag
-                    className="h-4 w-2  rounded-full"
-                    title={
-                      conductor.disponibilidad === true
-                        ? "Disponible"
-                        : "No Disponible"
-                    }
-                    color={conductor.disponibilidad === true ? "green" : "red"}
+        renderItem={(conductor, index) =>
+          data.length > 0 ? (
+            <List.Item
+              onClick={() => {
+                openModal(conductor);
+              }}
+              key={index}
+              className="cursor-pointer  rounded-lg duration-200 hover:bg-gray-100"
+              style={{
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={conductor.foto_perfil} />}
+                title={
+                  <a
+                    href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {conductor.disponibilidad}
-                  </Tag>
-                </div>
-              }
+                    {conductor.nombres}
+                  </a>
+                }
+                description={
+                  <div className="flex gap-3">
+                    <p>{conductor.licencia_conducir}</p>
+
+                    <Tag
+                      className="h-4 w-2  rounded-full"
+                      title={
+                        conductor.disponibilidad === true
+                          ? "Disponible"
+                          : "No Disponible"
+                      }
+                      color={
+                        conductor.disponibilidad === true ? "green" : "red"
+                      }
+                    >
+                      {conductor.disponibilidad}
+                    </Tag>
+                  </div>
+                }
+              />
+              <Steps
+                style={{ marginTop: 8 }}
+                type="inline"
+                current={conductor.nivel}
+                // status={conductor.status as StepsProps["status"]}
+                items={items}
+              />
+            </List.Item>
+          ) : (
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{ height: 60 }}
+              description={<span>No hay conductores</span>}
             />
-            <Steps
-              style={{ marginTop: 8 }}
-              type="inline"
-              current={conductor.nivel}
-              // status={conductor.status as StepsProps["status"]}
-              items={items}
-            />
-          </List.Item>
-        )}
+          )
+        }
       />
 
       <Modal
@@ -206,26 +276,11 @@ export function ConductoresInformacion() {
         width={700}
         footer={
           <div className="">
-            <Button onClick={() => {}}>Editar</Button>
-            <Button
-              type="dashed"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
+            <Button onClick={handleEdit}>Editar</Button>
+            <Button type="dashed" onClick={handleSave}>
               Guardar
             </Button>
-            <Button
-              danger
-              onClick={() => {
-                setOpen(false);
-                typeof conductor?.id === "number" &&
-                  data.splice(
-                    data.findIndex((item) => item.id === conductor?.id),
-                    1
-                  );
-              }}
-            >
+            <Button danger onClick={handleDelete}>
               Eliminar
             </Button>
           </div>
