@@ -40,6 +40,7 @@ export interface Encomienda {
   contenido: string;
   password: string;
   descripcion: string;
+  claveRastreo?: string;
 }
 export interface EncomiendasContextProps {
   encomiendasRegistradas: Encomienda[];

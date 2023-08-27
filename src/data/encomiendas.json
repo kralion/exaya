@@ -10,7 +10,8 @@
     "fechaEnvio": "2023-08-15",
     "contenido": "Electrónicos",
     "password": "securepass123",
-    "descripcion": "Smartphone, auriculares, cargador"
+    "descripcion": "Smartphone, auriculares, cargador",
+    "claveRastreo": "F0154"
   },
   {
     "key": "B002-234  ",
@@ -23,7 +24,8 @@
     "fechaEnvio": "2023-08-16",
     "contenido": "Libros",
     "password": "securepass987",
-    "descripcion": "Novela, libro de cocina"
+    "descripcion": "Novela, libro de cocina",
+    "claveRastreo": "F0154"
   },
   {
     "key": "C001-123",
@@ -36,7 +38,8 @@
     "fechaEnvio": "2023-08-17",
     "contenido": "Juguetes",
     "password": "securepass456",
-    "descripcion": "Muñeca, pelota, rompecabezas"
+    "descripcion": "Muñeca, pelota, rompecabezas",
+    "claveRastreo": "F0154"
   },
   {
     "key": "B003-345",
@@ -49,7 +52,8 @@
     "fechaEnvio": "2023-08-18",
     "contenido": "Artesanía",
     "password": "securepass789",
-    "descripcion": "Textiles, cerámica"
+    "descripcion": "Textiles, cerámica",
+    "claveRastreo": "F0154"
   },
   {
     "key": "py75qwe23r",

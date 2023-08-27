@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import { Layout, Menu, Typography, Avatar, Space, Button } from "antd";
-import type { MenuProps } from "antd";
-import VentaPasajes from "./venta-pasajes";
-import { Kanit } from "next/font/google";
 import {
   AppstoreOutlined,
-  SettingOutlined,
-  ExpandOutlined,
   CompressOutlined,
+  ExpandOutlined,
   FieldTimeOutlined,
-  ScheduleOutlined,
   LineChartOutlined,
   ReconciliationOutlined,
+  ScheduleOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
-import Contable from "./contable";
-import PanelControl from "./panel-de-control";
-import Encomiendas from "./encomiendas";
+import type { MenuProps } from "antd";
+import { Avatar, Button, Layout, Menu, Space, Typography } from "antd";
+import { Kanit } from "next/font/google";
+import Image from "next/image";
+import React, { useState } from "react";
 import Administracion from "./administracion";
+import Contable from "./contable";
+import Encomiendas from "./encomiendas";
+import PanelControl from "./panel-de-control";
 import ProgramacionBusConductor from "./programacion/bus-conductor";
 import ProgramacionComprobantes from "./programacion/comprobantes";
 import ProgramacionViajes from "./programacion/viajes";
-import DBTable from "@/components/db-table";
+import VentaPasajes from "./venta-pasajes";
 
 const kanit = Kanit({
   weight: "600",
@@ -200,8 +199,6 @@ export default function Index() {
             background: "white",
           }}
         >
-          {/* //! Probablemente sea aqui el error de Hydration, por el mal manejo de las rutas, deberiamos usar Router de next
-           */}
           {activeWindow === "Panel de Control" && <PanelControl />}
           {activeWindow === "Pasajes" && <VentaPasajes />}
           {activeWindow === "Contable" && <Contable />}

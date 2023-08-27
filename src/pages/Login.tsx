@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import { Literata, Mansalva } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
 
 const literata = Literata({
   weight: "400",

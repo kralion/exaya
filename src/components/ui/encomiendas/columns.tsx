@@ -1,7 +1,7 @@
 import { Button, Tag, Typography } from "antd";
 import type { Encomienda } from "@/interfaces/interfaces";
 import { useEncomiendasContext as Context } from "@/context/EncomiendasContext";
-import EncomiendaDetails from "./details";
+import EncomiendaDetails from "./detalles-encomienda";
 import ShippingBoxAssets from "@/assets/shipping-box.png";
 import Image from "next/image";
 
@@ -84,6 +84,12 @@ export const columns = [
                 <p>
                   <Typography.Text strong>Contenido: </Typography.Text>
                   <Typography.Text>{encomienda.contenido}</Typography.Text>
+                </p>
+                <p>
+                  <Typography.Text strong>Clave de Rastreo: </Typography.Text>
+                  <Typography.Text code>
+                    {encomienda.claveRastreo?.toUpperCase() ?? "Sin clave"}
+                  </Typography.Text>
                 </p>
               </div>
               <Image
