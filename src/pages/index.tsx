@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Layout, Menu, Space, Typography } from "antd";
-import { Kanit } from "next/font/google";
+import { Kanit, PT_Sans } from "next/font/google";
 import Image from "next/image";
 import React, { useState } from "react";
 import Administracion from "./administracion";
@@ -22,8 +22,8 @@ import ProgramacionComprobantes from "./programacion/comprobantes";
 import ProgramacionViajes from "./programacion/viajes";
 import VentaPasajes from "./venta-pasajes";
 
-const kanit = Kanit({
-  weight: "600",
+const pt_Sans = PT_Sans({
+  weight: "700",
   subsets: ["latin-ext"],
   preload: true,
 });
@@ -141,7 +141,7 @@ export default function Index() {
               alt="logo"
             />
             <p
-              className={`w-16 text-left font-semibold leading-none ${kanit.className} `}
+              className={`w-16 text-left text-xl font-semibold leading-none tracking-wide text-cyan-800 ${pt_Sans.className} `}
             >
               Exaya
             </p>
