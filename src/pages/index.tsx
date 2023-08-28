@@ -143,7 +143,7 @@ export default function Index() {
             <p
               className={`w-16 text-left font-semibold leading-none ${kanit.className} `}
             >
-              Expreso Ayacucho
+              Exaya
             </p>
           </div>
         ) : (

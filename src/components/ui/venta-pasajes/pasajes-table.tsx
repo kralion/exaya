@@ -3,7 +3,7 @@ import type { Pasajes } from "@/interfaces/interfaces";
 import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
-  SnippetsOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -178,12 +178,15 @@ const ManifiestoDrawer: React.FC = () => {
             </Title>
             <Notification
               printerButton={
-                <Button
-                  icon={<SnippetsOutlined />}
-                  className="flex items-center justify-center"
-                  title="Imprimir Manifiesto"
+                <Tag
+                  color="green"
+                  icon={<DownloadOutlined />}
+                  className="flex cursor-pointer items-center justify-center hover:opacity-80"
+                  title="Se va a imprimir automaticamente"
                   onClick={onClose}
-                />
+                >
+                  Imprimir
+                </Tag>
               }
             />
           </div>

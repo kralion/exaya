@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Modal } from "antd";
+import { Modal, Tag } from "antd";
 import style from "./frame.module.css";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import busPreview from "@/assets/bus-preview.png";
 import { Title } from "@mantine/core";
-import { SnippetsOutlined } from "@ant-design/icons";
+import { DownloadOutlined } from "@ant-design/icons";
 
 const concertOne = Concert_One({
   subsets: ["latin"],
@@ -114,14 +114,9 @@ export const RegistrarPasajeModal: React.FC = () => {
       </Modal>
       <Modal
         title={
-          <div className="flex items-center gap-4">
-            <Title className="text-left" order={4}>
-              Registro de Pasajeros
-            </Title>
-            <ImprimirNotification
-              printerButton={<SnippetsOutlined className="animate-bounce" />}
-            />
-          </div>
+          <Title className="text-left" order={4}>
+            Registro de Pasajeros
+          </Title>
         }
         centered
         open={openRegister}
@@ -132,7 +127,7 @@ export const RegistrarPasajeModal: React.FC = () => {
         <Form
           {...layout}
           form={form}
-          className="mt-10"
+          className="mt-10 "
           name="control-hooks"
           onFinish={onFinish}
           style={{ width: 500 }}
@@ -207,19 +202,31 @@ export const RegistrarPasajeModal: React.FC = () => {
             }
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <div className="mt-10 flex justify-between">
-              <Button className="w-40" htmlType="button" onClick={onReset}>
+            <div className="mt-5 flex justify-between">
+              <Button htmlType="button" onClick={onReset}>
                 Limpiar
               </Button>
               <button
                 style={{
-                  width: 160,
+                  width: 120,
                 }}
                 className={style.button}
                 type="submit"
               >
                 Registrar
               </button>
+              <ImprimirNotification
+                printerButton={
+                  <Tag
+                    color="green"
+                    icon={<DownloadOutlined />}
+                    className="flex h-8 cursor-pointer items-center  justify-center  hover:opacity-80 "
+                    title="Se va a imprimir automaticamente"
+                  >
+                    Imprimir
+                  </Tag>
+                }
+              />
             </div>
           </Form.Item>
         </Form>
