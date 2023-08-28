@@ -1,5 +1,6 @@
 import type { Encomienda } from "@/interfaces/interfaces";
 import { PhoneOutlined } from "@ant-design/icons";
+import styles from "./frame.module.css";
 import type { CascaderProps, DatePickerProps } from "antd";
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   Input,
   InputNumber,
   Select,
+  Space,
 } from "antd";
 
 const { Option } = Select;
@@ -76,9 +78,8 @@ export function EncomiendasForm() {
       onFinishFailed={onFinishFailed}
       onFinish={onFinish}
       initialValues={{ prefix: "+51" }}
-      style={{ maxWidth: 600 }}
       scrollToFirstError
-      className="grid grid-flow-row grid-cols-2 gap-x-7"
+      className="grid grid-flow-row grid-cols-4  gap-x-7"
     >
       <Form.Item
         name="nombreRemitente"
@@ -116,7 +117,7 @@ export function EncomiendasForm() {
 
       <Form.Item
         name="telefonoRemitente"
-        label="Remitente"
+        label="Telf. Remitente"
         rules={[{ required: true, message: "Verifica este campo" }]}
       >
         <InputNumber
@@ -128,7 +129,7 @@ export function EncomiendasForm() {
       </Form.Item>
       <Form.Item
         name="telefonoReceptor"
-        label="Receptor"
+        label="Telf. Receptor"
         rules={[{ required: true, message: "Verifica este campo" }]}
       >
         <InputNumber
@@ -174,29 +175,37 @@ export function EncomiendasForm() {
         <DatePicker style={{ width: 254 }} onChange={onDateChange} />
       </Form.Item>
 
+      <Form.Item name="password" label="Clave de Envío" hasFeedback>
+        <Input.Password />
+      </Form.Item>
       <Form.Item
         name="contenido"
+        className="col-span-2"
         label="Contenido de la encomienda"
         rules={[{ required: true, message: "Que contiene la encomienda" }]}
       >
-        <Input maxLength={30} />
-      </Form.Item>
-      <Form.Item name="password" label="Clave de Envío" hasFeedback>
-        <Input.Password />
+        <Input maxLength={50} />
       </Form.Item>
 
       <Form.Item
         name="descripcion"
         label="Descripción de la encomienda"
+        className="col-span-2 mb-20"
         rules={[{ required: true, message: "Describe a la encomiendas" }]}
       >
         <Input.TextArea
           placeholder="Descripcion de la encomienda para diferenciarla..."
-          showCount
-          maxLength={100}
+          autoSize={{ minRows: 1, maxRows: 2 }}
+          maxLength={150}
         />
       </Form.Item>
-      <Button type="default">Registrar</Button>
+
+      <div></div>
+      <div></div>
+      <button type="submit" className={styles.basicButton}>
+        Registrar
+      </button>
+
       <Button danger htmlType="reset" onClick={() => form.resetFields()}>
         Cancelar
       </Button>

@@ -5,11 +5,9 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 const description = "This is a description.";
 export default function EncomiendasSteps() {
   return (
-    <div className="w-[150px]">
+    <div>
       <Steps
-        direction="vertical"
         current={1}
-        size="small"
         items={[
           {
             title: "Nombres",
