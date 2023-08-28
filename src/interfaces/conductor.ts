@@ -14,3 +14,10 @@ export interface IConductor {
   estado_documentario: "Documentos Actualizados" | "En Trámite" | "Rechazado";
   nivel: 0 | 1 | 2;
 }
+
+export interface ConductorContextProps {
+  conductors: IConductor[];
+  handleAddConductor: (conductor: IConductor) => void;
+  handleDeleteConductor: (id: number) => void;
+  handleUpdateConductor: (conductor: IConductor) => void;
+}
