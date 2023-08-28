@@ -56,7 +56,10 @@ const data = [
 function ControlPaneGraph() {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart className="rounded-xl bg-cyan-100/10  shadow-md " data={data}>
+      <AreaChart
+        className="rounded-xl border-1 hover:bg-cyan-100/10  hover:shadow-md "
+        data={data}
+      >
         <Legend
           align="right"
           iconType="circle"

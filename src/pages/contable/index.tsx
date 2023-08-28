@@ -88,7 +88,7 @@ export default function Contable() {
     <div className="space-y-7">
       <div className="flex flex-col gap-3.5">
         <Title order={4} className="text-slate-800">
-          Estadisticas por Horario
+          Reporte Contable
         </Title>
         <div className=" flex justify-between">
           <div className="flex items-center gap-3.5">
@@ -120,7 +120,7 @@ export default function Contable() {
             />
           </div>
         </div>
-        <div className="flex gap-3.5">
+        <div className="flex justify-between">
           <ContableCard
             cardTitle="Recaudado"
             cardValue={5400}
@@ -154,8 +154,8 @@ export default function Contable() {
             Historial de Registros
           </Title>
           <Input
-            placeholder="Buscar"
-            className="h-[35px] w-[350px] rounded-lg border-[1px] border-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-gray-300"
+            placeholder="Buscar por DNI"
+            className="w-64 "
             onPressEnter={() => {
               alert("Enter");
             }}

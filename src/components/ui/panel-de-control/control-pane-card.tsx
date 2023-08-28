@@ -19,7 +19,7 @@ export const ControlPaneCard = ({
   return (
     <a href={href}>
       <Card
-        className="cursor-pointe min-h-[250px]  bg-cyan-100/10 backdrop-blur-3xl hover:shadow-md  "
+        className="cursor-pointe min-h-[250px] border-1   backdrop-blur-3xl hover:border-cyan-500 hover:bg-cyan-50/20 hover:shadow-md"
         type="inner"
         bordered={false}
         title={<Title order={3}>{cardTitle}</Title>}

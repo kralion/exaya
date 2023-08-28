@@ -9,9 +9,7 @@ import {
   Input,
   InputNumber,
   Select,
-  Space,
 } from "antd";
-import style from "./frame.module.css";
 
 const { Option } = Select;
 
