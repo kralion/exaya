@@ -10,13 +10,13 @@ export interface IConductor {
   licencia_conducir: string;
   disponibilidad: boolean;
   foto_perfil: string;
-  foto_bus?: StaticImageData;
+  foto_bus?: StaticImageData | string;
   estado_documentario: "Documentos Actualizados" | "En Trámite" | "Rechazado";
   nivel: 0 | 1 | 2;
 }
 
 export interface ConductorContextProps {
-  conductors: IConductor[];
+  conductoresRegistrados: IConductor[];
   handleAddConductor: (conductor: IConductor) => void;
   handleDeleteConductor: (id: number) => void;
   handleUpdateConductor: (conductor: IConductor) => void;

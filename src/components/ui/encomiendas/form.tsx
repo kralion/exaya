@@ -1,6 +1,5 @@
 import type { Encomienda } from "@/interfaces/interfaces";
 import { PhoneOutlined } from "@ant-design/icons";
-import styles from "./frame.module.css";
 import type { CascaderProps, DatePickerProps } from "antd";
 import {
   Button,
@@ -10,8 +9,8 @@ import {
   Input,
   InputNumber,
   Select,
-  Space,
 } from "antd";
+import styles from "./frame.module.css";
 
 const { Option } = Select;
 
@@ -53,8 +52,8 @@ export function EncomiendasForm() {
     handleAddEncomienda(values);
     form.resetFields();
   };
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+  const onFinishFailed = () => {
+    console.log("Falló el registro de la encomienda");
   };
 
   const suffixSelector = (
@@ -88,7 +87,7 @@ export function EncomiendasForm() {
         rules={[
           {
             required: true,
-            message: "Please input your nickname!",
+            message: "Ingresa el nombre del remitente",
             whitespace: true,
           },
         ]}
@@ -105,7 +104,7 @@ export function EncomiendasForm() {
         rules={[
           {
             required: true,
-            message: "Please input your nickname!",
+            message: "Ingresa el nombre del receptor",
             whitespace: true,
           },
         ]}
