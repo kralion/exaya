@@ -13,7 +13,7 @@ const concertOne = Concert_One({
   preload: true,
 });
 import { Button, Form, Input, Select } from "antd";
-import ImprimirNotification from "./imprimir-notificacion";
+import ImprimirNotification from "../notification";
 
 const { Option } = Select;
 

@@ -1,3 +1,5 @@
+import type { Encomienda } from "@/interfaces/interfaces";
+import { PhoneOutlined } from "@ant-design/icons";
 import type { CascaderProps, DatePickerProps } from "antd";
 import {
   Button,
@@ -7,10 +9,8 @@ import {
   Input,
   InputNumber,
   Select,
+  Space,
 } from "antd";
-import React from "react";
-import { PhoneOutlined } from "@ant-design/icons";
-import type { Encomienda } from "@/interfaces/interfaces";
 import style from "./frame.module.css";
 
 const { Option } = Select;
@@ -198,15 +198,8 @@ export function EncomiendasForm() {
           maxLength={100}
         />
       </Form.Item>
-      <button className={style.registerButton} style={{ width: "100%" }}>
-        Registrar
-      </button>
-      <Button
-        style={{ width: "100%" }}
-        danger
-        htmlType="reset"
-        onClick={() => form.resetFields()}
-      >
+      <Button type="default">Registrar</Button>
+      <Button danger htmlType="reset" onClick={() => form.resetFields()}>
         Cancelar
       </Button>
     </Form>

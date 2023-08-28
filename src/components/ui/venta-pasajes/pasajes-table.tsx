@@ -22,7 +22,7 @@ import { Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import type { ZodNumberCheck } from "zod";
-import ImprimirNotification from "./imprimir-notificacion";
+import Notification from "../notification";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 
 interface ManifiestoDataType {
@@ -176,7 +176,16 @@ const ManifiestoDrawer: React.FC = () => {
             <Title className="text-left" order={4}>
               Manifiesto del Viaje
             </Title>
-            <ImprimirNotification printerButton={<SnippetsOutlined />} />
+            <Notification
+              printerButton={
+                <Button
+                  icon={<SnippetsOutlined />}
+                  className="flex items-center justify-center"
+                  title="Imprimir Manifiesto"
+                  onClick={onClose}
+                />
+              }
+            />
           </div>
         }
         placement="right"

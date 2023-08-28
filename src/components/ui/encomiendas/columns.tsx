@@ -42,32 +42,35 @@ export const columns = [
     render: (encomienda: Encomienda) => {
       const { handleDeleteEncomienda } = Context();
       return (
-        <div className="flex items-baseline gap-5">
-          <EncomiendaDetails modalActivator="Ver Detalles">
-            <div className="flex items-center justify-between pb-5">
+        <div className="flex items-baseline gap-2">
+          <EncomiendaDetails
+            encomienda={encomienda}
+            modalActivator="Ver Detalles"
+          >
+            <div className="flex items-end justify-between pb-5">
               <div className="mt-7 space-y-3.5">
-                <p>
+                <p className="mb-3 flex gap-2">
                   <Typography.Text strong>Guía: </Typography.Text>
-                  <Tag color="red-inverse"> {encomienda.key}</Tag>
-                </p>
-                <p>
-                  <Typography.Text strong>Receptor: </Typography.Text>
-                  <Typography.Text>{encomienda.nombreReceptor}</Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Remitente: </Typography.Text>
-                  <Typography.Text>
-                    {encomienda.nombreRemitente}
+                  <Tag> {encomienda.key}</Tag>
+                  <Typography.Text strong>Clave: </Typography.Text>
+                  <Typography.Text code>
+                    {encomienda.claveRastreo?.toUpperCase() ?? "S/N"}
                   </Typography.Text>
-                </p>
-                <p>
                   <Typography.Text strong>Precio: </Typography.Text>
-                  <Tag color="green">
+                  <Tag>
                     {encomienda.precio.toLocaleString("es-PE", {
                       style: "currency",
                       currency: "PEN",
                     })}
                   </Tag>
+                </p>
+                <Typography.Text strong>Receptor: </Typography.Text>
+                <Typography.Text>{encomienda.nombreReceptor}</Typography.Text>
+                <p>
+                  <Typography.Text strong>Remitente: </Typography.Text>
+                  <Typography.Text>
+                    {encomienda.nombreRemitente}
+                  </Typography.Text>
                 </p>
                 <p>
                   <Typography.Text strong>Destino: </Typography.Text>
@@ -84,12 +87,6 @@ export const columns = [
                 <p>
                   <Typography.Text strong>Contenido: </Typography.Text>
                   <Typography.Text>{encomienda.contenido}</Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Clave de Rastreo: </Typography.Text>
-                  <Typography.Text code>
-                    {encomienda.claveRastreo?.toUpperCase() ?? "Sin clave"}
-                  </Typography.Text>
                 </p>
               </div>
               <Image

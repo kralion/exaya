@@ -11,7 +11,8 @@
     "contenido": "Electrónicos",
     "password": "securepass123",
     "descripcion": "Smartphone, auriculares, cargador",
-    "claveRastreo": "F0154"
+    "claveRastreo": "F0154",
+    "estado": "Pagado"
   },
   {
     "key": "B002-234  ",
@@ -25,7 +26,8 @@
     "contenido": "Libros",
     "password": "securepass987",
     "descripcion": "Novela, libro de cocina",
-    "claveRastreo": "F0154"
+    "claveRastreo": "F0154",
+    "estado": "Pagado"
   },
   {
     "key": "C001-123",
@@ -39,7 +41,8 @@
     "contenido": "Juguetes",
     "password": "securepass456",
     "descripcion": "Muñeca, pelota, rompecabezas",
-    "claveRastreo": "F0154"
+    "claveRastreo": "F0154",
+    "estado": "Pagado"
   },
   {
     "key": "B003-345",
@@ -53,7 +56,8 @@
     "contenido": "Artesanía",
     "password": "securepass789",
     "descripcion": "Textiles, cerámica",
-    "claveRastreo": "F0154"
+    "claveRastreo": "F0154",
+    "estado": "Pagado"
   },
   {
     "key": "py75qwe23r",
@@ -66,7 +70,8 @@
     "fechaEnvio": "2023-08-19",
     "contenido": "Cosméticos",
     "password": "securepass234",
-    "descripcion": "Maquillaje, cremas"
+    "descripcion": "Maquillaje, cremas",
+    "estado": "Por Pagar"
   },
   {
     "key": "lm09ujh65k",
@@ -79,7 +84,8 @@
     "fechaEnvio": "2023-08-20",
     "contenido": "Ropa",
     "password": "securepass567",
-    "descripcion": "Vestido, camiseta"
+    "descripcion": "Vestido, camiseta",
+    "estado": "Por Pagar"
   },
   {
     "key": "qw12poi45u",
@@ -92,7 +98,8 @@
     "fechaEnvio": "2023-08-21",
     "contenido": "Alimentos",
     "password": "securepass345",
-    "descripcion": "Chocolates, frutas secas"
+    "descripcion": "Chocolates, frutas secas",
+    "estado": "Por Pagar"
   },
   {
     "key": "gh34vbn89m",
@@ -105,7 +112,8 @@
     "fechaEnvio": "2023-08-22",
     "contenido": "Electrodomésticos",
     "password": "securepass678",
-    "descripcion": "Licuadora, plancha"
+    "descripcion": "Licuadora, plancha",
+    "estado": "Por Pagar"
   },
   {
     "key": "jk67ghb21c",
@@ -118,7 +126,8 @@
     "fechaEnvio": "2023-08-23",
     "contenido": "Herramientas",
     "password": "securepass123",
-    "descripcion": "Destornillador, martillo"
+    "descripcion": "Destornillador, martillo",
+    "estado": "Por Pagar"
   },
   {
     "key": "we78zx21vn",
@@ -131,6 +140,7 @@
     "fechaEnvio": "2023-08-24",
     "contenido": "Tecnología",
     "password": "securepass789",
-    "descripcion": "Tablet, cargador portátil"
+    "descripcion": "Tablet, cargador portátil",
+    "estado": "Pagado"
   }
 ]

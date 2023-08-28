@@ -41,6 +41,7 @@ export interface Encomienda {
   password: string;
   descripcion: string;
   claveRastreo?: string;
+  estado: "Pagado" | "Por pagar";
 }
 export interface EncomiendasContextProps {
   encomiendasRegistradas: Encomienda[];

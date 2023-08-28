@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import { Button, Tag, notification } from "antd";
+import { notification } from "antd";
 import type { NotificationPlacement } from "antd/es/notification/interface";
+import React, { useMemo } from "react";
 
 const manifiestoData = {
   turno: "2",
@@ -12,7 +12,7 @@ const manifiestoData = {
 
 const Context = React.createContext({ manifiestoData });
 
-export default function ImprimirNotification({
+export default function Notification({
   printerButton,
 }: {
   printerButton: React.ReactNode;
@@ -40,13 +40,7 @@ export default function ImprimirNotification({
     <Context.Provider value={contextValue}>
       {contextHolder}
 
-      <Button
-        title="Imprimir"
-        className="flex items-center"
-        onClick={() => openNotification("bottomLeft")}
-      >
-        {printerButton}
-      </Button>
+      <div onClick={() => openNotification("bottomLeft")}>{printerButton}</div>
     </Context.Provider>
   );
 }
