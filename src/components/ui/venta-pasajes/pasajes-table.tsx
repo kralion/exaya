@@ -194,7 +194,9 @@ const ManifiestoDrawer: React.FC = () => {
         size="large"
       >
         <div className="flex flex-col gap-2">
-          <Progress status="active" percent={50} size={[665, 10]} />
+          <Progress status="active" percent={50} size={[680, 10]}>
+            <Title order={5}>{"Viaje de Lima a Arequipa - 10/10/2021"}</Title>
+          </Progress>
 
           <Title order={4}>Conductores</Title>
 
@@ -373,6 +375,13 @@ export function PasajesTable() {
   return (
     <Table
       pagination={false}
+      loading={
+        // isLoading && {
+        //   spinning: true,
+        //   size: "large",
+        // }
+        false
+      }
       className="rounded-md shadow-md"
       columns={columns}
       dataSource={pasajesDiarios || data}
