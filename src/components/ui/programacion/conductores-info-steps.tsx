@@ -152,16 +152,19 @@ export function ConductoresInformacion() {
       },
     });
   };
+  const [isEditing, setIsEditing] = useState(false);
 
   const openModal = (conductor: IConductor) => {
     setConductor(conductor);
     setOpen(true);
   };
   const handleEdit = () => {
+    setIsEditing(true);
     alert("Editando");
   };
   const handleSave = () => {
     setOpen(false);
+    setIsEditing(false);
   };
 
   return (
@@ -253,10 +256,12 @@ export function ConductoresInformacion() {
         width={700}
         footer={
           <div className="">
-            <Button onClick={handleEdit}>Editar</Button>
-            <Button type="dashed" onClick={handleSave}>
-              Guardar
-            </Button>
+            {isEditing ? (
+              <Button onClick={handleSave}>Guardar</Button>
+            ) : (
+              <Button onClick={handleEdit}>Editar</Button>
+            )}
+
             <Button danger onClick={showDeleteConfirm}>
               Eliminar
             </Button>
