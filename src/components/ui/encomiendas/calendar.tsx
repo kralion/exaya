@@ -21,6 +21,13 @@ export function AvailableCalendar() {
     <div className="space-y-7">
       <Title order={4}>Checker de Disponibilidad </Title>
       <Calendar
+        dateCellRender={(value) => {
+          return (
+            <div className="flex items-center justify-center">
+              <div className="h-1 w-1 rounded-full bg-blue-500"></div>
+            </div>
+          );
+        }}
         className="hidden duration-300 hover:scale-105  hover:shadow-lg lg:block"
         style={wrapperStyle}
         fullscreen={false}

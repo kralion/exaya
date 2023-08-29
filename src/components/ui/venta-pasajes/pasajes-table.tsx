@@ -317,8 +317,8 @@ const columns: ColumnsType<Pasajes> = [
         value: "Lima",
       },
     ],
-    filterSearch: true,
 
+    filterSearch: true,
     onFilter: (value, record) => record.destino.includes(value as string),
   },
   {
@@ -372,8 +372,8 @@ const columns: ColumnsType<Pasajes> = [
     responsive: ["lg"],
     render: () => (
       <Dropdown menu={{ items }}>
-        <a>
-          Más <DownOutlined />
+        <a className="space-x-2">
+          <span>Más</span> <DownOutlined />
         </a>
       </Dropdown>
     ),

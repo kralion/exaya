@@ -48,9 +48,12 @@
   color: white;
   font-family: inherit;
   text-align: center;
-  box-shadow: 0px 14px 56px -11px #1875ff;
   padding: 5px;
   padding-inline: 15px;
   transition: all 0.7s;
   cursor: pointer;
+}
+.basicButton:hover {
+  background: #1482e9;
+  box-shadow: 0px 14px 56px -11px #1875ff;
 }

@@ -8,6 +8,7 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
+  ExclamationCircleFilled,
 } from "@ant-design/icons";
 import { Title } from "@mantine/core";
 import {
@@ -22,6 +23,8 @@ import {
 } from "antd";
 import Image from "next/image";
 import { useState } from "react";
+
+const { confirm } = Modal;
 
 const data: IConductor[] = [
   {
@@ -127,27 +130,27 @@ const items = [
 ];
 
 export function ConductoresInformacion() {
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [conductor, setConductor] = useState<IConductor | null>(null);
 
-  const handleDelete = () => {
-    setOpenConfirmModal(true);
-  };
+  const showDeleteConfirm = () => {
+    confirm({
+      title: "Estas seguro de eliminar a este conductor ?",
+      icon: <ExclamationCircleFilled />,
+      content: "Todos los datos serán eliminados",
+      okText: "Sí",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        typeof conductor !== "undefined" &&
+          data.splice(
+            data.findIndex((item) => item.id === conductor?.id),
+            1
+          );
 
-  const handleConfirmDelete = () => {
-    typeof conductor !== "undefined" &&
-      data.splice(
-        data.findIndex((item) => item.id === conductor?.id),
-        1
-      );
-
-    setOpenConfirmModal(false);
-    setOpen(false);
-  };
-
-  const handleCancelDelete = () => {
-    setOpenConfirmModal(false);
+        setOpen(false);
+      },
+    });
   };
 
   const openModal = (conductor: IConductor) => {
@@ -163,32 +166,6 @@ export function ConductoresInformacion() {
 
   return (
     <div className="rounded-lg shadow-md">
-      <Modal
-        title="Confirmar"
-        centered
-        open={openConfirmModal}
-        onOk={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        width={400}
-        footer={
-          <div className="flex justify-end gap-4">
-            <CloseCircleOutlined
-              width={100}
-              title="Cancelar"
-              className="text-green-500"
-              onClick={handleCancelDelete}
-            />
-            <CheckCircleOutlined
-              width={100}
-              title="Confirmar"
-              className="text-red-500"
-              onClick={handleConfirmDelete}
-            />
-          </div>
-        }
-      >
-        <p>¿Estás seguro de eliminar este conductor?</p>
-      </Modal>
       <List
         itemLayout="horizontal"
         dataSource={data}
@@ -258,7 +235,7 @@ export function ConductoresInformacion() {
         title={
           <Title order={3} style={{ marginBottom: 0 }}>
             Información del Conductor
-            <hr className="mt-3 rounded-lg border-[1.5px] border-dashed border-slate-600" />
+            <hr className="mt-3 " />
           </Title>
         }
         centered
@@ -280,7 +257,7 @@ export function ConductoresInformacion() {
             <Button type="dashed" onClick={handleSave}>
               Guardar
             </Button>
-            <Button danger onClick={handleDelete}>
+            <Button danger onClick={showDeleteConfirm}>
               Eliminar
             </Button>
           </div>

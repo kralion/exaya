@@ -54,7 +54,7 @@ export default function EncomiendaDetails({
                 </Tag>
               )}
             </div>
-            <hr className="mt-3 rounded-lg border-[1.5px] border-dashed border-slate-600" />
+            <hr className="mt-3   " />
           </Title>
         }
         open={open}
@@ -63,6 +63,7 @@ export default function EncomiendaDetails({
         onCancel={() => setOpen(false)}
         footer={
           <div className="flex justify-end gap-3">
+            <Button onClick={handleOk}>Editar</Button>
             <Notification
               printerButton={
                 <button className={styles.basicButton} onClick={handleOk}>

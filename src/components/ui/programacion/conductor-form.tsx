@@ -8,6 +8,7 @@ import {
   Modal,
   Radio,
   Space,
+  Typography,
   Upload,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
@@ -130,9 +131,12 @@ export function ConductoresForm({ activator }: Props) {
       </button>
       <Modal
         title={
-          <Title className=" mb-7 flex justify-between" order={3}>
-            Agregar Conductor
-          </Title>
+          <p className="mb-7">
+            <Title order={3}>Agregar Conductor</Title>
+            <Typography.Text className=" font-light text-slate-600">
+              Formulario con la informacion del conductor
+            </Typography.Text>
+          </p>
         }
         open={isModalOpen}
         onOk={handleOk}
@@ -327,7 +331,7 @@ export function ConductoresForm({ activator }: Props) {
               </Radio.Group>
             </Form.Item>
           </div>
-          <Space>
+          <Space className="mt-10">
             <button className={styles.basicButton} type="submit">
               Registrar
             </button>
