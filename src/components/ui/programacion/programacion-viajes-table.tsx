@@ -168,6 +168,18 @@ export function ProgramacionTable({ originData }: { originData: any }) {
             >
               <Button>Guardar</Button>
             </Typography.Link>
+            <a onClick={cancel} className="text-cyan-500">
+              Cancelar
+            </a>
+          </p>
+        ) : (
+          <div className="flex items-baseline justify-center gap-5">
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() => edit(record)}
+            >
+              <Button>Editar</Button>
+            </Typography.Link>
             <Popconfirm
               okButtonProps={{
                 style: {
@@ -180,20 +192,10 @@ export function ProgramacionTable({ originData }: { originData: any }) {
               title="Estás seguro ?"
               onConfirm={cancel}
             >
-              <a className="text-cyan-500">Cancelar</a>
+              <Button danger type="link">
+                Eliminar
+              </Button>
             </Popconfirm>
-          </p>
-        ) : (
-          <div className="flex items-baseline justify-center gap-5">
-            <Typography.Link
-              disabled={editingKey !== ""}
-              onClick={() => edit(record)}
-            >
-              <Button>Editar</Button>
-            </Typography.Link>
-            <Button danger type="link">
-              Eliminar
-            </Button>
           </div>
         );
       },
