@@ -4,16 +4,19 @@ import Icon, {
   EyeOutlined,
   SafetyCertificateOutlined,
   DownloadOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
   Button,
   Drawer,
+  Dropdown,
   List,
   Progress,
   Table,
   Tag,
   Tooltip,
+  Typography,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -163,12 +166,13 @@ const ManifiestoDrawer: React.FC = () => {
 
   return (
     <>
-      <Button
+      <Typography
         title="Ver Manifiesto"
         onClick={showDrawer}
         className="flex items-center justify-center"
-        icon={<EyeOutlined />}
-      />
+      >
+        Ver Manifiesto
+      </Typography>
 
       <Drawer
         title={
@@ -262,12 +266,23 @@ const ManifiestoDrawer: React.FC = () => {
   );
 };
 
+const items = [
+  {
+    key: "1",
+    label: <RegistrarPasajeModal />,
+  },
+  {
+    key: "2",
+    label: <ManifiestoDrawer />,
+  },
+];
+
 const columns: ColumnsType<Pasajes> = [
   {
     title: "Origen",
     dataIndex: "origen",
     key: "origen",
-    width: 140,
+    width: 110,
     filters: [
       {
         text: "Huancayo",
@@ -286,7 +301,8 @@ const columns: ColumnsType<Pasajes> = [
     title: "Destino",
     dataIndex: "destino",
     key: "destino",
-    width: 140,
+    responsive: ["lg"],
+    width: 110,
     filters: [
       {
         text: "Huancayo",
@@ -309,6 +325,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Bus",
     dataIndex: "placaBus",
     key: "placaBus",
+    responsive: ["lg"],
 
     render: (placaBus: string) => (
       <Tooltip key={placaBus} title={placaBus.toUpperCase()}>
@@ -320,6 +337,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Hora Salida",
     dataIndex: "horaSalida",
     key: "horaSalida",
+    responsive: ["lg"],
     width: 100,
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 18 ? (
@@ -332,6 +350,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Precios",
     key: "precios",
     dataIndex: "precios",
+    responsive: ["lg"],
 
     render: (_, { precios }) => (
       <>
@@ -350,12 +369,13 @@ const columns: ColumnsType<Pasajes> = [
   {
     title: "Acciones",
     key: "acciones",
-    width: 200,
+    responsive: ["lg"],
     render: () => (
-      <div className="flex gap-7">
-        <RegistrarPasajeModal />
-        <ManifiestoDrawer />
-      </div>
+      <Dropdown menu={{ items }}>
+        <a>
+          Más <DownOutlined />
+        </a>
+      </Dropdown>
     ),
   },
 ];
@@ -385,7 +405,7 @@ export function PasajesTable() {
         // }
         false
       }
-      className="rounded-md shadow-md"
+      className=" rounded-md shadow-md"
       columns={columns}
       dataSource={pasajesDiarios || data}
     />

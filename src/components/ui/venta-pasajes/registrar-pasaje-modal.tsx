@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Tag } from "antd";
+import { Modal, Tag, Typography } from "antd";
 import style from "./frame.module.css";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
@@ -51,9 +51,7 @@ export const RegistrarPasajeModal: React.FC = () => {
 
   return (
     <div>
-      <button className={style.button} onClick={() => setOpen(true)}>
-        <span className="px-3.5"> Registrar</span>
-      </button>
+      <Typography onClick={() => setOpen(true)}>Registrar</Typography>
       <Modal
         title="Registro de Asientos"
         centered
