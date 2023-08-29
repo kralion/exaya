@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Layout, Menu, Space, Typography } from "antd";
-import { Kanit, PT_Sans } from "next/font/google";
+import { PT_Sans } from "next/font/google";
 import Image from "next/image";
 import React, { useState } from "react";
 import Administracion from "./administracion";

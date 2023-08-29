@@ -255,7 +255,7 @@ export function ConductoresInformacion() {
         }}
         width={700}
         footer={
-          <div className="">
+          <div>
             {isEditing ? (
               <Button onClick={handleSave}>Guardar</Button>
             ) : (

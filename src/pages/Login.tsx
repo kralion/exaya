@@ -1,4 +1,5 @@
 import { Literata, Mansalva } from "next/font/google";
+import { useSession, signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,8 +16,20 @@ const mansalva = Mansalva({
 });
 
 function Login() {
+  const { data: session } = useSession();
+  console.log(session);
+  if (session) {
+    return (
+      <>
+        Signed in as {session?.user?.name} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    );
+  }
   return (
     <div className="mx-5">
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
       <header
         data-aos="slide-right"
         data-aos-delay="200"
