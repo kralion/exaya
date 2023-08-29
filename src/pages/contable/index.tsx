@@ -40,6 +40,17 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Destino",
     dataIndex: "destino",
+    filters: [
+      {
+        text: "Huancayo",
+        value: "Huancayo",
+      },
+      {
+        text: "Ayacucho",
+        value: "Ayacucho",
+      },
+    ],
+    onFilter: (value, record) => record.destino.indexOf(value) === 0,
   },
   {
     title: "Serie",

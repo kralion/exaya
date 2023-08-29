@@ -137,7 +137,7 @@ export function ProgramacionTable({ originData }: { originData: any }) {
       dataIndex: "horaSalida",
       width: "15%",
       editable: true,
-      render: (text) => (
+      render: (text: string) => (
         <Button
           className="flex cursor-default items-center"
           type="text"
