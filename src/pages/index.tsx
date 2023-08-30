@@ -1,222 +1,128 @@
+"use client";
+import AppHeader from "@/components/appheader";
 import {
-  AppstoreOutlined,
-  CompressOutlined,
-  ExpandOutlined,
+  DashboardOutlined,
   FieldTimeOutlined,
   LineChartOutlined,
+  LogoutOutlined,
+  QuestionCircleOutlined,
   ReconciliationOutlined,
   ScheduleOutlined,
-  SettingOutlined,
+  AuditOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Button, Layout, Menu, Space, Typography } from "antd";
-import { Black_Ops_One } from "next/font/google";
-import Image from "next/image";
+import { Layout, Menu, theme } from "antd";
 import React, { useEffect, useState } from "react";
-import Administracion from "./administracion";
-import Contable from "./contable";
-import Encomiendas from "./encomiendas";
-import PanelControl from "./panel-de-control";
-import ProgramacionBusConductor from "./programacion/bus-conductor";
-import ProgramacionComprobantes from "./programacion/comprobantes";
-import ProgramacionViajes from "./programacion/viajes";
-import VentaPasajes from "./venta-pasajes";
-import soundEffect from "@/assets/audio/soundEffect.mp3";
+import "animate.css";
+import { Title } from "@mantine/core";
 
-const blackOpsOne = Black_Ops_One({
-  subsets: ["latin"],
-  weight: "400",
-  preload: true,
-});
+const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = {
-  label: React.ReactNode;
-  key: React.Key;
-  icon?: React.ReactNode;
-  children?: MenuItem[];
-};
-const { Content, Sider } = Layout;
+type MenuItem = Required<MenuProps>["items"][number];
+
 function getItem(
-  label: React.ReactNode,
-  key: React.Key,
+  label: string,
+  path: string,
   icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group"
+  children?: MenuItem[]
 ): MenuItem {
   return {
-    key,
+    key: path,
+    label,
+    path,
     icon,
     children,
-    label,
-    type,
   } as MenuItem;
 }
-const items: MenuProps["items"] = [
-  getItem("Panel de Control", "1", <AppstoreOutlined />),
 
-  getItem("Pasajes", "2", <ScheduleOutlined />),
-  getItem("Encomiendas", "3", <ReconciliationOutlined />),
+const items: MenuItem[] = [
+  getItem("Dashboard", "/dashboard", <DashboardOutlined />),
 
-  getItem("Programacion", "programacion", <FieldTimeOutlined />, [
-    getItem("Conductores", "4"),
-    getItem("Comprobantes", "5"),
-    getItem("Viajes", "6"),
+  getItem("Pasajes", "/pasajes", <ScheduleOutlined />),
+  getItem("Encomiendas", "/encomiendas", <ReconciliationOutlined />),
+
+  getItem("Programacion", "/programacion", <FieldTimeOutlined />, [
+    getItem("Conductores", "/programacion/conductores"),
+    getItem("Comprobantes", "/programacion/comprobantes"),
+    getItem("Viajes", "/programacion/viajes"),
   ]),
 
-  getItem("Contable", "7", <LineChartOutlined />),
-  getItem("Administracion", "8", <SettingOutlined />),
+  getItem("Contable", "/contable", <LineChartOutlined />),
+  getItem("Administracion", "/administracion", <AuditOutlined />),
+  getItem("Soporte", "/soporte", <QuestionCircleOutlined />),
+  getItem("Cerrar Sesión", "/cerrar-sesion", <LogoutOutlined />),
 ];
-const { Text } = Typography;
 
-export default function Index() {
+export default function ExayaPage({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeWindow, setActiveWindow] = useState("Panel de Control");
-
+  const {
+    token: { colorBgContainer = "#000" },
+  } = theme.useToken();
   useEffect(() => {
-    const soundEffect = new Audio("");
-    void soundEffect.play();
+    const audioElement = new Audio("../assets/audio/soundEffect.mp3");
+
+    const playSound = () => {
+      audioElement.play().catch((error) => {
+        console.error("Error al reproducir el sonido:", error);
+      });
+    };
+
+    audioElement.addEventListener("loadeddata", playSound);
+
+    return () => {
+      audioElement.removeEventListener("loadeddata", playSound);
+    };
   }, []);
 
-  const handleMenuItemClick = (key: React.Key) => {
-    const menuItem = findMenuItemByKey(items, key);
-    if (menuItem) {
-      setActiveWindow(menuItem.label as string);
-    }
-  };
-
-  const findMenuItemByKey = (
-    menuItems: MenuItem[],
-    key: React.Key
-  ): MenuItem | undefined => {
-    for (let i = 0; i < menuItems.length; i++) {
-      const menuItem = menuItems[i];
-      if (menuItem?.key === key) {
-        return menuItem;
-      } else if (menuItem?.children) {
-        const foundItem = findMenuItemByKey(menuItem.children, key);
-        if (foundItem) {
-          return foundItem;
-        }
-      }
-    }
-    return undefined;
-  };
-
-  const renderMenuItems = (menuItems: MenuItem[]): React.ReactNode => {
-    return menuItems.map((menuItem) => {
-      if (menuItem.children) {
-        return (
-          <Menu.SubMenu
-            key={menuItem.key}
-            icon={menuItem.icon}
-            title={menuItem.label}
-          >
-            {renderMenuItems(menuItem.children)}
-          </Menu.SubMenu>
-        );
-      } else {
-        return (
-          <Menu.Item key={menuItem.key} icon={menuItem.icon}>
-            {menuItem.label}
-          </Menu.Item>
-        );
-      }
-    });
-  };
-
   return (
-    <Layout style={{ padding: 28 }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider
-        trigger={null}
-        collapsible
+        className="m-3.5 rounded-lg"
         collapsed={collapsed}
-        width={200}
-        style={{
-          background: "white",
-          borderRadius: 7,
-          padding: 7,
-          height: "100%",
-        }}
+        style={{ background: colorBgContainer }}
+        collapsedWidth={50}
+        onCollapse={(value) => setCollapsed(value)}
       >
-        {!collapsed ? (
-          <div className="flex items-center justify-center pt-2.5 drop-shadow-lg	">
-            <Image
-              src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
-              width={50}
-              height={50}
-              className="animate__animated animate__flip"
-              alt="logo"
-            />
-            <p
-              className={`w-16 text-left text-xl  leading-none  text-[#231335] ${blackOpsOne.className} `}
-            >
-              Exaya
-            </p>
-          </div>
-        ) : (
-          <Image
-            className="ml-2 mt-2.5 drop-shadow-md"
-            src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
-            width={50}
-            height={50}
-            alt="logo"
-          />
-        )}
-
-        <Space wrap size={1} className="my-20 flex flex-col">
-          <Avatar
-            className="box-border border-[2px] border-gray-400"
-            size={60}
-            src="https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg"
-          />
-
-          {!collapsed && <Text strong>Juan Perez</Text>}
-        </Space>
+        <AppHeader setCollapsed={setCollapsed} collapsed={collapsed} />
         <Menu
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          style={{ height: "100%", borderRight: 0 }}
-          items={items}
-          onClick={({ key }) => handleMenuItemClick(key)}
-        >
-          {renderMenuItems(
-            items?.filter((item) => item?.type !== "group") as MenuItem[]
-          )}
-        </Menu>
-
-        <Button
-          type="text"
-          icon={collapsed ? <ExpandOutlined /> : <CompressOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: "16px",
-            width: 64,
-            height: 64,
+          onClick={(item) => {
+            alert(item.key);
           }}
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
         />
       </Sider>
-      <Layout style={{ paddingLeft: 14 }}>
-        <Content
-          style={{
-            padding: 28,
-            margin: 0,
-            borderRadius: 7,
-            minHeight: 280,
-            background: "white",
-          }}
+      <Layout>
+        <Header
+          className="m-3.5 rounded-lg p-3.5 "
+          style={{ background: colorBgContainer }}
         >
-          {activeWindow === "Panel de Control" && <PanelControl />}
-          {activeWindow === "Pasajes" && <VentaPasajes />}
-          {activeWindow === "Contable" && <Contable />}
-          {activeWindow === "Encomiendas" && <Encomiendas />}
-          {activeWindow === "Conductores" && <ProgramacionBusConductor />}
-          {activeWindow === "Comprobantes" && <ProgramacionComprobantes />}
-          {activeWindow === "Viajes" && <ProgramacionViajes />}
-          {activeWindow === "Administracion" && <Administracion />}
+          <Title order={3} className="flex justify-end text-black">
+            Dashboard
+          </Title>
+        </Header>
+        <Content
+          style={{ background: colorBgContainer }}
+          className="m-3.5 rounded-lg"
+        >
+          Contenido
+          {items.map(
+            (item) =>
+              item?.key === "1" && (
+                <div
+                  key={item.key}
+                  className="animate__animated animate__fadeIn"
+                >
+                  {children}
+                </div>
+              )
+          )}
         </Content>
+        <Footer className="my-5 text-center text-sm text-slate-500 drop-shadow-sm">
+          © Copyright 2024 Brayan Paucar . All rights reserved.
+        </Footer>
       </Layout>
-      {/* <DBTable /> */}
     </Layout>
   );
 }

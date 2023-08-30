@@ -11,7 +11,7 @@ import Image from "next/image";
 
 const totalViajesProgramados = 12;
 const viajesActivos = 9;
-function PanelControl() {
+export default function Dashboard() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex justify-between">
@@ -129,5 +129,3 @@ function PanelControl() {
     </div>
   );
 }
-
-export default PanelControl;

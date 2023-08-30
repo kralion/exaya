@@ -4,7 +4,7 @@ import Usuarios from "@/components/ui/administracion/usuarios";
 import { Title } from "@mantine/core";
 import React from "react";
 import { mockData } from "@/data";
-function Administracion() {
+export default function Administracion() {
   return (
     <div>
       <Title order={4}>Administracion</Title>
@@ -18,5 +18,3 @@ function Administracion() {
     </div>
   );
 }
-
-export default Administracion;

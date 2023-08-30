@@ -33,9 +33,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <Component {...pageProps} />
         </ConfigProvider>
       </QueryClientProvider>
-      <footer className="mt-7 text-center text-sm text-slate-500 drop-shadow-sm">
-        © Copyright 2024 Brayan Paucar . All rights reserved.
-      </footer>
     </SessionProvider>
   );
 };
