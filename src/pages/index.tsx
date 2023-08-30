@@ -1,126 +1,86 @@
-"use client";
-import AppHeader from "@/components/appheader";
-import {
-  AuditOutlined,
-  DashboardOutlined,
-  FieldTimeOutlined,
-  LineChartOutlined,
-  LogoutOutlined,
-  QuestionCircleOutlined,
-  ReconciliationOutlined,
-  ScheduleOutlined,
-} from "@ant-design/icons";
-import { Title } from "@mantine/core";
-import "animate.css";
-import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
-import { signOut, useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-
-const { Header, Content, Footer, Sider } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: string,
-  path: string,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key: path,
-    label,
-    path,
-    icon,
-    children,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem("Dashboard", "/dashboard", <DashboardOutlined />),
-
-  getItem("Pasajes", "/pasajes", <ScheduleOutlined />),
-  getItem("Encomiendas", "/encomiendas", <ReconciliationOutlined />),
-
-  getItem("Programacion", "/programacion", <FieldTimeOutlined />, [
-    getItem("Conductores", "/programacion/conductores"),
-    getItem("Comprobantes", "/programacion/comprobantes"),
-    getItem("Viajes", "/programacion/viajes"),
-  ]),
-
-  getItem("Contable", "/contable", <LineChartOutlined />),
-  getItem("Administracion", "/administracion", <AuditOutlined />),
-  getItem("Soporte", "/soporte", <QuestionCircleOutlined />),
-  getItem("Cerrar Sesión", "/cerrar-sesion", <LogoutOutlined />),
-];
-
-export default function ExayaPage() {
-  const { data: session } = useSession();
-
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer = "#000" },
-  } = theme.useToken();
-  useEffect(() => {
-    const audioElement = new Audio("../assets/audio/soundEffect.mp3");
-
-    const playSound = () => {
-      audioElement.play().catch((error) => {
-        console.error("Error al reproducir el sonido:", error);
-      });
-    };
-
-    audioElement.addEventListener("loadeddata", playSound);
-
-    return () => {
-      audioElement.removeEventListener("loadeddata", playSound);
-    };
-  }, []);
-
-  const navigate = (path: string) => {
-    if (path === "/cerrar-sesion") {
-      signOut();
-    }
-  };
-
+import React from "react";
+import { Inter, Black_Ops_One } from "next/font/google";
+import Image from "next/image";
+import LandingBanner from "@/assets/landing-banner.png";
+import LandingBanner2 from "@/assets/landing-banner-2.png";
+import Link from "next/link";
+import { RightCircleOutlined } from "@ant-design/icons";
+const inter = Inter({
+  weight: ["800", "300"],
+  subsets: ["latin-ext"],
+  preload: true,
+});
+const blackOpsOne = Black_Ops_One({
+  subsets: ["latin"],
+  weight: "400",
+  preload: true,
+});
+export default function Index() {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        className="m-3.5 rounded-lg"
-        collapsed={collapsed}
-        style={{ background: colorBgContainer }}
-        collapsedWidth={50}
-        onCollapse={(value) => setCollapsed(value)}
+    <>
+      <div className="m-5 flex justify-between">
+        <div className=" flex items-center justify-start">
+          <Image
+            src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
+            width={30}
+            height={30}
+            title="Exaya"
+            className="animate__animated animate__flip"
+            alt="logo"
+          />
+          <h3
+            className={`  text-left text-2xl  leading-none text-[#231335]   ${blackOpsOne.className} `}
+          >
+            Exaya
+          </h3>
+        </div>
+        <Link
+          href="/login"
+          className={` items-center rounded-full border-2 border-purple-900   bg-purple-800 px-4 py-1 text-sm text-white shadow-xl duration-200 hover:bg-purple-900 active:bg-purple-950  ${inter.className}`}
+        >
+          Get Started
+        </Link>
+      </div>
+      <div
+        className={`${inter.className} m-10 flex h-screen flex-col items-center justify-center text-center`}
       >
-        <AppHeader setCollapsed={setCollapsed} collapsed={collapsed} />
-        <Menu
-          onClick={(item) => {
-            navigate(item.key.toString());
-          }}
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          className="m-3.5 rounded-lg p-3.5 "
-          style={{ background: colorBgContainer }}
-        >
-          <Title order={3} className="flex justify-end text-black">
-            Dashboard
-          </Title>
-        </Header>
-        <Content
-          style={{ background: colorBgContainer }}
-          className="m-3.5 rounded-lg"
-        >
-          Contenido
-        </Content>
-        <Footer className="my-5 text-center text-sm text-slate-500 drop-shadow-sm">
-          © Copyright 2024 Brayan Paucar . All rights reserved.
-        </Footer>
-      </Layout>
-    </Layout>
+        <div className="relative m-5 space-y-12   rounded-2xl border-1 border-slate-500 bg-zinc-100 px-7 py-16">
+          <div className="space-y-3.5">
+            <h1 className="text-7xl font-bold">
+              Unleash And Transform Your Bussines Potential
+            </h1>
+            <h5 className="">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+              voluptatum, quibusdam, quia, quos voluptates voluptatem quod
+            </h5>
+          </div>
+          <div>
+            <Link
+              href="/login"
+              className={` items-center rounded-full bg-gradient-to-l from-rose-900 via-purple-900 to-purple-900 px-10 py-5 text-xl text-white shadow-xl  hover:bg-purple-950  ${inter.className}`}
+            >
+              <RightCircleOutlined twoToneColor={"red"} className="mr-2" />
+              Get Started
+            </Link>
+          </div>
+          <div className="flex justify-center gap-7">
+            <Image
+              src={LandingBanner}
+              alt="Picture of the author"
+              className=" rounded-2xl drop-shadow-xl duration-300 hover:scale-105"
+              width={500}
+              height={500}
+            />
+            <Image
+              src={LandingBanner2}
+              alt="Picture of the author"
+              className="rounded-2xl drop-shadow-xl duration-300 hover:scale-105"
+              width={500}
+              height={500}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
