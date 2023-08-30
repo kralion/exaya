@@ -2,6 +2,7 @@ import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 import { Avatar, Space, Typography } from "antd";
+import { useSession } from "next-auth/react";
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
@@ -15,6 +16,7 @@ type HeaderProps = {
 };
 
 const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
+  const { data: session } = useSession();
   return (
     <div>
       {!collapsed ? (
@@ -62,7 +64,9 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
           />
         )}
 
-        {!collapsed && <Typography.Text strong>César Saavedra</Typography.Text>}
+        {!collapsed && (
+          <Typography.Text strong>{session?.user?.name}</Typography.Text>
+        )}
       </Space>
     </div>
   );

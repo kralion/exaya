@@ -10,11 +10,9 @@ export default function Administracion() {
       <Title order={4}>Administracion</Title>
       <Usuarios />
       <StatsSegments {...mockData} />
-      <div className="flex">
-        <KpiChart />
-        <KpiChart />
-        <KpiChart />
-      </div>
+      <KpiChart />
+      <KpiChart />
+      <KpiChart />
     </div>
   );
 }

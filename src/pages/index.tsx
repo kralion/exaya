@@ -1,6 +1,7 @@
 "use client";
 import AppHeader from "@/components/appheader";
 import {
+  AuditOutlined,
   DashboardOutlined,
   FieldTimeOutlined,
   LineChartOutlined,
@@ -8,13 +9,13 @@ import {
   QuestionCircleOutlined,
   ReconciliationOutlined,
   ScheduleOutlined,
-  AuditOutlined,
 } from "@ant-design/icons";
+import { Title } from "@mantine/core";
+import "animate.css";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
+import { signOut, useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import "animate.css";
-import { Title } from "@mantine/core";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -53,7 +54,9 @@ const items: MenuItem[] = [
   getItem("Cerrar Sesión", "/cerrar-sesion", <LogoutOutlined />),
 ];
 
-export default function ExayaPage({ children }: { children: React.ReactNode }) {
+export default function ExayaPage() {
+  const { data: session } = useSession();
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer = "#000" },
@@ -74,6 +77,12 @@ export default function ExayaPage({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  const navigate = (path: string) => {
+    if (path === "/cerrar-sesion") {
+      signOut();
+    }
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
@@ -86,7 +95,7 @@ export default function ExayaPage({ children }: { children: React.ReactNode }) {
         <AppHeader setCollapsed={setCollapsed} collapsed={collapsed} />
         <Menu
           onClick={(item) => {
-            alert(item.key);
+            navigate(item.key.toString());
           }}
           defaultSelectedKeys={["1"]}
           mode="inline"
@@ -107,17 +116,6 @@ export default function ExayaPage({ children }: { children: React.ReactNode }) {
           className="m-3.5 rounded-lg"
         >
           Contenido
-          {items.map(
-            (item) =>
-              item?.key === "1" && (
-                <div
-                  key={item.key}
-                  className="animate__animated animate__fadeIn"
-                >
-                  {children}
-                </div>
-              )
-          )}
         </Content>
         <Footer className="my-5 text-center text-sm text-slate-500 drop-shadow-sm">
           © Copyright 2024 Brayan Paucar . All rights reserved.
