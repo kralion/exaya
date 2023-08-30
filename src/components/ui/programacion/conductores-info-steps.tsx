@@ -236,7 +236,7 @@ export function ConductoresInformacion() {
 
       <Modal
         title={
-          <Title order={3} style={{ marginBottom: 0 }}>
+          <Title order={3}>
             Información del Conductor
             <hr className="mt-3 " />
           </Title>

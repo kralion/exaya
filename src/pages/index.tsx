@@ -10,9 +10,9 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Layout, Menu, Space, Typography } from "antd";
-import { PT_Sans } from "next/font/google";
+import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Administracion from "./administracion";
 import Contable from "./contable";
 import Encomiendas from "./encomiendas";
@@ -21,10 +21,11 @@ import ProgramacionBusConductor from "./programacion/bus-conductor";
 import ProgramacionComprobantes from "./programacion/comprobantes";
 import ProgramacionViajes from "./programacion/viajes";
 import VentaPasajes from "./venta-pasajes";
+import soundEffect from "@/assets/audio/soundEffect.mp3";
 
-const pt_Sans = PT_Sans({
-  weight: "700",
-  subsets: ["latin-ext"],
+const blackOpsOne = Black_Ops_One({
+  subsets: ["latin"],
+  weight: "400",
   preload: true,
 });
 
@@ -70,6 +71,11 @@ const { Text } = Typography;
 export default function Index() {
   const [collapsed, setCollapsed] = useState(false);
   const [activeWindow, setActiveWindow] = useState("Panel de Control");
+
+  useEffect(() => {
+    const soundEffect = new Audio("");
+    void soundEffect.play();
+  }, []);
 
   const handleMenuItemClick = (key: React.Key) => {
     const menuItem = findMenuItemByKey(items, key);
@@ -133,15 +139,16 @@ export default function Index() {
         }}
       >
         {!collapsed ? (
-          <div className="flex items-center justify-center gap-1 pt-2.5 drop-shadow-md	">
+          <div className="flex items-center justify-center pt-2.5 drop-shadow-lg	">
             <Image
-              src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
+              src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
               width={50}
               height={50}
+              className="animate__animated animate__flip"
               alt="logo"
             />
             <p
-              className={`w-16 text-left text-xl font-semibold leading-none tracking-wide text-cyan-800 ${pt_Sans.className} `}
+              className={`w-16 text-left text-xl  leading-none  text-[#231335] ${blackOpsOne.className} `}
             >
               Exaya
             </p>
@@ -149,7 +156,7 @@ export default function Index() {
         ) : (
           <Image
             className="ml-2 mt-2.5 drop-shadow-md"
-            src="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
+            src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
             width={50}
             height={50}
             alt="logo"

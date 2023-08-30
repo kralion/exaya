@@ -59,7 +59,6 @@ export const AIAssistantInput = () => {
         options={options}
         onSelect={onSelect}
         onSearch={handleSearch}
-        size="large"
       >
         <TextArea
           style={{

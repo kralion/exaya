@@ -32,7 +32,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
       {editing ? (
         <Form.Item
           name={dataIndex}
-          style={{ margin: 0 }}
           rules={[
             {
               required: true,
