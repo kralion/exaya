@@ -3,10 +3,11 @@ import { Modal, Tag, Typography } from "antd";
 import style from "./frame.module.css";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import busPreview from "@/assets/bus-preview.png";
 import { Title } from "@mantine/core";
 import { DownloadOutlined } from "@ant-design/icons";
-
+import type { IBoleto } from "@/interfaces";
+import { viajesDiarios } from "@/data";
+import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -37,8 +38,8 @@ export const RegistrarPasajeModal: React.FC = () => {
     alert(`El precio es ${value}`);
   };
 
-  const onFinish = (values: any) => {
-    alert(`El precio es ${values.precio}, para ${values.nombre}`);
+  const onFinish = (values: IBoleto) => {
+    console.log(`El precio es ${values.precio}`);
   };
 
   const onReset = () => {
@@ -48,19 +49,26 @@ export const RegistrarPasajeModal: React.FC = () => {
   const handleSeatClick = (seatNumber: number) => {
     setOpenRegister(true);
   };
+  const destinosUnicos = [
+    ...new Set(viajesDiarios.map((viaje) => viaje.destino)),
+  ];
+  const origenesUnicos = [
+    ...new Set(viajesDiarios.map((viaje) => viaje.origen)),
+  ];
 
   return (
     <div>
       <Typography onClick={() => setOpen(true)}>Registrar</Typography>
       <Modal
         title="Registro de Asientos"
+        className=""
         centered
         open={open}
         onCancel={() => setOpen(false)}
         width={1000}
         footer={null}
       >
-        <div className="flex items-start justify-center  gap-7">
+        <div className="flex items-start justify-center gap-7 ">
           <div className=" mt-10 grid w-1/3 grid-flow-row grid-cols-4 ">
             {seats.map((seatNumber) => (
               <svg
@@ -71,7 +79,6 @@ export const RegistrarPasajeModal: React.FC = () => {
                 height="50"
                 viewBox="0 0 24 22"
               >
-                {/* Inserta el SVG del asiento aquí */}
                 <path
                   className="fill-slate-100 stroke-black "
                   d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
@@ -98,10 +105,11 @@ export const RegistrarPasajeModal: React.FC = () => {
               Vista previa del Bus
             </Title>
             <Image
-              src={busPreview}
-              width={500}
+              src={Bus1Preview}
+              width={800}
               height={500}
               alt="bus-preview"
+              className="rounded-xl"
             />
             <Title className="text-center text-slate-400" order={5}>
               Parte Delantera
@@ -148,19 +156,35 @@ export const RegistrarPasajeModal: React.FC = () => {
             label="Asiento"
             rules={[{ required: true }]}
           >
-            <Input type="number" />
+            <Input placeholder="1-45" type="number" />
           </Form.Item>
           <Form.Item name="origen" label="Origen" rules={[{ required: true }]}>
-            <Input type="text" />
+            <Select placeholder="Donde va a subir el pasajero" allowClear>
+              {origenesUnicos.map((origen) => (
+                <Option key={origen} value={origen}>
+                  {origen}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             name="destino"
             label="Destino"
             rules={[{ required: true }]}
           >
-            <Input type="text" />
+            <Select placeholder="Donde va a bajar el pasajero" allowClear>
+              {destinosUnicos.map((destino) => (
+                <Option key={destino} value={destino}>
+                  {destino}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
-          <Form.Item name="nombres" label="Nombre" rules={[{ required: true }]}>
+          <Form.Item
+            name="nombres"
+            label="Nombres"
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item
@@ -206,7 +230,7 @@ export const RegistrarPasajeModal: React.FC = () => {
               </Button>
               <button
                 style={{
-                  width: 120,
+                  width: 150,
                 }}
                 className={style.button}
                 type="submit"

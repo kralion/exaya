@@ -1,14 +1,13 @@
-import { dataSource } from "@/data/viajes-diarios";
+// import { dataSource } from "@/data/viajes-diarios";
+import { viajesDiarios as dataSource } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
 import Icon, {
-  EyeOutlined,
-  SafetyCertificateOutlined,
-  DownloadOutlined,
   DownOutlined,
+  DownloadOutlined,
+  SafetyCertificateOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
-  Button,
   Drawer,
   Dropdown,
   List,

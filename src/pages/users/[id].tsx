@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import Login from "@/pages/Login";
+import Login from "@/pages/login";
 import { getServerAuthSession } from "@/server/auth";
 import type { GetServerSideProps } from "next";
 

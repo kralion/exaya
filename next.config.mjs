@@ -26,6 +26,7 @@ const config = {
       "upload.wikimedia.org",
       "media.istockphoto.com",
       "images.pexels.com",
+      "o.remove.bg",
       "img.freepik.com",
       "as2.ftcdn.net",
       "as1.ftcdn.net",

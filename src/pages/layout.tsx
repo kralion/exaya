@@ -15,7 +15,6 @@ import "animate.css";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -64,11 +63,8 @@ export default function AppLayout({ children }: LayoutProps) {
   const navigate = async (path: string) => {
     if (path === "/cerrar-sesion") {
       signOut();
-    } else {
-      await router.push(path);
     }
   };
-  const router = useRouter();
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider

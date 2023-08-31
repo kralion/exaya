@@ -1,9 +1,12 @@
-import { Checkbox } from "antd";
+import type { loginSchema } from "@/schemas";
+import { Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import type { FormInstance } from "antd/es/form";
 import { useSession } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
+import { useRef } from "react";
+import type { z } from "zod";
 
 const literata = Literata({
   weight: "400",
@@ -19,17 +22,24 @@ const blackOpsOne = Black_Ops_One({
 
 export default function Login() {
   const { data: session } = useSession();
+
   console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
+  const onFinish = (values: z.infer<typeof loginSchema>) => {
+    alert(values.password);
+    window.location.href = "/layout";
+  };
+
+  const formRef = useRef<FormInstance>(null);
   return (
     <div
       data-aos="flip-up"
       data-aos-duration="1000"
       data-aos-delay="200"
-      className={` ${literata.className} flex h-screen flex-col items-center justify-center `}
+      className={` ${literata.className} flex h-screen flex-col items-center justify-center bg-[#FFFEF7] `}
     >
       <div className="mb-10 text-center">
         <div className="flex items-center justify-center gap-1">
@@ -52,38 +62,56 @@ export default function Login() {
           Las credenciales son precreadas, solicítalas en el área de TI
         </h4>
       </div>
-      <form className="w-[510px] ">
-        <div className="mb-7 flex flex-col justify-center">
-          <label className="mb-3  text-xl font-black" htmlFor="username">
-            Usuario
-          </label>
+      <Form
+        initialValues={{ remember: true }}
+        autoComplete="on"
+        className={`${literata.className} w-[510px] `}
+        ref={formRef}
+        name="control-ref"
+        onFinish={onFinish}
+      >
+        <h3 className="mb-2  font-semibold">Usuario</h3>
+        <Form.Item
+          name="username"
+          className={`${literata.className} `}
+          rules={[
+            {
+              required: true,
+              message: "Por favor ingrese su nombre de usuario",
+            },
+          ]}
+        >
           <input
-            className="rounded-md border-2 border-black px-5 py-2"
+            className={`w-full  rounded-md border-2 border-[#231335] bg-[#FFFEF7] px-5 py-2 text-xl ${literata.className}`}
             type="text"
-            name="username"
-            placeholder="Ingrese el nombre de usuario"
           />
-        </div>
-        <div className="flex flex-col justify-center">
-          <label className="mb-3 text-xl font-black" htmlFor="password">
-            Contraseña
-          </label>
+        </Form.Item>
+
+        <h4 className="mb-2  font-black">Contraseña</h4>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Por favor ingrese su contraseña",
+            },
+          ]}
+        >
           <input
-            className="rounded-md border-2  border-black px-5 py-2"
+            className={`w-full  rounded-md border-2 border-[#231335] bg-[#FFFEF7] px-5 py-2 text-xl ${literata.className}`}
             type="password"
-            name="password"
-            placeholder="***************"
           />
-        </div>
-        <Checkbox className={`${literata.className} my-3 `} onChange={onChange}>
+        </Form.Item>
+        <Checkbox className={`${literata.className}  `} onChange={onChange}>
           Recordar contraseña
         </Checkbox>
-        <Link href="/" replace>
-          <button className="mt-3.5 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3 text-white  duration-200 hover:bg-purple-950 active:scale-110">
-            Ingresar
-          </button>
-        </Link>
-      </form>
+        <button
+          type="submit"
+          className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3  text-white duration-200 active:scale-110"
+        >
+          Ingresar
+        </button>
+      </Form>
     </div>
   );
 }

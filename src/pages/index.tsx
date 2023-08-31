@@ -6,7 +6,7 @@ import LandingBanner from "@/assets/landing-banner.png";
 import {
   RightCircleOutlined,
   SendOutlined,
-  PhoneOutlined,
+  DollarOutlined,
   ChromeOutlined,
 } from "@ant-design/icons";
 import { Black_Ops_One, Dancing_Script, Inter } from "next/font/google";
@@ -25,9 +25,9 @@ const navLinks = [
     icon: <ChromeOutlined />,
   },
   {
-    title: "Contacto",
-    path: "/contact",
-    icon: <PhoneOutlined />,
+    title: "Planes",
+    path: "/plans",
+    icon: <DollarOutlined />,
   },
 ];
 
@@ -48,20 +48,20 @@ const blackOpsOne = Black_Ops_One({
 });
 export default function Index() {
   return (
-    <>
-      <div className="mx-10 flex items-baseline justify-between ">
+    <div className="bg-[#FFFEF7]">
+      <div className="mx-10  mb-24 mt-7 flex items-center justify-between ">
         <Link href="/">
-          <div className=" mb-16 mt-7 flex items-center justify-start">
+          <div className="  flex items-center justify-start">
             <Image
               src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
-              width={30}
-              height={30}
+              width={50}
+              height={50}
               title="Exaya"
               className="animate__animated animate__flip"
               alt="logo"
             />
             <h3
-              className={`  text-left text-2xl  leading-none text-[#231335]   ${blackOpsOne.className} `}
+              className={`  text-left text-3xl  text-[#231335]   ${blackOpsOne.className} `}
             >
               Exaya
             </h3>
@@ -72,7 +72,7 @@ export default function Index() {
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className={` inline-flex items-center rounded-full border-b-2 border-purple-500 bg-white px-6 py-2 font-bold text-purple-800 shadow-md duration-500 hover:border-purple-600 hover:bg-purple-500 hover:text-white ${inter.className}`}
+                  className={` inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2 font-bold text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7] ${inter.className}`}
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
@@ -115,9 +115,12 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/login"
-              className={` items-center rounded-full bg-gradient-to-l from-rose-900 via-purple-900 to-purple-900 px-10 py-5 text-xl font-semibold text-white shadow-xl  hover:bg-purple-950  ${inter.className}`}
+              className={`hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl font-bold text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52] hover:px-14  active:bg-purple-900 ${inter.className}`}
             >
-              <RightCircleOutlined twoToneColor={"red"} className="mr-2" />
+              <RightCircleOutlined
+                twoToneColor={"red"}
+                className="mr-2 duration-100 group-hover:mr-4 "
+              />
               Obtener
             </Link>
 
@@ -168,6 +171,6 @@ export default function Index() {
       <footer className="mt-16 text-center text-sm text-slate-500 drop-shadow-sm">
         © Copyright 2024 Brayan Paucar . All rights reserved.
       </footer>
-    </>
+    </div>
   );
 }

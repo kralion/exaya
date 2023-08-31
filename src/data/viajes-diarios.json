@@ -1,20 +1,50 @@
-{
-  "dataDiaria": [
-    {
-      "key": "1",
-      "origen": "Ayacucho",
-      "destino": "Huancayo",
-      "placaBus": "ABC-123",
-      "horaSalida": "20:15",
-      "precios": [30, 35]
-    },
-    {
-      "key": "2",
-      "origen": "Huancayo",
-      "destino": "Ayacucho",
-      "placaBus": "C3V-233",
-      "horaSalida": "20:00",
-      "precios": [30, 35]
-    }
-  ]
-}
+[
+  {
+    "key": "1",
+    "origen": "Ayacucho",
+    "destino": "Huancayo",
+    "placaBus": "X8M-PK2",
+    "horaSalida": "20:15",
+    "precios": [30, 35, 40]
+  },
+  {
+    "key": "2",
+    "origen": "Huancayo",
+    "destino": "Lima",
+    "placaBus": "R5T-NB7",
+    "horaSalida": "08:15",
+    "precios": [40, 45, 50]
+  },
+  {
+    "key": "3",
+    "origen": "Ayacucho",
+    "destino": "Lima",
+    "placaBus": "Q2Z-LF9",
+    "horaSalida": "20:00",
+    "precios": [40, 50, 60]
+  },
+  {
+    "key": "4",
+    "origen": "Ayacucho",
+    "destino": "Selva Baja",
+    "placaBus": "J6H-DG4",
+    "horaSalida": "21:45",
+    "precios": [70, 75, 80]
+  },
+  {
+    "key": "5",
+    "origen": "Huancayo",
+    "destino": "San Martin",
+    "placaBus": "V9B-TA1",
+    "horaSalida": "08:30",
+    "precios": [35, 40, 50]
+  },
+  {
+    "key": "6",
+    "origen": "Ayacucho",
+    "destino": "Lima",
+    "placaBus": "K7C-MY5",
+    "horaSalida": "20:30",
+    "precios": [50, 55, 60]
+  }
+]
