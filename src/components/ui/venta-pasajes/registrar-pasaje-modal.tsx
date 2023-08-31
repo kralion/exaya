@@ -8,6 +8,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import type { IBoleto } from "@/interfaces";
 import { viajesDiarios } from "@/data";
 import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
+import "animate.css";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -70,6 +71,26 @@ export const RegistrarPasajeModal: React.FC = () => {
       >
         <div className="flex items-start justify-center gap-7 ">
           <div className=" mt-10 grid w-1/3 grid-flow-row grid-cols-4 ">
+            <div className="col-span-2 flex justify-center ">
+              <Image
+                src="https://img.icons8.com/?size=512&id=110283&format=png"
+                width={50}
+                height={50}
+                title="Margen Izquierda"
+                className="animate__animated animate__delay-1s animate__flip"
+                alt="lateral"
+              />
+            </div>
+            <div className="col-span-2 flex justify-center ">
+              <Image
+                src="https://img.icons8.com/?size=512&id=17581&format=png"
+                width={50}
+                height={50}
+                title="Margen Derecha"
+                className="animate__animated animate__flip animate__delay-1s"
+                alt="lateral"
+              />
+            </div>
             {seats.map((seatNumber) => (
               <svg
                 key={seatNumber}
@@ -111,10 +132,6 @@ export const RegistrarPasajeModal: React.FC = () => {
               alt="bus-preview"
               className="rounded-xl"
             />
-            <Title className="text-center text-slate-400" order={5}>
-              Parte Delantera
-            </Title>
-            <Image src="" width={500} height={500} alt="front-preview-bus" />
           </div>
         </div>
       </Modal>
