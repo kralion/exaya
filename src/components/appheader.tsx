@@ -1,4 +1,4 @@
-import { Avatar, Space, Tag, Typography } from "antd";
+import { Avatar, Badge, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
@@ -51,17 +51,23 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
 
       <Space wrap size={1} className="my-20 flex flex-col">
         {!collapsed ? (
-          <Avatar
-            className="box-border border-1 border-gray-400"
-            size={60}
-            src="https://randomuser.me/api/portraits/men/22.jpg"
-          />
+          <div>
+            <Badge count={8}>
+              <Avatar
+                className="box-border border-1 border-gray-400"
+                size={60}
+                src="https://randomuser.me/api/portraits/men/22.jpg"
+              />
+            </Badge>
+          </div>
         ) : (
-          <Avatar
-            className="box-border border-1 border-gray-400"
-            size={40}
-            src="https://randomuser.me/api/portraits/men/22.jpg"
-          />
+          <Badge dot>
+            <Avatar
+              className="box-border border-1 border-gray-400"
+              size={40}
+              src="https://randomuser.me/api/portraits/men/22.jpg"
+            />
+          </Badge>
         )}
 
         {!collapsed && (
