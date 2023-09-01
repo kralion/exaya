@@ -9,9 +9,10 @@ export interface Pasajes {
 }
 export interface Item {
   viajeId: number;
-  ruta: string;
+  origen: string;
+  destino: string;
   bus: string;
-  fechaSalida: string;
+  fecha: string;
   horaSalida: string;
   estado: string;
 }

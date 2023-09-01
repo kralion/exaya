@@ -3,6 +3,7 @@ import React from "react";
 import { ProgramacionTable } from "@/components/ui/programacion/programacion-viajes-table";
 import { ViajesForm } from "@/components/ui/programacion/viajes-form";
 import { originData } from "@/data/programacion-viajes";
+import AppLayout from "@/pages/layout";
 
 function ProgramacionViajes() {
   const [viajesProgramados, setViajesProgramados] = React.useState(originData);
@@ -10,13 +11,14 @@ function ProgramacionViajes() {
     setViajesProgramados([...viajesProgramados, viaje]);
   };
   return (
-    <div className="flex flex-col gap-7">
-      <Title order={4}>Programacion de Viajes</Title>
-      <section className="flex flex-col ">
+    <AppLayout>
+      <div className="space-y-3.5">
+        <Title order={5}>Programacion de Viajes</Title>
         <ViajesForm handleAddViaje={handleAddViaje} />
+        <Title order={5}>Historial de Salidas</Title>
         <ProgramacionTable originData={originData} />
-      </section>
-    </div>
+      </div>
+    </AppLayout>
   );
 }
 

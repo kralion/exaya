@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { viajesDiarios } from "@/data";
+import type { EditableCellProps, Item } from "@/interfaces/interfaces";
+import { FieldTimeOutlined } from "@ant-design/icons";
 import {
   Badge,
   Button,
@@ -6,14 +8,11 @@ import {
   Input,
   InputNumber,
   Popconfirm,
-  Space,
   Table,
   Typography,
 } from "antd";
-import type { Item, EditableCellProps } from "@/interfaces/interfaces";
-import { originData } from "@/data/programacion-viajes";
-import type { ColumnsType, TableProps } from "antd/es/table";
-import { FieldTimeOutlined } from "@ant-design/icons";
+import type { TableProps } from "antd/es/table";
+import React, { useState } from "react";
 
 const EditableCell: React.FC<EditableCellProps> = ({
   editing,
@@ -48,16 +47,17 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 };
 
-export function ProgramacionTable({ originData }: { originData: any }) {
+export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
+  const [data, setData] = useState(viajesDiarios);
   const [editingKey, setEditingKey] = useState("");
 
   const isEditing = (record: Item) => record.key === editingKey;
 
   const edit = (record: Partial<Item> & { key: React.Key }) => {
     form.setFieldsValue({
-      ruta: "",
+      origen: "",
+      destino: "",
       bus: "",
       fechaSalida: "",
       horaSalida: "",
@@ -98,47 +98,66 @@ export function ProgramacionTable({ originData }: { originData: any }) {
   const columns = [
     {
       title: "ID",
-      dataIndex: "viajeId",
+      dataIndex: "key",
       width: "5%",
     },
+
     {
-      title: "Ruta",
-      dataIndex: "ruta",
-      width: "20%",
+      title: "Origen",
+      dataIndex: "origen",
+
       editable: true,
       filters: [
         {
-          text: "Huancayo - Ayacucho",
-          value: "Huancayo - Ayacucho",
+          text: "Huancayo",
+          value: "Huancayo",
         },
         {
-          text: "Ayacucho - Huancayo",
-          value: "Ayacucho - Huancayo",
+          text: "Ayacucho",
+          value: "Ayacucho",
         },
       ],
-      onFilter: (value: string, record) => record.ruta.indexOf(value) === 0,
+      onFilter: (value: string, record) => record.origen.indexOf(value) === 0,
+    },
+    {
+      title: "Destino",
+      dataIndex: "destino",
+
+      editable: true,
+      filters: [
+        {
+          text: "Lima",
+          value: "Lima",
+        },
+        {
+          text: "Selva Central",
+          value: "Selva Central",
+        },
+      ],
+      onFilter: (value: string, record) => record.destino.indexOf(value) === 0,
     },
     {
       title: "Bus",
-      dataIndex: "bus",
-      width: "15%",
+      dataIndex: "placaBus",
+      width: "10%",
+
       editable: true,
       render: (text: string) => <Typography>{text}</Typography>,
     },
     {
-      title: "Fecha Salida",
-      dataIndex: "fechaSalida",
-      width: "15%",
+      title: "Fecha ",
+      dataIndex: "fecha",
+      width: "12%",
       editable: true,
     },
     {
-      title: "Hora Salida",
+      title: "Hora",
       dataIndex: "horaSalida",
-      width: "15%",
+
       editable: true,
       render: (text: string) => (
         <Button
-          className="flex cursor-default items-center"
+          className="flex cursor-default items-center "
           type="text"
           icon={<FieldTimeOutlined />}
         >
@@ -152,7 +171,20 @@ export function ProgramacionTable({ originData }: { originData: any }) {
       width: "10%",
       editable: true,
       key: "state",
-      render: () => <Badge status="success" text="Activo" />,
+      render: (text: string) => (
+        <Badge
+          color={
+            text === "Lleno"
+              ? "green"
+              : text === "Venta"
+              ? "orange"
+              : text === "Inactivo"
+              ? "red"
+              : "gray"
+          }
+          count={text}
+        />
+      ),
     },
     {
       title: "Acciones",
@@ -160,7 +192,7 @@ export function ProgramacionTable({ originData }: { originData: any }) {
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return editable ? (
-          <p className="flex items-baseline gap-5">
+          <p className="flex items-baseline">
             <Typography.Link
               onClick={() => save(record.key)}
               style={{ marginRight: 8 }}
@@ -172,7 +204,7 @@ export function ProgramacionTable({ originData }: { originData: any }) {
             </a>
           </p>
         ) : (
-          <div className="flex items-baseline justify-center gap-5">
+          <div className="flex items-baseline justify-center">
             <Typography.Link
               disabled={editingKey !== ""}
               onClick={() => edit(record)}

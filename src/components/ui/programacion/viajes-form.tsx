@@ -1,16 +1,16 @@
-import React, { useState, useMemo } from "react";
+import { viajesDiarios } from "@/data";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import type { DatePickerProps } from "antd";
 import {
   Button,
+  DatePicker,
   Form,
   Select,
-  DatePicker,
   TimePicker,
   notification,
 } from "antd";
-import { CalendarOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import type { DatePickerProps } from "antd";
 import type { NotificationPlacement } from "antd/es/notification/interface";
-import { notifications } from "@mantine/notifications";
+import React, { useMemo } from "react";
 import style from "./frame.module.css";
 
 const Context = React.createContext({ name: "Default" });
@@ -49,24 +49,24 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
   };
 
   const contextValue = useMemo(() => ({ name: "" }), []);
-  const onRutaChange = (value: string) => {
+  const onOrigenChange = (value: string) => {
     switch (value) {
-      case "Ayacucho - Huancayo":
-        form.setFieldsValue({ ruta: "Ayacucho - Huancayo" });
+      case "Huancayo":
+        form.setFieldsValue({ ruta: "Ay" });
         break;
-      case "Huancayo - Ayacucho":
-        form.setFieldsValue({ ruta: "Huancayo - Ayacucho" });
+      case "Ayacucho":
+        form.setFieldsValue({ ruta: "Hyo" });
         break;
       default:
     }
   };
-  const onBusChange = (value: string) => {
+  const onDestinoChange = (value: string) => {
     switch (value) {
-      case "CV2-987":
-        form.setFieldsValue({ bus: "CV2-987" });
+      case "Ayacucho":
+        form.setFieldsValue({ ruta: "Ay" });
         break;
-      case "B9Z-78A":
-        form.setFieldsValue({ bus: "B9Z-78A" });
+      case "Huancayo":
+        form.setFieldsValue({ ruta: "Hyo" });
         break;
       default:
     }
@@ -76,12 +76,17 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
     openNotification("topRight");
     handleAddViaje(values);
     form.resetFields();
-    alert("topRight");
   };
 
   const onReset = () => {
     form.resetFields();
   };
+  const destinosUnicos = [
+    ...new Set(viajesDiarios.map((viaje) => viaje.destino)),
+  ];
+  const origenesUnicos = [
+    ...new Set(viajesDiarios.map((viaje) => viaje.origen)),
+  ];
 
   return (
     <Form
@@ -93,32 +98,49 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
     >
       <div className="flex gap-3.5">
         <Form.Item
-          className="b"
-          name="ruta"
-          rules={[{ required: true, message: "Campo requerido" }]}
+          name="origen"
+          rules={[{ required: true, message: "* Requerido" }]}
         >
           <Select
-            style={{ width: 200 }}
-            placeholder="Ruta"
-            onChange={onRutaChange}
+            style={{ width: 120 }}
+            placeholder="Origen"
+            onChange={onOrigenChange}
             allowClear
           >
-            <Option value="Ayacucho - Huancayo">Ayacucho - Huancayo </Option>
-            <Option value="Huancayo - Ayacucho">Huancayo - Ayacucho</Option>
+            {origenesUnicos.map((origen) => (
+              <Option key={origen} value={origen}>
+                {origen}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="destino"
+          rules={[{ required: true, message: "* Requerido" }]}
+        >
+          <Select
+            style={{ width: 120 }}
+            placeholder="Destino"
+            onChange={onDestinoChange}
+            allowClear
+          >
+            {destinosUnicos.map((destino) => (
+              <Option key={destino} value={destino}>
+                {destino}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
         <Form.Item
           name="bus"
           rules={[{ required: true, message: "* Requerido" }]}
         >
-          <Select
-            style={{ width: 120 }}
-            placeholder="Bus"
-            onChange={onBusChange}
-            allowClear
-          >
-            <Option value="CV2-987">CV2-987</Option>
-            <Option value="B9Z-78A">B9Z-78A</Option>
+          <Select style={{ width: 120 }} placeholder="Bus" allowClear>
+            {viajesDiarios.map((viaje) => (
+              <Option key={viaje.key} value={viaje.placaBus}>
+                {viaje.placaBus}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
         <Form.Item
@@ -126,8 +148,8 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
           rules={[{ required: true, message: "* Requerido" }]}
         >
           <DatePicker
-            style={{ width: 150 }}
-            placeholder="Fecha de Salida"
+            style={{ width: 120 }}
+            placeholder="Fecha"
             onChange={onDateChange}
           />
         </Form.Item>
@@ -137,11 +159,11 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
         >
           <TimePicker
             use12Hours={true}
-            style={{ width: 170 }}
+            style={{ width: 90 }}
             minuteStep={15}
             format={format}
             onChange={onTimeChange}
-            placeholder="Hora de Salida"
+            placeholder="Hora "
           />
         </Form.Item>
       </div>

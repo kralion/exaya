@@ -5,6 +5,8 @@ export const dataSource = [
     destino: "Huancayo",
     placaBus: "X8M-PK2",
     horaSalida: "20:15",
+    fecha: "2021-09-01",
+    estado: "Activo",
     precios: [30, 35, 40],
   },
   {
@@ -12,6 +14,8 @@ export const dataSource = [
     origen: "Huancayo",
     destino: "Lima",
     placaBus: "R5T-NB7",
+    fecha: "2021-09-01",
+    estado: "Activo",
     horaSalida: "08:15",
     precios: [40, 45, 50],
   },

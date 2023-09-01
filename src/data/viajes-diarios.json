@@ -5,6 +5,8 @@
     "destino": "Huancayo",
     "placaBus": "X8M-PK2",
     "horaSalida": "20:15",
+    "fecha": "2019-10-10",
+    "estado": "Venta",
     "precios": [30, 35, 40]
   },
   {
@@ -12,6 +14,8 @@
     "origen": "Huancayo",
     "destino": "Lima",
     "placaBus": "R5T-NB7",
+    "fecha": "2019-10-10",
+    "estado": "Lleno",
     "horaSalida": "08:15",
     "precios": [40, 45, 50]
   },
@@ -21,6 +25,8 @@
     "destino": "Lima",
     "placaBus": "Q2Z-LF9",
     "horaSalida": "20:00",
+    "fecha": "2019-10-10",
+    "estado": "Venta",
     "precios": [40, 50, 60]
   },
   {
@@ -29,6 +35,9 @@
     "destino": "Selva Baja",
     "placaBus": "J6H-DG4",
     "horaSalida": "21:45",
+    "fecha": "2019-10-10",
+
+    "estado": "Lleno",
     "precios": [70, 75, 80]
   },
   {
@@ -36,6 +45,8 @@
     "origen": "Huancayo",
     "destino": "San Martin",
     "placaBus": "V9B-TA1",
+    "fecha": "2019-10-10",
+    "estado": "Lleno",
     "horaSalida": "08:30",
     "precios": [35, 40, 50]
   },
@@ -44,6 +55,8 @@
     "origen": "Ayacucho",
     "destino": "Lima",
     "placaBus": "K7C-MY5",
+    "fecha": "2019-10-10",
+    "estado": "Inactivo",
     "horaSalida": "20:30",
     "precios": [50, 55, 60]
   }
