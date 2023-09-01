@@ -168,9 +168,13 @@ export function ConductoresInformacion() {
   };
 
   return (
-    <div className="rounded-lg shadow-md">
+    <>
       <List
         itemLayout="horizontal"
+        className="rounded-lg border-1 "
+        style={{
+          width: "50%",
+        }}
         dataSource={data}
         renderItem={(conductor, index) =>
           data.length > 0 ? (
@@ -179,7 +183,7 @@ export function ConductoresInformacion() {
                 openModal(conductor);
               }}
               key={index}
-              className="cursor-pointer  rounded-lg duration-200 hover:bg-gray-100"
+              className="cursor-pointer  rounded-lg  duration-100 hover:bg-zinc-100 hover:shadow-md"
               style={{
                 paddingLeft: 14,
                 paddingRight: 14,
@@ -342,6 +346,6 @@ export function ConductoresInformacion() {
           />
         </div>
       </Modal>
-    </div>
+    </>
   );
 }

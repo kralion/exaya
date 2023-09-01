@@ -74,7 +74,7 @@ export default function AppLayout({ children }: LayoutProps) {
       <Sider
         className="m-3.5 rounded-lg"
         collapsed={collapsed}
-        style={{ background: colorBgContainer }}
+        style={{ background: colorBgContainer, height: "100vh" }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}
       >
