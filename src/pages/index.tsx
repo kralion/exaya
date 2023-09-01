@@ -12,6 +12,7 @@ import {
 import { Black_Ops_One, Dancing_Script, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import "animate.css";
 
 const navLinks = [
   {
@@ -31,6 +32,11 @@ const navLinks = [
   },
 ];
 
+const blackOpsOne = Black_Ops_One({
+  subsets: ["latin"],
+  weight: "400",
+  preload: true,
+});
 const dancing_Script = Dancing_Script({
   subsets: ["latin"],
   weight: "700",
@@ -41,17 +47,12 @@ const inter = Inter({
   subsets: ["latin-ext"],
   preload: true,
 });
-const blackOpsOne = Black_Ops_One({
-  subsets: ["latin"],
-  weight: "400",
-  preload: true,
-});
 export default function Index() {
   return (
     <div className="bg-[#FFFEF7]">
       <div className="mx-10  mb-24 mt-7 flex items-center justify-between ">
         <Link href="/">
-          <div className="  flex items-center justify-start">
+          <div className="flex items-center justify-start">
             <Image
               src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
               width={50}
@@ -60,11 +61,9 @@ export default function Index() {
               className="animate__animated animate__flip"
               alt="logo"
             />
-            <h3
-              className={`  text-left text-3xl  text-[#231335]   ${blackOpsOne.className} `}
-            >
+            <span className={` text-2xl font-bold ${inter.className}`}>
               Exaya
-            </h3>
+            </span>
           </div>
         </Link>
         <nav>
@@ -72,7 +71,7 @@ export default function Index() {
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className={` inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2 font-bold text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7] ${inter.className}`}
+                  className={` inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2  text-sm   text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7] ${inter.className}`}
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
@@ -115,7 +114,7 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/login"
-              className={`hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl font-bold text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52] hover:px-14  active:bg-purple-900 ${inter.className}`}
+              className={`hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl font-bold tracking-wide text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52]  hover:px-14 active:bg-purple-900 ${inter.className}`}
             >
               <RightCircleOutlined
                 twoToneColor={"red"}
