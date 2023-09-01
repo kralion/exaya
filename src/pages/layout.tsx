@@ -16,6 +16,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
+import styles from "@/styles/landing.module.css";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -58,7 +59,7 @@ const items: MenuItem[] = [
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer = "#000" },
+    token: { colorBgContainer },
   } = theme.useToken();
   const navigate = async (path: string) => {
     if (path === "/cerrar-sesion") {

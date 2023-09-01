@@ -3,6 +3,7 @@ import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D from "@/assets/3d-asset.png";
 import LandingBanner2 from "@/assets/landing-banner-2.png";
 import LandingBanner from "@/assets/landing-banner.png";
+import styles from "@/styles/landing.module.css";
 import {
   RightCircleOutlined,
   SendOutlined,
@@ -49,8 +50,8 @@ const inter = Inter({
 });
 export default function Index() {
   return (
-    <div className="bg-[#FFFEF7]">
-      <div className="mx-10  mb-24 mt-7 flex items-center justify-between ">
+    <div className={styles.background}>
+      <div className="mx-10  mb-24 flex items-center justify-between pt-7 ">
         <Link href="/">
           <div className="flex items-center justify-start">
             <Image
@@ -61,7 +62,9 @@ export default function Index() {
               className="animate__animated animate__flip"
               alt="logo"
             />
-            <span className={` text-2xl font-bold ${inter.className}`}>
+            <span
+              className={` text-3xl font-bold text-zinc-100 ${blackOpsOne.className}`}
+            >
               Exaya
             </span>
           </div>
@@ -71,7 +74,7 @@ export default function Index() {
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className={` inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2  text-sm   text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7] ${inter.className}`}
+                  className="inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2  text-sm   text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7]"
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
@@ -114,13 +117,13 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/login"
-              className={`hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl font-bold tracking-wide text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52]  hover:px-14 active:bg-purple-900 ${inter.className}`}
+              className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl   text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52]  hover:px-14 active:bg-purple-900 "
             >
               <RightCircleOutlined
                 twoToneColor={"red"}
                 className="mr-2 duration-100 group-hover:mr-4 "
               />
-              Obtener
+              Ver Demo
             </Link>
 
             <Image
@@ -167,7 +170,8 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <footer className="mt-16 text-center text-sm text-slate-500 drop-shadow-sm">
+
+      <footer className="py-20 text-center text-sm text-zinc-100 drop-shadow-sm ">
         © Copyright 2024 Brayan Paucar . All rights reserved.
       </footer>
     </div>

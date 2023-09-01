@@ -1,8 +1,8 @@
+import { Avatar, Space, Tag, Typography } from "antd";
+import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
 import React from "react";
-import { Avatar, Space, Typography } from "antd";
-import { useSession } from "next-auth/react";
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
@@ -54,18 +54,28 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
           <Avatar
             className="box-border border-1 border-gray-400"
             size={60}
-            src="https://images.unsplash.com/photo-1503593245033-a040be3f3c82?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=ca8c652b62b1f14c9c4c969289a8b33c"
+            src="https://randomuser.me/api/portraits/men/22.jpg"
           />
         ) : (
           <Avatar
             className="box-border border-1 border-gray-400"
             size={40}
-            src="https://images.unsplash.com/photo-1503593245033-a040be3f3c82?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=ca8c652b62b1f14c9c4c969289a8b33c"
+            src="https://randomuser.me/api/portraits/men/22.jpg"
           />
         )}
 
         {!collapsed && (
-          <Typography.Text strong>{session?.user?.name}</Typography.Text>
+          <div className="flex flex-col items-center justify-center">
+            <Typography.Text strong>
+              {session?.user?.name || "César Córdova"}
+            </Typography.Text>
+            <Tag
+              color={session?.user?.role === "admin" ? "black" : "black"}
+              className="mt-2 rounded-full border-2  border-slate-700 text-center shadow-md shadow-slate-600 "
+            >
+              admin
+            </Tag>
+          </div>
         )}
       </Space>
     </div>

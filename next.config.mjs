@@ -27,6 +27,7 @@ const config = {
       "media.istockphoto.com",
       "images.pexels.com",
       "o.remove.bg",
+      "fpdl.in",
       "img.freepik.com",
       "as2.ftcdn.net",
       "as1.ftcdn.net",
