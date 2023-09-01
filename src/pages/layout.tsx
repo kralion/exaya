@@ -17,6 +17,7 @@ import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
 import styles from "@/styles/landing.module.css";
+import HeaderCard from "@/components/ui/header-card";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -87,10 +88,27 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className="m-3.5 rounded-lg p-3.5 "
+          className="m-3.5 flex justify-between rounded-lg p-2  "
           style={{ background: colorBgContainer }}
         >
-          <Title order={3} className="flex justify-end text-black">
+          <div className="flex gap-3">
+            <HeaderCard
+              title="Revision"
+              icon="https://img.icons8.com/?size=512&id=65d90ratDWqL&format=png"
+            />
+            <HeaderCard
+              title="Llamada"
+              icon="https://img.icons8.com/?size=1x&id=WMy0gZYpVaBU&format=png"
+            />
+            <HeaderCard
+              title="Liquidar"
+              icon="https://img.icons8.com/?size=512&id=sYfZR37XSI27&format=png"
+            />
+          </div>
+          <Title
+            order={3}
+            className="flex items-center pr-3 text-center  text-black"
+          >
             Dashboard
           </Title>
         </Header>
