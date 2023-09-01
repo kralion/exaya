@@ -78,7 +78,7 @@ export function EncomiendasForm() {
       onFinish={onFinish}
       initialValues={{ prefix: "+51" }}
       scrollToFirstError
-      className="grid grid-flow-row grid-cols-4  gap-x-7"
+      className="grid grid-flow-row grid-cols-4 gap-x-3.5"
     >
       <Form.Item
         name="nombreRemitente"
@@ -171,7 +171,7 @@ export function EncomiendasForm() {
         rules={[{ required: true, message: "Selecciona la fecha" }]}
         help="Calculando espacio para esa fecha..."
       >
-        <DatePicker style={{ width: 254 }} onChange={onDateChange} />
+        <DatePicker style={{ width: 233 }} onChange={onDateChange} />
       </Form.Item>
 
       <Form.Item name="password" label="Clave de Envío" hasFeedback>
@@ -189,7 +189,7 @@ export function EncomiendasForm() {
       <Form.Item
         name="descripcion"
         label="Descripción de la encomienda"
-        className="col-span-2 mb-20"
+        className="col-span-2 mb-10"
         rules={[{ required: true, message: "Describe a la encomiendas" }]}
       >
         <Input.TextArea

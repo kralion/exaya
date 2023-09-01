@@ -16,8 +16,8 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
-import styles from "@/styles/landing.module.css";
 import HeaderCard from "@/components/ui/header-card";
+import { useRouter } from "next/router";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -65,6 +65,8 @@ export default function AppLayout({ children }: LayoutProps) {
   const navigate = async (path: string) => {
     if (path === "/cerrar-sesion") {
       signOut();
+    } else {
+      await navigate(path);
     }
   };
   return (
@@ -77,14 +79,17 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu
-          onClick={(item) => {
-            navigate(item.key as string);
-          }}
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
+        <Menu defaultSelectedKeys={["/dashboard"]} mode="inline" items={items}>
+          {(item) => (
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+              onClick={() => navigate(item.path)}
+            >
+              {item.label}
+            </Menu.Item>
+          )}
+        </Menu>
       </Sider>
       <Layout>
         <Header
@@ -113,7 +118,7 @@ export default function AppLayout({ children }: LayoutProps) {
           </Title>
         </Header>
         <Content
-          style={{ background: colorBgContainer }}
+          style={{ background: colorBgContainer, padding: 21 }}
           className="m-3.5 rounded-lg"
         >
           {children}

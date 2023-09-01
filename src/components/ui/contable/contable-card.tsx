@@ -14,10 +14,7 @@ export function ContableCard({
   cardValue,
 }: Card) {
   return (
-    <Card
-      style={{ width: 260 }}
-      className="animate__animated animate__flipInX  shadow-md duration-200 hover:shadow-lg"
-    >
+    <Card className="animate__animated animate__flipInX w-[240px]  shadow-md duration-200 hover:shadow-lg">
       <h4 className="text-sm text-slate-400 ">{cardTitle}</h4>
       <h3 className="font-Roboto pt-[5px] text-2xl font-bold">
         S./ {cardValue}

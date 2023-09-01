@@ -11,6 +11,7 @@ import { RoundedButton } from "@/components/ui/rounded-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { Title } from "@mantine/core";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
+import AppLayout from "../layout";
 
 const { Text } = Typography;
 
@@ -96,95 +97,102 @@ export default function Contable() {
   const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
 
   return (
-    <div className="space-y-7">
-      <div className="flex flex-col gap-3.5">
-        <Title order={4} className="text-slate-800">
-          Reporte Contable
-        </Title>
-        <div className=" flex justify-between">
-          <div className="flex items-center gap-3.5">
-            <RoundedButton horaSalida="20:15" />
-            <RoundedButton horaSalida="20:30" />
-            <RoundedButton horaSalida="21:00" />
+    <AppLayout>
+      <div className="space-y-7">
+        <div className="flex flex-col gap-3.5">
+          <div className="flex justify-between">
+            <Title order={5} className="text-slate-800">
+              Horarios
+            </Title>
+            <Title order={5} className=" pr-48 text-slate-800">
+              Busqueda Específica
+            </Title>
           </div>
-          <div className="flex gap-3.5">
-            <DatePicker
-              onChange={onChange}
-              onOk={onOk}
-              placeholder={placeHolderDate}
-            />
+          <div className=" flex justify-between">
+            <div className="flex items-center gap-2">
+              <RoundedButton horaSalida="20:15" />
+              <RoundedButton horaSalida="20:30" />
+              <RoundedButton horaSalida="21:00" />
+            </div>
+            <div className="flex gap-3.5">
+              <DatePicker
+                onChange={onChange}
+                onOk={onOk}
+                placeholder={placeHolderDate}
+              />
 
-            <Select
-              placeholder="Ruta"
-              style={{ width: 180 }}
-              onChange={handleRuta}
-              options={[
-                {
-                  value: "RUTA-HA",
-                  label: "Huancayo - Ayacucho",
-                },
-                {
-                  value: "RUTA-AH",
-                  label: "Ayacucho - Huancayo",
-                },
-              ]}
+              <Select
+                placeholder="Ruta"
+                style={{ width: 180 }}
+                onChange={handleRuta}
+                options={[
+                  {
+                    value: "RUTA-HA",
+                    label: "Huancayo - Ayacucho",
+                  },
+                  {
+                    value: "RUTA-AH",
+                    label: "Ayacucho - Huancayo",
+                  },
+                ]}
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <ContableCard
+              cardTitle="Recaudado"
+              cardValue={5400}
+              cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
+              cardConcept="Viajes & Encomiendas"
+            />
+            <ContableCard
+              cardTitle="Ingresos"
+              cardValue={4800}
+              cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
+              cardConcept="75% del recaudado"
+            />
+            <ContableCard
+              cardTitle="Comision"
+              cardValue={590}
+              cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
+              cardConcept="15% del recaudado"
+            />
+            <ContableCard
+              cardTitle="Encomiendas"
+              cardValue={315}
+              cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
+              cardConcept="Ingresos"
             />
           </div>
+          <EstadisticasNumericas />
         </div>
-        <div className="flex justify-between">
-          <ContableCard
-            cardTitle="Recaudado"
-            cardValue={5400}
-            cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
-            cardConcept="Viajes & Encomiendas"
-          />
-          <ContableCard
-            cardTitle="Ingresos"
-            cardValue={4800}
-            cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
-            cardConcept="75% del recaudado"
-          />
-          <ContableCard
-            cardTitle="Comision"
-            cardValue={590}
-            cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
-            cardConcept="15% del recaudado"
-          />
-          <ContableCard
-            cardTitle="Encomiendas"
-            cardValue={315}
-            cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
-            cardConcept="Ingresos"
-          />
-        </div>
-        <EstadisticasNumericas />
-      </div>
-      <div className="space-y-3.5">
-        <div className="flex items-baseline justify-between">
-          <Title order={4} className="pt-7 tracking-tight text-slate-800">
-            Historial de Registros
-          </Title>
-          <Input
-            placeholder="Buscar por DNI"
-            className="w-64 "
-            onPressEnter={() => {
-              alert("Enter");
+        <div className="space-y-3.5">
+          <div className="flex items-baseline justify-between">
+            <Title order={4} className="pt-7 tracking-tight text-slate-800">
+              Historial de Registros
+            </Title>
+            <Input
+              placeholder="Buscar por DNI"
+              className="w-64 "
+              onPressEnter={() => {
+                alert("Enter");
+              }}
+              suffix={<SearchOutlined className="cursor-pointer" />}
+            />
+          </div>
+          <Table
+            pagination={{
+              position: ["bottomCenter"],
+              defaultPageSize: 5,
+              showSizeChanger: true,
+              pageSizeOptions: ["5", "10"],
             }}
-            suffix={<SearchOutlined className="cursor-pointer" />}
+            className="shadow-md"
+            columns={columns}
+            dataSource={data}
           />
         </div>
-        <Table
-          pagination={{
-            position: ["bottomCenter"],
-            defaultPageSize: 5,
-            showSizeChanger: true,
-            pageSizeOptions: ["5", "10"],
-          }}
-          className="shadow-md"
-          columns={columns}
-          dataSource={data}
-        />
       </div>
-    </div>
+    </AppLayout>
   );
 }

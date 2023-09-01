@@ -9,9 +9,7 @@ export function EncomiendasTable() {
 
   return (
     <div className="space-y-3.5">
-      <Title order={4} className="mt-7">
-        Historial de Encomiendas
-      </Title>
+      <Title order={5}>Historial de Encomiendas</Title>
       <Table
         pagination={{
           defaultPageSize: 5,

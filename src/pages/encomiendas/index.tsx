@@ -1,16 +1,19 @@
 import { EncomiendasForm } from "@/components/ui/encomiendas/form";
 import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 import { Title } from "@mantine/core";
+import AppLayout from "../layout";
 
 function Encomiendas() {
   return (
-    <div className="flex flex-col gap-7">
-      <Title order={4}>Registro de Encomiendas</Title>
-      <section className="flex justify-between">
+    <AppLayout>
+      <div className="space-y-3.5">
+        <Title order={5}>Registro de Encomiendas</Title>
+
         <EncomiendasForm />
-      </section>
-      <EncomiendasTable />
-    </div>
+
+        <EncomiendasTable />
+      </div>
+    </AppLayout>
   );
 }
 
