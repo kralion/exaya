@@ -1,4 +1,4 @@
-import { Button, Tag, Typography } from "antd";
+import { Button, Popconfirm, Tag, Typography } from "antd";
 import type { Encomienda } from "@/interfaces/interfaces";
 import { useEncomiendasContext as Context } from "@/context/EncomiendasContext";
 import EncomiendaDetails from "./detalles-encomienda";
@@ -40,6 +40,9 @@ export const columns = [
     title: "Acciones",
     key: "action",
     render: (encomienda: Encomienda) => {
+      const cancel = () => {
+        console.log("Cancelado");
+      };
       const { handleDeleteEncomienda } = Context();
       return (
         <div className="flex items-baseline gap-2">
@@ -99,13 +102,26 @@ export const columns = [
             </div>
           </EncomiendaDetails>
 
-          <Button
-            onClick={() => handleDeleteEncomienda(encomienda.key)}
-            danger
-            type="link"
+          <Popconfirm
+            okButtonProps={{
+              style: {
+                backgroundColor: "#f5222d",
+                color: "white",
+                borderRadius: "5px",
+                border: "none",
+              },
+            }}
+            title="Estás seguro ?"
+            onConfirm={cancel}
           >
-            Eliminar
-          </Button>
+            <Button
+              onClick={() => handleDeleteEncomienda(encomienda.key)}
+              danger
+              type="link"
+            >
+              Eliminar
+            </Button>
+          </Popconfirm>
         </div>
       );
     },

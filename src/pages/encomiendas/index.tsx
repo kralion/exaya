@@ -8,9 +8,7 @@ function Encomiendas() {
     <AppLayout>
       <div className="space-y-3.5">
         <Title order={5}>Registro de Encomiendas</Title>
-
         <EncomiendasForm />
-
         <EncomiendasTable />
       </div>
     </AppLayout>
