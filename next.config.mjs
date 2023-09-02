@@ -28,6 +28,7 @@ const config = {
       "images.pexels.com",
       "o.remove.bg",
       "fpdl.in",
+      "ouch-cdn2.icons8.com",
       "img.freepik.com",
       "as2.ftcdn.net",
       "as1.ftcdn.net",
