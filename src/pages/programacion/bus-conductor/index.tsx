@@ -1,21 +1,26 @@
-import {
-  ConductoresInformacion,
-  BusConductorCarousel,
-} from "@/components/ui/programacion";
-import { Title } from "@mantine/core";
-import React from "react";
-import { ConductoresForm } from "@/components/ui/programacion";
 import AppLayout from "@/components/layout";
+import {
+  ConductoresForm,
+  ConductoresInformacion,
+} from "@/components/ui/programacion";
+import BusesInformacion from "@/components/ui/programacion/buses-info";
+import { Title } from "@mantine/core";
 
 export default function ProgramacionBusConductor() {
   return (
     <AppLayout>
-      <div className="space-y-7">
-        <Title order={4}>Programacion Bus Conductor</Title>
-        <ConductoresForm activator="Agregar Conductor" />
-
-        <ConductoresInformacion />
-        <BusConductorCarousel />
+      <div className="flex gap-7">
+        <div className="space-y-5">
+          <Title order={4}>Conductores</Title>
+          <div className="space-y-3.5">
+            <ConductoresForm activator="Agregar Conductor" />
+            <ConductoresInformacion />
+          </div>
+        </div>
+        <div className="space-y-7">
+          <Title order={4}>Buses en Plena Operacion</Title>
+          <BusesInformacion />
+        </div>
       </div>
     </AppLayout>
   );

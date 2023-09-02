@@ -1,8 +1,3 @@
-import Bus1 from "@/assets/buses/bus-1.png";
-import Bus2 from "@/assets/buses/bus-2.png";
-import Bus3 from "@/assets/buses/bus-3.png";
-import Bus4 from "@/assets/buses/bus-4.png";
-import Bus5 from "@/assets/buses/bus-5.png";
 import type { IConductor } from "@/interfaces";
 import {
   CheckCircleOutlined,
@@ -21,7 +16,7 @@ import {
   Tag,
   Typography,
 } from "antd";
-import Image from "next/image";
+import Image from "antd/es/image";
 import { useState } from "react";
 
 const { confirm } = Modal;
@@ -35,7 +30,8 @@ const data: IConductor[] = [
     apellidos: "Ramirez",
     dni: "12345678",
     telefono: "+123456789",
-    foto_bus: Bus1,
+    foto_bus:
+      "https://img.freepik.com/premium-psd/bus-sticker-wrapping-mockup-design_417483-1910.jpg?size=626&ext=jpg",
     licencia_conducir: "LC12345",
     disponibilidad: true,
     foto_perfil: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
@@ -49,7 +45,8 @@ const data: IConductor[] = [
     nivel: 1,
     dni: "87654321",
     telefono: "+987654321",
-    foto_bus: Bus2,
+    foto_bus:
+      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
     licencia_conducir: "LC67890",
     disponibilidad: true,
     foto_perfil: "https://randomuser.me/api/portraits/men/86.jpg",
@@ -63,7 +60,8 @@ const data: IConductor[] = [
     dni: "54321678",
     nivel: 2,
     telefono: "+543216789",
-    foto_bus: Bus3,
+    foto_bus:
+      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
     licencia_conducir: "LC54321",
     disponibilidad: true,
     foto_perfil: "https://randomuser.me/api/portraits/men/1.jpg",
@@ -75,7 +73,8 @@ const data: IConductor[] = [
     nombres: "Danilo",
     apellidos: "Alfaro",
     dni: "98761234",
-    foto_bus: Bus5,
+    foto_bus:
+      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
     telefono: "+987612345",
     licencia_conducir: "LC98765",
     nivel: 2,
@@ -96,7 +95,8 @@ const data: IConductor[] = [
     foto_perfil:
       "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=1229aa0db2a9a42022b7669f30784123",
     estado_documentario: "Documentos Actualizados",
-    foto_bus: Bus4,
+    foto_bus:
+      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
   },
   {
     id: 6,
@@ -171,10 +171,7 @@ export function ConductoresInformacion() {
     <>
       <List
         itemLayout="horizontal"
-        className="rounded-lg border-1 "
-        style={{
-          width: "50%",
-        }}
+        className=" w-max  min-w-[500px] rounded-lg border-1 "
         dataSource={data}
         renderItem={(conductor, index) =>
           data.length > 0 ? (
@@ -192,31 +189,25 @@ export function ConductoresInformacion() {
               <List.Item.Meta
                 avatar={<Avatar src={conductor.foto_perfil} />}
                 title={
-                  <a
-                    href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {conductor.nombres}
-                  </a>
+                  <div>
+                    <a
+                      href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mr-2"
+                    >
+                      {conductor.nombres}
+                    </a>
+                    {conductor.disponibilidad === true ? (
+                      <CheckCircleOutlined className=" rounded-full bg-green-500  text-white" />
+                    ) : (
+                      <CloseCircleOutlined className=" rounded-full bg-red-500  text-white" />
+                    )}
+                  </div>
                 }
                 description={
-                  <div className="flex gap-3">
+                  <div className="flex items-center gap-3">
                     <p>{conductor.licencia_conducir}</p>
-
-                    <Tag
-                      className="h-4 w-2  rounded-full"
-                      title={
-                        conductor.disponibilidad === true
-                          ? "Disponible"
-                          : "No Disponible"
-                      }
-                      color={
-                        conductor.disponibilidad === true ? "green" : "red"
-                      }
-                    >
-                      {conductor.disponibilidad}
-                    </Tag>
                   </div>
                 }
               />
@@ -276,7 +267,7 @@ export function ConductoresInformacion() {
           <div className="mt-7 space-y-3.5">
             <p>
               <Typography.Text strong>Cod Licencia: </Typography.Text>
-              <Tag color="volcano"> {conductor?.licencia_conducir}</Tag>
+              <Tag> {conductor?.licencia_conducir}</Tag>
             </p>
 
             <p>
@@ -335,14 +326,14 @@ export function ConductoresInformacion() {
           </div>
           <Image
             src={
-              conductor?.foto_bus !== undefined
-                ? conductor?.foto_bus
-                : "https://img.freepik.com/premium-vector/no-data-concept-illustration_86047-486.jpg?size=626&ext=jpg"
+              conductor?.foto_bus === undefined
+                ? "https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg"
+                : conductor?.foto_bus
             }
-            className="drop-shadow-xl"
-            alt="Shipping Box"
-            width={400}
-            height={400}
+            width={300}
+            height={200}
+            className="h-20 w-40 rounded-lg object-cover "
+            alt="Bus Preview"
           />
         </div>
       </Modal>

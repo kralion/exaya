@@ -244,7 +244,7 @@ export function ConductoresForm({ activator }: Props) {
 
           <div className="flex">
             <Form.Item
-              label="Foto de Perfil"
+              label="Foto Conductor"
               name="foto_perfil"
               getValueFromEvent={profilePicFile}
               valuePropName="fileList"

@@ -24,6 +24,7 @@ const config = {
       "icons8.com",
       "images.pexels.com",
       "upload.wikimedia.org",
+      "image.shutterstock.com",
       "media.istockphoto.com",
       "images.pexels.com",
       "o.remove.bg",
