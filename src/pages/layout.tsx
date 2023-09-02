@@ -1,5 +1,6 @@
 "use client";
 import AppHeader from "@/components/appheader";
+import HeaderCard from "@/components/ui/header-card";
 import {
   AuditOutlined,
   DashboardOutlined,
@@ -11,12 +12,14 @@ import {
   ScheduleOutlined,
 } from "@ant-design/icons";
 import { Title } from "@mantine/core";
+import { Steps } from "antd";
+
+const description = "This is a description.";
 import "animate.css";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
-import HeaderCard from "@/components/ui/header-card";
 import { useRouter } from "next/router";
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -59,6 +62,7 @@ const items: MenuItem[] = [
 ];
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -66,7 +70,7 @@ export default function AppLayout({ children }: LayoutProps) {
     if (path === "/cerrar-sesion") {
       signOut();
     } else {
-      await navigate(path);
+      await router.push(path);
     }
   };
   return (
@@ -79,24 +83,45 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu defaultSelectedKeys={["/dashboard"]} mode="inline" items={items}>
-          {(item) => (
-            <Menu.Item
-              key={item.key}
-              icon={item.icon}
-              onClick={() => navigate(item.path)}
-            >
-              {item.label}
-            </Menu.Item>
-          )}
-        </Menu>
+        <Menu
+          defaultSelectedKeys={["/dashboard"]}
+          mode="inline"
+          items={items}
+        />
       </Sider>
       <Layout>
         <Header
-          className="m-3.5 flex justify-between rounded-lg p-2  "
-          style={{ background: colorBgContainer }}
+          className="border-black-2 m-3.5  flex items-center justify-between rounded-lg   "
+          style={{
+            background: colorBgContainer,
+          }}
         >
-          <div className="flex gap-3">
+          {/* <Steps
+            current={1}
+            size="small"
+            style={{
+              width: 800,
+            }}
+            items={[
+              {
+                title: "Finished",
+                description,
+              },
+              {
+                title: "In Progress",
+                description,
+              },
+              {
+                title: "Waiting",
+                description,
+              },
+              {
+                title: "Waiting",
+                description,
+              },
+            ]}
+          /> */}
+          <div className="flex gap-3.5">
             <HeaderCard
               title="Revision"
               icon="https://img.icons8.com/?size=512&id=65d90ratDWqL&format=png"
@@ -107,12 +132,12 @@ export default function AppLayout({ children }: LayoutProps) {
             />
             <HeaderCard
               title="Liquidar"
-              icon="https://img.icons8.com/?size=512&id=sYfZR37XSI27&format=png"
+              icon="https://img.icons8.com/?size=2x&id=17317&format=png"
             />
           </div>
           <Title
             order={3}
-            className="flex items-center pr-3 text-center  text-black"
+            className="flex items-center text-center  text-black"
           >
             Dashboard
           </Title>

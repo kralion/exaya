@@ -25,7 +25,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta name="Exaya" content="Transportations management service" />
         <link
           rel="icon"
-          href="https://img.icons8.com/?size=1x&id=l6Tcv6hLPzY9&format=png"
+          href="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
         />
       </Head>
       <QueryClientProvider client={queryClient}>

@@ -50,8 +50,8 @@ const inter = Inter({
 });
 export default function Index() {
   return (
-    <div className={styles.background}>
-      <div className="mx-10  mb-24 flex items-center justify-between pt-7 ">
+    <div className="bg-[#FFFEF7]">
+      <div className="mx-10  mb-24 flex items-center justify-between bg-transparent pt-7 ">
         <Link href="/">
           <div className="flex items-center justify-start">
             <Image
@@ -62,9 +62,7 @@ export default function Index() {
               className="animate__animated animate__flip"
               alt="logo"
             />
-            <span
-              className={` text-3xl font-bold text-zinc-100 ${blackOpsOne.className}`}
-            >
+            <span className={` text-3xl font-bold ${blackOpsOne.className}`}>
               Exaya
             </span>
           </div>
@@ -86,9 +84,9 @@ export default function Index() {
         </nav>
       </div>
       <div
-        className={`${inter.className} m-10 flex h-screen flex-col items-center justify-center bg-[#FFFEF7] text-center`}
+        className={`${inter.className} m-10 flex h-screen flex-col items-center justify-center  text-center`}
       >
-        <div className="relative  space-y-14   rounded-2xl border-1 border-slate-500 bg-zinc-100 px-7 py-16">
+        <div className="relative space-y-14  rounded-2xl   border-1 border-slate-500 bg-gradient-to-t from-purple-400 to-purple-100 px-7 py-16">
           <div className="relative space-y-7">
             <h1 className="text-7xl font-bold">
               Conduce tu empresa hacia la excelencia operativa
@@ -110,7 +108,7 @@ export default function Index() {
               width={230}
               height={230}
               title="Exaya"
-              className="animate__animated  animate__flip absolute left-0 top-16  drop-shadow-md "
+              className="animate__animated  animate__bounceInUp absolute left-0 top-16  drop-shadow-md "
               alt="logo"
             />
           </div>
@@ -131,7 +129,7 @@ export default function Index() {
               width={130}
               height={130}
               title="Exaya"
-              className="animate__animated animate__flip absolute -top-16 right-0 rotate-45 drop-shadow-xl "
+              className="animate__animated animate__fadeInDown animate__delay-2s absolute -top-16 right-0 rotate-45 drop-shadow-xl "
               alt="asset"
             />
 
@@ -171,7 +169,7 @@ export default function Index() {
         </div>
       </div>
 
-      <footer className="py-20 text-center text-sm text-zinc-100 drop-shadow-sm ">
+      <footer className="py-5 text-center text-sm text-zinc-100 drop-shadow-sm ">
         © Copyright 2024 Brayan Paucar . All rights reserved.
       </footer>
     </div>

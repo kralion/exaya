@@ -281,7 +281,7 @@ const columns: ColumnsType<Pasajes> = [
     title: "Origen",
     dataIndex: "origen",
     key: "origen",
-    width: 110,
+
     filters: [
       {
         text: "Huancayo",
@@ -301,7 +301,7 @@ const columns: ColumnsType<Pasajes> = [
     dataIndex: "destino",
     key: "destino",
     responsive: ["lg"],
-    width: 110,
+
     filters: [
       {
         text: "Huancayo",
@@ -337,7 +337,7 @@ const columns: ColumnsType<Pasajes> = [
     dataIndex: "horaSalida",
     key: "horaSalida",
     responsive: ["lg"],
-    width: 100,
+
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 18 ? (
         <Tag color="cyan">{horaSalida} am</Tag>
@@ -395,18 +395,23 @@ export function PasajesTable() {
   }
 
   return (
-    <Table
-      pagination={false}
-      loading={
-        // isLoading && {
-        //   spinning: true,
-        //   size: "large",
-        // }
-        false
-      }
-      className=" rounded-md shadow-md"
-      columns={columns}
-      dataSource={pasajesDiarios || data}
-    />
+    <div className="w-full">
+      <Title order={5} className="mb-3.5">
+        Pasajes Diarios
+      </Title>
+      <Table
+        pagination={false}
+        loading={
+          // isLoading && {
+          //   spinning: true,
+          //   size: "large",
+          // }
+          false
+        }
+        className=" rounded-md shadow-md"
+        columns={columns}
+        dataSource={pasajesDiarios || data}
+      />
+    </div>
   );
 }

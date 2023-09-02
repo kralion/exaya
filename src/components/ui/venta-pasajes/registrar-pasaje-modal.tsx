@@ -61,7 +61,24 @@ export const RegistrarPasajeModal: React.FC = () => {
     <div>
       <Typography onClick={() => setOpen(true)}>Registrar</Typography>
       <Modal
-        title="Registro de Asientos"
+        title={
+          <div className="mb-7 flex justify-between  ">
+            <p>
+              <Title className="mb-3.5 flex flex-col" order={4}>
+                Asientos del Bus
+              </Title>
+              <p className="flex items-center gap-2 ">
+                <Tag className="text-[10px] text-gray-500">
+                  Margen Izquierda
+                </Tag>
+                <Tag className="text-[10px] text-gray-500">Margen Derecha</Tag>
+              </p>
+            </p>
+            <Title className="pr-10 text-center" order={5}>
+              Vista previa del Bus
+            </Title>
+          </div>
+        }
         className=""
         centered
         open={open}
@@ -70,7 +87,7 @@ export const RegistrarPasajeModal: React.FC = () => {
         footer={null}
       >
         <div className="flex items-start justify-center gap-7 ">
-          <div className=" mt-10 grid w-1/3 grid-flow-row grid-cols-4 ">
+          <div className="grid grid-flow-row grid-cols-4 rounded-lg border-2 border-zinc-200 bg-gradient-to-t from-zinc-400 to-zinc-100 p-5 ">
             <div className="col-span-2 flex justify-center ">
               <Image
                 src="https://img.icons8.com/?size=512&id=110283&format=png"
@@ -91,6 +108,7 @@ export const RegistrarPasajeModal: React.FC = () => {
                 alt="lateral"
               />
             </div>
+
             {seats.map((seatNumber) => (
               <svg
                 key={seatNumber}
@@ -121,24 +139,21 @@ export const RegistrarPasajeModal: React.FC = () => {
               </svg>
             ))}
           </div>
-          <div className="space-y-3.5">
-            <Title className="text-center text-slate-400" order={5}>
-              Vista previa del Bus
-            </Title>
-            <Image
-              src={Bus1Preview}
-              width={800}
-              height={500}
-              alt="bus-preview"
-              className="rounded-xl"
-            />
-          </div>
+
+          <Image
+            src={Bus1Preview}
+            width={800}
+            height={500}
+            alt="bus-preview"
+            className="rounded-xl"
+          />
         </div>
       </Modal>
       <Modal
         title={
           <Title className="text-left" order={4}>
             Registro de Pasajeros
+            <hr className="mt-2 " />
           </Title>
         }
         centered
@@ -273,4 +288,3 @@ export const RegistrarPasajeModal: React.FC = () => {
     </div>
   );
 };
-7;

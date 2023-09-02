@@ -20,7 +20,7 @@ const onOk = (value: DatePickerProps["value"]) => {
 function Pasajes() {
   return (
     <AppLayout>
-      <div className="flex justify-between ">
+      <div className="flex justify-between gap-5 ">
         <PasajesTable />
         <AvailableCalendar />
       </div>

@@ -19,7 +19,7 @@ export function AvailableCalendar() {
 
   return (
     <div className="space-y-3.5">
-      <Title order={4}>Checker de Disponibilidad </Title>
+      <Title order={5}>Checker de Disponibilidad </Title>
       <Calendar
         dateCellRender={(value) => {
           return (

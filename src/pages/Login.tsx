@@ -7,6 +7,7 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import { useRef } from "react";
 import type { z } from "zod";
+import { useRouter } from "next/router";
 
 const literata = Literata({
   weight: "400",
@@ -22,15 +23,14 @@ const blackOpsOne = Black_Ops_One({
 
 export default function Login() {
   const { data: session } = useSession();
-
+  const router = useRouter();
   console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
-  const onFinish = (values: z.infer<typeof loginSchema>) => {
-    alert(values.password);
-    window.location.href = "/layout";
+  const onFinish = async (values: z.infer<typeof loginSchema>) => {
+    await router.push("/layout");
   };
 
   const formRef = useRef<FormInstance>(null);
@@ -107,7 +107,7 @@ export default function Login() {
         </Checkbox>
         <button
           type="submit"
-          className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3  text-white duration-200 active:scale-110"
+          className="mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3 text-white  duration-200 hover:bg-purple-950 active:scale-110"
         >
           Ingresar
         </button>
