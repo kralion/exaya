@@ -6,3 +6,4 @@ export * from "./viaje";
 export * from "./bus";
 export * from "./encomienda";
 export * from "./llegadas";
+export * from "./conductor-bus";

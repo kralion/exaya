@@ -7,6 +7,7 @@ import BusesInformacion from "@/components/ui/programacion/buses-info";
 import { Title } from "@mantine/core";
 
 export default function ProgramacionBusConductor() {
+  //TODO - Check the BusesInformacion component, because it's not working
   return (
     <AppLayout>
       <div className="flex gap-7">
