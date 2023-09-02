@@ -62,7 +62,7 @@ const items: MenuItem[] = [
 ];
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -70,7 +70,7 @@ export default function AppLayout({ children }: LayoutProps) {
     if (path === "/cerrar-sesion") {
       signOut();
     } else {
-      await router.push(path);
+      // await router.push(path);
     }
   };
   return (
@@ -91,50 +91,34 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className="border-black-2 m-3.5  flex items-center justify-between rounded-lg   "
+          className=" m-3.5 flex  items-center justify-between  rounded-lg"
           style={{
             background: colorBgContainer,
           }}
         >
-          {/* <Steps
+          <Steps
             current={1}
             size="small"
             style={{
-              width: 800,
+              width: 600,
             }}
             items={[
               {
-                title: "Finished",
-                description,
+                title: "Viajes",
               },
               {
-                title: "In Progress",
-                description,
+                title: "Facturas",
               },
               {
-                title: "Waiting",
-                description,
+                title: "Boletas",
               },
+
               {
-                title: "Waiting",
-                description,
+                title: "Actualización",
               },
             ]}
-          /> */}
-          <div className="flex gap-3.5">
-            <HeaderCard
-              title="Revision"
-              icon="https://img.icons8.com/?size=512&id=65d90ratDWqL&format=png"
-            />
-            <HeaderCard
-              title="Llamada"
-              icon="https://img.icons8.com/?size=1x&id=WMy0gZYpVaBU&format=png"
-            />
-            <HeaderCard
-              title="Liquidar"
-              icon="https://img.icons8.com/?size=2x&id=17317&format=png"
-            />
-          </div>
+          />
+
           <Title
             order={3}
             className="flex items-center text-center  text-black"
