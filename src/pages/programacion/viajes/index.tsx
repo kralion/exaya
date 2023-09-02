@@ -3,7 +3,7 @@ import React from "react";
 import { ProgramacionTable } from "@/components/ui/programacion/programacion-viajes-table";
 import { ViajesForm } from "@/components/ui/programacion/viajes-form";
 import { originData } from "@/data/programacion-viajes";
-import AppLayout from "@/pages/layout";
+import AppLayout from "@/components/layout";
 
 function ProgramacionViajes() {
   const [viajesProgramados, setViajesProgramados] = React.useState(originData);

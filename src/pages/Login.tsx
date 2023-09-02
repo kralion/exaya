@@ -1,3 +1,4 @@
+"use client";
 import type { loginSchema } from "@/schemas";
 import { Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
@@ -30,7 +31,7 @@ export default function Login() {
   };
 
   const onFinish = async (values: z.infer<typeof loginSchema>) => {
-    await router.push("/layout");
+    await router.push("/dashboard");
   };
 
   const formRef = useRef<FormInstance>(null);
@@ -68,7 +69,9 @@ export default function Login() {
         className={`${literata.className} w-[510px] `}
         ref={formRef}
         name="control-ref"
-        onFinish={onFinish}
+        onFinish={
+          onFinish as unknown as (values: z.infer<typeof loginSchema>) => void
+        }
       >
         <h3 className="mb-2  font-semibold">Usuario</h3>
         <Form.Item
@@ -107,7 +110,7 @@ export default function Login() {
         </Checkbox>
         <button
           type="submit"
-          className="mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3 text-white  duration-200 hover:bg-purple-950 active:scale-110"
+          className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3  text-white duration-200 active:scale-110"
         >
           Ingresar
         </button>

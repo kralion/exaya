@@ -2,6 +2,7 @@ import React from "react";
 import { ExpandAltOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 import { Title } from "@mantine/core";
+import Link from "next/link";
 type Card = {
   cardTitle: string;
   children?: React.ReactNode;
@@ -17,7 +18,7 @@ export const ControlPaneCard = ({
   href,
 }: Card) => {
   return (
-    <a href={href}>
+    <Link href={href}>
       <Card
         className="cursor-pointe min-h-[250px] border-1   backdrop-blur-3xl hover:border-cyan-500 hover:bg-cyan-50/20 hover:shadow-md"
         type="inner"
@@ -28,6 +29,6 @@ export const ControlPaneCard = ({
         <Meta description={cardDescription} />
         {children}
       </Card>
-    </a>
+    </Link>
   );
 };

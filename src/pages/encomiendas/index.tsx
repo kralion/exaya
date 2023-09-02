@@ -1,7 +1,7 @@
 import { EncomiendasForm } from "@/components/ui/encomiendas/form";
 import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 import { Title } from "@mantine/core";
-import AppLayout from "../layout";
+import AppLayout from "../../components/layout";
 
 function Encomiendas() {
   return (

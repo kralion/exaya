@@ -11,7 +11,7 @@ import { RoundedButton } from "@/components/ui/rounded-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { Title } from "@mantine/core";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
-import AppLayout from "../layout";
+import AppLayout from "../../components/layout";
 
 const { Text } = Typography;
 

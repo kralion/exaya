@@ -123,12 +123,13 @@ export default function AppLayout({ children }: LayoutProps) {
             order={3}
             className="flex items-center text-center  text-black"
           >
-            Dashboard
+            {items.find((item) => item.path === "/analytics")?.label ||
+              "Analytics"}
           </Title>
         </Header>
         <Content
           style={{ background: colorBgContainer, padding: 21 }}
-          className="m-3.5 rounded-lg"
+          className=" m-3.5 rounded-lg"
         >
           {children}
         </Content>

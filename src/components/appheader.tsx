@@ -49,25 +49,19 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      <Space wrap size={1} className="my-20 flex flex-col">
+      <Space wrap size={1} className="my-16 flex flex-col">
         {!collapsed ? (
-          <div>
-            <Badge count={8}>
-              <Avatar
-                className="box-border border-1 border-gray-400"
-                size={60}
-                src="https://randomuser.me/api/portraits/men/22.jpg"
-              />
-            </Badge>
-          </div>
+          <Avatar
+            className="box-border border-1 border-gray-400"
+            size={60}
+            src="https://randomuser.me/api/portraits/men/22.jpg"
+          />
         ) : (
-          <Badge dot>
-            <Avatar
-              className="box-border border-1 border-gray-400"
-              size={40}
-              src="https://randomuser.me/api/portraits/men/22.jpg"
-            />
-          </Badge>
+          <Avatar
+            className="box-border border-1 border-gray-400"
+            size={40}
+            src="https://randomuser.me/api/portraits/men/22.jpg"
+          />
         )}
 
         {!collapsed && (
@@ -76,8 +70,12 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
               {session?.user?.name || "César Córdova"}
             </Typography.Text>
             <Tag
-              color={session?.user?.role === "admin" ? "black" : "black"}
-              className="mt-2 rounded-full border-2  border-slate-700 text-center shadow-md shadow-slate-600 "
+              color={
+                session?.user?.role === "admin"
+                  ? "volcano-inverse"
+                  : "green-inverse"
+              }
+              className="mt-1 rounded-full"
             >
               admin
             </Tag>

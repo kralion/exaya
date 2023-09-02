@@ -8,17 +8,17 @@ import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
 import BoletaIcon from "@/assets/icons/boleta.png";
 import FacturaIcon from "@/assets/icons/factura.png";
 import Image from "next/image";
-import AppLayout from "../layout";
+import AppLayout from "../../components/layout";
 
 const totalViajesProgramados = 12;
 const viajesActivos = 9;
 export default function Dashboard() {
   return (
     <AppLayout>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-7">
         <AIAssistantInput />
 
-        <div className="grid grid-flow-row grid-cols-3 gap-7 ">
+        <div className="grid grid-flow-row grid-cols-3 gap-3.5 ">
           <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
             <ControlPaneCard
               href="/programacion/viajes"

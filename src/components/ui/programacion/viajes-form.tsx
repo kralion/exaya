@@ -12,6 +12,7 @@ import {
 import type { NotificationPlacement } from "antd/es/notification/interface";
 import React, { useMemo } from "react";
 import style from "./frame.module.css";
+import { IViaje } from "@/interfaces";
 
 const Context = React.createContext({ name: "Default" });
 const { Option } = Select;
@@ -27,7 +28,11 @@ const layout = {
   labelCol: { span: 5 },
 };
 
-export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
+type Props = {
+  handleAddViaje: (viaje: IViaje) => void;
+};
+
+export function ViajesForm({ handleAddViaje }: Props) {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
 
@@ -72,7 +77,7 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
     }
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: IViaje) => {
     openNotification("topRight");
     handleAddViaje(values);
     form.resetFields();
@@ -96,7 +101,7 @@ export function ViajesForm({ handleAddViaje }: { handleAddViaje: any }) {
       onFinish={onFinish}
       className="flex justify-between"
     >
-      <div className="flex gap-3.5">
+      <div className="flex gap-2">
         <Form.Item
           name="origen"
           rules={[{ required: true, message: "* Requerido" }]}

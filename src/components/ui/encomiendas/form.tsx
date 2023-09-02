@@ -171,7 +171,7 @@ export function EncomiendasForm() {
         rules={[{ required: true, message: "Selecciona la fecha" }]}
         help="Calculando espacio para esa fecha..."
       >
-        <DatePicker style={{ width: 233 }} onChange={onDateChange} />
+        <DatePicker className="w-full min-w-[230px]" onChange={onDateChange} />
       </Form.Item>
 
       <Form.Item name="password" label="Clave de Envío" hasFeedback>

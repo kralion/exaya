@@ -4,7 +4,7 @@ import type { DatePickerProps } from "antd/es/date-picker";
 import { PasajesTable } from "@/components/ui/venta-pasajes/";
 import { Title } from "@mantine/core";
 import { AvailableCalendar } from "@/components/ui/encomiendas/calendar";
-import AppLayout from "../layout";
+import AppLayout from "../../components/layout";
 
 const onChange = (
   value: DatePickerProps["value"],

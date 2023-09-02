@@ -5,7 +5,7 @@ import {
 import { Title } from "@mantine/core";
 import React from "react";
 import { ConductoresForm } from "@/components/ui/programacion";
-import AppLayout from "@/pages/layout";
+import AppLayout from "@/components/layout";
 
 export default function ProgramacionBusConductor() {
   return (
