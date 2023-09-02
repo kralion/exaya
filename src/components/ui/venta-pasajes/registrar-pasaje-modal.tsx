@@ -67,11 +67,11 @@ export const RegistrarPasajeModal: React.FC = () => {
               <Title className="mb-3.5 flex flex-col" order={4}>
                 Asientos del Bus
               </Title>
-              <p className="flex items-center gap-2 ">
+              <p className="flex gap-11  ">
                 <Tag className="text-[10px] text-gray-500">
-                  Margen Izquierda
+                  Margen Izquierdo
                 </Tag>
-                <Tag className="text-[10px] text-gray-500">Margen Derecha</Tag>
+                <Tag className="text-[10px] text-gray-500">Margen Derecho</Tag>
               </p>
             </p>
             <Title className="pr-10 text-center" order={5}>
@@ -86,21 +86,19 @@ export const RegistrarPasajeModal: React.FC = () => {
         width={1000}
         footer={null}
       >
-        <div className="flex items-start justify-center gap-7 ">
+        <div className="flex items-start justify-between  ">
           <div className="grid grid-flow-row grid-cols-4 rounded-lg border-2 border-zinc-200 bg-gradient-to-t from-zinc-400 to-zinc-100 p-5 ">
-            <div className="col-span-2 flex justify-center ">
+            <div className="col-span-4 flex justify-center gap-16 rounded-md border-2 border-slate-300 py-2">
               <Image
-                src="https://img.icons8.com/?size=512&id=110283&format=png"
+                src="https://cdn-icons-png.flaticon.com/128/2072/2072317.png"
                 width={50}
                 height={50}
                 title="Margen Izquierda"
                 className="animate__animated animate__delay-1s animate__flip"
                 alt="lateral"
               />
-            </div>
-            <div className="col-span-2 flex justify-center ">
               <Image
-                src="https://img.icons8.com/?size=512&id=17581&format=png"
+                src="https://cdn-icons-png.flaticon.com/128/4981/4981785.png"
                 width={50}
                 height={50}
                 title="Margen Derecha"
@@ -142,7 +140,7 @@ export const RegistrarPasajeModal: React.FC = () => {
 
           <Image
             src={Bus1Preview}
-            width={800}
+            width={700}
             height={500}
             alt="bus-preview"
             className="rounded-xl"

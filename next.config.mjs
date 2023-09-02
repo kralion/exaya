@@ -29,6 +29,7 @@ const config = {
       "o.remove.bg",
       "fpdl.in",
       "ouch-cdn2.icons8.com",
+      "cdn-icons-png.flaticon.com",
       "img.freepik.com",
       "as2.ftcdn.net",
       "as1.ftcdn.net",

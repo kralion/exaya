@@ -192,7 +192,7 @@ export function ProgramacionTable() {
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return editable ? (
-          <p className="flex items-baseline">
+          <p className="flex items-baseline ">
             <Typography.Link
               onClick={() => save(record.key)}
               style={{ marginRight: 8 }}
@@ -204,7 +204,7 @@ export function ProgramacionTable() {
             </a>
           </p>
         ) : (
-          <div className="flex items-baseline justify-center">
+          <div className="flex items-baseline ">
             <Typography.Link
               disabled={editingKey !== ""}
               onClick={() => edit(record)}
@@ -265,13 +265,16 @@ export function ProgramacionTable() {
             cell: EditableCell,
           },
         }}
-        bordered
         dataSource={data}
         columns={mergedColumns}
         onChange={onChange}
         rowClassName="editable-row"
-        pagination={{ pageSize: 10 }}
-        scroll={{ y: 300 }}
+        pagination={{
+          defaultPageSize: 5,
+          position: ["bottomRight"],
+          pageSizeOptions: ["5", "10", "20"],
+          showSizeChanger: true,
+        }}
       />
     </Form>
   );

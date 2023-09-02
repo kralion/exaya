@@ -340,9 +340,13 @@ const columns: ColumnsType<Pasajes> = [
 
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 18 ? (
-        <Tag color="cyan">{horaSalida} am</Tag>
+        <Tag className="rounded-full" color="green-inverse">
+          {horaSalida} am
+        </Tag>
       ) : (
-        <Tag color="black">{horaSalida} pm</Tag>
+        <Tag className="rounded-full" color="volcano-inverse">
+          {horaSalida} pm
+        </Tag>
       ),
   },
   {
@@ -353,15 +357,14 @@ const columns: ColumnsType<Pasajes> = [
 
     render: (_, { precios }) => (
       <>
-        {precios.map((precio) => {
-          let color;
-          precio > 40 ? (color = "green") : (color = "yellow");
-          return (
-            <Tag color={color} key={precio}>
-              {precio}
-            </Tag>
-          );
-        })}
+        {precios.map((precio) => (
+          <Tag key={precio}>
+            {precio.toLocaleString("es-PE", {
+              style: "currency",
+              currency: "PEN",
+            })}
+          </Tag>
+        ))}
       </>
     ),
   },

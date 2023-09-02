@@ -1,4 +1,5 @@
 import { viajesDiarios } from "@/data";
+import type { IViaje } from "@/interfaces";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import type { DatePickerProps } from "antd";
 import {
@@ -12,7 +13,7 @@ import {
 import type { NotificationPlacement } from "antd/es/notification/interface";
 import React, { useMemo } from "react";
 import style from "./frame.module.css";
-import { IViaje } from "@/interfaces";
+import PriceSelector from "./price-selector";
 
 const Context = React.createContext({ name: "Default" });
 const { Option } = Select;
@@ -101,84 +102,92 @@ export function ViajesForm({ handleAddViaje }: Props) {
       onFinish={onFinish}
       className="flex justify-between"
     >
-      <div className="flex gap-2">
-        <Form.Item
-          name="origen"
-          rules={[{ required: true, message: "* Requerido" }]}
-        >
-          <Select
-            style={{ width: 120 }}
-            placeholder="Origen"
-            onChange={onOrigenChange}
-            allowClear
+      <div>
+        <div className="flex gap-2">
+          <Form.Item
+            name="origen"
+            rules={[{ required: true, message: "* Requerido" }]}
           >
-            {origenesUnicos.map((origen) => (
-              <Option key={origen} value={origen}>
-                {origen}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="destino"
-          rules={[{ required: true, message: "* Requerido" }]}
-        >
-          <Select
-            style={{ width: 120 }}
-            placeholder="Destino"
-            onChange={onDestinoChange}
-            allowClear
+            <Select
+              style={{ width: 120 }}
+              placeholder="Origen"
+              onChange={onOrigenChange}
+              allowClear
+            >
+              {origenesUnicos.map((origen) => (
+                <Option key={origen} value={origen}>
+                  {origen}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="destino"
+            rules={[{ required: true, message: "* Requerido" }]}
           >
-            {destinosUnicos.map((destino) => (
-              <Option key={destino} value={destino}>
-                {destino}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+            <Select
+              style={{ width: 120 }}
+              placeholder="Destino"
+              onChange={onDestinoChange}
+              allowClear
+            >
+              {destinosUnicos.map((destino) => (
+                <Option key={destino} value={destino}>
+                  {destino}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="bus"
+            rules={[{ required: true, message: "* Requerido" }]}
+          >
+            <Select style={{ width: 120 }} placeholder="Bus" allowClear>
+              {viajesDiarios.map((viaje) => (
+                <Option key={viaje.key} value={viaje.placaBus}>
+                  {viaje.placaBus}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="fecha"
+            rules={[{ required: true, message: "* Requerido" }]}
+          >
+            <DatePicker
+              style={{ width: 120 }}
+              placeholder="Fecha"
+              onChange={onDateChange}
+            />
+          </Form.Item>
+          <Form.Item
+            name="hora"
+            rules={[{ required: true, message: "* Requerido" }]}
+          >
+            <TimePicker
+              use12Hours={true}
+              style={{ width: 90 }}
+              minuteStep={15}
+              format={format}
+              onChange={onTimeChange}
+              placeholder="Hora "
+            />
+          </Form.Item>
+        </div>
         <Form.Item
-          name="bus"
+          name="precio"
           rules={[{ required: true, message: "* Requerido" }]}
         >
-          <Select style={{ width: 120 }} placeholder="Bus" allowClear>
-            {viajesDiarios.map((viaje) => (
-              <Option key={viaje.key} value={viaje.placaBus}>
-                {viaje.placaBus}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="fecha"
-          rules={[{ required: true, message: "* Requerido" }]}
-        >
-          <DatePicker
-            style={{ width: 120 }}
-            placeholder="Fecha"
-            onChange={onDateChange}
-          />
-        </Form.Item>
-        <Form.Item
-          name="hora"
-          rules={[{ required: true, message: "* Requerido" }]}
-        >
-          <TimePicker
-            use12Hours={true}
-            style={{ width: 90 }}
-            minuteStep={15}
-            format={format}
-            onChange={onTimeChange}
-            placeholder="Hora "
-          />
+          <PriceSelector />
         </Form.Item>
       </div>
 
       <Form.Item>
-        <div className="flex gap-3.5">
+        <div className="flex gap-2">
           <Context.Provider value={contextValue}>
             {contextHolder}
 
-            <button className={style.button}>Crear Viaje</button>
+            <button className={style.basicButton}>Crear Viaje</button>
           </Context.Provider>
           <Button htmlType="button" onClick={onReset}>
             Cancelar
