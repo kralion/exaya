@@ -19,7 +19,7 @@ export default function Dashboard() {
         <AIAssistantInput />
 
         <div className="grid grid-flow-row grid-cols-3 gap-3.5 ">
-          <div className="duration-200 ease-in-out hover:rotate-1 hover:scale-105">
+          <div className="duration-200">
             <ControlPaneCard
               href="/programacion/viajes"
               cardTitle="Viajes"
@@ -42,7 +42,7 @@ export default function Dashboard() {
               </div>
             </ControlPaneCard>
           </div>
-          <div className=" duration-200 ease-in-out hover:rotate-1 hover:scale-105">
+          <div className=" duration-200">
             <ControlPaneCard
               href="/venta-pasajes"
               cardDescription="Último código de boleto de viaje vendido y última factura generada registrados en el sistema, con su respectivo número de serie."
