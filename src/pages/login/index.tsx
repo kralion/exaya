@@ -24,14 +24,22 @@ const blackOpsOne = Black_Ops_One({
 
 export default function Login() {
   const { data: session } = useSession();
-  const router = useRouter();
   console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
   const onFinish = async (values: z.infer<typeof loginSchema>) => {
-    await router.push("/dashboard");
+    const res = await fetch("/api/auth/callback/credentials", {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+    }
+    console.log("Received values of form: ", values);
   };
 
   const formRef = useRef<FormInstance>(null);

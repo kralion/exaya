@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Space, Tag } from "antd";
 import Meta from "antd/es/card/Meta";
-import Image from "antd/es/image";
+import { Image } from "antd";
 //TODO busesInfo is not working, check the error: 'SyntaxError: Cannot use import statement outside a module'
 import { busesInfo } from "@/data";
 import type { IBusConductorInfo } from "@/interfaces";

@@ -124,7 +124,7 @@ export default function AppLayout({ children }: LayoutProps) {
             className="flex items-center text-center  text-black"
           >
             {items.find((item) => item.path === "/analytics")?.label ||
-              "Analytics"}
+              "Dashboard"}
           </Title>
         </Header>
         <Content

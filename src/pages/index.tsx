@@ -1,35 +1,26 @@
-import Asset3D3 from "@/assets/3d-asset-3.png";
 import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D from "@/assets/3d-asset.png";
 import LandingBanner2 from "@/assets/landing-banner-2.png";
 import LandingBanner from "@/assets/landing-banner.png";
-import styles from "@/styles/landing.module.css";
-import {
-  RightCircleOutlined,
-  SendOutlined,
-  DollarOutlined,
-  ChromeOutlined,
-} from "@ant-design/icons";
-import { Black_Ops_One, Dancing_Script, Inter } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
+import { RightCircleOutlined } from "@ant-design/icons";
 import "animate.css";
+import { Black_Ops_One, Dancing_Script, Inter } from "next/font/google";
+import Link from "next/link";
+import { Image as AntImage, Tag } from "antd";
+import Image from "next/image";
 
 const navLinks = [
   {
-    title: "Iniciar Sesión",
+    title: "Login",
     path: "/login",
-    icon: <SendOutlined />,
   },
   {
     title: "Nosotros",
     path: "/about",
-    icon: <ChromeOutlined />,
   },
   {
     title: "Planes",
     path: "/plans",
-    icon: <DollarOutlined />,
   },
 ];
 
@@ -50,8 +41,8 @@ const inter = Inter({
 });
 export default function Index() {
   return (
-    <div className="bg-[#FFFEF7]">
-      <div className="mx-10  mb-24 flex items-center justify-between bg-transparent pt-7 ">
+    <div className="bg-gradient-to-l from-purple-400 via-rose-400 to-orange-300">
+      <div className="mx-10  mb-36 flex items-center justify-between bg-transparent pt-7 ">
         <Link href="/">
           <div className="flex items-center justify-start">
             <Image
@@ -67,16 +58,15 @@ export default function Index() {
             </span>
           </div>
         </Link>
-        <nav>
-          <ul className=" flex gap-2 ">
+        <nav className="">
+          <ul className=" flex gap-3.5 ">
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className="inline-flex items-center rounded-full border-b-2 border-[#231335] bg-[#FFFEF7] px-6 py-2  text-sm   text-[#231335] shadow-md duration-300 hover:border-purple-600 hover:bg-[#231335] hover:text-[#FFFEF7]"
+                  className="2  flex items-center justify-center  font-bold text-purple-200 duration-300 hover:text-purple-800  "
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
-                  {link.icon}
                 </Link>
               </li>
             ))}
@@ -84,9 +74,9 @@ export default function Index() {
         </nav>
       </div>
       <div
-        className={`${inter.className} m-10 flex h-screen flex-col items-center justify-center  text-center`}
+        className={`${inter.className} flex h-screen flex-col items-center justify-center  text-center`}
       >
-        <div className="relative space-y-14  rounded-2xl   border-1 border-slate-500 bg-gradient-to-t from-purple-400 to-purple-100 px-7 py-16">
+        <div className="space-y-14  px-7 py-16">
           <div className="relative space-y-7">
             <h1 className="text-7xl font-bold">
               Conduce tu empresa hacia la excelencia operativa
@@ -98,7 +88,14 @@ export default function Index() {
               </h5>
               <blockquote className="text-2xl">
                 <p className={`${dancing_Script.className} text-2xl`}>
-                  "La elección SaaS de las empresas líderes en transporte"
+                  "La elección
+                  <Tag
+                    color="gold-inverse"
+                    className={`${dancing_Script.className} mx-2  rounded-lg px-2 text-2xl drop-shadow-lg`}
+                  >
+                    SaaS
+                  </Tag>
+                  de las empresas líderes en transporte"
                 </p>
               </blockquote>
             </div>
@@ -115,11 +112,11 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/login"
-              className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-900 bg-[#231335]  px-10 py-5 text-2xl   text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52]  hover:px-14 active:bg-purple-900 "
+              className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-800 bg-[#231335] px-10  py-5 text-2xl font-semibold   text-zinc-200 shadow-lg shadow-purple-400 duration-500 hover:bg-[#351b52]  hover:px-14 active:bg-purple-900 "
             >
               <RightCircleOutlined
                 twoToneColor={"red"}
-                className="mr-2 duration-100 group-hover:mr-4 "
+                className="mr-7 duration-300 group-hover:mr-2 "
               />
               Ver Demo
             </Link>
@@ -132,45 +129,34 @@ export default function Index() {
               className="animate__animated animate__fadeInDown animate__delay-2s absolute -top-16 right-0 rotate-45 drop-shadow-xl "
               alt="asset"
             />
-
-            <Image
-              src={Asset3D3}
-              width={130}
-              height={130}
-              title="Exaya"
-              className="animate__animated animate__flip absolute -left-7 top-80 -rotate-45"
-              alt="asset"
-            />
-            <Image
-              src={Asset3D3}
-              width={130}
-              height={130}
-              title="Exaya"
-              className="animate__animated animate__flip absolute -right-7 top-96 -rotate-45"
-              alt="asset"
-            />
           </div>
-          <div className="flex justify-center gap-7">
-            <Image
-              src={LandingBanner}
-              alt="banner"
-              className=" rounded-2xl drop-shadow-xl duration-300 hover:scale-105"
-              width={500}
-              height={500}
-            />
-            <Image
-              src={LandingBanner2}
-              alt="banner"
-              className="rounded-2xl drop-shadow-xl duration-300 hover:scale-105"
-              width={500}
-              height={500}
-            />
-          </div>
+          <AntImage.PreviewGroup
+            preview={{
+              onChange: (current, prev) =>
+                console.log(`current index: ${current}, prev index: ${prev}`),
+            }}
+          >
+            <div className="flex justify-center gap-7">
+              <AntImage
+                src="https://i.imgur.com/E7NeoHl.png"
+                alt="banner"
+                className=" rounded-2xl drop-shadow-xl duration-300 hover:scale-105"
+                width={500}
+              />
+              <AntImage
+                src="https://imgur.com/kbk5cmj.png"
+                alt="banner"
+                className="https://i.imgur.com/kbk5cmj.pnghover:scale-105 rounded-2xl drop-shadow-xl 
+              duration-300"
+                width={500}
+              />
+            </div>
+          </AntImage.PreviewGroup>
         </div>
       </div>
 
-      <footer className="py-5 text-center text-sm text-zinc-100 drop-shadow-sm ">
-        © Copyright 2024 Brayan Paucar . All rights reserved.
+      <footer className="pt-24 pb-7 text-center text-sm text-white   ">
+        © Copyright 2024 Brayan Paucar. All rights reserved.
       </footer>
     </div>
   );

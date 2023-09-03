@@ -16,7 +16,7 @@ import {
   Tag,
   Typography,
 } from "antd";
-import Image from "antd/es/image";
+import { Image } from "antd";
 import { useState } from "react";
 
 const { confirm } = Modal;
