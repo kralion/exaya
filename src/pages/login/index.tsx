@@ -8,8 +8,7 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import { useRef } from "react";
 import type { z } from "zod";
-import { useRouter } from "next/router";
-
+import "animate.css";
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
@@ -51,13 +50,12 @@ export default function Login() {
       className={` ${literata.className} flex h-screen flex-col items-center justify-center bg-[#FFFEF7] `}
     >
       <div className="mb-10 text-center">
-        <div className="flex items-center justify-center gap-1">
+        <div className="animate__animated animate__flip flex items-center justify-center gap-1">
           <Image
             src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
             width={50}
             height={50}
             title="Exaya"
-            className="animate__animated animate__flip"
             alt="logo"
           />
           <h3
@@ -118,7 +116,7 @@ export default function Login() {
         </Checkbox>
         <button
           type="submit"
-          className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#231335] p-3  text-white duration-200 active:scale-110"
+          className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#3d215e] p-3 text-white  duration-200 hover:bg-[#231335] active:scale-110"
         >
           Ingresar
         </button>

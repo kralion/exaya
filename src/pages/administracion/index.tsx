@@ -4,15 +4,13 @@ import Usuarios from "@/components/ui/administracion/usuarios";
 import { Title } from "@mantine/core";
 import React from "react";
 import { mockData } from "@/data";
+import AppLayout from "@/components/layout";
 export default function Administracion() {
   return (
-    <div>
-      <Title order={4}>Administracion</Title>
+    <AppLayout>
       <Usuarios />
       <StatsSegments {...mockData} />
       <KpiChart />
-      <KpiChart />
-      <KpiChart />
-    </div>
+    </AppLayout>
   );
 }
