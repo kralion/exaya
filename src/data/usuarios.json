@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nombres": "Juan",
+    "apellidos": "Perez",
+    "email": "juan@example.com",
+    "password": "password123",
+    "telefono": "123456789",
+    "sede": "Lima",
+    "dni": "12345678",
+    "rol": "usuario",
+    "activo": true,
+    "createdAt": "2023-09-03T10:00:00",
+    "updatedAt": "2023-09-03T10:00:00"
+  },
+  {
+    "id": 2,
+    "nombres": "Maria",
+    "apellidos": "Gomez",
+    "email": "maria@example.com",
+    "password": "password456",
+    "telefono": "987654321",
+    "sede": "Ayacucho",
+    "dni": "87654321",
+    "rol": "supervisor",
+    "activo": true,
+    "createdAt": "2023-09-03T11:00:00",
+    "updatedAt": "2023-09-03T11:00:00"
+  },
+  {
+    "id": 3,
+    "nombres": "Carlos",
+    "apellidos": "Lopez",
+    "email": "carlos@example.com",
+    "password": "password789",
+    "telefono": "111222333",
+    "sede": "Huancayo",
+    "dni": "55555555",
+    "rol": "administrador",
+    "activo": true,
+    "createdAt": "2023-09-03T12:00:00",
+    "updatedAt": "2023-09-03T12:00:00"
+  },
+  {
+    "id": 4,
+    "nombres": "Ana",
+    "apellidos": "Martinez",
+    "email": "ana@example.com",
+    "password": "passwordabc",
+    "telefono": "444333222",
+    "sede": "Selva Central",
+    "dni": "99999999",
+    "rol": "usuario",
+    "activo": true,
+    "createdAt": "2023-09-03T13:00:00",
+    "updatedAt": "2023-09-03T13:00:00"
+  },
+  {
+    "id": 5,
+    "nombres": "Pedro",
+    "apellidos": "Rodriguez",
+    "email": "pedro@example.com",
+    "password": "passwordxyz",
+    "telefono": "777888999",
+    "sede": "Arequipa",
+    "dni": "77777777",
+    "rol": "supervisor",
+    "activo": true,
+    "createdAt": "2023-09-03T14:00:00",
+    "updatedAt": "2023-09-03T14:00:00"
+  }
+]
