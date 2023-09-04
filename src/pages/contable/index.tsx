@@ -21,8 +21,6 @@ import { Title } from "@mantine/core";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
 import AppLayout from "../../components/layout";
 
-const { Text } = Typography;
-
 const onChange = (
   value: DatePickerProps["value"],
   dateString: [string, string] | string

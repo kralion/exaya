@@ -20,13 +20,16 @@ const AdministracionSteps: React.FC = () => (
     current={1}
     items={[
       {
-        title: "Versión Web",
-        description: "Control total en tu escritori",
+        title: "Indice de refraccion",
+        description:
+          " Esta cumplimiento representa el 16.85% de la meta, y se encuentra en el rango de 0.00% a 25.00%",
+        status: "finish",
       },
       {
-        title: "Versión Mobile",
+        title: "Cumplimiento de Cuota de Ventas",
         status: "finish",
-        description: "En movimiento con Exaya: Accede a tu ",
+        description:
+          "Al igual que el indice anterior, este en especifico sirve para medir el cumplimiento de la cuota de ventas, y se encuentra en el rango de 0.00% a 80.00%",
       },
     ]}
   />

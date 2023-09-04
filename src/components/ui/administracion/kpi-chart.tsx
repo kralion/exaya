@@ -1,3 +1,5 @@
+import { Title } from "@mantine/core";
+import { Tag } from "antd";
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
@@ -48,37 +50,37 @@ const needle = (value, data, cx, cy, iR, oR, color) => {
 export default function KpiChart() {
   {
     return (
-      <PieChart width={300} height={200}>
-        <Pie
-          dataKey="value"
-          startAngle={180}
-          animationDuration={1000}
-          endAngle={0}
-          data={data}
-          cx={cx}
-          cy={cy}
-          innerRadius={iR}
-          outerRadius={oR}
-          fill="#f5222d"
-          stroke="none"
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
-          ))}
-          <div>
-            <text
-              x={cx}
-              y={cy}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="2em"
-              fontWeight="bold"
-              fill="#000"
-            />
-          </div>
-        </Pie>
-        {needle(value, data, cx, cy, iR, oR, "#faad14")}
-      </PieChart>
+      <div className="flex flex-col text-center">
+        <Title order={4}></Title>
+        <PieChart width={300} height={200}>
+          <Pie
+            dataKey="value"
+            startAngle={180}
+            animationDuration={1000}
+            endAngle={0}
+            data={data}
+            cx={cx}
+            cy={cy}
+            innerRadius={iR}
+            outerRadius={oR}
+            fill="#f5222d"
+            stroke="none"
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          {needle(value, data, cx, cy, iR, oR, "#faad14")}
+        </PieChart>
+        <div className="">
+          <Tag color="gold-inverse" className="mt-1 ml-2 font-bold text-black">
+            16.85%
+          </Tag>
+          <Title order={5} className="mt-1 ml-5">
+            OKR de Utilidad Empresarial
+          </Title>
+        </div>
+      </div>
     );
   }
 }
