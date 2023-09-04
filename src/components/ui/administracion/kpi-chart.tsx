@@ -4,9 +4,9 @@ import { PieChart, Pie, Cell } from "recharts";
 const RADIAN = Math.PI / 180;
 
 const data = [
-  { name: "A", value: 80, color: "#ff0000" },
+  { name: "A", value: 80, color: "#f5222d" },
   { name: "B", value: 20, color: "#00ff00" },
-  { name: "C", value: 56, color: "#0000ff" },
+  { name: "C", value: 56, color: "#1677ff" },
 ];
 const cx = 150;
 const cy = 200;
@@ -52,20 +52,32 @@ export default function KpiChart() {
         <Pie
           dataKey="value"
           startAngle={180}
+          animationDuration={1000}
           endAngle={0}
           data={data}
           cx={cx}
           cy={cy}
           innerRadius={iR}
           outerRadius={oR}
-          fill="#8884d8"
+          fill="#f5222d"
           stroke="none"
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
+          <div>
+            <text
+              x={cx}
+              y={cy}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fontSize="2em"
+              fontWeight="bold"
+              fill="#000"
+            />
+          </div>
         </Pie>
-        {needle(value, data, cx, cy, iR, oR, "#d0d000")}
+        {needle(value, data, cx, cy, iR, oR, "#faad14")}
       </PieChart>
     );
   }

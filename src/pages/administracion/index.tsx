@@ -1,16 +1,18 @@
+import AppLayout from "@/components/layout";
 import KpiChart from "@/components/ui/administracion/kpi-chart";
 import { StatsSegments } from "@/components/ui/administracion/stats";
+import AdministracionSteps from "@/components/ui/administracion/steps";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
-import { Title } from "@mantine/core";
-import React from "react";
 import { mockData } from "@/data";
-import AppLayout from "@/components/layout";
 export default function Administracion() {
   return (
     <AppLayout>
       <UsuariosTable />
-      <StatsSegments {...mockData} />
-      <KpiChart />
+      <div className="flex gap-3.5">
+        <StatsSegments {...mockData} />
+        <KpiChart />
+        <AdministracionSteps />
+      </div>
     </AppLayout>
   );
 }

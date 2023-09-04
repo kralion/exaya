@@ -72,7 +72,7 @@ export function StatsSegments({ total, diff, data }: StatsSegmentsProps) {
 
   return (
     <Paper
-      className="h-1/2 w-1/2 border-1 hover:bg-cyan-100/10 hover:shadow-md "
+      className="h-1/2 w-full border-1 hover:bg-cyan-100/10 hover:shadow-md "
       withBorder
       p="md"
       radius="md"
