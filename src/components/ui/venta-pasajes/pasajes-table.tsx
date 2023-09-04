@@ -10,6 +10,7 @@ import {
   Avatar,
   Drawer,
   Dropdown,
+  FloatButton,
   List,
   Progress,
   Table,

@@ -5,6 +5,7 @@ import { PasajesTable } from "@/components/ui/venta-pasajes/";
 import { Title } from "@mantine/core";
 import { AvailableCalendar } from "@/components/ui/encomiendas/calendar";
 import AppLayout from "../../components/layout";
+import { FloatButton } from "antd";
 
 const onChange = (
   value: DatePickerProps["value"],
@@ -24,6 +25,7 @@ function Pasajes() {
         <PasajesTable />
         <AvailableCalendar />
       </div>
+      <FloatButton.BackTop visibilityHeight={0} />
     </AppLayout>
   );
 }

@@ -110,7 +110,7 @@ export default function AppLayout({ children }: LayoutProps) {
                 title: "Facturas",
               },
               {
-                title: "Boletas",
+                title: "Boletos",
               },
 
               {

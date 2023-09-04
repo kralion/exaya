@@ -119,7 +119,7 @@ export default function Index() {
           </div>
           <div className="relative">
             <Link
-              href="/login"
+              href="/dashboard"
               className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-800 bg-[#231335] px-5 py-2  font-semibold text-zinc-200 shadow-lg shadow-purple-400   duration-500 hover:bg-[#351b52] hover:px-14 active:bg-purple-900 lg:px-10  lg:py-5 lg:text-2xl "
             >
               <RightCircleOutlined
@@ -170,7 +170,7 @@ export default function Index() {
         <Image
           src={LandingBanner4}
           alt="banner"
-          className=" mt-20 flex rounded-2xl drop-shadow-xl duration-300 hover:scale-110"
+          className=" mt-36 flex rounded-2xl drop-shadow-xl duration-300 hover:scale-110"
           //300 mobile
           width={1000}
         />

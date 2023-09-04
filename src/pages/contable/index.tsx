@@ -1,4 +1,12 @@
-import { DatePicker, Space, Input, Table, Select, Typography } from "antd";
+import {
+  DatePicker,
+  Space,
+  Input,
+  Table,
+  Select,
+  Typography,
+  FloatButton,
+} from "antd";
 import dayjs from "dayjs";
 import "animate.css";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -193,6 +201,7 @@ export default function Contable() {
           />
         </div>
       </div>
+      <FloatButton.BackTop visibilityHeight={0} />
     </AppLayout>
   );
 }
