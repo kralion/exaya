@@ -2,6 +2,7 @@ import AppLayout from "@/components/layout";
 import KpiChart from "@/components/ui/administracion/kpi-chart";
 import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
+import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { RoundedButton } from "@/components/ui/rounded-button";
 import { mockData } from "@/data";
@@ -25,7 +26,7 @@ export default function Administracion() {
   const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
   return (
     <AppLayout>
-      <div className="mb-7">
+      <div className="mb-14">
         <div className=" mb-3.5 flex justify-between">
           <Title order={5} className="text-slate-800">
             Analíticas por Horarios
@@ -65,10 +66,11 @@ export default function Administracion() {
           </div>
         </div>
       </div>
-      <div className="mb-3.5">
+      <div className="my-7 flex justify-between">
         <Title order={5} className="text-slate-800">
-          Analíticas por Horarios
+          Tabla de Usuarios
         </Title>
+        <UsuarioForm activator="Agregar Usuario" />
       </div>
       <UsuariosTable />
       <div>

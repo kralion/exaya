@@ -1,6 +1,5 @@
-"use client";
 import AppHeader from "@/components/appheader";
-import HeaderCard from "@/components/ui/header-card";
+import Pasajes from "@/pages/venta-pasajes";
 import {
   AuditOutlined,
   DashboardOutlined,
@@ -12,15 +11,10 @@ import {
   ScheduleOutlined,
 } from "@ant-design/icons";
 import { Title } from "@mantine/core";
-import { Steps } from "antd";
-
-const description = "This is a description.";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
-import { signOut } from "next-auth/react";
+import { Layout, Menu, Steps, theme } from "antd";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -62,17 +56,11 @@ const items: MenuItem[] = [
 ];
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
-  // const router = useRouter();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const navigate = async (path: string) => {
-    if (path === "/cerrar-sesion") {
-      signOut();
-    } else {
-      // await router.push(path);
-    }
-  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider

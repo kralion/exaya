@@ -19,10 +19,10 @@ type Props = {
   activator: string;
 };
 
-interface LicenseNodeType {
+interface RolNodeType {
   value: number;
   label: string;
-  children?: LicenseNodeType[];
+  children?: RolNodeType[];
 }
 interface DocumentsNodeType {
   value: string;
@@ -30,32 +30,32 @@ interface DocumentsNodeType {
   children?: DocumentsNodeType[];
 }
 
-const tiposLicencia: CascaderProps<LicenseNodeType>["options"] = [
+const rolesSistema: CascaderProps<LicenseNodeType>["options"] = [
   {
     value: 0,
-    label: "A II-A",
+    label: "Administrador",
   },
   {
     value: 1,
-    label: "A II-B",
+    label: "Supervisor",
   },
   {
     value: 2,
-    label: "A II-C",
+    label: "Usuario",
   },
 ];
-const estadosDocumentarios: CascaderProps<DocumentsNodeType>["options"] = [
+const sedesDisponibles: CascaderProps<DocumentsNodeType>["options"] = [
   {
-    value: "Documentos Actualizados",
-    label: "Documentos Actualizados",
+    value: "Lima",
+    label: "Lima",
   },
   {
-    value: "En Trámite",
-    label: "En Trámite",
+    value: "Huancayo",
+    label: "Huancayo",
   },
   {
-    value: "Rechazado",
-    label: "Rechazado",
+    value: "Ayacucho",
+    label: "Ayacucho",
   },
 ];
 
@@ -71,13 +71,12 @@ const formItemLayout = {
 };
 
 import { useConductorContext } from "@/context/ConductorContext";
-import type { IConductor } from "@/interfaces";
+import type { IUsuario } from "@/interfaces";
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
-export function ConductoresForm({ activator }: Props) {
+export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePicList, setProfilePicList] = useState([]);
-  const [busPicList, setBusPicList] = useState([]);
   const [value, setValue] = useState(1);
 
   const onChange = (e: RadioChangeEvent) => {
@@ -98,7 +97,7 @@ export function ConductoresForm({ activator }: Props) {
   const [form] = Form.useForm();
   const { handleAddConductor } = useConductorContext();
 
-  const onFinish = (values: IConductor) => {
+  const onFinish = (values: IUsuario) => {
     handleAddConductor(values);
     form.resetFields();
   };
@@ -111,17 +110,9 @@ export function ConductoresForm({ activator }: Props) {
     }
     return e && e.fileList;
   };
-  const busPicFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+
   const handleProfilePicFileChange = (newProfilePicFileList) => {
     setProfilePicList(newProfilePicFileList);
-  };
-  const handleBusPicFileChange = (newBusPicFileList) => {
-    setBusPicList(newBusPicFileList);
   };
 
   return (
@@ -133,9 +124,9 @@ export function ConductoresForm({ activator }: Props) {
         centered
         title={
           <p className="mb-7">
-            <Title order={3}>Agregar Conductor</Title>
+            <Title order={3}>Agregar Usuario</Title>
             <Typography.Text className=" font-light text-slate-600">
-              Formulario con la informacion del conductor
+              Formulario con la informacion del Usuario
             </Typography.Text>
           </p>
         }
@@ -211,123 +202,77 @@ export function ConductoresForm({ activator }: Props) {
             />
           </Form.Item>
           <Form.Item
-            name="licencia_conducir"
-            label="Licencia"
+            name="email"
+            label="Email"
             rules={[
               {
                 required: true,
-                message: "Ingresa la licencia del conductor",
+                message: "Ingresa el correo electronico",
                 whitespace: true,
               },
             ]}
           >
-            <Input placeholder="LC15ASF45" />
+            <Input placeholder="hugo.egoavil@gmail.com" />
           </Form.Item>
 
           <Form.Item
-            name="nivel"
-            label="Nivel de Licencia"
+            name="rolesSistema"
+            label="Rol"
             rules={[
               {
                 type: "array",
                 required: true,
-                message: "Selecciona el Tipo de Licencia",
+                message: "Selecciona el Rol del Usuario",
               },
             ]}
           >
-            <Cascader placeholder="A II-B" options={tiposLicencia} />
+            <Cascader placeholder="Administrador" options={rolesSistema} />
           </Form.Item>
 
-          <div className="flex">
-            <Form.Item
-              label="Foto Conductor"
-              name="foto_perfil"
-              getValueFromEvent={profilePicFile}
-              valuePropName="fileList"
+          <Form.Item
+            label="Foto Usuario"
+            name="foto_perfil"
+            getValueFromEvent={profilePicFile}
+            valuePropName="fileList"
+          >
+            <Upload
+              action="/upload.do"
+              listType="picture-circle"
+              fileList={profilePicList}
+              beforeUpload={() => false}
+              showUploadList={{
+                showRemoveIcon: true,
+                showPreviewIcon: false,
+              }}
+              onChange={({ fileList: newProfilePicFileList }) =>
+                handleProfilePicFileChange(newProfilePicFileList)
+              }
             >
-              <Upload
-                action="/upload.do"
-                listType="picture-card"
-                fileList={profilePicList}
-                beforeUpload={() => false}
-                showUploadList={{
-                  showRemoveIcon: true,
-                  showPreviewIcon: false,
-                }}
-                onChange={({ fileList: newProfilePicFileList }) =>
-                  handleProfilePicFileChange(newProfilePicFileList)
-                }
-              >
-                {profilePicList.length === 0 && (
-                  <div>
-                    <UploadOutlined />
-                    <br />
-                    <span className="ml-2">Subir foto</span>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-            <Form.Item
-              label="Foto del Bus"
-              name="foto_bus"
-              getValueFromEvent={busPicFile}
-              valuePropName="fileList"
-            >
-              <Upload
-                action="/upload.do"
-                listType="picture-card"
-                fileList={busPicList}
-                beforeUpload={() => false}
-                showUploadList={{
-                  showRemoveIcon: true,
-                  showPreviewIcon: false,
-                }}
-                onChange={({ fileList: newBusPicFileList }) =>
-                  handleBusPicFileChange(newBusPicFileList)
-                }
-              >
-                {busPicList.length === 0 && (
-                  <div>
-                    <UploadOutlined />
-                    <br />
-                    <span className="ml-2">Subir foto</span>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item
-              name="estado_documentario"
-              label="Estad Documentario"
-              rules={[
-                {
-                  type: "array",
-                  required: true,
-                  message: "Seleeciona el estado documentario",
-                },
-              ]}
-            >
-              <Cascader
-                placeholder="Documentos Actualizados"
-                options={estadosDocumentarios}
-              />
-            </Form.Item>
-            <Form.Item
-              name="disponibilidad"
-              label="Disponibilidad"
-              tooltip="Esta opción permite habilitar o deshabilitar al conductor"
-              rules={[
-                { required: true, message: "Disponibilidad del conductor" },
-              ]}
-            >
-              <Radio.Group onChange={onChange} value={value}>
-                <Radio value={false}>No</Radio>
-                <Radio value={true}>Sí</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </div>
-          <Space className="mt-10">
+              {profilePicList.length === 0 && (
+                <div>
+                  <UploadOutlined />
+                  <br />
+                  <span className="ml-2">Subir foto</span>
+                </div>
+              )}
+            </Upload>
+          </Form.Item>
+
+          <Form.Item
+            name="sede"
+            label="Sede Delegación"
+            rules={[
+              {
+                type: "array",
+                required: true,
+                message: "Seleeciona la sede de trabajo",
+              },
+            ]}
+          >
+            <Cascader placeholder="Huancayo" options={sedesDisponibles} />
+          </Form.Item>
+          <div></div>
+          <Space className="flex justify-end">
             <button className={styles.basicButton} type="submit">
               Registrar
             </button>

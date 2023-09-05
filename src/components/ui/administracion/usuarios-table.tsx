@@ -1,5 +1,5 @@
 import React from "react";
-import { Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { IUsuario } from "@/interfaces";
 import { usuarios } from "@/data";
@@ -27,7 +27,18 @@ const columns: ColumnsType<IUsuario> = [
     dataIndex: "sede",
     render: (sede: string) => (
       <Tag
-        color={sede === "lima" ? "green" : sede === "Ayacucho" ? "blue" : "red"}
+        className="rounded-full"
+        color={
+          sede === "Lima"
+            ? "green-inverse"
+            : sede === "Ayacucho"
+            ? "volcano-inverse"
+            : sede === "Huancayo"
+            ? "cyan-inverse"
+            : sede === "Arequipa"
+            ? "orange-inverse"
+            : "purple-inverse"
+        }
         key={sede}
       >
         {sede.toUpperCase()}
@@ -39,8 +50,12 @@ const columns: ColumnsType<IUsuario> = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <a>Invite {record.sede}</a>
-        <a>Delete</a>
+        <Button type="dashed">
+          Editar <code className="ml-2 underline">{record.nombres}</code>{" "}
+        </Button>
+        <Button type="link" danger>
+          Eliminar
+        </Button>
       </Space>
     ),
   },
