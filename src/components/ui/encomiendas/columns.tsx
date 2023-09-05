@@ -111,7 +111,7 @@ export const columns = [
                 border: "none",
               },
             }}
-            title="Estás seguro ?"
+            title="Estás segur@ ?"
             onConfirm={cancel}
           >
             <Button

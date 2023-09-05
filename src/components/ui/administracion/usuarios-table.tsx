@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { IUsuario } from "@/interfaces";
 import { usuarios } from "@/data";
@@ -52,16 +52,34 @@ const columns: ColumnsType<IUsuario> = [
   {
     title: "Acciones",
     key: "acciones",
-    render: (_, record) => (
-      <Space size="middle">
-        <Button type="dashed">
-          Editar <code className="ml-2 underline">{record.nombres}</code>{" "}
-        </Button>
-        <Button type="link" danger>
-          Eliminar
-        </Button>
-      </Space>
-    ),
+    render: (_, record) => {
+      const cancel = () => {
+        console.log("Cancelado");
+      };
+      return (
+        <Space size="middle">
+          <Button type="dashed">
+            Editar <code className="ml-2 underline">{record.nombres}</code>{" "}
+          </Button>
+          <Popconfirm
+            okButtonProps={{
+              style: {
+                backgroundColor: "#f5222d",
+                color: "white",
+                borderRadius: "5px",
+                border: "none",
+              },
+            }}
+            title="Estás segur@ ?"
+            onConfirm={cancel}
+          >
+            <Button type="link" danger>
+              Eliminar
+            </Button>
+          </Popconfirm>
+        </Space>
+      );
+    },
   },
 ];
 
