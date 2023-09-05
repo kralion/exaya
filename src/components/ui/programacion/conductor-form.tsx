@@ -204,6 +204,7 @@ export function ConductoresForm({ activator }: Props) {
           >
             <InputNumber
               controls={false}
+              type="number"
               placeholder="987654321"
               maxLength={9}
               addonBefore={<PhoneOutlined title="N° celular" />}
@@ -332,7 +333,7 @@ export function ConductoresForm({ activator }: Props) {
               Registrar
             </button>
 
-            <Button danger htmlType="reset" onClick={() => form.resetFields()}>
+            <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar
             </Button>
           </Space>

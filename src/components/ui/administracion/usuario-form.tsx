@@ -194,6 +194,7 @@ export function UsuarioForm({ activator }: Props) {
             rules={[{ required: true, message: "Verifica este campo" }]}
           >
             <InputNumber
+              type="number"
               controls={false}
               placeholder="987654321"
               maxLength={9}
@@ -277,7 +278,7 @@ export function UsuarioForm({ activator }: Props) {
               Registrar
             </button>
 
-            <Button danger htmlType="reset" onClick={() => form.resetFields()}>
+            <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar
             </Button>
           </Space>
