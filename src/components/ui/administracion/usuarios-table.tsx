@@ -17,37 +17,41 @@ const columns: ColumnsType<IUsuario> = [
     key: "apellidos",
   },
   {
-    title: "dni",
+    title: "Sede",
+    key: "sede",
+    dataIndex: "sede",
+    render: (sede: string) => <Tag key={sede}>{sede.toUpperCase()}</Tag>,
+  },
+  {
+    title: "DNI",
     dataIndex: "dni",
     key: "dni",
   },
   {
-    title: "Sede",
-    key: "sede",
-    dataIndex: "sede",
-    render: (sede: string) => (
+    title: "Rol del Usuario",
+    dataIndex: "rol",
+    key: "rol",
+    render: (rol: string) => (
       <Tag
-        className="rounded-full"
         color={
-          sede === "Lima"
+          rol === "administrador"
+            ? "red-inverse"
+            : rol === "usuario"
             ? "green-inverse"
-            : sede === "Ayacucho"
-            ? "volcano-inverse"
-            : sede === "Huancayo"
-            ? "cyan-inverse"
-            : sede === "Arequipa"
-            ? "orange-inverse"
+            : rol === "supervisor"
+            ? "blue-inverse"
             : "purple-inverse"
         }
-        key={sede}
+        className="rounded-full"
+        key={rol}
       >
-        {sede.toUpperCase()}
+        {rol.toUpperCase()}
       </Tag>
     ),
   },
   {
-    title: "Action",
-    key: "action",
+    title: "Acciones",
+    key: "acciones",
     render: (_, record) => (
       <Space size="middle">
         <Button type="dashed">
