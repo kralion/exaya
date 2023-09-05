@@ -72,13 +72,13 @@ export function StatsSegments({ total, diff, data }: StatsSegmentsProps) {
 
   return (
     <Paper
-      className="h-1/2 w-full border-1 hover:bg-cyan-100/10 hover:shadow-md "
+      className="h-1/2 w-full hover:shadow-md "
       withBorder
       p="md"
       radius="md"
     >
       <Text c="dimmed" fz="sm">
-        Ranking de Ventas
+        Monitor de actividades
       </Text>
 
       <Group position="apart">
@@ -91,11 +91,12 @@ export function StatsSegments({ total, diff, data }: StatsSegmentsProps) {
             <RiseOutlined size={20} style={{ marginBottom: rem(4) }} />
           </Text>
         </Group>
-        <FundProjectionScreenOutlined className={classes.icon} />
+        <FundProjectionScreenOutlined />
       </Group>
 
       <Text c="dimmed" fz="sm">
-        Page views compared to previous month
+        Representacion de el numero de clientes atendidos en el dia,
+        clasificados respectivamente
       </Text>
 
       <Progress

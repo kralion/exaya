@@ -35,14 +35,14 @@ const columns: ColumnsType<IUsuario> = [
       <Tag
         color={
           rol === "administrador"
-            ? "gold-inverse"
-            : rol === "usuario"
             ? "green-inverse"
-            : rol === "supervisor"
+            : rol === "usuario"
             ? "blue-inverse"
+            : rol === "supervisor"
+            ? "gold-inverse"
             : "purple-inverse"
         }
-        className="rounded-full shadow-md "
+        className="rounded-full font-semibold shadow-md "
         key={rol}
       >
         {rol.toUpperCase()}

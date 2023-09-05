@@ -1,24 +1,24 @@
 {
   "total": "345",
-  "diff": 18,
+  "diff": 37.18,
   "data": [
     {
-      "label": "Ag .Ayacucho",
-      "count": "204",
-      "part": 59,
+      "label": "Atendidos",
+      "count": "298",
+      "part": 81,
+      "color": "#00FF00"
+    },
+    {
+      "label": "Sesgo",
+      "count": "30",
+      "part": 14,
+      "color": "#FAAD14"
+    },
+    {
+      "label": "Perdidos",
+      "count": "17",
+      "part": 5,
       "color": "#f5222d"
-    },
-    {
-      "label": "Ag. Huanta",
-      "count": "121",
-      "part": 25,
-      "color": "#00ff00"
-    },
-    {
-      "label": "Ag. Huancayo",
-      "count": "31",
-      "part": 16,
-      "color": "#1677ff"
     }
   ]
 }

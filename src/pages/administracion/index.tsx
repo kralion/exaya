@@ -74,13 +74,25 @@ export default function Administracion() {
       </div>
       <UsuariosTable />
       <div>
-        <Title order={5} className="mb-3.5 text-slate-800">
-          Graficos de KPI/OKR
-        </Title>
+        <div className="flex justify-between">
+          <Title order={5} className="mb-3.5 text-slate-800">
+            Estadísticas Generales
+          </Title>
+          <Title order={5} className="mb-3.5 text-slate-800">
+            Indicador Clave de Rendimiento - KPI
+          </Title>
+          <Title order={5} className="mb-3.5 text-slate-800">
+            Indices de Administración
+          </Title>
+        </div>
         <div className="flex gap-3.5">
           <StatsSegments {...mockData} />
-          <KpiChart />
-          <AdministracionSteps />
+          <div className="rounded-md border-1">
+            <KpiChart />
+          </div>
+          <div className="rounded-md border-1 px-3">
+            <AdministracionSteps />
+          </div>
         </div>
       </div>
     </AppLayout>

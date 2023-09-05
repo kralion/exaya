@@ -1,20 +1,20 @@
 import { Title } from "@mantine/core";
 import { Tag } from "antd";
 import React from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 const RADIAN = Math.PI / 180;
 
 const data = [
-  { name: "A", value: 80, color: "#f5222d" },
-  { name: "B", value: 20, color: "#00ff00" },
-  { name: "C", value: 56, color: "#1677ff" },
+  { name: "NCF", value: 14, color: "#f5222d" },
+  { name: "OPP", value: 34, color: "#FAAD14" },
+  { name: "CUM", value: 52, color: "#00ff00" },
 ];
 const cx = 150;
 const cy = 200;
 const iR = 50;
 const oR = 100;
-const value = 50;
+const value = 54.18;
 
 const needle = (value, data, cx, cy, iR, oR, color) => {
   let total = 0;
@@ -51,8 +51,17 @@ export default function KpiChart() {
   {
     return (
       <div className="flex flex-col text-center">
-        <Title order={4}></Title>
         <PieChart width={300} height={200}>
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#DDEECC",
+              borderRadius: "5px",
+              borderWidth: "1px",
+              opacity: "revert",
+              borderColor: "#4396D7",
+            }}
+          />
+
           <Pie
             dataKey="value"
             startAngle={180}
@@ -72,13 +81,15 @@ export default function KpiChart() {
           </Pie>
           {needle(value, data, cx, cy, iR, oR, "#faad14")}
         </PieChart>
-        <div className="">
-          <Tag color="gold-inverse" className="mt-1 ml-2 font-bold text-black">
-            16.85%
+        <div className="flex flex-col items-center justify-center gap-3 ">
+          <Tag color="gold-inverse" className="mt-1 ml-2 w-fit font-bold ">
+            54.18%
           </Tag>
-          <Title order={5} className="mt-1 ml-5">
-            OKR de Utilidad Empresarial
-          </Title>
+
+          <Tag className="mt-1 ml-5 w-fit">
+            {" "}
+            <strong>KPI</strong> : Utilidad Empresarial
+          </Tag>
         </div>
       </div>
     );
