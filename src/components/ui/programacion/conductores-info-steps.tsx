@@ -286,6 +286,7 @@ export function ConductoresInformacion() {
             <p>
               <Typography.Text strong>Disponibilidad: </Typography.Text>
               <Tag
+                className="rounded-full shadow-md"
                 color={
                   conductor?.disponibilidad === true
                     ? "green-inverse"

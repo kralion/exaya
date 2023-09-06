@@ -9,6 +9,7 @@ import {
   InputNumber,
   Popconfirm,
   Table,
+  Tag,
   Typography,
 } from "antd";
 import type { TableProps } from "antd/es/table";
@@ -172,18 +173,20 @@ export function ProgramacionTable() {
       editable: true,
       key: "state",
       render: (text: string) => (
-        <Badge
+        <Tag
+          className="rounded-full px-3 font-semibold shadow-md"
           color={
             text === "Lleno"
-              ? "green"
+              ? "green-inverse"
               : text === "Venta"
-              ? "orange"
+              ? "orange-inverse"
               : text === "Inactivo"
-              ? "red"
-              : "gray"
+              ? "red-inverse"
+              : "black"
           }
-          count={text}
-        />
+        >
+          {text.toUpperCase()}
+        </Tag>
       ),
     },
     {

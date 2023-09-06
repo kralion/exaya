@@ -341,11 +341,17 @@ const columns: ColumnsType<Pasajes> = [
 
     render: (horaSalida: string) =>
       parseInt(horaSalida) < 18 ? (
-        <Tag className="rounded-full" color="green-inverse">
+        <Tag
+          className="rounded-full font-semibold shadow-md"
+          color="green-inverse"
+        >
           {horaSalida} am
         </Tag>
       ) : (
-        <Tag className="rounded-full" color="volcano-inverse">
+        <Tag
+          className="rounded-full font-semibold shadow-md"
+          color="volcano-inverse"
+        >
           {horaSalida} pm
         </Tag>
       ),

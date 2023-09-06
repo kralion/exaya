@@ -38,14 +38,14 @@ export default function Support() {
           <div className="mt-7 mb-12 flex gap-3">
             <Tag
               color="green-inverse"
-              className="cursor-pointer rounded-full px-7 py-2 hover:bg-green-500"
+              className="cursor-pointer rounded-full px-7  py-2 shadow-md hover:bg-green-500"
               icon={<WhatsAppOutlined />}
             >
               Chat en vivo
             </Tag>
             <Tag
               color="volcano-inverse"
-              className="cursor-pointer rounded-full px-7 py-2 hover:bg-orange-500"
+              className="cursor-pointer rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
               icon={<SnippetsOutlined />}
             >
               Agendar una cita
@@ -61,7 +61,7 @@ export default function Support() {
                 jpm_2001@icloud.com
               </span>
             </Tag>
-            <Tag className="flex border-none bg-blue-100 font-bold">
+            <Tag className="flex border-none  bg-blue-100 font-bold">
               Teléfono :
               <span className="flex items-center gap-2 pl-1 text-blue-600">
                 +51 914 019 629

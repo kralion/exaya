@@ -18,7 +18,7 @@ export default function ProgramacionBusConductor() {
             <ConductoresInformacion />
           </div>
         </div>
-        <div className="space-y-7">
+        <div className="flex flex-col gap-7">
           <Title order={4}>Buses en Plena Operacion</Title>
           <BusesInformacion />
         </div>

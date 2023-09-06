@@ -6,6 +6,7 @@ import {
   Select,
   Typography,
   FloatButton,
+  Tag,
 } from "antd";
 import dayjs from "dayjs";
 import "animate.css";
@@ -72,7 +73,18 @@ const columns: ColumnsType<DataType> = [
     title: "Viaje",
     dataIndex: "viaje",
   },
-  { title: "Monto", dataIndex: "monto" },
+  {
+    title: "Monto",
+    dataIndex: "monto",
+    render: (text) => (
+      <Tag
+        className="rounded-full font-semibold shadow-md"
+        color="green-inverse"
+      >
+        {text}
+      </Tag>
+    ),
+  },
   {
     title: "Cliente DNI",
     dataIndex: "clientedni",
