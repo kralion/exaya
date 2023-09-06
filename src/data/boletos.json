@@ -1,7 +1,7 @@
 [
   {
     "id": 4566,
-    "created_at": "2023-09-05T12:00:00Z",
+    "created_at": "2023-09-05",
     "id_viaje": "767",
     "id_cliente": "15487845",
     "numero_asiento": 3,
@@ -10,7 +10,7 @@
   },
   {
     "id": 4567,
-    "created_at": "2023-09-06T14:30:00Z",
+    "created_at": "2023-09-05",
     "id_viaje": "768",
     "id_cliente": "26789456",
     "numero_asiento": 5,
@@ -19,8 +19,8 @@
   },
   {
     "id": 4568,
-    "created_at": "2023-09-07T10:15:00Z",
-    "id_viaje": "769",
+    "created_at": "2023-09-05",
+    "id_viaje": "767",
     "id_cliente": "37894567",
     "numero_asiento": 7,
     "estado": "Reservado",
@@ -28,7 +28,7 @@
   },
   {
     "id": 4569,
-    "created_at": "2023-09-08T16:45:00Z",
+    "created_at": "2023-09-05",
     "id_viaje": "770",
     "id_cliente": "48945678",
     "numero_asiento": 2,
@@ -37,7 +37,7 @@
   },
   {
     "id": 4570,
-    "created_at": "2023-09-09T09:30:00Z",
+    "created_at": "2023-09-05",
     "id_viaje": "771",
     "id_cliente": "59012345",
     "numero_asiento": 4,

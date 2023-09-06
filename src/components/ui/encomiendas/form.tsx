@@ -43,6 +43,7 @@ const formItemLayout = {
 };
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
+import FormItem from "antd/es/form/FormItem";
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
@@ -66,6 +67,17 @@ export function EncomiendasForm() {
   );
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
+  };
+  const onVoucherTypeChange = (value: string) => {
+    switch (value) {
+      case "Huancayo":
+        form.setFieldsValue({ ruta: "Ay" });
+        break;
+      case "Ayacucho":
+        form.setFieldsValue({ ruta: "Hyo" });
+        break;
+      default:
+    }
   };
 
   return (
@@ -178,8 +190,25 @@ export function EncomiendasForm() {
         <Input.Password />
       </Form.Item>
       <Form.Item
+        name="comprobante"
+        label="Comprobante"
+        rules={[
+          {
+            required: true,
+            message: "Selecciona el tipo de Comprobante",
+          },
+        ]}
+      >
+        <Select
+          onChange={onVoucherTypeChange}
+          placeholder="Selecciona el tipo de comprobante"
+        >
+          <Option value="boleta">Boleto Electrónica</Option>
+          <Option value="factura">Factura Electrónica</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item
         name="contenido"
-        className="col-span-2"
         label="Contenido de la encomienda"
         rules={[{ required: true, message: "Que contiene la encomienda" }]}
       >
@@ -198,7 +227,6 @@ export function EncomiendasForm() {
           maxLength={150}
         />
       </Form.Item>
-
       <div></div>
       <div></div>
       <button type="submit" className={styles.basicButton}>

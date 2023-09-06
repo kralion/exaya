@@ -4,6 +4,7 @@ import { Title } from "@mantine/core";
 import { Button, Popconfirm, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
+import { SettingOutlined } from "@ant-design/icons";
 
 type IProducto = {
   nombre: number;
@@ -36,43 +37,50 @@ const columns: ColumnsType<IFactura> = [
       </div>
     ),
   },
+  {
+    title: "Concepto",
+    dataIndex: "concepto",
+    key: "concepto",
+    render: (concepto: string) => (
+      <Tag
+        className="rounded-full px-2 font-semibold shadow-md"
+        color={concepto === "Encomienda" ? "green-inverse" : "blue-inverse"}
+        key={concepto}
+      >
+        {concepto}
+      </Tag>
+    ),
+  },
 
   {
-    title: "Detalles de Envío",
+    title: "Detalles",
     children: [
       {
-        title: "Productos",
+        title: "Paquetes",
         dataIndex: "productos",
         key: "productos",
         render: (productos: IProducto[]) => {
           return productos.map((producto) => {
-            return <Tag key={producto.nombre}>{producto.nombre}</Tag>;
+            return <Tag key={producto.cantidad}>{producto.cantidad}</Tag>;
           });
         },
       },
       {
-        title: "Precios",
-        dataIndex: "productos",
-        key: "productos",
-        render: (productos: IProducto[]) => {
-          return productos.map((producto) => {
-            return (
-              <Tag
-                className="rounded-full font-semibold shadow-md"
-                color="green"
-                key={producto.precio_unitario}
-              >
-                {producto.precio_unitario.toLocaleString("es-PE", {
-                  style: "currency",
-                  currency: "PEN",
-                })}
-              </Tag>
-            );
-          });
-        },
+        title: "Total",
+        dataIndex: "total",
+        key: "total",
+        render: (total: number) => (
+          <Tag className="rounded-full font-semibold shadow-md" key={total}>
+            {total.toLocaleString("es-PE", {
+              style: "currency",
+              currency: "PEN",
+            })}
+          </Tag>
+        ),
       },
     ],
   },
+
   {
     title: "Accciones",
     key: "acciones",
@@ -81,35 +89,41 @@ const columns: ColumnsType<IFactura> = [
         console.log("Cancelado");
       };
       return (
-        <div>
-          <Button type="dashed">Ver Detalles</Button>
-          <Popconfirm
-            okButtonProps={{
-              style: {
-                backgroundColor: "#f5222d",
-                color: "white",
-                borderRadius: "5px",
-                border: "none",
-              },
-            }}
-            title="Estás segur@ ?"
-            onConfirm={cancel}
-          >
-            <Button danger type="link">
-              Eliminar
-            </Button>
-          </Popconfirm>
-        </div>
+        <Popconfirm
+          okButtonProps={{
+            style: {
+              backgroundColor: "#f5222d",
+              color: "white",
+              borderRadius: "5px",
+              border: "none",
+            },
+          }}
+          title="Estás segur@ ?"
+          onConfirm={cancel}
+        >
+          <Button danger type="link">
+            Eliminar
+          </Button>
+        </Popconfirm>
       );
     },
   },
 ];
 
 const data: IFactura[] = [...facturasRegistradas];
-
+const handleConfigurar = () => {
+  alert("Configurar");
+};
 const FacturasTable: React.FC = () => (
-  <div className="space-y-3.5">
-    <Title order={5}>Facturas Recientes</Title>
+  <div className="my-7 space-y-3.5">
+    <div className="flex justify-between">
+      <Title order={5}>Facturas Recientes</Title>
+      <SettingOutlined
+        onClick={handleConfigurar}
+        title="Configurar"
+        className="cursor-pointer duration-200 hover:text-blue-500 "
+      />
+    </div>
 
     <Table
       columns={columns}

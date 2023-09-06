@@ -7,16 +7,12 @@ import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
 
-const description = "This is a description.";
-
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
     <AppLayout>
-      <div className="mb-14 ">
-        <ComprobantesTable />
-        <FacturasTable />
-      </div>
+      <ComprobantesTable />
+      <FacturasTable />
       <div className="flex gap-3.5">
         <Card
           className=" min-h-[150px]   backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"

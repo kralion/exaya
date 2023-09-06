@@ -1,10 +1,11 @@
-import React from "react";
-import { Button, Popconfirm, Space, Table, Tag } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { Title } from "@mantine/core";
 import { boletosRegistrados } from "@/data";
 import type { IBoleto } from "@/interfaces";
-
+import { Title } from "@mantine/core";
+import { Button, Popconfirm, Table, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import React from "react";
+import styles from "../frame.module.css";
+import { SettingOutlined } from "@ant-design/icons";
 const columns: ColumnsType<IBoleto> = [
   {
     title: "ID",
@@ -48,9 +49,9 @@ const columns: ColumnsType<IBoleto> = [
     key: "id_cliente",
   },
   {
-    title: "Fecha Creacion",
-    dataIndex: "id_cliente",
-    key: "id_cliente",
+    title: "Fecha Emisión",
+    dataIndex: "created_at",
+    key: "created_at",
   },
   {
     title: "Action",
@@ -60,25 +61,22 @@ const columns: ColumnsType<IBoleto> = [
         console.log("Cancelado");
       };
       return (
-        <Space size="middle">
-          <Button type="dashed">Ver Detalles</Button>
-          <Popconfirm
-            okButtonProps={{
-              style: {
-                backgroundColor: "#f5222d",
-                color: "white",
-                borderRadius: "5px",
-                border: "none",
-              },
-            }}
-            title="Estás segur@ ?"
-            onConfirm={cancel}
-          >
-            <Button danger type="link">
-              Eliminar
-            </Button>
-          </Popconfirm>
-        </Space>
+        <Popconfirm
+          okButtonProps={{
+            style: {
+              backgroundColor: "#f5222d",
+              color: "white",
+              borderRadius: "5px",
+              border: "none",
+            },
+          }}
+          title="Estás segur@ ?"
+          onConfirm={cancel}
+        >
+          <Button danger type="link">
+            Eliminar
+          </Button>
+        </Popconfirm>
       );
     },
   },
@@ -86,9 +84,20 @@ const columns: ColumnsType<IBoleto> = [
 
 const data: IBoleto[] = [...boletosRegistrados];
 
+const handleConfigurar = () => {
+  alert("Configurar");
+};
+
 const ComprobantesTable: React.FC = () => (
   <div className="space-y-3.5">
-    <Title order={5}>Boletos Recientes</Title>
+    <div className="flex justify-between">
+      <Title order={5}>Boletos Recientes</Title>
+      <SettingOutlined
+        onClick={handleConfigurar}
+        title="Configurar"
+        className="cursor-pointer duration-200 hover:text-blue-500 "
+      />
+    </div>
     <Table
       columns={columns}
       pagination={{

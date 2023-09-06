@@ -1,9 +1,10 @@
 [
   {
-    "id": 1,
-    "fecha_emision": "2023-09-05T10:00:00Z",
+    "id": 7,
+    "fecha_emision": "2023-09-05",
     "tipo_cliente": "Empresa",
-    "nombre_cliente": "Juan Pérez",
+    "concepto": "Encomienda",
+    "nombre_cliente": "ORT Empresas S.A. de C.V.",
     "direccion_cliente": "Calle Principal, Ciudad",
     "productos": [
       {
@@ -15,43 +16,96 @@
     "total": 80.0
   },
   {
-    "id": 2,
-    "fecha_emision": "2023-09-05T10:00:00Z",
-    "tipo_cliente": "Persona",
-    "nombre_cliente": "Juan Pérez",
-    "direccion_cliente": "Calle Principal, Ciudad",
+    "id": 1,
+    "fecha_emision": "2023-09-06",
+    "tipo_cliente": "Empresa",
+    "concepto": "Encomienda",
+    "nombre_cliente": "Distribuidora La Victoria",
+    "ruc_cliente": "20123456789",
+    "direccion_cliente": "Av. Salaverry 123, San Isidro, Lima",
     "productos": [
       {
-        "nombre": "Ropa",
-        "cantidad": 2,
-        "precio_unitario": 25.0
+        "nombre": "Caja de Productos de Belleza",
+        "cantidad": 10,
+        "precio_unitario": 15.5
       },
       {
-        "nombre": "Reloj",
-        "cantidad": 1,
-        "precio_unitario": 30.0
+        "nombre": "Paquete Grande",
+        "cantidad": 5,
+        "precio_unitario": 25.0
       }
     ],
-    "total": 55.0
+    "total": 325.0
+  },
+  {
+    "id": 2,
+    "fecha_emision": "2023-09-05",
+    "tipo_cliente": "Persona",
+    "concepto": "Viaje",
+    "nombre_cliente": "Ana García Ordoñez",
+    "direccion_cliente": "Calle Las Flores 456, Miraflores, Lima",
+    "productos": [
+      {
+        "nombre": "Pasaje a Cusco",
+        "cantidad": 1,
+        "precio_unitario": 150.0
+      }
+    ],
+    "total": 150.0
   },
   {
     "id": 3,
-    "fecha_emision": "2023-09-05T10:00:00Z",
-    "tipo_cliente": "Persona",
-    "nombre_cliente": "Juan Pérez",
-    "direccion_cliente": "Calle Principal, Ciudad",
+    "fecha_emision": "2023-09-04",
+    "tipo_cliente": "Empresa",
+    "concepto": "Encomienda",
+    "nombre_cliente": "Logística Express SAC",
+    "ruc_cliente": "20567891234",
+    "direccion_cliente": "Av. Industrial 789, San Miguel, Lima",
     "productos": [
       {
-        "nombre": "Cerámicas",
-        "cantidad": 12,
-        "precio_unitario": 70.0
-      },
-      {
-        "nombre": "Sobre",
-        "cantidad": 3,
-        "precio_unitario": 24.0
+        "nombre": "Caja de Productos Electrónicos",
+        "cantidad": 15,
+        "precio_unitario": 30.0
       }
     ],
-    "total": 94.0
+    "total": 450.0
+  },
+  {
+    "id": 4,
+    "fecha_emision": "2023-09-03",
+    "tipo_cliente": "Persona",
+    "concepto": "Viaje",
+    "nombre_cliente": "Carlos Martínez",
+    "direccion_cliente": "Calle Los Pinos 23, Lince, Lima",
+    "productos": [
+      {
+        "nombre": "Pasaje a Arequipa",
+        "cantidad": 1,
+        "precio_unitario": 180.0
+      }
+    ],
+    "total": 180.0
+  },
+  {
+    "id": 5,
+    "fecha_emision": "2023-09-02",
+    "tipo_cliente": "Empresa",
+    "concepto": "Encomienda",
+    "nombre_cliente": "Envíos Perú EIRL",
+    "ruc_cliente": "20765432109",
+    "direccion_cliente": "Av. Los Pájaros 567, San Borja, Lima",
+    "productos": [
+      {
+        "nombre": "Caja de Herramientas",
+        "cantidad": 8,
+        "precio_unitario": 22.5
+      },
+      {
+        "nombre": "Paquete Pequeño",
+        "cantidad": 12,
+        "precio_unitario": 8.0
+      }
+    ],
+    "total": 306.0
   }
 ]

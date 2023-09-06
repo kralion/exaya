@@ -2,6 +2,7 @@ export interface IFactura {
   id: number;
   fecha_emision: string;
   tipo_cliente: "Persona" | "Empresa";
+  concepto: "Encomienda" | "Viaje";
   nombre_cliente: string;
   ruc_cliente?: string; // Solo si el tipo de cliente es 'Empresa'
   direccion_cliente: string;

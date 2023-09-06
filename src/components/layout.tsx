@@ -63,6 +63,7 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      {/* //! Sider is one the Hydration problem */}
       <Sider
         className="m-3.5 rounded-lg"
         collapsed={collapsed}
