@@ -3,21 +3,23 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 type ChildrenP = {
-	children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 function AOSWrapper({ children }: ChildrenP) {
-	useEffect(() => {
-		AOS.init();
+  useEffect(() => {
+    AOS.init({
+      duration: 2000,
+    });
 
-		window.addEventListener("scroll", AOS.refresh);
+    window.addEventListener("scroll", AOS.refresh());
 
-		return () => {
-			window.removeEventListener("scroll", AOS.refresh);
-		};
-	}, []);
+    return () => {
+      window.removeEventListener("scroll", AOS.refresh());
+    };
+  }, []);
 
-	return <>{children}</>;
+  return <>{children}</>;
 }
 
 export default AOSWrapper;
