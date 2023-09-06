@@ -7,7 +7,6 @@ import React from "react";
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
   weight: "400",
-  preload: true,
 });
 
 type HeaderProps = {
@@ -26,8 +25,8 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         >
           <Image
             src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
-            width={50}
-            height={50}
+            width={30}
+            height={30}
             title="Exaya"
             className="animate__animated animate__flip"
             alt="logo"
@@ -72,10 +71,10 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
             <Tag
               color={
                 session?.user?.role === "admin"
-                  ? "volcano-inverse"
-                  : "green-inverse"
+                  ? "blue-inverse"
+                  : "gold-inverse"
               }
-              className="mt-1 rounded-full"
+              className="mt-1 rounded-full font-semibold"
             >
               admin
             </Tag>

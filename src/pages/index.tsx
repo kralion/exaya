@@ -2,6 +2,7 @@ import Asset3D4 from "@/assets/3d-asset-4.png";
 import LandingBanner4 from "@/assets/landing-banner-4.svg";
 import MobileNav from "@/components/ui/login/mobilenav";
 import DevicesVersionSteps from "@/components/ui/login/steps";
+import ThemeToggle from "@/components/ui/login/theme-toggle";
 import AOSWrapper from "@/utils/AOS";
 import { RightCircleOutlined } from "@ant-design/icons";
 import "animate.css";
@@ -34,7 +35,7 @@ const dancing_Script = Dancing_Script({
   weight: "700",
 });
 const inter = Inter({
-  weight: ["900", "600", "300"],
+  weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
   preload: true,
 });
@@ -64,7 +65,7 @@ export default function Index() {
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className="flex items-center justify-center font-bold text-purple-100 duration-300 hover:text-purple-800  "
+                  className="flex items-center justify-center font-bold text-purple-100 duration-300 hover:text-purple-900  "
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
@@ -73,6 +74,15 @@ export default function Index() {
             ))}
           </ul>
         </nav>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Link
+            href="/dashboard"
+            className="hover:purple-900 border-white-800 group inline-flex items-center rounded-full border-1 bg-transparent px-4 py-1 font-semibold  text-white duration-500 hover:border-purple-800  hover:bg-purple-800 active:bg-purple-900 "
+          >
+            Ver Demo
+          </Link>
+        </div>
         <nav className="lg:hidden">
           <MobileNav />
         </nav>
@@ -168,7 +178,7 @@ export default function Index() {
         </div>
       </AOSWrapper>
 
-      <footer className="pt-24 pb-7 text-center text-[12px] text-white lg:text-sm   ">
+      <footer className="pb-7 pt-24 text-center text-[12px] text-white lg:text-sm   ">
         © Copyright 2024 Brayan Paucar. All rights reserved.
       </footer>
     </div>

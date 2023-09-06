@@ -6,7 +6,6 @@ import { SnippetsOutlined, CopyOutlined } from "@ant-design/icons";
 import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
-
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
@@ -52,7 +51,7 @@ function ProgramacionComprobantes() {
         </Card>
         <Steps
           size="small"
-          className="mt-5 ml-10"
+          className="ml-10 mt-5"
           direction="vertical"
           current={1}
           items={[

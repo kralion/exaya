@@ -1,0 +1,85 @@
+.toggleContainer {
+  --active-color: #790b81;
+  --inactive-color: #d3d3d6;
+  position: relative;
+  aspect-ratio: 292 / 142;
+  height: 1.875em;
+}
+
+.toggleInput {
+  appearance: none;
+  margin: 0;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.toggle {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.toggleBackground {
+  fill: var(--inactive-color);
+  transition: fill 0.4s;
+}
+
+.toggleInput:checked + .toggle .toggleBackground {
+  fill: var(--active-color);
+}
+
+.toggleCircleCenter {
+  transform-origin: center;
+  transition: transform 0.6s;
+}
+
+.toggleInput:checked + .toggle .toggleCircleCenter {
+  transform: translateX(150px);
+}
+
+.toggleCircle {
+  transform-origin: center;
+  transition: transform 0.45s;
+  backface-visibility: hidden;
+}
+
+.toggleCircleLeft {
+  transform: scale(1);
+}
+
+.toggleInput:checked + .toggle .toggleCircleLeft {
+  transform: scale(0);
+}
+
+.toggleCircle.right {
+  transform: scale(0);
+}
+
+.toggleInput:checked + .toggle .toggleCircleRight {
+  transform: scale(1);
+}
+
+.toggleIcon {
+  transition: fill 0.4s;
+}
+
+.toggleIconOn {
+  fill: var(--inactive-color);
+}
+
+.toggleInput:checked + .toggle .toggleIconOn {
+  fill: #fff;
+}
+
+.toggleIconOff {
+  fill: #eaeaec;
+}
+
+.toggleInput:checked + .toggle .toggleIconOff {
+  fill: var(--active-color);
+}
