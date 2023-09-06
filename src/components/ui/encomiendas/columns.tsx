@@ -80,6 +80,10 @@ export const columns = [
                 </p>
                 <p>
                   <Typography.Text strong>Destino: </Typography.Text>
+                  <Typography.Text>{encomienda.tipo}</Typography.Text>
+                </p>
+                <p>
+                  <Typography.Text strong>Destino: </Typography.Text>
                   <Typography.Text>{encomienda.destino}</Typography.Text>
                 </p>
                 <p>

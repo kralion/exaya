@@ -158,7 +158,16 @@ export function EncomiendasForm() {
           { type: "array", required: true, message: "Selecciona el Destino" },
         ]}
       >
-        <Cascader options={destinos} />
+        <Select
+          onChange={onVoucherTypeChange}
+          placeholder="Selecciona el tipo de comprobante"
+        >
+          {destinos?.map((destino, index) => (
+            <Option key={index} value={destino.value}>
+              {destino.label}
+            </Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item

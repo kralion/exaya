@@ -166,19 +166,19 @@ export default function Index() {
             </AntImage.PreviewGroup>
           </div>
         </div>
-        <div data-aos="zoom-in" className="mx-3.5 flex items-center gap-2">
+        <div data-aos="zoom-in" className="mr-7 flex items-center gap-2">
           <Image
             src={LandingBanner4}
             alt="banner"
             className=" mt-36 flex rounded-2xl drop-shadow-xl"
             //300 mobile
-            width={1000}
+            width={900}
           />
           <DevicesVersionSteps />
         </div>
       </AOSWrapper>
 
-      <footer className="pb-7 pt-24 text-center text-[12px] text-white lg:text-sm   ">
+      <footer className="pb-7 pt-24 text-center text-[12px]  lg:text-sm   ">
         © Copyright 2024 Brayan Paucar. All rights reserved.
       </footer>
     </div>
