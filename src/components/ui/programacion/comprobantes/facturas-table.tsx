@@ -99,11 +99,11 @@ const FacturasTable: React.FC = () => (
   <div className="my-7 space-y-3.5">
     <div className="flex justify-between">
       <Title order={5}>Facturas Recientes</Title>
-      {/* <SettingOutlined
+      <SettingOutlined
         onClick={handleConfigurar}
         title="Configurar"
         className="cursor-pointer duration-200 hover:text-blue-500 "
-      /> */}
+      />
     </div>
 
     <Table
