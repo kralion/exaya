@@ -14,9 +14,10 @@ type IProducto = {
 
 const columns: ColumnsType<IFactura> = [
   {
-    title: "ID",
+    title: "Código",
     dataIndex: "id",
     key: "id",
+    render: (id: string) => <span>F004-{id}</span>,
   },
   {
     title: "Fecha Emisión",
@@ -66,45 +67,25 @@ const columns: ColumnsType<IFactura> = [
         },
       },
       {
-        title: "Total",
-        dataIndex: "total",
-        key: "total",
-        render: (total: number) => (
-          <Tag className="rounded-full font-semibold shadow-md" key={total}>
-            {total.toLocaleString("es-PE", {
-              style: "currency",
-              currency: "PEN",
-            })}
-          </Tag>
-        ),
+        title: "RUC",
+        dataIndex: "ruc_cliente",
+        key: "ruc_cliente",
       },
     ],
   },
 
   {
-    title: "Accciones",
-    key: "acciones",
-    render: () => {
-      const cancel = () => {
-        console.log("Cancelado");
-      };
+    title: "Total",
+    key: "total",
+    dataIndex: "total",
+    render: (total: number) => {
       return (
-        <Popconfirm
-          okButtonProps={{
-            style: {
-              backgroundColor: "#f5222d",
-              color: "white",
-              borderRadius: "5px",
-              border: "none",
-            },
-          }}
-          title="Estás segur@ ?"
-          onConfirm={cancel}
-        >
-          <Button danger type="link">
-            Eliminar
-          </Button>
-        </Popconfirm>
+        <Tag>
+          {total.toLocaleString("es-PE", {
+            style: "currency",
+            currency: "PEN",
+          })}
+        </Tag>
       );
     },
   },
@@ -118,11 +99,11 @@ const FacturasTable: React.FC = () => (
   <div className="my-7 space-y-3.5">
     <div className="flex justify-between">
       <Title order={5}>Facturas Recientes</Title>
-      <SettingOutlined
+      {/* <SettingOutlined
         onClick={handleConfigurar}
         title="Configurar"
         className="cursor-pointer duration-200 hover:text-blue-500 "
-      />
+      /> */}
     </div>
 
     <Table

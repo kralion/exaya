@@ -4,6 +4,7 @@
     "fecha_emision": "2023-09-05",
     "tipo_cliente": "Empresa",
     "concepto": "Encomienda",
+    "ruc_cliente": "20123456789",
     "nombre_cliente": "ORT Empresas S.A. de C.V.",
     "direccion_cliente": "Calle Principal, Ciudad",
     "productos": [

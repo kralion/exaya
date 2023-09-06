@@ -1,16 +1,16 @@
 import { boletosRegistrados } from "@/data";
 import type { IBoleto } from "@/interfaces";
+import { SettingOutlined } from "@ant-design/icons";
 import { Title } from "@mantine/core";
-import { Button, Popconfirm, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
-import styles from "../frame.module.css";
-import { SettingOutlined } from "@ant-design/icons";
 const columns: ColumnsType<IBoleto> = [
   {
-    title: "ID",
+    title: "Código",
     dataIndex: "id",
     key: "id",
+    render: (id: string) => <span>B003-{id}</span>,
   },
   {
     title: "ID Viaje",
@@ -54,29 +54,17 @@ const columns: ColumnsType<IBoleto> = [
     key: "created_at",
   },
   {
-    title: "Action",
-    key: "action",
-    render: () => {
-      const cancel = () => {
-        console.log("Cancelado");
-      };
+    title: "Precio",
+    key: "precio",
+    dataIndex: "precio",
+    render: (precio: number) => {
       return (
-        <Popconfirm
-          okButtonProps={{
-            style: {
-              backgroundColor: "#f5222d",
-              color: "white",
-              borderRadius: "5px",
-              border: "none",
-            },
-          }}
-          title="Estás segur@ ?"
-          onConfirm={cancel}
-        >
-          <Button danger type="link">
-            Eliminar
-          </Button>
-        </Popconfirm>
+        <Tag>
+          {precio.toLocaleString("es-PE", {
+            style: "currency",
+            currency: "PEN",
+          })}
+        </Tag>
       );
     },
   },
