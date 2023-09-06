@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "fecha_emision": "2023-09-05T10:00:00Z",
+    "tipo_cliente": "Empresa",
+    "nombre_cliente": "Juan Pérez",
+    "direccion_cliente": "Calle Principal, Ciudad",
+    "productos": [
+      {
+        "nombre": "Dispositivos E.",
+        "cantidad": 2,
+        "precio_unitario": 50.0
+      }
+    ],
+    "total": 80.0
+  },
+  {
+    "id": 2,
+    "fecha_emision": "2023-09-05T10:00:00Z",
+    "tipo_cliente": "Persona",
+    "nombre_cliente": "Juan Pérez",
+    "direccion_cliente": "Calle Principal, Ciudad",
+    "productos": [
+      {
+        "nombre": "Ropa",
+        "cantidad": 2,
+        "precio_unitario": 25.0
+      },
+      {
+        "nombre": "Reloj",
+        "cantidad": 1,
+        "precio_unitario": 30.0
+      }
+    ],
+    "total": 55.0
+  },
+  {
+    "id": 3,
+    "fecha_emision": "2023-09-05T10:00:00Z",
+    "tipo_cliente": "Persona",
+    "nombre_cliente": "Juan Pérez",
+    "direccion_cliente": "Calle Principal, Ciudad",
+    "productos": [
+      {
+        "nombre": "Cerámicas",
+        "cantidad": 12,
+        "precio_unitario": 70.0
+      },
+      {
+        "nombre": "Sobre",
+        "cantidad": 3,
+        "precio_unitario": 24.0
+      }
+    ],
+    "total": 94.0
+  }
+]

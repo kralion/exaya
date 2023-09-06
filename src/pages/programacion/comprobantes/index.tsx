@@ -3,8 +3,9 @@ import { Title } from "@mantine/core";
 import { Card, FloatButton, QRCode, Statistic } from "antd";
 import CountUp from "react-countup";
 import { SnippetsOutlined, CopyOutlined } from "@ant-design/icons";
-import ComprobantesTable from "@/components/ui/programacion/comprobantes/table";
+import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
+import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
 
 const description = "This is a description.";
 
@@ -12,7 +13,10 @@ function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
     <AppLayout>
-      <ComprobantesTable />
+      <div className="mb-14 ">
+        <ComprobantesTable />
+        <FacturasTable />
+      </div>
       <div className="flex gap-3.5">
         <Card
           className=" min-h-[150px]   backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"
@@ -52,21 +56,21 @@ function ProgramacionComprobantes() {
         </Card>
         <Steps
           size="small"
-          className="ml-10"
+          className="mt-5 ml-10"
           direction="vertical"
           current={1}
           items={[
             {
-              title: "Finished",
-              description,
+              title: "Actualizado",
+              description: "2023-08-20 12:45:00",
             },
             {
-              title: "In Progress",
-              description,
+              title: "Cargado",
+              description: "2023-12-20 22:14:00",
             },
             {
-              title: "Waiting",
-              description,
+              title: "En la SUNAT",
+              description: "2023-15-20 07:36:00",
             },
           ]}
         />

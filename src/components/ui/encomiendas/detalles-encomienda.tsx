@@ -47,8 +47,12 @@ export default function EncomiendaDetails({
               {encomienda && (
                 <Tag
                   onClick={changeStatus}
-                  color={encomienda.estado === "Pagado" ? "green" : "red"}
-                  className="mr-5 flex cursor-pointer items-center hover:opacity-80"
+                  color={
+                    encomienda.estado === "Pagado"
+                      ? "green-inverse"
+                      : "red-inverse"
+                  }
+                  className="mr-5 flex cursor-pointer items-center rounded-full px-5 font-semibold shadow-md hover:opacity-80"
                 >
                   {encomienda.estado}
                 </Tag>

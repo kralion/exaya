@@ -3,4 +3,14 @@ import conductores from "./conductores.json";
 import mockData from "./mockdata.json";
 import viajesDiarios from "./viajes-diarios.json";
 import usuarios from "./usuarios.json";
-export { busesInfo, mockData, conductores, viajesDiarios, usuarios };
+import boletosRegistrados from "./boletos.json";
+import facturasRegistradas from "./facturas.json";
+export {
+  busesInfo,
+  mockData,
+  conductores,
+  viajesDiarios,
+  usuarios,
+  boletosRegistrados,
+  facturasRegistradas,
+};

@@ -21,7 +21,10 @@ export const columns = [
     dataIndex: "precio",
     key: "precio",
     render: (precio: number) => (
-      <Tag color="green">
+      <Tag
+        color="green-inverse"
+        className="rounded-full font-semibold shadow-md"
+      >
         {precio.toLocaleString("es-PE", { style: "currency", currency: "PEN" })}
       </Tag>
     ),

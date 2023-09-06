@@ -1,9 +1,9 @@
 export interface IBoleto {
   id: number;
-  created_at: Date;
-  id_viaje: number;
-  id_cliente: number;
+  created_at: string;
+  id_viaje: string;
+  id_cliente: string;
   numero_asiento: number;
-  estado: string;
+  estado: "Pagado" | "Reservado";
   precio: number;
 }
