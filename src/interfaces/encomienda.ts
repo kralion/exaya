@@ -1,12 +1,16 @@
 export interface IEncomienda {
-  id: number;
-  id_remitente: number;
-  id_receptor: number;
+  key: string;
+  nombreRemitente: string;
+  nombreReceptor: string;
+  telefonoRemitente: number;
+  telefonoReceptor: number;
   destino: string;
   precio: number;
-  fecha_envio: string;
-  comprobante: "Boleto" | "Factura";
+  fechaEnvio: string;
   contenido: string;
+  password: string;
   descripcion: string;
-  clave_envio?: string | null;
+  claveRastreo?: string;
+  comprobante: "Boleto" | "Factura";
+  estado: "Pagado" | "Por pagar";
 }

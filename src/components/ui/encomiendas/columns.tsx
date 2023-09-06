@@ -1,5 +1,5 @@
 import { Button, Popconfirm, Tag, Typography } from "antd";
-import type { Encomienda } from "@/interfaces/interfaces";
+import type { IEncomienda } from "@/interfaces";
 import { useEncomiendasContext as Context } from "@/context/EncomiendasContext";
 import EncomiendaDetails from "./detalles-encomienda";
 import ShippingBoxAssets from "@/assets/shipping-box.png";
@@ -42,7 +42,7 @@ export const columns = [
   {
     title: "Acciones",
     key: "action",
-    render: (encomienda: Encomienda) => {
+    render: (encomienda: IEncomienda) => {
       const cancel = () => {
         console.log("Cancelado");
       };
@@ -79,8 +79,14 @@ export const columns = [
                   </Typography.Text>
                 </p>
                 <p>
-                  <Typography.Text strong>Destino: </Typography.Text>
-                  <Typography.Text>{encomienda.tipo}</Typography.Text>
+                  <Typography.Text strong>Comprobante: </Typography.Text>
+                  <Tag
+                    color={
+                      encomienda.comprobante === "Boleto" ? "blue" : "green"
+                    }
+                  >
+                    {encomienda.comprobante}
+                  </Tag>
                 </p>
                 <p>
                   <Typography.Text strong>Destino: </Typography.Text>
@@ -92,11 +98,11 @@ export const columns = [
                 </p>
                 <p>
                   <Typography.Text strong>Descripción: </Typography.Text>
-                  <Typography.Text>{encomienda.descripcion}</Typography.Text>
+                  <Typography.Text>{encomienda.contenido}</Typography.Text>
                 </p>
                 <p>
                   <Typography.Text strong>Contenido: </Typography.Text>
-                  <Typography.Text>{encomienda.contenido}</Typography.Text>
+                  <Typography.Text>{encomienda.descripcion}</Typography.Text>
                 </p>
               </div>
               <Image
