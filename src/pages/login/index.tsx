@@ -55,14 +55,14 @@ export default function Login() {
       <div className="mb-10 text-center">
         <div className="animate__animated animate__flip flex items-center justify-center gap-1">
           <Image
-            src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
+            src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
             width={50}
             height={50}
             title="Exaya"
             alt="logo"
           />
           <h3
-            className={`  text-left text-5xl  leading-none text-[#231335]   ${blackOpsOne.className} `}
+            className={`  bg-gradient-to-r from-orange-500  to-orange-800 bg-clip-text text-left text-5xl leading-none text-transparent   ${blackOpsOne.className} `}
           >
             Exaya
           </h3>
@@ -121,7 +121,7 @@ export default function Login() {
           </Checkbox>
           <button
             type="submit"
-            className="hover:bg-purple-950 mt-14 flex w-full items-center justify-center gap-3.5 rounded-md bg-[#3d215e] p-3 text-white  duration-200 hover:bg-[#231335] active:scale-110"
+            className=" mt-14 flex w-full items-center justify-center gap-3.5 rounded-md border-2 border-orange-600 border-opacity-40 bg-orange-500  p-3 tracking-wide text-white shadow-lg  duration-200  active:scale-110"
           >
             Ingresar
           </button>

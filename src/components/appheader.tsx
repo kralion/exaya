@@ -1,3 +1,4 @@
+import { Title } from "@mantine/core";
 import { Avatar, Badge, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
@@ -21,27 +22,28 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
       {!collapsed ? (
         <div
           onClick={() => setCollapsed(!collapsed)}
-          className="mt-5 flex cursor-pointer items-center justify-center drop-shadow-md	"
+          className="mt-5 flex cursor-pointer items-center justify-center   drop-shadow-md	"
         >
           <Image
-            src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
-            width={30}
-            height={30}
+            src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
+            width={40}
+            height={40}
             title="Exaya"
             className="animate__animated animate__flip"
             alt="logo"
           />
-          <h3
-            className={`  text-left text-xl  leading-none text-[#231335]   ${blackOpsOne.className} `}
+
+          <Title
+            className={`  bg-gradient-to-r from-orange-500 to-orange-900 bg-clip-text text-left   text-xl text-transparent     ${blackOpsOne.className} `}
           >
             Exaya
-          </h3>
+          </Title>
         </div>
       ) : (
         <Image
           onClick={() => setCollapsed(!collapsed)}
           className="animate__animated animate__flip ml-1 mt-5  flex cursor-pointer items-center justify-center  drop-shadow-md"
-          src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
+          src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={40}
           height={40}
           alt="logo"

@@ -63,11 +63,14 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      {/* //! Sider is one the Hydration problem */}
+      {/* //! Sider is one of components that cause the Hydration issue */}
       <Sider
-        className="m-3.5 rounded-lg"
+        className="m-2 rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-xl"
         collapsed={collapsed}
-        style={{ background: colorBgContainer, height: "90vh" }}
+        style={{
+          background: colorBgContainer,
+          borderRadius: 42,
+        }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}
       >
@@ -80,9 +83,10 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className=" m-3.5 flex  items-center justify-between  rounded-lg"
+          className=" my-2 mr-2 flex items-center justify-between rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-sm"
           style={{
             background: colorBgContainer,
+            borderRadius: 14,
           }}
         >
           <Steps
@@ -109,16 +113,19 @@ export default function AppLayout({ children }: LayoutProps) {
           />
 
           <Title
-            order={3}
-            className="flex items-center text-center  text-black"
+            order={4}
+            className="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
           >
-            {items.find((item) => item.path === "/analytics")?.label ||
-              "Boletos de Viaje"}
+            Tu Empresa
           </Title>
         </Header>
         <Content
-          style={{ background: colorBgContainer, padding: 21 }}
-          className=" m-3.5 rounded-lg"
+          style={{
+            background: colorBgContainer,
+            padding: 21,
+            borderRadius: 14,
+          }}
+          className=" mr-2 rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-lg"
         >
           {children}
         </Content>

@@ -41,12 +41,12 @@ const inter = Inter({
 });
 export default function Index() {
   return (
-    <div className="spacey-14 bg-gradient-to-l from-purple-400 via-rose-400 to-orange-300">
+    <div className="bg-gradient-to-l from-purple-200 via-orange-300 to-orange-100 lg:space-y-14">
       <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
         <Link href="/">
           <div className="flex items-center justify-start ">
             <Image
-              src="https://img.icons8.com/?size=512&id=0jE7hnKV3NQW&format=png"
+              src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
               //40 mobile
               width={40}
               height={40}
@@ -78,7 +78,7 @@ export default function Index() {
           <ThemeToggle />
           <Link
             href="/dashboard"
-            className="hover:purple-900 border-white-800 group inline-flex items-center rounded-full border-1 bg-transparent px-4 py-1 font-semibold  text-white duration-500 hover:border-purple-800  hover:bg-purple-800 active:bg-purple-900 "
+            className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-purple-800 hover:bg-purple-800  hover:text-white active:bg-purple-900 "
           >
             Ver Demo
           </Link>
@@ -131,7 +131,7 @@ export default function Index() {
 
               <Image
                 src={Asset3D4}
-                //80 mobile
+                // width = {80 mobile}
                 width={130}
                 height={130}
                 title="Exaya"
@@ -166,7 +166,10 @@ export default function Index() {
             </AntImage.PreviewGroup>
           </div>
         </div>
-        <div data-aos="zoom-in" className="mr-7 flex items-center gap-2">
+        <div
+          data-aos="zoom-in"
+          className="mx-7 flex items-center justify-center gap-2"
+        >
           <Image
             src={LandingBanner4}
             alt="banner"
