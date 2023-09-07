@@ -28,6 +28,7 @@ const config = {
       "i.imgur.com",
       "media.istockphoto.com",
       "images.pexels.com",
+      "ouch-cdn2.icons8.com",
       "o.remove.bg",
       "fpdl.in",
       "ouch-cdn2.icons8.com",

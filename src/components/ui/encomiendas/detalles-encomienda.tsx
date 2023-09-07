@@ -1,14 +1,12 @@
-import type { Encomienda } from "@/interfaces/interfaces";
+import type { IEncomienda } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { Button, Modal, Tag } from "antd";
 import React, { useState } from "react";
-import Notification from "../notification";
-import styles from "./frame.module.css";
 
 type Props = {
   modalActivator: string;
   children: React.ReactNode;
-  encomienda: Encomienda;
+  encomienda: IEncomienda;
 };
 
 export default function EncomiendaDetails({
@@ -39,44 +37,41 @@ export default function EncomiendaDetails({
     <>
       <Button onClick={showModal}>{modalActivator}</Button>
       <Modal
-        width={700}
+        width={600}
         title={
-          <Title order={3}>
-            <div className=" flex justify-between">
-              Detalles de la Encomienda
-              {encomienda && (
+          <div>
+            <Title order={3}>Detalles de la Encomienda</Title>
+            {encomienda && (
+              <div>
                 <Tag
+                  className="cursor-pointer rounded-full  font-semibold shadow-md "
                   onClick={changeStatus}
                   color={
                     encomienda.estado === "Pagado"
                       ? "green-inverse"
                       : "red-inverse"
                   }
-                  className="mr-5 flex cursor-pointer items-center rounded-full px-5 font-semibold shadow-md hover:opacity-80"
                 >
                   {encomienda.estado}
                 </Tag>
-              )}
-            </div>
-            <hr className="mt-3   " />
-          </Title>
+                <Tag
+                  className="rounded-full font-semibold shadow-md"
+                  color="gold-inverse"
+                >
+                  {encomienda.precio.toLocaleString("es-PE", {
+                    style: "currency",
+                    currency: "PEN",
+                  })}
+                </Tag>
+              </div>
+            )}
+          </div>
         }
         open={open}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={() => setOpen(false)}
-        footer={
-          <div className="flex justify-end gap-3">
-            <Button onClick={handleOk}>Editar</Button>
-            <Notification
-              printerButton={
-                <button className={styles.basicButton} onClick={handleOk}>
-                  Guardar Cambios
-                </button>
-              }
-            />
-          </div>
-        }
+        footer={null}
       >
         {children}
       </Modal>

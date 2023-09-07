@@ -1,8 +1,7 @@
-import { Button, Popconfirm, Tag, Typography } from "antd";
-import type { IEncomienda } from "@/interfaces";
 import { useEncomiendasContext as Context } from "@/context/EncomiendasContext";
+import type { IEncomienda } from "@/interfaces";
+import { Button, Popconfirm, Tag, Typography } from "antd";
 import EncomiendaDetails from "./detalles-encomienda";
-import ShippingBoxAssets from "@/assets/shipping-box.png";
 import Image from "next/image";
 
 export const columns = [
@@ -53,65 +52,59 @@ export const columns = [
             encomienda={encomienda}
             modalActivator="Ver Detalles"
           >
-            <div className="flex items-end justify-between pb-5">
-              <div className="mt-7 space-y-3.5">
-                <p className="mb-3 flex gap-2">
-                  <Typography.Text strong>Guía: </Typography.Text>
-                  <Tag> {encomienda.key}</Tag>
-                  <Typography.Text strong>Clave: </Typography.Text>
-                  <Typography.Text code>
-                    {encomienda.claveRastreo?.toUpperCase() ?? "S/N"}
-                  </Typography.Text>
-                  <Typography.Text strong>Precio: </Typography.Text>
-                  <Tag>
-                    {encomienda.precio.toLocaleString("es-PE", {
-                      style: "currency",
-                      currency: "PEN",
-                    })}
-                  </Tag>
-                </p>
-                <Typography.Text strong>Receptor: </Typography.Text>
-                <Typography.Text>{encomienda.nombreReceptor}</Typography.Text>
-                <p>
-                  <Typography.Text strong>Remitente: </Typography.Text>
-                  <Typography.Text>
-                    {encomienda.nombreRemitente}
-                  </Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Comprobante: </Typography.Text>
-                  <Tag
-                    color={
-                      encomienda.comprobante === "Boleto" ? "blue" : "green"
-                    }
-                  >
-                    {encomienda.comprobante}
-                  </Tag>
-                </p>
-                <p>
-                  <Typography.Text strong>Destino: </Typography.Text>
-                  <Typography.Text>{encomienda.destino}</Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Fecha de Envío: </Typography.Text>
-                  <Typography.Text>{encomienda.fechaEnvio}</Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Descripción: </Typography.Text>
-                  <Typography.Text>{encomienda.contenido}</Typography.Text>
-                </p>
-                <p>
-                  <Typography.Text strong>Contenido: </Typography.Text>
-                  <Typography.Text>{encomienda.descripcion}</Typography.Text>
-                </p>
+            <div className=" ">
+              <div className="mt-7 flex justify-between space-y-2">
+                <div className="space-y-2">
+                  <p>
+                    <Typography.Text strong>Guía: </Typography.Text>
+                    <Typography.Text code> {encomienda.key}</Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Clave: </Typography.Text>
+                    <Typography.Text color="red" code>
+                      {encomienda.claveRastreo?.toUpperCase() ?? "S/N"}
+                    </Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Remitente: </Typography.Text>
+                    <Typography.Text>
+                      {encomienda.nombreRemitente}
+                    </Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Receptor: </Typography.Text>
+                    <Typography.Text>
+                      {encomienda.nombreReceptor}
+                    </Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Comprobante: </Typography.Text>
+                    <Tag>{encomienda.comprobante}</Tag>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Destino: </Typography.Text>
+                    <Typography.Text>{encomienda.destino}</Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Fecha de Envío: </Typography.Text>
+                    <Typography.Text>{encomienda.fechaEnvio}</Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Descripción: </Typography.Text>
+                    <Typography.Text>{encomienda.contenido}</Typography.Text>
+                  </p>
+                  <p>
+                    <Typography.Text strong>Contenido: </Typography.Text>
+                    <Typography.Text>{encomienda.descripcion}</Typography.Text>
+                  </p>
+                </div>
+                <Image
+                  src="https://ouch-cdn2.icons8.com/lAIiLw_8IO35ASDPxYlrRb7Toyd30Ku8I_-zeVH777o/rs:fit:368:283/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzU5/LzI3MGUwODU2LWQy/M2UtNDhhNS04OTNl/LWVjODZkZjNmNmY3/My5wbmc.png"
+                  alt="logo"
+                  height={90}
+                  width={260}
+                />
               </div>
-              <Image
-                src={ShippingBoxAssets}
-                className="drop-shadow-xl"
-                alt="Shipping Box"
-                width={300}
-                height={300}
-              />
             </div>
           </EncomiendaDetails>
 
