@@ -79,7 +79,9 @@ export const columns = [
                   </p>
                   <p>
                     <Typography.Text strong>Comprobante: </Typography.Text>
-                    <Tag>{encomienda.comprobante}</Tag>
+                    <Typography.Text code>
+                      {encomienda.comprobante}
+                    </Typography.Text>
                   </p>
                   <p>
                     <Typography.Text strong>Destino: </Typography.Text>
