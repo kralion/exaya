@@ -65,7 +65,7 @@ export default function AppLayout({ children }: LayoutProps) {
     <Layout style={{ minHeight: "100vh" }}>
       {/* //! Sider is one of components that cause the Hydration issue */}
       <Sider
-        className="m-2 rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-xl"
+        className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
         collapsed={collapsed}
         style={{
           background: colorBgContainer,

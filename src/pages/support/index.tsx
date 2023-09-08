@@ -1,11 +1,8 @@
 import AppLayout from "@/components/layout";
-import React from "react";
-import Image from "next/image";
-import { Literata } from "next/font/google";
+import { SnippetsOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { Tag } from "antd";
-import { WhatsAppOutlined, SnippetsOutlined } from "@ant-design/icons";
-import { FAQ } from "./faq-accordion";
-import { SupportCards } from "./supportcards";
+import { Literata } from "next/font/google";
+import Image from "next/image";
 
 const literata = Literata({
   weight: "400",
@@ -68,11 +65,6 @@ export default function Support() {
               </span>
             </Tag>
           </div>
-          <h1 className={` ${literata.className} text-3xl `}>
-            Quizá ya existe una respuesta a tu problema
-          </h1>
-
-          <FAQ />
         </div>
       </div>
     </AppLayout>
