@@ -88,7 +88,7 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className=" my-2 mt-2.5 flex items-center justify-between rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-sm"
+          className=" m-2 mt-2.5 flex items-center justify-between rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-md"
           style={{
             background: colorBgContainer,
             borderRadius: 14,
@@ -108,7 +108,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className=" mr-2 rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-lg"
+          className=" m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
         >
           {children}
         </Content>

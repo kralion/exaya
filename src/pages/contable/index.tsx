@@ -122,7 +122,7 @@ export default function Contable() {
             <Title order={5} className="text-slate-800">
               Horarios
             </Title>
-            <Title order={5} className=" pr-48 text-slate-800">
+            <Title order={5} className=" pr-44  text-slate-800">
               Búsqueda Específica
             </Title>
           </div>
@@ -186,7 +186,7 @@ export default function Contable() {
         </div>
         <div className="space-y-3.5">
           <div className="flex items-baseline justify-between">
-            <Title order={4} className="pt-7 tracking-tight text-slate-800">
+            <Title order={5} className="pt-7 tracking-tight text-slate-800">
               Historial de Registros
             </Title>
             <Input

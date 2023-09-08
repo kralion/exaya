@@ -419,7 +419,6 @@ export function PasajesTable() {
           // }
           false
         }
-        className=" rounded-md shadow-md"
         columns={columns}
         dataSource={pasajesDiarios || data}
       />
