@@ -1,5 +1,4 @@
 import AppHeader from "@/components/appheader";
-import Pasajes from "@/pages/venta-pasajes";
 import {
   AuditOutlined,
   DashboardOutlined,
@@ -13,8 +12,9 @@ import {
 import { Title } from "@mantine/core";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, Steps, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
+import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -89,32 +89,10 @@ export default function AppLayout({ children }: LayoutProps) {
             borderRadius: 14,
           }}
         >
-          <Steps
-            current={1}
-            size="small"
-            style={{
-              width: 600,
-            }}
-            items={[
-              {
-                title: "Viajes",
-              },
-              {
-                title: "Facturas",
-              },
-              {
-                title: "Boletos",
-              },
-
-              {
-                title: "Actualización",
-              },
-            ]}
-          />
-
+          <AIAssistantInput />
           <Title
             order={4}
-            className="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
+            className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
           >
             Tu Empresa
           </Title>

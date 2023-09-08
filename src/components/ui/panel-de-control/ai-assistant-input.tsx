@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AutoComplete, Input } from "antd";
+import { AutoComplete, Button, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
 import GlitterIcon from "@/assets/icons/glitter.svg";
 import style from "./frame.module.css";
@@ -50,7 +50,7 @@ export const AIAssistantInput = () => {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <AutoComplete
         dropdownMatchSelectWidth={252}
         style={{
@@ -76,7 +76,7 @@ export const AIAssistantInput = () => {
       </AutoComplete>
 
       <button className={style.button}>
-        <span className="font-semibold">
+        <span>
           <Image src={GlitterIcon} width={20} height={20} alt="icon" />
         </span>
       </button>
