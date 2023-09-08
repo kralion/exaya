@@ -26,22 +26,22 @@ export default function BusesInformacion() {
           }
           actions={[
             <Tag
-              color="cyan-inverse"
+              color="gold-inverse"
               className="cursor-default font-semibold"
               key={bus.estado}
             >
               {bus.estado}
             </Tag>,
             <Tag
-              className="cursor-default font-semibold text-black"
-              color="yellow-inverse"
+              className="cursor-default font-semibold"
+              color="gold-inverse"
               key={bus.placaBus}
             >
               {bus.placaBus}
             </Tag>,
             <Tag
               className="cursor-default font-semibold"
-              color="volcano-inverse"
+              color="gold-inverse"
               key={bus.ruta}
             >
               {bus.ruta}

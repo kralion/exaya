@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { AutoComplete, Button, Input } from "antd";
-import type { SelectProps } from "antd/es/select";
 import GlitterIcon from "@/assets/icons/glitter.svg";
-import style from "./frame.module.css";
+import { AutoComplete, Input } from "antd";
+import type { SelectProps } from "antd/es/select";
 import Image from "next/image";
+import { useState } from "react";
+import style from "./frame.module.css";
 const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) =>
   Math.floor(Math.random() * (max - min + 1)) + min;

@@ -6,16 +6,16 @@
   border-bottom-right-radius: 7px;
   border: none;
   height: 41px;
-  background: rgb(24, 117, 255);
+  background: rgb(248, 207, 70);
   background: linear-gradient(
     90deg,
-    rgba(24, 117, 255, 1) 0%,
-    rgb(26, 36, 179) 100%
+    rgb(248, 207, 70) 0%,
+    rgb(231, 136, 62) 100%
   );
   color: white;
   font-family: inherit;
   text-align: center;
-  box-shadow: 0px 14px 56px -10px #1875ff;
+  box-shadow: 0px 14px 56px -10px #f8cf46;
   padding-inline: 5px;
   transition: all 0.4s;
   cursor: pointer;
