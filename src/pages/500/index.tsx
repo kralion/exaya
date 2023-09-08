@@ -26,7 +26,7 @@ export default function Index() {
           </div>
           <div className="mt-4">
             <Image
-              src="https://img.freepik.com/premium-psd/3d-render-response-500-server-error-with-transparent-background_446818-176.jpg?size=626&ext=jpg"
+              src="https://img.freepik.com/premium-vector/window-operating-system-error-warning-dialog-window-popup-message-with-system-failure-flat-design_812892-54.jpg?size=626&ext=jpg"
               alt="img"
               width={600}
               height={600}
