@@ -41,10 +41,10 @@ const inter = Inter({
 });
 export default function Index() {
   return (
-    <div className="bg-gradient-to-l from-purple-200 via-orange-300 to-orange-100 lg:space-y-14">
+    <div className="via-orange-00 bg-gradient-to-r from-orange-300 to-yellow-300 lg:space-y-14">
       <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
         <Link href="/">
-          <div className="flex items-center justify-start ">
+          <div className="flex  justify-start ">
             <Image
               src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
               //40 mobile
@@ -65,7 +65,7 @@ export default function Index() {
             {navLinks.map((link) => (
               <li key={link.path}>
                 <Link
-                  className="flex items-center justify-center font-bold text-purple-100 duration-300 hover:text-purple-900  "
+                  className="flex items-center justify-center font-bold duration-300 hover:text-purple-900  "
                   href={link.path}
                 >
                   <span className="mr-2">{link.title}</span>
@@ -78,7 +78,7 @@ export default function Index() {
           <ThemeToggle />
           <Link
             href="/dashboard"
-            className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-purple-800 hover:bg-purple-800  hover:text-white active:bg-purple-900 "
+            className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500  hover:text-white active:bg-orange-500 "
           >
             Ver Demo
           </Link>
@@ -120,7 +120,7 @@ export default function Index() {
             <div className="relative">
               <Link
                 href="/dashboard"
-                className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-purple-800 bg-[#3d1f5f] px-5 py-2  font-semibold text-zinc-200 shadow-lg shadow-purple-400   duration-500 hover:bg-[#57298b] hover:px-14 active:bg-purple-900 lg:px-10  lg:py-5 lg:text-2xl "
+                className="hover:purple-900 group inline-flex items-center rounded-full border-b-[3px] border-orange-800 bg-orange-500 px-5 py-2  font-semibold text-zinc-200 shadow-lg shadow-orange-400   duration-500 hover:bg-orange-500 hover:px-14 active:bg-orange-900 lg:px-10  lg:py-5 lg:text-2xl "
               >
                 <RightCircleOutlined
                   twoToneColor={"red"}

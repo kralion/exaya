@@ -382,7 +382,7 @@ const columns: ColumnsType<Pasajes> = [
     render: () => (
       <Dropdown menu={{ items }}>
         <a className="space-x-2">
-          <span>Más</span> <DownOutlined />
+          <span>Selecciona</span> <DownOutlined />
         </a>
       </Dropdown>
     ),
