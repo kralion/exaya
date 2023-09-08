@@ -1,8 +1,9 @@
 // import { dataSource } from "@/data/viajes-diarios";
 import { viajesDiarios as dataSource } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
+import { TfiMoreAlt } from "react-icons/tfi";
 import Icon, {
-  DownOutlined,
+  EllipsisOutlined,
   DownloadOutlined,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
@@ -358,6 +359,7 @@ const columns: ColumnsType<Pasajes> = [
   },
   {
     title: "Precios",
+
     key: "precios",
     dataIndex: "precios",
     responsive: ["lg"],
@@ -376,14 +378,12 @@ const columns: ColumnsType<Pasajes> = [
     ),
   },
   {
-    title: "Acciones",
+    title: "",
     key: "acciones",
     responsive: ["lg"],
     render: () => (
       <Dropdown menu={{ items }}>
-        <a className="space-x-2">
-          <span>Selecciona</span> <DownOutlined />
-        </a>
+        <TfiMoreAlt className="cursor-pointer" />
       </Dropdown>
     ),
   },
