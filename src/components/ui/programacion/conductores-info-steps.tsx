@@ -230,12 +230,7 @@ export function ConductoresInformacion() {
       />
 
       <Modal
-        title={
-          <Title order={3}>
-            Información del Conductor
-            <hr className="mt-3 " />
-          </Title>
-        }
+        title={<Title order={3}>Información del Conductor</Title>}
         centered
         open={
           open && conductor !== null && conductor !== undefined ? true : false

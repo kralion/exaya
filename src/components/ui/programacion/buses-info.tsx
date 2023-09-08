@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, Space, Tag } from "antd";
-import Meta from "antd/es/card/Meta";
 import { Image } from "antd";
-//TODO busesInfo is not working, check the error: 'SyntaxError: Cannot use import statement outside a module'
+const { Meta } = Card;
+//! - Meta component is causing an error
+
 import { busesInfo } from "@/data";
 import type { IBusConductorInfo } from "@/interfaces";
 
@@ -10,10 +11,10 @@ export default function BusesInformacion() {
   return (
     <Space
       direction="vertical"
-      size="middle"
+      size="large"
       className="grid grid-flow-row grid-cols-2 gap-3.5"
     >
-      {busesInfo.map((bus: IBusConductorInfo) => (
+      {busesInfo.slice(0, 4).map((bus: IBusConductorInfo) => (
         <Card
           rootClassName="shadow-md "
           cover={

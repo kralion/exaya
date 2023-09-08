@@ -9,7 +9,7 @@ const literata = Literata({
   subsets: ["latin-ext"],
   preload: true,
 });
-export default function Support() {
+export default function Soporte() {
   return (
     <AppLayout>
       <div className="flex flex-col items-center gap-7">
@@ -32,7 +32,7 @@ export default function Support() {
               cita con nosotros.
             </h5>
           </p>
-          <div className="mt-7 mb-12 flex gap-3">
+          <div className="mb-12 mt-7 flex gap-3">
             <a
               href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
               target="_blank"
