@@ -33,20 +33,30 @@ export default function Support() {
             </h5>
           </p>
           <div className="mt-7 mb-12 flex gap-3">
-            <Tag
-              color="green-inverse"
-              className="cursor-pointer rounded-full px-7  py-2 shadow-md hover:bg-green-500"
-              icon={<WhatsAppOutlined />}
+            <a
+              href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
+              target="_blank"
             >
-              Chat en vivo
-            </Tag>
-            <Tag
-              color="volcano-inverse"
-              className="cursor-pointer rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
-              icon={<SnippetsOutlined />}
+              <Tag
+                color="green-inverse"
+                className="cursor-pointer rounded-full px-7  py-2 shadow-md hover:bg-green-500"
+                icon={<WhatsAppOutlined />}
+              >
+                Chat en vivo
+              </Tag>
+            </a>
+            <a
+              href="mailto:jpm_2001@hotmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
+            "
             >
-              Agendar una cita
-            </Tag>
+              <Tag
+                color="volcano-inverse"
+                className="cursor-pointer rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
+                icon={<SnippetsOutlined />}
+              >
+                Agendar una cita
+              </Tag>
+            </a>
           </div>
           <h5 className="my-3 font-bold">
             O nos puedes contactar por medio de
