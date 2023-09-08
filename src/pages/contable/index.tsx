@@ -207,7 +207,6 @@ export default function Contable() {
               showSizeChanger: true,
               pageSizeOptions: ["5", "10"],
             }}
-            className="shadow-md"
             columns={columns}
             dataSource={data}
           />

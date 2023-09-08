@@ -62,14 +62,19 @@ export default function AppLayout({ children }: LayoutProps) {
   } = theme.useToken();
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout
+      style={{
+        minHeight: "100vh",
+      }}
+    >
       {/* //! Sider is one of components that cause the Hydration issue */}
       <Sider
         className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
         collapsed={collapsed}
         style={{
           background: colorBgContainer,
-          borderRadius: 42,
+          borderRadius: 21,
+          maxHeight: "86vh",
         }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}
@@ -83,7 +88,7 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className=" my-2 mr-2 flex items-center justify-between rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-sm"
+          className=" my-2 mt-2.5 flex items-center justify-between rounded-lg  border-2 border-slate-200  border-opacity-50    shadow-sm"
           style={{
             background: colorBgContainer,
             borderRadius: 14,
@@ -101,13 +106,13 @@ export default function AppLayout({ children }: LayoutProps) {
           style={{
             background: colorBgContainer,
             padding: 21,
-            borderRadius: 14,
+            borderRadius: 21,
           }}
           className=" mr-2 rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-lg"
         >
           {children}
         </Content>
-        <Footer className="my-5 text-center text-sm text-slate-500 drop-shadow-sm">
+        <Footer className="my-5 text-center text-sm text-slate-500">
           © Copyright 2024 Brayan Paucar . All rights reserved.
         </Footer>
       </Layout>
