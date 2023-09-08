@@ -123,7 +123,7 @@ export default function Contable() {
               Horarios
             </Title>
             <Title order={5} className=" pr-48 text-slate-800">
-              Busqueda Específica
+              Búsqueda Específica
             </Title>
           </div>
           <div className=" flex justify-between">
@@ -191,7 +191,9 @@ export default function Contable() {
             </Title>
             <Input
               placeholder="Buscar por DNI"
-              className="w-64 "
+              type="number"
+              showCount
+              className="w-48  "
               onPressEnter={() => {
                 alert("Enter");
               }}

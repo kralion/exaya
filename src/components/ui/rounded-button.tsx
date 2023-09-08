@@ -1,14 +1,14 @@
 import { Button } from "antd";
-import { FieldTimeOutlined } from "@ant-design/icons";
 import React from "react";
 import "animate.css";
+import { MdTimelapse } from "react-icons/md";
 
 export function RoundedButton({ horaSalida }: { horaSalida: string }) {
   return (
     <Button
       onClick={() => alert(`Estadisticas de las ${horaSalida}`)}
       value={horaSalida}
-      icon={<FieldTimeOutlined />}
+      icon={<MdTimelapse />}
       shape="round"
       type="dashed"
       style={{ width: 100 }}
