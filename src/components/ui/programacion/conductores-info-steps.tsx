@@ -1,3 +1,4 @@
+import { conductores } from "@/data";
 import type { IConductor } from "@/interfaces";
 import {
   CheckCircleOutlined,
@@ -10,109 +11,18 @@ import {
   Avatar,
   Button,
   Empty,
+  Image,
   List,
   Modal,
   Steps,
   Tag,
   Typography,
 } from "antd";
-import { Image } from "antd";
 import { useState } from "react";
 
 const { confirm } = Modal;
 
-const data: IConductor[] = [
-  {
-    id: 1,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Hector",
-    nivel: 0,
-    apellidos: "Ramirez",
-    dni: "12345678",
-    telefono: "+123456789",
-    foto_bus:
-      "https://img.freepik.com/premium-psd/bus-sticker-wrapping-mockup-design_417483-1910.jpg?size=626&ext=jpg",
-    licencia_conducir: "LC12345",
-    disponibilidad: true,
-    foto_perfil: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
-    estado_documentario: "Documentos Actualizados",
-  },
-  {
-    id: 2,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Ramiro",
-    apellidos: "Villaverde",
-    nivel: 1,
-    dni: "87654321",
-    telefono: "+987654321",
-    foto_bus:
-      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
-    licencia_conducir: "LC67890",
-    disponibilidad: true,
-    foto_perfil: "https://randomuser.me/api/portraits/men/86.jpg",
-    estado_documentario: "En Trámite",
-  },
-  {
-    id: 3,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Julio",
-    apellidos: "Rojas",
-    dni: "54321678",
-    nivel: 2,
-    telefono: "+543216789",
-    foto_bus:
-      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
-    licencia_conducir: "LC54321",
-    disponibilidad: true,
-    foto_perfil: "https://randomuser.me/api/portraits/men/1.jpg",
-    estado_documentario: "Documentos Actualizados",
-  },
-  {
-    id: 4,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Danilo",
-    apellidos: "Alfaro",
-    dni: "98761234",
-    foto_bus:
-      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
-    telefono: "+987612345",
-    licencia_conducir: "LC98765",
-    nivel: 2,
-    disponibilidad: false,
-    foto_perfil: "https://randomuser.me/api/portraits/men/46.jpg",
-    estado_documentario: "Documentos Actualizados",
-  },
-  {
-    id: 5,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Roberto",
-    apellidos: "Almirante",
-    dni: "34567891",
-    telefono: "+345678912",
-    nivel: 0,
-    licencia_conducir: "LC34567",
-    disponibilidad: true,
-    foto_perfil:
-      "https://images.unsplash.com/photo-1455354269813-737d9df115bb?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=1229aa0db2a9a42022b7669f30784123",
-    estado_documentario: "Documentos Actualizados",
-    foto_bus:
-      "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg",
-  },
-  {
-    id: 6,
-    created_at: "2023-08-23T00:00:00Z",
-    nombres: "Camilo",
-    apellidos: "Paredes",
-    nivel: 1,
-    dni: "56789123",
-    telefono: "+567891234",
-    licencia_conducir: "LC56789",
-    disponibilidad: true,
-    foto_perfil:
-      "https://images.unsplash.com/photo-1474533410427-a23da4fd49d0?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=ee9537f6365657688885825712e3349d",
-    estado_documentario: "Documentos Actualizados",
-  },
-];
+const data: IConductor[] = [...conductores];
 
 const items = [
   {

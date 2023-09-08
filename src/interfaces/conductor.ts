@@ -9,8 +9,8 @@ export interface IConductor {
   disponibilidad: boolean;
   foto_perfil: string;
   foto_bus?: string;
-  estado_documentario: "Documentos Actualizados" | "En Trámite" | "Rechazado";
-  nivel: 0 | 1 | 2;
+  estado_documentario: string;
+  nivel: number;
 }
 
 export interface ConductorContextProps {
