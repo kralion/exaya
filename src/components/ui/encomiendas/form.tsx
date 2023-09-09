@@ -1,15 +1,7 @@
-import type { Encomienda } from "@/interfaces/interfaces";
+import type { IEncomienda } from "@/interfaces";
 import { PhoneOutlined } from "@ant-design/icons";
 import type { CascaderProps, DatePickerProps } from "antd";
-import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-} from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import styles from "./frame.module.css";
 
 const { Option } = Select;
@@ -20,7 +12,7 @@ interface DataNodeType {
   children?: DataNodeType[];
 }
 
-const destinos: CascaderProps<DataNodeType>["options"] = [
+const terminales: CascaderProps<DataNodeType>["options"] = [
   {
     value: "huancayo",
     label: "Jr.Angaraes 123 - Huancayo",
@@ -43,14 +35,13 @@ const formItemLayout = {
 };
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
-import FormItem from "antd/es/form/FormItem";
 import { Title } from "@mantine/core";
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const { handleAddEncomienda } = useEncomiendasContext();
 
-  const onFinish = (values: Encomienda) => {
+  const onFinish = (values: IEncomienda) => {
     handleAddEncomienda(values);
     form.resetFields();
   };
@@ -136,6 +127,7 @@ export function EncomiendasForm() {
           rules={[{ required: true, message: "Verifica este campo" }]}
         >
           <InputNumber
+            type="number"
             controls={false}
             maxLength={9}
             addonBefore={<PhoneOutlined title="N° celular" />}
@@ -145,16 +137,39 @@ export function EncomiendasForm() {
         <Form.Item
           name="telefonoReceptor"
           label="Telf. Receptor"
-          rules={[{ required: true, message: "Verifica este campo" }]}
+          rules={[
+            {
+              required: true,
+              message: "Verifica este campo",
+            },
+          ]}
         >
           <InputNumber
             controls={false}
             maxLength={9}
+            type="number"
             addonBefore={<PhoneOutlined title="N° celular" />}
             style={{ width: "100%" }}
           />
         </Form.Item>
-
+        <Form.Item
+          name="origen"
+          label="Origen"
+          rules={[
+            { type: "array", required: true, message: "Selecciona el Origen" },
+          ]}
+        >
+          <Select
+            onChange={onVoucherTypeChange}
+            placeholder="Selecciona el Origen "
+          >
+            {terminales?.map((terminal, index) => (
+              <Option key={index} value={terminal.value}>
+                {terminal.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item
           name="destino"
           label="Destino"
@@ -164,11 +179,11 @@ export function EncomiendasForm() {
         >
           <Select
             onChange={onVoucherTypeChange}
-            placeholder="Selecciona el tipo de comprobante"
+            placeholder="Selecciona el Destino "
           >
-            {destinos?.map((destino, index) => (
-              <Option key={index} value={destino.value}>
-                {destino.label}
+            {terminales?.map((terminal, index) => (
+              <Option key={index} value={terminal.value}>
+                {terminal.label}
               </Option>
             ))}
           </Select>
@@ -177,9 +192,7 @@ export function EncomiendasForm() {
         <Form.Item
           name="precio"
           label="Precio"
-          rules={[
-            { required: true, message: "Insertar el precio de la encomienda" },
-          ]}
+          rules={[{ required: true, message: "Precio de la encomienda" }]}
         >
           <InputNumber
             type="number"
@@ -194,7 +207,6 @@ export function EncomiendasForm() {
           label="Fecha de Envío"
           tooltip="Fecha en la que se va a cargar al compartimento de encomiendas"
           rules={[{ required: true, message: "Selecciona la fecha" }]}
-          help="Calculando espacio para esa fecha..."
         >
           <DatePicker
             className="w-full min-w-[230px]"
@@ -202,27 +214,43 @@ export function EncomiendasForm() {
           />
         </Form.Item>
 
-        <Form.Item name="password" label="Clave de Envío" hasFeedback>
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="comprobante"
-          label="Comprobante"
-          rules={[
-            {
-              required: true,
-              message: "Selecciona el tipo de Comprobante",
-            },
-          ]}
-        >
-          <Select
-            onChange={onVoucherTypeChange}
-            placeholder="Selecciona el tipo de comprobante"
+        <div className="flex gap-3.5">
+          <Form.Item
+            name="comprobante"
+            label="Comprobante"
+            rules={[
+              {
+                required: true,
+                message: "Boleta o Factura",
+              },
+            ]}
           >
-            <Option value="boleta">Boleto Electrónica</Option>
-            <Option value="factura">Factura Electrónica</Option>
-          </Select>
-        </Form.Item>
+            <Select
+              style={{ width: 120 }}
+              onChange={onVoucherTypeChange}
+              placeholder="Selecciona"
+            >
+              <Option value="boleta">Boleta</Option>
+              <Option value="factura">Factura</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="pago"
+            label="Pagado"
+            className="w-full min-w-[100px]"
+            rules={[
+              {
+                required: true,
+                message: "Pagado o Por pagar",
+              },
+            ]}
+          >
+            <Select onChange={onVoucherTypeChange} placeholder="Selecciona">
+              <Option value="boleta">Pagado</Option>
+              <Option value="factura">Por Pagar</Option>
+            </Select>
+          </Form.Item>
+        </div>
         <Form.Item
           name="contenido"
           label="Contenido de la encomienda"
@@ -235,7 +263,7 @@ export function EncomiendasForm() {
           name="descripcion"
           label="Descripción de la encomienda"
           className="col-span-2 mb-10"
-          rules={[{ required: true, message: "Describe a la encomiendas" }]}
+          rules={[{ message: "Describe a la encomienda" }]}
         >
           <Input.TextArea
             placeholder="Descripcion de la encomienda para diferenciarla..."

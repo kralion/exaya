@@ -1,7 +1,10 @@
 import type { IEncomienda } from "@/interfaces";
 import { Title } from "@mantine/core";
-import { Button, Modal, Tag } from "antd";
+import { Button, Modal, Select, Tag } from "antd";
 import React, { useState } from "react";
+import { set } from "zod";
+
+const { Option } = Select;
 
 type Props = {
   modalActivator: string;
@@ -16,6 +19,7 @@ export default function EncomiendaDetails({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [status, setStatus] = useState(true);
 
   const showModal = () => {
     setOpen(true);
@@ -30,7 +34,7 @@ export default function EncomiendaDetails({
     setOpen(false);
   };
   const changeStatus = () => {
-    alert("Cambiar estado");
+    setStatus(!status);
   };
 
   return (
@@ -46,13 +50,9 @@ export default function EncomiendaDetails({
                 <Tag
                   className="cursor-pointer rounded-full  font-semibold shadow-md "
                   onClick={changeStatus}
-                  color={
-                    encomienda.estado === "Pagado"
-                      ? "green-inverse"
-                      : "red-inverse"
-                  }
+                  color={status === true ? "green-inverse" : "red-inverse"}
                 >
-                  {encomienda.estado}
+                  {status === true ? "Pagado" : "Por Pagar"}
                 </Tag>
                 <Tag
                   className="rounded-full font-semibold shadow-md"

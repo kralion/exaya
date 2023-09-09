@@ -15,21 +15,20 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
+import Link from "next/link";
 
 const { Header, Footer, Sider, Content } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
-  label: string,
-  path: string,
+  label: React.ReactNode,
   icon?: React.ReactNode,
   children?: MenuItem[]
 ): MenuItem {
   return {
-    key: path,
+    key: label?.toString(),
     label,
-    path,
     icon,
     children,
   } as MenuItem;
@@ -38,21 +37,27 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 const items: MenuItem[] = [
-  getItem("Dashboard", "/dashboard", <DashboardOutlined />),
+  getItem(<Link href="/dashboard">Dashboard</Link>, <DashboardOutlined />),
 
-  getItem("Pasajes", "/venta-pasajes", <ScheduleOutlined />),
-  getItem("Encomiendas", "/encomiendas", <ReconciliationOutlined />),
+  getItem(<Link href="/venta-pasajes">Pasajes</Link>, <ScheduleOutlined />),
+  getItem(
+    <Link href="/encomiendas">Encomiendas</Link>,
+    <ReconciliationOutlined />
+  ),
 
-  getItem("Programacion", "/programacion", <FieldTimeOutlined />, [
-    getItem("Conductores", "/programacion/conductores"),
-    getItem("Comprobantes", "/programacion/comprobantes"),
-    getItem("Viajes", "/programacion/viajes"),
+  getItem("Programacion", <FieldTimeOutlined />, [
+    getItem(<Link href="/programacion/bus-conductor">Bus-Conductor</Link>),
+    getItem(<Link href="/programacion/comprobantes">Comprobantes</Link>),
+    getItem(<Link href="/programacion/viajes">Viajes</Link>),
   ]),
 
-  getItem("Contable", "/contable", <LineChartOutlined />),
-  getItem("Administracion", "/administracion", <AuditOutlined />),
-  getItem("Soporte", "/soporte", <QuestionCircleOutlined />),
-  getItem("Cerrar Sesión", "/cerrar-sesion", <LogoutOutlined />),
+  getItem(<Link href="/contable">Contable</Link>, <LineChartOutlined />),
+  getItem(
+    <Link href="/administracion">Administración</Link>,
+    <AuditOutlined />
+  ),
+  getItem(<Link href="/soporte">Soporte</Link>, <QuestionCircleOutlined />),
+  getItem(<Link href="/login">Cerrar Sesión</Link>, <LogoutOutlined />),
 ];
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
@@ -80,21 +85,7 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu
-          //! Rudimentary Navigation Menu
-          mode="inline"
-          items={items}
-          defaultSelectedKeys={
-            typeof window !== "undefined" ? [window.location.pathname] : []
-          }
-          onSelect={({ key }) => {
-            if (key === "/cerrar-sesion") {
-              localStorage.removeItem("token");
-            } else {
-              window.location.href = key;
-            }
-          }}
-        />
+        <Menu mode="inline" items={items} />
       </Sider>
       <Layout>
         <Header
