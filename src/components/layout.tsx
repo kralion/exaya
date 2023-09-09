@@ -81,9 +81,19 @@ export default function AppLayout({ children }: LayoutProps) {
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Menu
-          defaultSelectedKeys={["/dashboard"]}
+          //! Rudimentary Navigation Menu
           mode="inline"
           items={items}
+          defaultSelectedKeys={
+            typeof window !== "undefined" ? [window.location.pathname] : []
+          }
+          onSelect={({ key }) => {
+            if (key === "/cerrar-sesion") {
+              localStorage.removeItem("token");
+            } else {
+              window.location.href = key;
+            }
+          }}
         />
       </Sider>
       <Layout>
