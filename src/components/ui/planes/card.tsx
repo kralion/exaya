@@ -31,7 +31,7 @@ export default function PlanesCard({
           ))}
         </ul>
         <div className="text-center">
-          <button className=" w-full cursor-pointer rounded-full bg-zinc-500 py-3 text-white duration-200 hover:scale-105">
+          <button className=" w-full cursor-pointer rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 py-3 text-white duration-200 hover:scale-105">
             Adquirir
           </button>
         </div>
