@@ -7,10 +7,12 @@ import Link from "next/link";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
+  preload: true,
 });
 const blackOpsOne = Black_Ops_One({
   weight: "400",
   subsets: ["latin"],
+  preload: true,
 });
 const navLinks = [
   {
@@ -62,7 +64,7 @@ export default function LandingLayout({
                   className="flex items-center justify-center font-bold duration-300 hover:text-purple-900  "
                   href={link.path}
                 >
-                  <span className="mr-2">{link.title}</span>
+                  {link.title}
                 </Link>
               </li>
             ))}

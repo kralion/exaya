@@ -20,6 +20,6 @@ body::-webkit-scrollbar-track {
 
 /* Cambiar el color de la barra de desplazamiento (opcional) */
 body::-webkit-scrollbar-thumb {
-  background-color: #3b1963;
+  background-color: #f77810;
   border-radius: 20px; /* Color de la barra de desplazamiento */
 }

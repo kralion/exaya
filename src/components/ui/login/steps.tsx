@@ -5,7 +5,7 @@ export default function DevicesVersionSteps() {
         <div className="flex">
           <div className="mr-4 flex flex-col items-center">
             <div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border ">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-orange-400 text-white ">
                 <svg
                   className="w-6  "
                   stroke="currentColor"
@@ -37,7 +37,7 @@ export default function DevicesVersionSteps() {
         <div className="flex">
           <div className="mr-4 flex flex-col items-center">
             <div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-orange-400 text-white">
                 <svg className="w-6 " stroke="currentColor" viewBox="0 0 24 24">
                   <polyline
                     fill="none"
