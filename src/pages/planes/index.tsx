@@ -5,12 +5,13 @@ import React from "react";
 export default function Planes() {
   return (
     <LandingLayout>
-      <p className="space-y-3.5">
-        <h1 className="text-4xl font-bold">Planes</h1>
-        <h4 className=" text-zinc-700">
-          Contamos con planes que se adaptan a tu negocio y necesidades
+      <div className="space-y-5 pb-16">
+        <h1 className="text-5xl font-bold">Nuestros Planes</h1>
+        <h4 className=" text-xl">
+          Contamos con planes que se adaptan a tu negocio y necesidades, <br />
+          para que puedas elegir el que mejor se adapte a ti.
         </h4>
-      </p>
+      </div>
       <div className="my-7 flex flex-col justify-center gap-7 lg:flex-row ">
         <PlanesCard
           planTitle="Exaya Essentials"
@@ -23,18 +24,27 @@ export default function Planes() {
             "Soporte en tiempo hábil.",
           ]}
         />
-        <PlanesCard
-          planTitle="Exaya Premium "
-          planPrice="S/. 1,100.00"
-          planTimeCharger="Por Mes"
-          planDescription="Mayor capacidad de respuesta y soporte premium para empresas en crecimiento."
-          planFeatures={[
-            "Mayor capacidad de respuesta.",
-            "Consumo de recursos optimizado.",
-            "Posibilidad de Feedback.",
-            "Prioridad en el soporte.",
-          ]}
-        />
+        <div className="relative">
+          <span
+            color="red-inverse"
+            className="absolute -top-4 left-4 rounded-lg border-2 border-orange-400 bg-orange-500 px-4 py-1 text-sm uppercase text-white shadow-lg shadow-orange-500"
+          >
+            Popular
+          </span>
+
+          <PlanesCard
+            planTitle="Exaya Premium "
+            planPrice="S/. 1,100.00"
+            planTimeCharger="Por Mes"
+            planDescription="Mayor capacidad de respuesta y soporte premium para empresas en crecimiento."
+            planFeatures={[
+              "Mayor capacidad de respuesta.",
+              "Consumo de recursos optimizado.",
+              "Posibilidad de Feedback.",
+              "Prioridad en el soporte.",
+            ]}
+          />
+        </div>
         <PlanesCard
           planTitle="Exaya Elite "
           planPrice="S/. 1,500.00"

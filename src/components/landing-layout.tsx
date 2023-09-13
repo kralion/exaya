@@ -52,7 +52,7 @@ export default function LandingLayout({
                 alt="logo"
               />
               <span
-                className={` text-xl font-bold text-[#2d1a42] lg:text-3xl ${blackOpsOne.className}`}
+                className={` text-xl font-bold  lg:text-3xl ${blackOpsOne.className}`}
               >
                 Exaya
               </span>
@@ -73,7 +73,7 @@ export default function LandingLayout({
             </ul>
           </nav>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <Link
               href="/dashboard"
               className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500  hover:text-white active:bg-orange-500 "

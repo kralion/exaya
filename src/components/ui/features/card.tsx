@@ -14,7 +14,7 @@ export default function Card({
     <div
       data-aos="flip-left"
       data-aos-duration="500"
-      className="w-80 space-y-14 rounded-xl border-2 bg-yellow-200 p-7 shadow-md  duration-300  hover:scale-105 hover:shadow-xl "
+      className="w-80 space-y-14 rounded-xl border-2 bg-gradient-to-r from-orange-300  to-yellow-200 p-7 shadow-md  duration-300  hover:scale-105 hover:shadow-xl "
     >
       <Image
         src={cardImage}

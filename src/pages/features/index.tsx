@@ -5,13 +5,14 @@ import React from "react";
 export default function Index() {
   return (
     <LandingLayout>
-      <p className="space-y-3.5">
-        <h1 className="text-4xl font-bold">Features</h1>
-        <h4 className=" text-zinc-700">
-          Empoderando tu negocio con tecnologias modernas <br /> y herramientas
-          del ahora.
+      <div className="space-y-3.5">
+        <h1 className="text-5xl font-bold">Features</h1>
+        <h4 className="  text-xl">
+          Exaya cuenta con funcionalidades que empoderan tu negocio con
+          <br />
+          tecnologias modernas y herramientas del ahora.
         </h4>
-      </p>
+      </div>
       <div className="flex items-center justify-center">
         <div className="my-20 grid grid-cols-1 items-center justify-center gap-4 lg:grid-cols-3">
           <Card
