@@ -77,6 +77,7 @@ const items: MenuProps["items"] = [
     key: "logout",
     icon: <LogoutOutlined />,
     label: <Link href="/login">Cerrar Sesión</Link>,
+    danger: true,
   },
 ];
 
@@ -106,7 +107,13 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu mode="inline" items={items} />
+        <Menu
+          mode="inline"
+          items={items}
+          onSelect={(e) => {
+            alert("Redireccionando");
+          }}
+        />
       </Sider>
       <Layout>
         <Header

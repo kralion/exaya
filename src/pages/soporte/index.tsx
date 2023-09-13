@@ -20,7 +20,7 @@ export default function Soporte() {
           alt="Support Banner"
         />
         <div className="my-7 flex flex-col items-center justify-center text-center">
-          <p className="space-y-3">
+          <div className="space-y-3">
             <h1 className={` ${literata.className} text-3xl `}>
               Estás teniendo algún problema ?
             </h1>
@@ -31,7 +31,7 @@ export default function Soporte() {
               <br />
               cita con nosotros.
             </h5>
-          </p>
+          </div>
           <div className="mb-12 mt-7 flex gap-3">
             <a
               href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
