@@ -19,46 +19,67 @@ import Link from "next/link";
 
 const { Header, Footer, Sider, Content } = Layout;
 
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key: label?.toString(),
-    label,
-    icon,
-    children,
-  } as MenuItem;
-}
 interface LayoutProps {
   children: React.ReactNode;
 }
-const items: MenuItem[] = [
-  getItem(<Link href="/dashboard">Dashboard</Link>, <DashboardOutlined />),
+const items: MenuProps["items"] = [
+  {
+    label: <Link href="/dashboard">Dashboard</Link>,
+    key: "dashboard",
+    icon: <DashboardOutlined />,
+  },
+  {
+    label: <Link href="/venta-pasajes">Pasajes</Link>,
+    key: "venta-pasajes",
+    icon: <ScheduleOutlined />,
+  },
+  {
+    label: <Link href="/encomiendas">Encomiendas</Link>,
+    icon: <ReconciliationOutlined />,
+    key: "encomiendas",
+  },
 
-  getItem(<Link href="/venta-pasajes">Pasajes</Link>, <ScheduleOutlined />),
-  getItem(
-    <Link href="/encomiendas">Encomiendas</Link>,
-    <ReconciliationOutlined />
-  ),
-
-  getItem("Programacion", <FieldTimeOutlined />, [
-    getItem(<Link href="/programacion/bus-conductor">Bus-Conductor</Link>),
-    getItem(<Link href="/programacion/comprobantes">Comprobantes</Link>),
-    getItem(<Link href="/programacion/viajes">Viajes</Link>),
-  ]),
-
-  getItem(<Link href="/contable">Contable</Link>, <LineChartOutlined />),
-  getItem(
-    <Link href="/administracion">Administración</Link>,
-    <AuditOutlined />
-  ),
-  getItem(<Link href="/soporte">Soporte</Link>, <QuestionCircleOutlined />),
-  getItem(<Link href="/login">Cerrar Sesión</Link>, <LogoutOutlined />),
+  {
+    key: "programacion",
+    label: "Programación",
+    icon: <FieldTimeOutlined />,
+    children: [
+      {
+        key: "bus-conductor",
+        label: <Link href="/programacion/bus-conductor">Bus Conductor</Link>,
+      },
+      {
+        key: "comprobantes",
+        label: <Link href="/programacion/comprobantes">Comprobantes</Link>,
+      },
+      {
+        key: "viajes",
+        label: <Link href="/programacion/viajes">Viajes</Link>,
+      },
+    ],
+  },
+  {
+    label: <Link href="/contable">Contable</Link>,
+    icon: <LineChartOutlined />,
+    key: "contable",
+  },
+  {
+    key: "administacion",
+    label: <Link href="/administracion">Administración</Link>,
+    icon: <AuditOutlined />,
+  },
+  {
+    label: <Link href="/soporte">Soporte</Link>,
+    key: "soporte",
+    icon: <QuestionCircleOutlined />,
+  },
+  {
+    key: "logout",
+    icon: <LogoutOutlined />,
+    label: <Link href="/login">Cerrar Sesión</Link>,
+  },
 ];
+
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
 
