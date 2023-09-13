@@ -7,38 +7,46 @@ export default function Index() {
     <LandingLayout>
       <p className="space-y-3.5">
         <h1 className="text-4xl font-bold">Features</h1>
-        <h4 className=" text-zinc-500">
+        <h4 className=" text-zinc-700">
           Empoderando tu negocio con tecnologias modernas <br /> y herramientas
           del ahora.
         </h4>
       </p>
-      <div className="my-20 grid w-fit grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card
-          cardTitle="Analiticas en Tiempo Real"
-          cardDescription="Desarrollamos tu sitio web con las ultimas tecnologias del mercado."
-          cardImage="https://cdn-icons-png.flaticon.com/128/2572/2572756.png"
-        />
-        {/* https://www.freepik.com/icon/infographics_2572756#fromView=search&term=analytics&page=4&position=1 */}
-        <Card
-          cardTitle="Clasificacion por Sedes"
-          cardDescription="Desarrollamos tu sitio web con las ultimas tecnologias del mercado."
-          cardImage="https://cdn-icons-png.flaticon.com/128/2572/2572963.png"
-        />
-        <Card
-          cardTitle="Analiticas en Tiempo Real"
-          cardDescription="Desarrollamos tu sitio web con las ultimas tecnologias del mercado."
-          cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573140.png"
-        />
-        <Card
-          cardTitle="Analiticas en Tiempo Real"
-          cardDescription="Desarrollamos tu sitio web con las ultimas tecnologias del mercado."
-          cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573051.png"
-        />
-        <Card
-          cardTitle="Analiticas en Tiempo Real"
-          cardDescription="Desarrollamos tu sitio web con las ultimas tecnologias del mercado."
-          cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573070.png"
-        />
+      <div className="flex items-center justify-center">
+        <div className="my-20 grid grid-cols-1 items-center justify-center gap-4 lg:grid-cols-3">
+          <Card
+            cardTitle="Analíticas en Tiempo Real"
+            cardDescription="Datos instantáneos para tomar decisiones precisas y oportunas para el crecimiento de tu empresa"
+            cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573116.png"
+          />
+          {/* https://www.freepik.com/icon/infographics_2572756#fromView=search&term=analytics&page=4&position=1 */}
+          <Card
+            cardTitle="Experiencia Personalizada"
+            cardDescription="Herramientas adaptadas a tu personal para una gestión interna más efectiva."
+            cardImage="https://cdn-icons-png.flaticon.com/128/2572/2572963.png"
+          />
+          <Card
+            cardTitle="Seguridad y Confianza"
+            cardDescription="Protege la información y garantiza transacciones seguras para tu organización y empleados."
+            cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573108.png"
+          />
+          <Card
+            cardTitle="Actualizaciones"
+            cardDescription="Protege la información y garantiza transacciones seguras para tu organización y empleados."
+            cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573099.png"
+          />
+          <Card
+            cardTitle="Entrega de Valor"
+            cardDescription="Cada función aporta eficiencia y calidad a tus operaciones internas para hacerlas más productivas. "
+            cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573051.png"
+          />
+
+          <Card
+            cardTitle="Soporte de Primera"
+            cardDescription=" Asistencia dedicada para resolver las necesidades de tus empleados y garantizar el éxito continuo."
+            cardImage="https://cdn-icons-png.flaticon.com/128/2573/2573060.png"
+          />
+        </div>
       </div>
     </LandingLayout>
   );
