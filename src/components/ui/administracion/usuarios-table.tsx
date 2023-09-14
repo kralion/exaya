@@ -17,15 +17,19 @@ const columns: ColumnsType<IUsuario> = [
     key: "apellidos",
   },
   {
-    title: "Sede",
-    key: "sede",
-    dataIndex: "sede",
-    render: (sede: string) => <Tag key={sede}>{sede.toUpperCase()}</Tag>,
-  },
-  {
     title: "DNI",
     dataIndex: "dni",
     key: "dni",
+  },
+  {
+    title: "Agencia Sede",
+    key: "sede",
+    dataIndex: "sede",
+    render: (sede: string) => (
+      <Tag className="font-semibold" key={sede}>
+        {sede.toUpperCase()}
+      </Tag>
+    ),
   },
   {
     title: "Rol del Usuario",
@@ -35,11 +39,11 @@ const columns: ColumnsType<IUsuario> = [
       <Tag
         color={
           rol === "administrador"
-            ? "green-inverse"
+            ? "gold-inverse"
             : rol === "usuario"
             ? "blue-inverse"
             : rol === "supervisor"
-            ? "gold-inverse"
+            ? "green-inverse"
             : "purple-inverse"
         }
         className="rounded-full font-semibold shadow-md "
