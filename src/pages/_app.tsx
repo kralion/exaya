@@ -21,12 +21,29 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Head>
-        <title>Exaya</title>
-        <meta name="Exaya" content="Transportations management service" />
+        <title>Exaya - Tu Solución Integral de Gestión de Transportes</title>
+        <meta
+          name="description"
+          content="Optimiza la gestión de transporte de tu empresa con Exaya. Analíticas en tiempo real, seguridad, actualizaciones, soporte de primera e integrado con Inteligencia Artificial"
+        />
         <link
           rel="icon"
           href="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
         />
+        <meta
+          property="og:title"
+          content="Exaya - Tu Solución de Gestión de Transporte"
+        />
+        <meta
+          property="og:description"
+          content="Optimiza la gestión de transporte de pasajeros con Exaya. Analíticas en tiempo real, seguridad, actualizaciones y soporte de primera."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
+        />
+        <meta property="og:url" content="https://github.com/Dv-Joan/exaya" />
       </Head>
       <QueryClientProvider client={queryClient}>
         <ConfigProvider locale={esEs}>
