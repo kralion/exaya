@@ -221,7 +221,7 @@ export function EncomiendasForm() {
             rules={[
               {
                 required: true,
-                message: "Boleta o Factura",
+                message: "Boleto o Factura",
               },
             ]}
           >
@@ -230,7 +230,7 @@ export function EncomiendasForm() {
               onChange={onVoucherTypeChange}
               placeholder="Selecciona"
             >
-              <Option value="boleta">Boleta</Option>
+              <Option value="boleto">Boleto</Option>
               <Option value="factura">Factura</Option>
             </Select>
           </Form.Item>
@@ -246,7 +246,7 @@ export function EncomiendasForm() {
             ]}
           >
             <Select onChange={onVoucherTypeChange} placeholder="Selecciona">
-              <Option value="boleta">Pagado</Option>
+              <Option value="boleto">Pagado</Option>
               <Option value="factura">Por Pagar</Option>
             </Select>
           </Form.Item>

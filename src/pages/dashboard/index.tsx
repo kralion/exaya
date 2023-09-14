@@ -1,4 +1,4 @@
-import BoletaIcon from "@/assets/icons/boleta.png";
+import BoletoIcon from "@/assets/icons/boleto.png";
 import FacturaIcon from "@/assets/icons/factura.png";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
@@ -61,10 +61,10 @@ export default function Dashboard() {
               </p>
 
               <p className="mt-7 flex flex-col gap-2">
-                <Typography.Text type="secondary">Boleta</Typography.Text>
+                <Typography.Text type="secondary">Boleto</Typography.Text>
                 <span className="flex items-center gap-1 text-2xl">
                   <Image
-                    src={BoletaIcon}
+                    src={BoletoIcon}
                     className="drop-shadow-lg"
                     width={17}
                     height={17}
