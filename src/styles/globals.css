@@ -5,6 +5,7 @@
 body {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 11 */
+  overflow-x: hidden;
 }
 
 /* También puedes definir un estilo personalizado para la barra de desplazamiento, por ejemplo, */

@@ -1,6 +1,8 @@
 import MobileNav from "@/components/ui/login/mobilenav";
 import ThemeToggle from "@/components/ui/login/theme-toggle";
 import AOSWrapper from "@/utils/AOS";
+import { FiLogIn } from "react-icons/fi";
+
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
@@ -17,16 +19,16 @@ const blackOpsOne = Black_Ops_One({
 });
 const navLinks = [
   {
-    title: "Login",
-    path: "/login",
-  },
-  {
     title: "Features",
     path: "/features",
   },
   {
     title: "Planes",
     path: "/planes",
+  },
+  {
+    title: "Nosotros",
+    path: "/",
   },
 ];
 
@@ -78,7 +80,8 @@ export default function LandingLayout({
               href="/dashboard"
               className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500  hover:text-white active:bg-orange-500 "
             >
-              Ver Demo
+              Ingresar
+              <FiLogIn className="ml-2" />
             </Link>
           </div>
           <nav className="lg:hidden">

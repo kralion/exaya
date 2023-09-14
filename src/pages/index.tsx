@@ -3,7 +3,7 @@ import LandingBanner4 from "@/assets/landing-banner-4.svg";
 import LandingLayout from "@/components/landing-layout";
 import DevicesVersionSteps from "@/components/ui/login/steps";
 import AOSWrapper from "@/utils/AOS";
-import { RightCircleOutlined } from "@ant-design/icons";
+import { FiArrowRightCircle } from "react-icons/fi";
 import "animate.css";
 import { Image as AntImage, Tag } from "antd";
 import { Dancing_Script } from "next/font/google";
@@ -53,10 +53,7 @@ export default function Index() {
                 href="/dashboard"
                 className="hover:purple-900 group inline-flex items-center rounded-full border-b-4 border-orange-600 bg-orange-500 px-5 py-2  font-semibold text-zinc-200 shadow-lg shadow-orange-400   duration-500 hover:bg-orange-500 hover:px-14 active:bg-orange-700 lg:px-10  lg:py-5 lg:text-2xl "
               >
-                <RightCircleOutlined
-                  twoToneColor={"red"}
-                  className="mr-4 duration-300 group-hover:mr-2 lg:mr-7 "
-                />
+                <FiArrowRightCircle className="mr-4 duration-300 group-hover:mr-2 lg:mr-7 " />
                 Ver Demo
               </Link>
 
