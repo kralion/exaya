@@ -77,7 +77,7 @@ export default function LandingLayout({
           <div className="flex items-center gap-2">
             {/* <ThemeToggle /> */}
             <Link
-              href="/dashboard"
+              href="/login"
               className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500  hover:text-white active:bg-orange-500 "
             >
               Ingresar
