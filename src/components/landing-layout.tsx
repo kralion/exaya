@@ -1,5 +1,4 @@
 import MobileNav from "@/components/ui/login/mobilenav";
-import ThemeToggle from "@/components/ui/login/theme-toggle";
 import AOSWrapper from "@/utils/AOS";
 import { FiLogIn } from "react-icons/fi";
 
@@ -17,7 +16,7 @@ const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
   preload: true,
 });
-const navLinks = [
+export const navLinks = [
   {
     title: "Features",
     path: "/features",
@@ -44,7 +43,7 @@ export default function LandingLayout({
       >
         <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
           <Link href="/">
-            <div className="flex  justify-start ">
+            <div className="flex  items-center justify-start  ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 //40 mobile
@@ -54,7 +53,7 @@ export default function LandingLayout({
                 alt="logo"
               />
               <span
-                className={` text-xl font-bold  lg:text-3xl ${blackOpsOne.className}`}
+                className={` text-2xl font-bold  lg:text-3xl ${blackOpsOne.className}`}
               >
                 Exaya
               </span>
@@ -74,11 +73,11 @@ export default function LandingLayout({
               ))}
             </ul>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-2 lg:flex ">
             {/* <ThemeToggle /> */}
             <Link
               href="/login"
-              className="hover:purple-900 group inline-flex items-center rounded-full border-1 border-black bg-transparent  px-4 py-1 font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500  hover:text-white active:bg-orange-500 "
+              className="hover:purple-900 lg:text-md group inline-flex items-center rounded-full border-1 border-black bg-transparent px-2 py-1 text-sm font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500 hover:text-white  active:bg-orange-500 lg:px-4 "
             >
               Ingresar
               <FiLogIn className="ml-2" />

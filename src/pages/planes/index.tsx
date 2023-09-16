@@ -6,13 +6,13 @@ export default function Planes() {
   return (
     <LandingLayout>
       <div className="space-y-5 pb-16">
-        <h1 className="text-5xl font-bold">Nuestros Planes</h1>
-        <h4 className=" text-xl">
-          Contamos con planes que se adaptan a tu negocio y necesidades, <br />
-          para que puedas elegir el que mejor se adapte a ti.
+        <h1 className="text-2xl font-bold lg:text-5xl">Nuestros Planes</h1>
+        <h4 className=" px-6 lg:text-xl">
+          Contamos con planes que se adaptan a tu negocio y necesidades, para
+          que puedas elegir el que mejor se adapte a ti.
         </h4>
       </div>
-      <div className="my-7 flex flex-col justify-center gap-7 lg:flex-row ">
+      <div className="flex flex-col items-center justify-center gap-7 space-y-3.5 lg:my-7 lg:flex-row ">
         <PlanesCard
           planTitle="Exaya Essentials"
           planPrice="S/. 800.00"

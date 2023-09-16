@@ -2,22 +2,27 @@ import React from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
+import Link from "next/link";
 
 const items: MenuProps["items"] = [
   {
-    label: <a href="https://www.antgroup.com">Login</a>,
+    label: <Link href="/login">Login</Link>,
     key: "0",
   },
   {
     type: "divider",
   },
   {
-    label: <a href="https://www.aliyun.com">Nosotros</a>,
-    key: "3",
+    label: <Link href="/features">Features</Link>,
+    key: "1",
   },
   {
-    label: <a href="https://www.aliyun.com">Planes</a>,
-    key: "1",
+    label: <Link href="/planes">Planes</Link>,
+    key: "2",
+  },
+  {
+    label: <Link href="/nosotros">Nosotros</Link>,
+    key: "3",
   },
 ];
 
