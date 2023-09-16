@@ -6,13 +6,6 @@ import Link from "next/link";
 
 const items: MenuProps["items"] = [
   {
-    label: <Link href="/login">Login</Link>,
-    key: "0",
-  },
-  {
-    type: "divider",
-  },
-  {
     label: <Link href="/features">Features</Link>,
     key: "1",
   },
@@ -24,24 +17,30 @@ const items: MenuProps["items"] = [
     label: <Link href="/nosotros">Nosotros</Link>,
     key: "3",
   },
+  {
+    type: "divider",
+  },
+  {
+    label: <Link href="/login">Ingresar</Link>,
+    key: "0",
+  },
 ];
 
 const MobileNav: React.FC = () => (
   <Dropdown
     overlayStyle={{
-      width: "100%",
-      marginTop: "1rem",
-      textAlign: "center",
+      width: "50%",
+      marginTop: "2rem",
+      textAlign: "right",
       borderWidth: "2px",
       borderRadius: "10px",
-      borderColor: "rgb(144,96,189)",
     }}
     menu={{ items }}
     trigger={["click"]}
   >
     <a onClick={(e) => e.preventDefault()}>
       <Space>
-        <MenuOutlined className="text-2xl text-purple-100" />
+        <MenuOutlined className="text-xl " />
       </Space>
     </a>
   </Dropdown>

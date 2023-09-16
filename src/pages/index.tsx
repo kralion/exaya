@@ -22,14 +22,14 @@ export default function Index() {
         <div data-aos="fade-up">
           <div className="space-y-14  px-7 py-16">
             <div className="relative space-y-7">
-              <h1 className="mx-20 text-3xl font-bold tracking-tight lg:text-7xl">
+              <h1 className="text-3xl font-bold tracking-tight lg:mx-20 lg:text-7xl">
                 Conduce tu empresa hacia la excelencia operativa
               </h1>
               {/* //TODO: < br/> separation changes it's place win mobile version  */}
               <div className="space-y-3.5 font-semibold lg:text-2xl ">
                 <p className="tracking-tight">
-                  El socio tecnológico que acelera el crecimiento de tu <br />
-                  empresa en la industria del transporte
+                  El socio tecnológico que acelera el crecimiento de tu empresa
+                  en la industria del transporte
                 </p>
                 <blockquote className="lg:text-4xl">
                   <p className={`${dancing_Script.className} `}>
@@ -78,18 +78,21 @@ export default function Index() {
                   src="https://imgur.com/UH4xUQO.png"
                   alt="banner"
                   data-aos="fade-right"
-                  className=" rounded-2xl duration-300  
-             "
+                  className=" reponsive-image rounded-2xl        
+              duration-300"
                   //300 mobile
-                  width={500}
+                  style={{
+                    width: "90%",
+                  }}
                 />
                 <AntImage
                   src="https://imgur.com/4D47umW.png"
                   alt="banner"
                   className="rounded-2xl duration-300 
               "
-                  //300 mobile
-                  width={500}
+                  style={{
+                    width: "90%",
+                  }}
                 />
                 <AntImage
                   src="https://imgur.com/F7fNgEc.png"
@@ -97,8 +100,9 @@ export default function Index() {
                   data-aos="fade-left"
                   className=" rounded-2xl duration-300  
              "
-                  //300 mobile
-                  width={500}
+                  style={{
+                    width: "90%",
+                  }}
                 />
               </div>
             </AntImage.PreviewGroup>
@@ -106,13 +110,12 @@ export default function Index() {
         </div>
         <div
           data-aos="zoom-in"
-          className="mx-40 flex items-center justify-center gap-2 text-left"
+          className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mx-40 lg:flex-row"
         >
           <Image
             src={LandingBanner4}
             alt="banner"
-            className=" mt- flex rounded-2xl drop-shadow-xl"
-            //300 mobile
+            className="flex  rounded-2xl drop-shadow-xl"
             width={900}
           />
           <DevicesVersionSteps />
