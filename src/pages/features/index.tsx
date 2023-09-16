@@ -7,7 +7,7 @@ export default function Index() {
     <LandingLayout>
       <div className="space-y-3.5">
         <h1 className="text-2xl font-bold lg:text-5xl">Features</h1>
-        <h4 className=" px-5 lg:text-xl">
+        <h4 className=" px-5 lg:px-96 lg:text-xl">
           Exaya cuenta con funcionalidades que empoderan tu negocio con
           tecnologias modernas y herramientas del ahora.
         </h4>
@@ -22,7 +22,7 @@ export default function Index() {
           {/* https://www.freepik.com/icon/infographics_2572756#fromView=search&term=analytics&page=4&position=1 */}
           <Card
             cardTitle="Experiencia Personalizada"
-            cardDescription="Herramientas adaptadas a tu personal para una gestión interna más efectiva."
+            cardDescription="Herramientas adaptadas a tu personal para una gestión interna más efectiva con una interfaz intuitiva."
             cardImage="https://cdn-icons-png.flaticon.com/128/2572/2572963.png"
           />
           <Card

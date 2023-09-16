@@ -39,7 +39,7 @@ export default function LandingLayout({
   return (
     <AOSWrapper>
       <div
-        className={` ${inter.className} via-orange-00  bg-gradient-to-r from-orange-300 to-yellow-300 lg:space-y-14`}
+        className={` ${inter.className} via-orange-00  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300 lg:space-y-14`}
       >
         <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
           <Link href="/">

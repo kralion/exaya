@@ -27,7 +27,7 @@ export default function Index() {
               </h1>
               {/* //TODO: < br/> separation changes it's place win mobile version  */}
               <div className="space-y-3.5 font-semibold lg:text-2xl ">
-                <p className="tracking-tight">
+                <p className="tracking-tight lg:px-80">
                   El socio tecnológico que acelera el crecimiento de tu empresa
                   en la industria del transporte
                 </p>
