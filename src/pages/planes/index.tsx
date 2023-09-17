@@ -15,7 +15,7 @@ export default function Planes() {
       <div className="flex flex-col items-center justify-center gap-7 space-y-3.5 lg:my-7 lg:flex-row ">
         <PlanesCard
           planTitle="Exaya Essentials"
-          planPrice="S/. 800.00"
+          planPrice="S/. 600.00"
           planTimeCharger="Por Mes"
           planDescription="Todas las características fundamentales de Exaya para pequeñas y medianas empresas."
           planFeatures={[
@@ -34,7 +34,7 @@ export default function Planes() {
 
           <PlanesCard
             planTitle="Exaya Premium "
-            planPrice="S/. 1,100.00"
+            planPrice="S/. 850.00"
             planTimeCharger="Por Mes"
             planDescription="Mayor capacidad de respuesta y soporte premium para empresas en crecimiento."
             planFeatures={[
@@ -47,14 +47,14 @@ export default function Planes() {
         </div>
         <PlanesCard
           planTitle="Exaya Elite "
-          planPrice="S/. 1,500.00"
+          planPrice="S/. 1000.00"
           planTimeCharger="Por Mes"
           planDescription=" Máxima capacidad de respuesta, actualizaciones y atención personalizada para empresas de envergadura."
           planFeatures={[
-            "Máxima capacidad de respuesta.",
+            "Actualizaciones con nuevas features",
             "Consumo de recursos optimizado.",
             "Máxima capacidad de respuesta.",
-            "Atención personalizada y capacitación especializada.",
+            "Atención personalizada y capacitación",
           ]}
         />
       </div>
