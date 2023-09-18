@@ -1,9 +1,7 @@
 import type { IEncomienda } from "@/interfaces";
 import { Title } from "@mantine/core";
-import { Button, Modal, Popconfirm, Select, Tag } from "antd";
+import { Button, Modal, Popconfirm, Tag } from "antd";
 import React, { useState } from "react";
-
-const { Option } = Select;
 
 type Props = {
   modalActivator: string;
@@ -34,19 +32,6 @@ export default function EncomiendaDetails({
   };
   const handleOkStatusChange = () => {
     setStatus(!status);
-  };
-
-  const changeStatus = () => {
-    return (
-      <Popconfirm
-        title="¿Está seguro de cambiar el estado de la encomienda?"
-        onConfirm={handleOkStatusChange}
-        okText="Si"
-        cancelText="No"
-      >
-        <Button>Confirmar</Button>
-      </Popconfirm>
-    );
   };
 
   return (

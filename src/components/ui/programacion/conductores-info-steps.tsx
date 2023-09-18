@@ -1,12 +1,11 @@
 import { conductores } from "@/data";
 import type { IConductor } from "@/interfaces";
 import {
-  CheckCircleOutlined,
   ClockCircleOutlined,
-  CloseCircleOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
 import { Title } from "@mantine/core";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import {
   Avatar,
   Button,
@@ -99,19 +98,18 @@ export function ConductoresInformacion() {
               <List.Item.Meta
                 avatar={<Avatar src={conductor.foto_perfil} />}
                 title={
-                  <div>
+                  <div className="flex items-center gap-2">
                     <a
                       href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mr-2"
                     >
                       {conductor.nombres}
                     </a>
                     {conductor.disponibilidad === true ? (
-                      <CheckCircleOutlined className=" rounded-full bg-green-500  text-white" />
+                      <AiFillCheckCircle className=" text-green-500" />
                     ) : (
-                      <CloseCircleOutlined className=" rounded-full bg-red-500  text-white" />
+                      <AiFillCloseCircle className=" text-red-500" />
                     )}
                   </div>
                 }
@@ -168,28 +166,29 @@ export function ConductoresInformacion() {
           </div>
         }
       >
-        <div className="flex items-center justify-between pb-5">
-          <div className="mt-7 space-y-3.5">
+        <hr className="mb-2" />
+        <div className="flex items-center justify-between p-3">
+          <div className="mt-7 space-y-3">
             <p>
-              <Typography.Text strong>Cod Licencia: </Typography.Text>
+              <Typography.Text strong>Cod Licencia : </Typography.Text>
               <Tag> {conductor?.licencia_conducir}</Tag>
             </p>
 
             <p>
-              <Typography.Text strong>Nombre: </Typography.Text>
+              <Typography.Text strong>Nombre : </Typography.Text>
               <Typography.Text>{conductor?.nombres}</Typography.Text>
             </p>
             <p>
-              <Typography.Text strong>Apellidos: </Typography.Text>
+              <Typography.Text strong>Apellidos : </Typography.Text>
               <Typography.Text>{conductor?.apellidos}</Typography.Text>
             </p>
 
             <p>
-              <Typography.Text strong>Télefono: </Typography.Text>
+              <Typography.Text strong>Télefono : </Typography.Text>
               <Typography.Text>{conductor?.telefono}</Typography.Text>
             </p>
             <p>
-              <Typography.Text strong>Disponibilidad: </Typography.Text>
+              <Typography.Text strong>Disponibilidad : </Typography.Text>
               <Tag
                 className="rounded-full shadow-md"
                 color={
@@ -204,28 +203,19 @@ export function ConductoresInformacion() {
               </Tag>
             </p>
             <p>
-              <Typography.Text strong>Télefono: </Typography.Text>
+              <Typography.Text strong>Télefono : </Typography.Text>
               <Typography.Text>{conductor?.telefono}</Typography.Text>
             </p>
             <p>
-              <Typography.Text strong>Estado: </Typography.Text>
+              <Typography.Text strong>Documentos : </Typography.Text>
               <Typography.Text>
                 {conductor?.estado_documentario ===
                 "Documentos Actualizados" ? (
-                  <Tag color="green">
-                    {conductor?.estado_documentario}
-                    <CheckCircleOutlined className="ml-2 " />
-                  </Tag>
+                  <Tag color="green">{conductor?.estado_documentario}</Tag>
                 ) : conductor?.estado_documentario === "En Trámite" ? (
-                  <Tag color="yellow">
-                    {conductor?.estado_documentario}
-                    <ClockCircleOutlined className="ml-2 " />
-                  </Tag>
+                  <Tag color="yellow">{conductor?.estado_documentario}</Tag>
                 ) : (
-                  <Tag color="red">
-                    {conductor?.estado_documentario}
-                    <CloseCircleOutlined className="ml-2 " />
-                  </Tag>
+                  <Tag color="red">{conductor?.estado_documentario}</Tag>
                 )}
               </Typography.Text>
             </p>
@@ -238,7 +228,7 @@ export function ConductoresInformacion() {
             }
             width={300}
             height={200}
-            className="h-20 w-40 rounded-lg object-cover "
+            className="rounded-lg object-cover "
             alt="Bus Preview"
           />
         </div>
