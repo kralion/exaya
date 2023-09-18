@@ -52,9 +52,9 @@ export const columns = [
             encomienda={encomienda}
             modalActivator="Ver Detalles"
           >
-            <div className=" ">
+            <div className="px-5 pb-10 ">
               <div className="mt-7 flex justify-between space-y-2">
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <p>
                     <Typography.Text strong>Guía: </Typography.Text>
                     <Typography.Text code> {encomienda.key}</Typography.Text>
@@ -101,10 +101,10 @@ export const columns = [
                   </p>
                 </div>
                 <Image
-                  src="https://ouch-cdn2.icons8.com/lAIiLw_8IO35ASDPxYlrRb7Toyd30Ku8I_-zeVH777o/rs:fit:368:283/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzU5/LzI3MGUwODU2LWQy/M2UtNDhhNS04OTNl/LWVjODZkZjNmNmY3/My5wbmc.png"
+                  src="https://img.freepik.com/free-vector/post-office-abstract-concept-vector-illustration_335657-5688.jpg?size=626&ext=jpg"
                   alt="logo"
-                  height={90}
-                  width={260}
+                  height={50}
+                  width={300}
                 />
               </div>
             </div>

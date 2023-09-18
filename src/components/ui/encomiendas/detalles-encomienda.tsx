@@ -2,7 +2,6 @@ import type { IEncomienda } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { Button, Modal, Select, Tag } from "antd";
 import React, { useState } from "react";
-import { set } from "zod";
 
 const { Option } = Select;
 
@@ -41,7 +40,7 @@ export default function EncomiendaDetails({
     <>
       <Button onClick={showModal}>{modalActivator}</Button>
       <Modal
-        width={600}
+        width={700}
         title={
           <div>
             <Title order={3}>Detalles de la Encomienda</Title>
@@ -73,6 +72,12 @@ export default function EncomiendaDetails({
         onCancel={() => setOpen(false)}
         footer={null}
       >
+        <hr
+          className="mb-7 mt-3
+    
+       "
+        />
+
         {children}
       </Modal>
     </>
