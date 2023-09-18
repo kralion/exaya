@@ -53,7 +53,7 @@ export const columns = [
             modalActivator="Ver Detalles"
           >
             <div className="px-5 pb-10 ">
-              <div className="mt-7 flex justify-between space-y-2">
+              <div className="flex items-center justify-between space-y-2">
                 <div className="space-y-3">
                   <p>
                     <Typography.Text strong>Guía: </Typography.Text>

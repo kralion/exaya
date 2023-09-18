@@ -1,6 +1,6 @@
 import type { IEncomienda } from "@/interfaces";
 import { Title } from "@mantine/core";
-import { Button, Modal, Select, Tag } from "antd";
+import { Button, Modal, Popconfirm, Select, Tag } from "antd";
 import React, { useState } from "react";
 
 const { Option } = Select;
@@ -32,8 +32,21 @@ export default function EncomiendaDetails({
     }, 2000);
     setOpen(false);
   };
-  const changeStatus = () => {
+  const handleOkStatusChange = () => {
     setStatus(!status);
+  };
+
+  const changeStatus = () => {
+    return (
+      <Popconfirm
+        title="¿Está seguro de cambiar el estado de la encomienda?"
+        onConfirm={handleOkStatusChange}
+        okText="Si"
+        cancelText="No"
+      >
+        <Button>Confirmar</Button>
+      </Popconfirm>
+    );
   };
 
   return (
@@ -46,13 +59,19 @@ export default function EncomiendaDetails({
             <Title order={3}>Detalles de la Encomienda</Title>
             {encomienda && (
               <div>
-                <Tag
-                  className="cursor-pointer rounded-full  font-semibold shadow-md "
-                  onClick={changeStatus}
-                  color={status === true ? "green-inverse" : "red-inverse"}
+                <Popconfirm
+                  title="¿Está seguro de cambiar el estado de la encomienda?"
+                  onConfirm={handleOkStatusChange}
+                  okText="Si"
+                  cancelText="No"
                 >
-                  {status === true ? "Pagado" : "Por Pagar"}
-                </Tag>
+                  <Tag
+                    className="cursor-pointer rounded-full  font-semibold shadow-md "
+                    color={status === true ? "green-inverse" : "red-inverse"}
+                  >
+                    {status === true ? "Pagado" : "Por Pagar"}
+                  </Tag>
+                </Popconfirm>
                 <Tag
                   className="rounded-full font-semibold shadow-md"
                   color="gold-inverse"
