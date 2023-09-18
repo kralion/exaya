@@ -1,9 +1,6 @@
 import { conductores } from "@/data";
 import type { IConductor } from "@/interfaces";
-import {
-  ClockCircleOutlined,
-  ExclamationCircleFilled,
-} from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Title } from "@mantine/core";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import {

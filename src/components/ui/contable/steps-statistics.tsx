@@ -1,11 +1,8 @@
 import React from "react";
 import { Steps } from "antd";
-import {
-  AuditOutlined,
-  CompassOutlined,
-  UsergroupDeleteOutlined,
-  SwitcherOutlined,
-} from "@ant-design/icons";
+import { RxUpdate } from "react-icons/rx";
+import { MdEventSeat } from "react-icons/md";
+import { FaFileInvoiceDollar, FaLuggageCart } from "react-icons/fa";
 
 export const EstadisticasNumericas: React.FC = () => (
   <Steps
@@ -14,18 +11,25 @@ export const EstadisticasNumericas: React.FC = () => (
     items={[
       {
         title: "Actualizado",
+        icon: (
+          <RxUpdate
+            style={{
+              WebkitAnimation: "spin 3s linear infinite",
+            }}
+            className="my-5 mx-2"
+          />
+        ),
         description: (
           <span>
             Menos <strong>18%</strong> de IGV
           </span>
         ),
-        status: "process",
-        icon: <CompassOutlined />,
+        status: "finish",
       },
       {
         title: "Asientos",
-        icon: <UsergroupDeleteOutlined />,
-        status: "process",
+        icon: <MdEventSeat className="my-5 mx-2" />,
+        status: "finish",
         description: (
           <span>
             <strong>78</strong> vendidos
@@ -34,14 +38,14 @@ export const EstadisticasNumericas: React.FC = () => (
       },
       {
         title: "Sin Rendir",
-        icon: <AuditOutlined />,
-        status: "process",
+        icon: <FaFileInvoiceDollar className="my-5 mx-2" />,
+        status: "finish",
         description: "Comisión en caja",
       },
       {
         title: "Registradas",
-        icon: <SwitcherOutlined />,
-        status: "process",
+        icon: <FaLuggageCart className="my-5 mx-2" />,
+        status: "finish",
         description: (
           <span>
             <strong>35</strong> encomiendas
