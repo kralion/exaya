@@ -4,7 +4,7 @@ import style from "./frame.module.css";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import { Title } from "@mantine/core";
-import { DownloadOutlined } from "@ant-design/icons";
+import { AiFillPrinter } from "react-icons/ai";
 import type { IBoleto } from "@/interfaces";
 import { viajesDiarios } from "@/data";
 import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
@@ -271,8 +271,8 @@ export const RegistrarPasajeModal: React.FC = () => {
                 printerButton={
                   <Tag
                     color="green"
-                    icon={<DownloadOutlined />}
-                    className="flex h-8 cursor-pointer items-center  justify-center  hover:opacity-80 "
+                    icon={<AiFillPrinter />}
+                    className="flex h-8 cursor-pointer items-center justify-center  gap-1.5  hover:opacity-80 "
                     title="Se va a imprimir automaticamente"
                   >
                     Imprimir

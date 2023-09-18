@@ -3,16 +3,12 @@ import { viajesDiarios as dataSource } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
 import { TfiMoreAlt } from "react-icons/tfi";
 
-import Icon, {
-  EllipsisOutlined,
-  DownloadOutlined,
-  SafetyCertificateOutlined,
-} from "@ant-design/icons";
+import { TbLicense } from "react-icons/tb";
+import { AiFillPrinter } from "react-icons/ai";
 import {
   Avatar,
   Drawer,
   Dropdown,
-  FloatButton,
   List,
   Progress,
   Table,
@@ -186,8 +182,8 @@ const ManifiestoDrawer: React.FC = () => {
               printerButton={
                 <Tag
                   color="green"
-                  icon={<DownloadOutlined />}
-                  className="flex cursor-pointer items-center justify-center hover:opacity-80"
+                  icon={<AiFillPrinter />}
+                  className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
                   title="Se va a imprimir automaticamente"
                   onClick={onClose}
                 >
@@ -331,7 +327,7 @@ const columns: ColumnsType<Pasajes> = [
 
     render: (placaBus: string) => (
       <Tooltip key={placaBus} title={placaBus.toUpperCase()}>
-        <Icon component={() => <SafetyCertificateOutlined />} />
+        <TbLicense />
       </Tooltip>
     ),
   },
