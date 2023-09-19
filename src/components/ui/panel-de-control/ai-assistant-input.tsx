@@ -1,7 +1,6 @@
-import GlitterIcon from "@/assets/icons/glitter.svg";
 import { AutoComplete, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
-import Image from "next/image";
+import { BiBoltCircle } from "react-icons/bi";
 import { useState } from "react";
 import style from "./frame.module.css";
 const { TextArea } = Input;
@@ -54,7 +53,7 @@ export const AIAssistantInput = () => {
       <AutoComplete
         dropdownMatchSelectWidth={252}
         style={{
-          width: 400,
+          width: 800,
         }}
         options={options}
         onSelect={onSelect}
@@ -63,12 +62,11 @@ export const AIAssistantInput = () => {
         <TextArea
           style={{
             borderRadius: 0,
-            borderTopLeftRadius: 24,
-            borderBottomLeftRadius: 24,
+            borderTopLeftRadius: 10,
+            borderBottomLeftRadius: 10,
             paddingLeft: 15,
           }}
           autoFocus={true}
-          className="flex-1"
           size="large"
           autoSize
           placeholder="Que quieres hacer !"
@@ -77,7 +75,7 @@ export const AIAssistantInput = () => {
 
       <button className={style.button}>
         <span>
-          <Image src={GlitterIcon} width={20} height={20} alt="icon" />
+          <BiBoltCircle className="animate-spin" size={25} />
         </span>
       </button>
     </div>

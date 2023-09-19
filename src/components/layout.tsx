@@ -1,18 +1,17 @@
 import AppHeader from "@/components/appheader";
-import {
-  AuditOutlined,
-  DashboardOutlined,
-  FieldTimeOutlined,
-  LineChartOutlined,
-  LogoutOutlined,
-  QuestionCircleOutlined,
-  ReconciliationOutlined,
-  ScheduleOutlined,
-} from "@ant-design/icons";
+import { GrMoney } from "react-icons/gr";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { BsTicketPerforated } from "react-icons/bs";
+import { RiLuggageCartLine } from "react-icons/ri";
+import { IoMdTimer } from "react-icons/io";
+import { AiOutlineSetting } from "react-icons/ai";
+import { HiOutlineSupport } from "react-icons/hi";
+import { CgLogOut } from "react-icons/cg";
+
 import { Title } from "@mantine/core";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import React, { useState } from "react";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 import Link from "next/link";
@@ -26,23 +25,23 @@ const items: MenuProps["items"] = [
   {
     label: <Link href="/dashboard">Dashboard</Link>,
     key: "dashboard",
-    icon: <DashboardOutlined />,
+    icon: <LuLayoutDashboard />,
   },
   {
     label: <Link href="/venta-pasajes">Pasajes</Link>,
     key: "venta-pasajes",
-    icon: <ScheduleOutlined />,
+    icon: <BsTicketPerforated />,
   },
   {
     label: <Link href="/encomiendas">Encomiendas</Link>,
-    icon: <ReconciliationOutlined />,
+    icon: <RiLuggageCartLine />,
     key: "encomiendas",
   },
 
   {
     key: "programacion",
     label: "Programación",
-    icon: <FieldTimeOutlined />,
+    icon: <IoMdTimer />,
     children: [
       {
         key: "bus-conductor",
@@ -60,22 +59,22 @@ const items: MenuProps["items"] = [
   },
   {
     label: <Link href="/contable">Contable</Link>,
-    icon: <LineChartOutlined />,
+    icon: <GrMoney />,
     key: "contable",
   },
   {
     key: "administacion",
     label: <Link href="/administracion">Administración</Link>,
-    icon: <AuditOutlined />,
+    icon: <AiOutlineSetting />,
   },
   {
     label: <Link href="/soporte">Soporte</Link>,
     key: "soporte",
-    icon: <QuestionCircleOutlined />,
+    icon: <HiOutlineSupport />,
   },
   {
     key: "logout",
-    icon: <LogoutOutlined />,
+    icon: <CgLogOut />,
     label: <Link href="/login">Cerrar Sesión</Link>,
     danger: true,
   },

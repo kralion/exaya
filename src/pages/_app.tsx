@@ -46,7 +46,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:url" content="https://github.com/Dv-Joan/exaya" />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ConfigProvider locale={esEs}>
+        <ConfigProvider
+          locale={esEs}
+          theme={{
+            token: {
+              colorPrimary: "#FAAD14",
+            },
+          }}
+        >
           <Component {...pageProps} />
         </ConfigProvider>
       </QueryClientProvider>
