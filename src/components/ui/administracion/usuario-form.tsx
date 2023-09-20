@@ -1,4 +1,6 @@
+import { usuarios } from "@/data";
 import { PhoneOutlined, UploadOutlined } from "@ant-design/icons";
+import Notification from "../notification";
 import {
   Button,
   Cascader,
@@ -6,13 +8,11 @@ import {
   Input,
   InputNumber,
   Modal,
-  Radio,
   Space,
   Typography,
   Upload,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
-import type { RadioChangeEvent } from "antd/lib/radio";
 import { useState } from "react";
 import styles from "./frame.module.css";
 type Props = {
@@ -24,13 +24,14 @@ interface RolNodeType {
   label: string;
   children?: RolNodeType[];
 }
-interface DocumentsNodeType {
+
+interface DocumentsStatusNodeType {
   value: string;
   label: string;
-  children?: DocumentsNodeType[];
+  children?: DocumentsStatusNodeType[];
 }
 
-const rolesSistema: CascaderProps<LicenseNodeType>["options"] = [
+const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   {
     value: 0,
     label: "Administrador",
@@ -44,7 +45,7 @@ const rolesSistema: CascaderProps<LicenseNodeType>["options"] = [
     label: "Usuario",
   },
 ];
-const sedesDisponibles: CascaderProps<DocumentsNodeType>["options"] = [
+const sedesDisponibles: CascaderProps<DocumentsStatusNodeType>["options"] = [
   {
     value: "Lima",
     label: "Lima",
@@ -70,19 +71,15 @@ const formItemLayout = {
   },
 };
 
-import { useConductorContext } from "@/context/ConductorContext";
-import type { IUsuario } from "@/interfaces";
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
+import AddUserNotification from "../notification";
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [usuariosRegistrados, setUsuariosRegistrados] = useState(usuarios);
   const [profilePicList, setProfilePicList] = useState([]);
   const [value, setValue] = useState(1);
 
-  const onChange = (e: RadioChangeEvent) => {
-    alert("radio checked", e.target.value);
-    setValue(e.target.value);
-  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -95,10 +92,12 @@ export function UsuarioForm({ activator }: Props) {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
-  const { handleAddConductor } = useConductorContext();
+  const handleAddUser = (user: any) => {
+    setUsuariosRegistrados([...usuariosRegistrados, user]);
+  };
 
-  const onFinish = (values: IUsuario) => {
-    handleAddConductor(values);
+  const onFinish = (values: any) => {
+    handleAddUser(values);
     form.resetFields();
   };
   const onFinishFailed = () => {
@@ -235,6 +234,12 @@ export function UsuarioForm({ activator }: Props) {
             name="foto_perfil"
             getValueFromEvent={profilePicFile}
             valuePropName="fileList"
+            rules={[
+              {
+                required: true,
+                message: "Sube una foto de perfil",
+              },
+            ]}
           >
             <Upload
               action="/upload.do"
@@ -274,9 +279,13 @@ export function UsuarioForm({ activator }: Props) {
           </Form.Item>
           <div></div>
           <Space className="flex justify-end">
-            <button className={styles.basicButton} type="submit">
-              Registrar
-            </button>
+            <AddUserNotification
+              printerButton={
+                <button className={styles.basicButton} type="submit">
+                  Registrar
+                </button>
+              }
+            />
 
             <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar

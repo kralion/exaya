@@ -23,10 +23,19 @@ export default function Notification({
     api.info({
       message: `Operación Existosa`,
       icon: <CheckCircleOutlined className="text-green-500" />,
+      style: {
+        backgroundColor: "#f6ffed",
+        color: "#52c41a",
+        borderRadius: "10px",
+        border: "none",
+      },
       description: (
         <Context.Consumer>
           {({ manifiestoData }) => (
-            <div>Impreso el {manifiestoData.fechaSalida}</div>
+            <div className="text-zinc-400">
+              {" "}
+              Impreso el {manifiestoData.fechaSalida}
+            </div>
           )}
         </Context.Consumer>
       ),
@@ -40,7 +49,7 @@ export default function Notification({
     <Context.Provider value={contextValue}>
       {contextHolder}
 
-      <div onClick={() => openNotification("bottomLeft")}>{printerButton}</div>
+      <div onClick={() => openNotification("top")}>{printerButton}</div>
     </Context.Provider>
   );
 }

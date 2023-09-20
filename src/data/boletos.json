@@ -1,47 +1,47 @@
 [
   {
-    "id": 4566,
     "created_at": "2023-09-05",
-    "id_viaje": "767",
-    "id_cliente": "15487845",
-    "numero_asiento": 3,
     "estado": "Reservado",
+    "id": 4566,
+    "id_cliente": "15487845",
+    "id_viaje": "767",
+    "numero_asiento": 3,
     "precio": 50.0
   },
   {
-    "id": 4567,
     "created_at": "2023-09-05",
-    "id_viaje": "768",
-    "id_cliente": "26789456",
-    "numero_asiento": 5,
     "estado": "Pagado",
+    "id": 4567,
+    "id_cliente": "26789456",
+    "id_viaje": "768",
+    "numero_asiento": 5,
     "precio": 60.0
   },
   {
-    "id": 4568,
     "created_at": "2023-09-05",
-    "id_viaje": "767",
-    "id_cliente": "37894567",
-    "numero_asiento": 7,
     "estado": "Reservado",
+    "id": 4568,
+    "id_cliente": "37894567",
+    "id_viaje": "767",
+    "numero_asiento": 7,
     "precio": 45.0
   },
   {
-    "id": 4569,
     "created_at": "2023-09-05",
-    "id_viaje": "770",
-    "id_cliente": "48945678",
-    "numero_asiento": 2,
     "estado": "Pagado",
+    "id": 4569,
+    "id_cliente": "48945678",
+    "id_viaje": "770",
+    "numero_asiento": 2,
     "precio": 55.0
   },
   {
-    "id": 4570,
     "created_at": "2023-09-05",
-    "id_viaje": "771",
-    "id_cliente": "59012345",
-    "numero_asiento": 4,
     "estado": "Reservado",
+    "id": 4570,
+    "id_cliente": "59012345",
+    "id_viaje": "771",
+    "numero_asiento": 4,
     "precio": 48.0
   }
 ]

@@ -13,7 +13,7 @@ const columns: ColumnsType<IBoleto> = [
     render: (id: string) => <span>B003-{id}</span>,
   },
   {
-    title: "ID Viaje",
+    title: "Concepto",
     dataIndex: "id_viaje",
     key: "id_viaje",
   },
