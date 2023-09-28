@@ -80,14 +80,13 @@ export const RegistrarPasajeModal: React.FC = () => {
           </div>
         }
         className=""
-        centered
         open={open}
         onCancel={() => setOpen(false)}
         width={1000}
         footer={null}
       >
         <div className="flex items-start justify-between  ">
-          <div className="grid grid-flow-row grid-cols-4 rounded-lg border-2 border-zinc-200 bg-gradient-to-t from-zinc-400 to-zinc-100 p-5 ">
+          <div className="grid grid-flow-row grid-cols-4 rounded-lg border-2 border-zinc-200 p-5 ">
             <div className="col-span-4 flex justify-center gap-16 rounded-md border-2 border-slate-300 py-2">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/2072/2072317.png"
