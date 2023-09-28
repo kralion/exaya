@@ -1,5 +1,5 @@
 import { Title } from "@mantine/core";
-import { Avatar, Badge, Space, Tag, Typography } from "antd";
+import { Avatar, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
