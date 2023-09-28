@@ -64,7 +64,7 @@ export default function LandingLayout({
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
-                    className="flex items-center justify-center font-bold duration-300 hover:text-purple-900  "
+                    className="flex items-center justify-center font-bold duration-300 hover:opacity-50 "
                     href={link.path}
                   >
                     {link.title}
@@ -77,7 +77,7 @@ export default function LandingLayout({
             {/* <ThemeToggle /> */}
             <Link
               href="/login"
-              className="hover:purple-900 lg:text-md group inline-flex items-center rounded-full border-1 border-black bg-transparent px-2 py-1 text-sm font-semibold duration-500 hover:border-orange-400 hover:bg-orange-500 hover:text-white  active:bg-orange-500 lg:px-4 "
+              className="hover:purple-900 lg:text-md group inline-flex items-center rounded-full border-1 border-black bg-transparent px-2 py-1 text-sm font-semibold duration-300 hover:border-orange-400 hover:bg-orange-500 hover:text-white  active:bg-orange-500 lg:px-4 "
             >
               Ingresar
               <FiLogIn className="ml-2" />

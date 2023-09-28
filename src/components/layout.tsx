@@ -106,13 +106,8 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu
-          mode="inline"
-          items={items}
-          onSelect={(e) => {
-            alert("Redireccionando");
-          }}
-        />
+        {/* // TODO: Add a selected key to the menu */}
+        <Menu mode="inline" items={items} />
       </Sider>
       <Layout>
         <Header
