@@ -1,8 +1,7 @@
 import AppHeader from "@/components/appheader";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BsTicketPerforated } from "react-icons/bs";
+import { BsTicketPerforated, BsCoin } from "react-icons/bs";
 import { CgLogOut } from "react-icons/cg";
-import { GrMoney } from "react-icons/gr";
 import { HiOutlineSupport } from "react-icons/hi";
 import { IoMdTimer } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -40,7 +39,7 @@ const items: MenuProps["items"] = [
 
   {
     key: "programacion",
-    label: "Programación",
+    label: "Planner",
     icon: <IoMdTimer />,
     children: [
       {
@@ -59,7 +58,7 @@ const items: MenuProps["items"] = [
   },
   {
     label: <Link href="/contable">Contable</Link>,
-    icon: <GrMoney />,
+    icon: <BsCoin />,
     key: "contable",
   },
   {
@@ -75,7 +74,7 @@ const items: MenuProps["items"] = [
   {
     key: "logout",
     icon: <CgLogOut />,
-    label: <Link href="/login">Cerrar Sesión</Link>,
+    label: <Link href="/login">Salir</Link>,
     danger: true,
   },
 ];

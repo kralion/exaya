@@ -34,7 +34,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
           />
 
           <Title
-            className={`  bg-gradient-to-r from-orange-500 to-orange-900 bg-clip-text text-left   text-xl text-transparent     ${blackOpsOne.className} `}
+            className={` bg-gradient-to-r from-orange-500 to-orange-900 bg-clip-text text-left   text-xl text-transparent     ${blackOpsOne.className} `}
           >
             Exaya
           </Title>
@@ -55,7 +55,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
           <Avatar
             className="box-border border-1 border-gray-400"
             size={60}
-            src="https://randomuser.me/api/portraits/men/22.jpg"
+            src="https://randomuser.me/api/portraits/men/95.jpg"
           />
         ) : (
           <Avatar

@@ -43,13 +43,13 @@ export default function LandingLayout({
       >
         <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
           <Link href="/">
-            <div className="flex  items-center justify-start  ">
+            <div className=" flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 //40 mobile
                 width={40}
                 height={40}
-                className="animate__animated animate__flip"
+                className="animate__animated animate__flip drop-shadow-xl"
                 alt="logo"
               />
               <span
@@ -64,7 +64,7 @@ export default function LandingLayout({
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
-                    className="flex items-center justify-center font-bold duration-300 hover:opacity-50 "
+                    className="flex items-center justify-center font-bold duration-300 hover:opacity-60 "
                     href={link.path}
                   >
                     {link.title}
@@ -77,10 +77,10 @@ export default function LandingLayout({
             {/* <ThemeToggle /> */}
             <Link
               href="/login"
-              className="hover:purple-900 lg:text-md group inline-flex items-center rounded-full border-1 border-black bg-transparent px-2 py-1 text-sm font-semibold duration-300 hover:border-orange-400 hover:bg-orange-500 hover:text-white  active:bg-orange-500 lg:px-4 "
+              className=" lg:text-md  animate-pulse items-center rounded-xl p-1.5 font-semibold duration-300   hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
+              title="Iniciar sesión"
             >
-              Ingresar
-              <FiLogIn className="ml-2" />
+              <FiLogIn size={25} />
             </Link>
           </div>
           <nav className="lg:hidden">
