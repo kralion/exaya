@@ -121,7 +121,7 @@ export default function Login() {
           </Checkbox>
           <button
             type="submit"
-            className=" mt-14 flex w-full items-center justify-center gap-3.5 rounded-md border-2 border-orange-600 border-opacity-40 bg-orange-500  p-3 tracking-wide text-white shadow-lg  duration-200  active:scale-110"
+            className=" mt-14 flex w-full items-center justify-center gap-3.5 rounded-md border-2 border-orange-600 border-opacity-40 bg-orange-500  p-3 tracking-wide text-white shadow-lg  duration-200  active:opacity-70"
           >
             Ingresar
           </button>

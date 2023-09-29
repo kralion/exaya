@@ -5,5 +5,5 @@ export interface IViaje {
   id_conductor_soporte: number;
   id_ruta: number;
   fecha_salida: Date;
-  estado: "activo" | "inactivo" | null;
+  estado: boolean;
 }

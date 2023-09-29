@@ -18,13 +18,14 @@ import {
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-import type { IBoleto } from "@/interfaces";
+import type { IViaje } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import type { ZodNumberCheck } from "zod";
 import Notification from "../notification";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import { supabase } from "@/libs";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -386,26 +387,37 @@ const columns: ColumnsType<Pasajes> = [
   },
 ];
 
+const salidasDiariasColumns: ColumnsType<IViaje> = [
+  {
+    title: "ID Viaje",
+    dataIndex: "id_viaje",
+    key: "id_viaje",
+  },
+  {
+    title: "ID Ruta",
+    dataIndex: "id_ruta",
+    key: "id_ruta",
+  },
+];
+
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const { isLoading, data, error } = useQuery<IBoleto[]>(
-    ["boletos"],
-    async () => {
-      const response = await fetch("/api/boletos");
-      return response.json();
+  const { data, isLoading, isError } = useQuery(["viajes"], async () => {
+    const response = await fetch("/api/viajes");
+    if (!response.ok) {
+      throw new Error("Error al obtener los datos");
     }
-  );
-
-  if (error) {
-    console.log(error);
-  }
+    const data = await response.json();
+    return data;
+  });
 
   return (
     <div className="w-full">
       <Title order={5} className="mb-3.5">
         Pasajes Diarios
       </Title>
+      {isError && <div>Error al cargar los datos</div>}
       <Table
         pagination={false}
         loading={
@@ -416,7 +428,18 @@ export function PasajesTable() {
           false
         }
         columns={columns}
-        dataSource={pasajesDiarios || data}
+        dataSource={pasajesDiarios}
+      />
+      <Table
+        pagination={false}
+        loading={
+          isLoading && {
+            spinning: true,
+            size: "large",
+          }
+        }
+        columns={salidasDiariasColumns}
+        dataSource={data as IViaje[]}
       />
     </div>
   );
