@@ -7,7 +7,7 @@ export default function Planes() {
     <LandingLayout>
       <div className="space-y-5 pb-16">
         <h1 className="text-2xl font-bold lg:text-5xl">Nuestros Planes</h1>
-        <h4 className=" px-6 lg:px-96 lg:text-xl">
+        <h4 className=" px-6 tracking-tight lg:px-80 lg:text-xl">
           Contamos con planes que se adaptan a tu negocio y necesidades, para
           que puedas elegir el que mejor se adapte a ti.
         </h4>

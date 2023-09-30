@@ -7,7 +7,7 @@ export default function Index() {
     <LandingLayout>
       <div className="space-y-3.5">
         <h1 className="text-2xl font-bold lg:text-5xl">Features</h1>
-        <h4 className=" px-5 lg:px-96 lg:text-xl">
+        <h4 className=" px-5 tracking-tight lg:px-80 lg:text-xl">
           Exaya cuenta con funcionalidades que empoderan tu negocio con
           tecnologias modernas y herramientas del ahora.
         </h4>

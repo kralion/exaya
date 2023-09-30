@@ -1,6 +1,7 @@
 import React from "react";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { AiFillCheckCircle } from "react-icons/ai";
 import styles from "./planes.module.css";
+import "animate.css";
 type PlanesCardProps = {
   planTitle: string;
   planPrice: string;
@@ -19,7 +20,9 @@ export default function PlanesCard({
     return (
       <div className="realtive w-80 space-y-3.5 rounded-2xl  border-1 bg-gradient-to-l from-orange-300  to-yellow-200  p-7 text-left shadow-md  duration-200 hover:shadow-xl   ">
         <h3 className="font-semibold ">{planTitle}</h3>
-        <h2 className="text-3xl font-bold ">{planPrice}</h2>
+        <h2 className="animate__animated animate__flipInX animate__delay-1s text-3xl font-bold ">
+          {planPrice}
+        </h2>
         <h4 className=" lowercase text-zinc-700">{planTimeCharger}</h4>
         <p className=" text-zinc-700">{planDescription}</p>
 
@@ -27,7 +30,7 @@ export default function PlanesCard({
           {planFeatures.map((feature) => (
             <div key={feature.length}>
               <li className="  flex items-center gap-2">
-                <CheckCircleOutlined className=" w-7 text-orange-800" />
+                <AiFillCheckCircle className=" w-7 text-orange-500" />
                 {feature}
               </li>
               <hr className="my-3 border-orange-400/50" />
