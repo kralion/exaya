@@ -18,7 +18,7 @@ import {
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-import type { IViaje } from "@/interfaces";
+import type { IRuta, IViaje } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
@@ -394,9 +394,9 @@ const salidasDiariasColumns: ColumnsType<IViaje> = [
     key: "id_viaje",
   },
   {
-    title: "ID Ruta",
-    dataIndex: "id_ruta",
-    key: "id_ruta",
+    title: "Rutas",
+    dataIndex: "rutas",
+    key: "rutas",
   },
 ];
 

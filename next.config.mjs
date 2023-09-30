@@ -25,7 +25,7 @@ const config = {
       "images.pexels.com",
       "upload.wikimedia.org",
       "image.shutterstock.com",
-      "i.imgur.com",
+      "imgur.com",
       "media.istockphoto.com",
       "images.pexels.com",
       "ouch-cdn2.icons8.com",

@@ -1,6 +1,6 @@
 import MobileNav from "@/components/ui/login/mobilenav";
 import AOSWrapper from "@/utils/AOS";
-import { FiLogIn } from "react-icons/fi";
+import { BsArrowRight } from "react-icons/bs";
 
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
@@ -18,7 +18,7 @@ const blackOpsOne = Black_Ops_One({
 });
 export const navLinks = [
   {
-    title: "Features",
+    title: "Funcionalidades",
     path: "/features",
   },
   {
@@ -28,6 +28,10 @@ export const navLinks = [
   {
     title: "Nosotros",
     path: "/",
+  },
+  {
+    title: "Login",
+    path: "/login",
   },
 ];
 
@@ -39,9 +43,9 @@ export default function LandingLayout({
   return (
     <AOSWrapper>
       <div
-        className={` ${inter.className} via-orange-00  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300 lg:space-y-14`}
+        className={` ${inter.className}  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
       >
-        <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-36 ">
+        <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-20 ">
           <Link href="/">
             <div className=" flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
@@ -76,11 +80,12 @@ export default function LandingLayout({
           <div className="hidden items-center gap-2 lg:flex ">
             {/* <ThemeToggle /> */}
             <Link
-              href="/login"
-              className=" lg:text-md  animate-pulse items-center rounded-xl p-1.5 font-semibold duration-300   hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
+              href="/dashboard"
+              className=" lg:text-md  flex items-center gap-2 rounded-lg border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
               title="Iniciar sesión"
             >
-              <FiLogIn size={25} />
+              Pruébalo gratis
+              <BsArrowRight size={15} />
             </Link>
           </div>
           <nav className="lg:hidden">
@@ -88,7 +93,7 @@ export default function LandingLayout({
           </nav>
         </div>
         <div className={`${inter.className} text-center `}>{children}</div>
-        <footer className="pb-7 pt-24 text-center text-[12px]  lg:text-sm   ">
+        <footer className="py-10 text-center text-[12px]  font-semibold text-gray-900  ">
           © Copyright 2024 Brayan Paucar. All rights reserved.
         </footer>
       </div>

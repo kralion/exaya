@@ -9,7 +9,7 @@ export default async function handler(
     try {
       const { data: salidas, error } = await supabase
         .from("viajes")
-        .select("*");
+        .select(`id_viaje, id_ruta:rutas (ciudad_origen, ciudad_destino)`);
       if (error) {
         throw error;
       }
