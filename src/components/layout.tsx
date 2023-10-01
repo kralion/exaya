@@ -7,7 +7,7 @@ import { IoMdTimer } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
 import { signOut } from "next-auth/react";
-
+import "animate.css";
 import { Title } from "@mantine/core";
 import "animate.css";
 import type { MenuProps } from "antd";
@@ -134,7 +134,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className=" m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          className=" animate__animated animate__bounceInUp animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
         >
           {children}
         </Content>

@@ -84,7 +84,7 @@ export default function Dashboard() {
             cardDescription="Porcentaje de ocupación de asientos para cada viaje, y la preferencia de los pasajeros por los asientos delanteros, traseros o del medio   "
             cardTitle="Asientos Ocupados"
           >
-            <div style={{ width: 170, paddingTop: 17 }}>
+            <div style={{ width: "auto", paddingTop: 20 }}>
               <Typography.Text strong>Horario 20:00</Typography.Text>
               <Progress
                 strokeColor={{
@@ -96,6 +96,7 @@ export default function Dashboard() {
               />
               <Typography.Text>Horario 21:00</Typography.Text>
               <Progress
+                status="active"
                 percent={70}
                 strokeColor={{
                   "0%": "#4096FF",
@@ -105,12 +106,12 @@ export default function Dashboard() {
               />
               <Typography.Text>Horario 21:30</Typography.Text>
               <Progress
+                status="active"
                 strokeColor={{
                   "0%": "#4096FF",
                   "100%": "#87d068",
                 }}
                 percent={30}
-                size="small"
               />
             </div>
             <ControlPanePieChart />

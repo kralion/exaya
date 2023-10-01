@@ -1,4 +1,4 @@
-import { PieChart, Pie, Legend, Tooltip } from "recharts";
+import { PieChart, Pie, Tooltip } from "recharts";
 
 const data01 = [
   {
@@ -53,8 +53,7 @@ function ControlPanePieChart() {
     <PieChart width={250} height={250}>
       <Tooltip
         contentStyle={{
-          backgroundColor: "rgba(255,255,255,0.8)",
-          color: "white",
+          backgroundColor: "rgba(255,255,255,0.7)",
           borderRadius: "10px",
           border: "none",
         }}
@@ -74,6 +73,7 @@ function ControlPanePieChart() {
         nameKey="name"
         cx="50%"
         cy="50%"
+        className=" font-semibold text-black"
         innerRadius={60}
         outerRadius={80}
         fill="#4096FF"

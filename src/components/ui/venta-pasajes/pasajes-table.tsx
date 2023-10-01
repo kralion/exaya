@@ -417,7 +417,7 @@ export function PasajesTable() {
       <Title order={5} className="mb-3.5">
         Pasajes Diarios
       </Title>
-      {isError && <div>Error al cargar los datos</div>}
+
       <Table
         pagination={false}
         loading={
@@ -430,6 +430,7 @@ export function PasajesTable() {
         columns={columns}
         dataSource={pasajesDiarios}
       />
+      {isError && <div>Sucedió algo al cargar los datos</div>}
       <Table
         pagination={false}
         loading={
