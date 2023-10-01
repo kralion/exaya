@@ -6,6 +6,7 @@ import { HiOutlineSupport } from "react-icons/hi";
 import { IoMdTimer } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
+import { signOut } from "next-auth/react";
 
 import { Title } from "@mantine/core";
 import "animate.css";
@@ -74,7 +75,9 @@ const items: MenuProps["items"] = [
   {
     key: "logout",
     icon: <CgLogOut />,
-    label: <Link href="/login">Salir</Link>,
+    label: (
+      <button onClick={() => signOut({ callbackUrl: "/login" })}>Salir</button>
+    ),
     danger: true,
   },
 ];

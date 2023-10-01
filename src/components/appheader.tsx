@@ -60,8 +60,8 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         ) : (
           <Avatar
             className="box-border border-1 border-gray-400"
-            size={40}
-            src="https://randomuser.me/api/portraits/men/22.jpg"
+            size={35}
+            src="https://randomuser.me/api/portraits/men/95.jpg"
           />
         )}
 

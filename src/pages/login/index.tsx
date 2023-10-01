@@ -1,12 +1,14 @@
 "use client";
 import type { loginSchema } from "@/schemas";
-import { Checkbox, Form } from "antd";
+import { Alert, Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
-import { useSession } from "next-auth/react";
+import { Loader } from "@mantine/core";
+import { useSession, signIn } from "next-auth/react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { z } from "zod";
 import "animate.css";
 import AOSWrapper from "@/utils/AOS";
@@ -23,27 +25,38 @@ const blackOpsOne = Black_Ops_One({
 });
 
 export default function Login() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/profile";
   console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
   };
 
-  const onFinish = (values: z.infer<typeof loginSchema>) => {
-    // TODO: Remove this when the API is ready
-    // const res = await fetch("/api/auth/callback/credentials", {
-    //   method: "POST",
-    //   body: JSON.stringify(values),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-    // if (res.ok) {
-    //   const data = await res.json();
-    //   console.log(data);
-    // }
-    if (values.username === "admin" && values.password === "admin") {
-      window.location.replace("/dashboard");
-    } else {
-      alert("Credenciales incorrectas");
+  const onFinish = async (values: any) => {
+    try {
+      setLoading(true);
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl,
+      });
+
+      setLoading(false);
+
+      console.log(res);
+      if (!res?.error) {
+        router.push(callbackUrl);
+      } else {
+        setError("invalid email or password");
+      }
+    } catch (error: any) {
+      setLoading(false);
+      setError(error);
     }
   };
 
@@ -108,6 +121,9 @@ export default function Login() {
           </h4>
         </div>
         <AOSWrapper>
+          {error && (
+            <p className="mb-6 rounded bg-red-300 py-4 text-center">{error}</p>
+          )}
           <Form
             data-aos="fade-up"
             data-aos-duration="500"
@@ -116,15 +132,21 @@ export default function Login() {
             className={`${literata.className} w-[510px] drop-shadow-md `}
             ref={formRef}
             name="control-ref"
-            onFinish={
-              onFinish as unknown as (
-                values: z.infer<typeof loginSchema>
-              ) => void
-            }
+            onFinish={onFinish}
+            onFinishFailed={() => {
+              return (
+                <Alert
+                  message="Credenciales Incorrectas"
+                  description="Verifique sus credenciales, recuerde que son precreadas."
+                  type="error"
+                  showIcon
+                />
+              );
+            }}
           >
             <h3 className="mb-2  font-semibold">Usuario</h3>
             <Form.Item
-              name="username"
+              name="email"
               className={`${literata.className} `}
               rules={[
                 {
@@ -134,8 +156,8 @@ export default function Login() {
               ]}
             >
               <input
+                type="email"
                 className={`w-full rounded-lg px-5 py-2  ring-1 ring-orange-300   ${literata.className}`}
-                type="text"
               />
             </Form.Item>
 
@@ -160,8 +182,13 @@ export default function Login() {
             <button
               type="submit"
               className=" mt-14 flex w-full items-center justify-center gap-3.5 rounded-lg border-2 border-orange-600 border-opacity-40 bg-orange-500  py-2 tracking-wide text-white    active:opacity-70"
+              disabled={loading}
             >
-              Ingresar
+              {loading ? (
+                <Loader color="rgba(255, 255, 255, 1)" size="sm" />
+              ) : (
+                "Ingresar"
+              )}
             </button>
           </Form>
         </AOSWrapper>

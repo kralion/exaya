@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@auth/supabase-adapter':
+    specifier: ^0.1.3
+    version: 0.1.3(@supabase/supabase-js@2.32.0)
   '@mantine/core':
     specifier: ^6.0.10
     version: 6.0.10(@emotion/react@11.10.8)(@mantine/hooks@6.0.10)(@types/react@18.0.28)(react-dom@18.2.0)(react@18.2.0)
@@ -44,6 +47,9 @@ dependencies:
   aos:
     specifier: ^2.3.4
     version: 2.3.4
+  bcryptjs:
+    specifier: ^2.4.3
+    version: 2.4.3
   dayjs:
     specifier: ^1.11.8
     version: 1.11.8
@@ -204,6 +210,33 @@ packages:
       react: 18.2.0
       resize-observer-polyfill: 1.5.1
       throttle-debounce: 5.0.0
+    dev: false
+
+  /@auth/core@0.16.0:
+    resolution: {integrity: sha512-g9Aj+N4dzGhZwOtR7qOW0T+OhpH7zbHa29tonLB5V+FxaQoWCsNTrZsjfzBVfvCI8VEkBqPbPHkIIyWSoTw0iA==}
+    peerDependencies:
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@panva/hkdf': 1.1.1
+      cookie: 0.5.0
+      jose: 4.14.4
+      oauth4webapi: 2.3.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
+    dev: false
+
+  /@auth/supabase-adapter@0.1.3(@supabase/supabase-js@2.32.0):
+    resolution: {integrity: sha512-WIcTe/j5OqNDWnNsw2TF4VkXZjxvV2WUtqA6un7H//CKyyhCA1mOFaDIjrGx87b9ttCNHfJQWuQCBAI30/FQtQ==}
+    peerDependencies:
+      '@supabase/supabase-js': ^2.0.5
+    dependencies:
+      '@auth/core': 0.16.0
+      '@supabase/supabase-js': 2.32.0
+    transitivePeerDependencies:
+      - nodemailer
     dev: false
 
   /@babel/code-frame@7.22.13:
@@ -1830,6 +1863,10 @@ packages:
 
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    dev: false
+
+  /bcryptjs@2.4.3:
+    resolution: {integrity: sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==}
     dev: false
 
   /binary-extensions@2.2.0:
@@ -3640,6 +3677,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /oauth4webapi@2.3.0:
+    resolution: {integrity: sha512-JGkb5doGrwzVDuHwgrR4nHJayzN4h59VCed6EW8Tql6iHDfZIabCJvg6wtbn5q6pyB2hZruI3b77Nudvq7NmvA==}
+    dev: false
+
   /oauth@0.9.15:
     resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==}
     dev: false
@@ -3898,6 +3939,15 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
+  /preact-render-to-string@5.2.3(preact@10.11.3):
+    resolution: {integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==}
+    peerDependencies:
+      preact: '>=10'
+    dependencies:
+      preact: 10.11.3
+      pretty-format: 3.8.0
+    dev: false
+
   /preact-render-to-string@5.2.6(preact@10.17.1):
     resolution: {integrity: sha512-JyhErpYOvBV1hEPwIxc/fHWXPfnEGdRKxc8gFdAZ7XV4tlzyzG847XAyEZqoDnynP88akM4eaHcSOzNcLWFguw==}
     peerDependencies:
@@ -3905,6 +3955,10 @@ packages:
     dependencies:
       preact: 10.17.1
       pretty-format: 3.8.0
+    dev: false
+
+  /preact@10.11.3:
+    resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==}
     dev: false
 
   /preact@10.17.1:
