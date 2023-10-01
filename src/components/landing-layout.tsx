@@ -18,19 +18,20 @@ const blackOpsOne = Black_Ops_One({
 });
 export const navLinks = [
   {
-    title: "Funcionalidades",
+    title: "Features",
     path: "/features",
   },
   {
-    title: "Planes",
+    title: "Contacto",
+    path: "/contacto",
+  },
+  {
+    title: "Membresías",
     path: "/planes",
   },
+
   {
-    title: "Nosotros",
-    path: "/",
-  },
-  {
-    title: "Login",
+    title: "Ingresar",
     path: "/login",
   },
 ];
@@ -64,11 +65,11 @@ export default function LandingLayout({
             </div>
           </Link>
           <nav className="hidden lg:inline-flex">
-            <ul className=" flex gap-3.5 ">
+            <ul className=" flex gap-2.5 ">
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
-                    className="flex items-center justify-center font-bold duration-300 hover:opacity-60 "
+                    className="flex items-center justify-center text-sm font-bold duration-300 hover:opacity-60 "
                     href={link.path}
                   >
                     {link.title}
@@ -81,10 +82,10 @@ export default function LandingLayout({
             {/* <ThemeToggle /> */}
             <Link
               href="/dashboard"
-              className=" lg:text-md  flex items-center gap-2 rounded-lg border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
+              className=" lg:text-md  flex items-center gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
               title="Iniciar sesión"
             >
-              Pruébalo gratis
+              Probarlo
               <BsArrowRight size={15} />
             </Link>
           </div>
