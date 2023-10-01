@@ -95,7 +95,6 @@ export default function AppLayout({ children }: LayoutProps) {
         minHeight: "100vh",
       }}
     >
-      {/* //! Sider is one of components that cause the Hydration issue */}
       <Sider
         className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
         collapsed={collapsed}
@@ -113,19 +112,21 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout>
         <Header
-          className=" m-2 mt-2.5 flex  items-center justify-between  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
+          className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
           style={{
             background: colorBgContainer,
             borderRadius: 14,
           }}
         >
-          <AIAssistantInput />
-          <Title
-            order={4}
-            className="flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
-          >
-            Tu Empresa
-          </Title>
+          <div className="absolute left-2 flex w-full justify-between">
+            <AIAssistantInput />
+            <Title
+              order={4}
+              className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
+            >
+              Tu Empresa
+            </Title>
+          </div>
         </Header>
         <Content
           style={{

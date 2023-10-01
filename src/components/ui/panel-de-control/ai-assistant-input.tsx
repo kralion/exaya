@@ -1,6 +1,6 @@
 import { AutoComplete, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
-import { BiBoltCircle } from "react-icons/bi";
+import { GiAbstract067 } from "react-icons/gi";
 import { useState } from "react";
 import style from "./frame.module.css";
 const { TextArea } = Input;
@@ -22,7 +22,7 @@ const searchResult = (query: string) =>
             }}
           >
             <span>
-              Found {query} on{" "}
+              Found {query} on
               <a
                 href={`https://s.taobao.com/search?q=${query}`}
                 target="_blank"
@@ -51,20 +51,20 @@ export const AIAssistantInput = () => {
   return (
     <div className="flex">
       <AutoComplete
-        dropdownMatchSelectWidth={252}
+        dropdownMatchSelectWidth
         style={{
-          width: 800,
+          width: 700,
         }}
         options={options}
         onSelect={onSelect}
         onSearch={handleSearch}
       >
         <TextArea
+          className="border-none bg-orange-100 shadow-md shadow-orange-200"
           style={{
             borderRadius: 0,
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-            paddingLeft: 15,
+            borderTopLeftRadius: 7,
+            borderBottomLeftRadius: 7,
           }}
           autoFocus={true}
           size="large"
@@ -75,7 +75,7 @@ export const AIAssistantInput = () => {
 
       <button className={style.button}>
         <span>
-          <BiBoltCircle className="animate-spin" size={25} />
+          <GiAbstract067 className="animate-spin" size={25} />
         </span>
       </button>
     </div>

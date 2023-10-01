@@ -129,7 +129,7 @@ export default function Login() {
             data-aos-duration="500"
             initialValues={{ remember: true }}
             autoComplete="on"
-            className={`${literata.className} w-[510px] drop-shadow-md `}
+            className={`${literata.className} w-[430px] drop-shadow-md `}
             ref={formRef}
             name="control-ref"
             onFinish={onFinish}

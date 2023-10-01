@@ -25,6 +25,7 @@ export default function Index() {
           </div>
           <div className="mt-4">
             <Image
+              priority={true}
               src="https://img.freepik.com/free-vector/error-isometric-composition-abstract-situation-where-technicians-fix-bug-with-tools-vector-illustration_1284-67435.jpg?size=626&ext=jpg"
               alt="img"
               width={600}
