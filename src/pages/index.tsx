@@ -23,14 +23,15 @@ export default function Index() {
         <div data-aos="fade-up">
           <div>
             <div className="relative space-y-5">
-              <h1 className="text-3xl font-bold tracking-tight lg:mx-20 lg:text-7xl">
+              <h1 className="text-3xl font-bold tracking-tight lg:mx-36 lg:text-6xl">
                 Conduce tu empresa hacia la excelencia operativa
               </h1>
               {/* //TODO: < br/> separation changes it's place win mobile version  */}
-              <div className="space-y-3.5 font-semibold lg:text-2xl ">
+              <div className="space-y-3.5 font-semibold lg:text-xl ">
                 <p className="tracking-tight lg:px-80">
-                  El socio tecnológico que acelera el crecimiento de tu empresa
-                  en la industria del transporte
+                  El socio tecnológico que acelera las operaciones de tu empresa
+                  en la industria del transporte impulsado con —{" "}
+                  <span className="text-white">inteligencia artificial.</span>
                 </p>
               </div>
             </div>
@@ -100,7 +101,7 @@ export default function Index() {
         </div>
         <div
           data-aos="zoom-in"
-          className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mr-32 lg:flex-row"
+          className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mr-44 lg:flex-row"
         >
           <Image
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

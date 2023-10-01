@@ -6,8 +6,8 @@ export default function Planes() {
   return (
     <LandingLayout>
       <div className="space-y-5 pb-16">
-        <h1 className="text-2xl font-bold lg:text-5xl">Nuestros Planes</h1>
-        <h4 className=" px-6 tracking-tight lg:px-80 lg:text-xl">
+        <h1 className="text-2xl font-bold lg:text-5xl">Planes a Medida</h1>
+        <h4 className=" px-6 font-semibold tracking-tight lg:px-96">
           Contamos con planes que se adaptan a tu negocio y necesidades, para
           que puedas elegir el que mejor se adapte a ti.
         </h4>
@@ -17,7 +17,7 @@ export default function Planes() {
           planTitle="Exaya Essentials"
           planPrice="S/. 600.00"
           planTimeCharger="Por Mes"
-          planDescription="Todas las características fundamentales de Exaya para pequeñas y medianas empresas."
+          planDescription="Todas las características esenciales de Exaya para pequeñas y medianas empresas."
           planFeatures={[
             "Rendimiento eficiente para necesidades estándar. ",
             "Respuesta rápida en tiempos de consulta. ",
@@ -36,7 +36,7 @@ export default function Planes() {
             planTitle="Exaya Premium "
             planPrice="S/. 850.00"
             planTimeCharger="Por Mes"
-            planDescription="Mayor capacidad de respuesta y soporte premium para empresas en crecimiento."
+            planDescription="Mayor capacidad de respuesta y soporte premium para empresas prometedoras en crecimiento."
             planFeatures={[
               "Mayor capacidad de respuesta.",
               "Consumo de recursos optimizado.",
@@ -49,7 +49,7 @@ export default function Planes() {
           planTitle="Exaya Elite "
           planPrice="S/. 1000.00"
           planTimeCharger="Por Mes"
-          planDescription=" Máxima capacidad de respuesta, actualizaciones y atención personalizada para empresas de envergadura."
+          planDescription=" Máxima capacidad de respuesta, actualizaciones y atención personalizada para empresas con presencia a nivel macro."
           planFeatures={[
             "Actualizaciones con nuevas features",
             "Consumo de recursos optimizado.",

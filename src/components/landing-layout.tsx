@@ -54,7 +54,7 @@ export default function LandingLayout({
                 //40 mobile
                 width={40}
                 height={40}
-                className="animate__animated animate__flip drop-shadow-xl"
+                className="animate__animated animate__flip animate__delay-1s drop-shadow-xl"
                 alt="logo"
               />
               <span
@@ -69,7 +69,7 @@ export default function LandingLayout({
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
-                    className="flex items-center justify-center text-sm font-bold duration-300 hover:opacity-60 "
+                    className="flex items-center justify-center text-sm font-semibold duration-300 hover:opacity-60 "
                     href={link.path}
                   >
                     {link.title}
