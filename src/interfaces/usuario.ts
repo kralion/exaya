@@ -11,5 +11,4 @@ export interface IUsuario {
   rol: "usuario" | "administrador" | "supervisor";
   activo: boolean;
   updatedAt: string;
-  foto_perfil: string;
 }

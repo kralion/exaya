@@ -31,17 +31,17 @@
 }
 
 .button span:after {
-  content: "Enviar";
+  content: "Generar";
   position: absolute;
   top: -1.2rem;
   opacity: 0;
   left: -30px;
-  right: -50px;
+  right: -60px;
   transition: 0.7s;
 }
 
 .button:hover span {
-  padding-left: 3.55em;
+  padding-left: 4.5em;
 }
 
 .button:hover span:after {
@@ -50,7 +50,7 @@
 }
 
 .button:active {
-  box-shadow: 0 5px #666;
+  box-shadow: 0 5px #da7808;
   transition-duration: 100;
   transform: translateY(3px);
   background-color: #096dd9;

@@ -20,7 +20,7 @@ export default function DevicesVersionSteps() {
           <div className="h-full w-[1px]     bg-white" />
         </div>
         <div className="pb-20">
-          <p className="mb-2 font-bold lg:text-lg">Versión Web</p>
+          <p className="mb-2 font-bold lg:text-lg">Plataforma Web</p>
           <p className="lg:text-md text-sm">
             Control total en tu escritorio: Exaya te brinda una vista panorámica
             para gestionar tu transporte de manera eficiente y efectiva
@@ -46,7 +46,7 @@ export default function DevicesVersionSteps() {
           </div>
         </div>
         <div>
-          <p className="mb-2 font-bold lg:text-lg">Versión Mobile</p>
+          <p className="mb-2 font-bold lg:text-lg">Vista Mobile</p>
           <p className="lg:text-md text-sm">
             En movimiento con Exaya: Accede a tu gestión de transporte desde
             cualquier lugar, en cualquier momento, con nuestra aplicación móvil

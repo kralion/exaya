@@ -8,9 +8,9 @@ export interface IEncomienda {
   precio: number;
   fechaEnvio: string;
   contenido: string;
-  password: string;
   descripcion: string;
   claveRastreo?: string;
+
   comprobante: "Boleto" | "Factura";
   estado: "Pagado" | "Por pagar";
 }

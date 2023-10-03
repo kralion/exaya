@@ -1,16 +1,13 @@
 import { prisma } from "../src/server/db";
 
 async function main() {
-  const id = "cl9ebqhxk00003b600tymydho";
-  await prisma.example.upsert({
+  const id = 1;
+  const user = await prisma.usuario.findUnique({
     where: {
       id,
     },
-    create: {
-      id,
-    },
-    update: {},
   });
+  console.log(user);
 }
 
 main()

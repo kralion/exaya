@@ -76,7 +76,13 @@ const items: MenuProps["items"] = [
     key: "logout",
     icon: <CgLogOut />,
     label: (
-      <button onClick={() => signOut({ callbackUrl: "/login" })}>Salir</button>
+      <button
+        onClick={async () => {
+          await signOut({ callbackUrl: "/login" });
+        }}
+      >
+        Salir
+      </button>
     ),
     danger: true,
   },
@@ -118,13 +124,13 @@ export default function AppLayout({ children }: LayoutProps) {
             borderRadius: 14,
           }}
         >
-          <div className="absolute left-2 flex w-full justify-between">
+          <div className="absolute left-2.5 flex w-full justify-between">
             <AIAssistantInput />
             <Title
               order={4}
               className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
             >
-              Tu Empresa
+              Expreso Ayacucho S.A.C
             </Title>
           </div>
         </Header>
@@ -134,7 +140,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className=" animate__animated animate__bounceInUp animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
         >
           {children}
         </Content>

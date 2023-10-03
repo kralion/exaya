@@ -14,71 +14,86 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model TravelTicket {
-    id        String   @id @default(cuid())
+model Usuario {
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    username  String?  @unique
+    password  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    seat      Int      @unique
-    passenger Passenger @relation(fields: [id], references: [id], onDelete: Cascade)
-    price    Float @unique
-    
 }
 
-// Necessary for Next auth
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? @db.Text
-    access_token      String? @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Persona {
+    id       Int     @id @default(autoincrement())
+    nombre   String
+    apellido String
+    telefono String
+    email    String?
 
-    @@unique([provider, providerAccountId])
+    Pasajero     Pasajero?
+    Conductor    Conductor?
+    Remitente    Encomienda[] @relation("remitente")
+    Destinatario Encomienda[] @relation("destinatario")
 }
 
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Pasajero {
+    id        Int     @id @default(autoincrement())
+    persona   Persona @relation(fields: [personaId], references: [id])
+    personaId Int     @unique
+    Boleto    Boleto?
 }
 
-
-model User {
-    id            String    @id @default(cuid())
-    name          String
-    password      String
-    email         String   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+model Conductor {
+    id        Int     @id @default(autoincrement())
+    persona   Persona @relation(fields: [personaId], references: [id])
+    personaId Int     @unique
+    Viaje     Viaje[]
 }
 
-model Passenger {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    name      String
-    email     String
-    tickets   TravelTicket[]
+model Boleto {
+    id          Int      @id @default(autoincrement())
+    pasajero    Pasajero @relation(fields: [pasajeroId], references: [id])
+    pasajeroId  Int      @unique
+    viaje       Viaje    @relation(fields: [viajeId], references: [id])
+    viajeId     Int      @unique
+    asiento     String
+    fechaCompra DateTime
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
+model Viaje {
+    id           Int          @id @default(autoincrement())
+    origen       String
+    destino      String
+    fechaSalida  DateTime
+    fechaLlegada DateTime
+    boletos      Boleto[]
+    encomiendas  Encomienda[]
+    manifiesto   Manifiesto?
+    conductores  Conductor[]
 }
 
+model Encomienda {
+    id             Int     @id @default(autoincrement())
+    remitente      Persona @relation(name: "remitente", fields: [remitenteId], references: [id])
+    remitenteId    Int
+    destinatario   Persona @relation(name: "destinatario", fields: [destinatarioId], references: [id])
+    destinatarioId Int
+    contenido      String
+    viaje          Viaje?  @relation(fields: [viajeId], references: [id])
+    viajeId        Int?
+}
 
+model Manifiesto {
+    id          Int    @id @default(autoincrement())
+    viaje       Viaje  @relation(fields: [viajeId], references: [id])
+    viajeId     Int    @unique
+    pasajeros   String // lista pasajeros 
+    encomiendas String // lista encomiendas
+}
 
+model Bus {
+    id       Int    @id @default(autoincrement())
+    modelo   String
+    placa    String @unique
+    asientos Int
+}
