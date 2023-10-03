@@ -22,18 +22,16 @@ export default function Index() {
       <AOSWrapper>
         <div data-aos="fade-up">
           <div>
-            <div className="relative space-y-5">
-              <h1 className="text-3xl font-bold tracking-tight lg:mx-36 lg:text-6xl">
+            <div className="relative">
+              <div className="flex text-3xl font-bold tracking-tight lg:mx-40 lg:text-6xl">
                 Conduce tu empresa hacia la excelencia operativa
-              </h1>
-              {/* //TODO: < br/> separation changes it's place win mobile version  */}
-              <div className="space-y-3.5 font-semibold lg:text-xl ">
-                <p className="tracking-tight lg:px-80">
-                  El socio tecnológico que acelera las operaciones de tu empresa
-                  en la industria del transporte impulsado con —{" "}
-                  <span className="text-white">inteligencia artificial.</span>
-                </p>
               </div>
+              {/* //TODO: < br/> separation changes it's place win mobile version  */}
+              <p className="mt-5 font-semibold tracking-tight lg:px-80 lg:text-xl">
+                El socio tecnológico que acelera las operaciones de tu empresa
+                en la industria del transporte impulsado con —{" "}
+                <span className="text-white">inteligencia artificial.</span>
+              </p>
             </div>
             <div className="relative">
               <Link

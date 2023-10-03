@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { prisma } from "@/server/db";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
-import { Adapter } from "next-auth/adapters";
+import type { Adapter } from "next-auth/adapters";
 
 export const authOptions = {
   pages: {
