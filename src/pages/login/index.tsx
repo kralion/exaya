@@ -30,13 +30,24 @@ export default function Login() {
   const [error, setError] = useState("");
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/profile";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
+    const checked = e.target.checked;
+    if (checked) {
+      formRef.current?.setFieldsValue({
+        remember: true,
+      });
+    } else {
+      formRef.current?.setFieldsValue({
+        remember: false,
+      });
+    }
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (
+    values: z.infer<typeof loginSchema> & { remember: boolean }
+  ) => {
     try {
       setLoading(true);
       const res = await signIn("credentials", {
@@ -54,9 +65,9 @@ export default function Login() {
       } else {
         setError("invalid email or password");
       }
-    } catch (error: any) {
+    } catch (error) {
       setLoading(false);
-      setError(error);
+      console.log(error);
     }
   };
 
