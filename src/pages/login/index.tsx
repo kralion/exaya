@@ -10,6 +10,7 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { z } from "zod";
+import { api } from "@/utils/api";
 import "animate.css";
 import AOSWrapper from "@/utils/AOS";
 const literata = Literata({
@@ -25,6 +26,7 @@ const blackOpsOne = Black_Ops_One({
 });
 
 export default function Login() {
+  const version = api.example.exayaVersion.useQuery({ text: "0.1.13" });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -76,6 +78,10 @@ export default function Login() {
     <div
       className={` ${literata.className} flex h-screen  items-center  bg-[#faf1eb] `}
     >
+      <div className="fixed bottom-0 right-0 p-2  text-sm text-slate-600">
+        <h1 className="font-mono">{version?.data?.currentVersion}</h1>
+      </div>
+
       <div
         style={{
           backgroundImage:

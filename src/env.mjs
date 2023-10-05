@@ -13,6 +13,7 @@ const server = z.object({
 
   GOOGLE_ID: z.string().min(1),
   GOOGLE_SECRET: z.string().min(1),
+  DATABASE_URL: z.string().min(1),
 
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
 });
@@ -34,7 +35,7 @@ const client = z.object({
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-
+  DATABASE_URL: process.env.DATABASE_URL,
   GOOGLE_ID: process.env.GOOGLE_ID,
   GOOGLE_SECRET: process.env.GOOGLE_SECRET,
 
