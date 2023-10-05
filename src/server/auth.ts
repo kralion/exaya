@@ -1,3 +1,4 @@
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { type GetServerSidePropsContext } from "next";
 import {
@@ -46,11 +47,29 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  pages: {
+    signIn: "/login",
+  },
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_ID,
       clientSecret: env.GOOGLE_SECRET,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = { id: 1, name: "J Smith", email: "smith@gmail.com" };
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      },
     }),
   ],
 };
