@@ -6,7 +6,6 @@ import { HiOutlineSupport } from "react-icons/hi";
 import { IoMdTimer } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
-import { signOut } from "next-auth/react";
 import "animate.css";
 import { Title } from "@mantine/core";
 import "animate.css";
@@ -15,7 +14,7 @@ import { Layout, Menu, theme } from "antd";
 import Link from "next/link";
 import React, { useState } from "react";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
-
+import { signOut } from "next-auth/react";
 const { Header, Footer, Sider, Content } = Layout;
 
 interface LayoutProps {
@@ -77,9 +76,12 @@ const items: MenuProps["items"] = [
     icon: <CgLogOut />,
     label: (
       <button
-        onClick={async () => {
-          await signOut({ callbackUrl: "/login" });
-        }}
+        onClick={() =>
+          signOut({
+            redirect: false,
+            callbackUrl: "http://localhost:3000/login",
+          })
+        }
       >
         Salir
       </button>
@@ -90,7 +92,6 @@ const items: MenuProps["items"] = [
 
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();

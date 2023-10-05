@@ -68,7 +68,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         {!collapsed && (
           <div className="flex flex-col items-center justify-center">
             <Typography.Text strong>
-              {session?.user?.name || "César Córdova"}
+              {session?.user?.name || "Gerardo Aguirre"}
             </Typography.Text>
             <Tag
               color={

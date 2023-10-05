@@ -6,10 +6,12 @@ import { SnippetsOutlined, CopyOutlined } from "@ant-design/icons";
 import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
+import AppHead from "@/components/head";
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
     <AppLayout>
+      <AppHead title="Programacion Comprobantes" />
       <ComprobantesTable />
       <FacturasTable />
       <div className="flex gap-3.5">

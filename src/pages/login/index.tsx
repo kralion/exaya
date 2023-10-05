@@ -4,7 +4,7 @@ import { Alert, Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { Loader } from "@mantine/core";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import type { z } from "zod";
 import { api } from "@/utils/api";
 import "animate.css";
 import AOSWrapper from "@/utils/AOS";
+import AppHead from "@/components/head";
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
@@ -30,10 +31,8 @@ export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
-  console.log(session);
   const onChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
     if (checked) {
@@ -78,8 +77,9 @@ export default function Login() {
     <div
       className={` ${literata.className} flex h-screen  items-center  bg-[#faf1eb] `}
     >
+      <AppHead title="Login" />
       <div className="fixed bottom-0 right-0 p-2  text-sm text-slate-600">
-        <h1 className="font-mono">{version?.data?.currentVersion}</h1>
+        <h1 className="font-mono ">{version?.data?.currentVersion}</h1>
       </div>
 
       <div

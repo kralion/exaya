@@ -21,6 +21,7 @@ import { ContableCard } from "@/components/ui/contable/contable-card";
 import { Title } from "@mantine/core";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
 import AppLayout from "../../components/layout";
+import AppHead from "@/components/head";
 
 const onChange = (
   value: DatePickerProps["value"],
@@ -116,6 +117,7 @@ export default function Contable() {
 
   return (
     <AppLayout>
+      <AppHead title="Contable" />
       <div className="space-y-7">
         <div className="flex flex-col gap-3.5">
           <div className="flex justify-between">

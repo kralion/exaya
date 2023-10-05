@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import AppLayout from "@/components/layout";
 import KpiChart from "@/components/ui/administracion/kpi-chart";
 import { StatsSegments } from "@/components/ui/administracion/stats";
@@ -26,6 +27,7 @@ export default function Administracion() {
   const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
   return (
     <AppLayout>
+      <AppHead title="Administracion" />
       <div className="mb-14">
         <div className=" mb-3.5 flex justify-between">
           <Title order={5} className="text-slate-800">

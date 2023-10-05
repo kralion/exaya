@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import LandingLayout from "@/components/landing-layout";
 import PlanesCard from "@/components/ui/planes/card";
 import React from "react";
@@ -5,6 +6,7 @@ import React from "react";
 export default function Planes() {
   return (
     <LandingLayout>
+      <AppHead title="Membresías" />
       <div className="space-y-5 pb-16">
         <h1 className="text-2xl font-bold lg:text-5xl">Planes a Medida</h1>
         <h4 className=" px-6 font-semibold tracking-tight lg:px-96">

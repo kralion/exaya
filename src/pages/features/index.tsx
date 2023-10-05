@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import LandingLayout from "@/components/landing-layout";
 import Card from "@/components/ui/features/card";
 import React from "react";
@@ -5,6 +6,7 @@ import React from "react";
 export default function Index() {
   return (
     <LandingLayout>
+      <AppHead title="Features" />
       <div className="space-y-3.5">
         <h1 className="text-2xl font-bold lg:text-5xl">Features</h1>
         <h4 className=" px-5 tracking-tight lg:px-80 lg:text-xl">

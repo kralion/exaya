@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import AppLayout from "@/components/layout";
 import { SnippetsOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { Tag } from "antd";
@@ -12,6 +13,7 @@ const literata = Literata({
 export default function Soporte() {
   return (
     <AppLayout>
+      <AppHead title="Soporte" />
       <div className="flex flex-col items-center gap-7">
         <Image
           width={200}

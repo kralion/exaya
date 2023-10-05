@@ -4,6 +4,7 @@ import { ProgramacionTable } from "@/components/ui/programacion/programacion-via
 import { ViajesForm } from "@/components/ui/programacion/viajes-form";
 import { originData } from "@/data/programacion-viajes";
 import AppLayout from "@/components/layout";
+import AppHead from "@/components/head";
 
 function ProgramacionViajes() {
   const [viajesProgramados, setViajesProgramados] = React.useState(originData);
@@ -12,6 +13,7 @@ function ProgramacionViajes() {
   };
   return (
     <AppLayout>
+      <AppHead title="Programacion de Viajes" />
       <div className="space-y-3.5">
         <Title order={5}>Programacion de Viajes</Title>
         <ViajesForm handleAddViaje={handleAddViaje} />

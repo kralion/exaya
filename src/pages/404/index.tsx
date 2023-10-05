@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -5,6 +6,7 @@ import { BiArrowBack } from "react-icons/bi";
 export default function Index() {
   return (
     <div className="flex h-screen w-screen items-center justify-center">
+      <AppHead title="404" />
       <div className="px-4 lg:py-12">
         <div className="items-center lg:flex lg:gap-4">
           <div className="flex flex-col items-center justify-center md:py-24 lg:py-32">

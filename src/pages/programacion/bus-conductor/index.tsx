@@ -1,3 +1,4 @@
+import AppHead from "@/components/head";
 import AppLayout from "@/components/layout";
 import {
   ConductoresForm,
@@ -9,6 +10,7 @@ import { Title } from "@mantine/core";
 export default function ProgramacionBusConductor() {
   return (
     <AppLayout>
+      <AppHead title="Programacion Bus Conductor" />
       <div className="flex gap-7">
         <div className="space-y-5">
           <Title order={4}>Conductores</Title>

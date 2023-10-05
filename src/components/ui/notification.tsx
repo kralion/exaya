@@ -1,7 +1,7 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
 import { notification } from "antd";
 import type { NotificationPlacement } from "antd/es/notification/interface";
 import React, { useMemo } from "react";
+import { BsCheckCircle } from "react-icons/bs";
 
 const manifiestoData = {
   turno: "2",
@@ -22,7 +22,7 @@ export default function Notification({
   const openNotification = (placement: NotificationPlacement) => {
     api.info({
       message: `Operación Existosa`,
-      icon: <CheckCircleOutlined className="text-green-500" />,
+      icon: <BsCheckCircle className="text-green-500" />,
       style: {
         backgroundColor: "#f6ffed",
         color: "#52c41a",

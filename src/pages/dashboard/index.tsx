@@ -7,12 +7,14 @@ import { FieldTimeOutlined } from "@ant-design/icons";
 import { Progress, Statistic, Typography } from "antd";
 import Image from "next/image";
 import AppLayout from "../../components/layout";
+import AppHead from "@/components/head";
 
 const totalViajesProgramados = 12;
 const viajesActivos = 9;
 export default function Dashboard() {
   return (
     <AppLayout>
+      <AppHead title="Panel de Control" />
       <div className="grid grid-flow-row grid-cols-3 gap-3.5 ">
         <div className="duration-200">
           <ControlPaneCard
