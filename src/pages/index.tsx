@@ -55,7 +55,7 @@ export default function Index() {
                 // width = {80 mobile}
                 width={230}
                 height={130}
-                className="animate__animated animate__fadeInDown  animate__delay-2s absolute left-28 -top-32   drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown  animate__delay-2s absolute -top-32 left-28   drop-shadow-2xl "
                 alt="asset"
               />
             </div>
@@ -76,7 +76,7 @@ export default function Index() {
                 color="gold-inverse"
                 data-aos="flip-up"
                 data-aos-duration="200"
-                className={`${dancing_Script.className}   mx-2 rounded-lg  px-2 drop-shadow-lg lg:text-4xl `}
+                className={` ${dancing_Script.className} mx-2  rounded-lg px-2 drop-shadow-lg lg:text-4xl`}
               >
                 SaaS
               </Tag>

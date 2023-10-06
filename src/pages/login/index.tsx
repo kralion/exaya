@@ -142,7 +142,7 @@ export default function Login() {
             <p className="mb-6 rounded bg-red-300 py-4 text-center">{error}</p>
           )}
           <Form
-            data-aos="fade-up"
+            data-aos="flip-right"
             data-aos-duration="500"
             initialValues={{ remember: true }}
             autoComplete="on"
