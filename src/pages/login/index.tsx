@@ -9,19 +9,15 @@ import { Alert, Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
-import { Black_Ops_One, Literata, Inter } from "next/font/google";
+import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import type { z } from "zod";
+import styles from "@/styles/login.module.css";
 
-const inter = Inter({
-  weight: "400",
-  subsets: ["latin-ext"],
-  preload: true,
-});
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
@@ -219,20 +215,25 @@ export default function Login() {
                 type="password"
               />
             </Form.Item>
-            <Checkbox className={`${literata.className}  `} onChange={onChange}>
-              Recordar contraseña
-            </Checkbox>
-            <button
-              type="submit"
-              className=" mt-14 flex w-full items-center justify-center gap-3.5 rounded-lg border-2 border-orange-600 border-opacity-40 bg-orange-500  py-2 tracking-wide text-white    active:opacity-70"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader color="rgba(255, 255, 255, 1)" size="sm" />
-              ) : (
-                "Ingresar"
-              )}
-            </button>
+            <div className="flex flex-col gap-14">
+              <Checkbox
+                className={`${literata.className}  `}
+                onChange={onChange}
+              >
+                Recordar contraseña
+              </Checkbox>
+              <button
+                type="submit"
+                className={styles.button}
+                disabled={loading}
+              >
+                {loading ? (
+                  <Loader color="rgba(255, 255, 255, 1)" size="sm" />
+                ) : (
+                  "Ingresar"
+                )}
+              </button>
+            </div>
           </Form>
         </AOSWrapper>
       </div>
