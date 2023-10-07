@@ -47,7 +47,7 @@ export default function Index() {
                 // width = {80 mobile}
                 width={130}
                 height={130}
-                className="animate__animated animate__fadeInDown animate__delay-2s absolute right-56 top-56 drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown animate__delay-1s absolute right-56 top-56 drop-shadow-2xl "
                 alt="asset"
               />
               <Image
@@ -55,7 +55,7 @@ export default function Index() {
                 // width = {80 mobile}
                 width={230}
                 height={130}
-                className="animate__animated animate__fadeInDown  animate__delay-2s absolute -top-32 left-28   drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown  animate__delay-1s absolute -top-32 left-28   drop-shadow-2xl "
                 alt="asset"
               />
             </div>

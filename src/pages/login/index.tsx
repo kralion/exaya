@@ -1,19 +1,27 @@
 "use client";
+import AppHead from "@/components/head";
 import type { loginSchema } from "@/schemas";
+import AOSWrapper from "@/utils/AOS";
+import { api } from "@/utils/api";
+import { Loader } from "@mantine/core";
+import "animate.css";
 import { Alert, Checkbox, Form } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
-import { Loader } from "@mantine/core";
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Black_Ops_One, Literata } from "next/font/google";
+import { Black_Ops_One, Literata, Inter } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import type { z } from "zod";
-import { api } from "@/utils/api";
-import "animate.css";
-import AOSWrapper from "@/utils/AOS";
-import AppHead from "@/components/head";
+
+const inter = Inter({
+  weight: "400",
+  subsets: ["latin-ext"],
+  preload: true,
+});
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
@@ -81,11 +89,19 @@ export default function Login() {
       <div className="fixed bottom-0 right-0 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version?.data?.currentVersion}</h1>
       </div>
-
+      <Link
+        href="/"
+        className="fixed right-[560px] top-3 flex items-center justify-center  rounded-xl px-4 py-2 text-sm text-zinc-700  shadow duration-200 hover:bg-orange-100"
+      >
+        <HiOutlineArrowLeft className="mr-2" />
+        Atrás
+      </Link>
+      {/* //
+      "url(https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg&ga=GA1.1.631442079.1696688262&semt=sph)", */}
       <div
         style={{
           backgroundImage:
-            "url(https://images.pexels.com/photos/3353612/pexels-photo-3353612.jpeg?auto=compress&cs=tinysrgb&w=600)",
+            "url(https://media.istockphoto.com/id/1161674685/photo/two-white-buses-traveling-on-the-asphalt-road-in-rural-landscape-at-sunset-with-dramatic.jpg?b=1&s=612x612&w=0&k=20&c=rWkox7mi9gc0DOqiPWF0NpB1WjG-Z0g5TxDIhpQuGo8= )",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: " center",
@@ -103,10 +119,10 @@ export default function Login() {
             left: 0,
             width: "100%",
             height: "100%",
-            background: "rgba(0, 0, 0, 0.6)",
+            background: "rgba(0, 0, 0, 0.5)",
           }}
         />
-        <div className="animate__animated animate__flipInX animate__delay-1s justify-st m-7 flex items-center gap-1">
+        <div className="animate__animated animate__flipInX relative m-7 flex items-center gap-1">
           <Image
             src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
             width={50}
@@ -124,8 +140,18 @@ export default function Login() {
             Operativa <span className="text-orange-400">|</span>
           </h5>
         </div>
+        <h5 className="absolute bottom-5 left-5 text-sm text-slate-200 ">
+          Desarrollado por{" "}
+          <Link
+            href="https://twitter.com/joanpaucar_"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="  text-orange-400 hover:text-orange-500"
+          >
+            @BrayanPaucar
+          </Link>
+        </h5>
       </div>
-
       <div className="flex w-1/2 flex-col items-center pl-5">
         <h3
           className={`  bg-gradient-to-r from-black  to-orange-500 bg-clip-text text-left text-4xl leading-none text-transparent   ${blackOpsOne.className} `}

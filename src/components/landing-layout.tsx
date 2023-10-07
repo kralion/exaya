@@ -48,13 +48,13 @@ export default function LandingLayout({
       >
         <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-20 ">
           <Link href="/">
-            <div className=" flex items-center justify-start duration-300  hover:opacity-70 ">
+            <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 //40 mobile
                 width={40}
                 height={40}
-                className="animate__animated animate__flip animate__delay-1s drop-shadow-xl"
+                className=" drop-shadow-xl"
                 alt="logo"
               />
               <span
