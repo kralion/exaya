@@ -1,9 +1,10 @@
 import { Title } from "@mantine/core";
-import { Avatar, Space, Tag, Typography } from "antd";
-import { useSession } from "next-auth/react";
+import { Skeleton, Space } from "antd";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense, lazy } from "react";
+
+const UserInfoDetails = lazy(() => import("./user-info"));
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
@@ -16,7 +17,10 @@ type HeaderProps = {
 };
 
 const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
-  const { data: session } = useSession();
+  const [loading, setLoading] = React.useState<boolean>(true);
+  setTimeout(() => {
+    setLoading(false);
+  }, 3000);
   return (
     <div>
       {!collapsed ? (
@@ -50,39 +54,44 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      <Space wrap size={1} className="my-16 flex flex-col">
-        {!collapsed ? (
-          <Avatar
-            className="box-border border-1 border-gray-400"
-            size={60}
-            src="https://randomuser.me/api/portraits/men/95.jpg"
+      {loading === true ? (
+        <Space className="my-16 flex flex-col">
+          <Skeleton.Avatar active size={60} />
+          <Skeleton.Input active size="small" />
+          <Skeleton.Button
+            style={{
+              borderRadius: 16,
+              width: 70,
+            }}
+            active
+            size="small"
           />
-        ) : (
-          <Avatar
-            className="box-border border-1 border-gray-400"
-            size={35}
-            src="https://randomuser.me/api/portraits/men/95.jpg"
-          />
-        )}
+        </Space>
+      ) : (
+        <UserInfoDetails collapsed={collapsed} />
+      )}
+      {/*
+      
+      //! Better way to do it, but it's not working using Suspense
 
-        {!collapsed && (
-          <div className="flex flex-col items-center justify-center">
-            <Typography.Text strong>
-              {session?.user?.name || "Gerardo Aguirre"}
-            </Typography.Text>
-            <Tag
-              color={
-                session?.user?.role === "admin"
-                  ? "blue-inverse"
-                  : "gold-inverse"
-              }
-              className="mt-1 rounded-full font-semibold"
-            >
-              admin
-            </Tag>
-          </div>
-        )}
-      </Space>
+      <Suspense
+        fallback={
+          <Space className="my-16 flex flex-col">
+            <Skeleton.Avatar active size={60} />
+            <Skeleton.Input active size="small" />
+            <Skeleton.Button
+              style={{
+                borderRadius: 16,
+                width: 70,
+              }}
+              active
+              size="small"
+            />
+          </Space>
+        }
+      >
+        <UserInfoDetails collapsed={collapsed} />
+      </Suspense> */}
     </div>
   );
 };
