@@ -4,6 +4,9 @@ import { useState } from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import style from "./frame.module.css";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useRef } from "react";
+import { BiCheckCircle } from "react-icons/bi";
 const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -39,6 +42,10 @@ const searchResult = (query: string) =>
     });
 
 export const AIAssistantInput = () => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  useHotkeys("ctrl+enter", () => {
+    inputRef.current?.focus();
+  });
   const [options, setOptions] = useState<SelectProps<object>["options"]>([]);
   const [value, setValue] = useState("");
   const [showNotification, setShowNotification] = useState(false);
@@ -58,8 +65,8 @@ export const AIAssistantInput = () => {
       setShowNotification(true);
       setTimeout(() => {
         setShowNotification(false);
-      }, 2000);
-    }, 2000);
+      }, 3000);
+    }, 3000);
   };
   return (
     <div className="flex">
@@ -72,6 +79,7 @@ export const AIAssistantInput = () => {
         onSearch={handleSearch}
       >
         <TextArea
+          ref={inputRef}
           className=" border-2 focus:border-none focus:bg-yellow-100  focus:font-semibold focus:shadow-orange-200"
           style={{
             borderRadius: 0,
@@ -86,7 +94,8 @@ export const AIAssistantInput = () => {
             setValue(e.target.value);
           }}
           autoSize={{ minRows: 1, maxRows: 3 }}
-          placeholder="Ej. Genera un boleto para 7178458 de Huancayo hacia Lima para el 15/12/2023 a 70 soles"
+          title="También puedes usar Ctrl + Enter para enfocar el input"
+          placeholder="Soy tu asistente de IA para generar boletos. Escribe los datos clave, yo hago el resto."
           onPressEnter={handleGenerate}
         />
       </AutoComplete>
@@ -108,12 +117,13 @@ export const AIAssistantInput = () => {
       <Alert
         message="Operacion Exitosa"
         description="Puedes revisar el registro en la base de datos"
-        type="success"
+        type="warning"
+        icon={<BiCheckCircle size={25} />}
         showIcon
-        className={`fixed right-0 top-0 z-50 m-4  ${
+        className={`fixed right-0 top-0 z-50 m-4 shadow-xl  ${
           showNotification
-            ? "scale-100 opacity-100 duration-500"
-            : "scale-0 opacity-0 duration-500"
+            ? "scale-x-100 opacity-100 duration-500"
+            : "scale-y-0 opacity-0 duration-500"
         }`}
       />
     </div>
