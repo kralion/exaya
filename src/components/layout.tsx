@@ -1,21 +1,22 @@
 import AppHeader from "@/components/appheader";
+import styles from "@/styles/layout.module.css";
+import { Title } from "@mantine/core";
+import "animate.css";
+import type { MenuProps } from "antd";
+import { Layout, Menu, theme } from "antd";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BsTicketPerforated, BsCoin } from "react-icons/bs";
+import { BsCoin, BsTicketPerforated } from "react-icons/bs";
 import { CgLogOut } from "react-icons/cg";
 import { HiOutlineSupport } from "react-icons/hi";
 import { IoMdTimer } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
-import "animate.css";
-import { Title } from "@mantine/core";
-import "animate.css";
-import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
-import Link from "next/link";
-import React, { useState } from "react";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
-import { signOut } from "next-auth/react";
 const { Header, Footer, Sider, Content } = Layout;
+import Router from "next/router";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -92,6 +93,23 @@ const items: MenuProps["items"] = [
 
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const startLoading = () => setLoading(true);
+    const stopLoading = () => setLoading(false);
+
+    Router.events.on("routeChangeStart", startLoading);
+    Router.events.on("routeChangeComplete", stopLoading);
+    Router.events.on("routeChangeError", stopLoading);
+
+    return () => {
+      Router.events.off("routeChangeStart", startLoading);
+      Router.events.off("routeChangeComplete", stopLoading);
+      Router.events.off("routeChangeError", stopLoading);
+    };
+  }, []);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -135,6 +153,8 @@ export default function AppLayout({ children }: LayoutProps) {
             </Title>
           </div>
         </Header>
+        {loading && <div className={styles.loader}></div>}
+
         <Content
           style={{
             background: colorBgContainer,
