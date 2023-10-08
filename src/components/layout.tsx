@@ -17,6 +17,7 @@ import { RiLuggageCartLine } from "react-icons/ri";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
 import Router from "next/router";
+import { AppProvider } from "@/context/AppContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -115,60 +116,62 @@ export default function AppLayout({ children }: LayoutProps) {
   } = theme.useToken();
 
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Sider
-        className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
-        collapsed={collapsed}
+    <AppProvider>
+      <Layout
         style={{
-          background: colorBgContainer,
-          borderRadius: 21,
-          maxHeight: "86vh",
+          minHeight: "100vh",
         }}
-        collapsedWidth={50}
-        onCollapse={(value) => setCollapsed(value)}
       >
-        <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        {/* // TODO: Add a selected key to the menu */}
-        <Menu mode="inline" items={items} />
-      </Sider>
-      <Layout>
-        <Header
-          className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
+        <Sider
+          className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
+          collapsed={collapsed}
           style={{
             background: colorBgContainer,
-            borderRadius: 14,
-          }}
-        >
-          <div className="absolute left-2.5 flex w-full justify-between">
-            <AIAssistantInput />
-            <Title
-              order={4}
-              className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
-            >
-              Expreso Ayacucho S.A.C
-            </Title>
-          </div>
-        </Header>
-        {loading && <div className={styles.loader}></div>}
-
-        <Content
-          style={{
-            background: colorBgContainer,
-            padding: 21,
             borderRadius: 21,
+            maxHeight: "86vh",
           }}
-          className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          collapsedWidth={50}
+          onCollapse={(value) => setCollapsed(value)}
         >
-          {children}
-        </Content>
-        <Footer className="my-5 text-center text-sm text-slate-500">
-          © Copyright 2024 Brayan Paucar . All rights reserved.
-        </Footer>
+          <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+          {/* // TODO: Add a selected key to the menu */}
+          <Menu mode="inline" items={items} />
+        </Sider>
+        <Layout>
+          <Header
+            className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
+            style={{
+              background: colorBgContainer,
+              borderRadius: 14,
+            }}
+          >
+            <div className="absolute left-2.5 flex w-full justify-between">
+              <AIAssistantInput />
+              <Title
+                order={4}
+                className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
+              >
+                Expreso Ayacucho S.A.C
+              </Title>
+            </div>
+          </Header>
+          {loading && <div className={styles.loader}></div>}
+
+          <Content
+            style={{
+              background: colorBgContainer,
+              padding: 21,
+              borderRadius: 21,
+            }}
+            className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          >
+            {children}
+          </Content>
+          <Footer className="my-5 text-center text-sm text-slate-500">
+            © Copyright 2024 Brayan Paucar . All rights reserved.
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </AppProvider>
   );
 }

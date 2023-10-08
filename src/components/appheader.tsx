@@ -1,8 +1,9 @@
 import { Title } from "@mantine/core";
 import { Skeleton, Space } from "antd";
+import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
-import React, { Suspense, lazy } from "react";
+import React, { lazy } from "react";
 
 const UserInfoDetails = lazy(() => import("./user-info"));
 
@@ -17,10 +18,7 @@ type HeaderProps = {
 };
 
 const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  setTimeout(() => {
-    setLoading(false);
-  }, 3000);
+  const { status } = useSession();
   return (
     <div>
       {!collapsed ? (
@@ -54,7 +52,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      {loading === true ? (
+      {status === "loading" ? (
         <Space className="my-16 flex flex-col">
           <Skeleton.Avatar active size={60} />
           <Skeleton.Input active size="small" />
@@ -68,6 +66,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
           />
         </Space>
       ) : (
+        // Contenido real después de la carga inicial
         <UserInfoDetails collapsed={collapsed} />
       )}
       {/*
