@@ -13,32 +13,28 @@ export default function UserInfo({ collapsed }: UserInfoProps) {
       <Avatar
         className=""
         size={collapsed ? 35 : 80}
-        //TODO: Descomment this line when you have the user image
-        // src={
-        //   session?.user?.image ||
-        //   "https://cdn-icons-png.flaticon.com/128/8509/8509694.png?ga=GA1.1.631442079.1696688262"
-        // }
-        src="https://randomuser.me/api/portraits/men/95.jpg"
+        src={
+          session?.user?.image ||
+          "https://cdn-icons-png.flaticon.com/128/8509/8509694.png?ga=GA1.1.631442079.1696688262"
+        }
       />
 
       {!collapsed && (
         <div className="flex flex-col items-center justify-center">
           <Typography.Text strong>
-            {/*//TODO: Descomment this line when you have the user name            
-            {session?.user?.name || "Usuario Default"} */}
-            Santiago Vargas
+            {session?.user?.name || "Usuario Default"}
           </Typography.Text>
           <Tag
             color={
-              session?.user?.role === "admin"
+              session?.user?.role === "ADMIN"
                 ? "gold-inverse"
-                : session?.user?.role === "supervisor"
+                : session?.user?.role === "SUPERVISOR"
                 ? "blue-inverse"
                 : "green-inverse"
             }
             className="mt-1 rounded-full font-semibold lowercase"
           >
-            {session?.user?.role || "usuario"}
+            {session?.user?.role || "USUARIO"}
           </Tag>
         </div>
       )}

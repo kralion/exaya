@@ -1,8 +1,8 @@
-import { useEncomiendasContext as Context } from "@/context/EncomiendasContext";
 import type { IEncomienda } from "@/interfaces";
-import { Button, Popconfirm, Tag, Typography } from "antd";
+import { Tag, Typography } from "antd";
 import EncomiendaDetails from "./detalles-encomienda";
 import Image from "next/image";
+import DeleteEncomienda from "./deleteEncomienda";
 
 export const columns = [
   {
@@ -42,10 +42,6 @@ export const columns = [
     title: "Acciones",
     key: "action",
     render: (encomienda: IEncomienda) => {
-      const cancel = () => {
-        console.log("Cancelado");
-      };
-      const { handleDeleteEncomienda } = Context();
       return (
         <div className="flex items-baseline gap-2">
           <EncomiendaDetails
@@ -110,7 +106,7 @@ export const columns = [
             </div>
           </EncomiendaDetails>
 
-          <Popconfirm
+          {/* <Popconfirm
             okButtonProps={{
               style: {
                 backgroundColor: "#f5222d",
@@ -120,16 +116,14 @@ export const columns = [
               },
             }}
             title="Estás segur@ ?"
-            onConfirm={cancel}
+            onConfirm={() => console.log("Eliminado")}
+            onCancel={cancel}
           >
-            <Button
-              onClick={() => handleDeleteEncomienda(encomienda.key)}
-              danger
-              type="link"
-            >
+            <Button danger type="link">
               Eliminar
             </Button>
-          </Popconfirm>
+          </Popconfirm> */}
+          <DeleteEncomienda keyEncomienda={encomienda.key} />
         </div>
       );
     },

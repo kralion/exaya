@@ -45,17 +45,15 @@ export default function Index() {
               <Image
                 src={Asset3D4}
                 // width = {80 mobile}
-                width={130}
-                height={130}
-                className="animate__animated animate__fadeInDown animate__delay-1s absolute right-56 top-56 drop-shadow-2xl "
+
+                className="animate__animated animate__fadeInDown  animate__delay-1s absolute  right-56 top-56 h-28 w-28   drop-shadow-2xl "
                 alt="asset"
               />
               <Image
                 src={Asset3D5}
                 // width = {80 mobile}
-                width={230}
-                height={130}
-                className="animate__animated animate__fadeInDown  animate__delay-1s absolute -top-32 left-28   drop-shadow-2xl "
+
+                className="animate__animated animate__fadeInDown animate__delay-1s absolute -top-32 left-28 h-64 w-64 drop-shadow-2xl "
                 alt="asset"
               />
             </div>
@@ -67,6 +65,7 @@ export default function Index() {
               "
               width={1500}
               height={1000}
+              priority
             />
           </div>
           <blockquote className=" absolute bottom-36 right-44  lg:text-4xl">

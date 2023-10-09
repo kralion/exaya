@@ -40,6 +40,7 @@ export default function Notification() {
         description: description,
         placement: placement,
         type: type,
+        role: "alert",
       });
     };
     return {

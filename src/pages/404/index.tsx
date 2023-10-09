@@ -19,7 +19,7 @@ export default function Index() {
             </p>
             <Link
               href="/dashboard"
-              className="group flex items-center gap-3 rounded-lg bg-blue-100 px-6 py-2 text-sm font-semibold text-blue-800 hover:bg-blue-200"
+              className="group flex items-center gap-3 rounded-lg bg-orange-100 px-6 py-2 text-sm font-semibold text-orange-800 hover:bg-blue-200"
             >
               <BiArrowBack className="duration-200 group-hover:w-5" />
               Volver al Dashboard

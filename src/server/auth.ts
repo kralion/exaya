@@ -1,15 +1,15 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
-  type NextAuthOptions,
   type DefaultSession,
+  type NextAuthOptions,
 } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcryptjs";
 
 /**
@@ -18,12 +18,16 @@ import { compare } from "bcryptjs";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
+
+type UserRole = "ADMIN" | "USUARIO" | "SUPERVISOR";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user?: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      name: string | null | undefined;
+      email: string;
+      image: string | null | undefined;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 
@@ -43,7 +47,9 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
+        session.user.email = user.email;
+        session.user.name = user.name;
+        session.user.image = user.image;
       }
       return session;
     },
@@ -64,25 +70,38 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        // Verificar si las credenciales están presentes y no son nulas
         if (!credentials?.email || !credentials.password) {
           return null;
         }
 
+        // Definir el usuario con sus datos
         const user = {
           id: "1",
           email: "admin@admin.com",
-          name: "Admin",
-          password: "password",
+          name: "Sergio Vargas",
+          password: "password123", // Esta contraseña es solo para fines de demostración. No la uses en producción.
+          image: "https://randomuser.me/api/portraits/men/95.jpg",
+          role: "ADMIN",
         };
 
-        if (!user || !(await compare(credentials.password, user.password))) {
+        const passwordMatch = await compare(
+          credentials.password,
+          user.password
+        );
+
+        // Verificar si las credenciales coinciden con el usuario 'admin@admin.com'
+        if (credentials.email !== user.email && passwordMatch) {
           return null;
         }
 
+        // Si las credenciales son correctas, devolver los datos del usuario
         return {
           id: user.id,
           email: user.email,
           name: user.name,
+          image: user.image,
+          role: user.role,
         };
       },
     }),

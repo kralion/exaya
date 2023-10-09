@@ -10,7 +10,6 @@
     "precio": 15.5,
     "fechaEnvio": "2023-08-15",
     "contenido": "Electrónicos",
-    "password": "securepass123",
     "descripcion": "Smartphone, auriculares, cargador",
     "claveRastreo": "F0154",
     "estado": "Pagado"
@@ -26,7 +25,6 @@
     "precio": 8.75,
     "fechaEnvio": "2023-08-16",
     "contenido": "Libros",
-    "password": "securepass987",
     "descripcion": "Novela, libro de cocina",
     "claveRastreo": "F0154",
     "estado": "Pagado"
@@ -42,7 +40,6 @@
     "precio": 12.25,
     "fechaEnvio": "2023-08-17",
     "contenido": "Juguetes",
-    "password": "securepass456",
     "descripcion": "Muñeca, pelota, rompecabezas",
     "claveRastreo": "F0154",
     "estado": "Pagado"
@@ -58,7 +55,6 @@
     "precio": 20.0,
     "fechaEnvio": "2023-08-18",
     "contenido": "Artesanía",
-    "password": "securepass789",
     "descripcion": "Textiles, cerámica",
     "claveRastreo": "F0154",
     "estado": "Pagado"
@@ -74,7 +70,6 @@
     "precio": 14.75,
     "fechaEnvio": "2023-08-19",
     "contenido": "Cosméticos",
-    "password": "securepass234",
     "descripcion": "Maquillaje, cremas",
     "estado": "Por Pagar"
   },
@@ -89,7 +84,6 @@
     "precio": 9.5,
     "fechaEnvio": "2023-08-20",
     "contenido": "Ropa",
-    "password": "securepass567",
     "descripcion": "Vestido, camiseta",
     "estado": "Por Pagar"
   },
@@ -104,7 +98,6 @@
     "comprobante": "Boleto",
     "fechaEnvio": "2023-08-21",
     "contenido": "Alimentos",
-    "password": "securepass345",
     "descripcion": "Chocolates, frutas secas",
     "estado": "Por Pagar"
   },
@@ -119,7 +112,6 @@
     "precio": 18.0,
     "fechaEnvio": "2023-08-22",
     "contenido": "Electrodomésticos",
-    "password": "securepass678",
     "descripcion": "Licuadora, plancha",
     "estado": "Por Pagar"
   },
@@ -134,7 +126,6 @@
     "precio": 16.5,
     "fechaEnvio": "2023-08-23",
     "contenido": "Herramientas",
-    "password": "securepass123",
     "descripcion": "Destornillador, martillo",
     "estado": "Por Pagar"
   },
@@ -149,7 +140,6 @@
     "precio": 13.75,
     "fechaEnvio": "2023-08-24",
     "contenido": "Tecnología",
-    "password": "securepass789",
     "descripcion": "Tablet, cargador portátil",
     "estado": "Pagado"
   }

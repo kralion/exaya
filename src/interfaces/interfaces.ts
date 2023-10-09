@@ -31,11 +31,6 @@ export interface EncomiendasProps {
   setEncomiendas: React.Dispatch<React.SetStateAction<IEncomienda[]>>;
 }
 
-export interface EncomiendasContextProps {
-  encomiendasRegistradas: IEncomienda[];
-  handleAddEncomienda: (encomienda: IEncomienda) => void;
-  handleDeleteEncomienda: (key: string) => void;
-}
 export interface TableColumnPropsOption {
   label: string;
   value: any;

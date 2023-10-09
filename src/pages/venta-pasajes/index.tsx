@@ -23,7 +23,7 @@ function Pasajes() {
         <PasajesTable />
         <AvailableCalendar />
       </div>
-      <FloatButton.BackTop visibilityHeight={0} />
+      <FloatButton.BackTop visibilityHeight={50} />
     </AppLayout>
   );
 }

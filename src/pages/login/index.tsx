@@ -7,7 +7,7 @@ import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
 import { Loader } from "@mantine/core";
 import "animate.css";
-import { Alert, Checkbox, Form, notification } from "antd";
+import { Checkbox, Form, Input } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
@@ -17,7 +17,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { MdOutlineDangerous } from "react-icons/md";
 import type { z } from "zod";
 
 const literata = Literata({
@@ -119,16 +118,16 @@ export default function Login() {
       >
         <div
           style={{
-            content: "",
+            content: "Exaya",
             position: "absolute",
             top: 0,
             left: 0,
             width: "100%",
             height: "100%",
-            background: "rgba(0, 0, 0, 0.5)",
+            background: "rgba(0, 0, 0, 0.4)",
           }}
         />
-        <div className="animate__animated animate__flipInX relative m-7 flex items-center gap-1">
+        <div className="animate__animated animate__flipInX relative m-5 flex items-center gap-1">
           <Image
             src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
             width={50}
@@ -179,7 +178,11 @@ export default function Login() {
             className={`${literata.className} w-[430px] drop-shadow-md `}
             ref={formRef}
             name="control-ref"
-            onFinish={onFinish}
+            onFinish={
+              onFinish as unknown as (
+                values: z.infer<typeof loginSchema>
+              ) => void
+            }
             onFinishFailed={onFinishFailed}
           >
             <h3 className="mb-2  font-semibold">Usuario</h3>
@@ -193,9 +196,9 @@ export default function Login() {
                 },
               ]}
             >
-              <input
+              <Input
                 type="email"
-                className={`w-full rounded-lg px-5 py-2  ring-1 ring-orange-300   ${literata.className}`}
+                className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
               />
             </Form.Item>
 
@@ -209,8 +212,8 @@ export default function Login() {
                 },
               ]}
             >
-              <input
-                className={`w-full rounded-lg px-5 py-2  ring-1 ring-orange-300   ${literata.className}`}
+              <Input
+                className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
                 type="password"
               />
             </Form.Item>

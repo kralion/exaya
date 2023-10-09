@@ -10,7 +10,12 @@ export interface IEncomienda {
   contenido: string;
   descripcion: string;
   claveRastreo?: string;
-
   comprobante: "Boleto" | "Factura";
   estado: "Pagado" | "Por pagar";
+}
+
+export interface EncomiendasContextProps {
+  encomiendasRegistradas: IEncomienda[];
+  handleAddEncomienda: (encomienda: IEncomienda) => void;
+  handleDeleteEncomienda: (key: string) => void;
 }
