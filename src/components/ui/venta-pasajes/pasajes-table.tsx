@@ -186,7 +186,6 @@ const ManifiestoDrawer: React.FC = () => {
                   description:
                     "Se va a imprimir automaticamente, solo redirijase a la impresora",
                   message: "Operación Exitosa",
-                  icon: <AiFillPrinter />,
                   type: "success",
                 })
               }

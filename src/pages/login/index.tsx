@@ -82,7 +82,6 @@ export default function Login() {
     openNotification({
       message: "Credenciales Incorrectas",
       description: "Verifique sus credenciales, recuerde que son precreadas.",
-      icon: <MdOutlineDangerous size={25} />,
       placement: "topRight",
       type: "error",
     });

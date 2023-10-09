@@ -3,7 +3,6 @@ import { AutoComplete, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { BiCheckCircle } from "react-icons/bi";
 import { ImSpinner10 } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import style from "./frame.module.css";
@@ -66,7 +65,6 @@ export const AIAssistantInput = () => {
       openNotification({
         message: "Boleto generado",
         description: "El boleto se ha generado correctamente",
-        icon: <BiCheckCircle size={25} />,
         placement: "topRight",
         type: "success",
       });

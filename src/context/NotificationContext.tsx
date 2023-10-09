@@ -5,7 +5,6 @@ import React, { useMemo } from "react";
 type NotificationProps = {
   placement: NotificationPlacement;
   message: string;
-  icon: React.ReactNode;
   description?: string;
   type: "success" | "info" | "warning" | "error";
 };
@@ -14,14 +13,12 @@ const Context = React.createContext({
   openNotification: ({
     placement,
     message,
-    icon,
     description,
     type,
   }: NotificationProps) => {
     notification.open({
       message: message,
       description: description,
-      icon: icon,
       placement: placement,
       type: type,
     });
@@ -35,15 +32,14 @@ export default function Notification() {
     const openNotification = ({
       placement,
       message,
-      icon,
       description,
       type,
     }: NotificationProps) => {
-      api[type]({
+      api.open({
         message: message,
         description: description,
-        icon: icon,
         placement: placement,
+        type: type,
       });
     };
     return {
