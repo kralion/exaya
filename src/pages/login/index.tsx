@@ -1,11 +1,13 @@
 "use client";
 import AppHead from "@/components/head";
+import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
+import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
 import { Loader } from "@mantine/core";
 import "animate.css";
-import { Alert, Checkbox, Form } from "antd";
+import { Alert, Checkbox, Form, notification } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
@@ -15,8 +17,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import { MdOutlineDangerous } from "react-icons/md";
 import type { z } from "zod";
-import styles from "@/styles/login.module.css";
 
 const literata = Literata({
   weight: "400",
@@ -32,9 +34,9 @@ const blackOpsOne = Black_Ops_One({
 
 export default function Login() {
   const version = api.example.exayaVersion.useQuery({ text: "0.1.13" });
+  const { openNotification } = useNotification();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const onChange = (e: CheckboxChangeEvent) => {
@@ -68,7 +70,7 @@ export default function Login() {
       if (!res?.error) {
         router.push(callbackUrl);
       } else {
-        setError("invalid email or password");
+        onFinishFailed();
       }
     } catch (error) {
       setLoading(false);
@@ -76,6 +78,15 @@ export default function Login() {
     }
   };
 
+  const onFinishFailed = () => {
+    openNotification({
+      message: "Credenciales Incorrectas",
+      description: "Verifique sus credenciales, recuerde que son precreadas.",
+      icon: <MdOutlineDangerous size={25} />,
+      placement: "topRight",
+      type: "error",
+    });
+  };
   const formRef = useRef<FormInstance>(null);
   return (
     <div
@@ -159,10 +170,8 @@ export default function Login() {
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>
+
         <AOSWrapper>
-          {error && (
-            <p className="mb-6 rounded bg-red-300 py-4 text-center">{error}</p>
-          )}
           <Form
             data-aos="flip-right"
             data-aos-duration="500"
@@ -172,16 +181,7 @@ export default function Login() {
             ref={formRef}
             name="control-ref"
             onFinish={onFinish}
-            onFinishFailed={() => {
-              return (
-                <Alert
-                  message="Credenciales Incorrectas"
-                  description="Verifique sus credenciales, recuerde que son precreadas."
-                  type="error"
-                  showIcon
-                />
-              );
-            }}
+            onFinishFailed={onFinishFailed}
           >
             <h3 className="mb-2  font-semibold">Usuario</h3>
             <Form.Item

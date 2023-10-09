@@ -1,6 +1,6 @@
 import { usuarios } from "@/data";
 import { PhoneOutlined, UploadOutlined } from "@ant-design/icons";
-import Notification from "../notification";
+import Notification from "../../../context/NotificationContext";
 import {
   Button,
   Cascader,
@@ -73,7 +73,7 @@ const formItemLayout = {
 
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
-import AddUserNotification from "../notification";
+import AddUserNotification from "../../../context/NotificationContext";
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usuariosRegistrados, setUsuariosRegistrados] = useState(usuarios);

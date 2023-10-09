@@ -3,8 +3,6 @@ import { viajesDiarios as dataSource } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
 import { TfiMoreAlt } from "react-icons/tfi";
 
-import { TbLicense } from "react-icons/tb";
-import { AiFillPrinter } from "react-icons/ai";
 import {
   Avatar,
   Drawer,
@@ -17,15 +15,16 @@ import {
   Typography,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { AiFillPrinter } from "react-icons/ai";
+import { TbLicense } from "react-icons/tb";
 
-import type { IRuta, IViaje } from "@/interfaces";
+import type { IViaje } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import type { ZodNumberCheck } from "zod";
-import Notification from "../notification";
+import { useNotification } from "@/context/NotificationContext";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import { supabase } from "@/libs";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -153,6 +152,7 @@ export const ManifiestoTable: React.FC = () => (
 );
 
 const ManifiestoDrawer: React.FC = () => {
+  const { openNotification } = useNotification();
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -179,19 +179,28 @@ const ManifiestoDrawer: React.FC = () => {
             <Title className="text-left" order={4}>
               Manifiesto del Viaje
             </Title>
-            <Notification
-              printerButton={
-                <Tag
-                  color="green"
-                  icon={<AiFillPrinter />}
-                  className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
-                  title="Se va a imprimir automaticamente"
-                  onClick={onClose}
-                >
-                  Imprimir
-                </Tag>
+            <button
+              onClick={() =>
+                openNotification({
+                  placement: "top",
+                  description:
+                    "Se va a imprimir automaticamente, solo redirijase a la impresora",
+                  message: "Operación Exitosa",
+                  icon: <AiFillPrinter />,
+                  type: "success",
+                })
               }
-            />
+            >
+              <Tag
+                color="green"
+                icon={<AiFillPrinter />}
+                className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
+                title="Se va a imprimir automaticamente"
+                onClick={onClose}
+              >
+                Imprimir
+              </Tag>
+            </button>
           </div>
         }
         placement="right"
