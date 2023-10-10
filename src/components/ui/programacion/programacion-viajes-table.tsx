@@ -1,8 +1,6 @@
 import { viajesDiarios } from "@/data";
 import type { EditableCellProps, Item } from "@/interfaces/interfaces";
-import { FieldTimeOutlined } from "@ant-design/icons";
 import {
-  Badge,
   Button,
   Form,
   Input,
@@ -14,6 +12,7 @@ import {
 } from "antd";
 import type { TableProps } from "antd/es/table";
 import React, { useState } from "react";
+import { BiTime } from "react-icons/bi";
 
 const EditableCell: React.FC<EditableCellProps> = ({
   editing,
@@ -160,7 +159,7 @@ export function ProgramacionTable() {
         <Button
           className="flex cursor-default items-center "
           type="text"
-          icon={<FieldTimeOutlined />}
+          icon={<BiTime />}
         >
           {parseInt(text) < 12 ? `${text} AM` : `${text} PM`}
         </Button>

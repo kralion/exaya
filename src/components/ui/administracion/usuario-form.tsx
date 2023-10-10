@@ -1,6 +1,5 @@
 import { usuarios } from "@/data";
-import { PhoneOutlined, UploadOutlined } from "@ant-design/icons";
-import Notification from "../../../context/NotificationContext";
+import { CloudUploadOutlined } from "@ant-design/icons";
 import {
   Button,
   Cascader,
@@ -8,6 +7,7 @@ import {
   Input,
   InputNumber,
   Modal,
+  Select,
   Space,
   Typography,
   Upload,
@@ -73,12 +73,14 @@ const formItemLayout = {
 
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
-import AddUserNotification from "../../../context/NotificationContext";
+import { useNotification } from "@/context/NotificationContext";
+import { BsTelephone } from "react-icons/bs";
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usuariosRegistrados, setUsuariosRegistrados] = useState(usuarios);
   const [profilePicList, setProfilePicList] = useState([]);
   const [value, setValue] = useState(1);
+  const { openNotification } = useNotification();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -99,6 +101,12 @@ export function UsuarioForm({ activator }: Props) {
   const onFinish = (values: any) => {
     handleAddUser(values);
     form.resetFields();
+    openNotification({
+      message: "Usuario Registrado",
+      description: "El usuario se registró correctamente",
+      type: "success",
+      placement: "topRight",
+    });
   };
   const onFinishFailed = () => {
     console.log("Falló el registro");
@@ -197,7 +205,7 @@ export function UsuarioForm({ activator }: Props) {
               controls={false}
               placeholder="987654321"
               maxLength={9}
-              addonBefore={<PhoneOutlined title="N° celular" />}
+              addonBefore={<BsTelephone title="N° celular" />}
               style={{ width: "100%" }}
             />
           </Form.Item>
@@ -220,13 +228,18 @@ export function UsuarioForm({ activator }: Props) {
             label="Rol"
             rules={[
               {
-                type: "array",
                 required: true,
                 message: "Selecciona el Rol del Usuario",
               },
             ]}
           >
-            <Cascader placeholder="Administrador" options={rolesSistema} />
+            <Select placeholder="Administrador">
+              {rolesSistema?.map((rol) => (
+                <Select.Option key={rol.value} value={rol.value}>
+                  {rol.label}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item
@@ -256,7 +269,7 @@ export function UsuarioForm({ activator }: Props) {
             >
               {profilePicList.length === 0 && (
                 <div>
-                  <UploadOutlined />
+                  <CloudUploadOutlined />
                   <br />
                   <span className="ml-2">Subir foto</span>
                 </div>
@@ -269,23 +282,24 @@ export function UsuarioForm({ activator }: Props) {
             label="Sede Delegación"
             rules={[
               {
-                type: "array",
                 required: true,
                 message: "Seleeciona la sede de trabajo",
               },
             ]}
           >
-            <Cascader placeholder="Huancayo" options={sedesDisponibles} />
+            <Select placeholder="Huancayo">
+              {sedesDisponibles?.map((sede) => (
+                <Select.Option key={sede.value} value={sede.value}>
+                  {sede.label}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <div></div>
           <Space className="flex justify-end">
-            <AddUserNotification
-              printerButton={
-                <button className={styles.basicButton} type="submit">
-                  Registrar
-                </button>
-              }
-            />
+            <button type="submit" className={styles.basicButton}>
+              Registrar
+            </button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar

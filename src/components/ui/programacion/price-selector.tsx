@@ -11,15 +11,11 @@ for (let i = 25; i < 70; i += 5) {
   });
 }
 
-const handleChange = (value: number) => {
-  console.log(`selected ${value.toLocaleString("es-PE", {
-    style: "currency",
-    currency: "PEN",
-  })}
-  }`);
-};
-
-export default function PriceSelector() {
+export default function PriceSelector({
+  handleChange,
+}: {
+  handleChange: (value: number) => void;
+}) {
   return (
     <Select
       mode="multiple"

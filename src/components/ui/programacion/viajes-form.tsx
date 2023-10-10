@@ -1,21 +1,13 @@
+import { useNotification } from "@/context/NotificationContext";
 import { viajesDiarios } from "@/data";
-import type { IViaje } from "@/interfaces";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import type { IRuta, IViaje } from "@/interfaces";
 import type { DatePickerProps } from "antd";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Select,
-  TimePicker,
-  notification,
-} from "antd";
-import type { NotificationPlacement } from "antd/es/notification/interface";
-import React, { useMemo } from "react";
+import { Button, DatePicker, Form, Select, TimePicker } from "antd";
+import React from "react";
 import style from "./frame.module.css";
 import PriceSelector from "./price-selector";
+import { useQuery } from "@tanstack/react-query";
 
-const Context = React.createContext({ name: "Default" });
 const { Option } = Select;
 const format = "HH:mm";
 const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -35,26 +27,8 @@ type Props = {
 
 export function ViajesForm({ handleAddViaje }: Props) {
   const [form] = Form.useForm();
-  const [api, contextHolder] = notification.useNotification();
+  const { openNotification } = useNotification();
 
-  const openNotification = (placement: NotificationPlacement) => {
-    api.info({
-      type: "success",
-      message: "Operacion exitosa",
-      description: (
-        <Context.Consumer>
-          {({ name }) =>
-            "El viaje ha sido creado exitosamente y lo puede visualizar en la tabla"
-          }
-        </Context.Consumer>
-      ),
-      placement,
-      duration: 1,
-      icon: <CheckCircleOutlined className="text-green-500" />,
-    });
-  };
-
-  const contextValue = useMemo(() => ({ name: "" }), []);
   const onOrigenChange = (value: string) => {
     switch (value) {
       case "Huancayo":
@@ -79,20 +53,37 @@ export function ViajesForm({ handleAddViaje }: Props) {
   };
 
   const onFinish = (values: IViaje) => {
-    openNotification("topRight");
     handleAddViaje(values);
+    openNotification({
+      message: "Viaje creado",
+      description: "El viaje se ha creado satisfactoriamente",
+      placement: "topRight",
+      type: "success",
+    });
     form.resetFields();
   };
 
   const onReset = () => {
     form.resetFields();
   };
-  const destinosUnicos = [
-    ...new Set(viajesDiarios.map((viaje) => viaje.destino)),
-  ];
-  const origenesUnicos = [
-    ...new Set(viajesDiarios.map((viaje) => viaje.origen)),
-  ];
+  const { data: rutas } = useQuery<IRuta>(["ruta"], async () => {
+    try {
+      const response = await fetch("/api/ruta");
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos");
+      }
+      return response.json();
+    } catch (error) {
+      throw error;
+    }
+  });
+  const handleChange = (value: number) => {
+    console.log(`selected ${value.toLocaleString("es-PE", {
+      style: "currency",
+      currency: "PEN",
+    })}
+  }`);
+  };
 
   return (
     <Form
@@ -114,11 +105,12 @@ export function ViajesForm({ handleAddViaje }: Props) {
               onChange={onOrigenChange}
               allowClear
             >
-              {origenesUnicos.map((origen) => (
-                <Option key={origen} value={origen}>
-                  {origen}
-                </Option>
-              ))}
+              {Array.isArray(rutas) &&
+                rutas.map((ruta: IRuta) => (
+                  <Option key={ruta.id} value={ruta.ciudadOrigen}>
+                    {ruta.ciudadOrigen}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -131,11 +123,12 @@ export function ViajesForm({ handleAddViaje }: Props) {
               onChange={onDestinoChange}
               allowClear
             >
-              {destinosUnicos.map((destino) => (
-                <Option key={destino} value={destino}>
-                  {destino}
-                </Option>
-              ))}
+              {Array.isArray(rutas) &&
+                rutas.map((ruta: IRuta) => (
+                  <Option key={ruta.id} value={ruta.ciudadDestino}>
+                    {ruta.ciudadDestino}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -178,17 +171,16 @@ export function ViajesForm({ handleAddViaje }: Props) {
           name="precio"
           rules={[{ required: true, message: "* Requerido" }]}
         >
-          <PriceSelector />
+          <PriceSelector handleChange={handleChange} />
         </Form.Item>
       </div>
 
       <Form.Item>
         <div className="flex gap-2">
-          <Context.Provider value={contextValue}>
-            {contextHolder}
+          <button type="submit" className={style.basicButton}>
+            Crear Viaje
+          </button>
 
-            <button className={style.basicButton}>Crear Viaje</button>
-          </Context.Provider>
           <Button htmlType="button" onClick={onReset}>
             Cancelar
           </Button>

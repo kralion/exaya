@@ -1,4 +1,4 @@
-import type { IEncomienda } from "@/interfaces";
+import type { ICliente, IEncomienda, IViaje } from "@/interfaces";
 import { Tag, Typography } from "antd";
 import EncomiendaDetails from "./detalles-encomienda";
 import Image from "next/image";
@@ -7,13 +7,25 @@ import DeleteEncomienda from "./deleteEncomienda";
 export const columns = [
   {
     title: "Receptor",
-    dataIndex: "nombreReceptor",
-    key: "nombreReceptor",
+    dataIndex: "destinatario",
+    key: "destinatario",
+    render: (destinatario: ICliente) => (
+      <span>
+        {destinatario.nombres} {""}
+        {destinatario.apellidos}
+      </span>
+    ),
   },
   {
     title: "Remitente",
-    dataIndex: "nombreRemitente",
-    key: "nombreRemitente",
+    dataIndex: "remitente",
+    key: "remitente",
+    render: (remitente: ICliente) => (
+      <span>
+        {remitente.nombres} {""}
+        {remitente.apellidos}
+      </span>
+    ),
   },
   {
     title: "Precio",
@@ -30,13 +42,15 @@ export const columns = [
   },
   {
     title: "Destino",
-    dataIndex: "destino",
+    dataIndex: "viaje",
     key: "destino",
+    render: (viaje: IViaje) => <span>{viaje.ruta.ciudadOrigen}</span>,
   },
   {
     title: "Fecha de Envío",
-    dataIndex: "fechaEnvio",
+    dataIndex: "viaje",
     key: "fechaEnvio",
+    render: (viaje: IViaje) => <span>{viaje.fechaSalida}</span>,
   },
   {
     title: "Acciones",
@@ -47,30 +61,26 @@ export const columns = [
           <EncomiendaDetails
             encomienda={encomienda}
             modalActivator="Ver Detalles"
+            estado={encomienda.estado}
           >
             <div className="px-5 pb-10 ">
-              <div className="flex items-center justify-between space-y-2">
+              <div className="flex justify-between">
                 <div className="space-y-3">
                   <p>
                     <Typography.Text strong>Guía: </Typography.Text>
-                    <Typography.Text code> {encomienda.key}</Typography.Text>
+                    <Typography.Text code> {encomienda.guia}</Typography.Text>
                   </p>
-                  <p>
-                    <Typography.Text strong>Clave: </Typography.Text>
-                    <Typography.Text color="red" code>
-                      {encomienda.claveRastreo?.toUpperCase() ?? "S/N"}
-                    </Typography.Text>
-                  </p>
+
                   <p>
                     <Typography.Text strong>Remitente: </Typography.Text>
                     <Typography.Text>
-                      {encomienda.nombreRemitente}
+                      {encomienda.remitente.nombres}
                     </Typography.Text>
                   </p>
                   <p>
                     <Typography.Text strong>Receptor: </Typography.Text>
                     <Typography.Text>
-                      {encomienda.nombreReceptor}
+                      {encomienda.destinatario.nombres}
                     </Typography.Text>
                   </p>
                   <p>
@@ -81,18 +91,24 @@ export const columns = [
                   </p>
                   <p>
                     <Typography.Text strong>Destino: </Typography.Text>
-                    <Typography.Text>{encomienda.destino}</Typography.Text>
+                    <Typography.Text>
+                      {encomienda.viaje.ruta.ciudadOrigen}
+                    </Typography.Text>
                   </p>
                   <p>
                     <Typography.Text strong>Fecha de Envío: </Typography.Text>
-                    <Typography.Text>{encomienda.fechaEnvio}</Typography.Text>
+                    <Typography.Text>
+                      {encomienda.viaje.fechaSalida}
+                    </Typography.Text>
                   </p>
-                  <p>
-                    <Typography.Text strong>Descripción: </Typography.Text>
-                    <Typography.Text>{encomienda.contenido}</Typography.Text>
-                  </p>
+                  <hr className="mb-7 mt-3 w-64" />
+
                   <p>
                     <Typography.Text strong>Contenido: </Typography.Text>
+                    <Typography.Text>{encomienda.contenido}</Typography.Text>
+                  </p>
+                  <p className="flex flex-col ">
+                    <Typography.Text strong>Descripción: </Typography.Text>
                     <Typography.Text>{encomienda.descripcion}</Typography.Text>
                   </p>
                 </div>
@@ -123,7 +139,7 @@ export const columns = [
               Eliminar
             </Button>
           </Popconfirm> */}
-          <DeleteEncomienda keyEncomienda={encomienda.key} />
+          <DeleteEncomienda keyEncomienda={encomienda.guia} />
         </div>
       );
     },

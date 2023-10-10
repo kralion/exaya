@@ -1,7 +1,7 @@
 export interface IRuta {
   id: number;
-  ciudad_origen: string;
-  ciudad_destino: string;
-  duracion_estimada?: number | null;
+  ciudadOrigen: string;
+  ciudadDestino: string;
+  duracionEstimada?: number | null;
   tarifas?: number[];
 }

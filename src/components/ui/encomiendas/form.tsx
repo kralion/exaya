@@ -1,7 +1,14 @@
 import type { IEncomienda } from "@/interfaces";
-import { PhoneOutlined } from "@ant-design/icons";
 import type { CascaderProps, DatePickerProps } from "antd";
-import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Switch,
+} from "antd";
 import styles from "./frame.module.css";
 
 const { Option } = Select;
@@ -36,6 +43,7 @@ const formItemLayout = {
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
 import { Title } from "@mantine/core";
+import { BsTelephone } from "react-icons/bs";
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
@@ -130,7 +138,7 @@ export function EncomiendasForm() {
             type="number"
             controls={false}
             maxLength={9}
-            addonBefore={<PhoneOutlined title="N° celular" />}
+            addonBefore={<BsTelephone title="N° celular" />}
             style={{ width: "100%" }}
           />
         </Form.Item>
@@ -148,7 +156,7 @@ export function EncomiendasForm() {
             controls={false}
             maxLength={9}
             type="number"
-            addonBefore={<PhoneOutlined title="N° celular" />}
+            addonBefore={<BsTelephone title="N° celular" />}
             style={{ width: "100%" }}
           />
         </Form.Item>
@@ -235,8 +243,8 @@ export function EncomiendasForm() {
             </Select>
           </Form.Item>
           <Form.Item
-            name="pago"
-            label="Pagado"
+            name="estado"
+            label="Estado"
             className="w-full min-w-[100px]"
             rules={[
               {
@@ -245,10 +253,16 @@ export function EncomiendasForm() {
               },
             ]}
           >
-            <Select onChange={onVoucherTypeChange} placeholder="Selecciona">
-              <Option value="boleto">Pagado</Option>
-              <Option value="factura">Por Pagar</Option>
-            </Select>
+            <Switch
+              checkedChildren="Pagado"
+              unCheckedChildren="Por Pagar"
+              className="bg-red-500 uppercase "
+              onChange={(checked) =>
+                form.setFieldsValue({
+                  estado: checked ? "Pagado" : "Por Pagar",
+                })
+              }
+            />
           </Form.Item>
         </div>
         <Form.Item

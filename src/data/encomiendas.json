@@ -1,146 +1,28 @@
 [
   {
-    "key": "F004-298",
-    "nombreRemitente": "María Fernández González",
-    "nombreReceptor": "Carlos Martínez López",
-    "telefonoRemitente": 987654321,
-    "telefonoReceptor": 123456789,
+    "id": "asdcfhgvasdwiejr1234124",
+    "guia": "F004-298",
+    "remitente": {
+      "nombres": "María",
+      "apellidos": "Fernández González",
+      "telefono": "987654321"
+    },
+    "destinatario": {
+      "nombres": "Carlos",
+      "apellidos": "Martínez López",
+      "telefono": "123456789"
+    },
+    "viaje": {
+      "fechaSalida": "2023-08-15",
+      "ruta": {
+        "ciudadOrigen": "Lima",
+        "ciudadDestino": "Cusco"
+      }
+    },
     "comprobante": "Boleto",
-    "destino": "Lima",
     "precio": 15.5,
-    "fechaEnvio": "2023-08-15",
     "contenido": "Electrónicos",
     "descripcion": "Smartphone, auriculares, cargador",
-    "claveRastreo": "F0154",
-    "estado": "Pagado"
-  },
-  {
-    "key": "B002-234  ",
-    "nombreRemitente": "Luis Torres Mendoza",
-    "nombreReceptor": "Ana Rodríguez García",
-    "telefonoRemitente": 998877665,
-    "comprobante": "Factura",
-    "telefonoReceptor": 554433221,
-    "destino": "Arequipa",
-    "precio": 8.75,
-    "fechaEnvio": "2023-08-16",
-    "contenido": "Libros",
-    "descripcion": "Novela, libro de cocina",
-    "claveRastreo": "F0154",
-    "estado": "Pagado"
-  },
-  {
-    "key": "C001-123",
-    "nombreRemitente": "Elena Vargas Jiménez",
-    "nombreReceptor": "Gabriel Soto Rojas",
-    "comprobante": "Boleto",
-    "telefonoRemitente": 765432109,
-    "telefonoReceptor": 210987654,
-    "destino": "Trujillo",
-    "precio": 12.25,
-    "fechaEnvio": "2023-08-17",
-    "contenido": "Juguetes",
-    "descripcion": "Muñeca, pelota, rompecabezas",
-    "claveRastreo": "F0154",
-    "estado": "Pagado"
-  },
-  {
-    "key": "B003-345",
-    "nombreRemitente": "Andrés López Cruz",
-    "nombreReceptor": "Laura Pérez Ramírez",
-    "comprobante": "Boleto",
-    "telefonoRemitente": 112233445,
-    "telefonoReceptor": 556677889,
-    "destino": "Cusco",
-    "precio": 20.0,
-    "fechaEnvio": "2023-08-18",
-    "contenido": "Artesanía",
-    "descripcion": "Textiles, cerámica",
-    "claveRastreo": "F0154",
-    "estado": "Pagado"
-  },
-  {
-    "key": "py75qwe23r",
-    "nombreRemitente": "Patricia Gómez Silva",
-    "comprobante": "Boleto",
-    "nombreReceptor": "Martín Navarro Pérez",
-    "telefonoRemitente": 888999444,
-    "telefonoReceptor": 333444555,
-    "destino": "Piura",
-    "precio": 14.75,
-    "fechaEnvio": "2023-08-19",
-    "contenido": "Cosméticos",
-    "descripcion": "Maquillaje, cremas",
-    "estado": "Por Pagar"
-  },
-  {
-    "key": "lm09ujh65k",
-    "nombreRemitente": "Roberto Medina Ruiz",
-    "comprobante": "Factura",
-    "nombreReceptor": "Carolina Suárez Paredes",
-    "telefonoRemitente": 765432198,
-    "telefonoReceptor": 109876543,
-    "destino": "Chiclayo",
-    "precio": 9.5,
-    "fechaEnvio": "2023-08-20",
-    "contenido": "Ropa",
-    "descripcion": "Vestido, camiseta",
-    "estado": "Por Pagar"
-  },
-  {
-    "key": "qw12poi45u",
-    "nombreRemitente": "Daniel Romero Castro",
-    "nombreReceptor": "Isabel Cordero Morales",
-    "telefonoRemitente": 777888999,
-    "telefonoReceptor": 111222333,
-    "destino": "Tacna",
-    "precio": 7.25,
-    "comprobante": "Boleto",
-    "fechaEnvio": "2023-08-21",
-    "contenido": "Alimentos",
-    "descripcion": "Chocolates, frutas secas",
-    "estado": "Por Pagar"
-  },
-  {
-    "key": "gh34vbn89m",
-    "nombreRemitente": "Carmen Ortega Paredes",
-    "nombreReceptor": "Manuel Ramírez Calderón",
-    "telefonoRemitente": 665544332,
-    "telefonoReceptor": 998877665,
-    "destino": "Iquitos",
-    "comprobante": "Boleto",
-    "precio": 18.0,
-    "fechaEnvio": "2023-08-22",
-    "contenido": "Electrodomésticos",
-    "descripcion": "Licuadora, plancha",
-    "estado": "Por Pagar"
-  },
-  {
-    "key": "jk67ghb21c",
-    "nombreRemitente": "Ana Mendoza Sánchez",
-    "nombreReceptor": "Javier Pérez Huamán",
-    "telefonoRemitente": 543210987,
-    "telefonoReceptor": 987654321,
-    "comprobante": "Boleto",
-    "destino": "Pucallpa",
-    "precio": 16.5,
-    "fechaEnvio": "2023-08-23",
-    "contenido": "Herramientas",
-    "descripcion": "Destornillador, martillo",
-    "estado": "Por Pagar"
-  },
-  {
-    "key": "we78zx21vn",
-    "nombreRemitente": "Laura Guzmán Flores",
-    "nombreReceptor": "Diego Rivas Torres",
-    "telefonoRemitente": 123456789,
-    "comprobante": "Boleto",
-    "telefonoReceptor": 987654321,
-    "destino": "Cajamarca",
-    "precio": 13.75,
-    "fechaEnvio": "2023-08-24",
-    "contenido": "Tecnología",
-    "descripcion": "Tablet, cargador portátil",
-    "estado": "Pagado"
+    "estado": true
   }
 ]

@@ -70,6 +70,8 @@ model Viaje {
     encomiendas  Encomienda[]
     manifiesto   Manifiesto?
     conductores  Conductor[]
+    Ruta         Ruta?        @relation(fields: [rutaId], references: [id])
+    rutaId       Int?
 }
 
 model Encomienda {
@@ -96,4 +98,15 @@ model Bus {
     modelo   String
     placa    String @unique
     asientos Int
+}
+
+model Ruta {
+    id Int @id @default(autoincrement())
+
+    ciudadOrigen     String
+    ciudadDestino    String
+    duracionEstimada Int?
+    tarifas          Int[]
+
+    viajes Viaje[]
 }

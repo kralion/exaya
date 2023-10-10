@@ -56,6 +56,7 @@ export default function LandingLayout({
                 height={40}
                 className=" drop-shadow-xl"
                 alt="logo"
+                priority
               />
               <span
                 className={` text-2xl font-bold  lg:text-3xl ${blackOpsOne.className}`}

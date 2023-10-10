@@ -1,8 +1,9 @@
-export interface ICliente {
-  id: number; //! Cambia esto a un tipo de dato adecuado UUID por ejemplo, porque el id de la base de datos es un no es UUID
-  created_at: string; // Cambia esto a un tipo de fecha adecuado si estás utilizando una biblioteca de manejo de fechas en TypeScript
-  nombres: string;
-  apellidos: string;
-  dni: string;
-  telefono: string;
+import type { IConductor } from "./conductor";
+import type { IPersona } from "./persona";
+import type { IUsuario } from "./usuario";
+
+export interface ICliente extends IPersona {
+  id: string;
+  conductor?: IConductor;
+  usuario?: IUsuario;
 }

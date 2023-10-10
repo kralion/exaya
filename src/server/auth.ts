@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
 
         // Definir el usuario con sus datos
         const user = {
-          id: "1",
+          id: "3",
           email: "admin@admin.com",
           name: "Sergio Vargas",
           password: "password123", // Esta contraseña es solo para fines de demostración. No la uses en producción.

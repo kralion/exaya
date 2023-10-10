@@ -134,6 +134,7 @@ export default function Login() {
             height={50}
             title="Exaya"
             alt="logo"
+            priority
           />
           <h3
             className={`  bg-white bg-clip-text text-left text-4xl leading-none text-transparent   ${blackOpsOne.className} `}

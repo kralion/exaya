@@ -1,9 +1,12 @@
+import type { ICliente } from "./cliente";
+import type { IViaje } from "./viaje";
+
 export interface IBoleto {
-  id: number;
-  created_at: string;
-  id_viaje: string;
-  id_cliente: string;
-  numero_asiento: number;
-  estado: "Pagado" | "Reservado";
+  id: string;
+  createdAt: Date;
+  cliente: ICliente;
+  viaje: IViaje;
+  asiento: number;
+  reservado?: boolean;
   precio: number;
 }

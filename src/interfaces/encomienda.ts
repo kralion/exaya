@@ -1,17 +1,17 @@
+import type { ICliente } from "./cliente";
+import type { IViaje } from "./viaje";
+
 export interface IEncomienda {
-  key: string;
-  nombreRemitente: string;
-  nombreReceptor: string;
-  telefonoRemitente: number;
-  telefonoReceptor: number;
-  destino: string;
+  id: string;
+  remitente: ICliente;
+  destinatario: ICliente;
+  viaje: IViaje;
+  guia: string;
   precio: number;
-  fechaEnvio: string;
   contenido: string;
   descripcion: string;
-  claveRastreo?: string;
   comprobante: "Boleto" | "Factura";
-  estado: "Pagado" | "Por pagar";
+  estado: boolean;
 }
 
 export interface EncomiendasContextProps {

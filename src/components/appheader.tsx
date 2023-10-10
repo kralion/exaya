@@ -33,6 +33,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
             title="Exaya"
             className="animate__animated animate__flip"
             alt="logo"
+            priority
           />
 
           <Title

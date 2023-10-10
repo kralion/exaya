@@ -18,7 +18,7 @@ import type { ColumnsType } from "antd/es/table";
 import { AiFillPrinter } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 
-import type { IViaje } from "@/interfaces";
+import type { IRuta } from "@/interfaces";
 import { Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
@@ -150,6 +150,18 @@ export const ManifiestoTable: React.FC = () => (
     dataSource={pasajeros}
   />
 );
+export const EncomiendasTable: React.FC = () => (
+  <Table
+    pagination={{
+      defaultPageSize: 5,
+      position: ["bottomRight"],
+      pageSizeOptions: ["5", "10", "20", "50"],
+      showSizeChanger: true,
+    }}
+    columns={manifiestoColumns}
+    dataSource={pasajeros}
+  />
+);
 
 const ManifiestoDrawer: React.FC = () => {
   const { openNotification } = useNotification();
@@ -267,6 +279,10 @@ const ManifiestoDrawer: React.FC = () => {
             Pasajeros
           </Title>
           <ManifiestoTable />
+          <Title className="mt-7" order={4}>
+            Encomiendas
+          </Title>
+          <EncomiendasTable />
         </div>
       </Drawer>
     </>
@@ -395,29 +411,32 @@ const columns: ColumnsType<Pasajes> = [
   },
 ];
 
-const salidasDiariasColumns: ColumnsType<IViaje> = [
+const salidasDiariasColumns: ColumnsType<IRuta> = [
   {
-    title: "ID Viaje",
-    dataIndex: "id_viaje",
-    key: "id_viaje",
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
   },
   {
-    title: "Rutas",
-    dataIndex: "rutas",
-    key: "rutas",
+    title: "Origen",
+    dataIndex: "ciudadOrigen",
+    key: "ciudadOrigen",
   },
 ];
 
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const { data, isLoading, isError } = useQuery(["viajes"], async () => {
-    const response = await fetch("/api/viajes");
-    if (!response.ok) {
-      throw new Error("Error al obtener los datos");
+  const { data, isLoading, isError } = useQuery<IRuta>(["ruta"], async () => {
+    try {
+      const response = await fetch("/api/ruta");
+      if (!response.ok) {
+        throw new Error("Error al obtener los datos");
+      }
+      return response.json(); // Devuelve los datos
+    } catch (error) {
+      throw error; // Maneja cualquier error
     }
-    const data = await response.json();
-    return data;
   });
 
   return (
@@ -448,7 +467,7 @@ export function PasajesTable() {
           }
         }
         columns={salidasDiariasColumns}
-        dataSource={data as IViaje[]}
+        dataSource={data}
       />
     </div>
   );
