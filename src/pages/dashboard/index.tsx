@@ -3,7 +3,7 @@ import FacturaIcon from "@/assets/icons/factura.png";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
-import { FieldTimeOutlined } from "@ant-design/icons";
+import { GrSchedulePlay } from "react-icons/gr";
 import { Progress, Statistic, Typography } from "antd";
 import Image from "next/image";
 import AppLayout from "../../components/layout";
@@ -27,7 +27,7 @@ export default function Dashboard() {
                 className="drop-shadow-lg "
                 title="Programados"
                 value={totalViajesProgramados}
-                prefix={<FieldTimeOutlined style={{ color: "red" }} />}
+                prefix={<GrSchedulePlay size={20} className=" opacity-40" />}
               />
 
               <Statistic

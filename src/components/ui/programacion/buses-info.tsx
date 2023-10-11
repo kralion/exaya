@@ -1,60 +1,60 @@
 import React from "react";
 import { Card, Space, Tag } from "antd";
 import { Image } from "antd";
-const { Meta } = Card;
-//! - Meta component is causing an error
-
 import { busesInfo } from "@/data";
-import type { IBusConductorInfo } from "@/interfaces";
 
-export default function BusesInformacion() {
+type TBusInfo = {
+  id: string;
+  bus: {
+    placa: string;
+    foto: string;
+    modelo: string;
+  };
+  ruta: {
+    id: string;
+    rutaSerie: string;
+  };
+  activo: boolean;
+};
+
+const { Meta } = Card;
+
+export function BusesInformacion() {
   return (
     <Space
       direction="vertical"
       size="large"
-      className="grid grid-flow-row grid-cols-2 gap-3.5"
+      className="grid grid-flow-row grid-cols-2 gap-7"
     >
-      {busesInfo.slice(0, 4).map((bus: IBusConductorInfo) => (
+      {busesInfo.map((viaje: TBusInfo) => (
         <Card
-          rootClassName="shadow-md "
+          rootClassName="shadow-md cursor-default font-semibold "
           cover={
             <Image
-              src={bus.foto_bus}
+              src={viaje.bus.foto}
               alt="Bus preview"
               className=" h-40 w-40 object-fill"
             />
           }
           actions={[
-            <Tag
-              color="gold-inverse"
-              className="cursor-default font-semibold"
-              key={bus.estado}
-            >
-              {bus.estado}
+            <Tag color="gold-inverse" key={viaje.id}>
+              {viaje.activo ? "Activo" : "Inactivo"}
             </Tag>,
-            <Tag
-              className="cursor-default font-semibold"
-              color="gold-inverse"
-              key={bus.placaBus}
-            >
-              {bus.placaBus}
+            <Tag color="gold-inverse" key={viaje.bus.placa}>
+              {viaje.bus.placa}
             </Tag>,
-            <Tag
-              className="cursor-default font-semibold"
-              color="gold-inverse"
-              key={bus.ruta}
-            >
-              {bus.ruta}
+            <Tag color="gold-inverse" key={viaje.ruta.id}>
+              {viaje.ruta.rutaSerie}
             </Tag>,
           ]}
-          className="min-w-[240px]"
-          key={bus.id}
+          key={viaje.bus.placa}
+          className="min-w-[230px]"
         >
           <Meta
             description={
               <div className="flex justify-between">
                 <span className="font-semibold">Modelo:</span>
-                <span>{bus.modelo_bus}</span>
+                <span>{viaje.bus.modelo || "Stándar"}</span>
               </div>
             }
           />

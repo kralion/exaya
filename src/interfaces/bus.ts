@@ -1,7 +1,8 @@
 export interface IBus {
-  id: number;
+  id: string;
+  foto: string;
   placa: string;
   marca: string;
-  modelo?: string | null;
+  modelo?: string;
   asientos: number;
 }

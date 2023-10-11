@@ -4,7 +4,7 @@ import {
   ConductoresForm,
   ConductoresInformacion,
 } from "@/components/ui/programacion";
-import BusesInformacion from "@/components/ui/programacion/buses-info";
+import { BusesInformacion } from "@/components/ui/programacion/buses-info";
 import { Title } from "@mantine/core";
 
 export default function ProgramacionBusConductor() {

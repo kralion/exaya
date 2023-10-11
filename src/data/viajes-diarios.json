@@ -7,6 +7,7 @@
     "horaSalida": "20:15",
     "fecha": "2019-10-10",
     "estado": "Venta",
+    "activo": true,
     "precios": [30, 35, 40]
   },
   {
@@ -17,6 +18,7 @@
     "fecha": "2019-10-10",
     "estado": "Lleno",
     "horaSalida": "08:15",
+    "activo": true,
     "precios": [40, 45, 50]
   },
   {
@@ -26,6 +28,7 @@
     "placaBus": "Q2Z-LF9",
     "horaSalida": "20:00",
     "fecha": "2019-10-10",
+    "activo": true,
     "estado": "Venta",
     "precios": [40, 50, 60]
   },
@@ -35,6 +38,7 @@
     "destino": "Selva Baja",
     "placaBus": "J6H-DG4",
     "horaSalida": "21:45",
+    "activo": true,
     "fecha": "2019-10-10",
 
     "estado": "Lleno",
@@ -47,6 +51,7 @@
     "placaBus": "V9B-TA1",
     "fecha": "2019-10-10",
     "estado": "Lleno",
+    "activo": true,
     "horaSalida": "08:30",
     "precios": [35, 40, 50]
   },
@@ -56,7 +61,8 @@
     "destino": "Lima",
     "placaBus": "K7C-MY5",
     "fecha": "2019-10-10",
-    "estado": "Inactivo",
+    "estado": "Venta",
+    "activo": false,
     "horaSalida": "20:30",
     "precios": [50, 55, 60]
   }
