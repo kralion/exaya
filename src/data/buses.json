@@ -13,17 +13,17 @@
       "id": "asfsahgueiasgfe",
       "rutaSerie": "C12"
     },
-    "activo": true
+    "activo": false
   },
   {
     "id": "fhasfasdsajdghsjadkg",
     "bus": {
       "id": "asfasdgasigeig",
-      "placa": "X8M-PK2",
+      "placa": "RCX-A7D",
       "marca": "Mercedes Benz",
       "modelo": "Mercedes Benz",
       "asientos": 45,
-      "foto": "https://img.freepik.com/premium-psd/isolated-realistic-matte-white-city-bus-car-from-left-front-angle-view_16145-3234.jpg?size=626&ext=jpg"
+      "foto": "https://image.shutterstock.com/image-photo/white-modern-comfortable-tourist-bus-260nw-2273138663.jpg"
     },
     "ruta": {
       "id": "asfsahgueiasgfe",
@@ -35,11 +35,11 @@
     "id": "fhasfsasdajdghsjadkg",
     "bus": {
       "id": "asfasdgasigeig",
-      "placa": "X8M-PK2",
+      "placa": "DAT-AA3",
       "marca": "Mercedes Benz",
       "modelo": "Mercedes Benz",
       "asientos": 45,
-      "foto": "https://img.freepik.com/premium-psd/isolated-realistic-matte-white-city-bus-car-from-left-front-angle-view_16145-3234.jpg?size=626&ext=jpg"
+      "foto": "https://img.freepik.com/premium-psd/isolated-realistic-matte-grey-city-bus-car-from-left-front-angle-view_16145-3194.jpg?size=626&ext=jpg"
     },
     "ruta": {
       "id": "asfsasdaahgueiasgfe",

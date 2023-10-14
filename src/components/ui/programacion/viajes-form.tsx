@@ -68,7 +68,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
   };
   const { data: rutas } = useQuery<IRuta>(["ruta"], async () => {
     try {
-      const response = await fetch("/api/ruta");
+      const response = await fetch("/api/ruta/route");
       if (!response.ok) {
         throw new Error("Error al obtener los datos");
       }

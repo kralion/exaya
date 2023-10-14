@@ -20,9 +20,9 @@ export default function Index() {
   return (
     <LandingLayout>
       <AOSWrapper>
-        <div data-aos="fade-up">
+        <div>
           <div>
-            <div className="relative">
+            <div className="relative " data-aos="fade-down">
               <div className="flex text-3xl font-bold tracking-tight lg:mx-40 lg:text-6xl">
                 Conduce tu empresa hacia la excelencia operativa
               </div>
@@ -61,8 +61,8 @@ export default function Index() {
             <Image
               src="https://imgur.com/E8l54Uu.png"
               alt="banner"
-              className="rounded-2x relative  duration-300 
-              "
+              className="rounded-2x relative duration-300"
+              data-aos="fade-up"
               width={1500}
               height={1000}
               priority
@@ -96,14 +96,12 @@ export default function Index() {
             </p>
           </div>
         </div>
-        <div
-          data-aos="zoom-in"
-          className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mr-44 lg:flex-row"
-        >
+        <div className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mr-44 lg:flex-row">
           <Image
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             src={LandingBanner4}
             alt="banner"
+            data-aos="fade-left"
             className="flex  rounded-2xl drop-shadow-xl"
             width={900}
           />

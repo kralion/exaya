@@ -1,6 +1,6 @@
 export default function DevicesVersionSteps() {
   return (
-    <div>
+    <div data-aos="zoom-in">
       <div className="flex">
         <div className="mr-4 flex flex-col items-center">
           <div>
