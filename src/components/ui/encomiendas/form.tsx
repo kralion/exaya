@@ -43,7 +43,6 @@ const formItemLayout = {
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
 import { Title } from "@mantine/core";
-import { BsTelephone } from "react-icons/bs";
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
@@ -57,27 +56,8 @@ export function EncomiendasForm() {
     console.log("Falló el registro de la encomienda");
   };
 
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="PEN">S/.</Option>
-        <Option value="USD">$</Option>
-      </Select>
-    </Form.Item>
-  );
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
-  };
-  const onVoucherTypeChange = (value: string) => {
-    switch (value) {
-      case "Huancayo":
-        form.setFieldsValue({ ruta: "Ay" });
-        break;
-      case "Ayacucho":
-        form.setFieldsValue({ ruta: "Hyo" });
-        break;
-      default:
-    }
   };
 
   return (
@@ -96,81 +76,45 @@ export function EncomiendasForm() {
         className="grid grid-flow-row grid-cols-4 gap-x-3.5"
       >
         <Form.Item
-          name="nombreRemitente"
-          label="Nombre del Remitente"
+          name="dniRemitente"
+          label="DNI del Remitente"
           tooltip="Persona que va a enviar la encomienda"
           rules={[
             {
               required: true,
-              message: "Ingresa el nombre del remitente",
+              message: "Ingresa el DNI",
               whitespace: true,
             },
           ]}
           validateStatus="validating"
-          help="La informacion está siendo validada..."
+          help="Validando..."
         >
-          <Input />
+          <Input placeholder="12345678" />
         </Form.Item>
 
         <Form.Item
-          name="nombreReceptor"
-          label="Nombre del Receptor"
+          name="dniDestinatario"
+          label="DNI del Destinatario"
           tooltip="Persona que va a recibir la encomienda"
           rules={[
             {
               required: true,
-              message: "Ingresa el nombre del receptor",
+              message: "Ingresa el DNI",
               whitespace: true,
             },
           ]}
           validateStatus="validating"
-          help="La informacion está siendo validada..."
+          help="Validando..."
         >
-          <Input />
+          <Input placeholder="12345678" />
         </Form.Item>
 
         <Form.Item
-          name="telefonoRemitente"
-          label="Telf. Remitente"
-          rules={[{ required: true, message: "Verifica este campo" }]}
-        >
-          <InputNumber
-            type="number"
-            controls={false}
-            maxLength={9}
-            addonBefore={<BsTelephone title="N° celular" />}
-            style={{ width: "100%" }}
-          />
-        </Form.Item>
-        <Form.Item
-          name="telefonoReceptor"
-          label="Telf. Receptor"
-          rules={[
-            {
-              required: true,
-              message: "Verifica este campo",
-            },
-          ]}
-        >
-          <InputNumber
-            controls={false}
-            maxLength={9}
-            type="number"
-            addonBefore={<BsTelephone title="N° celular" />}
-            style={{ width: "100%" }}
-          />
-        </Form.Item>
-        <Form.Item
           name="origen"
           label="Origen"
-          rules={[
-            { type: "array", required: true, message: "Selecciona el Origen" },
-          ]}
+          rules={[{ type: "array", required: true, message: "Selecciona" }]}
         >
-          <Select
-            onChange={onVoucherTypeChange}
-            placeholder="Selecciona el Origen "
-          >
+          <Select placeholder="Jr.Angaraes 123 - Huancayo">
             {terminales?.map((terminal, index) => (
               <Option key={index} value={terminal.value}>
                 {terminal.label}
@@ -181,14 +125,9 @@ export function EncomiendasForm() {
         <Form.Item
           name="destino"
           label="Destino"
-          rules={[
-            { type: "array", required: true, message: "Selecciona el Destino" },
-          ]}
+          rules={[{ type: "array", required: true, message: "Selecciona" }]}
         >
-          <Select
-            onChange={onVoucherTypeChange}
-            placeholder="Selecciona el Destino "
-          >
+          <Select placeholder="Jr.Angaraes 123 - Huancayo ">
             {terminales?.map((terminal, index) => (
               <Option key={index} value={terminal.value}>
                 {terminal.label}
@@ -196,31 +135,33 @@ export function EncomiendasForm() {
             ))}
           </Select>
         </Form.Item>
+        <div className="flex gap-3.5">
+          <Form.Item
+            name="precio"
+            label="Precio"
+            rules={[{ required: true, message: "Precio" }]}
+          >
+            <InputNumber
+              type="number"
+              controls={false}
+              style={{ width: "100%" }}
+              placeholder="25"
+            />
+          </Form.Item>
 
-        <Form.Item
-          name="precio"
-          label="Precio"
-          rules={[{ required: true, message: "Precio de la encomienda" }]}
-        >
-          <InputNumber
-            type="number"
-            controls={false}
-            addonAfter={suffixSelector}
-            style={{ width: "100%" }}
-          />
-        </Form.Item>
-
-        <Form.Item
-          name="fechaEnvio"
-          label="Fecha de Envío"
-          tooltip="Fecha en la que se va a cargar al compartimento de encomiendas"
-          rules={[{ required: true, message: "Selecciona la fecha" }]}
-        >
-          <DatePicker
-            className="w-full min-w-[230px]"
-            onChange={onDateChange}
-          />
-        </Form.Item>
+          <Form.Item
+            name="fechaEnvio"
+            label="Fecha de Envío"
+            tooltip="Fecha en la que se va a cargar al compartimento de encomiendas"
+            rules={[{ required: true, message: "Selecciona" }]}
+          >
+            <DatePicker
+              className="w-full min-w-[150px]"
+              placeholder="18/10/2023"
+              onChange={onDateChange}
+            />
+          </Form.Item>
+        </div>
 
         <div className="flex gap-3.5">
           <Form.Item
@@ -229,34 +170,20 @@ export function EncomiendasForm() {
             rules={[
               {
                 required: true,
-                message: "Boleto o Factura",
+                message: "Selecciona",
               },
             ]}
           >
-            <Select
-              style={{ width: 120 }}
-              onChange={onVoucherTypeChange}
-              placeholder="Selecciona"
-            >
+            <Select style={{ width: 120 }} placeholder="Boleto">
               <Option value="boleto">Boleto</Option>
               <Option value="factura">Factura</Option>
             </Select>
           </Form.Item>
-          <Form.Item
-            name="estado"
-            label="Estado"
-            className="w-full min-w-[100px]"
-            rules={[
-              {
-                required: true,
-                message: "Pagado o Por pagar",
-              },
-            ]}
-          >
+          <Form.Item name="estado" label="Estado">
             <Switch
               checkedChildren="Pagado"
               unCheckedChildren="Por Pagar"
-              className="bg-red-500 uppercase "
+              className=" bg-red-500 shadow-lg"
               onChange={(checked) =>
                 form.setFieldsValue({
                   estado: checked ? "Pagado" : "Por Pagar",
@@ -265,35 +192,43 @@ export function EncomiendasForm() {
             />
           </Form.Item>
         </div>
-        <Form.Item
-          name="contenido"
-          label="Contenido de la encomienda"
-          rules={[{ required: true, message: "Que contiene la encomienda" }]}
-        >
-          <Input maxLength={50} />
-        </Form.Item>
+        <div className="col-span-2 flex gap-3.5">
+          <Form.Item name="descripcion" label="Descripción">
+            <Input.TextArea
+              style={{
+                width: 375,
+              }}
+              placeholder="Qué contiene y como se vé la encomienda ?"
+              autoSize={{ minRows: 1, maxRows: 2 }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="viaje"
+            tooltip="En qué viaje se llevara la encomienda"
+            label="Viaje"
+            rules={[
+              {
+                required: true,
+                message: "Selecciona",
+              },
+            ]}
+          >
+            <Select style={{ width: 120 }} placeholder="AYHYO-1">
+              <Option value="ayhyo-1">AYHYO-1</Option>
+              <Option value="hyoay-2">HYOAY-2</Option>
+            </Select>
+          </Form.Item>
+        </div>
 
-        <Form.Item
-          name="descripcion"
-          label="Descripción de la encomienda"
-          className="col-span-2 mb-10"
-          rules={[{ message: "Describe a la encomienda" }]}
-        >
-          <Input.TextArea
-            placeholder="Descripcion de la encomienda para diferenciarla..."
-            autoSize={{ minRows: 1, maxRows: 2 }}
-            maxLength={150}
-          />
-        </Form.Item>
-        <div></div>
-        <div></div>
-        <button type="submit" className={styles.basicButton}>
-          Registrar
-        </button>
+        <div className="col-span-4 flex items-end justify-end gap-3">
+          <button type="submit" className={styles.basicButton}>
+            Registrar
+          </button>
 
-        <Button danger htmlType="reset" onClick={() => form.resetFields()}>
-          Cancelar
-        </Button>
+          <Button htmlType="reset" onClick={() => form.resetFields()}>
+            Cancelar
+          </Button>
+        </div>
       </Form>
     </div>
   );

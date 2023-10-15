@@ -4,39 +4,33 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "@/server/api/trpc";
+import { boletoSchema } from "@/schemas";
 
 export const boletosRouter = createTRPCRouter({
   getAllBoletos: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.boletos.findMany();
+    return ctx.prisma.boleto.findMany();
   }),
   getBoletosById: publicProcedure
-    .input(z.object({ id: z.string() }))
+    //todo: change id to string
+    .input(z.object({ id: z.number() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.boletos.findUnique({ where: { id: input.id } });
+      return ctx.prisma.boleto.findUnique({ where: { id: input.id } });
     }),
   deleteBoletosById: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    //todo: change id to string
+    .input(z.object({ id: z.number() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.boletos.delete({ where: { id: input.id } });
+      return ctx.prisma.boleto.delete({ where: { id: input.id } });
     }),
   createBoletos: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        description: z.string(),
-        price: z.number(),
-        category: z.string(),
-        image: z.string(),
-        stock: z.number(),
-      })
-    )
+    .input(boletoSchema)
     .query(({ input, ctx }) => {
-      return ctx.prisma.boletos.create({ data: input });
+      return ctx.prisma.boleto.create({ data: input });
     }),
   updateBoletos: protectedProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.number(),
         name: z.string(),
         description: z.string(),
         price: z.number(),
@@ -46,7 +40,7 @@ export const boletosRouter = createTRPCRouter({
       })
     )
     .query(({ input, ctx }) => {
-      return ctx.prisma.boletos.update({
+      return ctx.prisma.boleto.update({
         where: { id: input.id },
         data: input,
       });

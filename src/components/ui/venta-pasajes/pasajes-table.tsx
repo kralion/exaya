@@ -25,6 +25,7 @@ import React, { useState } from "react";
 import type { ZodNumberCheck } from "zod";
 import { useNotification } from "@/context/NotificationContext";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import { api } from "@/utils/api";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -427,17 +428,20 @@ const salidasDiariasColumns: ColumnsType<IRuta> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const { data, isLoading, isError } = useQuery<IRuta>(["ruta"], async () => {
-    try {
-      const response = await fetch("/api/ruta/route");
-      if (!response.ok) {
-        throw new Error("Error al obtener los datos");
+  //todo: Cambiar por el hook de react-query
+  const response2 = api.ruta.getAllRutas.useQuery();
+  console.log(response2);
+  const { data, isLoading, isError } = useQuery<IRuta>(
+    ["getAllRutas"],
+    async () => {
+      try {
+        const response = await fetch("/api/ruta/route");
+        return response.json(); // Retorna los datos de la respuest
+      } catch (error) {
+        throw error; // Maneja cualquier error
       }
-      return response.json(); // Devuelve los datos
-    } catch (error) {
-      throw error; // Maneja cualquier error
     }
-  });
+  );
 
   return (
     <div className="w-full">

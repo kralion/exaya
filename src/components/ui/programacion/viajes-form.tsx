@@ -13,9 +13,6 @@ const format = "HH:mm";
 const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
-const onTimeChange = (time: any, timeString: any) => {
-  console.log(time, timeString);
-};
 
 const layout = {
   labelCol: { span: 5 },
@@ -97,7 +94,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
         <div className="flex gap-2">
           <Form.Item
             name="origen"
-            rules={[{ required: true, message: "* Requerido" }]}
+            rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select
               style={{ width: 120 }}
@@ -115,7 +112,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
           </Form.Item>
           <Form.Item
             name="destino"
-            rules={[{ required: true, message: "* Requerido" }]}
+            rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select
               style={{ width: 120 }}
@@ -133,7 +130,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
           </Form.Item>
           <Form.Item
             name="bus"
-            rules={[{ required: true, message: "* Requerido" }]}
+            rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select style={{ width: 120 }} placeholder="Bus" allowClear>
               {viajesDiarios.map((viaje) => (
@@ -145,7 +142,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
           </Form.Item>
           <Form.Item
             name="fecha"
-            rules={[{ required: true, message: "* Requerido" }]}
+            rules={[{ required: true, message: "Selecciona" }]}
           >
             <DatePicker
               style={{ width: 120 }}
@@ -155,21 +152,20 @@ export function ViajesForm({ handleAddViaje }: Props) {
           </Form.Item>
           <Form.Item
             name="hora"
-            rules={[{ required: true, message: "* Requerido" }]}
+            rules={[{ required: true, message: "Selecciona" }]}
           >
             <TimePicker
               use12Hours={true}
               style={{ width: 90 }}
               minuteStep={15}
               format={format}
-              onChange={onTimeChange}
               placeholder="Hora "
             />
           </Form.Item>
         </div>
         <Form.Item
           name="precio"
-          rules={[{ required: true, message: "* Requerido" }]}
+          rules={[{ required: true, message: "Selecciona" }]}
         >
           <PriceSelector handleChange={handleChange} />
         </Form.Item>

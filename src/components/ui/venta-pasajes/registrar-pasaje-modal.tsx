@@ -4,7 +4,6 @@ import style from "./frame.module.css";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import { Title } from "@mantine/core";
-import { AiFillPrinter } from "react-icons/ai";
 import type { IBoleto } from "@/interfaces";
 import { viajesDiarios } from "@/data";
 import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
@@ -15,18 +14,10 @@ const concertOne = Concert_One({
   preload: true,
 });
 import { Button, Form, Input, Select } from "antd";
-import ImprimirNotification from "../../../context/NotificationContext";
+import { useNotification } from "@/context/NotificationContext";
+import { LuDelete, LuPrinter } from "react-icons/lu";
 
 const { Option } = Select;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
 
 const seats = Array.from({ length: 50 }, (_, i) => i + 1);
 
@@ -40,7 +31,11 @@ export const RegistrarPasajeModal: React.FC = () => {
   };
 
   const onFinish = (values: IBoleto) => {
-    console.log(`El precio es ${values.precio}`);
+    try {
+      form.getFieldsValue.length > 0
+        ? (setDisabledPrint(false), console.log(values.id))
+        : setDisabledPrint(true);
+    } catch (error) {}
   };
 
   const onReset = () => {
@@ -50,12 +45,15 @@ export const RegistrarPasajeModal: React.FC = () => {
   const handleSeatClick = (seatNumber: number) => {
     setOpenRegister(true);
   };
+
+  const [disabledPrint, setDisabledPrint] = useState(true);
   const destinosUnicos = [
     ...new Set(viajesDiarios.map((viaje) => viaje.destino)),
   ];
   const origenesUnicos = [
     ...new Set(viajesDiarios.map((viaje) => viaje.origen)),
   ];
+  const { openNotification } = useNotification();
 
   return (
     <div>
@@ -159,128 +157,123 @@ export const RegistrarPasajeModal: React.FC = () => {
         width={700}
         footer={null}
       >
-        <Form
-          {...layout}
-          form={form}
-          className="mt-10 "
-          name="control-hooks"
-          onFinish={onFinish}
-          style={{ width: 500 }}
-        >
-          <Form.Item
-            name="dni"
-            label="DNI"
-            rules={[
-              { required: true },
-              { min: 8, message: "El DNI debe tener 8 dígitos" },
-              { max: 8, message: "El DNI debe tener 8 dígitos" },
-            ]}
-            validateStatus="validating"
-            help="La informacion está siendo validada..."
+        <div className="mt-7 flex items-end justify-between gap-10">
+          <Form
+            layout="vertical"
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ width: 500 }}
           >
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item
-            name="asiento"
-            label="Asiento"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="1-45" type="number" />
-          </Form.Item>
-          <Form.Item name="origen" label="Origen" rules={[{ required: true }]}>
-            <Select placeholder="Donde va a subir el pasajero" allowClear>
-              {origenesUnicos.map((origen) => (
-                <Option key={origen} value={origen}>
-                  {origen}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="destino"
-            label="Destino"
-            rules={[{ required: true }]}
-          >
-            <Select placeholder="Donde va a bajar el pasajero" allowClear>
-              {destinosUnicos.map((destino) => (
-                <Option key={destino} value={destino}>
-                  {destino}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="nombres"
-            label="Nombres"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="apellidos"
-            label="Apellidos"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="precio" label="Precio" rules={[{ required: true }]}>
-            <Select
-              placeholder="Selecciona un precio"
-              onChange={onPriceChange}
-              allowClear
+            <Form.Item
+              name="dni"
+              label="DNI"
+              rules={[
+                { required: true },
+                { min: 8, message: "El DNI debe tener 8 dígitos" },
+                { max: 8, message: "El DNI debe tener 8 dígitos" },
+              ]}
+              validateStatus="validating"
+              help="La informacion está siendo validada..."
             >
-              <Option value="30">30</Option>
-              <Option value="45">45</Option>
-              <Option value="otro">Otro</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            noStyle
-            shouldUpdate={(prevValues, currentValues) =>
-              prevValues.precio !== currentValues.precio
-            }
-          >
-            {({ getFieldValue }) =>
-              getFieldValue("precio") === "otro" ? (
-                <Form.Item
-                  name="precioCustomizado"
-                  label="Precio Customizado"
-                  rules={[{ required: true }]}
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              name="asiento"
+              label="Asiento"
+              rules={[{ required: true }]}
+            >
+              <Input placeholder="1-45" type="number" />
+            </Form.Item>
+            <Form.Item
+              name="origen"
+              label="Origen"
+              rules={[{ required: true, message: "Selecciona" }]}
+            >
+              <Select placeholder="Huancayo" allowClear>
+                {origenesUnicos.map((origen) => (
+                  <Option key={origen} value={origen}>
+                    {origen}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="destino"
+              label="Destino"
+              rules={[{ required: true, message: "Selecciona" }]}
+            >
+              <Select placeholder="Huancayo" allowClear>
+                {destinosUnicos.map((destino) => (
+                  <Option key={destino} value={destino}>
+                    {destino}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="precio"
+              label="Precio"
+              rules={[{ required: true, message: "Selecciona" }]}
+            >
+              <Select placeholder="40" onChange={onPriceChange} allowClear>
+                <Option value="30">30</Option>
+                <Option value="45">45</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item>
+              <div className="mt-5 flex items-center justify-between">
+                <button
+                  style={{
+                    width: 150,
+                  }}
+                  className={style.button}
+                  type="submit"
                 >
-                  <Input type="number" />
-                </Form.Item>
-              ) : null
-            }
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <div className="mt-5 flex justify-between">
-              <Button htmlType="button" onClick={onReset}>
-                Limpiar
-              </Button>
-              <button
-                style={{
-                  width: 150,
-                }}
-                className={style.button}
-                type="submit"
-              >
-                Registrar
-              </button>
-              <ImprimirNotification
-                printerButton={
-                  <Tag
-                    color="green"
-                    icon={<AiFillPrinter />}
-                    className="flex h-8 cursor-pointer items-center justify-center  gap-1.5  hover:opacity-80 "
-                    title="Se va a imprimir automaticamente"
-                  >
-                    Imprimir
-                  </Tag>
-                }
-              />
-            </div>
-          </Form.Item>
-        </Form>
+                  Registrar
+                </button>
+                <div className=" flex gap-2">
+                  <Button
+                    icon={<LuDelete className="text-red-500" size={25} />}
+                    type="text"
+                    htmlType="button"
+                    onClick={onReset}
+                  />
+
+                  <Button
+                    disabled={disabledPrint}
+                    icon={
+                      <LuPrinter
+                        className={
+                          disabledPrint ? "text-gray-500" : "text-green-500"
+                        }
+                        size={25}
+                      />
+                    }
+                    title="Imprimir"
+                    type="text"
+                    onClick={() =>
+                      openNotification({
+                        placement: "topRight",
+                        message: "Operacion Exitosa",
+                        description: "Redireccionando a Impresion",
+                        type: "success",
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            </Form.Item>
+          </Form>
+          <Image
+            src="https://ouch-cdn2.icons8.com/QKhMfF_-HH3tC3cgsPxTY2OdvwdvfitJ06ecTAiPaxU/rs:fit:368:645/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzY2/LzMwYTJlMzdkLTZk/MDQtNGRmZC05Y2U4/LTIxZDhkYzYwZDEw/MC5wbmc.png"
+            alt="logo"
+            height={50}
+            width={280}
+          />
+        </div>
       </Modal>
     </div>
   );
