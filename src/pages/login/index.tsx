@@ -96,10 +96,10 @@ export default function Login() {
       </div>
       <Link
         href="/"
-        className="fixed right-[560px] top-3 flex items-center justify-center  rounded-xl px-4 py-2 text-sm text-zinc-700  shadow duration-200 hover:bg-orange-100"
+        className="fixed right-3 top-3 flex items-center justify-center text-sm hover:opacity-60  "
       >
         <HiOutlineArrowLeft className="mr-2" />
-        Atrás
+        Ir Atrás
       </Link>
       {/* //
       "url(https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg&ga=GA1.1.631442079.1696688262&semt=sph)", */}
