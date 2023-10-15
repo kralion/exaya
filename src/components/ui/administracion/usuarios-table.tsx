@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Space, Table, Tag, Popconfirm } from "antd";
 import { usuarios } from "@/data";
 import type { IUsuario } from "@/interfaces";
+import { UsuarioContextProvider, useUsuario } from "@/context/UsuarioContext";
 
 const columns = [
   {
@@ -86,8 +87,6 @@ const columns = [
   },
 ];
 
-const UsuariosTable: React.FC = () => (
-  <Table columns={columns} dataSource={usuarios} />
-);
-
-export default UsuariosTable;
+export default function UsuariosTable() {
+  return <Table columns={columns} dataSource={usuarios} />;
+}

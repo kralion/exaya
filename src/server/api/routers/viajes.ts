@@ -5,7 +5,7 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 
-export const viajeRouter = createTRPCRouter({
+export const viajesRouter = createTRPCRouter({
   getAllViajes: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.viaje.findMany();
   }),

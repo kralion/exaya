@@ -32,7 +32,7 @@ const blackOpsOne = Black_Ops_One({
 });
 
 export default function Login() {
-  const version = api.example.exayaVersion.useQuery({ text: "0.1.13" });
+  const version = api.version.exayaVersion.useQuery({ text: "0.1.13" });
   const { openNotification } = useNotification();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

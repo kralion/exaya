@@ -6,6 +6,10 @@ import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { RoundedButton } from "@/components/ui/rounded-button";
+import {
+  UsuarioContextProvider,
+  UsuarioProvider,
+} from "@/context/UsuarioContext";
 import { mockData } from "@/data";
 import { Title } from "@mantine/core";
 import { DatePicker, Select } from "antd";
@@ -74,6 +78,7 @@ export default function Administracion() {
         </Title>
         <UsuarioForm activator="Agregar Usuario" />
       </div>
+
       <UsuariosTable />
       <div>
         <div className="flex justify-between">

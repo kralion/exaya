@@ -1,22 +1,24 @@
 import { useContext, createContext, useState } from "react";
-import { boletosRouter } from "@/server/api/routers";
 
-import type { IUsuario } from "@/interfaces";
+import type { IPersona, IUsuario } from "@/interfaces";
+import { api } from "@/utils/api";
 
 type UsuarioContextType = {
   usuarios: IUsuario[];
   setUsuarios: (usuarios: IUsuario[]) => void;
   handleAddUsuario: (usuario: IUsuario) => void;
+  usuario: IPersona;
 };
 
 const UsuarioContext = createContext<UsuarioContextType | undefined>(undefined);
 
-export const UsuarioProvider = ({
+export const UsuarioContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
   const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
+  const usuario = api.personas.getPersonaById.useQuery({ id: 1 });
 
   const handleAddUsuario = (usuario: IUsuario) => {
     setUsuarios([...usuarios, usuario]);
@@ -24,7 +26,7 @@ export const UsuarioProvider = ({
 
   return (
     <UsuarioContext.Provider
-      value={{ usuarios, setUsuarios, handleAddUsuario }}
+      value={{ usuarios, setUsuarios, handleAddUsuario, usuario }}
     >
       {children}
     </UsuarioContext.Provider>

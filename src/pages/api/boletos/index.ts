@@ -7,14 +7,16 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const { data: viajes, error } = await supabase.from("viaje").select("*");
+      const { data: boletos, error } = await supabase
+        .from("boleto")
+        .select("*");
       if (error) {
         throw error;
       }
-      res.status(200).json(viajes);
+      res.status(200).json(boletos);
     } catch (error) {
-      console.error("Error al obtener los viajes:", error);
-      res.status(500).json({ error: "Error al obtener los viajes" });
+      console.error("Error al obtener los boletos:", error);
+      res.status(500).json({ error: "Error al obtener los boletos" });
     }
   } else {
     res.status(405).json({ error: "Método no permitido" });

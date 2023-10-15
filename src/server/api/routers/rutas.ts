@@ -1,9 +1,9 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 
-export const rutaRouter = createTRPCRouter({
+export const rutasRouter = createTRPCRouter({
   getAllRutas: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.ruta.findMany();
+    return ctx.prisma.ruta.findFirst();
   }),
   getRutasById: publicProcedure
     .input(z.object({ id: z.number() }))

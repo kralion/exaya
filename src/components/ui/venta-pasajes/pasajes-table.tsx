@@ -428,14 +428,13 @@ const salidasDiariasColumns: ColumnsType<IRuta> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  //todo: Cambiar por el hook de react-query
   const response2 = api.ruta.getAllRutas.useQuery();
   console.log(response2);
   const { data, isLoading, isError } = useQuery<IRuta>(
     ["getAllRutas"],
     async () => {
       try {
-        const response = await fetch("/api/ruta/route");
+        const response = await fetch("/api/ruta");
         return response.json(); // Retorna los datos de la respuest
       } catch (error) {
         throw error; // Maneja cualquier error

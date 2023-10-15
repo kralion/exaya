@@ -63,9 +63,9 @@ export function ViajesForm({ handleAddViaje }: Props) {
   const onReset = () => {
     form.resetFields();
   };
-  const { data: rutas } = useQuery<IRuta>(["ruta"], async () => {
+  const { data: rutas } = useQuery<IRuta>(["getAllRutas"], async () => {
     try {
-      const response = await fetch("/api/ruta/route");
+      const response = await fetch("/api/ruta");
       if (!response.ok) {
         throw new Error("Error al obtener los datos");
       }

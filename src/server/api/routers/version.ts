@@ -6,7 +6,7 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 
-export const exampleRouter = createTRPCRouter({
+export const versionRouter = createTRPCRouter({
   // Example of a public procedure
   exayaVersion: publicProcedure
     .input(z.object({ text: z.string() }))
@@ -14,6 +14,12 @@ export const exampleRouter = createTRPCRouter({
       return {
         currentVersion: `v ${input.text}`,
       };
+    }),
+
+  getUserById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.usuario.findUnique({ where: { id: input.id } });
     }),
 
   getSecretMessage: protectedProcedure.query(() => {
