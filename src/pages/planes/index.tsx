@@ -7,9 +7,9 @@ export default function Planes() {
   return (
     <LandingLayout>
       <AppHead title="Membresías" />
-      <div className="space-y-5 pb-16">
+      <div className="space-y-5 pb-10">
         <h1 className="text-2xl font-bold lg:text-5xl">Planes a Medida</h1>
-        <h4 className=" px-6 font-semibold tracking-tight lg:px-96">
+        <h4 className=" px-6  tracking-tight lg:px-[450px]">
           Contamos con planes que se adaptan a tu negocio y necesidades, para
           que puedas elegir el que mejor se adapte a ti.
         </h4>

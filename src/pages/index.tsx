@@ -57,31 +57,32 @@ export default function Index() {
                 alt="asset"
               />
             </div>
-
-            <Image
-              src="https://imgur.com/E8l54Uu.png"
-              alt="banner"
-              className="rounded-2x relative duration-300"
-              data-aos="fade-up"
-              width={1500}
-              height={1000}
-              priority
-            />
+            <div className="relative">
+              <Image
+                src="https://imgur.com/E8l54Uu.png"
+                alt="banner"
+                className="rounded-2x duration-300"
+                data-aos="fade-up"
+                width={1500}
+                height={1000}
+                priority
+              />
+              <blockquote className=" absolute bottom-36 right-44  lg:text-4xl">
+                <p className={`${dancing_Script.className} `}>
+                  La elección
+                  <Tag
+                    color="gold-inverse"
+                    data-aos="flip-up"
+                    data-aos-duration="200"
+                    className={` ${dancing_Script.className} mx-2  rounded-lg px-2 drop-shadow-lg lg:text-4xl`}
+                  >
+                    SaaS
+                  </Tag>
+                  de las empresas líderes
+                </p>
+              </blockquote>
+            </div>
           </div>
-          <blockquote className=" absolute bottom-36 right-44  lg:text-4xl">
-            <p className={`${dancing_Script.className} `}>
-              La elección
-              <Tag
-                color="gold-inverse"
-                data-aos="flip-up"
-                data-aos-duration="200"
-                className={` ${dancing_Script.className} mx-2  rounded-lg px-2 drop-shadow-lg lg:text-4xl`}
-              >
-                SaaS
-              </Tag>
-              de las empresas líderes
-            </p>
-          </blockquote>
         </div>
         <div className=" mb-24 mt-10 space-y-3">
           <h1 className="text-3xl font-bold tracking-tight lg:mx-20 lg:text-4xl">
