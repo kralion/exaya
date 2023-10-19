@@ -5,6 +5,7 @@ const viajeSchema = z.object({
   origen: z.string(),
   destino: z.string(),
   fechaSalida: z.date(),
+  fechaLlegada: z.date(),
   tarifas: z.array(z.number().nonnegative().min(1)),
   estado: z.boolean(),
   horaSalida: z.string(),

@@ -428,7 +428,7 @@ const salidasDiariasColumns: ColumnsType<IRuta> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const rutas = api.rutas.getAllRutas.useQuery();
+  const rutas = api.rutas.getRutasById.useQuery({ id: 3 });
 
   const { data, isLoading, isError } = useQuery<IRuta>(
     ["getAllRutas"],
@@ -472,9 +472,7 @@ export function PasajesTable() {
         columns={salidasDiariasColumns}
         dataSource={data}
       />
-      <span className="text-4xl">
-        from tRPC== {rutas.data?.duracionEstimada}
-      </span>
+      <span className="text-xl">usign : {rutas.data?.id}</span>
     </div>
   );
 }
