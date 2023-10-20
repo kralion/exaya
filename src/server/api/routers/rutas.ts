@@ -6,16 +6,18 @@ export const rutasRouter = createTRPCRouter({
   getAllRutas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.ruta.findFirst();
   }),
-  getRutasById: publicProcedure
-    .input(z.object({ id: z.number() }))
+  getRutasByOrigin: publicProcedure
+    .input(z.object({ ciudadOrigen: z.string() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.ruta.findUnique({ where: { id: input.id } });
+      return ctx.prisma.ruta.findFirst({
+        where: { ciudadOrigen: input.ciudadOrigen },
+      });
     }),
   createRuta: protectedProcedure.input(rutaSchema).query(({ input, ctx }) => {
     return ctx.prisma.ruta.create({ data: input });
   }),
   deleteRuta: protectedProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.ruta.delete({ where: { id: input.id } });
     }),

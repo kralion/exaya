@@ -428,7 +428,9 @@ const salidasDiariasColumns: ColumnsType<IRuta> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const rutas = api.rutas.getRutasById.useQuery({ id: 3 });
+  const rutas = api.rutas.getRutasByOrigin.useQuery({
+    ciudadOrigen: "Huancayo",
+  });
 
   const { data, isLoading, isError } = useQuery<IRuta>(
     ["getAllRutas"],
@@ -461,7 +463,7 @@ export function PasajesTable() {
         dataSource={pasajesDiarios}
       />
       {isError && <div>Sucedió algo al cargar los datos</div>}
-      <Table
+      {/* <Table
         pagination={false}
         loading={
           isLoading && {
@@ -471,8 +473,8 @@ export function PasajesTable() {
         }
         columns={salidasDiariasColumns}
         dataSource={data}
-      />
-      <span className="text-xl">usign : {rutas.data?.id}</span>
+      /> */}
+      <span className="font-semibold">tRPC : {rutas.data?.ciudadDestino}</span>
     </div>
   );
 }
