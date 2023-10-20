@@ -1,4 +1,3 @@
-// import { dataSource } from "@/data/viajes-diarios";
 import { viajesDiarios as dataSource } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
 import { TfiMoreAlt } from "react-icons/tfi";
@@ -18,14 +17,13 @@ import type { ColumnsType } from "antd/es/table";
 import { AiFillPrinter } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 
-import type { IRuta } from "@/interfaces";
 import { Title } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import type { ZodNumberCheck } from "zod";
+import type { ZodNumberCheck, z } from "zod";
 import { useNotification } from "@/context/NotificationContext";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { api } from "@/utils/api";
+import type { rutaSchema } from "@/schemas";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -412,7 +410,7 @@ const columns: ColumnsType<Pasajes> = [
   },
 ];
 
-const salidasDiariasColumns: ColumnsType<IRuta> = [
+const salidasDiariasColumns: ColumnsType<z.infer<typeof rutaSchema>> = [
   {
     title: "ID",
     dataIndex: "id",
@@ -428,53 +426,43 @@ const salidasDiariasColumns: ColumnsType<IRuta> = [
 const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
-  const rutas = api.rutas.getRutasByOrigin.useQuery({
-    ciudadOrigen: "Huancayo",
-  });
-
-  const { data, isLoading, isError } = useQuery<IRuta>(
-    ["getAllRutas"],
-    async () => {
-      try {
-        const response = await fetch("/api/ruta");
-        return response.json(); // Retorna los datos de la respuest
-      } catch (error) {
-        throw error; // Maneja cualquier error
-      }
-    }
-  );
+  const {
+    data: rutas,
+    isLoading,
+    isFetching,
+  } = api.rutas.getAllRutas.useQuery();
 
   return (
     <div className="w-full">
       <Title order={5} className="mb-3.5">
         Pasajes Diarios
       </Title>
-
       <Table
         pagination={false}
         loading={
-          // isLoading && {
-          //   spinning: true,
-          //   size: "large",
-          // }
-          false
+          isLoading ||
+          (isFetching && {
+            spinning: true,
+            size: "large",
+          })
         }
         columns={columns}
         dataSource={pasajesDiarios}
       />
-      {isError && <div>Sucedió algo al cargar los datos</div>}
+
+      {/* //TODO: Hacer que se muestre la tabla de salidas diarias */}
       {/* <Table
         pagination={false}
         loading={
-          isLoading && {
+          isLoading ||
+          (isFetching && {
             spinning: true,
             size: "large",
-          }
+          })
         }
         columns={salidasDiariasColumns}
-        dataSource={data}
+        dataSource={rutas}
       /> */}
-      <span className="font-semibold">tRPC : {rutas.data?.ciudadDestino}</span>
     </div>
   );
 }

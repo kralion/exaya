@@ -1,10 +1,16 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
-export function middleware(request: NextRequest) {
-  return NextResponse.redirect(new URL("/home", request.url));
-}
+export default withAuth({
+  callbacks: {
+    authorized({ req, token }) {
+      // `/admin` requires admin role
+      if (req.nextUrl.pathname === "/admin") {
+        return token?.userRole === "admin";
+      }
+      // `/me` only requires the user to be logged in
+      return !!token;
+    },
+  },
+});
 
-export const config = {
-  matcher: ["/dashboard", "/contable", "/venta-pasajes", "administracion"],
-};
+export const config = { matcher: ["/admin", "/me"] };

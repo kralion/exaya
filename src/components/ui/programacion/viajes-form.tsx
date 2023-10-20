@@ -65,6 +65,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
   };
   const { data: rutas } = useQuery<IRuta>(["getAllRutas"], async () => {
     try {
+      //TODO: Cambiar por la ruta correcta con tRPC
       const response = await fetch("/api/ruta");
       if (!response.ok) {
         throw new Error("Error al obtener los datos");
