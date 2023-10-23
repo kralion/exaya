@@ -6,7 +6,7 @@ import { Button, DatePicker, Form, Select, TimePicker } from "antd";
 import React from "react";
 import style from "./frame.module.css";
 import PriceSelector from "./price-selector";
-import { useQuery } from "@tanstack/react-query";
+import { api } from "@/utils/api";
 
 const { Option } = Select;
 const format = "HH:mm";
@@ -63,18 +63,11 @@ export function ViajesForm({ handleAddViaje }: Props) {
   const onReset = () => {
     form.resetFields();
   };
-  const { data: rutas } = useQuery<IRuta>(["getAllRutas"], async () => {
-    try {
-      //TODO: Cambiar por la ruta correcta con tRPC
-      const response = await fetch("/api/ruta");
-      if (!response.ok) {
-        throw new Error("Error al obtener los datos");
-      }
-      return response.json();
-    } catch (error) {
-      throw error;
-    }
-  });
+  const {
+    data: rutas,
+    isFetching,
+    isLoading,
+  } = api.rutas.getAllRutas.useQuery();
   const handleChange = (value: number) => {
     console.log(`selected ${value.toLocaleString("es-PE", {
       style: "currency",
@@ -102,13 +95,11 @@ export function ViajesForm({ handleAddViaje }: Props) {
               placeholder="Origen"
               onChange={onOrigenChange}
               allowClear
+              loading={isLoading === true || isFetching === true}
             >
-              {Array.isArray(rutas) &&
-                rutas.map((ruta: IRuta) => (
-                  <Option key={ruta.id} value={ruta.ciudadOrigen}>
-                    {ruta.ciudadOrigen}
-                  </Option>
-                ))}
+              <Option key={rutas?.id} value={rutas?.ciudadOrigen}>
+                {rutas?.ciudadOrigen}
+              </Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -120,13 +111,11 @@ export function ViajesForm({ handleAddViaje }: Props) {
               placeholder="Destino"
               onChange={onDestinoChange}
               allowClear
+              loading={isLoading === true || isFetching === true}
             >
-              {Array.isArray(rutas) &&
-                rutas.map((ruta: IRuta) => (
-                  <Option key={ruta.id} value={ruta.ciudadDestino}>
-                    {ruta.ciudadDestino}
-                  </Option>
-                ))}
+              <Option key={rutas?.id} value={rutas?.ciudadDestino}>
+                {rutas?.ciudadDestino}
+              </Option>
             </Select>
           </Form.Item>
           <Form.Item

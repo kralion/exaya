@@ -7,6 +7,7 @@ const rutaSchema = z.object({
   terminalDestino: z.string(),
   terminalOrigen: z.string(),
   duracionEstimada: z.number().nonnegative().min(1),
+  createdAt: z.date(),
 });
 
 export default rutaSchema;

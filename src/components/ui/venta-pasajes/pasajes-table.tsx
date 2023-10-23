@@ -1,4 +1,4 @@
-import { viajesDiarios as dataSource } from "@/data";
+import { viajesDiarios } from "@/data";
 import type { Pasajes } from "@/interfaces/interfaces";
 import { TfiMoreAlt } from "react-icons/tfi";
 
@@ -410,7 +410,7 @@ const columns: ColumnsType<Pasajes> = [
   },
 ];
 
-const salidasDiariasColumns: ColumnsType<z.infer<typeof rutaSchema>> = [
+const rutasColumns: ColumnsType<z.infer<typeof rutaSchema>> = [
   {
     title: "ID",
     dataIndex: "id",
@@ -422,8 +422,6 @@ const salidasDiariasColumns: ColumnsType<z.infer<typeof rutaSchema>> = [
     key: "ciudadOrigen",
   },
 ];
-
-const pasajesDiarios: Pasajes[] = dataSource;
 
 export function PasajesTable() {
   const {
@@ -447,7 +445,7 @@ export function PasajesTable() {
           })
         }
         columns={columns}
-        dataSource={pasajesDiarios}
+        dataSource={viajesDiarios as Pasajes[]}
       />
 
       {/* //TODO: Hacer que se muestre la tabla de salidas diarias */}
@@ -460,9 +458,10 @@ export function PasajesTable() {
             size: "large",
           })
         }
-        columns={salidasDiariasColumns}
+        columns={rutasColumns}
         dataSource={rutas}
       /> */}
+      {rutas?.ciudadDestino}
     </div>
   );
 }
