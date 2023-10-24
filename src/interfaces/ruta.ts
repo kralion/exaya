@@ -5,4 +5,5 @@ export interface IRuta {
   terminalOrigen: string;
   terminalDestino: string;
   duracionEstimada?: number;
+  createdAt: Date;
 }

@@ -1,13 +1,6 @@
 import type { ColumnProps } from "antd/es/table";
 import type { IEncomienda } from "./encomienda";
-export interface Pasajes {
-  key: string;
-  origen: string;
-  destino: string;
-  placaBus: string;
-  horaSalida: string;
-  precios: number[];
-}
+
 export interface Item {
   viajeId: number;
   origen: string;

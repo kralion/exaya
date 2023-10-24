@@ -1,6 +1,6 @@
 import { useNotification } from "@/context/NotificationContext";
 import { viajesDiarios } from "@/data";
-import type { IRuta, IViaje } from "@/interfaces";
+import type { IViaje } from "@/interfaces";
 import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select, TimePicker } from "antd";
 import React from "react";
@@ -97,9 +97,9 @@ export function ViajesForm({ handleAddViaje }: Props) {
               allowClear
               loading={isLoading === true || isFetching === true}
             >
-              <Option key={rutas?.id} value={rutas?.ciudadOrigen}>
-                {rutas?.ciudadOrigen}
-              </Option>
+              {rutas?.map((ruta) => (
+                <Option key={ruta.id}>{ruta.ciudadOrigen}</Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -113,9 +113,9 @@ export function ViajesForm({ handleAddViaje }: Props) {
               allowClear
               loading={isLoading === true || isFetching === true}
             >
-              <Option key={rutas?.id} value={rutas?.ciudadDestino}>
-                {rutas?.ciudadDestino}
-              </Option>
+              {rutas?.map((ruta) => (
+                <Option key={ruta.id}>{ruta.ciudadDestino}</Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item

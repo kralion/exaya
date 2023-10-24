@@ -1,5 +1,3 @@
-import { viajesDiarios } from "@/data";
-import type { Pasajes } from "@/interfaces/interfaces";
 import { TfiMoreAlt } from "react-icons/tfi";
 
 import {
@@ -17,13 +15,13 @@ import type { ColumnsType } from "antd/es/table";
 import { AiFillPrinter } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 
+import { useNotification } from "@/context/NotificationContext";
+import type { IBus, IRuta, IViaje } from "@/interfaces";
+import { api } from "@/utils/api";
 import { Title } from "@mantine/core";
 import React, { useState } from "react";
-import type { ZodNumberCheck, z } from "zod";
-import { useNotification } from "@/context/NotificationContext";
+import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import { api } from "@/utils/api";
-import type { rutaSchema } from "@/schemas";
 
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
@@ -299,11 +297,12 @@ const items = [
   },
 ];
 
-const columns: ColumnsType<Pasajes> = [
+const viajesColumns: ColumnsType<IViaje> = [
   {
     title: "Origen",
-    dataIndex: "origen",
+    dataIndex: "ruta",
     key: "origen",
+    render: (ruta: IRuta) => <span>{ruta?.duracionEstimada}</span>,
 
     filters: [
       {
@@ -317,13 +316,15 @@ const columns: ColumnsType<Pasajes> = [
     ],
     filterSearch: true,
 
-    onFilter: (value, record) => record.origen.includes(value as string),
+    onFilter: (value, record) =>
+      record.ruta?.ciudadOrigen.includes(value as string),
   },
   {
     title: "Destino",
-    dataIndex: "destino",
+    dataIndex: "ruta",
     key: "destino",
     responsive: ["lg"],
+    render: (ruta: IRuta) => <span>{ruta?.terminalDestino}</span>,
 
     filters: [
       {
@@ -341,16 +342,17 @@ const columns: ColumnsType<Pasajes> = [
     ],
 
     filterSearch: true,
-    onFilter: (value, record) => record.destino.includes(value as string),
+    onFilter: (value, record) =>
+      record.ruta?.ciudadDestino.includes(value as string),
   },
   {
     title: "Bus",
-    dataIndex: "placaBus",
+    dataIndex: "bus",
     key: "placaBus",
     responsive: ["lg"],
 
-    render: (placaBus: string) => (
-      <Tooltip key={placaBus} title={placaBus.toUpperCase()}>
+    render: (bus: IBus) => (
+      <Tooltip key={bus?.id} title={bus?.placa?.toUpperCase()}>
         <TbLicense />
       </Tooltip>
     ),
@@ -358,38 +360,38 @@ const columns: ColumnsType<Pasajes> = [
   {
     title: "Hora Salida",
     dataIndex: "horaSalida",
-    key: "horaSalida",
+    key: "hora",
     responsive: ["lg"],
 
-    render: (horaSalida: string) =>
-      parseInt(horaSalida) < 18 ? (
-        <Tag
-          className="rounded-full font-semibold shadow-md"
-          color="green-inverse"
-        >
-          {horaSalida} am
-        </Tag>
-      ) : (
-        <Tag
-          className="rounded-full font-semibold shadow-md"
-          color="volcano-inverse"
-        >
-          {horaSalida} pm
-        </Tag>
-      ),
+    render: (horaSalida: string) => (
+      // parseInt(horaSalida) < 18 ? (
+      //   <Tag
+      //     className="rounded-full font-semibold shadow-md"
+      //     color="green-inverse"
+      //   >
+      //     {horaSalida} am
+      //   </Tag>
+      // ) : (
+      <Tag
+        className="rounded-full font-semibold shadow-md"
+        color="volcano-inverse"
+      >
+        {horaSalida} pm
+      </Tag>
+    ),
+    // ),
   },
   {
-    title: "Precios",
-
-    key: "precios",
-    dataIndex: "precios",
+    title: "Tarifas",
+    key: "tarifas",
+    dataIndex: "tarifas",
     responsive: ["lg"],
 
-    render: (_, { precios }) => (
+    render: (tarifas: number[]) => (
       <>
-        {precios.map((precio) => (
-          <Tag key={precio}>
-            {precio.toLocaleString("es-PE", {
+        {tarifas?.map((tarifa) => (
+          <Tag key={tarifa}>
+            {tarifa.toLocaleString("es-PE", {
               style: "currency",
               currency: "PEN",
             })}
@@ -410,31 +412,19 @@ const columns: ColumnsType<Pasajes> = [
   },
 ];
 
-const rutasColumns: ColumnsType<z.infer<typeof rutaSchema>> = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Origen",
-    dataIndex: "ciudadOrigen",
-    key: "ciudadOrigen",
-  },
-];
-
 export function PasajesTable() {
   const {
-    data: rutas,
+    data: viajes,
     isLoading,
     isFetching,
-  } = api.rutas.getAllRutas.useQuery();
+  } = api.viajes.getAllViajes.useQuery();
 
   return (
     <div className="w-full">
       <Title order={5} className="mb-3.5">
         Pasajes Diarios
       </Title>
+      {/* //TODO: The table should render the DB data */}
       <Table
         pagination={false}
         loading={
@@ -444,24 +434,9 @@ export function PasajesTable() {
             size: "large",
           })
         }
-        columns={columns}
-        dataSource={viajesDiarios as Pasajes[]}
+        columns={viajesColumns}
+        dataSource={viajes}
       />
-
-      {/* //TODO: Hacer que se muestre la tabla de salidas diarias */}
-      {/* <Table
-        pagination={false}
-        loading={
-          isLoading ||
-          (isFetching && {
-            spinning: true,
-            size: "large",
-          })
-        }
-        columns={rutasColumns}
-        dataSource={rutas}
-      /> */}
-      {rutas?.ciudadDestino}
     </div>
   );
 }

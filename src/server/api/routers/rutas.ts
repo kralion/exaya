@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const rutasRouter = createTRPCRouter({
   getAllRutas: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.ruta.findFirst();
+    return ctx.prisma.ruta.findMany();
   }),
   getRutasByOrigin: publicProcedure
     .input(z.object({ ciudadOrigen: z.string() }))
