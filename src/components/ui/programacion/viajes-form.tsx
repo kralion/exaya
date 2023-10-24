@@ -1,5 +1,4 @@
 import { useNotification } from "@/context/NotificationContext";
-import { viajesDiarios } from "@/data";
 import type { IViaje } from "@/interfaces";
 import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select, TimePicker } from "antd";
@@ -65,9 +64,15 @@ export function ViajesForm({ handleAddViaje }: Props) {
   };
   const {
     data: rutas,
-    isFetching,
-    isLoading,
+    isFetching: isFetchingRutas,
+    isLoading: isLoadingRutas,
   } = api.rutas.getAllRutas.useQuery();
+  const {
+    data: bus,
+    isFetching: isFetchingBus,
+    isLoading: isLoadingBus,
+  } = api.buses.getAllBuses.useQuery();
+
   const handleChange = (value: number) => {
     console.log(`selected ${value.toLocaleString("es-PE", {
       style: "currency",
@@ -95,7 +100,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
               placeholder="Origen"
               onChange={onOrigenChange}
               allowClear
-              loading={isLoading === true || isFetching === true}
+              loading={isLoadingRutas === true || isFetchingRutas === true}
             >
               {rutas?.map((ruta) => (
                 <Option key={ruta.id}>{ruta.ciudadOrigen}</Option>
@@ -111,7 +116,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
               placeholder="Destino"
               onChange={onDestinoChange}
               allowClear
-              loading={isLoading === true || isFetching === true}
+              loading={isLoadingRutas === true || isFetchingRutas === true}
             >
               {rutas?.map((ruta) => (
                 <Option key={ruta.id}>{ruta.ciudadDestino}</Option>
@@ -122,11 +127,14 @@ export function ViajesForm({ handleAddViaje }: Props) {
             name="bus"
             rules={[{ required: true, message: "Selecciona" }]}
           >
-            <Select style={{ width: 120 }} placeholder="Bus" allowClear>
-              {viajesDiarios.map((viaje) => (
-                <Option key={viaje.key} value={viaje.placaBus}>
-                  {viaje.placaBus}
-                </Option>
+            <Select
+              loading={isLoadingBus === true || isFetchingBus === true}
+              style={{ width: 120 }}
+              placeholder="Bus"
+              allowClear
+            >
+              {bus?.map((bus) => (
+                <Option key={bus.id}>{bus.placa}</Option>
               ))}
             </Select>
           </Form.Item>

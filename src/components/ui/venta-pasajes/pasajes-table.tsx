@@ -302,7 +302,7 @@ const viajesColumns: ColumnsType<IViaje> = [
     title: "Origen",
     dataIndex: "ruta",
     key: "origen",
-    render: (ruta: IRuta) => <span>{ruta?.duracionEstimada}</span>,
+    render: (ruta: IRuta) => ruta?.ciudadOrigen,
 
     filters: [
       {
@@ -352,7 +352,7 @@ const viajesColumns: ColumnsType<IViaje> = [
     responsive: ["lg"],
 
     render: (bus: IBus) => (
-      <Tooltip key={bus?.id} title={bus?.placa?.toUpperCase()}>
+      <Tooltip key={bus?.id} title={bus?.marca.toUpperCase()}>
         <TbLicense />
       </Tooltip>
     ),

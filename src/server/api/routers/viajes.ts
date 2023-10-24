@@ -11,7 +11,7 @@ export const viajesRouter = createTRPCRouter({
     return ctx.prisma.viaje.findMany();
   }),
   getViajesById: publicProcedure
-    .input(z.object({ id: z.number() }))
+    .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.viaje.findUnique({ where: { id: input.id } });
     }),

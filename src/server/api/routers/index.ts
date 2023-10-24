@@ -3,3 +3,4 @@ export { boletosRouter } from "./boletos";
 export { personasRouter } from "./personas";
 export { viajesRouter } from "./viajes";
 export { rutasRouter } from "./rutas";
+export { busesRouter } from "./buses";
