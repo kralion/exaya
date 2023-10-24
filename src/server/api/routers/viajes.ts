@@ -15,9 +15,25 @@ export const viajesRouter = createTRPCRouter({
     .query(({ input, ctx }) => {
       return ctx.prisma.viaje.findUnique({ where: { id: input.id } });
     }),
-  createViaje: protectedProcedure.input(viajeSchema).query(({ input, ctx }) => {
-    return ctx.prisma.viaje.create({ data: input });
-  }),
+  createViaje: publicProcedure
+    .input(
+      z.object({
+        fechaSalida: z.date(),
+        tarifas: z.array(z.number().nonnegative().min(1)),
+        estado: z.string(),
+        horaSalida: z.string(),
+        activo: z.boolean(),
+        busId: z.string(),
+        rutaId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.prisma.viaje.create({ data: input });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
   deleteViaje: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(({ input, ctx }) => {

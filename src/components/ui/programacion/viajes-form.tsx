@@ -1,11 +1,12 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { IViaje } from "@/interfaces";
+import type { viajeValuesSchema } from "@/interfaces";
 import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select, TimePicker } from "antd";
 import React from "react";
 import style from "./frame.module.css";
 import PriceSelector from "./price-selector";
 import { api } from "@/utils/api";
+import type { TypeOf } from "zod";
 
 const { Option } = Select;
 const format = "HH:mm";
@@ -18,7 +19,7 @@ const layout = {
 };
 
 type Props = {
-  handleAddViaje: (viaje: IViaje) => void;
+  handleAddViaje: (viaje: TypeOf<typeof viajeValuesSchema>) => void;
 };
 
 export function ViajesForm({ handleAddViaje }: Props) {
@@ -48,7 +49,11 @@ export function ViajesForm({ handleAddViaje }: Props) {
     }
   };
 
-  const onFinish = (values: IViaje) => {
+  const postViaje = api.viajes.createViaje.useMutation();
+  const onFinish = (values: TypeOf<typeof viajeValuesSchema>) => {
+    //TODO: Modificar el formato de los datos para que la mutacion los acepte
+    postViaje.mutate(values);
+    alert(JSON.stringify(values.busId));
     handleAddViaje(values);
     openNotification({
       message: "Viaje creado",
@@ -92,7 +97,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
       <div>
         <div className="flex gap-2">
           <Form.Item
-            name="origen"
+            name="ciudadOrigen"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select
@@ -108,7 +113,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
             </Select>
           </Form.Item>
           <Form.Item
-            name="destino"
+            name="ciudadDestino"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select
@@ -124,7 +129,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
             </Select>
           </Form.Item>
           <Form.Item
-            name="bus"
+            name="placaBus"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <Select
@@ -139,7 +144,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
             </Select>
           </Form.Item>
           <Form.Item
-            name="fecha"
+            name="fechaSalida"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <DatePicker
@@ -149,7 +154,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
             />
           </Form.Item>
           <Form.Item
-            name="hora"
+            name="horaSalida"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <TimePicker
@@ -161,8 +166,9 @@ export function ViajesForm({ handleAddViaje }: Props) {
             />
           </Form.Item>
         </div>
+        {/* //TODO: Agregar el selector de tarifas y capturas los valores que se van seleccionando */}
         <Form.Item
-          name="precio"
+          name="tarifas"
           rules={[{ required: true, message: "Selecciona" }]}
         >
           <PriceSelector handleChange={handleChange} />
