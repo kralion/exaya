@@ -1,4 +1,4 @@
-import { PhoneOutlined, UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
   Cascader,
@@ -12,12 +12,16 @@ import {
   Upload,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
-import type { RadioChangeEvent } from "antd/lib/radio";
 import { useState } from "react";
 import styles from "./frame.module.css";
 type Props = {
   activator: string;
 };
+import { useConductorContext } from "@/context/ConductorContext";
+import type { IConductor } from "@/interfaces";
+import { Title } from "@mantine/core";
+import style from "./frame.module.css";
+import { BsTelephone } from "react-icons/bs";
 
 interface LicenseNodeType {
   value: number;
@@ -70,20 +74,10 @@ const formItemLayout = {
   },
 };
 
-import { useConductorContext } from "@/context/ConductorContext";
-import type { IConductor } from "@/interfaces";
-import { Title } from "@mantine/core";
-import style from "./frame.module.css";
 export function ConductoresForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePicList, setProfilePicList] = useState([]);
-  const [busPicList, setBusPicList] = useState([]);
-  const [value, setValue] = useState(1);
 
-  const onChange = (e: RadioChangeEvent) => {
-    alert("radio checked", e.target.value);
-    setValue(e.target.value);
-  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -111,17 +105,9 @@ export function ConductoresForm({ activator }: Props) {
     }
     return e && e.fileList;
   };
-  const busPicFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+
   const handleProfilePicFileChange = (newProfilePicFileList) => {
     setProfilePicList(newProfilePicFileList);
-  };
-  const handleBusPicFileChange = (newBusPicFileList) => {
-    setBusPicList(newBusPicFileList);
   };
 
   return (
@@ -207,7 +193,7 @@ export function ConductoresForm({ activator }: Props) {
               type="number"
               placeholder="987654321"
               maxLength={9}
-              addonBefore={<PhoneOutlined title="N° celular" />}
+              addonBefore={<BsTelephone title="N° celular" />}
               style={{ width: "100%" }}
             />
           </Form.Item>
@@ -239,64 +225,35 @@ export function ConductoresForm({ activator }: Props) {
             <Cascader placeholder="A II-B" options={tiposLicencia} />
           </Form.Item>
 
-          <div className="flex">
-            <Form.Item
-              label="Foto Conductor"
-              name="foto_perfil"
-              getValueFromEvent={profilePicFile}
-              valuePropName="fileList"
+          <Form.Item
+            label="Foto Conductor"
+            name="foto_perfil"
+            getValueFromEvent={profilePicFile}
+            valuePropName="fileList"
+          >
+            <Upload
+              action="/upload.do"
+              listType="picture-card"
+              fileList={profilePicList}
+              beforeUpload={() => false}
+              showUploadList={{
+                showRemoveIcon: true,
+                showPreviewIcon: false,
+              }}
+              onChange={({ fileList: newProfilePicFileList }) =>
+                handleProfilePicFileChange(newProfilePicFileList)
+              }
             >
-              <Upload
-                action="/upload.do"
-                listType="picture-card"
-                fileList={profilePicList}
-                beforeUpload={() => false}
-                showUploadList={{
-                  showRemoveIcon: true,
-                  showPreviewIcon: false,
-                }}
-                onChange={({ fileList: newProfilePicFileList }) =>
-                  handleProfilePicFileChange(newProfilePicFileList)
-                }
-              >
-                {profilePicList.length === 0 && (
-                  <div>
-                    <UploadOutlined />
-                    <br />
-                    <span className="ml-2">Subir foto</span>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-            <Form.Item
-              label="Foto del Bus"
-              name="foto_bus"
-              getValueFromEvent={busPicFile}
-              valuePropName="fileList"
-            >
-              <Upload
-                action="/upload.do"
-                listType="picture-card"
-                fileList={busPicList}
-                beforeUpload={() => false}
-                showUploadList={{
-                  showRemoveIcon: true,
-                  showPreviewIcon: false,
-                }}
-                onChange={({ fileList: newBusPicFileList }) =>
-                  handleBusPicFileChange(newBusPicFileList)
-                }
-              >
-                {busPicList.length === 0 && (
-                  <div>
-                    <UploadOutlined />
-                    <br />
-                    <span className="ml-2">Subir foto</span>
-                  </div>
-                )}
-              </Upload>
-            </Form.Item>
-          </div>
+              {profilePicList.length === 0 && (
+                <div>
+                  <UploadOutlined />
+                  <br />
+                  <span className="ml-2">Subir foto</span>
+                </div>
+              )}
+            </Upload>
+          </Form.Item>
+
           <div>
             <Form.Item
               name="estado_documentario"
@@ -322,7 +279,7 @@ export function ConductoresForm({ activator }: Props) {
                 { required: true, message: "Disponibilidad del conductor" },
               ]}
             >
-              <Radio.Group onChange={onChange} value={value}>
+              <Radio.Group>
                 <Radio value={false}>No</Radio>
                 <Radio value={true}>Sí</Radio>
               </Radio.Group>
