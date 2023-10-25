@@ -23,6 +23,7 @@ import { Title } from "@mantine/core";
 import style from "./frame.module.css";
 import { BsTelephone } from "react-icons/bs";
 import { useNotification } from "@/context/NotificationContext";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface LicenseNodeType {
   value: number;
@@ -123,6 +124,7 @@ export function ConductorForm({ activator }: Props) {
     <>
       <button className={style.basicButton} onClick={showModal}>
         {activator}
+        <AiOutlinePlusCircle size={15} />
       </button>
       <Modal
         centered

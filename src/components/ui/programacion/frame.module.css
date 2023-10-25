@@ -39,8 +39,9 @@
 }
 
 .basicButton {
-  display: inline-block;
-
+  display: flex;
+  gap: 5px;
+  align-items: center;
   border-radius: 7px;
 
   border: none;

@@ -6,6 +6,7 @@ import encomiendaSchema from "./encomienda";
 import viajeSchema from "./viaje";
 import personasSchema from "./persona";
 import busSchema from "./bus";
+import conductorSchema from "./conductor";
 
 export {
   loginSchema,
@@ -16,4 +17,5 @@ export {
   personasSchema,
   encomiendaSchema,
   busSchema,
+  conductorSchema,
 };

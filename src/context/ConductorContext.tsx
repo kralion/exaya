@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ConductorContextProps, IConductor } from "@/interfaces";
 import { conductores as INITIAL_DRIVERS } from "@/data";
+import { api } from "@/utils/api";
 export const ConductorContext = createContext<ConductorContextProps>({
   conductoresRegistrados: INITIAL_DRIVERS as IConductor[],
   handleAddConductor: () => void 0,
@@ -18,8 +19,8 @@ export const ConductorContextProvider = ({ children }: Props) => {
   const handleAddConductor = (conductor: IConductor) => {
     setConductoresRegistrados([...conductoresRegistrados, conductor]);
   };
-  const handleDeleteConductor = (key: number) => {
-    conductoresRegistrados.filter((conductor) => conductor.id !== key);
+  const handleDeleteConductor = (id: string) => {
+    const deletedConductor = api.conductores.deleteConductor.useMutation(id);
   };
   const handleUpdateConductor = (conductor: IConductor) => {
     const newConductor = conductoresRegistrados.filter(

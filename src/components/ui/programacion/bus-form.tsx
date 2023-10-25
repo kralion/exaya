@@ -7,6 +7,7 @@ import { useState } from "react";
 import { TbLicense } from "react-icons/tb";
 import { default as style, default as styles } from "./frame.module.css";
 import { useNotification } from "@/context/NotificationContext";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 type Props = {
   activator: string;
 };
@@ -60,6 +61,7 @@ export function BusForm({ activator }: Props) {
     <>
       <button className={style.basicButton} onClick={showModal}>
         {activator}
+        <AiOutlinePlusCircle size={15} />
       </button>
       <Modal
         width={350}

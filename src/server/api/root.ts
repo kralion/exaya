@@ -6,6 +6,7 @@ import {
   viajesRouter,
   rutasRouter,
   busesRouter,
+  conductoresRouter,
 } from "@/server/api/routers";
 
 /**
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   rutas: rutasRouter,
   buses: busesRouter,
   personas: personasRouter,
+  conductores: conductoresRouter,
 });
 
 // export type definition of API
