@@ -22,6 +22,7 @@ import type { IConductor } from "@/interfaces";
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
 import { BsTelephone } from "react-icons/bs";
+import { useNotification } from "@/context/NotificationContext";
 
 interface LicenseNodeType {
   value: number;
@@ -74,7 +75,7 @@ const formItemLayout = {
   },
 };
 
-export function ConductoresForm({ activator }: Props) {
+export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePicList, setProfilePicList] = useState([]);
 
@@ -91,10 +92,18 @@ export function ConductoresForm({ activator }: Props) {
   };
   const [form] = Form.useForm();
   const { handleAddConductor } = useConductorContext();
+  const { openNotification } = useNotification();
 
   const onFinish = (values: IConductor) => {
     handleAddConductor(values);
     form.resetFields();
+    setIsModalOpen(false);
+    openNotification({
+      message: "Conductor registrado",
+      description: "El conductor ha sido registrado exitosamente",
+      type: "success",
+      placement: "topRight",
+    });
   };
   const onFinishFailed = () => {
     console.log("Falló el registro");
