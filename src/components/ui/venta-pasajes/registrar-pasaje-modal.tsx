@@ -1,21 +1,30 @@
-import React, { useState } from "react";
-import { Modal, Tag, Typography } from "antd";
-import style from "./frame.module.css";
+import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
+import { useNotification } from "@/context/NotificationContext";
+import { viajesDiarios } from "@/data";
+import type { IBoleto } from "@/interfaces";
+import { Title } from "@mantine/core";
+import "animate.css";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Space,
+  Tag,
+  Typography,
+} from "antd";
+import PassengerAsset from "@/assets/images/passenger.png";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import { Title } from "@mantine/core";
-import type { IBoleto } from "@/interfaces";
-import { viajesDiarios } from "@/data";
-import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
-import "animate.css";
+import React, { useState } from "react";
+import { LuDelete, LuPrinter } from "react-icons/lu";
+import style from "./frame.module.css";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
   preload: true,
 });
-import { Button, Form, Input, Select } from "antd";
-import { useNotification } from "@/context/NotificationContext";
-import { LuDelete, LuPrinter } from "react-icons/lu";
 
 const { Option } = Select;
 
@@ -77,7 +86,7 @@ export const RegistrarPasajeModal: React.FC = () => {
             </Title>
           </div>
         }
-        className=""
+        centered
         open={open}
         onCancel={() => setOpen(false)}
         width={1000}
@@ -147,27 +156,32 @@ export const RegistrarPasajeModal: React.FC = () => {
       <Modal
         title={
           <Title className="text-left" order={4}>
-            Registro de Pasajeros
+            Registro de Boleto
             <hr className="mt-2 " />
           </Title>
         }
         centered
         open={openRegister}
         onCancel={() => setOpenRegister(false)}
-        width={700}
+        width={500}
         footer={null}
       >
-        <div className="mt-7 flex items-end justify-between gap-10">
-          <Form
-            layout="vertical"
-            form={form}
-            name="control-hooks"
-            onFinish={onFinish}
-            style={{ width: 500 }}
-          >
+        <Form
+          layout="vertical"
+          form={form}
+          name="control-hooks"
+          className="mt-7"
+          onFinish={onFinish}
+          style={{ width: 450 }}
+        >
+          <Space direction="horizontal" className="flex gap-5">
             <Form.Item
+              style={{
+                width: 315,
+              }}
               name="dni"
               label="DNI"
+              tooltip="DNI del pasajero, esta información es validada con la RENIEC "
               rules={[
                 { required: true },
                 { min: 8, message: "El DNI debe tener 8 dígitos" },
@@ -181,12 +195,17 @@ export const RegistrarPasajeModal: React.FC = () => {
             <Form.Item
               name="asiento"
               label="Asiento"
-              rules={[{ required: true }]}
+              rules={[{ required: true, message: "Requerido" }]}
             >
               <Input placeholder="1-45" type="number" />
             </Form.Item>
+          </Space>
+          <Space direction="horizontal" className="flex gap-5">
             <Form.Item
               name="origen"
+              style={{
+                width: 215,
+              }}
               label="Origen"
               rules={[{ required: true, message: "Selecciona" }]}
             >
@@ -200,6 +219,9 @@ export const RegistrarPasajeModal: React.FC = () => {
             </Form.Item>
             <Form.Item
               name="destino"
+              style={{
+                width: 215,
+              }}
               label="Destino"
               rules={[{ required: true, message: "Selecciona" }]}
             >
@@ -211,69 +233,79 @@ export const RegistrarPasajeModal: React.FC = () => {
                 ))}
               </Select>
             </Form.Item>
+          </Space>
 
-            <Form.Item
-              name="precio"
-              label="Precio"
-              rules={[{ required: true, message: "Selecciona" }]}
-            >
-              <Select placeholder="40" onChange={onPriceChange} allowClear>
-                <Option value="30">30</Option>
-                <Option value="45">45</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item>
-              <div className="mt-5 flex items-center justify-between">
-                <button
-                  style={{
-                    width: 150,
-                  }}
-                  className={style.button}
-                  type="submit"
-                >
-                  Registrar
-                </button>
-                <div className=" flex gap-2">
-                  <Button
-                    icon={<LuDelete className="text-red-500" size={25} />}
-                    type="text"
-                    htmlType="button"
-                    onClick={onReset}
-                  />
-
-                  <Button
-                    disabled={disabledPrint}
-                    icon={
-                      <LuPrinter
-                        className={
-                          disabledPrint ? "text-gray-500" : "text-green-500"
-                        }
-                        size={25}
-                      />
-                    }
-                    title="Imprimir"
-                    type="text"
-                    onClick={() =>
-                      openNotification({
-                        placement: "topRight",
-                        message: "Operacion Exitosa",
-                        description: "Redireccionando a Impresion",
-                        type: "success",
-                      })
-                    }
-                  />
-                </div>
-              </div>
-            </Form.Item>
-          </Form>
+          <Form.Item
+            name="precio"
+            label="Precio"
+            rules={[{ required: true, message: "Selecciona" }]}
+          >
+            <Select placeholder="40" onChange={onPriceChange} allowClear>
+              <Option value="30">30</Option>
+              <Option value="45">45</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            tooltip="Describe los equipajes que lleva el pasajero"
+            name="equipajes"
+            label="Equipajes"
+          >
+            <Input.TextArea
+              autoSize
+              placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..."
+            />
+          </Form.Item>
           <Image
-            src="https://ouch-cdn2.icons8.com/QKhMfF_-HH3tC3cgsPxTY2OdvwdvfitJ06ecTAiPaxU/rs:fit:368:645/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzY2/LzMwYTJlMzdkLTZk/MDQtNGRmZC05Y2U4/LTIxZDhkYzYwZDEw/MC5wbmc.png"
+            src={PassengerAsset}
             alt="logo"
             height={50}
-            width={280}
+            className=" drop-shadow-xl"
+            width={150}
           />
-        </div>
+          <Form.Item>
+            <div className="mt-5 flex items-center justify-between">
+              <button
+                style={{
+                  width: 150,
+                }}
+                className={style.button}
+                type="submit"
+              >
+                Registrar
+              </button>
+              <div className=" flex gap-2">
+                <Button
+                  icon={<LuDelete className="text-red-500" size={25} />}
+                  type="text"
+                  htmlType="button"
+                  onClick={onReset}
+                />
+
+                <Button
+                  disabled={disabledPrint}
+                  icon={
+                    <LuPrinter
+                      className={
+                        disabledPrint ? "text-gray-500" : "text-green-500"
+                      }
+                      size={25}
+                    />
+                  }
+                  title="Imprimir"
+                  type="text"
+                  onClick={() =>
+                    openNotification({
+                      placement: "topRight",
+                      message: "Operacion Exitosa",
+                      description: "Redireccionando a Impresion",
+                      type: "success",
+                    })
+                  }
+                />
+              </div>
+            </div>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );
