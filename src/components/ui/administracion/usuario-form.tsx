@@ -2,7 +2,6 @@ import { usuarios } from "@/data";
 import { CloudUploadOutlined } from "@ant-design/icons";
 import {
   Button,
-  Cascader,
   Form,
   Input,
   InputNumber,
@@ -25,12 +24,6 @@ interface RolNodeType {
   children?: RolNodeType[];
 }
 
-interface DocumentsStatusNodeType {
-  value: string;
-  label: string;
-  children?: DocumentsStatusNodeType[];
-}
-
 const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   {
     value: 0,
@@ -45,20 +38,6 @@ const rolesSistema: CascaderProps<RolNodeType>["options"] = [
     label: "Usuario",
   },
 ];
-const sedesDisponibles: CascaderProps<DocumentsStatusNodeType>["options"] = [
-  {
-    value: "Lima",
-    label: "Lima",
-  },
-  {
-    value: "Huancayo",
-    label: "Huancayo",
-  },
-  {
-    value: "Ayacucho",
-    label: "Ayacucho",
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -71,15 +50,16 @@ const formItemLayout = {
   },
 };
 
-import { Title } from "@mantine/core";
-import style from "./frame.module.css";
 import { useNotification } from "@/context/NotificationContext";
+import { api } from "@/utils/api";
+import { Title } from "@mantine/core";
 import { BsTelephone } from "react-icons/bs";
+import style from "./frame.module.css";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usuariosRegistrados, setUsuariosRegistrados] = useState(usuarios);
   const [profilePicList, setProfilePicList] = useState([]);
-  const [value, setValue] = useState(1);
   const { openNotification } = useNotification();
 
   const showModal = () => {
@@ -121,10 +101,20 @@ export function UsuarioForm({ activator }: Props) {
   const handleProfilePicFileChange = (newProfilePicFileList) => {
     setProfilePicList(newProfilePicFileList);
   };
-
+  const {
+    data: rutas,
+    isLoading,
+    isFetching,
+  } = api.rutas.getAllRutas.useQuery();
+  const uniqueCiudadOrigen = rutas
+    ? rutas
+        .map((ruta) => ruta.ciudadOrigen)
+        .filter((value, index, self) => self.indexOf(value) === index)
+    : [];
   return (
     <>
       <button className={style.basicButton} onClick={showModal}>
+        <AiOutlinePlusCircle size={15} />
         {activator}
       </button>
       <Modal
@@ -220,11 +210,11 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Input placeholder="hugo.egoavil@gmail.com" />
+            <Input placeholder="hugo.egoavil@gmail.com" type="email" />
           </Form.Item>
 
           <Form.Item
-            name="rolesSistema"
+            name="rol"
             label="Rol"
             rules={[
               {
@@ -279,18 +269,19 @@ export function UsuarioForm({ activator }: Props) {
 
           <Form.Item
             name="sede"
+            tooltip="Sede donde trabaja el usuario"
             label="Sede Delegación"
             rules={[
               {
                 required: true,
-                message: "Seleeciona la sede de trabajo",
+                message: "Selecciona",
               },
             ]}
           >
-            <Select placeholder="Huancayo">
-              {sedesDisponibles?.map((sede) => (
-                <Select.Option key={sede.value} value={sede.value}>
-                  {sede.label}
+            <Select loading={isLoading || isFetching} placeholder="Huancayo">
+              {uniqueCiudadOrigen?.map((ciudad) => (
+                <Select.Option key={ciudad} value={ciudad}>
+                  {ciudad}
                 </Select.Option>
               ))}
             </Select>

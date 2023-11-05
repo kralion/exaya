@@ -8,7 +8,9 @@ import {
   Button,
   Form,
   Input,
+  InputNumber,
   Modal,
+  Popconfirm,
   Select,
   Space,
   Tag,
@@ -17,9 +19,10 @@ import {
 import PassengerAsset from "@/assets/images/passenger.png";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuDelete, LuPrinter } from "react-icons/lu";
 import style from "./frame.module.css";
+import { api } from "@/utils/api";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -30,39 +33,96 @@ const { Option } = Select;
 
 const seats = Array.from({ length: 50 }, (_, i) => i + 1);
 
-export const RegistrarPasajeModal: React.FC = () => {
+export const RegistrarPasajeModal = () => {
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
+  const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
+  const { openNotification } = useNotification();
 
   const onPriceChange = (value: string) => {
     alert(`El precio es ${value}`);
   };
 
+  const confirm = () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(null), 3000);
+    });
   const onFinish = (values: IBoleto) => {
-    try {
-      form.getFieldsValue.length > 0
-        ? (setDisabledPrint(false), console.log(values.id))
-        : setDisabledPrint(true);
-    } catch (error) {}
+    // try {
+    //   form.getFieldsValue.length > 0
+    //     ? (setDisabledPrint(false), console.log(values.id))
+    //     : setDisabledPrint(true);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    openNotification({
+      placement: "topRight",
+      message: "Operacion Exitosa",
+      description: "Boleto registrado correctamente",
+      type: "success",
+    });
+  };
+
+  const handlePrintTicket = () => {
+    openNotification({
+      placement: "topRight",
+      message: "Operacion Exitosa",
+      description: "Redireccionando a Impresion",
+      type: "success",
+    });
   };
 
   const onReset = () => {
     form.resetFields();
   };
+  const [dniStatus, setDniStatus] = useState({
+    status: "validating",
+    help: "Validando DNI ...",
+  });
 
-  const handleSeatClick = (seatNumber: number) => {
-    setOpenRegister(true);
-  };
+  const dniValidatorProcedure = api.clientes.validateDni.useQuery({
+    dni: form.getFieldValue("dni") as string,
+  });
+  // TODO: Validar el DNI
+  useEffect(() => {
+    const { data: cliente, isLoading, isError, error } = dniValidatorProcedure;
+    if (isLoading) {
+      setDniStatus({ status: "validating", help: "Validando DNI ..." });
+      const handleDniChange = async (value: string) => {
+        if (value.length === 8) {
+          setDniStatus({ status: "validating", help: "Validando DNI ..." });
+          try {
+            await dniValidatorProcedure.refetch({ dni: value });
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          setDniStatus({
+            status: "error",
+            help: "El DNI debe tener 8 dígitos",
+          });
+        }
+      };
+    }
+    if (isError) {
+      setDniStatus({ status: "error", help: error?.message });
+    }
+    if (cliente) {
+      setDniStatus({ status: "success", help: "DNI válido" });
+    }
+  }, [dniValidatorProcedure]);
 
   const [disabledPrint, setDisabledPrint] = useState(true);
-  const destinosUnicos = [
-    ...new Set(viajesDiarios.map((viaje) => viaje.destino)),
-  ];
-  const origenesUnicos = [
-    ...new Set(viajesDiarios.map((viaje) => viaje.origen)),
-  ];
-  const { openNotification } = useNotification();
+
+  function cancel(e: any) {
+    console.log(e);
+  }
+  const handleSeatClick = (seatNumber: number) => {
+    setSelectedSeat(seatNumber);
+    setOpenRegister(true);
+  };
 
   return (
     <div>
@@ -156,7 +216,9 @@ export const RegistrarPasajeModal: React.FC = () => {
       <Modal
         title={
           <Title className="text-left" order={4}>
-            Registro de Boleto
+            <div className="flex justify-between pr-5">
+              <h3>Registro de Boleto</h3> <Tag>Asiento {selectedSeat}</Tag>
+            </div>
             <hr className="mt-2 " />
           </Title>
         }
@@ -174,86 +236,76 @@ export const RegistrarPasajeModal: React.FC = () => {
           onFinish={onFinish}
           style={{ width: 450 }}
         >
-          <Space direction="horizontal" className="flex gap-5">
-            <Form.Item
-              style={{
-                width: 315,
-              }}
-              name="dni"
-              label="DNI"
-              tooltip="DNI del pasajero, esta información es validada con la RENIEC "
-              rules={[
-                { required: true },
-                { min: 8, message: "El DNI debe tener 8 dígitos" },
-                { max: 8, message: "El DNI debe tener 8 dígitos" },
-              ]}
-              validateStatus="validating"
-              help="La informacion está siendo validada..."
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              name="asiento"
-              label="Asiento"
-              rules={[{ required: true, message: "Requerido" }]}
-            >
-              <Input placeholder="1-45" type="number" />
-            </Form.Item>
-          </Space>
-          <Space direction="horizontal" className="flex gap-5">
-            <Form.Item
-              name="origen"
-              style={{
-                width: 215,
-              }}
-              label="Origen"
-              rules={[{ required: true, message: "Selecciona" }]}
-            >
-              <Select placeholder="Huancayo" allowClear>
-                {origenesUnicos.map((origen) => (
-                  <Option key={origen} value={origen}>
-                    {origen}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="destino"
-              style={{
-                width: 215,
-              }}
-              label="Destino"
-              rules={[{ required: true, message: "Selecciona" }]}
-            >
-              <Select placeholder="Huancayo" allowClear>
-                {destinosUnicos.map((destino) => (
-                  <Option key={destino} value={destino}>
-                    {destino}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Space>
-
           <Form.Item
-            name="precio"
-            label="Precio"
-            rules={[{ required: true, message: "Selecciona" }]}
+            name="dni"
+            label="DNI"
+            tooltip="DNI del pasajero, esta información es validada con la RENIEC "
+            rules={[
+              { required: true },
+              { min: 8, message: "El DNI debe tener 8 dígitos" },
+              { max: 8, message: "El DNI debe tener 8 dígitos" },
+            ]}
+            validateStatus={
+              dniStatus.status === "validating"
+                ? "validating"
+                : dniStatus.status === "error"
+                ? "error"
+                : "success"
+            }
+            help={
+              <div>
+                <p>{dniStatus.help}</p>
+                {dniStatus.status === "success" && (
+                  <p className="text-green-500">
+                    <b>Nombre:</b> {dniValidatorProcedure.data?.status}
+                  </p>
+                )}
+              </div>
+            }
           >
-            <Select placeholder="40" onChange={onPriceChange} allowClear>
-              <Option value="30">30</Option>
-              <Option value="45">45</Option>
-            </Select>
+            <Input
+              onChange={() => {
+                setDisabledPrint(false);
+              }}
+              type="text"
+              className="w-full"
+            />
           </Form.Item>
+
+          <Space direction="horizontal" className="flex gap-5">
+            <Form.Item
+              name="precio"
+              label="Precio"
+              style={{
+                width: 215,
+              }}
+              rules={[{ required: true, message: "Selecciona" }]}
+            >
+              <Select placeholder="40" onChange={onPriceChange} allowClear>
+                <Option value="30">30</Option>
+                <Option value="45">45</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="telefono"
+              label="Telefono"
+              tooltip="Telefono del pasajero para contactarlo "
+              rules={[{ required: true, message: "Ingresa el teléfono" }]}
+            >
+              <InputNumber
+                style={{
+                  width: 215,
+                }}
+                type="number"
+              />
+            </Form.Item>
+          </Space>
           <Form.Item
             tooltip="Describe los equipajes que lleva el pasajero"
             name="equipajes"
             label="Equipajes"
           >
-            <Input.TextArea
-              autoSize
-              placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..."
-            />
+            <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
           </Form.Item>
           <Image
             src={PassengerAsset}
@@ -264,15 +316,31 @@ export const RegistrarPasajeModal: React.FC = () => {
           />
           <Form.Item>
             <div className="mt-5 flex items-center justify-between">
-              <button
-                style={{
-                  width: 150,
+              <Popconfirm
+                okButtonProps={{
+                  style: {
+                    backgroundColor: "#52c41a",
+                    color: "white",
+                    borderRadius: "5px",
+                    border: "none",
+                  },
                 }}
-                className={style.button}
-                type="submit"
+                placement="right"
+                title="Estás segur@ ?"
+                onConfirm={confirm}
+                onCancel={cancel}
               >
-                Registrar
-              </button>
+                <button
+                  style={{
+                    width: 150,
+                  }}
+                  className={style.button}
+                  type="submit"
+                >
+                  Registrar
+                </button>
+              </Popconfirm>
+
               <div className=" flex gap-2">
                 <Button
                   icon={<LuDelete className="text-red-500" size={25} />}
@@ -293,14 +361,7 @@ export const RegistrarPasajeModal: React.FC = () => {
                   }
                   title="Imprimir"
                   type="text"
-                  onClick={() =>
-                    openNotification({
-                      placement: "topRight",
-                      message: "Operacion Exitosa",
-                      description: "Redireccionando a Impresion",
-                      type: "success",
-                    })
-                  }
+                  onClick={handlePrintTicket}
                 />
               </div>
             </div>

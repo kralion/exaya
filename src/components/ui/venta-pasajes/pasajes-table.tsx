@@ -420,7 +420,6 @@ export function PasajesTable() {
       <Title order={5} className="mb-3.5">
         Viajes del Día
       </Title>
-      {/* //TODO: The table should render the DB data */}
       <Table
         pagination={false}
         loading={

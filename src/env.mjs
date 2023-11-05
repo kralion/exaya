@@ -14,7 +14,8 @@ const server = z.object({
   GOOGLE_ID: z.string().min(1),
   GOOGLE_SECRET: z.string().min(1),
   DATABASE_URL: z.string().min(1),
-
+  API_RENIEC_TOKEN: z.string().min(1),
+  API_RENIEC_URL: z.string().min(1),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
 });
 
@@ -38,6 +39,8 @@ const processEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
   GOOGLE_ID: process.env.GOOGLE_ID,
   GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+  API_RENIEC_TOKEN: process.env.API_RENIEC_TOKEN,
+  API_RENIEC_URL: process.env.API_RENIEC_URL,
 
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };

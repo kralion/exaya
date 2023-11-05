@@ -1,8 +1,6 @@
-import React from "react";
-import { Button, Space, Table, Tag, Popconfirm } from "antd";
 import { usuarios } from "@/data";
 import type { IUsuario } from "@/interfaces";
-import { UsuarioContextProvider, useUsuario } from "@/context/UsuarioContext";
+import { Button, Popconfirm, Space, Table, Tag } from "antd";
 
 const columns = [
   {

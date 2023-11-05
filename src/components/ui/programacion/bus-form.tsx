@@ -123,7 +123,6 @@ export function BusForm({ activator }: Props) {
             label="Modelo"
             rules={[
               {
-                required: true,
                 message: "Ingresa el modelo del bus",
                 whitespace: true,
               },

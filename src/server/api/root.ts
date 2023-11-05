@@ -2,7 +2,7 @@ import { createTRPCRouter } from "@/server/api/trpc";
 import {
   versionRouter,
   boletosRouter,
-  personasRouter,
+  clientesRouter,
   viajesRouter,
   rutasRouter,
   busesRouter,
@@ -20,7 +20,7 @@ export const appRouter = createTRPCRouter({
   viajes: viajesRouter,
   rutas: rutasRouter,
   buses: busesRouter,
-  personas: personasRouter,
+  clientes: clientesRouter,
   conductores: conductoresRouter,
 });
 
