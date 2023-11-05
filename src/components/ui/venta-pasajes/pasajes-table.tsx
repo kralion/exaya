@@ -302,7 +302,7 @@ const viajesColumns: ColumnsType<IViaje> = [
     title: "Origen",
     dataIndex: "ruta",
     key: "origen",
-    render: (ruta: IRuta) => ruta?.ciudadOrigen,
+    render: (ruta: IRuta) => ruta.ciudadOrigen,
 
     filters: [
       {
@@ -317,14 +317,14 @@ const viajesColumns: ColumnsType<IViaje> = [
     filterSearch: true,
 
     onFilter: (value, record) =>
-      record.ruta?.ciudadOrigen.includes(value as string),
+      record.ruta.ciudadOrigen.includes(value as string),
   },
   {
     title: "Destino",
     dataIndex: "ruta",
     key: "destino",
     responsive: ["lg"],
-    render: (ruta: IRuta) => <span>{ruta?.terminalDestino}</span>,
+    render: (ruta: IRuta) => <span>{ruta.ciudadDestino}</span>,
 
     filters: [
       {
@@ -352,7 +352,7 @@ const viajesColumns: ColumnsType<IViaje> = [
     responsive: ["lg"],
 
     render: (bus: IBus) => (
-      <Tooltip key={bus?.id} title={bus?.marca.toUpperCase()}>
+      <Tooltip className="cursor-pointer" key={bus?.id} title={bus.placa}>
         <TbLicense />
       </Tooltip>
     ),
@@ -363,23 +363,19 @@ const viajesColumns: ColumnsType<IViaje> = [
     key: "hora",
     responsive: ["lg"],
 
-    render: (horaSalida: string) => (
-      // parseInt(horaSalida) < 18 ? (
-      //   <Tag
-      //     className="rounded-full font-semibold shadow-md"
-      //     color="green-inverse"
-      //   >
-      //     {horaSalida} am
-      //   </Tag>
-      // ) : (
-      <Tag
-        className="rounded-full font-semibold shadow-md"
-        color="volcano-inverse"
-      >
-        {horaSalida} pm
-      </Tag>
-    ),
-    // ),
+    render: (horaSalida: string) =>
+      parseInt(horaSalida) < 18 ? (
+        <Tag
+          className="w-14 rounded-full text-center font-semibold text-black shadow-md"
+          color="yellow-inverse"
+        >
+          {horaSalida}
+        </Tag>
+      ) : (
+        <Tag className="w-14 rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
+          {horaSalida}
+        </Tag>
+      ),
   },
   {
     title: "Tarifas",

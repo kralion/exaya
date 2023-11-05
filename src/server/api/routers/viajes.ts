@@ -8,7 +8,12 @@ import { viajeSchema } from "@/schemas";
 
 export const viajesRouter = createTRPCRouter({
   getAllViajes: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.viaje.findMany();
+    return ctx.prisma.viaje.findMany({
+      include: {
+        ruta: true,
+        bus: true,
+      },
+    });
   }),
   getViajesById: publicProcedure
     .input(z.object({ id: z.string() }))
