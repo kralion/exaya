@@ -418,7 +418,7 @@ export function PasajesTable() {
   return (
     <div className="w-full">
       <Title order={5} className="mb-3.5">
-        Pasajes Diarios
+        Viajes del Día
       </Title>
       {/* //TODO: The table should render the DB data */}
       <Table

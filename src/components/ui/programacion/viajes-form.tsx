@@ -158,11 +158,11 @@ export function ViajesForm({ handleAddViaje }: Props) {
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <TimePicker
-              use12Hours={true}
               style={{ width: 90 }}
               minuteStep={15}
               format={format}
-              placeholder="Hora "
+              placeholder="Hora"
+              showNow={false}
             />
           </Form.Item>
         </div>
