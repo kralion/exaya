@@ -1,7 +1,8 @@
 import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
+import PassengerAsset from "@/assets/images/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
-import { viajesDiarios } from "@/data";
 import type { IBoleto } from "@/interfaces";
+import { api } from "@/utils/api";
 import { Title } from "@mantine/core";
 import "animate.css";
 import {
@@ -16,13 +17,11 @@ import {
   Tag,
   Typography,
 } from "antd";
-import PassengerAsset from "@/assets/images/passenger.png";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { LuDelete, LuPrinter } from "react-icons/lu";
 import style from "./frame.module.css";
-import { api } from "@/utils/api";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -38,31 +37,34 @@ export const RegistrarPasajeModal = () => {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
+
+  const [soldSeats, setSoldSeats] = useState<number[]>([]);
   const { openNotification } = useNotification();
 
   const onPriceChange = (value: string) => {
     alert(`El precio es ${value}`);
   };
 
+  const { data: informacionCliente, error: errorValidacionDNI } =
+    api.clientes.validateDni.useQuery({
+      dni: form.getFieldValue("dni") as string,
+    });
+
   const confirm = () =>
     new Promise((resolve) => {
       setTimeout(() => resolve(null), 3000);
     });
-  const onFinish = (values: IBoleto) => {
-    // try {
-    //   form.getFieldsValue.length > 0
-    //     ? (setDisabledPrint(false), console.log(values.id))
-    //     : setDisabledPrint(true);
-    // } catch (error) {
-    //   console.log(error);
-    // }
 
+  const boletoMutation = api.boletos.createBoletos.useMutation();
+  const onFinish = (values: IBoleto) => {
+    boletoMutation.mutate(values);
     openNotification({
       placement: "topRight",
       message: "Operacion Exitosa",
       description: "Boleto registrado correctamente",
       type: "success",
     });
+    setSoldSeats([...soldSeats, values.asiento]);
   };
 
   const handlePrintTicket = () => {
@@ -77,48 +79,9 @@ export const RegistrarPasajeModal = () => {
   const onReset = () => {
     form.resetFields();
   };
-  const [dniStatus, setDniStatus] = useState({
-    status: "validating",
-    help: "Validando DNI ...",
-  });
-
-  const dniValidatorProcedure = api.clientes.validateDni.useQuery({
-    dni: form.getFieldValue("dni") as string,
-  });
-  // TODO: Validar el DNI
-  useEffect(() => {
-    const { data: cliente, isLoading, isError, error } = dniValidatorProcedure;
-    if (isLoading) {
-      setDniStatus({ status: "validating", help: "Validando DNI ..." });
-      const handleDniChange = async (value: string) => {
-        if (value.length === 8) {
-          setDniStatus({ status: "validating", help: "Validando DNI ..." });
-          try {
-            await dniValidatorProcedure.refetch({ dni: value });
-          } catch (error) {
-            console.log(error);
-          }
-        } else {
-          setDniStatus({
-            status: "error",
-            help: "El DNI debe tener 8 dígitos",
-          });
-        }
-      };
-    }
-    if (isError) {
-      setDniStatus({ status: "error", help: error?.message });
-    }
-    if (cliente) {
-      setDniStatus({ status: "success", help: "DNI válido" });
-    }
-  }, [dniValidatorProcedure]);
 
   const [disabledPrint, setDisabledPrint] = useState(true);
 
-  function cancel(e: any) {
-    console.log(e);
-  }
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
@@ -183,7 +146,9 @@ export const RegistrarPasajeModal = () => {
                 viewBox="0 0 24 22"
               >
                 <path
-                  className="fill-slate-100 stroke-black "
+                  className={`fill-${
+                    soldSeats.includes(seatNumber) ? "green-500" : "slate-100"
+                  } stroke-black`}
                   d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
                 ></path>
                 <path
@@ -217,7 +182,15 @@ export const RegistrarPasajeModal = () => {
         title={
           <Title className="text-left" order={4}>
             <div className="flex justify-between pr-5">
-              <h3>Registro de Boleto</h3> <Tag>Asiento {selectedSeat}</Tag>
+              <h3>Registro de Boleto</h3>
+              <div>
+                {selectedSeat !== null && soldSeats.includes(selectedSeat) ? (
+                  <Tag color="red-inverse">Vendido</Tag>
+                ) : (
+                  ""
+                )}
+                <Tag>Asiento {selectedSeat}</Tag>
+              </div>
             </div>
             <hr className="mt-2 " />
           </Title>
@@ -246,30 +219,21 @@ export const RegistrarPasajeModal = () => {
               { max: 8, message: "El DNI debe tener 8 dígitos" },
             ]}
             validateStatus={
-              dniStatus.status === "validating"
-                ? "validating"
-                : dniStatus.status === "error"
+              errorValidacionDNI
                 ? "error"
-                : "success"
+                : informacionCliente
+                ? "success"
+                : "validating"
             }
             help={
-              <div>
-                <p>{dniStatus.help}</p>
-                {dniStatus.status === "success" && (
-                  <p className="text-green-500">
-                    <b>Nombre:</b> {dniValidatorProcedure.data?.status}
-                  </p>
-                )}
-              </div>
+              <p>
+                {informacionCliente?.data?.nombres}{" "}
+                {informacionCliente?.data?.apellidoPaterno}{" "}
+                {informacionCliente?.data?.apellidoMaterno}
+              </p>
             }
           >
-            <Input
-              onChange={() => {
-                setDisabledPrint(false);
-              }}
-              type="text"
-              className="w-full"
-            />
+            <Input type="text" className="w-full" />
           </Form.Item>
 
           <Space direction="horizontal" className="flex gap-5">
@@ -328,7 +292,6 @@ export const RegistrarPasajeModal = () => {
                 placement="right"
                 title="Estás segur@ ?"
                 onConfirm={confirm}
-                onCancel={cancel}
               >
                 <button
                   style={{

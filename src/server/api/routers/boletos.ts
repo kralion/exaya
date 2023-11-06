@@ -24,7 +24,7 @@ export const boletosRouter = createTRPCRouter({
     }),
   createBoletos: protectedProcedure
     .input(boletoSchema)
-    .query(({ input, ctx }) => {
+    .mutation(({ input, ctx }) => {
       return ctx.prisma.boleto.create({ data: input });
     }),
   updateBoletos: protectedProcedure
