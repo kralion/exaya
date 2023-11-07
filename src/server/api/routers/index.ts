@@ -5,3 +5,4 @@ export { viajesRouter } from "./viajes";
 export { rutasRouter } from "./rutas";
 export { busesRouter } from "./buses";
 export { conductoresRouter } from "./conductores";
+export { usuariosRouter } from "./usuarios";

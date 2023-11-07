@@ -1,13 +1,11 @@
 import { z } from "zod";
+import clienteSchema from "./cliente";
 
 const usuarioSchema = z.object({
-  id: z.number(),
-  dni: z.string().length(8),
-  nombres: z.string(),
-  apellidos: z.string(),
+  id: z.string(),
+  username: z.string(),
   password: z.string(),
-  telefono: z.string().length(9),
-  email: z.string().email(),
+  cliente: clienteSchema,
   rol: z.string(),
   sedeDelegacion: z.string(),
   foto: z.string(),

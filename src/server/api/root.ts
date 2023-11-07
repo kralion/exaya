@@ -6,6 +6,7 @@ import {
   viajesRouter,
   rutasRouter,
   busesRouter,
+  usuariosRouter,
   conductoresRouter,
 } from "@/server/api/routers";
 
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
   boletos: boletosRouter,
   viajes: viajesRouter,
   rutas: rutasRouter,
+  usuarios: usuariosRouter,
   buses: busesRouter,
   clientes: clientesRouter,
   conductores: conductoresRouter,

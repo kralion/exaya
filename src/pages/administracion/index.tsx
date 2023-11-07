@@ -32,7 +32,7 @@ export default function Administracion() {
   return (
     <AppLayout>
       <AppHead title="Administracion" />
-      <div className="mb-14">
+      <div className="mb-7">
         <div className=" mb-3.5 flex justify-between">
           <Title order={5} className="text-slate-800">
             Analíticas por Horarios
@@ -72,21 +72,13 @@ export default function Administracion() {
           </div>
         </div>
       </div>
-      <div className="my-7 flex justify-between">
-        <Title order={5} className="text-slate-800">
-          Tabla de Usuarios
-        </Title>
-        <UsuarioForm activator="Agregar Usuario" />
-      </div>
-
-      <UsuariosTable />
       <div>
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
           <Title order={5} className="mb-3.5 text-slate-800">
             Estadísticas Generales
           </Title>
           <Title order={5} className="mb-3.5 text-slate-800">
-            Indicador Clave de Rendimiento - KPI
+            Gauge de Utilidad Percibida
           </Title>
           <Title order={5} className="mb-3.5 text-slate-800">
             Indices de Administración
@@ -102,6 +94,14 @@ export default function Administracion() {
           </div>
         </div>
       </div>
+      <div className="my-7 flex justify-between">
+        <Title order={5} className="text-slate-800">
+          Tabla de Usuarios
+        </Title>
+        <UsuarioForm activator="Agregar Usuario" />
+      </div>
+
+      <UsuariosTable />
     </AppLayout>
   );
 }

@@ -1,8 +1,9 @@
 export interface ICliente {
+  foto: string;
   apellidoMaterno: string;
   apellidoPaterno: string;
   digitoVerificador: string;
   nombres: string;
-  numeroDocumento: string;
+  dni: string;
   tipoDocumento: string;
 }

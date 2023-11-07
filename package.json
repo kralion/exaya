@@ -24,7 +24,6 @@
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
-    "@types/aos": "^3.0.4",
     "animate.css": "^4.1.1",
     "antd": "^5.3.3",
     "aos": "^2.3.4",
@@ -45,6 +44,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/aos": "^3.0.4",
     "@types/bcryptjs": "^2.4.4",
     "@types/eslint": "^8.21.3",
     "@types/node": "^18.15.5",
