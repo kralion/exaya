@@ -56,9 +56,10 @@ export default function Login() {
   ) => {
     try {
       setLoading(true);
+      console.log(values);
       const res = await signIn("credentials", {
         redirect: false,
-        email: values.email,
+        username: values.username,
         password: values.password,
         callbackUrl,
       });
@@ -188,7 +189,7 @@ export default function Login() {
           >
             <h3 className="mb-2  font-semibold">Usuario</h3>
             <Form.Item
-              name="email"
+              name="username"
               className={`${literata.className} `}
               rules={[
                 {
@@ -198,7 +199,7 @@ export default function Login() {
               ]}
             >
               <Input
-                type="email"
+                type="text"
                 className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
               />
             </Form.Item>

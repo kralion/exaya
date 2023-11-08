@@ -10,7 +10,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { compare } from "bcryptjs";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -24,18 +23,24 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user?: {
       id: string;
-      name: string | null | undefined;
-      email: string;
+      username: string;
       image: string | null | undefined;
       role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    username: string;
+  }
 }
+
+type TUser = {
+  id: string;
+  username: string;
+  password: string;
+  image: string | null | undefined;
+  role: string;
+};
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -47,8 +52,7 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        session.user.email = user.email;
-        session.user.name = user.name;
+        session.user.username = user.username;
         session.user.image = user.image;
       }
       return session;
@@ -66,43 +70,40 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "email", type: "email" },
+        username: { label: "username", type: "username" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        // Verificar si las credenciales están presentes y no son nulas
-        if (!credentials?.email || !credentials.password) {
+      async authorize(credentials): Promise<TUser | null> {
+        // Check if the credentials are present and not null
+        if (!credentials?.username || !credentials.password) {
           return null;
         }
 
-        // Definir el usuario con sus datos
-        const user = {
-          id: "3",
-          email: "admin@admin.com",
-          name: "Sergio Vargas",
-          password: "password123", // Esta contraseña es solo para fines de demostración. No la uses en producción.
-          image: "https://randomuser.me/api/portraits/men/95.jpg",
-          role: "ADMIN",
-        };
-
-        const passwordMatch = await compare(
-          credentials.password,
-          user.password
-        );
-
-        // Verificar si las credenciales coinciden con el usuario 'admin@admin.com'
-        if (credentials.email !== user.email && passwordMatch) {
+        try {
+          // Fetch the user from the database
+          const user = await prisma.usuario.findFirst({
+            where: {
+              username: credentials.username,
+            },
+          });
+          //TODO: Use bcrypt to compare the passwords. For now, we'll just compare them directly and it is a bad practice. Is better to storing the password as a hash and then compare the hashes.
+          // if (!user || !(await compare(credentials.password, user.password))) {
+          //   return null;
+          // }
+          if (!user || credentials.password !== user.password) {
+            return null;
+          }
+          return {
+            id: user.id,
+            password: user.password,
+            username: user.username,
+            image: user.foto,
+            role: user.rol,
+          };
+        } catch (error) {
+          console.error("Error during authorization:", error);
           return null;
         }
-
-        // Si las credenciales son correctas, devolver los datos del usuario
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-          role: user.role,
-        };
       },
     }),
   ],

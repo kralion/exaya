@@ -9,6 +9,7 @@ export const usuariosRouter = createTRPCRouter({
       },
     });
   }),
+
   createUser: publicProcedure
     .input(usuarioSchema)
     .mutation(({ input, ctx }) => {
