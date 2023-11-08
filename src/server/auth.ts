@@ -25,7 +25,8 @@ declare module "next-auth" {
       id: string;
       username: string;
       image: string | null | undefined;
-      role: UserRole;
+      nombres: string;
+      rol: UserRole;
     } & DefaultSession["user"];
   }
 
@@ -37,9 +38,10 @@ declare module "next-auth" {
 type TUser = {
   id: string;
   username: string;
+  nombres: string;
   password: string;
   image: string | null | undefined;
-  role: string;
+  rol: string;
 };
 
 /**
@@ -85,6 +87,9 @@ export const authOptions: NextAuthOptions = {
             where: {
               username: credentials.username,
             },
+            include: {
+              cliente: true,
+            },
           });
           //TODO: Use bcrypt to compare the passwords. For now, we'll just compare them directly and it is a bad practice. Is better to storing the password as a hash and then compare the hashes.
           // if (!user || !(await compare(credentials.password, user.password))) {
@@ -96,9 +101,10 @@ export const authOptions: NextAuthOptions = {
           return {
             id: user.id,
             password: user.password,
+            nombres: user.cliente.nombres,
             username: user.username,
             image: user.foto,
-            role: user.rol,
+            rol: user.rol,
           };
         } catch (error) {
           console.error("Error during authorization:", error);

@@ -1,11 +1,9 @@
 import { Title } from "@mantine/core";
-import { Skeleton, Space } from "antd";
-import { useSession } from "next-auth/react";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
-import React, { lazy } from "react";
-
-const UserInfoDetails = lazy(() => import("./user-info"));
+import React, { Suspense } from "react";
+import UserInfoDetails from "./user-info";
+import UserSkeleton from "./skeletons/user-info-skeleton";
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
@@ -18,7 +16,6 @@ type HeaderProps = {
 };
 
 const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
-  const { status } = useSession();
   return (
     <div>
       {!collapsed ? (
@@ -53,45 +50,9 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      {status === "loading" ? (
-        <Space className="my-16 flex flex-col">
-          <Skeleton.Avatar active size={60} />
-          <Skeleton.Input active size="small" />
-          <Skeleton.Button
-            style={{
-              borderRadius: 16,
-              width: 70,
-            }}
-            active
-            size="small"
-          />
-        </Space>
-      ) : (
-        // Contenido real después de la carga inicial
+      <Suspense fallback={<UserSkeleton />}>
         <UserInfoDetails collapsed={collapsed} />
-      )}
-      {/*
-      
-      //! Better way to do it, but it's not working using Suspense
-
-      <Suspense
-        fallback={
-          <Space className="my-16 flex flex-col">
-            <Skeleton.Avatar active size={60} />
-            <Skeleton.Input active size="small" />
-            <Skeleton.Button
-              style={{
-                borderRadius: 16,
-                width: 70,
-              }}
-              active
-              size="small"
-            />
-          </Space>
-        }
-      >
-        <UserInfoDetails collapsed={collapsed} />
-      </Suspense> */}
+      </Suspense>
     </div>
   );
 };

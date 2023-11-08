@@ -78,7 +78,7 @@ const items: MenuProps["items"] = [
     icon: <CgLogOut />,
     label: (
       <button
-        onClick={() => signOut()}
+        onClick={() => void signOut({})}
         className="text-red-500 hover:text-red-600"
       >
         Salir
