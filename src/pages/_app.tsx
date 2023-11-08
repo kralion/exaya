@@ -19,7 +19,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
+    <>
       <Head>
         <title>Exaya - Tu Solución Integral de Gestión de Transportes</title>
         <meta
@@ -54,10 +54,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
             },
           }}
         >
-          <Component {...pageProps} />
+          <SessionProvider session={session}>
+            <Component {...pageProps} />
+          </SessionProvider>
         </ConfigProvider>
       </QueryClientProvider>
-    </SessionProvider>
+    </>
   );
 };
 

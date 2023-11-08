@@ -11,7 +11,7 @@ datasource db {
 
 model Usuario {
     id             String   @id @default(uuid())
-    username       String
+    username       String   @unique
     password       String
     createdAt      DateTime @default(now())
     cliente        Cliente  @relation(fields: [clienteId], references: [id])

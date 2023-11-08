@@ -6,6 +6,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsCoin, BsTicketPerforated } from "react-icons/bs";
@@ -16,8 +17,6 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
-import Router from "next/router";
-import { AppProvider } from "@/context/AppContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -112,61 +111,59 @@ export default function AppLayout({ children }: LayoutProps) {
   } = theme.useToken();
 
   return (
-    <AppProvider>
-      <Layout
+    <Layout
+      style={{
+        minHeight: "100vh",
+      }}
+    >
+      <Sider
+        className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
+        collapsed={collapsed}
         style={{
-          minHeight: "100vh",
+          background: colorBgContainer,
+          borderRadius: 21,
+          maxHeight: "86vh",
         }}
+        collapsedWidth={50}
+        onCollapse={(value) => setCollapsed(value)}
       >
-        <Sider
-          className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
-          collapsed={collapsed}
+        <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <Menu selectable mode="inline" items={items} />
+      </Sider>
+      <Layout>
+        <Header
+          className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
           style={{
             background: colorBgContainer,
-            borderRadius: 21,
-            maxHeight: "86vh",
+            borderRadius: 14,
           }}
-          collapsedWidth={50}
-          onCollapse={(value) => setCollapsed(value)}
         >
-          <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-          <Menu selectable mode="inline" items={items} />
-        </Sider>
-        <Layout>
-          <Header
-            className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
-            style={{
-              background: colorBgContainer,
-              borderRadius: 14,
-            }}
-          >
-            <div className="absolute left-2.5 flex w-full justify-between">
-              <AIAssistantInput />
-              <Title
-                order={4}
-                className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
-              >
-                Expreso Ayacucho S.A.C
-              </Title>
-            </div>
-          </Header>
-          {loading && <div className={styles.loader}></div>}
+          <div className="absolute left-2.5 flex w-full justify-between">
+            <AIAssistantInput />
+            <Title
+              order={4}
+              className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
+            >
+              Expreso Ayacucho S.A.C
+            </Title>
+          </div>
+        </Header>
+        {loading && <div className={styles.loader}></div>}
 
-          <Content
-            style={{
-              background: colorBgContainer,
-              padding: 21,
-              borderRadius: 21,
-            }}
-            className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
-          >
-            {children}
-          </Content>
-          <Footer className="my-5 text-center text-sm text-slate-500">
-            © Copyright 2024 Brayan Paucar . All rights reserved.
-          </Footer>
-        </Layout>
+        <Content
+          style={{
+            background: colorBgContainer,
+            padding: 21,
+            borderRadius: 21,
+          }}
+          className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+        >
+          {children}
+        </Content>
+        <Footer className="my-5 text-center text-sm text-slate-500">
+          © Copyright 2024 Brayan Paucar . All rights reserved.
+        </Footer>
       </Layout>
-    </AppProvider>
+    </Layout>
   );
 }

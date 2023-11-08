@@ -21,13 +21,11 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 type UserRole = "ADMIN" | "USUARIO" | "SUPERVISOR";
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user?: {
+    user: DefaultSession["user"] & {
       id: string;
       username: string;
-      image: string | null | undefined;
-      nombres: string;
       rol: UserRole;
-    } & DefaultSession["user"];
+    };
   }
 
   interface User {
@@ -38,9 +36,7 @@ declare module "next-auth" {
 type TUser = {
   id: string;
   username: string;
-  nombres: string;
   password: string;
-  image: string | null | undefined;
   rol: string;
 };
 
@@ -51,14 +47,13 @@ type TUser = {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        session.user.username = user.username;
-        session.user.image = user.image;
-      }
-      return session;
-    },
+    session: ({ session, user }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: user.id,
+      },
+    }),
   },
   pages: {
     signIn: "/login",
@@ -91,6 +86,7 @@ export const authOptions: NextAuthOptions = {
               cliente: true,
             },
           });
+          console.log(user);
           //TODO: Use bcrypt to compare the passwords. For now, we'll just compare them directly and it is a bad practice. Is better to storing the password as a hash and then compare the hashes.
           // if (!user || !(await compare(credentials.password, user.password))) {
           //   return null;
@@ -98,14 +94,7 @@ export const authOptions: NextAuthOptions = {
           if (!user || credentials.password !== user.password) {
             return null;
           }
-          return {
-            id: user.id,
-            password: user.password,
-            nombres: user.cliente.nombres,
-            username: user.username,
-            image: user.foto,
-            rol: user.rol,
-          };
+          return user;
         } catch (error) {
           console.error("Error during authorization:", error);
           return null;

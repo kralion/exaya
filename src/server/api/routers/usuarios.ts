@@ -9,7 +9,22 @@ export const usuariosRouter = createTRPCRouter({
       },
     });
   }),
-
+  getUsuarioByUsername: publicProcedure
+    .input(
+      usuarioSchema.pick({
+        username: true,
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.usuario.findFirst({
+        where: {
+          username: input.username,
+        },
+        include: {
+          cliente: true,
+        },
+      });
+    }),
   createUser: publicProcedure
     .input(usuarioSchema)
     .mutation(({ input, ctx }) => {

@@ -3,7 +3,8 @@ import { useSession } from "next-auth/react";
 
 export default function UserInfo({ collapsed }: { collapsed: boolean }) {
   const { data: sessionData } = useSession();
-  console.log(sessionData?.user?.nombres);
+  console.log(sessionData?.user.name);
+
   return (
     <Space wrap size={1} className="my-16 flex flex-col">
       <Avatar
@@ -19,7 +20,7 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
       {!collapsed && (
         <div className="flex flex-col items-center justify-center">
           <Typography.Text strong>
-            {sessionData?.user?.nombres || <Tag>default</Tag>}
+            {sessionData?.expires || <Tag>default</Tag>}
           </Typography.Text>
           {sessionData?.user?.rol && (
             <Tag
