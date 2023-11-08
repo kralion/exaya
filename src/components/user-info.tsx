@@ -7,6 +7,7 @@ type UserInfoProps = {
 
 export default function UserInfo({ collapsed }: UserInfoProps) {
   const { data: session } = useSession();
+  console.log(session?.user?.username);
 
   return (
     <Space wrap size={1} className="my-16 flex flex-col">
@@ -28,14 +29,14 @@ export default function UserInfo({ collapsed }: UserInfoProps) {
           <Tag
             color={
               session?.user?.role === "ADMIN"
-                ? "gold-inverse"
+                ? "purple-inverse"
                 : session?.user?.role === "SUPERVISOR"
                 ? "blue-inverse"
                 : "green-inverse"
             }
             className="mt-1 rounded-full font-semibold lowercase"
           >
-            {session?.user?.role || "admin"}
+            {session?.user?.role || "ADMIN"}
           </Tag>
         </div>
       )}

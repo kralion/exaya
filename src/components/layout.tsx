@@ -78,12 +78,8 @@ const items: MenuProps["items"] = [
     icon: <CgLogOut />,
     label: (
       <button
-        onClick={() =>
-          signOut({
-            redirect: false,
-            callbackUrl: "http://localhost:3000/login",
-          })
-        }
+        onClick={() => signOut()}
+        className="text-red-500 hover:text-red-600"
       >
         Salir
       </button>
