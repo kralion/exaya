@@ -1,20 +1,24 @@
 import AppHead from "@/components/head";
 import AppLayout from "@/components/layout";
+import AdministracionStepsSkeleton from "@/components/skeletons/administracion-steps-skeleton";
+import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
+import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
+import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import KpiChart from "@/components/ui/administracion/kpi-chart";
 import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { RoundedButton } from "@/components/ui/rounded-button";
-import {
-  UsuarioContextProvider,
-  UsuarioProvider,
-} from "@/context/UsuarioContext";
+
 import { mockData } from "@/data";
+import { api } from "@/utils/api";
 import { Title } from "@mantine/core";
-import { DatePicker, Select } from "antd";
+import { Alert, DatePicker, Select } from "antd";
 import type { DatePickerProps } from "antd/es/date-picker";
+import { Suspense } from "react";
 export default function Administracion() {
+  const { data: salidas, isError } = api.viajes.getAllViajes.useQuery();
   const handleRuta = (value: { value: string; label: React.ReactNode }) => {
     alert(`selected ${value.value}`);
   };
@@ -43,9 +47,26 @@ export default function Administracion() {
         </div>
         <div className=" flex justify-between">
           <div className="flex items-center gap-2">
-            <RoundedButton horaSalida="20:15" />
-            <RoundedButton horaSalida="20:30" />
-            <RoundedButton horaSalida="21:00" />
+            {isError && (
+              <Alert
+                message={
+                  <p>
+                    Error al obtener los datos de los
+                    <code className="ml-2 underline">Horarios</code> por favor
+                    <a href="." className="ml-2 underline">
+                      recarge la página
+                    </a>
+                  </p>
+                }
+                type="error"
+                showIcon
+              />
+            )}
+            {salidas?.map((salida) => (
+              <Suspense key={salida.id} fallback={<ScheduleSkeleton />}>
+                <RoundedButton horaSalida={salida.horaSalida} />
+              </Suspense>
+            ))}
           </div>
           <div className="flex gap-3.5">
             <DatePicker
@@ -54,21 +75,16 @@ export default function Administracion() {
               placeholder={placeHolderDate}
             />
 
-            <Select
-              placeholder="Ruta"
-              style={{ width: 180 }}
-              onChange={handleRuta}
-              options={[
-                {
-                  value: "RUTA-HA",
-                  label: "Huancayo - Ayacucho",
-                },
-                {
-                  value: "RUTA-AH",
-                  label: "Ayacucho - Huancayo",
-                },
-              ]}
-            />
+            <Select placeholder="Ruta" style={{ width: 180 }}>
+              {salidas?.map((salida) => (
+                <Select.Option
+                  key={salida.id}
+                  value={salida.ruta.ciudadOrigen + salida.ruta.ciudadDestino}
+                >
+                  {salida.ruta.ciudadOrigen} - {salida.ruta.ciudadDestino}
+                </Select.Option>
+              ))}
+            </Select>
           </div>
         </div>
       </div>
@@ -85,12 +101,18 @@ export default function Administracion() {
           </Title>
         </div>
         <div className="flex gap-3.5">
-          <StatsSegments {...mockData} />
+          <Suspense fallback={<GeneralStatisticsSkeleton />}>
+            <StatsSegments {...mockData} />
+          </Suspense>
           <div className="rounded-md border-1">
-            <KpiChart />
+            <Suspense fallback={<GaugeSkeleton />}>
+              <KpiChart />
+            </Suspense>
           </div>
           <div className="rounded-md border-1 px-3">
-            <AdministracionSteps />
+            <Suspense fallback={<AdministracionStepsSkeleton />}>
+              <AdministracionSteps />
+            </Suspense>
           </div>
         </div>
       </div>

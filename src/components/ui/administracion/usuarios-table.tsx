@@ -3,6 +3,7 @@ import type { ICliente, IUsuario } from "@/interfaces";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Alert, Avatar } from "antd";
 import Link from "next/link";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function UsuariosTable() {
   const {
@@ -13,7 +14,6 @@ export default function UsuariosTable() {
   const {
     data: usuarios,
     isLoading,
-    isFetching,
     isError,
   } = api.usuarios.getAllUsuarios.useQuery();
   const { openNotification } = useNotification();
@@ -51,18 +51,20 @@ export default function UsuariosTable() {
       title: "Nombres",
       dataIndex: "cliente",
       key: "nombres",
-      render: (cliente: ICliente) => <a>{cliente.nombres}</a>,
+      render: (cliente: ICliente) => (
+        <span className="font-semibold">{cliente.nombres}</span>
+      ),
     },
     {
       title: "Apellidos",
       dataIndex: "cliente",
       key: "apellidos",
       render: (cliente: ICliente) => (
-        <Tag className="font-semibold" key={cliente.dni}>
+        <span key={cliente.dni}>
           {cliente.apellidoPaterno +
             (cliente.apellidoMaterno ? " " + cliente.apellidoMaterno : "") ||
             ""}
-        </Tag>
+        </span>
       ),
     },
     {
@@ -108,27 +110,25 @@ export default function UsuariosTable() {
       render: (usuario: IUsuario) => {
         return (
           <Space size="middle">
-            <Button type="dashed">
-              Editar <code className="ml-2 underline">{usuario.nombres}</code>{" "}
-            </Button>
             <Popconfirm
               okButtonProps={{
-                style: {
-                  backgroundColor: "#f5222d",
-                  color: "white",
-                  borderRadius: "5px",
-                  border: "none",
-                },
+                className:
+                  "bg-red-500 text-white rounded-md items-center justify-center",
               }}
-              title="Confirmar Operacion ?"
+              onConfirm={() => void handleUserDelete(usuario.id)}
+              title="Confirmar Operación"
+              okText="Eliminar"
             >
               <Button
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                onClick={() => handleUserDelete(usuario.id)}
                 type="link"
+                className="flex items-center justify-center"
                 danger
+                title="Eliminar Usuario"
               >
-                Eliminar
+                <RiDeleteBin6Line
+                  size="1.2em"
+                  className="text-red-400 hover:text-red-600"
+                />
               </Button>
             </Popconfirm>
           </Space>
@@ -160,7 +160,7 @@ export default function UsuariosTable() {
       <Table
         columns={columns}
         dataSource={usuarios}
-        loading={isLoading || isFetching || isDeleting}
+        loading={isLoading || isDeleting}
       />
     </>
   );

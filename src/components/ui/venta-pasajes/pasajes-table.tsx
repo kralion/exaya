@@ -409,11 +409,7 @@ const viajesColumns: ColumnsType<IViaje> = [
 ];
 
 export function PasajesTable() {
-  const {
-    data: viajes,
-    isLoading,
-    isFetching,
-  } = api.viajes.getAllViajes.useQuery();
+  const { data: viajes, isLoading } = api.viajes.getAllViajes.useQuery();
 
   return (
     <div className="w-full">
@@ -422,13 +418,7 @@ export function PasajesTable() {
       </Title>
       <Table
         pagination={false}
-        loading={
-          isLoading ||
-          (isFetching && {
-            spinning: true,
-            size: "large",
-          })
-        }
+        loading={isLoading}
         columns={viajesColumns}
         dataSource={viajes}
       />
