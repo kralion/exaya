@@ -7,6 +7,7 @@ import {
   InputNumber,
   Modal,
   Radio,
+  Select,
   Space,
   Typography,
   Upload,
@@ -17,13 +18,13 @@ import styles from "./frame.module.css";
 type Props = {
   activator: string;
 };
-import { useConductorContext } from "@/context/ConductorContext";
 import type { IConductor } from "@/interfaces";
 import { Title } from "@mantine/core";
 import style from "./frame.module.css";
 import { BsTelephone } from "react-icons/bs";
 import { useNotification } from "@/context/NotificationContext";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { api } from "@/utils/api";
 
 interface LicenseNodeType {
   value: number;
@@ -92,11 +93,13 @@ export function ConductorForm({ activator }: Props) {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
-  const { handleAddConductor } = useConductorContext();
   const { openNotification } = useNotification();
+  const { data: informacionConductor, error: errorValidacionDNI } =
+    api.clientes.validateDni.useQuery({
+      dni: form.getFieldValue("dni") as string,
+    });
 
   const onFinish = (values: IConductor) => {
-    handleAddConductor(values);
     form.resetFields();
     setIsModalOpen(false);
     openNotification({
@@ -154,44 +157,28 @@ export function ConductorForm({ activator }: Props) {
           <Form.Item
             name="dni"
             label="DNI"
+            tooltip="DNI del conductor, esta información es validada con la RENIEC "
             rules={[
-              {
-                required: true,
-                message: "Ingresa el DNI del conductor",
-                whitespace: true,
-              },
+              { required: true },
+              { min: 8, message: "El DNI debe tener 8 dígitos" },
+              { max: 8, message: "El DNI debe tener 8 dígitos" },
             ]}
-            validateStatus="validating"
-            help="Este campo será validado ..."
+            validateStatus={
+              errorValidacionDNI
+                ? "error"
+                : informacionConductor
+                ? "success"
+                : "validating"
+            }
+            help={
+              <p>
+                {informacionConductor?.data?.nombres}{" "}
+                {informacionConductor?.data?.apellidoPaterno}{" "}
+                {informacionConductor?.data?.apellidoMaterno}
+              </p>
+            }
           >
-            <Input type="number" placeholder="12345678" />
-          </Form.Item>
-          <Form.Item
-            name="nombres"
-            label="Nombres"
-            rules={[
-              {
-                required: true,
-                message: "Ingresa los nombres del conductor",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input placeholder="Roberto" />
-          </Form.Item>
-
-          <Form.Item
-            name="apellidos"
-            label="Apellidos"
-            rules={[
-              {
-                required: true,
-                message: "Ingresa los apellidos del conductor",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input placeholder="Quiroz" />
+            <Input type="text" className="w-full" />
           </Form.Item>
 
           <Form.Item
@@ -210,7 +197,7 @@ export function ConductorForm({ activator }: Props) {
           </Form.Item>
           <Form.Item
             name="licencia_conducir"
-            label="Licencia"
+            label="Numero Licencia"
             rules={[
               {
                 required: true,
@@ -224,16 +211,22 @@ export function ConductorForm({ activator }: Props) {
 
           <Form.Item
             name="nivel"
-            label="Nivel de Licencia"
+            label="Clase Licencia"
             rules={[
               {
                 type: "array",
                 required: true,
-                message: "Selecciona el Tipo de Licencia",
+                message: "Selecciona",
               },
             ]}
           >
-            <Cascader placeholder="A II-B" options={tiposLicencia} />
+            <Select placeholder="A II-B">
+              <Select.Option value="A II-A">A II-A</Select.Option>
+              <Select.Option value="A II-B">A II-B</Select.Option>
+              <Select.Option value="A II-C">A II-C</Select.Option>
+              <Select.Option value="A II-A">A III-A</Select.Option>
+              <Select.Option value="A II-B">A III-B</Select.Option>
+            </Select>
           </Form.Item>
 
           <Form.Item

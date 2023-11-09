@@ -1,4 +1,3 @@
-import { useConductorContext } from "@/context/ConductorContext";
 import type { IConductor } from "@/interfaces";
 import { UploadOutlined } from "@ant-design/icons";
 import { Title } from "@mantine/core";
@@ -28,12 +27,10 @@ export function BusForm({ activator }: Props) {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
-  const { handleAddConductor } = useConductorContext();
 
   const { openNotification } = useNotification();
 
   const onFinish = (values: IConductor) => {
-    handleAddConductor(values);
     form.resetFields();
     setIsModalOpen(false);
     openNotification({
@@ -89,7 +86,7 @@ export function BusForm({ activator }: Props) {
         >
           <Form.Item
             name="asientos"
-            label="Asientos"
+            label="N° de Asientos"
             rules={[
               {
                 required: true,

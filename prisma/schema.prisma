@@ -13,6 +13,7 @@ model Usuario {
     id             String   @id @default(uuid())
     username       String   @unique
     password       String
+    telefono       String?
     createdAt      DateTime @default(now())
     cliente        Cliente  @relation(fields: [clienteId], references: [id])
     clienteId      String   @unique
@@ -56,8 +57,9 @@ model Conductor {
     clienteId          String  @unique
     viaje              Viaje?  @relation(fields: [viajeId], references: [id])
     viajeId            String?
-    licencia           String
-    tipoLicencia       String
+    numerolicencia     String
+    claseLicencia      String
+    telefono           String
     estadoDocumentario String
     disponibilidad     Boolean
 }

@@ -1,4 +1,3 @@
-import { conductores } from "@/data";
 import type { IConductor } from "@/interfaces";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Title } from "@mantine/core";
@@ -15,10 +14,9 @@ import {
   Typography,
 } from "antd";
 import { useState } from "react";
+import { api } from "@/utils/api";
 
 const { confirm } = Modal;
-
-const data: IConductor[] = [...conductores];
 
 const items = [
   {
@@ -37,7 +35,8 @@ const items = [
 
 export function ConductoresInformacion() {
   const [open, setOpen] = useState(false);
-  const [conductor, setConductor] = useState<IConductor | null>(null);
+  const [conductor, setConductor] = useState<IConductor | null>();
+  const { data: conductores } = api.conductores.getAllConductores.useQuery();
 
   const showDeleteConfirm = () => {
     confirm({
@@ -47,15 +46,15 @@ export function ConductoresInformacion() {
       okText: "Sí",
       okType: "danger",
       cancelText: "No",
-      onOk() {
-        typeof conductor !== "undefined" &&
-          data.splice(
-            data.findIndex((item) => item.id === conductor?.id),
-            1
-          );
+      // onOk() {
+      //   typeof conductor !== "undefined" &&
+      //     data.splice(
+      //       data.findIndex((item) => item.id === conductor?.id),
+      //       1
+      //     );
 
-        setOpen(false);
-      },
+      //   setOpen(false);
+      // },
     });
   };
   const [isEditing, setIsEditing] = useState(false);
@@ -78,13 +77,13 @@ export function ConductoresInformacion() {
       <List
         itemLayout="horizontal"
         className=" w-max  min-w-[500px] rounded-lg border-1 "
-        dataSource={data}
+        dataSource={conductores}
         renderItem={(conductor, index) =>
-          data.length > 0 ? (
+          conductores?.length > 0 ? (
             <List.Item
-              onClick={() => {
-                openModal(conductor);
-              }}
+              // onClick={() => {
+              //   openModal(conductor);
+              // }}
               key={index}
               className="cursor-pointer  rounded-lg  duration-100 hover:bg-zinc-100 hover:shadow-md"
               style={{
@@ -93,7 +92,7 @@ export function ConductoresInformacion() {
               }}
             >
               <List.Item.Meta
-                avatar={<Avatar src={conductor.foto_perfil} />}
+                avatar={<Avatar src={conductor.foto} />}
                 title={
                   <div className="flex items-center gap-2">
                     <a
@@ -101,7 +100,7 @@ export function ConductoresInformacion() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {conductor.nombres}
+                      {conductor.cliente.nombres}
                     </a>
                     {conductor.disponibilidad === true ? (
                       <AiFillCheckCircle className=" text-green-500" />
@@ -112,15 +111,20 @@ export function ConductoresInformacion() {
                 }
                 description={
                   <div className="flex items-center gap-3">
-                    <p>{conductor.licencia_conducir}</p>
+                    <p>{conductor.licencia}</p>
                   </div>
                 }
               />
               <Steps
                 style={{ marginTop: 8 }}
                 type="inline"
-                current={conductor.nivel}
-                // status={conductor.status as StepsProps["status"]}
+                current={
+                  conductor.tipoLicencia === "A2B"
+                    ? 2
+                    : conductor.tipoLicencia === "A3B"
+                    ? 1
+                    : 0
+                }
                 items={items}
               />
             </List.Item>

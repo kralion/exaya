@@ -3,7 +3,11 @@ import { conductorSchema } from "@/schemas";
 
 export const conductoresRouter = createTRPCRouter({
   getAllConductores: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.conductor.findMany();
+    return ctx.prisma.conductor.findMany({
+      include: {
+        cliente: true,
+      },
+    });
   }),
   deleteConductor: publicProcedure.mutation({
     input: conductorSchema.pick({ id: true }),
