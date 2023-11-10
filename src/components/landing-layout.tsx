@@ -9,12 +9,10 @@ import Link from "next/link";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
-  preload: true,
 });
 const blackOpsOne = Black_Ops_One({
   weight: "400",
   subsets: ["latin"],
-  preload: true,
 });
 export const navLinks = [
   {

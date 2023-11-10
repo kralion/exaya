@@ -1,7 +1,7 @@
-import type { IConductor } from "@/interfaces";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Title } from "@mantine/core";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { IConductor } from "@/interfaces";
 import {
   Avatar,
   Button,
@@ -36,7 +36,8 @@ const items = [
 export function ConductoresInformacion() {
   const [open, setOpen] = useState(false);
   const [conductor, setConductor] = useState<IConductor | null>();
-  const { data: conductores } = api.conductores.getAllConductores.useQuery();
+  const { data: conductoresRegistrados } =
+    api.conductores.getAllConductores.useQuery();
 
   const showDeleteConfirm = () => {
     confirm({
@@ -77,9 +78,9 @@ export function ConductoresInformacion() {
       <List
         itemLayout="horizontal"
         className=" w-max  min-w-[500px] rounded-lg border-1 "
-        dataSource={conductores}
+        dataSource={conductoresRegistrados}
         renderItem={(conductor, index) =>
-          conductores?.length > 0 ? (
+          conductoresRegistrados?.length > 0 ? (
             <List.Item
               // onClick={() => {
               //   openModal(conductor);
@@ -111,7 +112,7 @@ export function ConductoresInformacion() {
                 }
                 description={
                   <div className="flex items-center gap-3">
-                    <p>{conductor.licencia}</p>
+                    <p>{conductor.numerolicencia}</p>
                   </div>
                 }
               />
@@ -119,9 +120,9 @@ export function ConductoresInformacion() {
                 style={{ marginTop: 8 }}
                 type="inline"
                 current={
-                  conductor.tipoLicencia === "A2B"
+                  conductor.claseLicencia === "A2B"
                     ? 2
-                    : conductor.tipoLicencia === "A3B"
+                    : conductor.claseLicencia === "A3A"
                     ? 1
                     : 0
                 }
@@ -138,7 +139,7 @@ export function ConductoresInformacion() {
         }
       />
 
-      <Modal
+      {/* <Modal
         title={<Title order={3}>Información del Conductor</Title>}
         centered
         open={
@@ -172,16 +173,16 @@ export function ConductoresInformacion() {
           <div className="mt-7 space-y-3">
             <p>
               <Typography.Text strong>Cod Licencia : </Typography.Text>
-              <Tag> {conductor?.licencia_conducir}</Tag>
+              <Tag> {conductor?.numerolicencia}</Tag>
             </p>
 
             <p>
               <Typography.Text strong>Nombre : </Typography.Text>
-              <Typography.Text>{conductor?.nombres}</Typography.Text>
+              <Typography.Text>{conductor?.cliente.nombres}</Typography.Text>
             </p>
             <p>
               <Typography.Text strong>Apellidos : </Typography.Text>
-              <Typography.Text>{conductor?.apellidos}</Typography.Text>
+              <Typography.Text>{conductor?.cliente.apellidos}</Typography.Text>
             </p>
 
             <p>
@@ -233,7 +234,7 @@ export function ConductoresInformacion() {
             alt="Bus Preview"
           />
         </div>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

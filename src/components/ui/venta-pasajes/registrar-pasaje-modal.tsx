@@ -87,6 +87,11 @@ export const RegistrarPasajeModal = () => {
     setOpenRegister(true);
   };
 
+  const handleSeatBooking = () => {
+    setDisabledPrint(false);
+    alert("Asiento reservado");
+  };
+
   return (
     <div>
       <Typography onClick={() => setOpen(true)}>Registrar</Typography>
@@ -303,6 +308,13 @@ export const RegistrarPasajeModal = () => {
                   Registrar
                 </button>
               </Popconfirm>
+              <Button
+                type="default"
+                htmlType="button"
+                onClick={handleSeatBooking}
+              >
+                Reservar Asiento{" "}
+              </Button>
 
               <div className=" flex gap-2">
                 <Button

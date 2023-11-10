@@ -1,6 +1,6 @@
 import { boletosRegistrados } from "@/data";
 import type { IBoleto } from "@/interfaces";
-import { SettingOutlined } from "@ant-design/icons";
+import { LuSettings } from "react-icons/lu";
 import { Title } from "@mantine/core";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
@@ -11,16 +11,6 @@ const columns: ColumnsType<IBoleto> = [
     dataIndex: "id",
     key: "id",
     render: (id: string) => <span>B003-{id}</span>,
-  },
-  {
-    title: "Concepto",
-    dataIndex: "id_viaje",
-    key: "id_viaje",
-  },
-  {
-    title: "Nº",
-    dataIndex: "numero_asiento",
-    key: "numero_asiento",
   },
 
   {
@@ -44,7 +34,7 @@ const columns: ColumnsType<IBoleto> = [
     ),
   },
   {
-    title: "ID Cliente",
+    title: "DNI Cliente",
     dataIndex: "id_cliente",
     key: "id_cliente",
   },
@@ -80,10 +70,11 @@ const ComprobantesTable: React.FC = () => (
   <div className="space-y-3.5">
     <div className="flex justify-between">
       <Title order={5}>Boletos Recientes</Title>
-      <SettingOutlined
-        onClick={handleConfigurar}
+      <LuSettings
+        className="cursor-not-allowed hover:opacity-70"
         title="Configurar"
-        className="cursor-pointer duration-200 hover:text-blue-500 "
+        onClick={handleConfigurar}
+        size={20}
       />
     </div>
     <Table

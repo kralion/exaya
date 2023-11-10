@@ -5,7 +5,7 @@ export interface IConductor {
   apellidos: string;
   dni: string;
   telefono: string;
-  licencia_conducir: string;
+  numeroLicencia: string;
   disponibilidad: boolean;
   foto_perfil: string;
   foto_bus?: string;

@@ -1,10 +1,10 @@
 import { facturasRegistradas } from "@/data";
 import type { IFactura } from "@/interfaces";
 import { Title } from "@mantine/core";
-import { Button, Popconfirm, Table, Tag } from "antd";
+import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { LuSettings } from "react-icons/lu";
 import React from "react";
-import { SettingOutlined } from "@ant-design/icons";
 
 type IProducto = {
   nombre: number;
@@ -99,10 +99,11 @@ const FacturasTable: React.FC = () => (
   <div className="my-7 space-y-3.5">
     <div className="flex justify-between">
       <Title order={5}>Facturas Recientes</Title>
-      <SettingOutlined
-        onClick={handleConfigurar}
+      <LuSettings
+        className="cursor-not-allowed hover:opacity-70"
         title="Configurar"
-        className="cursor-pointer duration-200 hover:text-blue-500 "
+        onClick={handleConfigurar}
+        size={20}
       />
     </div>
 

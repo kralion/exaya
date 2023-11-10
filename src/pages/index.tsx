@@ -14,6 +14,7 @@ import { BsArrowRight } from "react-icons/bs";
 const dancing_Script = Dancing_Script({
   subsets: ["latin"],
   weight: "700",
+  preload: true,
 });
 
 export default function Index() {
