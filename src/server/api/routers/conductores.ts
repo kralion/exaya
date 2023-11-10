@@ -9,32 +9,23 @@ export const conductoresRouter = createTRPCRouter({
       },
     });
   }),
-  deleteConductor: publicProcedure.mutation({
-    input: conductorSchema.pick({ id: true }),
-    resolve: async ({ ctx, input }) => {
-      return ctx.prisma.conductor.delete({
-        where: {
-          id: input.id,
-        },
-      });
-    },
-  }),
-  createConductor: publicProcedure.mutation({
-    input: conductorSchema.pick({
-      modelo: true,
-      foto: true,
-      placa: true,
-      asientos: true,
+  getConductorById: publicProcedure
+    .input(conductorSchema.pick({ id: true }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.conductor.findUnique({ where: { id: input.id } });
     }),
-    resolve: async ({ ctx, input }) => {
-      return ctx.prisma.conductor.create({
-        data: {
-          modelo: input.modelo,
-          foto: input.foto,
-          placa: input.placa,
-          asientos: input.asientos,
-        },
-      });
-    },
-  }),
+  createConductor: publicProcedure
+    .input(conductorSchema.omit({ id: true }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.prisma.conductor.create({ data: input });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  deleteConductor: publicProcedure
+    .input(conductorSchema.pick({ id: true }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.conductor.delete({ where: { id: input.id } });
+    }),
 });

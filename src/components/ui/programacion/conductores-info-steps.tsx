@@ -1,12 +1,11 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Title } from "@mantine/core";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { IConductor } from "@/interfaces";
+import type { IConductor } from "@/interfaces";
 import {
   Avatar,
   Button,
   Empty,
-  Image,
   List,
   Modal,
   Steps,
@@ -15,6 +14,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { api } from "@/utils/api";
+import Image from "next/image";
 
 const { confirm } = Modal;
 
@@ -35,9 +35,11 @@ const items = [
 
 export function ConductoresInformacion() {
   const [open, setOpen] = useState(false);
-  const [conductor, setConductor] = useState<IConductor | null>();
+  const [conductor, setConductor] = useState<IConductor>();
   const { data: conductoresRegistrados } =
     api.conductores.getAllConductores.useQuery();
+
+  console.log(conductoresRegistrados?.length);
 
   const showDeleteConfirm = () => {
     confirm({
@@ -47,15 +49,11 @@ export function ConductoresInformacion() {
       okText: "Sí",
       okType: "danger",
       cancelText: "No",
-      // onOk() {
-      //   typeof conductor !== "undefined" &&
-      //     data.splice(
-      //       data.findIndex((item) => item.id === conductor?.id),
-      //       1
-      //     );
+      onOk() {
+        typeof conductor !== "undefined" && handleDeleteConductor(conductor.id);
 
-      //   setOpen(false);
-      // },
+        setOpen(false);
+      },
     });
   };
   const [isEditing, setIsEditing] = useState(false);
@@ -73,6 +71,14 @@ export function ConductoresInformacion() {
     setIsEditing(false);
   };
 
+  const conductorDeleteMutation = api.conductores.deleteConductor.useMutation();
+  const handleDeleteConductor = (id: string) => {
+    conductorDeleteMutation.mutate({
+      id,
+    });
+    setOpen(false);
+  };
+
   return (
     <>
       <List
@@ -82,11 +88,11 @@ export function ConductoresInformacion() {
         renderItem={(conductor, index) =>
           conductoresRegistrados?.length > 0 ? (
             <List.Item
-              // onClick={() => {
-              //   openModal(conductor);
-              // }}
+              onClick={() => {
+                openModal(conductor as IConductor);
+              }}
               key={index}
-              className="cursor-pointer  rounded-lg  duration-100 hover:bg-zinc-100 hover:shadow-md"
+              className="cursor-pointer  rounded-lg  bg-zinc-100 shadow-md duration-100 hover:opacity-80 hover:shadow-none"
               style={{
                 paddingLeft: 14,
                 paddingRight: 14,
@@ -112,7 +118,7 @@ export function ConductoresInformacion() {
                 }
                 description={
                   <div className="flex items-center gap-3">
-                    <p>{conductor.numerolicencia}</p>
+                    <p>{conductor.numeroLicencia}</p>
                   </div>
                 }
               />
@@ -139,7 +145,7 @@ export function ConductoresInformacion() {
         }
       />
 
-      {/* <Modal
+      <Modal
         title={<Title order={3}>Información del Conductor</Title>}
         centered
         open={
@@ -173,7 +179,7 @@ export function ConductoresInformacion() {
           <div className="mt-7 space-y-3">
             <p>
               <Typography.Text strong>Cod Licencia : </Typography.Text>
-              <Tag> {conductor?.numerolicencia}</Tag>
+              <Tag> {conductor?.numeroLicencia}</Tag>
             </p>
 
             <p>
@@ -182,7 +188,10 @@ export function ConductoresInformacion() {
             </p>
             <p>
               <Typography.Text strong>Apellidos : </Typography.Text>
-              <Typography.Text>{conductor?.cliente.apellidos}</Typography.Text>
+              <Typography.Text>
+                {conductor?.cliente.apellidoPaterno}{" "}
+                {conductor?.cliente.apellidoMaterno}
+              </Typography.Text>
             </p>
 
             <p>
@@ -211,30 +220,25 @@ export function ConductoresInformacion() {
             <p>
               <Typography.Text strong>Documentos : </Typography.Text>
               <Typography.Text>
-                {conductor?.estado_documentario ===
-                "Documentos Actualizados" ? (
-                  <Tag color="green">{conductor?.estado_documentario}</Tag>
-                ) : conductor?.estado_documentario === "En Trámite" ? (
-                  <Tag color="yellow">{conductor?.estado_documentario}</Tag>
+                {conductor?.estadoDocumentario === "Actualizados" ? (
+                  <Tag color="green">{conductor?.estadoDocumentario}</Tag>
+                ) : conductor?.estadoDocumentario === "En Trámite" ? (
+                  <Tag color="yellow">{conductor?.estadoDocumentario}</Tag>
                 ) : (
-                  <Tag color="red">{conductor?.estado_documentario}</Tag>
+                  <Tag color="red">{conductor?.estadoDocumentario}</Tag>
                 )}
               </Typography.Text>
             </p>
           </div>
           <Image
-            src={
-              conductor?.foto_bus === undefined
-                ? "https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg"
-                : conductor?.foto_bus
-            }
+            src="https://img.freepik.com/free-vector/driving-instruction-abstract-concept-vector-illustration_335657-5684.jpg?w=740&t=st=1699642057~exp=1699642657~hmac=809aef5ab939ec6ec6846d03bba4d9af8da8a470d973ac7ad33a16bf00ebf57b"
             width={300}
             height={200}
             className="rounded-lg object-cover "
             alt="Bus Preview"
           />
         </div>
-      </Modal> */}
+      </Modal>
     </>
   );
 }

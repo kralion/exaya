@@ -1,12 +1,12 @@
-import type { IConductor } from "@/interfaces";
+import { useNotification } from "@/context/NotificationContext";
+import type { IBus } from "@/interfaces";
 import { UploadOutlined } from "@ant-design/icons";
 import { Title } from "@mantine/core";
 import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
 import { useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 import { default as style, default as styles } from "./frame.module.css";
-import { useNotification } from "@/context/NotificationContext";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 type Props = {
   activator: string;
 };
@@ -30,7 +30,7 @@ export function BusForm({ activator }: Props) {
 
   const { openNotification } = useNotification();
 
-  const onFinish = (values: IConductor) => {
+  const onFinish = (values: IBus) => {
     form.resetFields();
     setIsModalOpen(false);
     openNotification({
@@ -41,7 +41,12 @@ export function BusForm({ activator }: Props) {
     });
   };
   const onFinishFailed = () => {
-    console.log("Falló el registro");
+    openNotification({
+      message: "Error",
+      description: "El conductor no ha sido registrado",
+      type: "error",
+      placement: "topRight",
+    });
   };
   const busPicFile = (e) => {
     if (Array.isArray(e)) {

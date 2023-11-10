@@ -1,16 +1,14 @@
+import type { ICliente } from "./cliente";
+
 export interface IConductor {
-  id: number;
-  created_at: string;
-  nombres: string;
-  apellidos: string;
-  dni: string;
-  telefono: string;
+  id: string;
+  foto?: string;
+  cliente: ICliente;
   numeroLicencia: string;
+  claseLicencia: string;
+  telefono: string;
+  estadoDocumentario: string;
   disponibilidad: boolean;
-  foto_perfil: string;
-  foto_bus?: string;
-  estado_documentario: string;
-  nivel: number;
 }
 
 export interface ConductorContextProps {

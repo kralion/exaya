@@ -1,7 +1,10 @@
+import { useNotification } from "@/context/NotificationContext";
+import type { IConductor } from "@/interfaces";
+import { api } from "@/utils/api";
 import { UploadOutlined } from "@ant-design/icons";
+import { Title } from "@mantine/core";
 import {
   Button,
-  Cascader,
   Form,
   Input,
   InputNumber,
@@ -12,59 +15,13 @@ import {
   Typography,
   Upload,
 } from "antd";
-import type { CascaderProps } from "antd/lib/cascader";
 import { useState } from "react";
-import styles from "./frame.module.css";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { BsTelephone } from "react-icons/bs";
+import { default as style, default as styles } from "./frame.module.css";
 type Props = {
   activator: string;
 };
-import type { IConductor } from "@/interfaces";
-import { Title } from "@mantine/core";
-import style from "./frame.module.css";
-import { BsTelephone } from "react-icons/bs";
-import { useNotification } from "@/context/NotificationContext";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { api } from "@/utils/api";
-
-interface LicenseNodeType {
-  value: number;
-  label: string;
-  children?: LicenseNodeType[];
-}
-interface DocumentsNodeType {
-  value: string;
-  label: string;
-  children?: DocumentsNodeType[];
-}
-
-const tiposLicencia: CascaderProps<LicenseNodeType>["options"] = [
-  {
-    value: 0,
-    label: "A II-A",
-  },
-  {
-    value: 1,
-    label: "A II-B",
-  },
-  {
-    value: 2,
-    label: "A II-C",
-  },
-];
-const estadosDocumentarios: CascaderProps<DocumentsNodeType>["options"] = [
-  {
-    value: "Documentos Actualizados",
-    label: "Documentos Actualizados",
-  },
-  {
-    value: "En Trámite",
-    label: "En Trámite",
-  },
-  {
-    value: "Rechazado",
-    label: "Rechazado",
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -270,10 +227,11 @@ export function ConductorForm({ activator }: Props) {
                 },
               ]}
             >
-              <Cascader
-                placeholder="Documentos Actualizados"
-                options={estadosDocumentarios}
-              />
+              <Select placeholder="Seleccione el estado documentario">
+                <Select.Option value="Actualizados">Actualizados</Select.Option>
+                <Select.Option value="EnTramite">En Trámite</Select.Option>
+                <Select.Option value="Vencidos">Vencidos</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item
               name="disponibilidad"

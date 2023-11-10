@@ -58,7 +58,7 @@ model Conductor {
     clienteId          String  @unique
     viaje              Viaje?  @relation(fields: [viajeId], references: [id])
     viajeId            String?
-    numerolicencia     String
+    numeroLicencia     String
     claseLicencia      String
     telefono           String
     estadoDocumentario String
