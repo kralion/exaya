@@ -104,7 +104,7 @@ model Viaje {
 model Bus {
     id        String   @id @default(uuid())
     modelo    String?  @default("Scania Touring")
-    foto      String
+    foto      String[]
     placa     String   @unique
     asientos  Int
     createdAt DateTime @default(now())

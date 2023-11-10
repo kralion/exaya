@@ -12,9 +12,10 @@ import {
   Tag,
   Typography,
 } from "antd";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { api } from "@/utils/api";
 import Image from "next/image";
+import ConductorInfoStepSkeleton from "@/components/skeletons/conductor-step-skeleton";
 
 const { confirm } = Modal;
 
@@ -51,24 +52,14 @@ export function ConductoresInformacion() {
       cancelText: "No",
       onOk() {
         typeof conductor !== "undefined" && handleDeleteConductor(conductor.id);
-
         setOpen(false);
       },
     });
   };
-  const [isEditing, setIsEditing] = useState(false);
 
   const openModal = (conductor: IConductor) => {
     setConductor(conductor);
     setOpen(true);
-  };
-  const handleEdit = () => {
-    setIsEditing(true);
-    alert("Editando");
-  };
-  const handleSave = () => {
-    setOpen(false);
-    setIsEditing(false);
   };
 
   const conductorDeleteMutation = api.conductores.deleteConductor.useMutation();
@@ -87,54 +78,56 @@ export function ConductoresInformacion() {
         dataSource={conductoresRegistrados}
         renderItem={(conductor, index) =>
           conductoresRegistrados?.length > 0 ? (
-            <List.Item
-              onClick={() => {
-                openModal(conductor as IConductor);
-              }}
-              key={index}
-              className="cursor-pointer  rounded-lg  bg-zinc-100 shadow-md duration-100 hover:opacity-80 hover:shadow-none"
-              style={{
-                paddingLeft: 14,
-                paddingRight: 14,
-              }}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={conductor.foto} />}
-                title={
-                  <div className="flex items-center gap-2">
-                    <a
-                      href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {conductor.cliente.nombres}
-                    </a>
-                    {conductor.disponibilidad === true ? (
-                      <AiFillCheckCircle className=" text-green-500" />
-                    ) : (
-                      <AiFillCloseCircle className=" text-red-500" />
-                    )}
-                  </div>
-                }
-                description={
-                  <div className="flex items-center gap-3">
-                    <p>{conductor.numeroLicencia}</p>
-                  </div>
-                }
-              />
-              <Steps
-                style={{ marginTop: 8 }}
-                type="inline"
-                current={
-                  conductor.claseLicencia === "A2B"
-                    ? 2
-                    : conductor.claseLicencia === "A3A"
-                    ? 1
-                    : 0
-                }
-                items={items}
-              />
-            </List.Item>
+            <Suspense fallback={<ConductorInfoStepSkeleton />}>
+              <List.Item
+                onClick={() => {
+                  openModal(conductor as IConductor);
+                }}
+                key={index}
+                className="cursor-pointer  rounded-lg  bg-zinc-100 shadow-md duration-100 hover:opacity-80 hover:shadow-none"
+                style={{
+                  paddingLeft: 14,
+                  paddingRight: 14,
+                }}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar src={conductor.foto} />}
+                  title={
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {conductor.cliente.nombres}
+                      </a>
+                      {conductor.disponibilidad === true ? (
+                        <AiFillCheckCircle className=" text-green-500" />
+                      ) : (
+                        <AiFillCloseCircle className=" text-red-500" />
+                      )}
+                    </div>
+                  }
+                  description={
+                    <div className="flex items-center gap-3">
+                      <p>{conductor.numeroLicencia}</p>
+                    </div>
+                  }
+                />
+                <Steps
+                  style={{ marginTop: 8 }}
+                  type="inline"
+                  current={
+                    conductor.claseLicencia === "A2B"
+                      ? 2
+                      : conductor.claseLicencia === "A3A"
+                      ? 1
+                      : 0
+                  }
+                  items={items}
+                />
+              </List.Item>
+            </Suspense>
           ) : (
             <Empty
               image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -151,7 +144,6 @@ export function ConductoresInformacion() {
         open={
           open && conductor !== null && conductor !== undefined ? true : false
         }
-        cancelText="Editar"
         onCancel={() => {
           setOpen(false);
         }}
@@ -162,11 +154,11 @@ export function ConductoresInformacion() {
         width={700}
         footer={
           <div>
-            {isEditing ? (
+            {/* {isEditing ? (
               <Button onClick={handleSave}>Guardar</Button>
             ) : (
               <Button onClick={handleEdit}>Editar</Button>
-            )}
+            )} */}
 
             <Button danger onClick={showDeleteConfirm}>
               Eliminar

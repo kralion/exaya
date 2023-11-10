@@ -2,11 +2,21 @@ import { useNotification } from "@/context/NotificationContext";
 import type { IBus } from "@/interfaces";
 import { UploadOutlined } from "@ant-design/icons";
 import { Title } from "@mantine/core";
-import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Space,
+  Typography,
+  Upload,
+} from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 import { default as style, default as styles } from "./frame.module.css";
+import { api } from "@/utils/api";
 type Props = {
   activator: string;
 };
@@ -29,8 +39,11 @@ export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
 
   const { openNotification } = useNotification();
+  const busCreateMutation = api.buses.createBus.useMutation();
 
   const onFinish = (values: IBus) => {
+    // TODO : Add parseInt to asientos, and validate the foto
+    busCreateMutation.mutate(values);
     form.resetFields();
     setIsModalOpen(false);
     openNotification({
@@ -53,10 +66,6 @@ export function BusForm({ activator }: Props) {
       return e;
     }
     return e && e.fileList;
-  };
-
-  const handleBusPicFileChange = (newBusPicFileList) => {
-    setBusPicList(newBusPicFileList);
   };
 
   return (
@@ -135,7 +144,7 @@ export function BusForm({ activator }: Props) {
 
           <Form.Item
             label="Foto del Bus"
-            name="foto_perfil"
+            name="foto"
             getValueFromEvent={busPicFile}
             valuePropName="fileList"
           >
@@ -148,9 +157,6 @@ export function BusForm({ activator }: Props) {
                 showRemoveIcon: true,
                 showPreviewIcon: false,
               }}
-              onChange={({ fileList: newBusPicFileList }) =>
-                handleBusPicFileChange(newBusPicFileList)
-              }
             >
               {busPicList.length === 0 && (
                 <div>
