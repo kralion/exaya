@@ -1,9 +1,8 @@
 import AppHeader from "@/components/appheader";
 import styles from "@/styles/layout.module.css";
-import { Title } from "@mantine/core";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme, Typography } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import Router from "next/router";
@@ -17,6 +16,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
+const { Title } = Typography;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -138,11 +138,15 @@ export default function AppLayout({ children }: LayoutProps) {
             borderRadius: 14,
           }}
         >
-          <div className="absolute left-2.5 flex w-full justify-between">
+          <div className="absolute left-2.5 flex w-full items-center justify-between pr-7">
             <AIAssistantInput />
             <Title
-              order={4}
-              className="mr-7 flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text font-black  text-transparent"
+              style={{
+                fontWeight: 700,
+              }}
+              className=" pt-2 text-center drop-shadow-md "
+              type="warning"
+              level={4}
             >
               Expreso Ayacucho S.A.C
             </Title>

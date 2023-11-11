@@ -11,12 +11,14 @@ import {
   Typography,
   Upload,
 } from "antd";
+
 import type { CascaderProps } from "antd/lib/cascader";
 import { useState } from "react";
 import styles from "./frame.module.css";
 type Props = {
   activator: string;
 };
+const { Title } = Typography;
 
 interface RolNodeType {
   value: number;
@@ -52,7 +54,6 @@ const formItemLayout = {
 
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Title } from "@mantine/core";
 import { BsTelephone } from "react-icons/bs";
 import style from "./frame.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -121,7 +122,7 @@ export function UsuarioForm({ activator }: Props) {
         centered
         title={
           <p className="mb-7">
-            <Title order={3}>Agregar Usuario</Title>
+            <Title level={3}>Agregar Usuario</Title>
             <Typography.Text className=" font-light text-slate-600">
               Formulario con la informacion del Usuario
             </Typography.Text>

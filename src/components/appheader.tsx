@@ -1,9 +1,11 @@
-import { Title } from "@mantine/core";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
 import React, { Suspense } from "react";
 import UserInfoDetails from "./user-info";
 import UserSkeleton from "./skeletons/user-info-skeleton";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
@@ -33,9 +35,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
             priority
           />
 
-          <Title
-            className={` bg-gradient-to-r from-orange-500 to-orange-900 bg-clip-text text-left   text-xl text-transparent     ${blackOpsOne.className} `}
-          >
+          <Title level={3} className={`  pt-3   ${blackOpsOne.className} `}>
             Exaya
           </Title>
         </div>

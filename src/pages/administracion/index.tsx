@@ -13,10 +13,10 @@ import { RoundedButton } from "@/components/ui/rounded-button";
 
 import { mockData } from "@/data";
 import { api } from "@/utils/api";
-import { Title } from "@mantine/core";
-import { Alert, DatePicker, Select } from "antd";
+import { Alert, DatePicker, Select, Typography } from "antd";
 import type { DatePickerProps } from "antd/es/date-picker";
 import { Suspense } from "react";
+const { Title } = Typography;
 export default function Administracion() {
   const { data: salidas, isError } = api.viajes.getAllViajes.useQuery();
   const handleRuta = (value: { value: string; label: React.ReactNode }) => {
@@ -38,10 +38,10 @@ export default function Administracion() {
       <AppHead title="Administracion" />
       <div className="mb-7">
         <div className=" mb-3.5 flex justify-between">
-          <Title order={5} className="text-slate-800">
+          <Title level={5} className="text-slate-800">
             Analíticas por Horarios
           </Title>
-          <Title order={5} className=" pr-48 text-slate-800">
+          <Title level={5} className=" pr-48 text-slate-800">
             Busqueda Específica
           </Title>
         </div>
@@ -89,27 +89,21 @@ export default function Administracion() {
         </div>
       </div>
       <div>
-        <div className="flex justify-between ">
-          <Title order={5} className="mb-3.5 text-slate-800">
-            Estadísticas Generales
-          </Title>
-          <Title order={5} className="mb-3.5 text-slate-800">
-            Gauge de Utilidad Percibida
-          </Title>
-          <Title order={5} className="mb-3.5 text-slate-800">
-            Indices de Administración
-          </Title>
+        <div className="flex items-center justify-between ">
+          <Title level={5}>Estadísticas Generales</Title>
+          <Title level={5}>Gauge de Utilidad Percibida</Title>
+          <Title level={5}>Indices de Administración</Title>
         </div>
         <div className="flex gap-3.5">
           <Suspense fallback={<GeneralStatisticsSkeleton />}>
             <StatsSegments {...mockData} />
           </Suspense>
-          <div className="rounded-md border-1">
+          <div className="rounded-md border-1  hover:shadow-md ">
             <Suspense fallback={<GaugeSkeleton />}>
               <KpiChart />
             </Suspense>
           </div>
-          <div className="rounded-md border-1 px-3">
+          <div className="rounded-md  border-1  px-3 hover:shadow-md">
             <Suspense fallback={<AdministracionStepsSkeleton />}>
               <AdministracionSteps />
             </Suspense>
@@ -117,7 +111,7 @@ export default function Administracion() {
         </div>
       </div>
       <div className="my-7 flex justify-between">
-        <Title order={5} className="text-slate-800">
+        <Title level={5} className="text-slate-800">
           Tabla de Usuarios
         </Title>
         <UsuarioForm activator="Agregar Usuario" />

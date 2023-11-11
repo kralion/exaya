@@ -1,4 +1,3 @@
-import { Title } from "@mantine/core";
 import { Tag } from "antd";
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
@@ -8,7 +7,7 @@ const RADIAN = Math.PI / 180;
 const data = [
   { name: "NCF", value: 14, color: "#f5222d" },
   { name: "OPP", value: 34, color: "#FAAD14" },
-  { name: "CUM", value: 52, color: "#00ff00" },
+  { name: "CUM", value: 52, color: "#52c41a" },
 ];
 const cx = 150;
 const cy = 200;
@@ -82,11 +81,11 @@ export default function KpiChart() {
           {needle(value, data, cx, cy, iR, oR, "#faad14")}
         </PieChart>
         <div className="flex flex-col items-center justify-center gap-3 ">
-          <Tag color="gold-inverse" className="mt-1 ml-2 w-fit font-bold ">
+          <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
             54.18%
           </Tag>
 
-          <Tag className="mt-1 ml-5 w-fit">
+          <Tag className="ml-5 mt-1 w-fit">
             {" "}
             <strong>KPI</strong> : Utilidad Empresarial
           </Tag>

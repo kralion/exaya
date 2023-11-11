@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { Tag } from "antd";
-import { Title } from "@mantine/core";
+import { Tag, Typography } from "antd";
+const { Title } = Typography;
+
 type Props = {
   title: string;
   icon: string;
@@ -29,7 +30,7 @@ export default function HeaderCard({ title, icon }: Props) {
           height={30}
           alt="asset"
         />
-        <Title order={2} size={12} className="flex justify-end ">
+        <Title level={2} className="flex justify-end ">
           {title}
         </Title>
       </div>

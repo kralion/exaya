@@ -1,7 +1,7 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Typography } from "antd";
 import { RxOpenInNewWindow } from "react-icons/rx";
-import { Title } from "@mantine/core";
+const { Title } = Typography;
 import Link from "next/link";
 type Card = {
   cardTitle: string;
@@ -23,7 +23,11 @@ export const ControlPaneCard = ({
         className="min-h-[250px] cursor-pointer border-1   backdrop-blur-3xl   hover:bg-orange-100/20 hover:shadow-md"
         type="inner"
         bordered={false}
-        title={<Title order={3}>{cardTitle}</Title>}
+        title={
+          <Title className="pt-2" level={4}>
+            {cardTitle}
+          </Title>
+        }
         extra={<RxOpenInNewWindow title="Ver más" />}
       >
         <Meta description={cardDescription} />
