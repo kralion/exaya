@@ -1,7 +1,6 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IEncomienda } from "@/interfaces";
-import { Title } from "@mantine/core";
-import { Button, Modal, Popconfirm, Tag } from "antd";
+import { Button, Modal, Popconfirm, Tag, Typography } from "antd";
 import React, { useState } from "react";
 
 type Props = {
@@ -10,6 +9,7 @@ type Props = {
   encomienda: IEncomienda;
   estado: boolean;
 };
+const { Title } = Typography;
 
 export default function EncomiendaDetails({
   modalActivator,
@@ -44,7 +44,7 @@ export default function EncomiendaDetails({
         width={700}
         title={
           <div>
-            <Title order={3}>Detalles de la Encomienda</Title>
+            <Title level={3}>Detalles de la Encomienda</Title>
             {encomienda && (
               <div>
                 <Popconfirm

@@ -5,9 +5,8 @@ import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
-import { Loader } from "@mantine/core";
 import "animate.css";
-import { Checkbox, Form, Input } from "antd";
+import { Checkbox, Form, Input, Spin } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
@@ -231,11 +230,7 @@ export default function Login() {
                 className={styles.button}
                 disabled={loading}
               >
-                {loading ? (
-                  <Loader color="rgba(255, 255, 255, 1)" size="sm" />
-                ) : (
-                  "Ingresar"
-                )}
+                {loading ? <Spin size="small" /> : "Ingresar"}
               </button>
             </div>
           </Form>

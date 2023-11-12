@@ -18,11 +18,10 @@ import type { ColumnsType } from "antd/es/table";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 import { RoundedButton } from "@/components/ui/rounded-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
-import { Title } from "@mantine/core";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
 import AppLayout from "../../components/layout";
 import AppHead from "@/components/head";
-
+const { Title } = Typography;
 const onChange = (
   value: DatePickerProps["value"],
   dateString: [string, string] | string
@@ -121,10 +120,10 @@ export default function Contable() {
       <div className="space-y-7">
         <div className="flex flex-col gap-3.5">
           <div className="flex justify-between">
-            <Title order={5} className="text-slate-800">
+            <Title level={5} className="text-slate-800">
               Horarios
             </Title>
-            <Title order={5} className=" pr-44  text-slate-800">
+            <Title level={5} className=" pr-44  text-slate-800">
               Búsqueda Específica
             </Title>
           </div>
@@ -188,7 +187,7 @@ export default function Contable() {
         </div>
         <div className="space-y-3.5">
           <div className="flex items-baseline justify-between">
-            <Title order={5} className="pt-7 tracking-tight text-slate-800">
+            <Title level={5} className="pt-7 tracking-tight text-slate-800">
               Historial de Registros
             </Title>
             <Input

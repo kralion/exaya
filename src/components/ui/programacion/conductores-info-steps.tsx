@@ -1,7 +1,7 @@
-import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Title } from "@mantine/core";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import ConductorInfoStepSkeleton from "@/components/skeletons/conductor-step-skeleton";
 import type { IConductor } from "@/interfaces";
+import { api } from "@/utils/api";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -12,13 +12,12 @@ import {
   Tag,
   Typography,
 } from "antd";
-import { Suspense, useState } from "react";
-import { api } from "@/utils/api";
 import Image from "next/image";
-import ConductorInfoStepSkeleton from "@/components/skeletons/conductor-step-skeleton";
+import { Suspense, useState } from "react";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 
 const { confirm } = Modal;
-
+const { Title } = Typography;
 const items = [
   {
     title: "Nivel 1",
@@ -139,7 +138,7 @@ export function ConductoresInformacion() {
       />
 
       <Modal
-        title={<Title order={3}>Información del Conductor</Title>}
+        title={<Title level={3}>Información del Conductor</Title>}
         centered
         open={
           open && conductor !== null && conductor !== undefined ? true : false

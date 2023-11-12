@@ -1,26 +1,16 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IBus } from "@/interfaces";
+import { api } from "@/utils/api";
 import { UploadOutlined } from "@ant-design/icons";
-import { Title } from "@mantine/core";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Space,
-  Typography,
-  Upload,
-} from "antd";
+import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 import { default as style, default as styles } from "./frame.module.css";
-import { api } from "@/utils/api";
 type Props = {
   activator: string;
 };
-
+const { Title } = Typography;
 export function BusForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [busPicList, setBusPicList] = useState([]);
@@ -79,7 +69,7 @@ export function BusForm({ activator }: Props) {
         centered
         title={
           <p className="mb-7">
-            <Title order={3}>Agregar Bus</Title>
+            <Title level={3}>Agregar Bus</Title>
             <Typography.Text className=" font-light text-slate-600">
               Formulario con la informacion del bus
             </Typography.Text>

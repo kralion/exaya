@@ -1,10 +1,10 @@
 import { boletosRegistrados } from "@/data";
 import type { IBoleto } from "@/interfaces";
 import { LuSettings } from "react-icons/lu";
-import { Title } from "@mantine/core";
-import { Table, Tag } from "antd";
+import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
+const { Title } = Typography;
 const columns: ColumnsType<IBoleto> = [
   {
     title: "Código",
@@ -69,7 +69,7 @@ const handleConfigurar = () => {
 const ComprobantesTable: React.FC = () => (
   <div className="space-y-3.5">
     <div className="flex justify-between">
-      <Title order={5}>Boletos Recientes</Title>
+      <Title level={5}>Boletos Recientes</Title>
       <LuSettings
         className="cursor-not-allowed hover:opacity-70"
         title="Configurar"

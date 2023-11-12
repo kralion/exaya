@@ -1,12 +1,12 @@
 import AppLayout from "@/components/layout";
-import { Title } from "@mantine/core";
-import { Card, FloatButton, QRCode, Statistic } from "antd";
+import { Card, FloatButton, Typography, QRCode, Statistic } from "antd";
 import CountUp from "react-countup";
 import { SnippetsOutlined, CopyOutlined } from "@ant-design/icons";
 import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
 import AppHead from "@/components/head";
+const { Title } = Typography;
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
@@ -19,7 +19,7 @@ function ProgramacionComprobantes() {
           className=" min-h-[150px]   backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"
           type="inner"
           bordered
-          title={<Title order={4}>Boletos Registrados</Title>}
+          title={<Title level={4}>Boletos Registrados</Title>}
         >
           <div className="flex items-center gap-3.5">
             <Statistic
@@ -36,7 +36,7 @@ function ProgramacionComprobantes() {
           className="min-h-[150px]    backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"
           type="inner"
           bordered
-          title={<Title order={4}>Facturas Generadas</Title>}
+          title={<Title level={4}>Facturas Generadas</Title>}
         >
           <div className="flex items-center gap-3.5">
             <Statistic

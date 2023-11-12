@@ -8,10 +8,12 @@ import {
   InputNumber,
   Select,
   Switch,
+  Typography,
 } from "antd";
 import styles from "./frame.module.css";
 
 const { Option } = Select;
+const { Title } = Typography;
 
 interface DataNodeType {
   value: string;
@@ -42,7 +44,6 @@ const formItemLayout = {
 };
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
-import { Title } from "@mantine/core";
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
@@ -62,7 +63,7 @@ export function EncomiendasForm() {
 
   return (
     <div className="space-y-7">
-      <Title order={5}>Registrar Encomienda</Title>
+      <Title level={5}>Registrar Encomienda</Title>
 
       <Form
         {...formItemLayout}

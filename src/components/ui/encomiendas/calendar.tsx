@@ -1,5 +1,4 @@
-import { Title } from "@mantine/core";
-import { Calendar, theme } from "antd";
+import { Calendar, theme, Typography } from "antd";
 import type { CalendarMode } from "antd/es/calendar/generateCalendar";
 import type { Dayjs } from "dayjs";
 import React from "react";
@@ -7,6 +6,7 @@ import React from "react";
 const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
+const { Title } = Typography;
 
 export function AvailableCalendar() {
   const { token } = theme.useToken();
@@ -19,7 +19,7 @@ export function AvailableCalendar() {
 
   return (
     <div className="space-y-3.5">
-      <Title order={5}>Checker de Disponibilidad </Title>
+      <Title level={5}>Checker de Disponibilidad </Title>
       <Calendar
         cellRender={(value) => {
           return (

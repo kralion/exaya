@@ -3,7 +3,6 @@ import PassengerAsset from "@/assets/images/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
 import type { IBoleto } from "@/interfaces";
 import { api } from "@/utils/api";
-import { Title } from "@mantine/core";
 import "animate.css";
 import {
   Button,
@@ -27,6 +26,7 @@ const concertOne = Concert_One({
   weight: "400",
   preload: true,
 });
+const { Title } = Typography;
 
 const { Option } = Select;
 
@@ -99,7 +99,7 @@ export const RegistrarPasajeModal = () => {
         title={
           <div className="mb-7 flex justify-between  ">
             <p>
-              <Title className="mb-3.5 flex flex-col" order={4}>
+              <Title className="mb-3.5 flex flex-col" level={4}>
                 Asientos del Bus
               </Title>
               <p className="flex gap-11  ">
@@ -109,7 +109,7 @@ export const RegistrarPasajeModal = () => {
                 <Tag className="text-[10px] text-gray-500">Margen Derecho</Tag>
               </p>
             </p>
-            <Title className="pr-10 text-center" order={5}>
+            <Title className="pr-10 text-center" level={5}>
               Vista previa del Bus
             </Title>
           </div>
@@ -185,7 +185,7 @@ export const RegistrarPasajeModal = () => {
       </Modal>
       <Modal
         title={
-          <Title className="text-left" order={4}>
+          <Title className="text-left" level={4}>
             <div className="flex justify-between pr-5">
               <h3>Registro de Boleto</h3>
               <div>

@@ -2,7 +2,6 @@ import { useNotification } from "@/context/NotificationContext";
 import type { IConductor } from "@/interfaces";
 import { api } from "@/utils/api";
 import { UploadOutlined } from "@ant-design/icons";
-import { Title } from "@mantine/core";
 import {
   Button,
   Form,
@@ -22,6 +21,7 @@ import { default as style, default as styles } from "./frame.module.css";
 type Props = {
   activator: string;
 };
+const { Title } = Typography;
 
 const formItemLayout = {
   labelCol: {
@@ -90,7 +90,7 @@ export function ConductorForm({ activator }: Props) {
         centered
         title={
           <p className="mb-7">
-            <Title order={3}>Agregar Conductor</Title>
+            <Title level={3}>Agregar Conductor</Title>
             <Typography.Text className=" font-light text-slate-600">
               Formulario con la informacion del conductor
             </Typography.Text>

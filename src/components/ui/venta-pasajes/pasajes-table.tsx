@@ -18,11 +18,10 @@ import { TbLicense } from "react-icons/tb";
 import { useNotification } from "@/context/NotificationContext";
 import type { IBus, IRuta, IViaje } from "@/interfaces";
 import { api } from "@/utils/api";
-import { Title } from "@mantine/core";
 import React, { useState } from "react";
 import type { ZodNumberCheck } from "zod";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-
+const { Title } = Typography;
 interface ManifiestoDataType {
   dni: number extends ZodNumberCheck ? number : string;
   nombres: string;
@@ -185,7 +184,7 @@ const ManifiestoDrawer: React.FC = () => {
       <Drawer
         title={
           <div className="flex items-center justify-between ">
-            <Title className="text-left" order={4}>
+            <Title className="text-left" level={4}>
               Manifiesto del Viaje
             </Title>
             <button
@@ -218,10 +217,10 @@ const ManifiestoDrawer: React.FC = () => {
       >
         <div className="flex flex-col gap-2">
           <Progress status="active" percent={50} size={[680, 10]}>
-            <Title order={5}>{"Viaje de Lima a Arequipa - 10/10/2021"}</Title>
+            <Title level={5}>{"Viaje de Lima a Arequipa - 10/10/2021"}</Title>
           </Progress>
 
-          <Title order={4}>Conductores</Title>
+          <Title level={4}>Conductores</Title>
 
           <List
             dataSource={[
@@ -266,17 +265,17 @@ const ManifiestoDrawer: React.FC = () => {
                       src={driver.profilePic}
                     />
                   }
-                  title={<span>{driver.name}</span>}
+                  title={driver.name}
                   description={`Conductor con licencia ${driver.license}`}
                 />
               </List.Item>
             )}
           />
-          <Title className="mt-7" order={4}>
+          <Title className="mt-7" level={4}>
             Pasajeros
           </Title>
           <ManifiestoTable />
-          <Title className="mt-7" order={4}>
+          <Title className="mt-7" level={4}>
             Encomiendas
           </Title>
           <EncomiendasTable />
@@ -413,7 +412,7 @@ export function PasajesTable() {
 
   return (
     <div className="w-full">
-      <Title order={5} className="mb-3.5">
+      <Title level={5} className="mb-3.5">
         Viajes del Día
       </Title>
       <Table
