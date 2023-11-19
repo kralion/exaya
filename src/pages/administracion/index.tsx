@@ -5,6 +5,7 @@ import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import KpiChart from "@/components/ui/administracion/kpi-chart";
+import KpiUtilidad from "@/components/ui/administracion/kpi-utilidad";
 import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
@@ -92,22 +93,25 @@ export default function Administracion() {
         <div className="flex items-center justify-between ">
           <Title level={5}>Estadísticas Generales</Title>
           <Title level={5}>Gauge de Utilidad Percibida</Title>
-          <Title level={5}>Indices de Administración</Title>
         </div>
         <div className="flex gap-3.5">
           <Suspense fallback={<GeneralStatisticsSkeleton />}>
-            <StatsSegments {...mockData} />
+            <StatsSegments />
           </Suspense>
-          <div className="rounded-md border-1  hover:shadow-md ">
+          <div className="flex rounded-md border-1  hover:shadow-md ">
             <Suspense fallback={<GaugeSkeleton />}>
               <KpiChart />
             </Suspense>
-          </div>
-          <div className="rounded-md  border-1  px-3 hover:shadow-md">
-            <Suspense fallback={<AdministracionStepsSkeleton />}>
-              <AdministracionSteps />
+            <Suspense fallback={<GaugeSkeleton />}>
+              <KpiUtilidad />
             </Suspense>
           </div>
+        </div>
+        <div className="mt-5 rounded-md border-1  p-3   hover:shadow-md">
+          <Title level={5}>Indices de Administración</Title>
+          <Suspense fallback={<AdministracionStepsSkeleton />}>
+            <AdministracionSteps />
+          </Suspense>
         </div>
       </div>
       <div className="my-7 flex justify-between">
