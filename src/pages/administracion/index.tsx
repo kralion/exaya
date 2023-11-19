@@ -11,8 +11,6 @@ import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { RoundedButton } from "@/components/ui/rounded-button";
-
-import { mockData } from "@/data";
 import { api } from "@/utils/api";
 import { Alert, DatePicker, Select, Typography } from "antd";
 import type { DatePickerProps } from "antd/es/date-picker";
@@ -38,7 +36,7 @@ export default function Administracion() {
     <AppLayout>
       <AppHead title="Administracion" />
       <div className="mb-7">
-        <div className=" mb-3.5 flex justify-between">
+        <div className="flex justify-between">
           <Title level={5} className="text-slate-800">
             Analíticas por Horarios
           </Title>
@@ -47,7 +45,20 @@ export default function Administracion() {
           </Title>
         </div>
         <div className=" flex justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center ">
+            {salidas?.length === 0 && (
+              <Alert
+                message={
+                  <p>
+                    Ups parece que no hay
+                    <code className="ml-2 underline">Horarios</code> para
+                    mostrar
+                  </p>
+                }
+                type="warning"
+                showIcon
+              />
+            )}
             {isError && (
               <Alert
                 message={
@@ -71,6 +82,9 @@ export default function Administracion() {
           </div>
           <div className="flex gap-3.5">
             <DatePicker
+              style={{
+                height: 32,
+              }}
               onChange={onChange}
               onOk={onOk}
               placeholder={placeHolderDate}

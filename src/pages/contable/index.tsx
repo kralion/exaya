@@ -1,27 +1,30 @@
-import {
-  DatePicker,
-  Space,
-  Input,
-  Table,
-  Select,
-  Typography,
-  FloatButton,
-  Tag,
-} from "antd";
-import dayjs from "dayjs";
-import "animate.css";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-dayjs.extend(customParseFormat);
-import { SearchOutlined } from "@ant-design/icons";
-import React from "react";
-import type { ColumnsType } from "antd/es/table";
-import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
-import { RoundedButton } from "@/components/ui/rounded-button";
+import AppHead from "@/components/head";
+import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
+import { RoundedButton } from "@/components/ui/rounded-button";
+import { api } from "@/utils/api";
+import "animate.css";
+import {
+  Alert,
+  DatePicker,
+  FloatButton,
+  Input,
+  Select,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
+import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
+import type { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import React, { Suspense } from "react";
+import { CiSearch } from "react-icons/ci";
 import AppLayout from "../../components/layout";
-import AppHead from "@/components/head";
+dayjs.extend(customParseFormat);
 const { Title } = Typography;
+
 const onChange = (
   value: DatePickerProps["value"],
   dateString: [string, string] | string
@@ -58,7 +61,7 @@ const columns: ColumnsType<DataType> = [
         value: "Ayacucho",
       },
     ],
-    onFilter: (value, record) => record.destino.indexOf(value) === 0,
+    onFilter: (value, record) => record.destino.indexOf(value as string) === 0,
   },
   {
     title: "Serie",
@@ -112,6 +115,7 @@ export default function Contable() {
   const handleRuta = (value: { value: string; label: React.ReactNode }) => {
     alert(`selected ${value.value}`);
   };
+  const { data: salidas, isError } = api.viajes.getAllViajes.useQuery();
   const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
 
   return (
@@ -129,32 +133,61 @@ export default function Contable() {
           </div>
           <div className=" flex justify-between">
             <div className="flex items-center gap-2">
-              <RoundedButton horaSalida="20:15" />
-              <RoundedButton horaSalida="20:30" />
-              <RoundedButton horaSalida="21:00" />
+              {salidas?.length === 0 && (
+                <Alert
+                  message={
+                    <p>
+                      Ups parece que no hay
+                      <code className="ml-2 underline">Horarios</code> para
+                      mostrar
+                    </p>
+                  }
+                  type="warning"
+                  showIcon
+                />
+              )}
+              {isError && (
+                <Alert
+                  message={
+                    <p>
+                      Error al obtener los datos de los
+                      <code className="ml-2 underline">Horarios</code> por favor
+                      <a href="." className="ml-2 underline">
+                        recarge la página
+                      </a>
+                    </p>
+                  }
+                  type="error"
+                  showIcon
+                />
+              )}
+
+              {salidas?.map((salida) => (
+                <Suspense key={salida.id} fallback={<ScheduleSkeleton />}>
+                  <RoundedButton horaSalida={salida.horaSalida} />
+                </Suspense>
+              ))}
             </div>
             <div className="flex gap-3.5">
               <DatePicker
+                style={{
+                  height: 32,
+                }}
                 onChange={onChange}
                 onOk={onOk}
                 placeholder={placeHolderDate}
               />
 
-              <Select
-                placeholder="Ruta"
-                style={{ width: 180 }}
-                onChange={handleRuta}
-                options={[
-                  {
-                    value: "RUTA-HA",
-                    label: "Huancayo - Ayacucho",
-                  },
-                  {
-                    value: "RUTA-AH",
-                    label: "Ayacucho - Huancayo",
-                  },
-                ]}
-              />
+              <Select placeholder="Ruta" style={{ width: 180 }}>
+                {salidas?.map((salida) => (
+                  <Select.Option
+                    key={salida.id}
+                    value={salida.ruta.ciudadOrigen + salida.ruta.ciudadDestino}
+                  >
+                    {salida.ruta.ciudadOrigen} - {salida.ruta.ciudadDestino}
+                  </Select.Option>
+                ))}
+              </Select>
             </div>
           </div>
           <div className="flex gap-3.5">
@@ -193,12 +226,11 @@ export default function Contable() {
             <Input
               placeholder="Buscar por DNI"
               type="number"
-              showCount
               className="w-48  "
               onPressEnter={() => {
                 alert("Enter");
               }}
-              suffix={<SearchOutlined className="cursor-pointer" />}
+              suffix={<CiSearch className="cursor-pointer" />}
             />
           </div>
           <Table
