@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { Suspense } from "react";
 import UserInfoDetails from "./user-info";
 import UserSkeleton from "./skeletons/user-info-skeleton";
-import { Typography } from "antd";
+import { Tag, Typography } from "antd";
 
 const { Title } = Typography;
 
@@ -20,6 +20,11 @@ type HeaderProps = {
 const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
   return (
     <div>
+      {!collapsed ? (
+        <Tag className="m-2 rounded-full border-orange-400  bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 font-semibold text-white shadow-md shadow-slate-200 ">
+          Powered with AI
+        </Tag>
+      ) : null}
       {!collapsed ? (
         <div
           onClick={() => setCollapsed(!collapsed)}
