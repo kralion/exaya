@@ -5,7 +5,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme, Typography } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsCoin, BsTicketPerforated } from "react-icons/bs";
@@ -90,7 +90,8 @@ const items: MenuProps["items"] = [
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
+  const selectedKey = router.pathname;
   useEffect(() => {
     const startLoading = () => setLoading(true);
     const stopLoading = () => setLoading(false);
@@ -109,6 +110,17 @@ export default function AppLayout({ children }: LayoutProps) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const pathToKey: { [key: string]: string } = {
+    "/dashboard": "dashboard",
+    "/venta-pasajes": "venta-pasajes",
+    "/encomiendas": "encomiendas",
+    "/programacion/bus-conductor": "bus-conductor",
+    "/programacion/comprobantes": "comprobantes",
+    "/programacion/viajes": "viajes",
+    "/contable": "contable",
+    "/administracion": "administracion",
+    "/soporte": "soporte",
+  };
 
   return (
     <Layout
@@ -128,7 +140,12 @@ export default function AppLayout({ children }: LayoutProps) {
         onCollapse={(value) => setCollapsed(value)}
       >
         <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Menu selectable mode="inline" items={items} />
+        <Menu
+          selectable={true}
+          mode="inline"
+          items={items}
+          defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
+        />
       </Sider>
       <Layout>
         <Header
