@@ -160,7 +160,7 @@ export default function Login() {
       </div>
       <div className="flex w-1/2 flex-col items-center pl-5">
         <h3
-          className={`  bg-gradient-to-r from-black  to-orange-500 bg-clip-text text-left text-4xl leading-none text-transparent   ${blackOpsOne.className} `}
+          className={`  bg-gradient-to-r from-black  to-orange-500 bg-clip-text text-left text-4xl  text-transparent   `}
         >
           Inicio de Sesión
         </h3>

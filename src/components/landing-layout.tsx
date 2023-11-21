@@ -1,7 +1,8 @@
 import MobileNav from "@/components/ui/login/mobilenav";
 import AOSWrapper from "@/utils/AOS";
 import { BsArrowRight } from "react-icons/bs";
-
+import { usePathname } from "next/navigation";
+import { clsx } from "clsx";
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
@@ -39,12 +40,14 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   return (
     <AOSWrapper>
       <div
         className={` ${inter.className}  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
       >
-        <div className="mb-16 flex items-center  justify-between bg-transparent px-3 pt-7 lg:mx-10 lg:mb-20 ">
+        <div className="fixed top-0 z-10 flex w-full items-center justify-between bg-transparent px-10  pt-7 backdrop-blur-md lg:mb-20">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
@@ -68,7 +71,12 @@ export default function LandingLayout({
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
-                    className="flex items-center justify-center text-sm font-semibold duration-300 hover:opacity-60 "
+                    className={clsx(
+                      "flex items-center justify-center text-sm font-semibold duration-300 hover:text-white hover:underline active:opacity-70 ",
+                      {
+                        "text-white": pathname === link.path,
+                      }
+                    )}
                     href={link.path}
                   >
                     {link.title}
@@ -77,22 +85,21 @@ export default function LandingLayout({
               ))}
             </ul>
           </nav>
-          <div className="hidden items-center gap-2 lg:flex ">
-            {/* <ThemeToggle /> */}
-            <Link
-              href="/dashboard"
-              className=" lg:text-md  flex items-center gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
-              title="Iniciar sesión"
-            >
-              Probarlo
-              <BsArrowRight size={15} />
-            </Link>
-          </div>
+          <Link
+            href="/dashboard"
+            className=" lg:text-md  flex items-center gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
+            title="Iniciar sesión"
+          >
+            Probarlo
+            <BsArrowRight size={15} />
+          </Link>
           <nav className="lg:hidden">
             <MobileNav />
           </nav>
         </div>
-        <div className={`${inter.className} text-center `}>{children}</div>
+        <div className={`${inter.className} pt-36 text-center `}>
+          {children}
+        </div>
         <footer className="py-10 text-center text-[12px]  font-semibold text-gray-900  ">
           © Copyright 2024 Brayan Paucar. All rights reserved.
         </footer>
