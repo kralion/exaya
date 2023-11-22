@@ -5,17 +5,17 @@ export interface IEncomienda {
   id: string;
   remitente: ICliente;
   destinatario: ICliente;
-  viaje: IViaje;
-  guia: string;
-  precio: number;
-  contenido: string;
+  createdAt: Date;
+  fechaEnvio: Date;
+  comprobante: string;
+  pagado: boolean;
   descripcion: string;
-  comprobante: "Boleto" | "Factura";
-  estado: boolean;
+  viaje: IViaje;
+  codigo: string;
+  precioEnvio: number;
 }
 
 export interface EncomiendasContextProps {
-  encomiendasRegistradas: IEncomienda[];
-  handleAddEncomienda: (encomienda: IEncomienda) => void;
-  handleDeleteEncomienda: (key: string) => void;
+  encomiendas: IEncomienda[];
+  handleDeleteEncomienda: (id: string) => void;
 }

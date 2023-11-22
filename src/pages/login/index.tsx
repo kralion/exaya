@@ -136,11 +136,11 @@ export default function Login() {
             alt="logo"
             priority
           />
-          <h3
-            className={`  bg-white bg-clip-text text-left text-4xl leading-none text-transparent   ${blackOpsOne.className} `}
+          <h2
+            className={`  bg-white bg-clip-text text-left text-4xl font-bold text-transparent   ${blackOpsOne.className} `}
           >
             Exaya
-          </h3>
+          </h2>
           <h5>
             <span className="text-orange-400">|</span> Sistema Web de Gestión
             Operativa <span className="text-orange-400">|</span>

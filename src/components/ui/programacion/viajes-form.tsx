@@ -1,5 +1,5 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { viajeValuesSchema } from "@/interfaces";
+import type { IBus, IRuta, viajeValuesSchema } from "@/interfaces";
 import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select, TimePicker } from "antd";
 import React from "react";
@@ -18,11 +18,7 @@ const layout = {
   labelCol: { span: 5 },
 };
 
-type Props = {
-  handleAddViaje: (viaje: TypeOf<typeof viajeValuesSchema>) => void;
-};
-
-export function ViajesForm({ handleAddViaje }: Props) {
+export function ViajesForm() {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
 
@@ -54,7 +50,6 @@ export function ViajesForm({ handleAddViaje }: Props) {
     //TODO: Modificar el formato de los datos para que la mutacion los acepte
     postViaje.mutate(values);
     alert(JSON.stringify(values.busId));
-    handleAddViaje(values);
     openNotification({
       message: "Viaje creado",
       description: "El viaje se ha creado satisfactoriamente",
@@ -107,7 +102,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
               allowClear
               loading={isLoadingRutas === true || isFetchingRutas === true}
             >
-              {rutas?.map((ruta) => (
+              {rutas?.map((ruta: IRuta) => (
                 <Option key={ruta.id}>{ruta.ciudadOrigen}</Option>
               ))}
             </Select>
@@ -123,7 +118,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
               allowClear
               loading={isLoadingRutas === true || isFetchingRutas === true}
             >
-              {rutas?.map((ruta) => (
+              {rutas?.map((ruta: IRuta) => (
                 <Option key={ruta.id}>{ruta.ciudadDestino}</Option>
               ))}
             </Select>
@@ -138,7 +133,7 @@ export function ViajesForm({ handleAddViaje }: Props) {
               placeholder="Bus"
               allowClear
             >
-              {bus?.map((bus) => (
+              {bus?.map((bus: IBus) => (
                 <Option key={bus.id}>{bus.placa}</Option>
               ))}
             </Select>

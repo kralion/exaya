@@ -72,7 +72,7 @@ export default function LandingLayout({
                 <li key={link.path}>
                   <Link
                     className={clsx(
-                      "flex items-center justify-center text-sm font-semibold duration-300 hover:text-white hover:underline active:opacity-70 ",
+                      "flex items-center justify-center text-sm font-semibold duration-300 hover:text-white active:opacity-70 ",
                       {
                         "text-white": pathname === link.path,
                       }

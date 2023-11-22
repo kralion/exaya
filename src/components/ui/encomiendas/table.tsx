@@ -5,7 +5,7 @@ import { useEncomiendasContext } from "@/context/EncomiendasContext";
 const { Title } = Typography;
 
 export function EncomiendasTable() {
-  const { encomiendasRegistradas } = useEncomiendasContext();
+  const { encomiendas } = useEncomiendasContext();
 
   return (
     <div className="space-y-3.5">
@@ -14,7 +14,7 @@ export function EncomiendasTable() {
         pagination={{
           defaultPageSize: 5,
         }}
-        dataSource={encomiendasRegistradas}
+        dataSource={encomiendas}
         columns={columns}
       />
     </div>

@@ -15,10 +15,9 @@ export default function EncomiendaDetails({
   modalActivator,
   children,
   encomienda,
-  estado,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState(estado);
+  const [status, setStatus] = useState(encomienda.pagado);
   const { openNotification } = useNotification();
 
   const showModal = () => {
@@ -66,13 +65,10 @@ export default function EncomiendaDetails({
                   </Tag>
                 </Popconfirm>
                 <Tag
-                  className="rounded-full px-5 font-semibold"
                   color="gold-inverse"
+                  className="rounded-full px-5 font-semibold shadow-md"
                 >
-                  {encomienda.precio.toLocaleString("es-PE", {
-                    style: "currency",
-                    currency: "PEN",
-                  })}
+                  S/. {encomienda.precioEnvio}.00
                 </Tag>
               </div>
             )}

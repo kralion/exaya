@@ -1,275 +1,135 @@
-import { viajesDiarios } from "@/data";
-import type { EditableCellProps, Item } from "@/interfaces/interfaces";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Popconfirm,
-  Table,
-  Tag,
-  Typography,
-} from "antd";
-import type { TableProps } from "antd/es/table";
-import React, { useState } from "react";
-import { BiTime } from "react-icons/bi";
+import type { IBus, IRuta, IViaje } from "@/interfaces";
+import { api } from "@/utils/api";
+import { Button, Form, Popconfirm, Table, Tag, Tooltip } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { TbLicense } from "react-icons/tb";
 
-const EditableCell: React.FC<EditableCellProps> = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
+export interface Item {
+  viajeId: number;
+  origen: string;
+  destino: string;
+  bus: string;
+  fecha: string;
+  horaSalida: string;
+  estado: string;
+}
 
 export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const [data, setData] = useState(viajesDiarios);
-  const [editingKey, setEditingKey] = useState("");
+  const { data: viajes } = api.viajes.getAllViajes.useQuery();
 
-  const isEditing = (record: Item) => record.key === editingKey;
-
-  const edit = (record: Partial<Item> & { key: React.Key }) => {
-    form.setFieldsValue({
-      origen: "",
-      destino: "",
-      bus: "",
-      fechaSalida: "",
-      horaSalida: "",
-      estado: "",
-      ...record,
-    });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey("");
-  };
-
-  const save = async (key: React.Key) => {
-    try {
-      const row = (await form.validateFields()) as Item;
-
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.log("Error de Validacion de Datos", errInfo);
-    }
-  };
-
-  const columns = [
+  const viajesColumns: ColumnsType<IViaje> = [
     {
-      title: "ID",
-      dataIndex: "key",
-      width: "5%",
-    },
-
-    {
-      title: "Origen",
-      dataIndex: "origen",
-
-      editable: true,
-      filters: [
-        {
-          text: "Huancayo",
-          value: "Huancayo",
-        },
-        {
-          text: "Ayacucho",
-          value: "Ayacucho",
-        },
-      ],
-      onFilter: (value: string, record) => record.origen.indexOf(value) === 0,
-    },
-    {
-      title: "Destino",
-      dataIndex: "destino",
-
-      editable: true,
-      filters: [
-        {
-          text: "Lima",
-          value: "Lima",
-        },
-        {
-          text: "Selva Central",
-          value: "Selva Central",
-        },
-      ],
-      onFilter: (value: string, record) => record.destino.indexOf(value) === 0,
-    },
-    {
-      title: "Bus",
-      dataIndex: "placaBus",
-      width: "10%",
-
-      editable: true,
-      render: (text: string) => <Typography>{text}</Typography>,
-    },
-    {
-      title: "Fecha ",
-      dataIndex: "fecha",
-      width: "12%",
-      editable: true,
-    },
-    {
-      title: "Hora",
-      dataIndex: "horaSalida",
-
-      editable: true,
-      render: (text: string) => (
-        <Button
-          className="flex cursor-default items-center "
-          type="text"
-          icon={<BiTime />}
-        >
-          {parseInt(text) < 12 ? `${text} AM` : `${text} PM`}
-        </Button>
+      title: "Ruta",
+      dataIndex: "ruta",
+      key: "ruta",
+      responsive: ["lg"],
+      render: (ruta: IRuta) => (
+        <span>
+          {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+        </span>
       ),
     },
     {
-      title: "Estado",
-      dataIndex: "estado",
-      width: "10%",
-      editable: true,
-      key: "state",
-      render: (text: string) => (
-        <Tag
-          className="rounded-full px-3 font-semibold shadow-md"
-          color={
-            text === "Lleno"
-              ? "green-inverse"
-              : text === "Venta"
-              ? "orange-inverse"
-              : text === "Inactivo"
-              ? "red-inverse"
-              : "black"
-          }
-        >
-          {text.toUpperCase()}
+      title: "Bus",
+      dataIndex: "bus",
+      key: "placaBus",
+      responsive: ["lg"],
+
+      render: (bus: IBus) => (
+        <Tooltip className="cursor-pointer" key={bus?.id} title={bus.placa}>
+          <TbLicense />
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Fecha Salida",
+      dataIndex: "fechaSalida",
+      key: "fechaSalida",
+      responsive: ["lg"],
+      render: (fechaSalida: Date) => (
+        <Tag className="px-3 text-center font-semibold  shadow-md">
+          {fechaSalida.toLocaleDateString("es-PE", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          })}
         </Tag>
       ),
     },
     {
+      title: "Hora Salida",
+      dataIndex: "horaSalida",
+      key: "hora",
+      responsive: ["lg"],
+
+      render: (horaSalida: string) =>
+        parseInt(horaSalida) < 18 ? (
+          <Tag
+            className="px-3 text-center font-semibold text-black shadow-md"
+            color="yellow-inverse"
+          >
+            {horaSalida}
+          </Tag>
+        ) : (
+          <Tag className="bg-gray-700 px-3 text-center font-semibold text-white shadow-md">
+            {horaSalida}
+          </Tag>
+        ),
+    },
+    {
+      title: "Estado",
+      key: "estado",
+      dataIndex: "estado",
+      responsive: ["lg"],
+
+      render: (estado: string) => (
+        <Tag
+          className="px-3 text-center font-semibold  shadow-md"
+          color={
+            estado === "EN VENTA"
+              ? "green"
+              : estado === "INACTIVO"
+              ? "red"
+              : "yellow"
+          }
+        >
+          {estado}
+        </Tag>
+      ),
+    },
+
+    {
       title: "Acciones",
       dataIndex: "acciones",
-      render: (_: any, record: Item) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <p className="flex items-baseline ">
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{ marginRight: 8 }}
-            >
-              <Button>Guardar</Button>
-            </Typography.Link>
-            <a onClick={cancel} className="text-cyan-500">
-              Cancelar
-            </a>
-          </p>
-        ) : (
-          <div className="flex items-baseline ">
-            <Typography.Link
-              disabled={editingKey !== ""}
-              onClick={() => edit(record)}
-            >
-              <Button>Editar</Button>
-            </Typography.Link>
-            <Popconfirm
-              okButtonProps={{
-                style: {
-                  backgroundColor: "#f5222d",
-                  color: "white",
-                  borderRadius: "5px",
-                  border: "none",
-                },
-              }}
-              title="Estás seguro ?"
-              onConfirm={cancel}
-            >
-              <Button danger type="link">
-                Eliminar
-              </Button>
-            </Popconfirm>
-          </div>
-        );
-      },
+      render: () => (
+        <div className="flex items-baseline ">
+          <Popconfirm
+            okButtonProps={{
+              style: {
+                backgroundColor: "#f5222d",
+                color: "white",
+                borderRadius: "5px",
+                border: "none",
+              },
+            }}
+            title="Estás seguro ?"
+            onConfirm={() => alert("Eliminado")}
+          >
+            <Button danger type="link">
+              Eliminar
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
-  const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
-    filters,
-    sorter,
-    extra
-  ) => {
-    console.log("params", pagination, filters, sorter, extra);
-  };
-
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: Item) => ({
-        record,
-        inputType: col.dataIndex,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
 
   return (
     <Form form={form} component={false}>
       <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        dataSource={data}
-        columns={mergedColumns}
-        onChange={onChange}
+        dataSource={viajes}
+        columns={viajesColumns}
         rowClassName="editable-row"
         pagination={{
           defaultPageSize: 5,

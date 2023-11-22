@@ -5,7 +5,6 @@ import viajesDiarios from "./viajes-diarios.json";
 import usuarios from "./usuarios.json";
 import boletosRegistrados from "./boletos.json";
 import facturasRegistradas from "./facturas.json";
-import encomiendasRegistradas from "./encomiendas.json";
 export {
   busesInfo,
   mockData,
@@ -14,5 +13,4 @@ export {
   usuarios,
   boletosRegistrados,
   facturasRegistradas,
-  encomiendasRegistradas,
 };

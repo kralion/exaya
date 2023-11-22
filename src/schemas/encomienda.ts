@@ -1,17 +1,19 @@
 import { z } from "zod";
+import clienteSchema from "./cliente";
+import viajeSchema from "./viaje";
 
 const encomiendaSchema = z.object({
-  id: z.number(),
-  dniRemitente: z.string().length(8),
-  dniDestinatario: z.string().length(8),
-  origen: z.string(),
-  destino: z.string(),
+  id: z.string(),
+  remitente: clienteSchema,
+  destinatario: clienteSchema,
+  viaje: viajeSchema,
   precio: z.number().nonnegative().min(1),
   fechaEnvio: z.date(),
+  createdAt: z.date(),
   comprobante: z.string(),
-  estado: z.boolean(),
+  pagado: z.boolean(),
   descripcion: z.string(),
-  viaje: z.string(),
+  codigo: z.string(),
 });
 
 export default encomiendaSchema;

@@ -49,6 +49,7 @@ model Encomienda {
     viaje          Viaje    @relation(fields: [viajeId], references: [id])
     viajeId        String
     codigo         String   @unique
+    precioEnvio    Int
 }
 
 model Conductor {

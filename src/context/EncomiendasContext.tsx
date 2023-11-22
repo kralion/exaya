@@ -1,10 +1,11 @@
-import { createContext, useContext, useState } from "react";
-import type { EncomiendasContextProps, IEncomienda } from "@/interfaces";
-import { encomiendasRegistradas as INITIAL_ENCOMIENDAS } from "@/data";
+import { createContext, useContext } from "react";
+import type { EncomiendasContextProps } from "@/interfaces";
+
+import { api } from "@/utils/api";
+import { useNotification } from "./NotificationContext";
 export const EncomiendasContext = createContext<EncomiendasContextProps>({
-  encomiendasRegistradas: INITIAL_ENCOMIENDAS as unknown as IEncomienda[],
-  handleAddEncomienda: () => void 0,
-  handleDeleteEncomienda: () => void 0,
+  encomiendas: [],
+  handleDeleteEncomienda: () => null,
 });
 
 type Props = {
@@ -12,25 +13,36 @@ type Props = {
 };
 
 export const EncomiendasContextProvider = ({ children }: Props) => {
-  const [encomiendasRegistradas, setEncomiendasRegistradas] = useState<
-    IEncomienda[]
-  >(INITIAL_ENCOMIENDAS as unknown as IEncomienda[]);
+  const { openNotification } = useNotification();
+  const { data: encomiendas } = api.encomiendas.getAllEncomiendas.useQuery();
+  const deleteEncomiendaMutation =
+    api.encomiendas.deleteEncomienda.useMutation();
 
-  const handleAddEncomienda = (encomienda: IEncomienda) => {
-    setEncomiendasRegistradas([...encomiendasRegistradas, encomienda]);
-  };
-  const handleDeleteEncomienda = (key: string) => {
-    const newEncomienda = encomiendasRegistradas.filter(
-      (encomienda) => encomienda.id !== key
-    );
-    setEncomiendasRegistradas(newEncomienda);
-  };
+  async function handleDeleteEncomienda(codigo: string) {
+    try {
+      await deleteEncomiendaMutation.mutateAsync({
+        codigo,
+      });
+      openNotification({
+        message: "Encomienda Eliminada",
+        description: "La encomienda ha sido eliminada con éxito",
+        type: "success",
+        placement: "topRight",
+      });
+    } catch (error) {
+      openNotification({
+        message: "Error al eliminar la encomienda",
+        description: "La encomienda no ha podido ser eliminada",
+        type: "error",
+        placement: "topRight",
+      });
+    }
+  }
 
   return (
     <EncomiendasContext.Provider
       value={{
-        encomiendasRegistradas,
-        handleAddEncomienda,
+        encomiendas,
         handleDeleteEncomienda,
       }}
     >
