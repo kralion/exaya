@@ -2,7 +2,7 @@ import { Card, Slider, Typography } from "antd";
 
 export function StatsSegments() {
   return (
-    <Card title=" Monitor de actividades" className=" hover:shadow-md ">
+    <Card title="Monitor de actividades" className="hover:shadow-md">
       <Typography.Paragraph>
         Representacion de el numero de clientes atendidos en el dia,
         clasificados respectivamente

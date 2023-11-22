@@ -7,7 +7,6 @@ export default function GeneralStatisticsSkeleton() {
       <br />
       <Skeleton.Input active />
       <br />
-      <br />
       <Skeleton.Button
         style={{
           borderRadius: 5,
@@ -17,35 +16,60 @@ export default function GeneralStatisticsSkeleton() {
         size="large"
       />
       <br />
-      <Space>
-        <Skeleton.Button
-          style={{
-            borderRadius: 5,
-            width: 115,
-            height: 40,
-          }}
-          active
-          size="small"
-        />
-        <Skeleton.Button
-          style={{
-            borderRadius: 5,
-            width: 115,
-            height: 40,
-          }}
-          active
-          size="small"
-        />
-        <Skeleton.Button
-          style={{
-            borderRadius: 5,
-            width: 115,
-            height: 40,
-          }}
-          active
-          size="small"
-        />
-      </Space>
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 160,
+          height: 25,
+        }}
+        active
+        size="large"
+      />
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 400,
+          height: 40,
+        }}
+        active
+        size="large"
+      />
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 160,
+          height: 25,
+        }}
+        active
+        size="large"
+      />
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 400,
+          height: 40,
+        }}
+        active
+        size="large"
+      />
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 160,
+          height: 25,
+        }}
+        active
+        size="large"
+      />
+      <Skeleton.Button
+        style={{
+          borderRadius: 5,
+          width: 400,
+          height: 40,
+        }}
+        active
+        size="large"
+      />
     </Space>
   );
 }

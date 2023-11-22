@@ -9,7 +9,7 @@ const { Title } = Typography;
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400"],
 });
 
 type HeaderProps = {
@@ -40,7 +40,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
             priority
           />
 
-          <Title level={3} className={`  pt-3   ${blackOpsOne.className} `}>
+          <Title level={3} className={` pt-3    ${blackOpsOne.className} `}>
             Exaya
           </Title>
         </div>

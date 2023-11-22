@@ -11,7 +11,6 @@ export function RoundedButton({ horaSalida }: { horaSalida: string }) {
       icon={<MdTimelapse className="animate-spin" />}
       shape="round"
       type="dashed"
-      style={{ width: 100 }}
       className="animate__animated animate__lightSpeedInRight animate__delay-1s flex items-center justify-between"
     >
       {horaSalida}
