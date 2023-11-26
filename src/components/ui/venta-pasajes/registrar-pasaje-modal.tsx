@@ -245,17 +245,19 @@ export const RegistrarPasajeModal = () => {
                   {informacionCliente?.data?.apellidoMaterno}
                 </p>
               ) : (
-                "Validando DNI"
+                "Validando"
               )
             }
           >
-            <Input
-              onChange={(e) => {
-                setQueryEnabled(e.target.value.length === 8);
-                form.setFieldValue("dni", e.target.value);
+            <InputNumber
+              onChange={(value) => {
+                const dni = String(value);
+                form.setFieldValue("dni", dni);
+                setQueryEnabled(dni.length === 8);
               }}
-              type="text"
+              type="number"
               className="w-full"
+              controls={false}
             />
           </Form.Item>
 
