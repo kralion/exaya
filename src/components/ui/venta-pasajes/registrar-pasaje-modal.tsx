@@ -40,15 +40,20 @@ export const RegistrarPasajeModal = () => {
 
   const [soldSeats, setSoldSeats] = useState<number[]>([]);
   const { openNotification } = useNotification();
+  const [queryEnabled, setQueryEnabled] = useState(false);
 
   const onPriceChange = (value: string) => {
     alert(`El precio es ${value}`);
   };
 
-  const { data: informacionCliente, error: errorValidacionDNI } =
-    api.clientes.validateDni.useQuery({
+  const { data: informacionCliente } = api.clientes.validateDni.useQuery(
+    {
       dni: form.getFieldValue("dni") as string,
-    });
+    },
+    {
+      enabled: queryEnabled,
+    }
+  );
 
   const confirm = () =>
     new Promise((resolve) => {
@@ -218,27 +223,40 @@ export const RegistrarPasajeModal = () => {
             name="dni"
             label="DNI"
             tooltip="DNI del pasajero, esta información es validada con la RENIEC "
-            rules={[
-              { required: true },
-              { min: 8, message: "El DNI debe tener 8 dígitos" },
-              { max: 8, message: "El DNI debe tener 8 dígitos" },
-            ]}
+            rules={[{ required: true }]}
             validateStatus={
-              errorValidacionDNI
+              form.getFieldValue("dni") === ""
+                ? ""
+                : informacionCliente?.status === "error"
                 ? "error"
-                : informacionCliente
+                : informacionCliente?.status === "success"
                 ? "success"
                 : "validating"
             }
             help={
-              <p>
-                {informacionCliente?.data?.nombres}{" "}
-                {informacionCliente?.data?.apellidoPaterno}{" "}
-                {informacionCliente?.data?.apellidoMaterno}
-              </p>
+              form.getFieldValue("dni") === "" ? (
+                ""
+              ) : informacionCliente?.status === "error" ? (
+                "El DNI no existe"
+              ) : informacionCliente?.status === "success" ? (
+                <p>
+                  {informacionCliente?.data?.nombres}{" "}
+                  {informacionCliente?.data?.apellidoPaterno}{" "}
+                  {informacionCliente?.data?.apellidoMaterno}
+                </p>
+              ) : (
+                "Validando DNI"
+              )
             }
           >
-            <Input type="text" className="w-full" />
+            <Input
+              onChange={(e) => {
+                setQueryEnabled(e.target.value.length === 8);
+                form.setFieldValue("dni", e.target.value);
+              }}
+              type="text"
+              className="w-full"
+            />
           </Form.Item>
 
           <Space direction="horizontal" className="flex gap-5">

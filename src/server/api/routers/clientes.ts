@@ -26,8 +26,12 @@ export const clientesRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
+      const { dni } = input;
+      if (dni.length !== 8) {
+        return { status: "error", help: "El DNI debe tener 8 dígitos" };
+      }
       try {
-        const response = await fetch(`${env.API_RENIEC_URL}${input.dni}`, {
+        const response = await fetch(`${env.API_RENIEC_URL}${dni}`, {
           headers: {
             Authorization: `Bearer ${env.API_RENIEC_TOKEN}`,
           },
