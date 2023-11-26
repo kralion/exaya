@@ -37,8 +37,11 @@ export const RegistrarPasajeModal = () => {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
+  const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
+  const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
 
-  const [soldSeats, setSoldSeats] = useState<number[]>([]);
+  const [soldSeats, setSoldSeats] = useState<number[]>(INITIAL_SOLDS_SEATS);
+  const [bookedSeats, setBookedSeats] = useState<number[]>(BOOKED_SEATS);
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
 
@@ -126,56 +129,47 @@ export const RegistrarPasajeModal = () => {
         footer={null}
       >
         <div className="flex items-start justify-between  ">
-          <div className="grid grid-flow-row grid-cols-4 rounded-lg border-2 border-zinc-200 p-5 ">
-            <div className="col-span-4 flex justify-center gap-16 rounded-md border-2 border-slate-300 py-2">
-              <Image
-                src="https://cdn-icons-png.flaticon.com/128/2072/2072317.png"
-                width={50}
-                height={50}
-                title="Margen Izquierda"
-                className="animate__animated animate__delay-1s animate__flip"
-                alt="lateral"
-              />
-              <Image
-                src="https://cdn-icons-png.flaticon.com/128/4981/4981785.png"
-                width={50}
-                height={50}
-                title="Margen Derecha"
-                className="animate__animated animate__flip animate__delay-1s"
-                alt="lateral"
-              />
-            </div>
-
-            {seats.map((seatNumber) => (
-              <svg
+          <div className="flex flex-wrap">
+            {seats.map((seatNumber, index) => (
+              <div
                 key={seatNumber}
-                className="my-2 transform cursor-pointer  transition-all duration-100 hover:scale-105 active:scale-125 "
-                onClick={() => handleSeatClick(seatNumber)}
-                width="50"
-                height="50"
-                viewBox="0 0 24 22"
+                className={`transform cursor-pointer transition-all duration-100 hover:scale-105 active:scale-125 ${
+                  index % 4 === 1 || index % 4 === 3 ? "mr-8" : "mr-2"
+                }`}
               >
-                <path
-                  className={`fill-${
-                    soldSeats.includes(seatNumber) ? "green-500" : "slate-100"
-                  } stroke-black`}
-                  d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
-                ></path>
-                <path
-                  className="fill-amber-200 stroke-amber-600"
-                  d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
-                ></path>
-                <text
-                  x="50%"
-                  y="50%"
-                  textAnchor="middle"
-                  dy=".3em"
-                  fontSize="6"
-                  className={`text-[8px] font-bold text-red-500 dark:text-white  ${concertOne.className}`}
+                <svg
+                  key={seatNumber}
+                  onClick={() => handleSeatClick(seatNumber)}
+                  width="50"
+                  height="50"
+                  viewBox="0 0 24 22"
                 >
-                  {seatNumber}
-                </text>
-              </svg>
+                  <path
+                    className={
+                      soldSeats.includes(seatNumber)
+                        ? "fill-green-300 stroke-green-600"
+                        : bookedSeats.includes(seatNumber)
+                        ? "fill-yellow-300 stroke-yellow-600"
+                        : "fill-white stroke-slate-500"
+                    }
+                    d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
+                  ></path>
+                  <path
+                    className="fill-amber-200 stroke-amber-600"
+                    d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
+                  ></path>
+                  <text
+                    x="50%"
+                    y="50%"
+                    textAnchor="middle"
+                    dy=".3em"
+                    fontSize="6"
+                    className={`text-[7px] font-bold  ${concertOne.className}`}
+                  >
+                    {seatNumber}
+                  </text>
+                </svg>
+              </div>
             ))}
           </div>
 
@@ -199,7 +193,9 @@ export const RegistrarPasajeModal = () => {
                 ) : (
                   ""
                 )}
-                <Tag>Asiento {selectedSeat}</Tag>
+                <Tag color="green-inverse" className="px-3 py-1">
+                  Asiento {selectedSeat}
+                </Tag>
               </div>
             </div>
             <hr className="mt-2 " />
@@ -305,40 +301,42 @@ export const RegistrarPasajeModal = () => {
           />
           <Form.Item>
             <div className="mt-5 flex items-center justify-between">
-              <Popconfirm
-                okButtonProps={{
-                  style: {
-                    backgroundColor: "#52c41a",
-                    color: "white",
-                    borderRadius: "5px",
-                    border: "none",
-                  },
-                }}
-                placement="right"
-                title="Estás segur@ ?"
-                onConfirm={confirm}
-              >
-                <button
-                  style={{
-                    width: 150,
+              <div className="flex gap-3">
+                <Popconfirm
+                  okButtonProps={{
+                    style: {
+                      backgroundColor: "#52c41a",
+                      color: "white",
+                      borderRadius: "5px",
+                      border: "none",
+                    },
                   }}
-                  className={style.button}
-                  type="submit"
+                  placement="right"
+                  title="Estás segur@ ?"
+                  onConfirm={confirm}
                 >
-                  Registrar
-                </button>
-              </Popconfirm>
-              <Button
-                type="default"
-                htmlType="button"
-                onClick={handleSeatBooking}
-              >
-                Reservar Asiento{" "}
-              </Button>
-
+                  <button
+                    style={{
+                      width: 150,
+                    }}
+                    className={style.button}
+                    type="submit"
+                  >
+                    Registrar
+                  </button>
+                </Popconfirm>
+                <Button
+                  type="default"
+                  htmlType="button"
+                  onClick={handleSeatBooking}
+                >
+                  Reservar
+                </Button>
+              </div>
               <div className=" flex gap-2">
                 <Button
-                  icon={<LuDelete className="text-red-500" size={25} />}
+                  className="rounded-full"
+                  icon={<LuDelete className=" p-0.5 text-red-500" size={25} />}
                   type="text"
                   htmlType="button"
                   onClick={onReset}
@@ -346,10 +344,13 @@ export const RegistrarPasajeModal = () => {
 
                 <Button
                   disabled={disabledPrint}
+                  className="rounded-full bg-green-200 "
                   icon={
                     <LuPrinter
                       className={
-                        disabledPrint ? "text-gray-500" : "text-green-500"
+                        disabledPrint
+                          ? "text-gray-500"
+                          : "rounded-full p-0.5  text-green-500"
                       }
                       size={25}
                     />
