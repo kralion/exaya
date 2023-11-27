@@ -45,9 +45,10 @@ export default function LandingLayout({
   return (
     <AOSWrapper>
       <div
-        className={` ${inter.className}  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
+        className={` ${inter.className} relative  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
       >
-        <div className="fixed top-0 z-10 flex w-full items-center justify-between bg-transparent px-10  pt-7 backdrop-blur-md lg:mb-20">
+        <MobileNav />
+        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-10 pt-7  backdrop-blur-md lg:fixed lg:mb-20">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
@@ -87,15 +88,12 @@ export default function LandingLayout({
           </nav>
           <Link
             href="/dashboard"
-            className=" lg:text-md  flex items-center gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent  hover:bg-orange-500 hover:text-white  active:bg-orange-500 "
+            className=" lg:text-md hidden items-center  gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent hover:bg-orange-500  hover:text-white active:bg-orange-500  lg:flex "
             title="Iniciar sesión"
           >
             Probarlo
             <BsArrowRight size={15} />
           </Link>
-          <nav className="lg:hidden">
-            <MobileNav />
-          </nav>
         </div>
         <div className={`${inter.className} pt-36 text-center `}>
           {children}
