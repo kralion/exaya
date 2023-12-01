@@ -7,6 +7,7 @@ import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import DesktopNavBar from "./ui/login/desktopnav";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -17,21 +18,21 @@ const blackOpsOne = Black_Ops_One({
 });
 export const navLinks = [
   {
-    title: "Features",
-    path: "/features",
+    label: "Features",
+    href: "/features",
   },
   {
-    title: "Contacto",
-    path: "/contacto",
+    label: "Contacto",
+    href: "/contacto",
   },
   {
-    title: "Membresías",
-    path: "/planes",
+    label: "Membresías",
+    href: "/planes",
   },
 
   {
-    title: "Ingresar",
-    path: "/login",
+    label: "Ingresar",
+    href: "/login",
   },
 ];
 
@@ -47,7 +48,7 @@ export default function LandingLayout({
       <div
         className={` ${inter.className} relative  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
       >
-        <MobileNav />
+        <MobileNav navLinks={navLinks} pathname={pathname} />
         <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-10 pt-7  backdrop-blur-md lg:fixed lg:mb-20">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
@@ -67,25 +68,8 @@ export default function LandingLayout({
               </span>
             </div>
           </Link>
-          <nav className="hidden lg:inline-flex">
-            <ul className=" flex gap-2.5 ">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    className={clsx(
-                      "flex items-center justify-center text-sm font-semibold duration-300 hover:text-white active:opacity-70 ",
-                      {
-                        "text-white": pathname === link.path,
-                      }
-                    )}
-                    href={link.path}
-                  >
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <DesktopNavBar navLinks={navLinks} pathname={pathname} />
+
           <Link
             href="/dashboard"
             className=" lg:text-md hidden items-center  gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent hover:bg-orange-500  hover:text-white active:bg-orange-500  lg:flex "

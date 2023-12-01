@@ -12,11 +12,11 @@ type NavigationProps = {
   pathname: string;
 };
 
-export default function MobileNavBar({ navLinks, pathname }: NavigationProps) {
+export default function DesktopNavBar({ navLinks, pathname }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
   const navRef = useRef(null);
   return (
-    <div className="fixed bottom-3 z-10 mx-3 flex items-center   justify-center gap-2 rounded-full bg-orange-600/70 p-1 backdrop-blur-md lg:hidden  ">
+    <div className="  my-3 hidden   items-center justify-center gap-2 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 p-1 backdrop-blur-md lg:inline-flex  ">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className=" flex items-center justify-center rounded-full bg-white p-1  active:bg-orange-100 "
@@ -51,7 +51,7 @@ export default function MobileNavBar({ navLinks, pathname }: NavigationProps) {
               setBubbleStyle(bubbleStyle);
             }}
             className={clsx(
-              "z-10 flex items-center justify-center rounded-full p-2 text-xs text-white duration-300   active:text-black active:opacity-70",
+              "z-10 flex items-center justify-center rounded-full p-2 text-sm   text-white duration-300  active:text-black active:opacity-70",
               {
                 "text-black": pathname === link.href,
               }
@@ -64,7 +64,7 @@ export default function MobileNavBar({ navLinks, pathname }: NavigationProps) {
         ))}
         <div
           style={bubbleStyle}
-          className="absolute rounded-full bg-gradient-to-bl from-orange-600 to-rose-600 opacity-0 transition-all group-hover:opacity-100 "
+          className="absolute rounded-full bg-gradient-to-bl from-orange-500 to-rose-500 opacity-0 transition-all group-hover:opacity-100 "
         ></div>
       </nav>
     </div>
