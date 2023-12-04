@@ -1,5 +1,4 @@
 "use client";
-import { clsx } from "clsx";
 import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
 import Link from "next/link";
 import { useState, useRef } from "react";
@@ -9,10 +8,9 @@ type NavigationProps = {
     label: string;
     href: string;
   }[];
-  pathname: string;
 };
 
-export default function MobileNavBar({ navLinks, pathname }: NavigationProps) {
+export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
   const navRef = useRef(null);
   return (
@@ -50,12 +48,7 @@ export default function MobileNavBar({ navLinks, pathname }: NavigationProps) {
               };
               setBubbleStyle(bubbleStyle);
             }}
-            className={clsx(
-              "z-10 flex items-center justify-center rounded-full p-2 text-xs text-white duration-300   active:text-black active:opacity-70",
-              {
-                "text-black": pathname === link.href,
-              }
-            )}
+            className="z-10 flex items-center justify-center rounded-full p-2 text-xs text-white duration-300   active:text-black active:opacity-70"
             href={link.href}
             key={index}
           >

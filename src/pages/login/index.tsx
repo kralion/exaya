@@ -36,7 +36,7 @@ export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
   const onChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
     if (checked) {
@@ -137,7 +137,7 @@ export default function Login() {
             priority
           />
           <h2
-            className={`  bg-white bg-clip-text text-left text-4xl font-bold text-transparent   ${blackOpsOne.className} `}
+            className={`  bg-white bg-clip-text text-left text-3xl text-transparent   ${blackOpsOne.className} `}
           >
             Exaya
           </h2>
@@ -158,9 +158,11 @@ export default function Login() {
           </Link>
         </h5>
       </div>
-      <div className="flex w-1/2 flex-col items-center pl-5">
+      <div
+        className={` ${literata.className} flex w-1/2 flex-col items-center pl-5`}
+      >
         <h3
-          className={`  bg-gradient-to-r from-black  to-orange-500 bg-clip-text text-left text-4xl  text-transparent   `}
+          className={`  font- bg-gradient-to-r  from-black to-orange-500 bg-clip-text text-left  text-4xl text-transparent   `}
         >
           Inicio de Sesión
         </h3>
@@ -186,7 +188,7 @@ export default function Login() {
             }
             onFinishFailed={onFinishFailed}
           >
-            <h3 className="mb-2  font-semibold">Usuario</h3>
+            <h3 className="mb-2">Usuario</h3>
             <Form.Item
               name="username"
               className={`${literata.className} `}
@@ -203,7 +205,7 @@ export default function Login() {
               />
             </Form.Item>
 
-            <h4 className="mb-2  font-black">Contraseña</h4>
+            <h4 className="mb-2">Contraseña</h4>
             <Form.Item
               name="password"
               rules={[

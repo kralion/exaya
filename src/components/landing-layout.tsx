@@ -1,8 +1,6 @@
 import MobileNav from "@/components/ui/login/mobilenav";
 import AOSWrapper from "@/utils/AOS";
 import { BsArrowRight } from "react-icons/bs";
-import { usePathname } from "next/navigation";
-import { clsx } from "clsx";
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
@@ -41,14 +39,12 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
   return (
     <AOSWrapper>
       <div
         className={` ${inter.className} relative  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
       >
-        <MobileNav navLinks={navLinks} pathname={pathname} />
+        <MobileNav navLinks={navLinks} />
         <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-10 pt-7  backdrop-blur-md lg:fixed lg:mb-20">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
@@ -62,13 +58,13 @@ export default function LandingLayout({
                 priority
               />
               <span
-                className={` text-2xl font-bold  lg:text-3xl ${blackOpsOne.className}`}
+                className={` text-2xl  lg:text-3xl ${blackOpsOne.className}`}
               >
                 Exaya
               </span>
             </div>
           </Link>
-          <DesktopNavBar navLinks={navLinks} pathname={pathname} />
+          <DesktopNavBar navLinks={navLinks} />
 
           <Link
             href="/dashboard"
