@@ -30,7 +30,7 @@ const { Title } = Typography;
 
 const { Option } = Select;
 
-const seats = Array.from({ length: 50 }, (_, i) => i + 1);
+const seats = Array.from({ length: 40 }, (_, i) => i + 1);
 
 export const RegistrarPasajeModal = () => {
   const [open, setOpen] = useState(false);
@@ -45,10 +45,6 @@ export const RegistrarPasajeModal = () => {
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
 
-  const onPriceChange = (value: string) => {
-    alert(`El precio es ${value}`);
-  };
-
   const { data: informacionCliente } = api.clientes.validateDni.useQuery(
     {
       dni: form.getFieldValue("dni") as string,
@@ -58,14 +54,24 @@ export const RegistrarPasajeModal = () => {
     }
   );
 
-  const confirm = () =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(null), 3000);
-    });
+  const confirm = () => {
+    form.submit();
+  };
 
-  const boletoMutation = api.boletos.createBoletos.useMutation();
+  const { isLoading, mutate: boletoMutation } =
+    api.boletos.createBoletos.useMutation();
   const onFinish = (values: IBoleto) => {
-    boletoMutation.mutate(values);
+    const boletoDataValidated = {
+      ...values,
+      asiento: selectedSeat,
+    };
+    // boletoMutation(boletoDataValidated);
+    alert(
+      JSON.stringify({
+        ...boletoDataValidated,
+        asiento: selectedSeat,
+      })
+    );
     openNotification({
       placement: "topRight",
       message: "Operacion Exitosa",
@@ -110,12 +116,6 @@ export const RegistrarPasajeModal = () => {
               <Title className="mb-3.5 flex flex-col" level={4}>
                 Asientos del Bus
               </Title>
-              <p className="flex gap-11  ">
-                <Tag className="text-[10px] text-gray-500">
-                  Margen Izquierdo
-                </Tag>
-                <Tag className="text-[10px] text-gray-500">Margen Derecho</Tag>
-              </p>
             </p>
             <Title className="pr-10 text-center" level={5}>
               Vista previa del Bus
@@ -128,13 +128,16 @@ export const RegistrarPasajeModal = () => {
         width={1000}
         footer={null}
       >
-        <div className="flex items-start justify-between  ">
-          <div className="flex flex-wrap">
+        <div className="flex items-start justify-between rounded-2xl border-2 p-3 ">
+          <div className=" flex w-[330px] flex-wrap">
             {seats.map((seatNumber, index) => (
               <div
                 key={seatNumber}
                 className={`transform cursor-pointer transition-all duration-100 hover:scale-105 active:scale-125 ${
-                  index % 4 === 1 || index % 4 === 3 ? "mr-8" : "mr-2"
+                  (index % 4 === 1 || index % 4 === 3) &&
+                  index !== seats.length - 1
+                    ? "mr-11"
+                    : "mr-1"
                 }`}
               >
                 <svg
@@ -189,13 +192,18 @@ export const RegistrarPasajeModal = () => {
               <h3>Registro de Boleto</h3>
               <div>
                 {selectedSeat !== null && soldSeats.includes(selectedSeat) ? (
-                  <Tag color="red-inverse">Vendido</Tag>
+                  <Tag color="green-inverse" className="px-3 py-1">
+                    Vendido
+                  </Tag>
+                ) : selectedSeat !== null &&
+                  bookedSeats.includes(selectedSeat) ? (
+                  <Tag color="yellow-inverse" className="px-3 py-1 text-black">
+                    Reservado
+                  </Tag>
                 ) : (
                   ""
                 )}
-                <Tag color="green-inverse" className="px-3 py-1">
-                  Asiento {selectedSeat}
-                </Tag>
+                <Tag className="px-3 py-1">Asiento {selectedSeat}</Tag>
               </div>
             </div>
             <hr className="mt-2 " />
@@ -266,7 +274,7 @@ export const RegistrarPasajeModal = () => {
               }}
               rules={[{ required: true, message: "Selecciona" }]}
             >
-              <Select placeholder="40" onChange={onPriceChange} allowClear>
+              <Select placeholder="40" allowClear>
                 <Option value="30">30</Option>
                 <Option value="45">45</Option>
               </Select>
@@ -302,7 +310,7 @@ export const RegistrarPasajeModal = () => {
           <Form.Item>
             <div className="mt-5 flex items-center justify-between">
               <div className="flex gap-3">
-                <Popconfirm
+                {/* <Popconfirm
                   okButtonProps={{
                     style: {
                       backgroundColor: "#52c41a",
@@ -311,20 +319,33 @@ export const RegistrarPasajeModal = () => {
                       border: "none",
                     },
                   }}
-                  placement="right"
+                  placement="bottom"
                   title="Estás segur@ ?"
-                  onConfirm={confirm}
+                  onConfirm={
+                    selectedSeat !== null
+                      ? confirm
+                      : () => {
+                          alert("Selecciona un asiento");
+                        }
+                  }
                 >
                   <button
                     style={{
                       width: 150,
                     }}
                     className={style.button}
-                    type="submit"
                   >
                     Registrar
                   </button>
-                </Popconfirm>
+                </Popconfirm> */}
+                <Button
+                  htmlType="submit"
+                  loading={isLoading}
+                  disabled={isLoading}
+                >
+                  Registrar
+                </Button>
+
                 <Button
                   type="default"
                   htmlType="button"

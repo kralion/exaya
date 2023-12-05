@@ -23,7 +23,14 @@ export const boletosRouter = createTRPCRouter({
       return ctx.prisma.boleto.delete({ where: { id: input.id } });
     }),
   createBoletos: protectedProcedure
-    .input(boletoSchema)
+    .input(
+      boletoSchema.omit({
+        fechaCompra: true,
+        id: true,
+        pasajeroId: true,
+        viajeId: true,
+      })
+    )
     .mutation(({ input, ctx }) => {
       return ctx.prisma.boleto.create({ data: input });
     }),
