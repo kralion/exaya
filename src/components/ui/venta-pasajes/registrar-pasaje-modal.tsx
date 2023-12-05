@@ -79,6 +79,8 @@ export const RegistrarPasajeModal = () => {
       type: "success",
     });
     setSoldSeats([...soldSeats, values.asiento]);
+    form.resetFields();
+    setOpenRegister(false);
   };
 
   const handlePrintTicket = () => {
@@ -290,6 +292,7 @@ export const RegistrarPasajeModal = () => {
                   width: 215,
                 }}
                 type="number"
+                controls={false}
               />
             </Form.Item>
           </Space>
@@ -341,7 +344,12 @@ export const RegistrarPasajeModal = () => {
                 <Button
                   htmlType="submit"
                   loading={isLoading}
-                  disabled={isLoading}
+                  disabled={
+                    selectedSeat === null ||
+                    soldSeats.includes(selectedSeat) ||
+                    bookedSeats.includes(selectedSeat) ||
+                    informacionCliente?.status === "error"
+                  }
                 >
                   Registrar
                 </Button>
