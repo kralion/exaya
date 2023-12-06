@@ -159,6 +159,10 @@ export const EncomiendasTable: React.FC = () => (
   />
 );
 
+//TODO : This calling should be inside a functional component
+// export const { data: singleViaje } = api.viajes.getViajesById.useQuery({
+//   id: "762f5150-5b73-4061-8964-db3c34e9b5ec",
+// });
 const ManifiestoDrawer: React.FC = () => {
   const { openNotification } = useNotification();
   const [open, setOpen] = useState(false);
@@ -288,7 +292,8 @@ const ManifiestoDrawer: React.FC = () => {
 const items = [
   {
     key: "1",
-    label: <RegistrarPasajeModal />,
+    // label: <RegistrarPasajeModal viajeSingleBusPlaca={singleViaje?.bus.placa || "BYW-WE5"} />,
+    label: <RegistrarPasajeModal viajeSingleBusPlaca="BYD-34S" />,
   },
   {
     key: "2",

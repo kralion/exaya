@@ -18,7 +18,12 @@ export const viajesRouter = createTRPCRouter({
   getViajesById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.viaje.findUnique({ where: { id: input.id } });
+      return ctx.prisma.viaje.findUnique({
+        where: { id: input.id },
+        include: {
+          bus: true,
+        },
+      });
     }),
   createViaje: publicProcedure
     .input(

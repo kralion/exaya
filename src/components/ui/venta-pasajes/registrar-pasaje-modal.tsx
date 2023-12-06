@@ -31,8 +31,13 @@ const { Title } = Typography;
 const { Option } = Select;
 
 const seats = Array.from({ length: 40 }, (_, i) => i + 1);
+type ViajeDetailsProps = {
+  viajeSingleBusPlaca: string | null;
+};
 
-export const RegistrarPasajeModal = () => {
+export const RegistrarPasajeModal = ({
+  viajeSingleBusPlaca,
+}: ViajeDetailsProps) => {
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
@@ -119,6 +124,7 @@ export const RegistrarPasajeModal = () => {
                 Asientos del Bus
               </Title>
             </p>
+            {viajeSingleBusPlaca}
             <Title className="pr-10 text-center" level={5}>
               Vista previa del Bus
             </Title>
@@ -130,7 +136,7 @@ export const RegistrarPasajeModal = () => {
         width={1000}
         footer={null}
       >
-        <div className="flex items-start justify-between rounded-2xl border-2 p-3 ">
+        <div className="flex items-center justify-between rounded-2xl border-2 p-3 ">
           <div className=" flex w-[330px] flex-wrap">
             {seats.map((seatNumber, index) => (
               <div
