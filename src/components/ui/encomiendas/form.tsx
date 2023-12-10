@@ -44,10 +44,30 @@ const formItemLayout = {
 };
 
 import { useEncomiendasContext } from "@/context/EncomiendasContext";
-
+import { api } from "@/utils/api";
+import { useState } from "react";
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const { handleAddEncomienda } = useEncomiendasContext();
+  const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
+  const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
+
+  const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
+    {
+      dni: form.getFieldValue("dniDestinatario") as string,
+    },
+    {
+      enabled: receiverQueryEnabled,
+    }
+  );
+  const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
+    {
+      dni: form.getFieldValue("dniRemitente") as string,
+    },
+    {
+      enabled: senderQueryEnabled,
+    }
+  );
 
   const onFinish = (values: IEncomienda) => {
     handleAddEncomienda(values);
@@ -74,7 +94,7 @@ export function EncomiendasForm() {
         onFinish={onFinish}
         initialValues={{ prefix: "+51" }}
         scrollToFirstError
-        className="grid grid-flow-row grid-cols-4 gap-x-3.5"
+        className="grid grid-flow-row grid-cols-4 gap-x-3.5 gap-y-7"
       >
         <Form.Item
           name="dniRemitente"
@@ -87,10 +107,42 @@ export function EncomiendasForm() {
               whitespace: true,
             },
           ]}
-          validateStatus="validating"
-          help="Validando..."
+          validateStatus={
+            form.getFieldValue("dniRemitente") === ""
+              ? ""
+              : remitenteInformacion?.status === "error"
+              ? "error"
+              : remitenteInformacion?.status === "success"
+              ? "success"
+              : "validating"
+          }
+          help={
+            form.getFieldValue("dniRemitente") === "" ? (
+              ""
+            ) : remitenteInformacion?.status === "error" ? (
+              "El DNI no existe"
+            ) : remitenteInformacion?.status === "success" ? (
+              <p>
+                {remitenteInformacion?.data?.nombres}{" "}
+                {remitenteInformacion?.data?.apellidoPaterno}{" "}
+                {remitenteInformacion?.data?.apellidoMaterno}
+              </p>
+            ) : (
+              "Validando"
+            )
+          }
         >
-          <Input placeholder="12345678" />
+          <InputNumber
+            placeholder="12345678"
+            onChange={(value) => {
+              const dni = String(value);
+              form.setFieldValue("dniRemitente", dni);
+              setReceiverQueryEnabled(dni.length === 8);
+            }}
+            type="number"
+            className="w-full"
+            controls={false}
+          />
         </Form.Item>
 
         <Form.Item
@@ -104,10 +156,42 @@ export function EncomiendasForm() {
               whitespace: true,
             },
           ]}
-          validateStatus="validating"
-          help="Validando..."
+          validateStatus={
+            form.getFieldValue("dniDestinatario") === ""
+              ? ""
+              : receptorInformacion?.status === "error"
+              ? "error"
+              : receptorInformacion?.status === "success"
+              ? "success"
+              : "validating"
+          }
+          help={
+            form.getFieldValue("dniDestinatario") === "" ? (
+              ""
+            ) : receptorInformacion?.status === "error" ? (
+              "El DNI no existe"
+            ) : receptorInformacion?.status === "success" ? (
+              <p>
+                {receptorInformacion?.data?.nombres}{" "}
+                {receptorInformacion?.data?.apellidoPaterno}{" "}
+                {receptorInformacion?.data?.apellidoMaterno}
+              </p>
+            ) : (
+              "Validando"
+            )
+          }
         >
-          <Input placeholder="12345678" />
+          <InputNumber
+            placeholder="12345678"
+            onChange={(value) => {
+              const dni = String(value);
+              form.setFieldValue("dniDestinatario", dni);
+              setSenderQueryEnabled(dni.length === 8);
+            }}
+            type="number"
+            className="w-full"
+            controls={false}
+          />
         </Form.Item>
 
         <Form.Item
@@ -140,7 +224,7 @@ export function EncomiendasForm() {
           <Form.Item
             name="precio"
             label="Precio"
-            rules={[{ required: true, message: "Precio" }]}
+            rules={[{ required: true, message: "Requerido" }]}
           >
             <InputNumber
               type="number"
