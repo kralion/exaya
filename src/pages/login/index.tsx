@@ -21,13 +21,11 @@ import type { z } from "zod";
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
-  preload: true,
 });
 
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
   weight: "400",
-  preload: true,
 });
 
 export default function Login() {
@@ -106,11 +104,10 @@ export default function Login() {
       <div
         style={{
           backgroundImage:
-            "url(https://media.istockphoto.com/id/1161674685/photo/two-white-buses-traveling-on-the-asphalt-road-in-rural-landscape-at-sunset-with-dramatic.jpg?b=1&s=612x612&w=0&k=20&c=rWkox7mi9gc0DOqiPWF0NpB1WjG-Z0g5TxDIhpQuGo8= )",
+            "url(https://images.pexels.com/photos/1432531/pexels-photo-1432531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: " center",
-
+          backgroundPosition: "right",
           position: "relative",
           width: "50%",
           height: "100%",
@@ -146,7 +143,7 @@ export default function Login() {
             Operativa <span className="text-orange-400">|</span>
           </h5>
         </div>
-        <h5 className="absolute bottom-5 left-5 text-sm text-slate-200 ">
+        <h5 className="absolute bottom-5 left-5 text-sm  text-slate-200 ">
           Desarrollado por{" "}
           <Link
             href="https://twitter.com/joanpaucar_"
