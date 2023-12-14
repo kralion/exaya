@@ -17,39 +17,39 @@ import {
 
 const data = [
   {
-    name: "Enero",
+    name: "Junio",
     encomiendas: 4000,
     boletos: 2400,
   },
   {
-    name: "Febrero",
+    name: "Julio",
     encomiendas: 3000,
     boletos: 1398,
   },
   {
-    name: "Marzo",
+    name: "Agosto",
     encomiendas: 2000,
-    boletos: 9800,
+    boletos: 4800,
   },
   {
-    name: "Abril",
+    name: "Septiembre",
     encomiendas: 2780,
     boletos: 3908,
   },
   {
-    name: "Mayo",
+    name: "Octubre",
     encomiendas: 1890,
     boletos: 4800,
   },
   {
-    name: "Junio",
+    name: "Noviembre",
     encomiendas: 2390,
-    boletos: 3800,
+    boletos: 4800,
   },
   {
-    name: "Julio",
-    encomiendas: 3490,
-    boletos: 4300,
+    name: "Diciembre",
+    encomiendas: 2490,
+    boletos: 5300,
   },
 ];
 

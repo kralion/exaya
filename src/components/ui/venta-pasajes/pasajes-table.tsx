@@ -293,7 +293,7 @@ const items = [
   {
     key: "1",
     // label: <RegistrarPasajeModal viajeSingleBusPlaca={singleViaje?.bus.placa || "BYW-WE5"} />,
-    label: <RegistrarPasajeModal viajeSingleBusPlaca="BYD-34S" />,
+    label: <RegistrarPasajeModal viajeBusPlaca="BYD-34S" viajeId="agasda" />,
   },
   {
     key: "2",

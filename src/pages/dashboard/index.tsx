@@ -9,8 +9,8 @@ import Image from "next/image";
 import AppLayout from "../../components/layout";
 import AppHead from "@/components/head";
 
-const totalViajesProgramados = 12;
-const viajesActivos = 9;
+const totalViajesProgramados = 6;
+const viajesActivos = 4;
 export default function Dashboard() {
   return (
     <AppLayout>
@@ -93,7 +93,7 @@ export default function Dashboard() {
                   "0%": "#4096FF",
                   "100%": "#87d068",
                 }}
-                percent={100}
+                percent={50}
                 size="small"
               />
               <Typography.Text>Horario 21:00</Typography.Text>

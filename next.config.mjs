@@ -29,6 +29,7 @@ const config = {
       "media.istockphoto.com",
       "images.pexels.com",
       "ouch-cdn2.icons8.com",
+      "mighty.tools",
       "o.remove.bg",
       "fpdl.in",
       "ouch-cdn2.icons8.com",

@@ -3,6 +3,6 @@ export interface ICliente {
   apellidoPaterno: string;
   digitoVerificador?: string;
   nombres: string;
-  dni?: string;
+  dni: string;
   tipoDocumento?: string;
 }

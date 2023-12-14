@@ -25,24 +25,24 @@ const data01 = [
 const data02 = [
   {
     name: "Adultos",
-    value: 240,
+    value: 40,
   },
   {
     name: "Niños",
-    value: 456,
+    value: 56,
   },
   {
     name: "Discapacitados",
-    value: 139,
+    value: 39,
   },
 
   {
     name: "Estudiantes",
-    value: 390,
+    value: 90,
   },
   {
     name: "Tercera Edad",
-    value: 480,
+    value: 80,
   },
 ];
 

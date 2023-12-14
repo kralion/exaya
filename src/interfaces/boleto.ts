@@ -3,10 +3,12 @@ import type { IViaje } from "./viaje";
 
 export interface IBoleto {
   id: string;
-  cliente: ICliente;
-  viaje: IViaje;
+  clienteId: string;
+  viajeId: string;
+  equipajes: string;
   asiento: number;
-  telefonoCliente: number;
+  codigo: string;
+  telefonoCliente: string;
   precio: number;
   equipaje: string;
 }

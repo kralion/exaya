@@ -32,16 +32,18 @@ const { Option } = Select;
 
 const seats = Array.from({ length: 40 }, (_, i) => i + 1);
 type ViajeDetailsProps = {
-  viajeSingleBusPlaca: string | null;
+  viajeBusPlaca: string;
+  viajeId: string;
 };
 
 export const RegistrarPasajeModal = ({
-  viajeSingleBusPlaca,
+  viajeId,
+  viajeBusPlaca,
 }: ViajeDetailsProps) => {
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
-  const [selectedSeat, setSelectedSeat] = useState<number | null>(null);
+  const [selectedSeat, setSelectedSeat] = useState<number>(1);
   const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
   const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
 
@@ -63,14 +65,28 @@ export const RegistrarPasajeModal = ({
     form.submit();
   };
 
+  let lastCodigoNumber = 0; // This should be stored persistently
+
+  function generateNextCodigo() {
+    lastCodigoNumber += 1;
+    const numberString = String(lastCodigoNumber).padStart(5, "0");
+    return `B003-${numberString}`;
+  }
   const { isLoading, mutate: boletoMutation } =
     api.boletos.createBoletos.useMutation();
   const onFinish = (values: IBoleto) => {
+    const codigo = generateNextCodigo();
     const boletoDataValidated = {
+      nombre: informacionCliente?.data?.nombres,
+      apellidoPaterno: informacionCliente?.data?.apellidoPaterno,
+      apellidoMaterno: informacionCliente?.data?.apellidoMaterno,
+      dni: informacionCliente?.data?.dni,
       ...values,
+      viajeId: viajeId,
+      codigo: codigo,
       asiento: selectedSeat,
     };
-    // boletoMutation(boletoDataValidated);
+    boletoMutation(boletoDataValidated);
     alert(
       JSON.stringify({
         ...boletoDataValidated,
@@ -124,7 +140,7 @@ export const RegistrarPasajeModal = ({
                 Asientos del Bus
               </Title>
             </p>
-            {viajeSingleBusPlaca}
+            {viajeBusPlaca}
             <Title className="pr-10 text-center" level={5}>
               Vista previa del Bus
             </Title>

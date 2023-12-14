@@ -1,16 +1,14 @@
 import { z } from "zod";
 
 const boletoSchema = z.object({
-  //todo: change all the properties and types with the new ones from the database model
-  id: z.number(),
-  dni: z.string(),
-  asiento: z.string(),
-  origen: z.string().default("Lima"),
-  destino: z.string().default("Arequipa"),
+  telefonoCliente: z.string(),
+  asiento: z.number(),
+  equipajes: z.string(),
+  reservado: z.boolean().default(false),
+  clienteId: z.string(),
+  viajeId: z.string(),
   precio: z.number().nonnegative().min(1),
-  pasajeroId: z.number(),
-  fechaCompra: z.date(),
-  viajeId: z.number(),
+  codigo: z.string(),
 });
 
 export default boletoSchema;

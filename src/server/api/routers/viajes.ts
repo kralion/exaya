@@ -25,6 +25,7 @@ export const viajesRouter = createTRPCRouter({
         },
       });
     }),
+
   createViaje: publicProcedure
     .input(
       z.object({

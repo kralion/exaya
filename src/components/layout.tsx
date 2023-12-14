@@ -157,16 +157,9 @@ export default function AppLayout({ children }: LayoutProps) {
         >
           <div className="absolute left-2.5 flex w-full items-center justify-between pr-7">
             <AIAssistantInput />
-            <Title
-              style={{
-                fontWeight: 700,
-              }}
-              className=" pt-2 text-center drop-shadow-md "
-              type="warning"
-              level={4}
-            >
+            <h3 className=" pt-2 text-center font-bold text-yellow-500  ">
               Expreso Ayacucho S.A.C
-            </Title>
+            </h3>
           </div>
         </Header>
         {loading && <div className={styles.loader}></div>}
