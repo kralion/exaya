@@ -6,7 +6,7 @@ import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
-import { default as style, default as styles } from "./frame.module.css";
+import styles from "./frame.module.css";
 type Props = {
   activator: string;
 };
@@ -60,7 +60,7 @@ export function BusForm({ activator }: Props) {
 
   return (
     <>
-      <button className={style.basicButton} onClick={showModal}>
+      <button className={styles.basicButton} onClick={showModal}>
         {activator}
         <AiOutlinePlusCircle size={15} />
       </button>

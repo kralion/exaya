@@ -16,9 +16,11 @@ export const clientesRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.prisma.cliente.findUnique({ where: { id: input.id } });
     }),
-  creatCliente: publicProcedure.input(clienteSchema).query(({ ctx, input }) => {
-    return ctx.prisma.cliente.create({ data: input });
-  }),
+  createCliente: publicProcedure
+    .input(clienteSchema)
+    .query(({ ctx, input }) => {
+      return ctx.prisma.cliente.create({ data: input });
+    }),
   validateDni: publicProcedure
     .input(
       z.object({

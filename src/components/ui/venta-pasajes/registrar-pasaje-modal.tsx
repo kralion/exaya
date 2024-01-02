@@ -10,7 +10,6 @@ import {
   Input,
   InputNumber,
   Modal,
-  Popconfirm,
   Select,
   Space,
   Tag,
@@ -20,7 +19,6 @@ import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import { useState } from "react";
 import { LuDelete, LuPrinter } from "react-icons/lu";
-import style from "./frame.module.css";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -60,10 +58,6 @@ export const RegistrarPasajeModal = ({
       enabled: queryEnabled,
     }
   );
-
-  const confirm = () => {
-    form.submit();
-  };
 
   let lastCodigoNumber = 0; // This should be stored persistently
 
@@ -111,10 +105,6 @@ export const RegistrarPasajeModal = ({
       description: "Redireccionando a Impresion",
       type: "success",
     });
-  };
-
-  const onReset = () => {
-    form.resetFields();
   };
 
   const [disabledPrint, setDisabledPrint] = useState(true);
@@ -262,23 +252,22 @@ export const RegistrarPasajeModal = ({
                 : "validating"
             }
             help={
-              form.getFieldValue("dni") === "" ? (
-                ""
-              ) : informacionCliente?.status === "error" ? (
+              form.getFieldValue("dni") ===
+              "" ? null : informacionCliente?.status === "error" ? (
                 "El DNI no existe"
               ) : informacionCliente?.status === "success" ? (
-                <p>
+                <p className="text-green-500">
                   {informacionCliente?.data?.nombres}{" "}
                   {informacionCliente?.data?.apellidoPaterno}{" "}
                   {informacionCliente?.data?.apellidoMaterno}
                 </p>
               ) : (
-                "Validando"
+                "Ingrese el los 8 digitos del DNI"
               )
             }
           >
             <InputNumber
-              onChange={(value) => {
+              onChange={(value: string | null) => {
                 const dni = String(value);
                 form.setFieldValue("dni", dni);
                 setQueryEnabled(dni.length === 8);
@@ -296,7 +285,7 @@ export const RegistrarPasajeModal = ({
               style={{
                 width: 215,
               }}
-              rules={[{ required: true, message: "Selecciona" }]}
+              rules={[{ required: true, message: "Selecciona el precio" }]}
             >
               <Select placeholder="40" allowClear>
                 <Option value="30">30</Option>
@@ -325,44 +314,19 @@ export const RegistrarPasajeModal = ({
           >
             <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
           </Form.Item>
-          <Image
-            src={PassengerAsset}
-            alt="logo"
-            height={50}
-            className=" drop-shadow-xl"
-            width={150}
-          />
+          <div className="flex justify-center">
+            <Image
+              src={PassengerAsset}
+              alt="logo"
+              height={70}
+              className="  drop-shadow-xl "
+              width={250}
+            />
+          </div>
+
           <Form.Item>
             <div className="mt-5 flex items-center justify-between">
               <div className="flex gap-3">
-                {/* <Popconfirm
-                  okButtonProps={{
-                    style: {
-                      backgroundColor: "#52c41a",
-                      color: "white",
-                      borderRadius: "5px",
-                      border: "none",
-                    },
-                  }}
-                  placement="bottom"
-                  title="Estás segur@ ?"
-                  onConfirm={
-                    selectedSeat !== null
-                      ? confirm
-                      : () => {
-                          alert("Selecciona un asiento");
-                        }
-                  }
-                >
-                  <button
-                    style={{
-                      width: 150,
-                    }}
-                    className={style.button}
-                  >
-                    Registrar
-                  </button>
-                </Popconfirm> */}
                 <Button
                   htmlType="submit"
                   loading={isLoading}
@@ -390,7 +354,9 @@ export const RegistrarPasajeModal = ({
                   icon={<LuDelete className=" p-0.5 text-red-500" size={25} />}
                   type="text"
                   htmlType="button"
-                  onClick={onReset}
+                  onClick={() => {
+                    form.resetFields();
+                  }}
                 />
 
                 <Button

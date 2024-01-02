@@ -1,6 +1,3 @@
-import type { ICliente } from "./cliente";
-import type { IViaje } from "./viaje";
-
 export interface IBoleto {
   id: string;
   clienteId: string;
