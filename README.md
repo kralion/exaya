@@ -1,6 +1,6 @@
 # Exaya
 
-Complete Fullstack AI powered IT Solution for the intersate transportation industry. Built using T3 Stack 
+Complete Fullstack AI powered IT Solution for the intersate transportation industry. Built using T3 Stack
 
 <img align="left" alt="light-mode"  src="/public/repo-cover-light.png">
 
@@ -8,5 +8,4 @@ Complete Fullstack AI powered IT Solution for the intersate transportation indus
 
 ## Feedback
 
-If you have any feedback, please reach out to us at jpm_2001@icloud.com, all feedback is welcomed, and thank for your time.
-
+If you have any feedback, please reach out to us at jpm_2001@icloud.com, all feedback is welcomed, peace.
