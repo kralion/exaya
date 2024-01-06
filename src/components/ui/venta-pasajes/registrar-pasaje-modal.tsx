@@ -1,4 +1,4 @@
-import Bus1Preview from "@/assets/images/bus-1-preview.jpg";
+import Bus1Preview from "@/assets/images/bus-1-preview.png";
 import PassengerAsset from "@/assets/images/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
 import type { IBoleto } from "@/interfaces";

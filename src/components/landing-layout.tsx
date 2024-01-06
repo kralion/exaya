@@ -6,6 +6,7 @@ import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import DesktopNavBar from "./ui/login/desktopnav";
+import BgGradient from "@/assets/bg.jpg";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -41,9 +42,12 @@ export default function LandingLayout({
 }) {
   return (
     <AOSWrapper>
-      <div
-        className={` ${inter.className} relative  bg-gradient-to-r from-orange-400 via-rose-400 to-yellow-300`}
-      >
+      <div className={` ${inter.className} h-screen w-screen rounded-[200px]`}>
+        <div
+          className="absolute inset-0 rounded-b-[200px] bg-cover bg-center bg-no-repeat opacity-85 blur-md"
+          style={{ backgroundImage: `url(${BgGradient.src})` }}
+        />
+
         <MobileNav navLinks={navLinks} />
         <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-10 pt-7  backdrop-blur-md lg:fixed lg:mb-20">
           <Link href="/">
@@ -68,11 +72,10 @@ export default function LandingLayout({
 
           <Link
             href="/dashboard"
-            className=" lg:text-md hidden items-center  gap-2 rounded-md border-1 border-black px-2 py-1 text-sm font-semibold duration-300 hover:border-transparent hover:bg-orange-500  hover:text-white active:bg-orange-500  lg:flex "
+            className=" lg:text-md hidden items-center  gap-2 rounded-full border-1 border-black px-3 py-2 text-sm font-semibold duration-300  hover:border-white  hover:bg-orange-500 hover:text-white active:bg-orange-500  lg:flex"
             title="Iniciar sesión"
           >
             Probarlo
-            <BsArrowRight size={15} />
           </Link>
         </div>
         <div className={`${inter.className} pt-36 text-center `}>

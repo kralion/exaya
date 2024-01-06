@@ -17,7 +17,7 @@ export default function DesktopNavBar({ navLinks }: NavigationProps) {
     <div className="  my-3 hidden   items-center justify-center gap-2 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 p-1 backdrop-blur-md lg:inline-flex  ">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className=" flex items-center justify-center rounded-full bg-white p-1  active:bg-orange-100 "
+        className=" flex items-center justify-center rounded-full bg-white p-1  hover:opacity-80 active:bg-orange-100 "
       >
         <MdOutlineKeyboardDoubleArrowUp size={25} className="text-black" />
       </button>
@@ -48,7 +48,7 @@ export default function DesktopNavBar({ navLinks }: NavigationProps) {
               };
               setBubbleStyle(bubbleStyle);
             }}
-            className="z-10 flex items-center justify-center rounded-full p-2 text-sm   text-white duration-300  active:text-black active:opacity-70"
+            className="z-10 flex items-center justify-center rounded-full p-2 text-xs   text-white duration-300   active:opacity-70"
             href={link.href}
             key={index}
           >
@@ -57,7 +57,7 @@ export default function DesktopNavBar({ navLinks }: NavigationProps) {
         ))}
         <div
           style={bubbleStyle}
-          className="absolute rounded-full bg-gradient-to-bl from-orange-500 to-rose-500 opacity-0 transition-all group-hover:opacity-100 "
+          className="absolute rounded-full bg-gradient-to-bl from-black/90 to-black/70 opacity-0 transition-all group-hover:opacity-100 "
         ></div>
       </nav>
     </div>

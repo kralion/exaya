@@ -37,7 +37,7 @@ export default function Index() {
             <div className="relative">
               <Link
                 href="/dashboard"
-                className="hover:purple-900 bg- group mt-10 inline-flex cursor-pointer items-center rounded-xl border-2 border-orange-400  bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5  font-semibold text-zinc-200 duration-500   hover:px-10 hover:shadow-2xl hover:shadow-orange-700  active:opacity-70 lg:px-5  lg:py-3 lg:text-xl "
+                className="hover:purple-900 bg- group mt-10 inline-flex cursor-pointer items-center rounded-xl border-2 border-orange-400  bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5  font-semibold text-white duration-500   hover:px-10 hover:shadow-2xl hover:shadow-orange-700  active:opacity-70 lg:px-5  lg:py-3 lg:text-xl "
               >
                 <BsArrowRight className="mr-3  duration-300 group-hover:mr-2 lg:mr-5 " />
                 Pruébalo gratis
@@ -75,7 +75,7 @@ export default function Index() {
                     color="gold-inverse"
                     data-aos="flip-up"
                     data-aos-duration="200"
-                    className={` ${dancing_Script.className} mx-2  rounded-lg px-2 drop-shadow-lg lg:text-4xl`}
+                    className={` ${dancing_Script.className} mx-2  rounded-lg px-2  lg:text-4xl`}
                   >
                     SaaS
                   </Tag>
