@@ -1,12 +1,12 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IBus } from "@/interfaces";
 import { api } from "@/utils/api";
-import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 import styles from "./frame.module.css";
+import { IoCloudUploadOutline } from "react-icons/io5";
 type Props = {
   activator: string;
 };
@@ -51,10 +51,11 @@ export function BusForm({ activator }: Props) {
       placement: "topRight",
     });
   };
-  const busPicFile = (e) => {
+  const busPicFile = (e: { fileList: any }) => {
     if (Array.isArray(e)) {
       return e;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return e && e.fileList;
   };
 
@@ -149,10 +150,9 @@ export function BusForm({ activator }: Props) {
               }}
             >
               {busPicList.length === 0 && (
-                <div>
-                  <UploadOutlined />
-                  <br />
-                  <span className="ml-2">Subir foto</span>
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <IoCloudUploadOutline size={30} />
+                  <span>Subir foto</span>
                 </div>
               )}
             </Upload>

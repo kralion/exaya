@@ -1,7 +1,6 @@
 import ConductorInfoStepSkeleton from "@/components/skeletons/conductor-step-skeleton";
 import type { IConductor } from "@/interfaces";
 import { api } from "@/utils/api";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -15,6 +14,7 @@ import {
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { PiWarningCircleBold } from "react-icons/pi";
 
 const { confirm } = Modal;
 const { Title } = Typography;
@@ -44,7 +44,7 @@ export function ConductoresInformacion() {
   const showDeleteConfirm = () => {
     confirm({
       title: "Estas seguro de eliminar a este conductor ?",
-      icon: <ExclamationCircleFilled />,
+      icon: <PiWarningCircleBold size={30} className="mr-4" color="red" />,
       content: "Todos los datos serán eliminados",
       okText: "Sí",
       okType: "danger",

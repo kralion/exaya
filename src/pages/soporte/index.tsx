@@ -1,6 +1,7 @@
 import AppHead from "@/components/head";
 import AppLayout from "@/components/layout";
-import { SnippetsOutlined, WhatsAppOutlined } from "@ant-design/icons";
+import { BsWhatsapp } from "react-icons/bs";
+import { IoMdBook } from "react-icons/io";
 import { Tag } from "antd";
 import { Literata } from "next/font/google";
 import Image from "next/image";
@@ -41,9 +42,9 @@ export default function Soporte() {
             >
               <Tag
                 color="green-inverse"
-                className="cursor-pointer rounded-full px-7  py-2 shadow-md hover:bg-green-500"
-                icon={<WhatsAppOutlined />}
+                className="flex cursor-pointer items-center gap-2 rounded-full px-7  py-2 shadow-md hover:bg-green-500"
               >
+                <BsWhatsapp size={15} />
                 Chat en vivo
               </Tag>
             </a>
@@ -53,9 +54,9 @@ export default function Soporte() {
             >
               <Tag
                 color="volcano-inverse"
-                className="cursor-pointer rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
-                icon={<SnippetsOutlined />}
+                className="flex cursor-pointer items-center gap-2 rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
               >
+                <IoMdBook size={15} />
                 Agendar una cita
               </Tag>
             </a>

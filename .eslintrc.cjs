@@ -9,6 +9,7 @@ const config = {
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
       ],
       files: ["*.ts", "*.tsx"],
+      //! This is a workaround for JUST the `no-explicit-any` rule, delete on later versions of the project
       rules: {
         "@typescript-eslint/no-explicit-any": "off",
       },

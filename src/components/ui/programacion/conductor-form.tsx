@@ -1,7 +1,7 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IConductor } from "@/interfaces";
 import { api } from "@/utils/api";
-import { UploadOutlined } from "@ant-design/icons";
+
 import {
   Button,
   Form,
@@ -18,6 +18,7 @@ import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
 import { default as style, default as styles } from "./frame.module.css";
+import { IoCloudUploadOutline } from "react-icons/io5";
 type Props = {
   activator: string;
 };
@@ -69,10 +70,11 @@ export function ConductorForm({ activator }: Props) {
   const onFinishFailed = () => {
     console.log("Falló el registro");
   };
-  const profilePicFile = (e) => {
+  const profilePicFile = (e: { fileList: any }) => {
     if (Array.isArray(e)) {
       return e;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return e && e.fileList;
   };
 
@@ -206,10 +208,9 @@ export function ConductorForm({ activator }: Props) {
               }
             >
               {profilePicList.length === 0 && (
-                <div>
-                  <UploadOutlined />
-                  <br />
-                  <span className="ml-2">Subir foto</span>
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <IoCloudUploadOutline size={30} />
+                  <span>Subir foto</span>
                 </div>
               )}
             </Upload>

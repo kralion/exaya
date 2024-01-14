@@ -1,5 +1,6 @@
 import { usuarios } from "@/data";
-import { CloudUploadOutlined } from "@ant-design/icons";
+import { IoCloudUploadOutline } from "react-icons/io5";
+
 import {
   Button,
   Form,
@@ -259,10 +260,9 @@ export function UsuarioForm({ activator }: Props) {
               }
             >
               {profilePicList.length === 0 && (
-                <div>
-                  <CloudUploadOutlined />
-                  <br />
-                  <span className="ml-2">Subir foto</span>
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <IoCloudUploadOutline size={30} />
+                  <span>Subir foto</span>
                 </div>
               )}
             </Upload>

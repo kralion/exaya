@@ -1,11 +1,13 @@
 import AppLayout from "@/components/layout";
 import { Card, FloatButton, Typography, QRCode, Statistic } from "antd";
 import CountUp from "react-countup";
-import { SnippetsOutlined, CopyOutlined } from "@ant-design/icons";
+import { HiOutlineClipboardCopy } from "react-icons/hi";
+
 import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
 import AppHead from "@/components/head";
+import { RxClipboardCopy } from "react-icons/rx";
 const { Title } = Typography;
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
@@ -27,7 +29,7 @@ function ProgramacionComprobantes() {
               value={485005}
               className="w-36"
               formatter={formatter}
-              prefix={<CopyOutlined />}
+              prefix={<HiOutlineClipboardCopy size={30} />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />
           </div>
@@ -46,7 +48,7 @@ function ProgramacionComprobantes() {
               className="w-36"
               precision={2}
               formatter={formatter}
-              prefix={<SnippetsOutlined />}
+              prefix={<RxClipboardCopy size={30} className="mt-2" />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />
           </div>
