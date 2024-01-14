@@ -92,6 +92,14 @@ export default function Login() {
       <div className="fixed bottom-0 right-0 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version?.data?.currentVersion}</h1>
       </div>
+      <div className="fixed bottom-0 right-[450px] p-2  text-sm text-slate-600">
+        <p className="font-mono ">
+          User: <span className="font-bold">albert</span>
+        </p>
+        <p className="font-mono ">
+          Password: <span className="font-bold">albert-exaya</span>
+        </p>
+      </div>
       <Link
         href="/"
         className="fixed right-3 top-3 flex items-center justify-center text-sm hover:opacity-60  "
