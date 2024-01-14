@@ -27,7 +27,7 @@ type needleProps = {
 
 const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
   let total = 0;
-  data?.forEach((v) => {
+  data?.forEach((v: { value: number }) => {
     total += v.value;
   });
   const ang = 180.0 * (1 - value / total);
@@ -88,7 +88,15 @@ export default function KpiChart() {
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
-          {needle(value, data, cx, cy, iR, oR, "#faad14")}
+          {needle({
+            value: value,
+            data: data,
+            cx: cx,
+            cy: cy,
+            iR: iR,
+            oR: oR,
+            color: "#faad14",
+          })}
         </PieChart>
         <div className="flex flex-col items-center justify-center gap-3 ">
           <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
