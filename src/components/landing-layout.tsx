@@ -1,12 +1,11 @@
-import MobileNav from "@/components/ui/login/mobilenav";
+import BgGradient from "@/assets/bg.jpg";
+import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
-import { BsArrowRight } from "react-icons/bs";
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import DesktopNavBar from "./ui/login/desktopnav";
-import BgGradient from "@/assets/bg.jpg";
+import DesktopNavBar from "./ui/landingpage/desktopnav";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -69,7 +68,6 @@ export default function LandingLayout({
             </div>
           </Link>
           <DesktopNavBar navLinks={navLinks} />
-
           <Link
             href="/dashboard"
             className=" lg:text-md hidden items-center  gap-2 rounded-full border-1 border-black px-3 py-2 text-sm font-semibold duration-300  hover:border-white  hover:bg-orange-500 hover:text-white active:bg-orange-500  lg:flex"

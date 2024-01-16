@@ -1,10 +1,11 @@
 import { useNotification } from "@/context/NotificationContext";
 import { AutoComplete, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ImSpinner10 } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
+import { TypeAnimation } from "react-type-animation";
 import style from "./frame.module.css";
 const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) =>
@@ -70,36 +71,16 @@ export const AIAssistantInput = () => {
       });
     }, 3000);
   };
-  const [placeholder, setPlaceholder] = useState("");
-  const [currentStringIndex, setCurrentStringIndex] = useState(0);
+  const [focused, setFocused] = useState(false);
+
   const placeholderTexts = [
-    "Soy una IA para generar boletos. Escribe los datos clave, yo hago el resto. Por ejemplo :",
+    "Soy una herramienta de Inteligencia Artificial",
+    "Puedo ayudarte con cosas como :",
     "Reservar el asiento 7 para 74845147 para el 15/10/2023 a 50 soles.",
     "Vender el asiento 40 para 35645123 para hoy a 45 soles",
     "Y yo me encargo de generar el boleto, tu solo tienes que imprimirlo...",
   ];
 
-  useEffect(() => {
-    let i = 0;
-    const typing = setInterval(() => {
-      if (
-        currentStringIndex < placeholderTexts.length &&
-        i < placeholderTexts[currentStringIndex].length
-      ) {
-        setPlaceholder(
-          (prev) => prev + placeholderTexts[currentStringIndex][i]
-        );
-        i++;
-      } else {
-        clearInterval(typing);
-        if (currentStringIndex < placeholderTexts.length - 1) {
-          setCurrentStringIndex(currentStringIndex + 1);
-          setPlaceholder("");
-        }
-      }
-    }, 50); // adjust the speed of typing here
-    return () => clearInterval(typing);
-  }, [currentStringIndex]);
   return (
     <>
       <div className="flex">
@@ -111,26 +92,37 @@ export const AIAssistantInput = () => {
           onSelect={onSelect}
           onSearch={handleSearch}
         >
-          <TextArea
-            ref={inputRef}
-            className=" border-2 focus:border-none focus:bg-yellow-100  focus:font-semibold focus:shadow-orange-200"
-            style={{
-              borderRadius: 0,
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 10,
-              paddingBottom: 1,
-            }}
-            value={value}
-            allowClear
-            size="large"
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-            autoSize={{ minRows: 1, maxRows: 3 }}
-            title="También puedes usar Ctrl + Enter para enfocar el input"
-            placeholder={placeholder}
-            onPressEnter={handleGenerate}
-          />
+          <div style={{ position: "relative" }}>
+            <TextArea
+              ref={inputRef}
+              className={` border-2 ${
+                focused
+                  ? " focus:bg-yellow-100 focus:font-semibold focus:shadow-orange-200"
+                  : ""
+              }`}
+              value={value}
+              allowClear
+              size="large"
+              onChange={(e) => {
+                setFocused(true);
+                setValue(e.target.value);
+              }}
+              onBlur={() => setFocused(false)}
+              autoSize={{ minRows: 1, maxRows: 3 }}
+              title="También puedes usar Ctrl + Enter para enfocar el input"
+              onPressEnter={handleGenerate}
+            />
+            {!focused && (
+              <TypeAnimation
+                preRenderFirstString={true}
+                sequence={placeholderTexts}
+                speed={15}
+                deletionSpeed={70}
+                className="absolute left-3 top-3 text-gray-400"
+                repeat={4}
+              />
+            )}
+          </div>
         </AutoComplete>
         <button onClick={handleGenerate} className={style.button}>
           {generating ? (

@@ -2,7 +2,7 @@ import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D5 from "@/assets/3d-asset-5.png";
 import LandingBanner4 from "@/assets/landing-banner-4.svg";
 import LandingLayout from "@/components/landing-layout";
-import DevicesVersionSteps from "@/components/ui/login/steps";
+import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import AOSWrapper from "@/utils/AOS";
 import "animate.css";
 import { Tag } from "antd";

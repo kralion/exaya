@@ -12,7 +12,7 @@ type NavigationProps = {
 
 export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
-  const navRef = useRef(null);
+  const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
   return (
     <div className="fixed bottom-3 z-10 mx-3 flex items-center   justify-center gap-2 rounded-full bg-orange-600/70 p-1 backdrop-blur-md lg:hidden  ">
       <button
@@ -24,29 +24,23 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
       <nav ref={navRef} className="position-relative group flex">
         {navLinks.map((link, index) => (
           <Link
-            onMouseEnter={(e) => {
-              const linkRect = e.target.getBoundingClientRect();
-              const navRect = navRef.current.getBoundingClientRect();
-              const bubbleStyle = {
-                left: linkRect.left - navRect.left + 40,
-                top: linkRect.top - navRect.top + 3.5,
-                width: linkRect.width,
-                height: linkRect.height,
-                transition: "left 0.3s, top 0.3s, width 0.3s, height 0.3s",
-              };
-              setBubbleStyle(bubbleStyle);
+            onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
+              const target = e.target as HTMLElement;
+              const linkRect = target.getBoundingClientRect();
+              if (navRef.current) {
+                const navRect = navRef.current.getBoundingClientRect();
+                const bubbleStyle = {
+                  left: linkRect.left - navRect.left + 45,
+                  top: linkRect.top - navRect.top + 3.5,
+                  width: linkRect.width,
+                  height: linkRect.height,
+                  transition: "left 0.3s, top 0.3s, width 0.3s, height 0.3s",
+                };
+                setBubbleStyle(bubbleStyle);
+              }
             }}
-            onClick={(e) => {
-              const linkRect = e.target.getBoundingClientRect();
-              const navRect = navRef.current.getBoundingClientRect();
-              const bubbleStyle = {
-                left: linkRect.left - navRect.left + 40,
-                top: linkRect.top - navRect.top + 3.5,
-                width: linkRect.width,
-                height: linkRect.height,
-                transition: "left 0.3s, top 0.3s, width 0.3s, height 0.3s",
-              };
-              setBubbleStyle(bubbleStyle);
+            onMouseLeave={() => {
+              setBubbleStyle({});
             }}
             className="z-10 flex items-center justify-center rounded-full p-2 text-xs text-white duration-300   active:text-black active:opacity-70"
             href={link.href}

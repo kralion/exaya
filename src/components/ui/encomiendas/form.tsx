@@ -43,12 +43,10 @@ const formItemLayout = {
   },
 };
 
-import { useEncomiendasContext } from "@/context/EncomiendasContext";
 import { api } from "@/utils/api";
 import { useState } from "react";
 export function EncomiendasForm() {
   const [form] = Form.useForm();
-  const { handleAddEncomienda } = useEncomiendasContext();
   const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
   const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
 
@@ -70,7 +68,7 @@ export function EncomiendasForm() {
   );
 
   const onFinish = (values: IEncomienda) => {
-    handleAddEncomienda(values);
+    alert(JSON.stringify(values, null, 2));
     form.resetFields();
   };
   const onFinishFailed = () => {
