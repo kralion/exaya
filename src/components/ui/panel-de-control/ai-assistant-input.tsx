@@ -95,7 +95,7 @@ export const AIAssistantInput = () => {
           <div style={{ position: "relative" }}>
             <TextArea
               ref={inputRef}
-              className={` border-2 ${
+              className={` rounded-r-none border-2 ${
                 focused
                   ? " focus:bg-yellow-100 focus:font-semibold focus:shadow-orange-200"
                   : ""

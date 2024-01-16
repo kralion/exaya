@@ -1,7 +1,6 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IConductor } from "@/interfaces";
 import { api } from "@/utils/api";
-
 import {
   Button,
   Form,
@@ -17,8 +16,8 @@ import {
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
-import { default as style, default as styles } from "./frame.module.css";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { default as style, default as styles } from "./frame.module.css";
 type Props = {
   activator: string;
 };
@@ -37,7 +36,7 @@ const formItemLayout = {
 
 export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profilePicList, setProfilePicList] = useState([]);
+  const [profilePicList, setProfilePicList] = useState();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -59,6 +58,7 @@ export function ConductorForm({ activator }: Props) {
 
   const onFinish = (values: IConductor) => {
     form.resetFields();
+    alert(JSON.stringify(values, null, 2));
     setIsModalOpen(false);
     openNotification({
       message: "Conductor registrado",
