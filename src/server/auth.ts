@@ -6,7 +6,6 @@ import {
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-
 import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -17,28 +16,18 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-
-type UserRole = "ADMIN" | "USUARIO" | "SUPERVISOR";
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
-      id: string;
-      username: string;
-      rol: UserRole;
-    };
-  }
-
-  interface User {
-    username: string;
-  }
-}
-
 type TUser = {
   id: string;
   username: string;
   password: string;
   rol: string;
 };
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: TUser;
+  }
+}
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.

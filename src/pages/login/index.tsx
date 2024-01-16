@@ -4,6 +4,7 @@ import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
+import Router from "next/router";
 import { api } from "@/utils/api";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
@@ -13,7 +14,7 @@ import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import type { z } from "zod";
@@ -31,7 +32,6 @@ const blackOpsOne = Black_Ops_One({
 export default function Login() {
   const version = api.version.exayaVersion.useQuery({ text: "0.1.13" });
   const { openNotification } = useNotification();
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
@@ -62,10 +62,12 @@ export default function Login() {
       });
 
       setLoading(false);
-
-      console.log(res);
       if (!res?.error) {
-        router.push(callbackUrl);
+        try {
+          await Router.push(callbackUrl);
+        } catch (error) {
+          console.error("Failed to redirect to dashboard:", error);
+        }
       } else {
         onFinishFailed();
       }

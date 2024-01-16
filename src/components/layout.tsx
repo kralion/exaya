@@ -2,10 +2,10 @@ import AppHeader from "@/components/appheader";
 import styles from "@/styles/layout.module.css";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme, Typography } from "antd";
+import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BsCoin, BsTicketPerforated } from "react-icons/bs";
@@ -16,7 +16,6 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { RiLuggageCartLine } from "react-icons/ri";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
-const { Title } = Typography;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -90,8 +89,7 @@ const items: MenuProps["items"] = [
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const selectedKey = router.pathname;
+  const selectedKey = Router.pathname;
   useEffect(() => {
     const startLoading = () => setLoading(true);
     const stopLoading = () => setLoading(false);
