@@ -7,14 +7,14 @@ export default function Planes() {
   return (
     <LandingLayout>
       <AppHead title="Membresías" />
-      <div className="space-y-5 pb-10">
+      <div className="relative space-y-5 pb-10">
         <h1 className="text-2xl font-bold lg:text-5xl">Planes a Medida</h1>
         <h4 className=" px-6  tracking-tight lg:px-[450px]">
           Contamos con planes que se adaptan a tu negocio y necesidades, para
           que puedas elegir el que mejor se adapte a ti.
         </h4>
       </div>
-      <div className="flex flex-col items-center justify-center gap-7 space-y-3.5 lg:my-7 lg:flex-row ">
+      <div className="relative flex flex-col items-center justify-center gap-7 space-y-3.5 lg:my-7 lg:flex-row ">
         <PlanesCard
           planTitle="Exaya Essentials"
           planPrice="S/. 600.00"

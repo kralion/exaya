@@ -1,4 +1,3 @@
-import BgGradient from "@/assets/bg.jpg";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
 import "animate.css";
@@ -6,6 +5,7 @@ import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import DesktopNavBar from "./ui/landingpage/desktopnav";
+import Gradient from "@/assets/gradient.png";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -43,8 +43,8 @@ export default function LandingLayout({
     <AOSWrapper>
       <div className={` ${inter.className} h-screen w-screen rounded-[200px]`}>
         <div
-          className="absolute inset-0 rounded-b-[200px] bg-cover bg-center bg-no-repeat opacity-85 blur-md"
-          style={{ backgroundImage: `url(${BgGradient.src})` }}
+          className="absolute inset-1  bg-cover bg-center bg-no-repeat opacity-85 blur-xl"
+          style={{ backgroundImage: `url(${Gradient.src})` }}
         />
 
         <MobileNav navLinks={navLinks} />
@@ -79,7 +79,7 @@ export default function LandingLayout({
         <div className={`${inter.className} pt-36 text-center `}>
           {children}
         </div>
-        <footer className="py-10 text-center text-[12px]  font-semibold text-gray-900  ">
+        <footer className="py-10 text-center text-[12px]  font-semibold text-zinc-400  ">
           © Copyright 2024 Brayan Paucar. All rights reserved.
         </footer>
       </div>

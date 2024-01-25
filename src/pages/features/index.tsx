@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <LandingLayout>
       <AppHead title="Features" />
-      <div className=" space-y-3.5">
+      <div className=" relative space-y-3.5">
         <h1 className="text-2xl font-bold lg:text-5xl">Features</h1>
         <h4 className=" tracking-tigh px-5 lg:px-[450px] ">
           Exaya cuenta con funcionalidades que empoderan tu negocio con

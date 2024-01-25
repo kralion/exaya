@@ -6,6 +6,7 @@ import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import Router from "next/router";
 import { api } from "@/utils/api";
+import LoginGradient from "@/assets/login-gradient.png";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
@@ -91,10 +92,10 @@ export default function Login() {
       className={` ${literata.className} flex h-screen  items-center  bg-[#faf1eb] `}
     >
       <AppHead title="Login" />
-      <div className="fixed bottom-0 right-0 p-2  text-sm text-slate-600">
+      <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version?.data?.currentVersion}</h1>
       </div>
-      <div className="fixed bottom-0 right-[450px] p-2  text-sm text-slate-600">
+      <div className="fixed bottom-0 right-[510px] z-10 p-2  text-sm text-slate-600">
         <p className="font-mono ">
           User: <span className="font-bold">albert</span>
         </p>
@@ -104,7 +105,7 @@ export default function Login() {
       </div>
       <Link
         href="/"
-        className="fixed right-3 top-3 flex items-center justify-center text-sm hover:opacity-60  "
+        className="fixed right-3 top-3 z-10 flex items-center justify-center text-sm hover:opacity-60  "
       >
         <HiOutlineArrowLeft className="mr-2" />
         Ir Atrás
@@ -165,8 +166,17 @@ export default function Login() {
           </Link>
         </h5>
       </div>
+
       <div
-        className={` ${literata.className} flex w-1/2 flex-col items-center pl-5`}
+        style={{
+          backgroundImage: `url(${LoginGradient.src})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          position: "relative",
+          width: "50%",
+          height: "100%",
+        }}
+        className={` ${literata.className} flex w-1/2 flex-col items-center justify-center pl-5`}
       >
         <h3
           className={`  font- bg-gradient-to-r  from-black to-orange-500 bg-clip-text text-left  text-4xl text-transparent   `}
@@ -181,7 +191,7 @@ export default function Login() {
 
         <AOSWrapper>
           <Form
-            data-aos="flip-right"
+            data-aos="fade-in"
             data-aos-duration="500"
             initialValues={{ remember: true }}
             autoComplete="on"

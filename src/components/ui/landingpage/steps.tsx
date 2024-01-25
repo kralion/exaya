@@ -17,7 +17,10 @@ export default function DevicesVersionSteps() {
               </svg>
             </div>
           </div>
-          <div className="h-full w-[1px]     bg-white" />
+          <div
+            data-aos="fade-up"
+            className="h-full w-[1px] border border-dotted border-black"
+          />
         </div>
         <div className="pb-20">
           <p className="mb-2 font-bold lg:text-lg">Plataforma Web</p>

@@ -31,7 +31,9 @@ export default function Index() {
               <p className="mt-5 font-semibold tracking-tight lg:px-80 lg:text-xl">
                 El socio tecnológico que acelera las operaciones de tu empresa
                 en la industria del transporte impulsado con —{" "}
-                <span className="text-white">inteligencia artificial.</span>
+                <span className="bg-gradient-to-tr from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                  inteligencia artificial.
+                </span>
               </p>
             </div>
             <div className="relative">
