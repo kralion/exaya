@@ -42,7 +42,8 @@ export const EncomiendasContextProvider = ({ children }: Props) => {
   return (
     <EncomiendasContext.Provider
       value={{
-        encomiendas,
+        encomiendas: [],
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         handleDeleteEncomienda,
       }}
     >
