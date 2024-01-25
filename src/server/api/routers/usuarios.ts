@@ -25,13 +25,7 @@ export const usuariosRouter = createTRPCRouter({
         },
       });
     }),
-  createUser: publicProcedure
-    .input(usuarioSchema)
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.usuario.create({
-        data: input,
-      });
-    }),
+
   deleteUser: publicProcedure
     .input(
       usuarioSchema.pick({
@@ -41,14 +35,6 @@ export const usuariosRouter = createTRPCRouter({
     .mutation(({ input, ctx }) => {
       return ctx.prisma.usuario.delete({
         where: { id: input.id },
-      });
-    }),
-  updateUser: publicProcedure
-    .input(usuarioSchema)
-    .mutation(({ input, ctx }) => {
-      return ctx.prisma.usuario.update({
-        where: { id: input.id },
-        data: input,
       });
     }),
 });
