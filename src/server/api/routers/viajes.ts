@@ -50,10 +50,5 @@ export const viajesRouter = createTRPCRouter({
     .query(({ input, ctx }) => {
       return ctx.prisma.viaje.delete({ where: { id: input.id } });
     }),
-  updateViaje: protectedProcedure.input(viajeSchema).query(({ input, ctx }) => {
-    return ctx.prisma.viaje.update({
-      where: { id: input.id },
-      data: input,
-    });
-  }),
+  
 });

@@ -14,15 +14,7 @@ export const conductoresRouter = createTRPCRouter({
     .query(({ input, ctx }) => {
       return ctx.prisma.conductor.findUnique({ where: { id: input.id } });
     }),
-  createConductor: publicProcedure
-    .input(conductorSchema.omit({ id: true }))
-    .mutation(async ({ input, ctx }) => {
-      try {
-        await ctx.prisma.conductor.create({ data: input });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
+
   deleteConductor: publicProcedure
     .input(conductorSchema.pick({ id: true }))
     .mutation(({ input, ctx }) => {
