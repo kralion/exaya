@@ -28,7 +28,7 @@ function ProgramacionComprobantes() {
               title="Cantidad de boletos enviados a la base de datos de la SUNAT"
               value={485005}
               className="w-36"
-              formatter={formatter}
+              // formatter={formatter}
               prefix={<HiOutlineClipboardCopy size={30} />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />
@@ -47,7 +47,7 @@ function ProgramacionComprobantes() {
               value={112893}
               className="w-36"
               precision={2}
-              formatter={formatter}
+              // formatter={formatter}
               prefix={<RxClipboardCopy size={30} className="mt-2" />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />

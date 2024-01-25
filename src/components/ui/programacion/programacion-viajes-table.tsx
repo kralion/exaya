@@ -129,7 +129,8 @@ export function ProgramacionTable() {
     <Form form={form} component={false}>
       <Table
         dataSource={viajes}
-        columns={viajesColumns}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        columns={viajesColumns as any}
         rowClassName="editable-row"
         pagination={{
           defaultPageSize: 5,

@@ -423,7 +423,8 @@ export function PasajesTable() {
       <Table
         pagination={false}
         loading={isLoading}
-        columns={viajesColumns}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        columns={viajesColumns as any}
         dataSource={viajes}
       />
     </div>

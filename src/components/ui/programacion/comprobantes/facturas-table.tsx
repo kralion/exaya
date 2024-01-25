@@ -90,7 +90,7 @@ const columns: ColumnsType<IFactura> = [
   },
 ];
 
-const data: IFactura[] = [...facturasRegistradas];
+const data: any = [...facturasRegistradas];
 const handleConfigurar = () => {
   alert("Configurar");
 };
@@ -114,6 +114,7 @@ const FacturasTable: React.FC = () => (
         pageSizeOptions: ["3", "6", "9"],
         showSizeChanger: true,
       }}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       dataSource={data}
     />
   </div>

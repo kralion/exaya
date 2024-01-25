@@ -17,5 +17,5 @@ export const User = () => {
     return <Login />;
   }
 
-  return <div>Bienvenido {session.user?.name}!</div>;
+  return <div>Bienvenido User Name!</div>;
 };

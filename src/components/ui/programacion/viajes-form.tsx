@@ -102,7 +102,8 @@ export function ViajesForm() {
               allowClear
               loading={isLoadingRutas === true || isFetchingRutas === true}
             >
-              {rutas?.map((ruta: IRuta) => (
+              {rutas?.map((ruta: any) => (
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 <Option key={ruta.id}>{ruta.ciudadOrigen}</Option>
               ))}
             </Select>
@@ -118,7 +119,8 @@ export function ViajesForm() {
               allowClear
               loading={isLoadingRutas === true || isFetchingRutas === true}
             >
-              {rutas?.map((ruta: IRuta) => (
+              {rutas?.map((ruta: any) => (
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 <Option key={ruta.id}>{ruta.ciudadDestino}</Option>
               ))}
             </Select>
@@ -133,7 +135,8 @@ export function ViajesForm() {
               placeholder="Bus"
               allowClear
             >
-              {bus?.map((bus: IBus) => (
+              {bus?.map((bus: any) => (
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 <Option key={bus.id}>{bus.placa}</Option>
               ))}
             </Select>

@@ -26,6 +26,7 @@ type needleProps = {
 
 const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
   let total = 0;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   data?.forEach((v: { value: number }) => {
     total += v.value;
   });

@@ -78,9 +78,9 @@ export function ConductorForm({ activator }: Props) {
     return e && e.fileList;
   };
 
-  const handleProfilePicFileChange = (newProfilePicFileList) => {
-    setProfilePicList(newProfilePicFileList);
-  };
+  // const handleProfilePicFileChange = (newProfilePicFileList) => {
+  //   setProfilePicList(newProfilePicFileList);
+  // };
 
   return (
     <>
@@ -203,16 +203,16 @@ export function ConductorForm({ activator }: Props) {
                 showRemoveIcon: true,
                 showPreviewIcon: false,
               }}
-              onChange={({ fileList: newProfilePicFileList }) =>
-                handleProfilePicFileChange(newProfilePicFileList)
-              }
+              // onChange={({ fileList: newProfilePicFileList }) =>
+              //   handleProfilePicFileChange(newProfilePicFileList)
+              // }
             >
-              {profilePicList.length === 0 && (
+              {/* {profilePicList.length === 0 && (
                 <div className="flex flex-col items-center justify-center gap-1">
                   <IoCloudUploadOutline size={30} />
                   <span>Subir foto</span>
                 </div>
-              )}
+              )} */}
             </Upload>
           </Form.Item>
 

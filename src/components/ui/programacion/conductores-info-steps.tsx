@@ -76,7 +76,7 @@ export function ConductoresInformacion() {
         className=" w-max  min-w-[500px] rounded-lg border-1 "
         dataSource={conductoresRegistrados}
         renderItem={(conductor, index) =>
-          conductoresRegistrados?.length > 0 ? (
+            (conductoresRegistrados?.length ?? 0) > 0 ? (
             <Suspense fallback={<ConductorInfoStepSkeleton />}>
               <List.Item
                 onClick={() => {
