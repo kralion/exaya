@@ -93,16 +93,16 @@ export function UsuarioForm({ activator }: Props) {
   const onFinishFailed = () => {
     console.log("Falló el registro");
   };
-  const profilePicFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  // const profilePicFile = (e : any) => {
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
 
-  const handleProfilePicFileChange = (newProfilePicFileList) => {
-    setProfilePicList(newProfilePicFileList);
-  };
+  // const handleProfilePicFileChange = (newProfilePicFileList) => {
+  //   setProfilePicList(newProfilePicFileList);
+  // };
   const {
     data: rutas,
     isLoading,
@@ -237,7 +237,7 @@ export function UsuarioForm({ activator }: Props) {
           <Form.Item
             label="Foto Usuario"
             name="foto_perfil"
-            getValueFromEvent={profilePicFile}
+            // getValueFromEvent={profilePicFile}
             valuePropName="fileList"
             rules={[
               {
@@ -255,9 +255,9 @@ export function UsuarioForm({ activator }: Props) {
                 showRemoveIcon: true,
                 showPreviewIcon: false,
               }}
-              onChange={({ fileList: newProfilePicFileList }) =>
-                handleProfilePicFileChange(newProfilePicFileList)
-              }
+              // onChange={({ fileList: newProfilePicFileList }) =>
+              //   handleProfilePicFileChange(newProfilePicFileList)
+              // }
             >
               {profilePicList.length === 0 && (
                 <div className="flex flex-col items-center justify-center gap-1">
