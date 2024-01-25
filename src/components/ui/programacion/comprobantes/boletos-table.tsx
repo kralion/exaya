@@ -60,7 +60,7 @@ const columns: ColumnsType<IBoleto> = [
   },
 ];
 
-const data: IBoleto[] = [...boletosRegistrados];
+const data: any = [...boletosRegistrados];
 
 const handleConfigurar = () => {
   alert("Configurar");
@@ -85,6 +85,7 @@ const ComprobantesTable: React.FC = () => (
         pageSizeOptions: ["3", "6", "9"],
         showSizeChanger: true,
       }}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       dataSource={data}
     />
   </div>
