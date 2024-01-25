@@ -6,9 +6,7 @@ const config = {
       borderWidth: {
         1: "1px",
       },
-      backgroundImage: {
-        hero: "url('/src/assets/rect-background.svg')",
-      },
+
       colors: {
         primary: "#FF6363",
         secondary: {

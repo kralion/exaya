@@ -10,6 +10,7 @@ import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
+import ExayaPreview from "@/assets/exaya-preview.png";
 
 const dancing_Script = Dancing_Script({
   subsets: ["latin"],
@@ -49,7 +50,7 @@ export default function Index() {
                 src={Asset3D4}
                 // width = {80 mobile}
 
-                className="animate__animated animate__fadeInDown  animate__delay-1s absolute  right-56 top-56 h-28 w-28   drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown  animate__delay-1s absolute  right-56 top-48 h-28 w-28   drop-shadow-2xl "
                 alt="asset"
               />
               <Image
@@ -62,7 +63,7 @@ export default function Index() {
             </div>
             <div className="relative">
               <Image
-                src="https://imgur.com/E8l54Uu.png"
+                src={ExayaPreview}
                 alt="banner"
                 className="rounded-2x duration-300"
                 data-aos="fade-up"
