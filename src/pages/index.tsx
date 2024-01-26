@@ -29,7 +29,7 @@ export default function Index() {
                 Conduce tu empresa hacia la excelencia operativa
               </div>
               {/* //TODO: < br/> separation changes it's place win mobile version  */}
-              <p className="mt-5 font-semibold tracking-tight lg:px-80 lg:text-xl">
+              <p className="mt-5 px-10 font-semibold tracking-tight lg:px-80 lg:text-xl">
                 El socio tecnológico que acelera las operaciones de tu empresa
                 en la industria del transporte impulsado con —{" "}
                 <span className="bg-gradient-to-tr from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
@@ -50,14 +50,14 @@ export default function Index() {
                 src={Asset3D4}
                 // width = {80 mobile}
 
-                className="animate__animated animate__fadeInDown  animate__delay-1s absolute  right-56 top-48 h-28 w-28   drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown  animate__delay-1s absolute right-12 top-28 w-10 drop-shadow-2xl lg:right-56 lg:top-48 lg:h-28    lg:w-28 "
                 alt="asset"
               />
               <Image
                 src={Asset3D5}
                 // width = {80 mobile}
 
-                className="animate__animated animate__fadeInDown animate__delay-1s absolute -top-32 left-28 h-64 w-64 drop-shadow-2xl "
+                className="animate__animated animate__fadeInDown animate__delay-1s absolute -top-32 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
                 alt="asset"
               />
             </div>
@@ -71,13 +71,13 @@ export default function Index() {
                 height={1000}
                 priority
               />
-              <blockquote className=" absolute bottom-36 right-44  lg:text-4xl">
+              <blockquote className=" absolute -bottom-2 right-44 hidden lg:bottom-36 lg:flex lg:text-4xl">
                 <p className={`${dancing_Script.className} `}>
                   La elección
                   <Tag
                     data-aos="zoom-in"
                     data-aos-duration="500"
-                    className="mx-2 rounded-lg bg-gradient-to-tr from-yellow-400 to-red-400 px-2 text-white  lg:text-3xl"
+                    className="mx-2 rounded-lg bg-gradient-to-tr  from-yellow-400 to-red-400 px-2 text-white  lg:text-3xl"
                   >
                     SaaS
                   </Tag>
@@ -87,8 +87,8 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className=" mb-24 mt-10 space-y-3">
-          <h1 className="text-3xl font-bold tracking-tight lg:mx-20 lg:text-4xl">
+        <div className=" mb-24 mt-10 space-y-3 px-4 lg:px-0">
+          <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
             Versionamiento para Control Total
           </h1>
           {/* //TODO: < br/> separation changes it's place win mobile version  */}

@@ -18,8 +18,8 @@ export default function Index() {
           Rellena el siguiente formulario y ponte en contacto con nosotros.
           Estaremos encantados de atenderte.
         </h4>
-        <div className="flex items-start justify-center px-36  py-10 text-white">
-          <div className="flex h-[740px] w-1/3 flex-col items-start space-y-8 rounded-l-xl bg-gradient-to-b from-orange-400 to-red-300 p-10 text-left">
+        <div className="flex flex-col items-start justify-center px-5 py-10 text-white  lg:flex-row lg:px-36">
+          <div className="flex flex-col items-start space-y-8 rounded-t-xl bg-gradient-to-b from-orange-400 to-red-300 p-10 text-left lg:h-[740px] lg:w-1/3 lg:rounded-l-xl">
             <h1 className="text-xl font-semibold">Ponte en contacto</h1>
             <div className="flex flex-col  space-y-1">
               <strong className="font-semibold">Visítanos</strong>
@@ -78,7 +78,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col space-y-4 rounded-r-xl border-b-1 border-r-1 bg-white p-10  text-left">
+          <div className="flex flex-col space-y-4 rounded-b-xl border-b-1 border-l-1 border-r-1  bg-white p-10 text-left lg:rounded-r-xl  lg:border-r-1">
             <ContactForm />
           </div>
         </div>
