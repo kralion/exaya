@@ -75,10 +75,9 @@ export default function Index() {
                 <p className={`${dancing_Script.className} `}>
                   La elección
                   <Tag
-                    color="gold-inverse"
-                    data-aos="flip-up"
-                    data-aos-duration="200"
-                    className={` ${dancing_Script.className} mx-2  rounded-lg px-2  lg:text-4xl`}
+                    data-aos="zoom-in"
+                    data-aos-duration="500"
+                    className="mx-2 rounded-lg bg-gradient-to-tr from-yellow-400 to-red-400 px-2 text-white  lg:text-3xl"
                   >
                     SaaS
                   </Tag>
