@@ -1,6 +1,6 @@
 import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D5 from "@/assets/3d-asset-5.png";
-import LandingBanner4 from "@/assets/landing-banner-4.svg";
+import HeroStepImage from "@/assets/svg/hero-image.svg";
 import LandingLayout from "@/components/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import AOSWrapper from "@/utils/AOS";
@@ -87,7 +87,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className=" mb-24 mt-10 space-y-3 px-4 lg:px-0">
+        <div className=" mb-24 mt-10  space-y-3 px-4 lg:px-0">
           <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
             Versionamiento para Control Total
           </h1>
@@ -100,10 +100,10 @@ export default function Index() {
             </p>
           </div>
         </div>
-        <div className=" mx-3 flex flex-col items-center justify-center gap-2  text-left lg:mr-44 lg:flex-row">
+        <div className=" mx-3 flex flex-col items-start justify-center gap-2  text-left lg:mr-44 lg:flex-row">
           <Image
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            src={LandingBanner4}
+            src={HeroStepImage}
             alt="banner"
             data-aos="fade-left"
             className="flex  rounded-2xl drop-shadow-xl"
