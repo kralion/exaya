@@ -1,3 +1,4 @@
+"use client";
 import AppHeader from "@/components/appheader";
 import styles from "@/styles/layout.module.css";
 import "animate.css";
@@ -89,7 +90,7 @@ const items: MenuProps["items"] = [
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const selectedKey = Router.pathname;
+  // const selectedKey = Router.pathname;
   useEffect(() => {
     const startLoading = () => setLoading(true);
     const stopLoading = () => setLoading(false);
@@ -142,7 +143,7 @@ export default function AppLayout({ children }: LayoutProps) {
           selectable={true}
           mode="inline"
           items={items}
-          defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
+          // defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
         />
       </Sider>
       <Layout>
