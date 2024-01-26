@@ -9,7 +9,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: { session },
   };
 };
-export const User = () => {
+export default function User() {
   const { data: session } = useSession();
 
   if (!session) {
@@ -18,4 +18,4 @@ export const User = () => {
   }
 
   return <div>Bienvenido User Name!</div>;
-};
+}
