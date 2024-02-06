@@ -1,4 +1,3 @@
-"use client";
 import AppHeader from "@/components/appheader";
 import styles from "@/styles/layout.module.css";
 import "animate.css";
@@ -74,15 +73,20 @@ const items: MenuProps["items"] = [
   },
   {
     key: "logout",
-    icon: <CgLogOut />,
-    label: (
-      <button
-        onClick={() => void signOut({})}
-        className="text-red-500 hover:text-red-600"
+    icon: (
+      <div
+        className="ml-0.5 flex items-center gap-2"
+        onClick={() =>
+          void signOut({
+            callbackUrl: "/login",
+          })
+        }
       >
-        Salir
-      </button>
+        <CgLogOut />
+        <button>Salir</button>
+      </div>
     ),
+
     danger: true,
   },
 ];
@@ -124,7 +128,7 @@ export default function AppLayout({ children }: LayoutProps) {
   return (
     <Layout
       style={{
-        minHeight: "100vh",
+        minHeight: "103vh",
       }}
     >
       <Sider
@@ -133,7 +137,7 @@ export default function AppLayout({ children }: LayoutProps) {
         style={{
           background: colorBgContainer,
           borderRadius: 21,
-          maxHeight: "86vh",
+          maxHeight: "88vh",
         }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}

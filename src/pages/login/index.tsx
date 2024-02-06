@@ -1,4 +1,3 @@
-"use client";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
@@ -60,6 +59,7 @@ export default function Login() {
       console.log(values);
       const res = await signIn("credentials", {
         redirect: false,
+        callbackUrl: "/dashboard",
         username: values.username,
         password: values.password,
         //Deleted callbackUrl
@@ -236,7 +236,7 @@ export default function Login() {
                 },
               ]}
             >
-              <Input
+              <Input.Password
                 className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
                 type="password"
               />
