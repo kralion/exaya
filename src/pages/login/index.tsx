@@ -4,6 +4,7 @@ import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
+import { useRouter } from "next/router";
 import Router from "next/router";
 import { api } from "@/utils/api";
 import LoginGradient from "@/assets/login-gradient.png";
@@ -31,11 +32,13 @@ const blackOpsOne = Black_Ops_One({
 });
 
 export default function Login() {
+  //Added
+  const router = useRouter();
   const version = api.version.exayaVersion.useQuery({ text: "0.1.13" });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
   const onChange = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked;
     if (checked) {
@@ -59,13 +62,14 @@ export default function Login() {
         redirect: false,
         username: values.username,
         password: values.password,
-        callbackUrl,
+        //Deleted callbackUrl
       });
 
       setLoading(false);
       if (!res?.error) {
         try {
-          await Router.push(callbackUrl);
+          // Added
+          await router.push("/dashboard");
         } catch (error) {
           console.error("Failed to redirect to dashboard:", error);
         }
