@@ -1,12 +1,10 @@
+import LoginGradient from "@/assets/login-gradient.png";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
-import { useRouter } from "next/router";
-import Router from "next/router";
 import { api } from "@/utils/api";
-import LoginGradient from "@/assets/login-gradient.png";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
@@ -15,7 +13,7 @@ import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import type { z } from "zod";
@@ -33,7 +31,9 @@ const blackOpsOne = Black_Ops_One({
 export default function Login() {
   //Added
   const router = useRouter();
-  const version = api.version.exayaVersion.useQuery({ text: "0.1.13" });
+  const version = api.version.exayaVersion.useQuery({
+    text: "1.23.7",
+  });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   // const searchParams = useSearchParams();
@@ -56,13 +56,13 @@ export default function Login() {
   ) => {
     try {
       setLoading(true);
-      console.log(values);
       const res = await signIn("credentials", {
         redirect: false,
-        callbackUrl: "/dashboard",
+        callbackUrl: `${
+          process.env.NEXTAUTH_URL || "http://localhost:3000"
+        }/dashboard`,
         username: values.username,
         password: values.password,
-        //Deleted callbackUrl
       });
 
       setLoading(false);
@@ -78,7 +78,6 @@ export default function Login() {
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 
@@ -97,7 +96,7 @@ export default function Login() {
     >
       <AppHead title="Login" />
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
-        <h1 className="font-mono ">{version?.data?.currentVersion}</h1>
+        <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
       <div className="fixed bottom-0 right-[510px] z-10 p-2  text-sm text-slate-600">
         <p className="font-mono ">

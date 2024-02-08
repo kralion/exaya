@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           // Fetch the user from the database
-          const user = await prisma.usuario.findFirst({
+          const user = await prisma.usuario.findUnique({
             where: {
               username: credentials.username,
             },
@@ -75,7 +75,6 @@ export const authOptions: NextAuthOptions = {
               cliente: true,
             },
           });
-          console.log(user);
           //TODO: Use bcrypt to compare the passwords. For now, we'll just compare them directly and it is a bad practice. Is better to storing the password as a hash and then compare the hashes.
           // if (!user || !(await compare(credentials.password, user.password))) {
           //   return null;
@@ -83,6 +82,7 @@ export const authOptions: NextAuthOptions = {
           if (!user || credentials.password !== user.password) {
             return null;
           }
+          console.log("Este es el usuario", user);
           return user;
         } catch (error) {
           console.error("Error during authorization:", error);
