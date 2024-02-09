@@ -1,4 +1,4 @@
-import LoginGradient from "@/assets/login-gradient.png";
+import LoginGradient from "@/assets/login-page-gradient.png";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
@@ -98,12 +98,12 @@ export default function Login() {
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
-      <div className="fixed bottom-0 right-[510px] z-10 p-2  text-sm text-slate-600">
+      <div className="fixed bottom-0 right-[570px] z-10 p-2  text-xs text-slate-600">
         <p className="font-mono ">
           User: <span className="font-bold">albert</span>
         </p>
         <p className="font-mono ">
-          Password: <span className="font-bold">albert-exaya</span>
+          Pass: <span className="font-bold">albert-exaya</span>
         </p>
       </div>
       <Link
@@ -175,6 +175,7 @@ export default function Login() {
           backgroundImage: `url(${LoginGradient.src})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          backdropFilter: "blur(10px)",
           position: "relative",
           width: "50%",
           height: "100%",

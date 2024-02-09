@@ -73,20 +73,19 @@ const items: MenuProps["items"] = [
   },
   {
     key: "logout",
-    icon: (
-      <div
-        className="ml-0.5 flex items-center gap-2"
+    label: (
+      <Link
+        href="/login"
         onClick={() =>
           void signOut({
             callbackUrl: "/login",
           })
         }
       >
-        <CgLogOut />
-        <button>Salir</button>
-      </div>
+        Salir
+      </Link>
     ),
-
+    icon: <CgLogOut />,
     danger: true,
   },
 ];
