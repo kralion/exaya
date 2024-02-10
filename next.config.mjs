@@ -23,6 +23,7 @@ const config = {
       "img.icons8.com",
       "icons8.com",
       "images.pexels.com",
+      "randomuser.me",
       "upload.wikimedia.org",
       "image.shutterstock.com",
       "imgur.com",

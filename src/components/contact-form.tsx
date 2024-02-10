@@ -32,7 +32,7 @@ export default function ContactForm() {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <div className="flex w-full gap-1 ">
+      <div className="flex gap-1 ">
         <Form.Item<FieldType>
           label="Nombres"
           name="nombres"
@@ -89,14 +89,12 @@ export default function ContactForm() {
       </Form.Item>
 
       <Form.Item>
-        <Button
-          type="primary"
-          className="w-full"
-          size="large"
-          htmlType="submit"
+        <button
+          className="w-full rounded-lg bg-gradient-to-b from-primary to-rose-400 py-2 text-white  active:opacity-80 "
+          type="submit"
         >
           Enviar Mensaje
-        </Button>
+        </button>
       </Form.Item>
     </Form>
   );

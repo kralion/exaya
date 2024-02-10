@@ -159,7 +159,7 @@ export default function AppLayout({ children }: LayoutProps) {
         >
           <div className="absolute left-2.5 flex w-full items-center justify-between pr-7">
             <AIAssistantInput />
-            <h3 className=" pt-2 text-center font-bold text-yellow-500  ">
+            <h3 className=" pt-2 text-center font-bold text-primary  ">
               Expreso Ayacucho S.A.C
             </h3>
           </div>
