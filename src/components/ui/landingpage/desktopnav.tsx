@@ -14,7 +14,7 @@ export default function DesktopNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
   const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
   return (
-    <div className="  my-3 hidden   items-center justify-center gap-2 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 p-1 backdrop-blur-md lg:inline-flex  ">
+    <div className="  my-3 hidden   items-center justify-center gap-2 rounded-full bg-gradient-to-b from-orange-400 to-orange-600 p-1 backdrop-blur-md lg:inline-flex  ">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className=" flex items-center justify-center rounded-full bg-white p-1  hover:opacity-80 active:bg-orange-100 "
