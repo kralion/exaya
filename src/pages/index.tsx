@@ -40,10 +40,16 @@ export default function Index() {
             <div className="relative">
               <Link
                 href="/dashboard"
-                className="hover:purple-900 bg- group mt-10 inline-flex cursor-pointer items-center rounded-xl border-2 border-orange-400  bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5  font-semibold text-white duration-500   hover:px-10 hover:shadow-2xl hover:shadow-orange-700  active:opacity-70 lg:px-5  lg:py-3 lg:text-xl "
+                className="hover:purple-900 bg- group mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5  font-semibold text-white duration-500   hover:px-10 hover:shadow-2xl hover:shadow-orange-700  active:opacity-70 lg:px-5  lg:py-3 lg:text-xl "
               >
-                <BsArrowRight className="mr-3  duration-300 group-hover:mr-2 lg:mr-5 " />
-                Pruébalo gratis
+                <span className="duration-300 group-hover:-translate-x-2">
+                  Pruébalo gratis
+                </span>
+
+                <BsArrowRight
+                  className="duration-300 group-hover:translate-x-3"
+                  strokeWidth={0.7}
+                />
               </Link>
 
               <Image

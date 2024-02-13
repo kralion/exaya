@@ -1,4 +1,4 @@
-import LoginGradient from "@/assets/login-page-gradient.png";
+import LoginGradient from "@/assets/images/login.png";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
@@ -14,8 +14,9 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
-import { HiOutlineArrowLeft } from "react-icons/hi";
+import { useRef, useState, useEffect } from "react";
+import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
+import { GoKey } from "react-icons/go";
 import type { z } from "zod";
 
 const literata = Literata({
@@ -29,31 +30,59 @@ const blackOpsOne = Black_Ops_One({
 });
 
 export default function Login() {
-  //Added
   const router = useRouter();
   const version = api.version.exayaVersion.useQuery({
     text: "1.23.7",
   });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
-  const onChange = (e: CheckboxChangeEvent) => {
-    const checked = e.target.checked;
+  const formRef = useRef<FormInstance>(null);
+
+  const onRememberCredentialsChange = (e: CheckboxChangeEvent) => {
+    const { checked } = e.target;
     if (checked) {
+      const username = formRef.current?.getFieldValue("username") as string;
+      const password = formRef.current?.getFieldValue("password") as string;
+      if (username && password) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+      }
+      localStorage.setItem("remember", "true");
+    } else {
+      localStorage.removeItem("username");
+      localStorage.removeItem("password");
+      localStorage.setItem("remember", "false");
+    }
+    formRef.current?.setFieldsValue({ remember: checked });
+  };
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username");
+    const savedPassword = localStorage.getItem("password");
+    const remember = localStorage.getItem("remember") === "true";
+
+    if (savedUsername && remember) {
       formRef.current?.setFieldsValue({
+        username: savedUsername,
+        password: savedPassword,
         remember: true,
       });
-    } else {
-      formRef.current?.setFieldsValue({
-        remember: false,
-      });
     }
-  };
+  }, []);
 
   const onFinish = async (
     values: z.infer<typeof loginSchema> & { remember: boolean }
   ) => {
+    const { username, remember, password } = values;
+    if (remember) {
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
+      localStorage.setItem("remember", "true");
+    } else {
+      localStorage.removeItem("username");
+      localStorage.removeItem("password");
+      localStorage.removeItem("remember");
+    }
+
     try {
       setLoading(true);
       const res = await signIn("credentials", {
@@ -89,7 +118,7 @@ export default function Login() {
       type: "error",
     });
   };
-  const formRef = useRef<FormInstance>(null);
+
   return (
     <div
       className={` ${literata.className} flex h-screen  items-center  bg-[#faf1eb] `}
@@ -98,14 +127,7 @@ export default function Login() {
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
-      <div className="fixed bottom-0 right-[570px] z-10 p-2  text-xs text-slate-600">
-        <p className="font-mono ">
-          User: <span className="font-bold">albert</span>
-        </p>
-        <p className="font-mono ">
-          Pass: <span className="font-bold">albert-exaya</span>
-        </p>
-      </div>
+
       <Link
         href="/"
         className="fixed right-3 top-3 z-10 flex items-center justify-center text-sm hover:opacity-60  "
@@ -183,7 +205,7 @@ export default function Login() {
         className={` ${literata.className} flex w-1/2 flex-col items-center justify-center pl-5`}
       >
         <h3
-          className={`  font- bg-gradient-to-r  from-black to-orange-500 bg-clip-text text-left  text-4xl text-transparent   `}
+          className={`  font- bg-gradient-to-l  from-black to-orange-500 bg-clip-text text-left  text-4xl text-transparent   `}
         >
           Inicio de Sesión
         </h3>
@@ -216,7 +238,7 @@ export default function Login() {
               rules={[
                 {
                   required: true,
-                  message: "*Este campo es obligatorio",
+                  message: "* Ingrese su usuario",
                 },
               ]}
             >
@@ -232,7 +254,7 @@ export default function Login() {
               rules={[
                 {
                   required: true,
-                  message: "*Escriba su contraseña",
+                  message: "* Escriba la contraseña",
                 },
               ]}
             >
@@ -243,8 +265,8 @@ export default function Login() {
             </Form.Item>
             <div className="flex flex-col gap-14">
               <Checkbox
-                className={`${literata.className}  `}
-                onChange={onChange}
+                className={literata.className}
+                onChange={onRememberCredentialsChange}
               >
                 Recordar contraseña
               </Checkbox>
@@ -257,6 +279,15 @@ export default function Login() {
               </button>
             </div>
           </Form>
+          <div className="flex gap-2 p-4 text-xs text-slate-500">
+            <p className="flex items-center gap-2 font-mono ">
+              <HiOutlineUser /> <span>albert</span>
+            </p>{" "}
+            |
+            <p className="flex items-center gap-2 font-mono">
+              <GoKey /> <span>albert-exaya</span>
+            </p>
+          </div>
         </AOSWrapper>
       </div>
     </div>
