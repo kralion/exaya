@@ -74,7 +74,7 @@ export default function LandingLayout({
         <div className={`${inter.className} pt-20  text-center lg:pt-36 `}>
           {children}
         </div>
-        <footer className="py-10 text-center text-[12px]  text-zinc-400  ">
+        <footer className="pb-28 pt-14 text-center text-[12px]  text-zinc-400  ">
           © Copyright 2024 Brayan Paucar. All rights reserved.
         </footer>
       </div>
