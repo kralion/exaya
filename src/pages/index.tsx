@@ -5,7 +5,6 @@ import HeroStepImage from "@/assets/svg/hero-image.svg";
 import LandingLayout from "@/components/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import "animate.css";
-import { Tag } from "antd";
 import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -52,14 +51,12 @@ export default function Index() {
             <Image
               src={Asset3D4}
               // width = {80 mobile}
-
               className="animate__animated animate__fadeInDown  animate__delay-1s absolute right-12 top-28 w-10 drop-shadow-2xl lg:right-56 lg:top-48 lg:h-28    lg:w-28 "
               alt="asset"
             />
             <Image
               src={Asset3D5}
               // width = {80 mobile}
-
               className="animate__animated animate__fadeInDown animate__delay-1s absolute -top-32 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
               alt="asset"
             />
@@ -91,7 +88,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className=" mb-24 mt-10  space-y-3 px-4 lg:px-0">
+      <div className=" mb-24 mt-24  space-y-3 px-4 lg:px-0">
         <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
           Versionamiento para Control Total
         </h1>
@@ -103,14 +100,13 @@ export default function Index() {
           </p>
         </div>
       </div>
-      <div className=" flex flex-col items-start justify-center gap-2 px-4  text-left lg:mr-44 lg:flex-row">
+      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left  lg:mr-44 lg:flex-row lg:items-start">
         <Image
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={HeroStepImage}
           alt="banner"
           data-aos="fade-left"
-          className="flex  rounded-2xl drop-shadow-xl"
-          width={900}
+          className="  h-1/2 w-1/2 rounded-2xl  drop-shadow-xl  lg:h-[900px] lg:w-[1500px] "
         />
 
         <DevicesVersionSteps />
