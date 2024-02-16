@@ -1,7 +1,7 @@
 "use client";
-import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
+import { GoArrowUp } from "react-icons/go";
 
 type NavigationProps = {
   navLinks: {
@@ -14,15 +14,15 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
   const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
   return (
-    <div className="fixed bottom-3 z-10 mx-3 flex items-center   justify-center gap-2 rounded-full bg-orange-600/70 p-1 backdrop-blur-md lg:hidden  ">
+    <div className="fixed bottom-3 left-16 z-10 flex  items-center  justify-center gap-2 rounded-full border border-orange-400/50 bg-gradient-to-b from-orange-400 to-orange-600 p-1 backdrop-blur-lg lg:hidden  ">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className=" flex items-center justify-center rounded-full bg-white p-1  active:bg-orange-100 "
+        className=" flex items-center justify-center rounded-full border border-white/40 bg-white p-1 shadow-lg  hover:opacity-90 active:opacity-80 "
       >
-        <MdOutlineKeyboardDoubleArrowUp size={20} className="text-black" />
+        <GoArrowUp className=" text-black" />
       </button>
-      <nav ref={navRef} className="position-relative group flex">
-        {navLinks.map((link, index) => (
+      <nav ref={navRef} className="group flex">
+        {navLinks.slice(0, 3).map((link, index) => (
           <Link
             onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
               const target = e.target as HTMLElement;
@@ -30,7 +30,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
               if (navRef.current) {
                 const navRect = navRef.current.getBoundingClientRect();
                 const bubbleStyle = {
-                  left: linkRect.left - navRect.left + 45,
+                  left: linkRect.left - navRect.left + 38,
                   top: linkRect.top - navRect.top + 3.5,
                   width: linkRect.width,
                   height: linkRect.height,
@@ -51,7 +51,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         ))}
         <div
           style={bubbleStyle}
-          className="absolute rounded-full bg-gradient-to-bl from-orange-600 to-rose-600 opacity-0 transition-all group-hover:opacity-100 "
+          className="absolute rounded-full bg-gradient-to-bl from-black/90 to-black/70 opacity-0 transition-all group-hover:opacity-100 "
         ></div>
       </nav>
     </div>

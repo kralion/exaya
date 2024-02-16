@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function DevicesVersionSteps() {
   return (
-    <div data-aos="zoom-in">
+    <div data-aos="zoom-in ">
       <div className="flex">
         <div className="mr-4 flex flex-col items-center">
           <div>

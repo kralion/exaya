@@ -42,14 +42,14 @@ export default function LandingLayout({
 }) {
   return (
     <AOSWrapper>
-      <div className={` ${inter.className} h-screen w-screen rounded-[200px]`}>
+      <div className={` ${inter.className} h-screen w-screen`}>
         <div
           className="absolute inset-1  bg-cover bg-center bg-no-repeat opacity-85 blur-xl"
           style={{ backgroundImage: `url(${Gradient.src})` }}
         />
 
         <MobileNav navLinks={navLinks} />
-        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-10 pt-7  backdrop-blur-md lg:fixed lg:mb-20">
+        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-5 pt-7 backdrop-blur-md  lg:fixed lg:mb-20 lg:px-10">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
@@ -71,10 +71,10 @@ export default function LandingLayout({
           <DesktopNavBar navLinks={navLinks} />
           <ThemeToggle />
         </div>
-        <div className={`${inter.className} pt-36 text-center `}>
+        <div className={`${inter.className} pt-20  text-center lg:pt-36 `}>
           {children}
         </div>
-        <footer className="py-10 text-center text-[12px]  font-semibold text-zinc-400  ">
+        <footer className="py-10 text-center text-[12px]  text-zinc-400  ">
           © Copyright 2024 Brayan Paucar. All rights reserved.
         </footer>
       </div>
