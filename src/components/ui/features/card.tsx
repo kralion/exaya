@@ -4,15 +4,18 @@ type CardProps = {
   cardTitle: string;
   cardDescription: string;
   cardImage: string;
+  delay: string;
 };
 export default function Card({
   cardTitle,
   cardDescription,
+  delay,
   cardImage,
 }: CardProps) {
   return (
     <div
-      data-aos="flip-left"
+      data-aos="zoom-in"
+      data-aos-delay={delay}
       data-aos-duration="500"
       className="w-80  space-y-14 rounded-xl border-2 border-transparent bg-white bg-opacity-20 p-7 shadow-md backdrop-blur-2xl      duration-300   hover:scale-105 hover:border-2    hover:shadow-xl  "
     >

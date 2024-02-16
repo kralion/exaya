@@ -29,7 +29,7 @@ export default function Planes() {
         <div className="relative">
           <span
             color="red-inverse"
-            className="absolute -top-4 left-4 rounded-lg border-2 border-orange-400 bg-orange-500 px-4 py-1 text-[12px] font-semibold uppercase tracking-wide text-white shadow-lg shadow-orange-500"
+            className="absolute -top-4 left-4 rounded-lg border border-orange-800 bg-black px-4 py-1 text-xs font-semibold uppercase tracking-wide  text-white shadow-md shadow-orange-500"
           >
             Popular
           </span>

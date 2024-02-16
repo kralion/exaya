@@ -2,6 +2,7 @@ import React from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import styles from "./planes.module.css";
 import "animate.css";
+import { PricingModal } from "@/components/pricing-modal";
 type PlanesCardProps = {
   planTitle: string;
   planPrice: string;
@@ -18,7 +19,7 @@ export default function PlanesCard({
 }: PlanesCardProps) {
   {
     return (
-      <div className="realtive w-80 space-y-3.5 rounded-2xl  border-1 bg-gradient-to-r from-orange-300  to-yellow-100  p-7 text-left   duration-200 hover:shadow-2xl   ">
+      <div className=" w-80 space-y-3.5 rounded-2xl bg-gradient-to-b  from-orange-400 from-10% to-yellow-200  p-7  text-left shadow-md   duration-200 hover:shadow-2xl   ">
         <h3 className="font-semibold ">{planTitle}</h3>
         <h2 className="animate__animated animate__flipInX animate__delay-1s text-3xl font-bold ">
           {planPrice}
@@ -37,9 +38,14 @@ export default function PlanesCard({
             </div>
           ))}
         </ul>
-        <button className={styles.button}>
-          <span className="text">Adquirir</span>
-        </button>
+
+        <PricingModal
+          trigger={
+            <button className={styles.button}>
+              <span>Adquirir</span>
+            </button>
+          }
+        />
       </div>
     );
   }
