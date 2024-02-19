@@ -1,11 +1,12 @@
-import Bus1Preview from "@/assets/images/bus-1-preview.png";
 import PassengerAsset from "@/assets/images/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
 import type { IBoleto } from "@/interfaces";
+import { FaSquare } from "react-icons/fa";
 import { api } from "@/utils/api";
 import "animate.css";
 import {
   Button,
+  Divider,
   Form,
   Input,
   InputNumber,
@@ -24,7 +25,7 @@ const concertOne = Concert_One({
   weight: "400",
   preload: true,
 });
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const { Option } = Select;
 
@@ -124,79 +125,112 @@ export const RegistrarPasajeModal = ({
       <Typography onClick={() => setOpen(true)}>Registrar</Typography>
       <Modal
         title={
-          <div className="mb-7 flex justify-between  ">
-            <p>
-              <Title className="mb-3.5 flex flex-col" level={4}>
-                Asientos del Bus
-              </Title>
-            </p>
-            {viajeBusPlaca}
-            <Title className="pr-10 text-center" level={5}>
-              Vista previa del Bus
-            </Title>
+          <div>
+            <div className="flex gap-4">
+              <Title level={4}>Distribución de Asientos</Title>
+              <span>
+                <Tag color="blue" className="px-3">
+                  {viajeBusPlaca}
+                </Tag>
+              </span>
+            </div>
+            <Space direction="horizontal" className="flex gap-3">
+              <Text
+                className="font-normal"
+                rootClassName="flex gap-1 items-center"
+                type="success"
+              >
+                <FaSquare className="text-green-500" size={15} />
+                Vendido
+              </Text>
+              <Text
+                className="font-normal"
+                rootClassName="flex gap-1 items-center"
+                type="warning"
+              >
+                <FaSquare className="text-yellow-500" size={15} />
+                Reservado
+              </Text>
+              <Text
+                className="font-normal"
+                rootClassName="flex gap-1 items-center"
+                type="secondary"
+              >
+                <FaSquare size={15} />
+                Disponible
+              </Text>
+            </Space>
+            <Divider className="mb-4" />
           </div>
         }
         centered
         open={open}
         onCancel={() => setOpen(false)}
-        width={1000}
         footer={null}
+        width={900}
       >
-        <div className="flex items-center justify-between rounded-2xl border-2 p-3 ">
-          <div className=" flex w-[330px] flex-wrap">
-            {seats.map((seatNumber, index) => (
-              <div
-                key={seatNumber}
-                className={`transform cursor-pointer transition-all duration-100 hover:scale-105 active:scale-125 ${
-                  (index % 4 === 1 || index % 4 === 3) &&
-                  index !== seats.length - 1
-                    ? "mr-11"
-                    : "mr-1"
-                }`}
-              >
-                <svg
+        <div>
+          <div className="flex items-center gap-4 ">
+            <div className=" flex w-[330px] flex-wrap">
+              {seats.map((seatNumber, index) => (
+                <div
                   key={seatNumber}
-                  onClick={() => handleSeatClick(seatNumber)}
-                  width="50"
-                  height="50"
-                  viewBox="0 0 24 22"
+                  className={`transform cursor-pointer transition-all duration-100 hover:scale-105 active:scale-125 ${
+                    (index % 4 === 1 || index % 4 === 3) &&
+                    index !== seats.length - 1
+                      ? "mr-11"
+                      : "mr-1"
+                  }`}
                 >
-                  <path
-                    className={
-                      soldSeats.includes(seatNumber)
-                        ? "fill-green-300 stroke-green-600"
-                        : bookedSeats.includes(seatNumber)
-                        ? "fill-yellow-300 stroke-yellow-600"
-                        : "fill-white stroke-slate-500"
-                    }
-                    d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
-                  ></path>
-                  <path
-                    className="fill-amber-200 stroke-amber-600"
-                    d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
-                  ></path>
-                  <text
-                    x="50%"
-                    y="50%"
-                    textAnchor="middle"
-                    dy=".3em"
-                    fontSize="6"
-                    className={`text-[7px] font-bold  ${concertOne.className}`}
+                  <svg
+                    key={seatNumber}
+                    onClick={() => handleSeatClick(seatNumber)}
+                    width="50"
+                    height="50"
+                    viewBox="0 0 24 22"
                   >
-                    {seatNumber}
-                  </text>
-                </svg>
-              </div>
-            ))}
-          </div>
+                    <path
+                      className={
+                        soldSeats.includes(seatNumber)
+                          ? "fill-green-300 stroke-green-600"
+                          : bookedSeats.includes(seatNumber)
+                          ? "fill-yellow-300 stroke-yellow-600"
+                          : "fill-white stroke-slate-500"
+                      }
+                      d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
+                    ></path>
+                    <path
+                      className="fill-amber-200 stroke-amber-600"
+                      d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
+                    ></path>
+                    <text
+                      x="50%"
+                      y="50%"
+                      textAnchor="middle"
+                      dy=".3em"
+                      fontSize="6"
+                      className={`text-[7px] font-bold  ${concertOne.className}`}
+                    >
+                      {seatNumber}
+                    </text>
+                  </svg>
+                </div>
+              ))}
+            </div>
 
-          <Image
-            src={Bus1Preview}
-            width={700}
-            height={500}
-            alt="bus-preview"
-            className="rounded-xl"
-          />
+            <Image
+              src="https://img.freepik.com/free-vector/modern-city-bus-realistic-advertising-template-side-view-front-rear-white-background-isolated-vector-illustration_1284-19734.jpg?size=626&ext=jpg&ga=GA1.1.1405311743.1707842042&semt=sph"
+              width={500}
+              height={500}
+              alt="bus-preview"
+              className="rounded-xl"
+            />
+          </div>
+          <Divider className="my-4" />
+          <Space direction="horizontal" className="flex gap-3">
+            <Text type="secondary">Vendidos: {soldSeats.length} de 40</Text>
+            <Text type="secondary">Reservados: {bookedSeats.length} de 40</Text>
+          </Space>
         </div>
       </Modal>
       <Modal

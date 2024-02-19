@@ -5,7 +5,6 @@ import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import DesktopNavBar from "./ui/landingpage/desktopnav";
-import Gradient from "@/assets/gradient.png";
 import ThemeToggle from "./ui/landingpage/theme-toggle";
 const inter = Inter({
   weight: ["800", "600", "300"],
@@ -44,8 +43,11 @@ export default function LandingLayout({
     <AOSWrapper>
       <div className={` ${inter.className} h-screen w-screen`}>
         <div
-          className="absolute inset-1  bg-cover bg-center bg-no-repeat opacity-85 blur-xl"
-          style={{ backgroundImage: `url(${Gradient.src})` }}
+          className="absolute inset-1  bg-cover bg-center bg-no-repeat opacity-85 blur-md"
+          style={{
+            backgroundImage: `url(https://img.freepik.com/premium-photo/blurry-multicolor-modern-gradient-texture-jpg_534308-3898.jpg)`,
+            width: "100%",
+          }}
         />
 
         <MobileNav navLinks={navLinks} />

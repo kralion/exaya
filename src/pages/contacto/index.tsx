@@ -2,10 +2,10 @@ import AppHead from "@/components/head";
 import LandingLayout from "@/components/landing-layout";
 import Image from "next/image";
 import React from "react";
-import linkedinIcon from "@/assets/svg/linkedin.svg";
-import instagramIcon from "@/assets/svg/instagram.svg";
-import facebookIcon from "@/assets/svg/facebook.svg";
-import twitterIcon from "@/assets/svg/twitter.svg";
+import linkedinIcon from "@/assets/icons/svg/linkedin.svg";
+import instagramIcon from "@/assets/icons/svg/instagram.svg";
+import facebookIcon from "@/assets/icons/svg/facebook.svg";
+import twitterIcon from "@/assets/icons/svg/twitter.svg";
 import ContactForm from "@/components/contact-form";
 
 export default function Index() {

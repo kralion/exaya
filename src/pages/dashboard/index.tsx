@@ -1,5 +1,5 @@
-import BoletoIcon from "@/assets/icons/boleto.png";
-import FacturaIcon from "@/assets/icons/factura.png";
+import { TbFileInvoice } from "react-icons/tb";
+import { IoReceiptOutline } from "react-icons/io5";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
@@ -49,12 +49,9 @@ export default function Dashboard() {
               <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Factura</Typography.Text>
                 <span className="flex items-center gap-1 text-2xl">
-                  <Image
-                    src={FacturaIcon}
-                    className="drop-shadow-lg"
-                    width={17}
-                    height={17}
-                    alt="icon"
+                  <TbFileInvoice
+                    className="text-zinc-400 drop-shadow-lg"
+                    size={20}
                   />
                   <Typography.Text strong className="text-xl drop-shadow-lg">
                     F0042HD
@@ -65,12 +62,9 @@ export default function Dashboard() {
               <p className="mt-7 flex flex-col gap-2">
                 <Typography.Text type="secondary">Boleto</Typography.Text>
                 <span className="flex items-center gap-1 text-2xl">
-                  <Image
-                    src={BoletoIcon}
-                    className="drop-shadow-lg"
-                    width={17}
-                    height={17}
-                    alt="icon"
+                  <IoReceiptOutline
+                    className="text-zinc-400 drop-shadow-lg"
+                    size={20}
                   />
                   <Typography.Text strong className="text-xl drop-shadow-lg">
                     B023DF

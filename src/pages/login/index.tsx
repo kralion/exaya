@@ -1,4 +1,4 @@
-import LoginGradient from "@/assets/images/login.png";
+import LoginGradient from "@/assets/images/login-gradient.png";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";

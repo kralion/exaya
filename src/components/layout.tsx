@@ -8,12 +8,12 @@ import Link from "next/link";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
-import { BsCoin, BsTicketPerforated } from "react-icons/bs";
 import { CgLogOut } from "react-icons/cg";
+import { GrMoney } from "react-icons/gr";
 import { HiOutlineSupport } from "react-icons/hi";
-import { IoMdTimer } from "react-icons/io";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { RiLuggageCartLine } from "react-icons/ri";
+import { IoTicketOutline } from "react-icons/io5";
+import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
+import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -29,18 +29,18 @@ const items: MenuProps["items"] = [
   {
     label: <Link href="/venta-pasajes">Pasajes</Link>,
     key: "venta-pasajes",
-    icon: <BsTicketPerforated />,
+    icon: <IoTicketOutline />,
   },
   {
     label: <Link href="/encomiendas">Encomiendas</Link>,
-    icon: <RiLuggageCartLine />,
+    icon: <LuLuggage />,
     key: "encomiendas",
   },
 
   {
     key: "programacion",
     label: "Planner",
-    icon: <IoMdTimer />,
+    icon: <MdCalendarMonth />,
     children: [
       {
         key: "bus-conductor",
@@ -58,7 +58,7 @@ const items: MenuProps["items"] = [
   },
   {
     label: <Link href="/contable">Contable</Link>,
-    icon: <BsCoin />,
+    icon: <GrMoney />,
     key: "contable",
   },
   {

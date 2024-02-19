@@ -1,7 +1,7 @@
 import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D5 from "@/assets/3d-asset-5.png";
 import ExayaPreview from "@/assets/exaya-preview.png";
-import HeroStepImage from "@/assets/svg/hero-image.svg";
+import HeroStepImage from "@/assets/icons/svg/reponsive-hero.svg";
 import LandingLayout from "@/components/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import "animate.css";
