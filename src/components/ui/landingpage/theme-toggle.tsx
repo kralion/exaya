@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styles from "./theme.toggle.module.css";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 
 export default function ThemeToggle() {

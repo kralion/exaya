@@ -1,7 +1,6 @@
 "use client";
-import { GoArrowUp } from "react-icons/go";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 
 type NavigationProps = {
   navLinks: {
