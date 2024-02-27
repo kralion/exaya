@@ -172,12 +172,12 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className=" animate__animated animate__zoomIn animate__delay-500 m-2  rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          className=" animate__animated animate__zoomIn animate__delay-500 m-2   rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
         >
           {children}
         </Content>
-        <Footer className="my-5 text-center text-sm text-slate-500">
-          © Copyright 2024 Brayan Paucar . All rights reserved.
+        <Footer className="my-5 text-center text-sm text-zinc-400">
+          © 2024 Expreso Ayacucho S.A.C. Todos los derechos reservados.
         </Footer>
       </Layout>
     </Layout>

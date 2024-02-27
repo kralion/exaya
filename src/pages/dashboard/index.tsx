@@ -1,13 +1,12 @@
-import { TbFileInvoice } from "react-icons/tb";
-import { IoReceiptOutline } from "react-icons/io5";
+import AppHead from "@/components/head";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
-import { GrSchedulePlay } from "react-icons/gr";
 import { Progress, Statistic, Typography } from "antd";
-import Image from "next/image";
+import { GrSchedulePlay } from "react-icons/gr";
+import { IoReceiptOutline } from "react-icons/io5";
+import { TbFileInvoice } from "react-icons/tb";
 import AppLayout from "../../components/layout";
-import AppHead from "@/components/head";
 
 const totalViajesProgramados = 6;
 const viajesActivos = 4;

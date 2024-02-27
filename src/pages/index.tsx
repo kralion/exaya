@@ -22,7 +22,7 @@ export default function Index() {
       <div className="px-3">
         <div>
           <div className="relative " data-aos="fade-down">
-            <div className="flex text-3xl font-bold tracking-tight  lg:mx-40 lg:text-6xl">
+            <div className="flex text-3xl font-bold tracking-tight  lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
             </div>
             <p className="mt-5 px-10 font-semibold tracking-tight lg:px-80 lg:text-xl">
@@ -64,23 +64,23 @@ export default function Index() {
             />
           </div>
 
-          <div className="relative">
+          <div className="mt-20 flex min-h-[700px] flex-col overflow-hidden">
             <ContainerScroll />
-            <blockquote className=" absolute  right-44 hidden lg:bottom-32 lg:flex lg:text-4xl">
-              <p className={`${dancing_Script.className}  `}>
-                La elección
-                <span
-                  data-aos="fade-up"
-                  data-aos-easing="linear"
-                  data-aos-duration="1000"
-                  className="mx-2 rounded-lg bg-gradient-to-tr from-yellow-400 to-red-400 px-2 text-white   lg:text-3xl"
-                >
-                  SaaS
-                </span>
-                de las empresas líderes
-              </p>
-            </blockquote>
           </div>
+          <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
+            <p className={`${dancing_Script.className}  `}>
+              La elección
+              <span
+                data-aos="fade-up"
+                data-aos-easing="linear"
+                data-aos-duration="1000"
+                className="mx-2 rounded-lg bg-gradient-to-tr from-yellow-400 to-red-400 px-2 text-white   lg:text-3xl"
+              >
+                SaaS
+              </span>
+              de las empresas líderes
+            </p>
+          </blockquote>
         </div>
       </div>
       <div className=" mb-24 mt-24  space-y-3 px-4 lg:px-0">
