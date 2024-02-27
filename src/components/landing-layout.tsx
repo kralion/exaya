@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DesktopNavBar from "./ui/landingpage/desktopnav";
 import ThemeToggle from "./ui/landingpage/theme-toggle";
+import Footer from "./footer";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -76,9 +77,7 @@ export default function LandingLayout({
         <div className={`${inter.className} pt-20  text-center lg:pt-36 `}>
           {children}
         </div>
-        <footer className="pb-28 pt-14 text-center text-[12px]  text-zinc-400  ">
-          © Copyright 2024 Brayan Paucar. All rights reserved.
-        </footer>
+        <Footer />
       </div>
     </AOSWrapper>
   );

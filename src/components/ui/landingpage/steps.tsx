@@ -59,8 +59,8 @@ export default function DevicesVersionSteps() {
           </p>
         </div>
       </div>
-      <div className="mt-10 rounded-xl border-1 p-6">
-        <div className="flex justify-between ">
+      <div className="mt-10 rounded-xl border-1 p-4">
+        <div className="flex gap-2   ">
           <div
             data-aos="zoom-in"
             data-aos-delay="100"

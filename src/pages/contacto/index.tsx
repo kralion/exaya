@@ -1,12 +1,14 @@
 import AppHead from "@/components/head";
 import LandingLayout from "@/components/landing-layout";
-import Image from "next/image";
-import React from "react";
-import linkedinIcon from "@/assets/icons/svg/linkedin.svg";
-import instagramIcon from "@/assets/icons/svg/instagram.svg";
-import facebookIcon from "@/assets/icons/svg/facebook.svg";
-import twitterIcon from "@/assets/icons/svg/twitter.svg";
+import {
+  BsInstagram,
+  BsLinkedin,
+  BsTwitterX,
+  BsWhatsapp,
+} from "react-icons/bs";
+
 import ContactForm from "@/components/contact-form";
+import Link from "next/link";
 
 export default function Index() {
   return (
@@ -47,34 +49,34 @@ export default function Index() {
             <div className="flex flex-col items-start  space-y-1">
               <strong className="font-semibold">Redes Sociales</strong>
               <div className="flex items-center gap-2">
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  src={linkedinIcon}
-                  alt="linkedin"
-                  width={20}
-                  height={20}
-                />
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  src={facebookIcon}
-                  alt="linkedin"
-                  width={20}
-                  height={20}
-                />
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  src={instagramIcon}
-                  alt="linkedin"
-                  width={20}
-                  height={20}
-                />
-                <Image
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  src={twitterIcon}
-                  alt="linkedin"
-                  width={20}
-                  height={20}
-                />
+                <Link
+                  href="https://www.linkedin.com/in/brayanpaucar"
+                  className="hover:opacity-80"
+                  target="_blank"
+                >
+                  <BsLinkedin size={20} color="white" className="text-white" />
+                </Link>
+                <Link
+                  href=" https://wa.me/+51914019629?text=Hola%20%20te%20contacto%20por%20Exaya"
+                  target="_blank"
+                  className="hover:opacity-80"
+                >
+                  <BsWhatsapp size={20} color="white" className="text-white" />
+                </Link>
+                <Link
+                  href="https://www.instagram.com/joan.paucar"
+                  className="hover:opacity-80"
+                  target="_blank"
+                >
+                  <BsInstagram size={20} color="white" className="text-white" />
+                </Link>
+                <Link
+                  href="https://twitter.com/brayanpaucar_"
+                  className="hover:opacity-80"
+                  target="_blank"
+                >
+                  <BsTwitterX size={20} color="white" className="text-white" />
+                </Link>
               </div>
             </div>
           </div>

@@ -23,9 +23,9 @@ export const ContainerScroll = () => {
   }, []);
 
   const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
+    return isMobile ? [0.8, 1] : [1.05, 1];
   };
-  const rotate = useTransform(scrollYProgress, [0, 1], [25, 0]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 25]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
 
   return (
@@ -45,7 +45,7 @@ export const ContainerScroll = () => {
           src={ExayaPreview}
           alt="banner"
           className="mx-auto drop-shadow-xl "
-          data-aos="fade-in"
+          data-aos="fade-up"
           width={1100}
           height={800}
           priority

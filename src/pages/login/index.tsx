@@ -1,4 +1,4 @@
-import LoginGradient from "@/assets/images/login-gradient.png";
+import LoginGradient from "@/assets/login-gradient.png";
 import AppHead from "@/components/head";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
@@ -244,7 +244,7 @@ export default function Login() {
             >
               <Input
                 type="text"
-                className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
+                className={`rounded-lg px-5  py-2    ${literata.className}`}
               />
             </Form.Item>
 
@@ -259,7 +259,7 @@ export default function Login() {
               ]}
             >
               <Input.Password
-                className={`rounded-lg px-5 py-2  ring-2 ring-orange-300   ${literata.className}`}
+                className={`rounded-lg  px-5  py-2    ${literata.className}`}
                 type="password"
               />
             </Form.Item>

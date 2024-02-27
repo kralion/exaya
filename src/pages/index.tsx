@@ -1,6 +1,6 @@
 import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D5 from "@/assets/3d-asset-5.png";
-import HeroStepImage from "@/assets/icons/svg/reponsive-hero.svg";
+import HeroStepImage from "@/assets/responsive-hero.svg";
 import LandingLayout from "@/components/landing-layout";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
@@ -36,7 +36,7 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/dashboard"
-              className="hover:purple-900 group mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5  font-semibold text-white duration-500   hover:px-10 hover:shadow-2xl hover:shadow-orange-700  active:opacity-70 lg:px-5  lg:py-3 lg:text-xl "
+              className="hover:purple-900 group mt-10 inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5 font-semibold  text-white duration-500 hover:px-10   hover:shadow-2xl hover:shadow-orange-700 active:opacity-70  lg:mt-16 lg:px-5  lg:py-3 lg:text-xl "
             >
               <span className="duration-300 group-hover:-translate-x-2">
                 Pruébalo gratis
@@ -64,7 +64,7 @@ export default function Index() {
             />
           </div>
 
-          <div className="mt-20 flex min-h-[700px] flex-col overflow-hidden">
+          <div className="mt-10 flex flex-col overflow-hidden lg:mt-16 lg:min-h-[670px]">
             <ContainerScroll />
           </div>
           <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
@@ -87,11 +87,11 @@ export default function Index() {
         <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
           Versionamiento para Control Total
         </h1>
-        <div className="font-semibold ">
+        <div className="lg:font-semibold ">
           <p className="px-1 tracking-tight  lg:px-72">
             Monitorea y controla el estado de tus operaciones en tiempo real,
-            utilizando las versiones — mobile — web de nuestra plataforma, para
-            no perder de vista ningún detalle.
+            utilizando las versiones — mobile — web y no perder de vista ningún
+            detalle.
           </p>
         </div>
       </div>
