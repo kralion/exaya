@@ -127,7 +127,7 @@ export default function AppLayout({ children }: LayoutProps) {
   return (
     <Layout
       style={{
-        minHeight: "103vh",
+        minHeight: "123vh",
       }}
     >
       <Sider
@@ -136,7 +136,7 @@ export default function AppLayout({ children }: LayoutProps) {
         style={{
           background: colorBgContainer,
           borderRadius: 21,
-          maxHeight: "88vh",
+          height: "105vh",
         }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}

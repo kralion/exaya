@@ -74,7 +74,7 @@ export default function LandingLayout({
           <DesktopNavBar navLinks={navLinks} />
           <ThemeToggle />
         </div>
-        <div className={`${inter.className} pt-20  text-center lg:pt-36 `}>
+        <div className={`${inter.className} pt-20   text-center lg:pt-36 `}>
           {children}
         </div>
         <Footer />

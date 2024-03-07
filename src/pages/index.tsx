@@ -1,4 +1,3 @@
-import Asset3D4 from "@/assets/3d-asset-4.png";
 import Asset3D5 from "@/assets/3d-asset-5.png";
 import HeroStepImage from "@/assets/responsive-hero.svg";
 import LandingLayout from "@/components/landing-layout";
@@ -47,15 +46,6 @@ export default function Index() {
                 strokeWidth={0.7}
               />
             </Link>
-
-            {/*
-            TODO: Relocate this asset because of the new container with scrooll, looks weird
-            <Image
-              src={Asset3D4}
-              // width = {80 mobile}
-              className="animate__animated animate__fadeInDown  animate__delay-1s absolute right-12 top-28 w-10 drop-shadow-2xl lg:right-56 lg:top-48 lg:h-28    lg:w-28 "
-              alt="asset"
-            /> */}
             <Image
               src={Asset3D5}
               // width = {80 mobile}
