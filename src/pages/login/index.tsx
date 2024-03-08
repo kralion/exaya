@@ -1,5 +1,6 @@
 import LoginGradient from "@/assets/login-gradient.png";
 import AppHead from "@/components/head";
+import VideoBackground from "@/components/ui/video-background";
 import { useNotification } from "@/context/NotificationContext";
 import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
@@ -10,23 +11,17 @@ import { Checkbox, Form, Input, Spin } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
-import { Black_Ops_One, Literata } from "next/font/google";
-import Image from "next/image";
+import { Literata } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState, useEffect } from "react";
-import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
+import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
+import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
 import type { z } from "zod";
 
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
-});
-
-const blackOpsOne = Black_Ops_One({
-  subsets: ["latin"],
-  weight: "400",
 });
 
 export default function Login() {
@@ -137,60 +132,7 @@ export default function Login() {
       </Link>
       {/* //
       "url(https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg&ga=GA1.1.631442079.1696688262&semt=sph)", */}
-      <div
-        style={{
-          backgroundImage:
-            "url(https://images.pexels.com/photos/1432531/pexels-photo-1432531.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "right",
-          position: "relative",
-          width: "50%",
-          height: "100%",
-        }}
-      >
-        <div
-          style={{
-            content: "Exaya",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "rgba(0, 0, 0, 0.4)",
-          }}
-        />
-        <div className="animate__animated animate__flipInX relative m-5 flex items-center gap-1">
-          <Image
-            src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
-            width={50}
-            height={50}
-            title="Exaya"
-            alt="logo"
-            priority
-          />
-          <h2
-            className={`  bg-white bg-clip-text text-left text-3xl text-transparent   ${blackOpsOne.className} `}
-          >
-            Exaya
-          </h2>
-          <h5>
-            <span className="text-orange-400">|</span> Sistema Web de Gestión
-            Operativa <span className="text-orange-400">|</span>
-          </h5>
-        </div>
-        <h5 className="absolute bottom-5 left-5 text-sm  text-slate-200 ">
-          Desarrollado por{" "}
-          <Link
-            href="https://twitter.com/joanpaucar_"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="  text-orange-400 hover:text-orange-500"
-          >
-            @BrayanPaucar
-          </Link>
-        </h5>
-      </div>
+      <VideoBackground />
 
       <div
         style={{
@@ -214,7 +156,6 @@ export default function Login() {
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>
-
         <AOSWrapper>
           <Form
             data-aos="fade-in"
