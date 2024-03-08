@@ -3,7 +3,7 @@ import { BsLinkedin, BsTwitterX, BsGithub } from "react-icons/bs";
 
 export default function Footer() {
   return (
-    <footer className=" body-font mt-20 bg-zinc-100 px-10 py-20  lg:p-10">
+    <footer className=" body-font mt-20 bg-zinc-100 px-10 pb-20 pt-10  lg:p-10">
       <div className="container  mx-auto flex flex-col items-center sm:flex-row">
         <a className="flex items-center gap-2">
           <Image

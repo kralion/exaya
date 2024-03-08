@@ -205,12 +205,12 @@ export default function Login() {
         className={` ${literata.className} flex w-1/2 flex-col items-center justify-center pl-5`}
       >
         <h3
-          className={`  font- bg-gradient-to-l  from-black to-orange-500 bg-clip-text text-left  text-4xl text-transparent   `}
+          className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-4xl  font-bold text-transparent   `}
         >
           Inicio de Sesión
         </h3>
         <div className="mb-10 text-center">
-          <h4 className=" mt-2">
+          <h4 className="mt-2 text-sm">
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>
@@ -221,7 +221,7 @@ export default function Login() {
             data-aos-duration="500"
             initialValues={{ remember: true }}
             autoComplete="on"
-            className={`${literata.className} w-[430px] drop-shadow-md `}
+            className={`${literata.className} w-[400px] drop-shadow-md `}
             ref={formRef}
             name="control-ref"
             onFinish={

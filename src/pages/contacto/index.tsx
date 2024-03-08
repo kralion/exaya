@@ -15,7 +15,9 @@ export default function Index() {
     <LandingLayout>
       <AppHead title="Features" />
       <div className=" relative space-y-3.5">
-        <h1 className="text-2xl font-bold lg:text-5xl">Contacto</h1>
+        <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent  lg:text-5xl">
+          Contacto
+        </h1>
         <h4 className=" tracking-tigh px-5 lg:px-[450px] ">
           Rellena el siguiente formulario y ponte en contacto con nosotros.
           Estaremos encantados de atenderte.

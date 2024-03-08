@@ -19,15 +19,15 @@ export default function Index() {
   return (
     <LandingLayout>
       <div className="px-3">
-        <div>
+        <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.2] lg:h-[67rem]">
           <div className="relative " data-aos="fade-down">
-            <div className="flex text-3xl font-bold tracking-tight  lg:mx-48 lg:text-6xl">
+            <div className="flex bg-gradient-to-r from-zinc-800 to-zinc-950 bg-clip-text text-3xl font-bold tracking-tight text-transparent  lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
             </div>
             <p className="mt-5 px-10 font-semibold tracking-tight lg:px-80 lg:text-xl">
               El socio tecnológico que acelera las operaciones de tu empresa en
               la industria del transporte impulsado con —{" "}
-              <span className="bg-gradient-to-l from-red-500 via-orange-500  to-yellow-500 bg-clip-text text-transparent lg:bg-gradient-to-tr">
+              <span className="bg-gradient-to-r from-red-700   to-black bg-clip-text text-transparent lg:bg-gradient-to-tr">
                 inteligencia artificial.
               </span>
             </p>
@@ -54,7 +54,7 @@ export default function Index() {
             />
           </div>
 
-          <div className="mt-10 flex flex-col overflow-hidden lg:mt-16 lg:min-h-[670px]">
+          <div className=" mt-10 flex flex-col overflow-hidden lg:mt-0  lg:min-h-[670px]">
             <ContainerScroll />
           </div>
           <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
