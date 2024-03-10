@@ -10,24 +10,21 @@ const blackOpsOne = Black_Ops_One({
 
 export default function VideoBackground() {
   return (
-    <video
-      autoPlay
-      muted
-      loop
-      style={{
-        background: "rgba(0, 0, 0, 0.4)",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "right",
-        position: "relative",
-        height: "100vh",
-        width: "auto",
-      }}
-    >
-      <source
-        src="https://cdn.pixabay.com/vimeo/793525208/highway-148077.mp4?width=360&hash=a02b09d7f10f658d41f99ac61c7055ec2405590c"
-        type="video/mp4"
-      />
-
+    <div className="relative">
+      <video
+        autoPlay
+        muted
+        loop
+        style={{
+          height: "100vh",
+          width: "auto",
+        }}
+      >
+        <source
+          src="https://cdn.pixabay.com/vimeo/887039127/road-189805.mp4?width=360&hash=0a9fb9b3a09bc21c617d2508d4eab36bc3744bdf"
+          type="video/mp4"
+        />
+      </video>
       <div
         style={{
           content: "Exaya",
@@ -40,6 +37,7 @@ export default function VideoBackground() {
         }}
       />
 
+      {/* //TODO: Add the logo and the name of the system
       <div
         // Create a container for the logo and text
         className="animate__animated animate__flipInX relative m-5 flex items-center gap-1"
@@ -74,7 +72,7 @@ export default function VideoBackground() {
         >
           @BrayanPaucar
         </Link>
-      </h5>
-    </video>
+      </h5> */}
+    </div>
   );
 }

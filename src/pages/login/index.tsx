@@ -141,10 +141,10 @@ export default function Login() {
           backgroundSize: "cover",
           backdropFilter: "blur(10px)",
           position: "relative",
-          width: "50%",
+          width: "68.5%",
           height: "100%",
         }}
-        className={` ${literata.className} flex w-1/2 flex-col items-center justify-center pl-5`}
+        className={` ${literata.className} flex   flex-col items-center justify-center pl-5`}
       >
         <h3
           className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-4xl  font-bold text-transparent   `}
