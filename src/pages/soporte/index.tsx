@@ -49,7 +49,7 @@ export default function Soporte() {
               </Tag>
             </a>
             <a
-              href="mailto:jpm_2001@hotmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
+              href="mailto:joan300501@gmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
             "
             >
               <Tag
@@ -68,7 +68,7 @@ export default function Soporte() {
             <Tag className="flex border-none bg-blue-100 font-bold">
               E-mail :
               <span className="flex items-center gap-2 pl-1  text-blue-600">
-                jpm_2001@icloud.com
+                joan300501@gmail.com
               </span>
             </Tag>
             <Tag className="flex border-none  bg-blue-100 font-bold">

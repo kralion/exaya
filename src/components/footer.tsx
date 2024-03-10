@@ -20,7 +20,7 @@ export default function Footer() {
         <p className="mt-4 text-sm text-zinc-600 sm:ml-4 sm:mt-0 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:pl-4">
           © 2024 Exaya —
           <a
-            href="https://twitter.com/joanpaucar_"
+            href="https://twitter.com/brayanpaucar_"
             className="ml-1 text-gray-600 hover:opacity-70"
             rel="noopener noreferrer"
             target="_blank"
@@ -30,7 +30,7 @@ export default function Footer() {
         </p>
         <span className="mt-4 flex items-center justify-center gap-3 sm:ml-auto sm:mt-0 sm:justify-start">
           <a
-            href="https://twitter.com/joanpaucar_"
+            href="https://twitter.com/brayanpaucar_"
             rel="noopener noreferrer"
             target="_blank"
             className="cursor-pointer hover:opacity-60"
@@ -38,7 +38,7 @@ export default function Footer() {
             <BsTwitterX width={30} height={30} />
           </a>
           <a
-            href="https://www.linkedin.com/in/joan-paucar/"
+            href="https://www.linkedin.com/in/brayanpaucar"
             rel="noopener noreferrer"
             target="_blank"
             className="cursor-pointer hover:opacity-60"

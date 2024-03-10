@@ -80,11 +80,6 @@ export default function ContactForm() {
       <Form.Item<FieldType> name="accept" valuePropName="checked">
         <Checkbox className="space-x-2">
           Me gustaría recebir correos sobre las nuevas actualizaciones de Exaya.
-          Entiendo los{" "}
-          <a href="#" className="text-blue-500">
-            Términos y Condiciones
-          </a>{" "}
-          y la <a href="#">Política de Privacidad</a>.
         </Checkbox>
       </Form.Item>
 

@@ -37,7 +37,7 @@ export function PricingModal({ trigger }: { trigger: React.ReactNode }) {
               data-aos-duration="500"
               className="flex items-center gap-2 rounded-full bg-green-500 px-4 py-1 text-white hover:text-white hover:opacity-80"
             >
-              <BsWhatsapp size={15} /> Chatear
+              <BsWhatsapp size={15} /> Negociar
             </button>
           </a>
         )}
@@ -45,8 +45,8 @@ export function PricingModal({ trigger }: { trigger: React.ReactNode }) {
         <div className="mb-10">
           <Typography.Title level={3}>Adquisicion de plan</Typography.Title>
           <p>
-            Habla con nosotro para poder adecuar tu plan y tener un acuerdo
-            Cliente-Proveedor
+            Habla con nosotros para poder adecuar tu plan y tener un acuerdo
+            Cliente-Proveedor que se ajuste a tus necesidades.
           </p>
         </div>
       </Modal>

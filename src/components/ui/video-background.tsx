@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Black_Ops_One } from "next/font/google";
-
 const blackOpsOne = Black_Ops_One({
   subsets: ["latin"],
   weight: "400",
@@ -55,7 +54,7 @@ export default function VideoBackground() {
       <h5 className="absolute bottom-5 left-5 text-sm  text-slate-200 ">
         Desarrollado por{" "}
         <Link
-          href="https://twitter.com/joanpaucar_"
+          href="https://twitter.com/brayanpaucar_"
           target="_blank"
           rel="noopener noreferrer"
           className="  text-orange-400 hover:text-orange-500"
