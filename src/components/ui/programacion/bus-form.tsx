@@ -7,13 +7,13 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 import styles from "./frame.module.css";
 import { IoCloudUploadOutline } from "react-icons/io5";
+
 type Props = {
   activator: string;
 };
 const { Title } = Typography;
 export function BusForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [busPicList, setBusPicList] = useState([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -32,13 +32,21 @@ export function BusForm({ activator }: Props) {
   const busCreateMutation = api.buses.createBus.useMutation();
 
   const onFinish = (values: IBus) => {
-    // TODO : Add parseInt to asientos, and validate the foto
-    busCreateMutation.mutate(values);
+    console.log("Received values of form: ", values);
+    const asientosParsedToNumber = parseInt(values.asientos.toString());
+    const busPlaca =
+      "https://img.freepik.com/premium-psd/isolated-realistic-matte-white-city-bus-car-from-left-front-angle-view_16145-3234.jpg?size=626&ext=jpg";
+    busCreateMutation.mutate({
+      asientos: asientosParsedToNumber,
+      placa: values.placa,
+      modelo: values.modelo,
+      foto: [busPlaca],
+    });
     form.resetFields();
     setIsModalOpen(false);
     openNotification({
       message: "Conductor registrado",
-      description: "El conductor ha sido registrado exitosamente",
+      description: "El bus ha sido registrado exitosamente",
       type: "success",
       placement: "topRight",
     });
@@ -46,18 +54,18 @@ export function BusForm({ activator }: Props) {
   const onFinishFailed = () => {
     openNotification({
       message: "Error",
-      description: "El conductor no ha sido registrado",
+      description: "Ocurrió algún error al registrar el bus",
       type: "error",
       placement: "topRight",
     });
   };
-  const busPicFile = (e: { fileList: any }) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return e && e.fileList;
-  };
+  // const busPicFile = (e: { fileList: any }) => {
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  //   return e && e.fileList;
+  // };
 
   return (
     <>
@@ -133,7 +141,9 @@ export function BusForm({ activator }: Props) {
             <Input placeholder="Scania Turismo Grant" />
           </Form.Item>
 
-          <Form.Item
+          {/* TODO: Modify the component for well functioning */}
+
+          {/* <Form.Item
             label="Foto del Bus"
             name="foto"
             getValueFromEvent={busPicFile}
@@ -156,7 +166,7 @@ export function BusForm({ activator }: Props) {
                 </div>
               )}
             </Upload>
-          </Form.Item>
+          </Form.Item> */}
 
           <Space className="mt-10">
             <button className={styles.basicButton} type="submit">
