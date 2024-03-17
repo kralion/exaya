@@ -1,25 +1,25 @@
 import { useNotification } from "@/context/NotificationContext";
 import type { IBus } from "@/interfaces";
 import { api } from "@/utils/api";
+import type { UploadProps } from "antd";
 import {
   Button,
   Form,
   Input,
   Modal,
   Space,
-  message,
   Typography,
   Upload,
-  type UploadFile,
+  message,
 } from "antd";
-import { useEffect, useState } from "react";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { TbLicense } from "react-icons/tb";
-import styles from "./frame.module.css";
-import { IoCloudUploadOutline } from "react-icons/io5";
-import type { GetProp, UploadProps } from "antd";
-import { FaSpinner } from "react-icons/fa";
 import Image from "next/image";
+import { useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { ImSpinner3 } from "react-icons/im";
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { TbLicense } from "react-icons/tb";
+
+import styles from "./frame.module.css";
 
 type Props = {
   activator: string;
@@ -29,12 +29,10 @@ const { Title } = Typography;
 export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [buses, setBuses] = useState<IBus[]>([]);
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const busCreateMutation = api.buses.createBus.useMutation();
   const showModal = () => {
     setIsModalOpen(true);
@@ -46,7 +44,6 @@ export function BusForm({ activator }: Props) {
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       getBase64(info.file.originFileObj as File, (url) => {
         setLoading(false);
         setImageUrl(url);
@@ -54,9 +51,16 @@ export function BusForm({ activator }: Props) {
     }
   };
   const uploadButton = (
-    <button style={{ border: 0, background: "none" }} type="button">
-      {loading ? <FaSpinner /> : <IoCloudUploadOutline />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+    <button
+      className=" flex flex-col items-center justify-center"
+      type="button"
+    >
+      {loading ? (
+        <ImSpinner3 className="animate-spin" size={20} />
+      ) : (
+        <IoCloudUploadOutline size={20} />
+      )}
+      <div style={{ marginTop: 8 }}>{loading ? "Cargando" : "Subir Foto"}</div>
     </button>
   );
 
@@ -67,16 +71,8 @@ export function BusForm({ activator }: Props) {
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
-    setPreviewImage(null);
   };
-  const handleImageUpload = async () => {
-    await fetch("/api/image", {
-      method: "POST",
-      body: JSON.stringify(form.getFieldValue("foto")),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log("Image uploaded to backend"));
-  };
+
   const getBase64 = (img: File, callback: (url: string) => void) => {
     const reader = new FileReader();
     reader.addEventListener("load", () => callback(reader.result as string));
@@ -93,16 +89,16 @@ export function BusForm({ activator }: Props) {
     }
     return isJpgOrPng && isLt2M;
   };
-  const onFinish = (values: IBus) => {
-    console.log("Received values of form: ", values);
-    const newBusData: IBus = {
-      asientos: parseInt(values.asientos.toString()),
-      placa: values.placa,
-      modelo: values.modelo,
-      foto: values.foto,
-    };
+  const onFinish = async (values: IBus) => {
+    await fetch("/api/image", {
+      method: "POST",
+      body: JSON.stringify(values.foto),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
 
-    setBuses((prevBuses) => [...prevBuses, newBusData]);
+    //TODO: Validate this mutation before sending to the DB
+
     // busCreateMutation.mutate({
     //   asientos: parseInt(values.asientos.toString()),
     //   placa: values.placa,
@@ -119,7 +115,6 @@ export function BusForm({ activator }: Props) {
       placement: "topRight",
     });
     setIsModalOpen(false);
-    setPreviewImage(null);
   };
   const onFinishFailed = () => {
     openNotification({
@@ -157,7 +152,7 @@ export function BusForm({ activator }: Props) {
           layout="vertical"
           name="register"
           onFinishFailed={onFinishFailed}
-          onFinish={onFinish}
+          onFinish={busCreateMutation.isLoading ? undefined : onFinish}
           scrollToFirstError
         >
           <Form.Item

@@ -23,7 +23,7 @@ export default async function uploadHandler(
   const bytes: ArrayBuffer = await image.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  await new Promise((resolve, reject) => {
+  const response = await new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream(
         {
@@ -39,6 +39,7 @@ export default async function uploadHandler(
       )
       .end(buffer);
   });
+  const { secure_url } = response as { secure_url: string };
 
-  return NextResponse.json({ message: "Image uploaded" });
+  return res.status(200).json({ secure_url });
 }

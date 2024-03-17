@@ -11,7 +11,8 @@ import { Checkbox, Form, Input, Spin } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
-import { Literata } from "next/font/google";
+import { Black_Ops_One, Literata } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -22,6 +23,11 @@ import type { z } from "zod";
 const literata = Literata({
   weight: "400",
   subsets: ["latin-ext"],
+});
+
+const blackOpsOne = Black_Ops_One({
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export default function Login() {
@@ -116,38 +122,61 @@ export default function Login() {
 
   return (
     <div
-      className={` ${literata.className} flex h-screen  items-center  bg-[#faf1eb] `}
+      className={` ${literata.className} relative flex  h-screen bg-zinc-100/50`}
     >
       <AppHead title="Login" />
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
         <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
 
+      <div className="animate__animated animate__delay-2s animate__flipInX absolute m-5 flex items-center gap-1">
+        <Image
+          src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
+          width={50}
+          height={50}
+          title="Exaya"
+          alt="logo"
+          priority
+        />
+        <h2
+          className={`bg-white bg-clip-text text-left text-3xl text-transparent ${blackOpsOne.className}`}
+        >
+          Exaya
+        </h2>
+        <h5 className="text-zinc-300">
+          <span className="text-orange-400">|</span> Sistema Web de Gestión
+          Operativa
+        </h5>
+      </div>
+      <h5 className="animate__animated animate__delay-2s animate__fadeIn absolute bottom-5 left-5 text-sm font-extralight  text-zinc-300 ">
+        Desarrollado por{" "}
+        <Link
+          href="https://twitter.com/brayanpaucar_"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white hover:underline"
+        >
+          @BrayanPaucar
+        </Link>
+      </h5>
+
       <Link
         href="/"
         className="fixed right-3 top-3 z-10 flex items-center justify-center text-sm hover:opacity-60  "
       >
         <HiOutlineArrowLeft className="mr-2" />
-        Ir Atrás
+        Volver Atrás
       </Link>
-      {/* //
-      "url(https://img.freepik.com/free-photo/traffic-vehicle-urban-reflections-city_1112-973.jpg?size=626&ext=jpg&ga=GA1.1.631442079.1696688262&semt=sph)", */}
       <VideoBackground />
 
       <div
         style={{
           backgroundImage: `url(${LoginGradient.src})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backdropFilter: "blur(10px)",
-          position: "relative",
-          width: "68.5%",
-          height: "100%",
         }}
-        className={` ${literata.className} flex   flex-col items-center justify-center pl-5`}
+        className={` ${literata.className} flex w-full min-w-[60%] flex-col items-center  justify-center bg-cover pl-5`}
       >
         <h3
-          className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-4xl  font-bold text-transparent   `}
+          className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-5xl font-bold  text-transparent drop-shadow-xl   `}
         >
           Inicio de Sesión
         </h3>
@@ -165,11 +194,7 @@ export default function Login() {
             className={`${literata.className} w-[400px] drop-shadow-md `}
             ref={formRef}
             name="control-ref"
-            onFinish={
-              onFinish as unknown as (
-                values: z.infer<typeof loginSchema>
-              ) => void
-            }
+            onFinish={loading ? undefined : (onFinish as (values: any) => void)}
             onFinishFailed={onFinishFailed}
           >
             <h3 className="mb-2">Usuario</h3>
@@ -220,12 +245,11 @@ export default function Login() {
               </button>
             </div>
           </Form>
-          <div className="flex gap-2 p-4 text-xs text-slate-500">
-            <p className="flex items-center gap-2 font-mono ">
+          <div className="flex gap-4 p-4 text-xs  text-zinc-600">
+            <p className="flex items-center gap-1 font-mono ">
               <HiOutlineUser /> <span>albert</span>
-            </p>{" "}
-            |
-            <p className="flex items-center gap-2 font-mono">
+            </p>
+            <p className="flex items-center gap-1 font-mono">
               <GoKey /> <span>albert-exaya</span>
             </p>
           </div>
