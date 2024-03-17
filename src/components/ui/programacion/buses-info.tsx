@@ -3,6 +3,7 @@ import { Card, Space, Tag } from "antd";
 import { Image } from "antd";
 import { busesInfo } from "@/data";
 import { BiCheckCircle, BiInfoCircle } from "react-icons/bi";
+import { api } from "@/utils/api";
 
 type TBusInfo = {
   id: string;
@@ -21,6 +22,8 @@ type TBusInfo = {
 const { Meta } = Card;
 
 export function BusesInformacion() {
+  const data = api.buses.getAllBuses.useQuery();
+  console.log(data.data?.length);
   return (
     <Space
       direction="vertical"

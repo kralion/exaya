@@ -302,7 +302,7 @@ export const RegistrarPasajeModal = ({
           >
             <InputNumber
               onChange={(value: string | null) => {
-                const dni = String(value);
+                const dni = JSON.stringify(value);
                 form.setFieldValue("dni", dni);
                 setQueryEnabled(dni.length === 8);
               }}

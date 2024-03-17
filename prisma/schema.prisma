@@ -103,9 +103,9 @@ model Viaje {
 
 // Buses registered in the company
 model Bus {
-    id        String   @id @default(uuid())
-    modelo    String?  @default("Scania Touring")
-    foto      String[]
+    id        String   @id @default(cuid())
+    modelo    String   @default("Scania Touring")
+    foto      String?
     placa     String   @unique
     asientos  Int
     createdAt DateTime @default(now())
