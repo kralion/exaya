@@ -1,35 +1,42 @@
 import { Avatar, Space, Tag } from "antd";
 import { useSession } from "next-auth/react";
+import Loader from "./Loader";
 
 export default function UserInfo({ collapsed }: { collapsed: boolean }) {
-  const { data: sessionData } = useSession();
+  const { data, status } = useSession();
+  const userData = data?.user || null;
+  if (status === "loading") {
+    return <Loader />;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>Accesso Denegado</p>;
+  }
 
   return (
     <Space wrap size={1} className="my-16 flex flex-col">
       <Avatar
-        className=""
         size={collapsed ? 35 : 80}
         src={
-          // sessionData?.user.foto ||
-          // "https://cdn-icons-png.flaticon.com/128/8509/8509694.png?ga=GA1.1.631442079.1696688262"
-          "https://randomuser.me/api/portraits/men/85.jpg"
+          userData?.foto ||
+          "https://cdn-icons-png.flaticon.com/128/8509/8509694.png?ga=GA1.1.631442079.1696688262"
         }
       />
 
       {!collapsed && (
         <div className="flex flex-col items-center justify-center gap-3">
-          {sessionData?.user?.rol && (
+          {userData && (
             <Tag
               color={
-                sessionData?.user?.rol === "ADMIN"
+                userData.rol === "ADMIN"
                   ? "purple-inverse"
-                  : sessionData?.user?.rol === "SUPERVISOR"
+                  : userData.rol === "SUPERVISOR"
                   ? "blue-inverse"
                   : "green-inverse"
               }
               className="mt-1 rounded-full font-semibold lowercase"
             >
-              {sessionData?.user?.rol}
+              {userData.rol}
             </Tag>
           )}
           <Tag
@@ -38,7 +45,7 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
           >
             admin
           </Tag>
-          <h5 className="">{sessionData?.user.username || "Ramiro Paredes"}</h5>
+          <h5 className="">{userData?.username || "Ramiro Paredes"}</h5>
         </div>
       )}
     </Space>

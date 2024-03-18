@@ -46,21 +46,21 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://github.com/Dv-Joan/exaya" />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider
-          locale={esEs}
-          theme={{
-            token: {
-              colorPrimary: "#FAAD14",
-            },
-          }}
-        >
-          <SessionProvider session={session}>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider
+            locale={esEs}
+            theme={{
+              token: {
+                colorPrimary: "#FAAD14",
+              },
+            }}
+          >
             <NextTopLoader showSpinner={false} color="#f97316" />
             <Component {...pageProps} />
-          </SessionProvider>
-        </ConfigProvider>
-      </QueryClientProvider>
+          </ConfigProvider>
+        </QueryClientProvider>
+      </SessionProvider>
     </>
   );
 };

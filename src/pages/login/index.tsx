@@ -47,7 +47,6 @@ export default function Login() {
       const response = await signIn("credentials", {
         username,
         password,
-        callbackUrl: `${window.location.origin}/dashboard`,
       });
       setLoading(false);
       if (response?.ok) {
@@ -84,7 +83,7 @@ export default function Login() {
         <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
 
-      <div className="animate__animated animate__delay-1s animate__flipInX absolute m-5 flex items-center gap-1">
+      <div className="animate__animated animate__delay-1s animate__flipInX absolute z-10 m-5 flex items-center gap-1">
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={50}
@@ -103,13 +102,13 @@ export default function Login() {
           Operativa
         </h5>
       </div>
-      <h5 className="animate__animated animate__delay-1s animate__fadeIn absolute bottom-5 left-5 text-sm font-extralight  text-zinc-300 ">
+      <h5 className="animate__animated animate__delay-1s animate__fadeIn absolute bottom-5 left-5 z-50 text-sm font-extralight  text-zinc-300 ">
         Desarrollado por{" "}
         <Link
           href="https://twitter.com/brayanpaucar_"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-white hover:underline"
+          className=" text-white hover:underline"
         >
           @BrayanPaucar
         </Link>
@@ -117,10 +116,10 @@ export default function Login() {
 
       <Link
         href="/"
-        className="fixed right-3 top-3 z-10 flex items-center justify-center text-sm hover:opacity-60  "
+        className="fixed right-3 top-3 z-10 flex items-center justify-center gap-1 text-sm underline hover:opacity-60  "
       >
-        <HiOutlineArrowLeft className="mr-2" />
-        Volver Atrás
+        <HiOutlineArrowLeft />
+        Atrás
       </Link>
       <VideoBackground />
 

@@ -14,6 +14,7 @@ type TUser = {
   username: string;
   rol: string;
   password: string;
+  foto: string | null;
 };
 
 declare module "next-auth" {
@@ -51,9 +52,18 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
-          // if (!user || !(await compare(credentials.password, user.password))) {
-          //   return null;
-          // }
+          if (!user) {
+            return null;
+          }
+
+          const passwordMatch = await compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!passwordMatch) {
+            return null;
+          }
 
           return user;
         } catch (error) {
