@@ -1,12 +1,10 @@
 import AppHeader from "@/components/appheader";
-import styles from "@/styles/layout.module.css";
 import "animate.css";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import Router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
 import { GrMoney } from "react-icons/gr";
@@ -92,37 +90,10 @@ const items: MenuProps["items"] = [
 
 export default function AppLayout({ children }: LayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  // const selectedKey = Router.pathname;
-  useEffect(() => {
-    const startLoading = () => setLoading(true);
-    const stopLoading = () => setLoading(false);
-
-    Router.events.on("routeChangeStart", startLoading);
-    Router.events.on("routeChangeComplete", stopLoading);
-    Router.events.on("routeChangeError", stopLoading);
-
-    return () => {
-      Router.events.off("routeChangeStart", startLoading);
-      Router.events.off("routeChangeComplete", stopLoading);
-      Router.events.off("routeChangeError", stopLoading);
-    };
-  }, []);
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const pathToKey: { [key: string]: string } = {
-    "/dashboard": "dashboard",
-    "/venta-pasajes": "venta-pasajes",
-    "/encomiendas": "encomiendas",
-    "/programacion/bus-conductor": "bus-conductor",
-    "/programacion/comprobantes": "comprobantes",
-    "/programacion/viajes": "viajes",
-    "/contable": "contable",
-    "/administracion": "administracion",
-    "/soporte": "soporte",
-  };
 
   return (
     <Layout
@@ -164,7 +135,6 @@ export default function AppLayout({ children }: LayoutProps) {
             </h3>
           </div>
         </Header>
-        {loading && <div className={styles.loader}></div>}
 
         <Content
           style={{

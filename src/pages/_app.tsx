@@ -6,6 +6,7 @@ import Head from "next/head";
 import "@/styles/globals.css";
 import esEs from "antd/locale/es_ES";
 import dayjs from "dayjs";
+import NextTopLoader from "nextjs-toploader";
 import "dayjs/locale/es";
 import { ConfigProvider } from "antd";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -55,6 +56,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           }}
         >
           <SessionProvider session={session}>
+            <NextTopLoader showSpinner={false} color="#f97316" />
             <Component {...pageProps} />
           </SessionProvider>
         </ConfigProvider>
