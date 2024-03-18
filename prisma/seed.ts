@@ -1,13 +1,16 @@
-import { prisma } from "../src/server/db";
+import { prisma } from "@/server/db";
 
 async function main() {
-  // Simple query to test connection
   const user = await prisma.usuario.findUnique({
     where: {
       id: "1",
     },
   });
-  console.log(user);
+  if (user) {
+    console.log(user);
+  } else {
+    console.log("No user found");
+  }
 }
 
 main()

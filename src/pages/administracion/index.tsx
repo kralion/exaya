@@ -82,9 +82,14 @@ export default function Administracion() {
                 />
               )}
               {salidasDiarias?.map(
-                ({ id, horaSalida }: { id: string; horaSalida: string }) => (
+                ({ id, salida }: { id: string; salida: Date }) => (
                   <Suspense key={id} fallback={<ScheduleSkeleton />}>
-                    <RoundedButton horaSalida={horaSalida} />
+                    <RoundedButton
+                      horaSalida={new Date(salida).toLocaleTimeString("es-MX", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    />
                   </Suspense>
                 )
               )}

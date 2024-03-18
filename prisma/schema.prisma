@@ -7,119 +7,104 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-// Users of the software
-
-model Usuario {
-    id             String   @id @default(uuid())
-    username       String   @unique
-    password       String
-    telefono       String?
-    createdAt      DateTime @default(now())
-    cliente        Cliente  @relation(fields: [clienteId], references: [id])
-    clienteId      String   @unique
-    rol            String
-    foto           String?
-    sedeDelegacion String
+model Boleto {
+    asiento         Int
+    pasajeroDni     String
+    codigo          String   @unique
+    fechaRegistro   DateTime @default(now())
+    equipaje        String?
+    id              String   @id @default(uuid())
+    precio          Int
+    reservado       Boolean  @default(false)
+    telefonoCliente String
+    viaje           Viaje    @relation(fields: [viajeId], references: [id])
+    viajeId         String   @unique
 }
 
-model Cliente {
-    id                   String       @id @default(uuid())
-    dni                  String       @unique
-    nombres              String
-    apellidoPaterno      String
-    apellidoMaterno      String
-    usuario              Usuario?
-    conductor            Conductor?
-    encomiendasEnviadas  Encomienda[] @relation("remitente")
-    encomiendasRecibidas Encomienda[] @relation("destinatario")
-    boleto               Boleto?
-}
-
-model Encomienda {
-    id             String   @id @default(uuid())
-    remitente      Cliente  @relation(name: "remitente", fields: [remitenteId], references: [id])
-    remitenteId    String
-    destinatario   Cliente  @relation(name: "destinatario", fields: [destinatarioId], references: [id])
-    destinatarioId String
-    createdAt      DateTime @default(now())
-    fechaEnvio     DateTime
-    comprobante    String
-    pagado         Boolean
-    descripcion    String
-    viaje          Viaje    @relation(fields: [viajeId], references: [id])
-    viajeId        String
-    codigo         String   @unique
-    precioEnvio    Int
+model Bus {
+    Viaje         Viaje[]
+    asientos      Int
+    fechaRegistro DateTime @default(now())
+    foto          String?
+    id            String   @id @default(cuid())
+    modelo        String   @default("Scania Touring")
+    placa         String   @unique
 }
 
 model Conductor {
-    id                 String  @id @default(uuid())
-    cliente            Cliente @relation(fields: [clienteId], references: [id])
-    foto               String?
-    clienteId          String  @unique
-    viaje              Viaje?  @relation(fields: [viajeId], references: [id])
-    viajeId            String?
-    numeroLicencia     String
-    claseLicencia      String
-    telefono           String
-    estadoDocumentario String
-    disponibilidad     Boolean
+    claseLicencia  String
+    conductorDni   String
+    disponibilidad Boolean @default(true)
+    foto           String?
+    id             String  @id @default(uuid())
+    numeroLicencia String
+    telefono       String
+    viaje          Viaje?  @relation(fields: [viajeId], references: [id])
+    viajeId        String?
 }
 
-// TODO: Boleto model is just for travel-tickets or reservation, in the future we will add that this model can be used for Encomiendas too
-
-model Boleto {
-    id              String   @id @default(uuid())
-    cliente         Cliente  @relation(fields: [clienteId], references: [id])
-    clienteId       String   @unique
-    viaje           Viaje    @relation(fields: [viajeId], references: [id])
-    viajeId         String   @unique
-    asiento         Int
-    telefonoCliente String
-    precio          Int
-    createdAt       DateTime @default(now())
-    equipaje        String[]
-    reservado       Boolean
+model Encomienda {
     codigo          String   @unique
+    descripcion     String
+    destinatarioDni String
+    factura         Boolean  @default(false)
+    fechaEnvio      DateTime @default(now())
+    id              String   @id @default(uuid())
+    pagado          Boolean  @default(false)
+    precio          Int
+    remitenteDni    String
+    viaje           Viaje    @relation(fields: [viajeId], references: [id])
+    viajeId         String
 }
 
-// Travels made by the buses from the origin to the destination
+model Ruta {
+    Viaje            Viaje[]
+    ciudadDestino    String
+    ciudadOrigen     String
+    duracionEstimada Int
+    id               String  @id @default(uuid())
+    terminalDestino  String
+    terminalOrigen   String
+}
+
+model Session {
+    expires      DateTime
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    user         Usuario  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId       String
+}
+
+enum Role {
+    ADMIN
+    USER
+    GUEST
+}
+
+model Usuario {
+    username       String    @unique
+    usuarioDni     String    @unique
+    id             String    @id @default(cuid())
+    foto           String?
+    sedeDelegacion String
+    password       String
+    nombres        String
+    apellidos      String
+    sessions       Session[]
+    rol            Role      @default(USER)
+}
+
 model Viaje {
-    id          String       @id @default(uuid())
+    activo      Boolean
+    boletos     Boleto[]
     bus         Bus          @relation(fields: [busId], references: [id])
     busId       String
-    fechaSalida DateTime
-    horaSalida  String
-    tarifas     Int[]
-    boletos     Boleto[]
-    encomiendas Encomienda[]
     conductores Conductor[]
+    encomiendas Encomienda[]
+    estado      String
+    salida      DateTime
+    id          String       @id @default(uuid())
     ruta        Ruta         @relation(fields: [rutaId], references: [id])
     rutaId      String
-    createdAt   DateTime     @default(now())
-    estado      String
-    activo      Boolean
-}
-
-// Buses registered in the company
-model Bus {
-    id        String   @id @default(cuid())
-    modelo    String   @default("Scania Touring")
-    foto      String?
-    placa     String   @unique
-    asientos  Int
-    createdAt DateTime @default(now())
-    Viaje     Viaje[]
-}
-
-// Routes that the buses can take
-model Ruta {
-    id               String   @id @default(uuid())
-    ciudadOrigen     String
-    ciudadDestino    String
-    terminalOrigen   String
-    terminalDestino  String
-    duracionEstimada Int?
-    Viaje            Viaje[]
-    createdAt        DateTime @default(now())
+    tarifas     Int[]
 }

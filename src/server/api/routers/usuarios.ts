@@ -1,30 +1,18 @@
 import { usuarioSchema } from "@/schemas";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const usuariosRouter = createTRPCRouter({
   getAllUsuarios: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.usuario.findMany({
-      include: {
-        cliente: true,
-      },
-    });
+    return ctx.prisma.usuario.findMany();
   }),
-  getUsuarioByUsername: publicProcedure
-    .input(
-      usuarioSchema.pick({
-        username: true,
+
+  createUser: protectedProcedure
+    .input(usuarioSchema)
+    .mutation(({ input, ctx }) =>
+      ctx.prisma.usuario.create({
+        data: input,
       })
-    )
-    .query(({ input, ctx }) => {
-      return ctx.prisma.usuario.findFirst({
-        where: {
-          username: input.username,
-        },
-        include: {
-          cliente: true,
-        },
-      });
-    }),
+    ),
 
   deleteUser: publicProcedure
     .input(

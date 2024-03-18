@@ -2,23 +2,20 @@ import LoginGradient from "@/assets/login-gradient.png";
 import AppHead from "@/components/head";
 import VideoBackground from "@/components/ui/video-background";
 import { useNotification } from "@/context/NotificationContext";
-import type { loginSchema } from "@/schemas";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
+import type { FormInstance } from "antd/es/form";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
-import type { z } from "zod";
 
 const literata = Literata({
   weight: "400",
@@ -30,94 +27,52 @@ const blackOpsOne = Black_Ops_One({
   weight: ["400"],
 });
 
+type TLogin = {
+  username: string;
+  password: string;
+};
 export default function Login() {
   const router = useRouter();
   const version = api.version.exayaVersion.useQuery({
-    text: "1.23.7",
+    text: "1.4.7",
   });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
 
-  const onRememberCredentialsChange = (e: CheckboxChangeEvent) => {
-    const { checked } = e.target;
-    if (checked) {
-      const username = formRef.current?.getFieldValue("username") as string;
-      const password = formRef.current?.getFieldValue("password") as string;
-      if (username && password) {
-        localStorage.setItem("username", username);
-        localStorage.setItem("password", password);
-      }
-      localStorage.setItem("remember", "true");
-    } else {
-      localStorage.removeItem("username");
-      localStorage.removeItem("password");
-      localStorage.setItem("remember", "false");
-    }
-    formRef.current?.setFieldsValue({ remember: checked });
-  };
-  useEffect(() => {
-    const savedUsername = localStorage.getItem("username");
-    const savedPassword = localStorage.getItem("password");
-    const remember = localStorage.getItem("remember") === "true";
-
-    if (savedUsername && remember) {
-      formRef.current?.setFieldsValue({
-        username: savedUsername,
-        password: savedPassword,
-        remember: true,
-      });
-    }
-  }, []);
-
-  const onFinish = async (
-    values: z.infer<typeof loginSchema> & { remember: boolean }
-  ) => {
-    const { username, remember, password } = values;
-    if (remember) {
-      localStorage.setItem("username", username);
-      localStorage.setItem("password", password);
-      localStorage.setItem("remember", "true");
-    } else {
-      localStorage.removeItem("username");
-      localStorage.removeItem("password");
-      localStorage.removeItem("remember");
-    }
-
+  const onFinish = async (values: TLogin) => {
+    const { username, password } = values;
     try {
       setLoading(true);
-      const res = await signIn("credentials", {
-        redirect: false,
-        callbackUrl: `${
-          process.env.NEXTAUTH_URL || "http://localhost:3000"
-        }/dashboard`,
-        username: values.username,
-        password: values.password,
+      const response = await signIn("credentials", {
+        username,
+        password,
+        callbackUrl: `${window.location.origin}/dashboard`,
       });
-
       setLoading(false);
-      if (!res?.error) {
-        try {
-          // Added
-          await router.push("/dashboard");
-        } catch (error) {
-          console.error("Failed to redirect to dashboard:", error);
-        }
+      if (response?.ok) {
+        await router.push("/dashboard");
       } else {
-        onFinishFailed();
+        openNotification({
+          message: "Credenciales Incorrectas",
+          description:
+            "Verifique sus credenciales, recuerde que son precreadas.",
+          placement: "topRight",
+          type: "error",
+        });
       }
     } catch (error) {
       setLoading(false);
+      openNotification({
+        message: "Error al iniciar sesión",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un error desconocido",
+        placement: "topRight",
+        type: "error",
+      });
     }
-  };
-
-  const onFinishFailed = () => {
-    openNotification({
-      message: "Credenciales Incorrectas",
-      description: "Verifique sus credenciales, recuerde que son precreadas.",
-      placement: "topRight",
-      type: "error",
-    });
   };
 
   return (
@@ -129,7 +84,7 @@ export default function Login() {
         <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
 
-      <div className="animate__animated animate__delay-2s animate__flipInX absolute m-5 flex items-center gap-1">
+      <div className="animate__animated animate__delay-1s animate__flipInX absolute m-5 flex items-center gap-1">
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={50}
@@ -148,7 +103,7 @@ export default function Login() {
           Operativa
         </h5>
       </div>
-      <h5 className="animate__animated animate__delay-2s animate__fadeIn absolute bottom-5 left-5 text-sm font-extralight  text-zinc-300 ">
+      <h5 className="animate__animated animate__delay-1s animate__fadeIn absolute bottom-5 left-5 text-sm font-extralight  text-zinc-300 ">
         Desarrollado por{" "}
         <Link
           href="https://twitter.com/brayanpaucar_"
@@ -187,15 +142,14 @@ export default function Login() {
         </div>
         <AOSWrapper>
           <Form
+            ref={formRef}
             data-aos="fade-in"
             data-aos-duration="500"
             initialValues={{ remember: true }}
             autoComplete="on"
             className={`${literata.className} w-[400px] drop-shadow-md `}
-            ref={formRef}
             name="control-ref"
             onFinish={loading ? undefined : (onFinish as (values: any) => void)}
-            onFinishFailed={onFinishFailed}
           >
             <h3 className="mb-2">Usuario</h3>
             <Form.Item
@@ -232,7 +186,7 @@ export default function Login() {
             <div className="flex flex-col gap-14">
               <Checkbox
                 className={literata.className}
-                onChange={onRememberCredentialsChange}
+                // onChange={onRememberCredentialsChange}
               >
                 Recordar contraseña
               </Checkbox>
@@ -247,10 +201,10 @@ export default function Login() {
           </Form>
           <div className="flex gap-4 p-4 text-xs  text-zinc-600">
             <p className="flex items-center gap-1 font-mono ">
-              <HiOutlineUser /> <span>albert</span>
+              <HiOutlineUser /> <span>ramiro</span>
             </p>
             <p className="flex items-center gap-1 font-mono">
-              <GoKey /> <span>albert-exaya</span>
+              <GoKey /> <span>ramiro-exaya</span>
             </p>
           </div>
         </AOSWrapper>

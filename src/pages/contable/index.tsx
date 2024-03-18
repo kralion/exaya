@@ -165,10 +165,10 @@ export default function Contable() {
                 )}
 
                 {salidasDiarias?.map(
-                  ({ id, horaSalida }: { id: string; horaSalida: string }) => (
+                  ({ id, salida }: { id: string; salida: Date }) => (
                     <Suspense key={id} fallback={<ScheduleSkeleton />}>
                       <RoundedButton
-                        horaSalida={dayjs(horaSalida, "HH:mm").format("HH:mm")}
+                        horaSalida={dayjs(salida).format("HH:mm")}
                       />
                     </Suspense>
                   )

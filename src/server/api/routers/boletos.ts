@@ -11,7 +11,6 @@ export const boletosRouter = createTRPCRouter({
     return ctx.prisma.boleto.findMany();
   }),
   getBoletosByCode: publicProcedure
-    //todo: change id to string
     .input(z.object({ codigo: z.string() }))
     .query(({ input, ctx }) => {
       return ctx.prisma.boleto.findUnique({ where: { id: input.codigo } });

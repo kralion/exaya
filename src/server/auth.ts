@@ -5,22 +5,15 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { env } from "@/env.mjs";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { compare } from "bcrypt";
 
-/**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
 type TUser = {
   id: string;
   username: string;
-  password: string;
   rol: string;
+  password: string;
 };
 
 declare module "next-auth" {
@@ -29,19 +22,11 @@ declare module "next-auth" {
   }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
       ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
+      user,
     }),
   },
   pages: {
@@ -49,40 +34,27 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_ID,
-      clientSecret: env.GOOGLE_SECRET,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "username", type: "username" },
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<TUser | null> {
-        // Check if the credentials are present and not null
         if (!credentials?.username || !credentials.password) {
           return null;
         }
-
         try {
-          // Fetch the user from the database
           const user = await prisma.usuario.findUnique({
             where: {
               username: credentials.username,
             },
-            include: {
-              cliente: true,
-            },
           });
-          //TODO: Use bcrypt to compare the passwords. For now, we'll just compare them directly and it is a bad practice. Is better to storing the password as a hash and then compare the hashes.
+
           // if (!user || !(await compare(credentials.password, user.password))) {
           //   return null;
           // }
-          if (!user || credentials.password !== user.password) {
-            return null;
-          }
-          console.log("Este es el usuario", user);
+
           return user;
         } catch (error) {
           console.error("Error during authorization:", error);
@@ -93,11 +65,6 @@ export const authOptions: NextAuthOptions = {
   ],
 };
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];

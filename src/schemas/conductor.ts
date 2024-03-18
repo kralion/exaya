@@ -1,11 +1,10 @@
 import { z } from "zod";
-import clienteSchema from "./cliente";
 import viajeSchema from "./viaje";
 
 const conductorSchema = z.object({
   id: z.string(),
   foto: z.string(),
-  cliente: clienteSchema,
+  conductorDni: z.string(),
   viaje: viajeSchema,
   numeroLicencia: z.string(),
   claseLicencia: z.string(),

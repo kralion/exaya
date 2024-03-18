@@ -27,7 +27,7 @@
     "animate.css": "^4.1.1",
     "antd": "^5.3.3",
     "aos": "^2.3.4",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.1",
     "cloudinary": "^2.0.3",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.8",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@testing-library/react": "latest",
     "@types/aos": "^3.0.4",
-    "@types/bcryptjs": "^2.4.4",
+    "@types/bcrypt": "^5.0.2",
     "@types/eslint": "^8.21.3",
     "@types/node": "^18.15.5",
     "@types/prettier": "^2.7.2",

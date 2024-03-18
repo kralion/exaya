@@ -25,8 +25,8 @@ const items: MenuProps["items"] = [
     icon: <LuLayoutDashboard />,
   },
   {
-    label: <Link href="/venta-pasajes">Pasajes</Link>,
-    key: "venta-pasajes",
+    label: <Link href="/pasajes">Pasajes</Link>,
+    key: "pasajes",
     icon: <IoTicketOutline />,
   },
   {

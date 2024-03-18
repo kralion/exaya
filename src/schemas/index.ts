@@ -4,7 +4,6 @@ import rutaSchema from "./ruta";
 import usuarioSchema from "./usuario";
 import encomiendaSchema from "./encomienda";
 import viajeSchema from "./viaje";
-import clienteSchema from "./cliente";
 import busSchema from "./bus";
 import conductorSchema from "./conductor";
 
@@ -14,7 +13,6 @@ export {
   rutaSchema,
   usuarioSchema,
   viajeSchema,
-  clienteSchema,
   encomiendaSchema,
   busSchema,
   conductorSchema,
