@@ -87,6 +87,7 @@ model Usuario {
     id             String    @id @default(cuid())
     foto           String?
     sedeDelegacion String
+    telefono       String
     password       String
     nombres        String
     apellidos      String

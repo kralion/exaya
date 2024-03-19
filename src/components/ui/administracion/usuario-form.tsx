@@ -1,6 +1,4 @@
-import { usuarios } from "@/data";
 import { IoCloudUploadOutline } from "react-icons/io5";
-
 import {
   Button,
   Form,
@@ -11,33 +9,42 @@ import {
   Space,
   Typography,
   Upload,
+  message,
 } from "antd";
-
+import { useNotification } from "@/context/NotificationContext";
+import { api } from "@/utils/api";
+import { BsTelephone } from "react-icons/bs";
+import style from "./frame.module.css";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import type { UploadProps } from "antd/lib";
+import { ImSpinner3 } from "react-icons/im";
+import Image from "next/image";
 import type { CascaderProps } from "antd/lib/cascader";
 import { useState } from "react";
 import styles from "./frame.module.css";
+
 type Props = {
   activator: string;
 };
 const { Title } = Typography;
 
 interface RolNodeType {
-  value: number;
+  value: "ADMIN" | "GUEST" | "USER";
   label: string;
   children?: RolNodeType[];
 }
 
 const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   {
-    value: 0,
+    value: "ADMIN",
     label: "Administrador",
   },
   {
-    value: 1,
-    label: "Supervisor",
+    value: "GUEST",
+    label: "Invitado",
   },
   {
-    value: 2,
+    value: "USER",
     label: "Usuario",
   },
 ];
@@ -53,16 +60,23 @@ const formItemLayout = {
   },
 };
 
-import { useNotification } from "@/context/NotificationContext";
-import { api } from "@/utils/api";
-import { BsTelephone } from "react-icons/bs";
-import style from "./frame.module.css";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+type TUsuarioForm = {
+  username: string;
+  nombres: string;
+  apellidos: string;
+  password: string;
+  usuarioDni: string;
+  rol: "ADMIN" | "GUEST" | "USER";
+  sedeDelegacion: string;
+  foto: string | null;
+  telefono: string;
+};
+
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [usuariosRegistrados, setUsuariosRegistrados] = useState(usuarios);
-  const [profilePicList, setProfilePicList] = useState([]);
   const { openNotification } = useNotification();
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -71,38 +85,72 @@ export function UsuarioForm({ activator }: Props) {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+  const handleChange: UploadProps["onChange"] = (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === "done") {
+      getBase64(info.file.originFileObj as File, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+  const uploadButton = (
+    <button
+      className=" flex flex-col items-center justify-center"
+      type="button"
+    >
+      {loading ? (
+        <ImSpinner3 className="animate-spin" size={20} />
+      ) : (
+        <IoCloudUploadOutline size={20} />
+      )}
+      <div style={{ marginTop: 8 }}>{loading ? "Cargando" : "Subir Foto"}</div>
+    </button>
+  );
+  const getBase64 = (img: File, callback: (url: string) => void) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => callback(reader.result as string));
+    reader.readAsDataURL(img);
+  };
+  const beforeUpload = async (file: File) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      await message.error("La imagen debe ser de tipo JPG o PNG");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      await message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
-  const handleAddUser = (user: any) => {
-    setUsuariosRegistrados([...usuariosRegistrados, user]);
-  };
 
   const onFinish = (values: any) => {
-    handleAddUser(values);
+    const usuarioMutation = api.usuarios.createUser.useMutation();
+    usuarioMutation.mutate(values as TUsuarioForm);
     form.resetFields();
     openNotification({
-      message: "Usuario Registrado",
+      message: "Operación Existosa",
       description: "El usuario se registró correctamente",
       type: "success",
       placement: "topRight",
     });
   };
   const onFinishFailed = () => {
-    console.log("Falló el registro");
+    openNotification({
+      message: "Error al Registrar",
+      description: "El usuario no se registró correctamente",
+      type: "error",
+      placement: "topRight",
+    });
   };
-  // const profilePicFile = (e : any) => {
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   }
-  //   return e && e.fileList;
-  // };
-
-  // const handleProfilePicFileChange = (newProfilePicFileList) => {
-  //   setProfilePicList(newProfilePicFileList);
-  // };
   const {
     data: rutas,
     isLoading,
@@ -145,7 +193,7 @@ export function UsuarioForm({ activator }: Props) {
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "
         >
           <Form.Item
-            name="dni"
+            name="usuarioDni"
             label="DNI"
             rules={[
               {
@@ -202,17 +250,28 @@ export function UsuarioForm({ activator }: Props) {
             />
           </Form.Item>
           <Form.Item
-            name="email"
-            label="Email"
+            name="username"
+            label="Usuario"
             rules={[
               {
                 required: true,
-                message: "Ingresa el correo electronico",
+                message: "Ingresa el nombre de usuario",
                 whitespace: true,
               },
             ]}
           >
-            <Input placeholder="hugo.egoavil@gmail.com" type="email" />
+            <Input placeholder="hugo-egoavil" type="email" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Escriba la contraseña",
+              },
+            ]}
+          >
+            <Input.Password type="password" />
           </Form.Item>
 
           <Form.Item
@@ -221,11 +280,11 @@ export function UsuarioForm({ activator }: Props) {
             rules={[
               {
                 required: true,
-                message: "Selecciona el Rol del Usuario",
+                message: "Selecciona el Rol",
               },
             ]}
           >
-            <Select placeholder="Administrador">
+            <Select placeholder="ADMIN">
               {rolesSistema?.map((rol) => (
                 <Select.Option key={rol.value} value={rol.value}>
                   {rol.label}
@@ -234,43 +293,27 @@ export function UsuarioForm({ activator }: Props) {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            label="Foto Usuario"
-            name="foto_perfil"
-            // getValueFromEvent={profilePicFile}
-            valuePropName="fileList"
-            rules={[
-              {
-                required: true,
-                message: "Sube una foto de perfil",
-              },
-            ]}
-          >
+          <Form.Item label="Foto del Usuario" name="foto">
             <Upload
-              action="/upload.do"
-              listType="picture-circle"
-              fileList={profilePicList}
-              beforeUpload={() => false}
-              showUploadList={{
-                showRemoveIcon: true,
-                showPreviewIcon: false,
-              }}
-              // onChange={({ fileList: newProfilePicFileList }) =>
-              //   handleProfilePicFileChange(newProfilePicFileList)
-              // }
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
             >
-              {profilePicList.length === 0 && (
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <IoCloudUploadOutline size={30} />
-                  <span>Subir foto</span>
-                </div>
+              {imageUrl ? (
+                <Image src={imageUrl} alt="avatar" width={100} height={100} />
+              ) : (
+                uploadButton
               )}
             </Upload>
           </Form.Item>
 
           <Form.Item
-            name="sede"
-            tooltip="Sede donde trabaja el usuario"
+            name="sedeDelegacion"
+            tooltip="Sede donde va a trabajar el usuario"
             label="Sede Delegación"
             rules={[
               {
@@ -280,14 +323,13 @@ export function UsuarioForm({ activator }: Props) {
             ]}
           >
             <Select loading={isLoading || isFetching} placeholder="Huancayo">
-              {uniqueCiudadOrigen?.map((ciudad) => (
+              {uniqueCiudadOrigen?.map((ciudad: string) => (
                 <Select.Option key={ciudad} value={ciudad}>
                   {ciudad}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
-          <div></div>
           <Space className="flex justify-end">
             <button type="submit" className={styles.basicButton}>
               Registrar

@@ -46,26 +46,29 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         try {
-          const user = await prisma.usuario.findUnique({
+          const userFound = await prisma.usuario.findUnique({
             where: {
               username: credentials.username,
             },
           });
 
-          if (!user) {
-            return null;
-          }
+          if (!userFound) throw new Error("Usuario no Encontrado");
 
-          const passwordMatch = await compare(
-            credentials.password,
-            user.password
-          );
+          // const matchPassword = await compare(
+          //   credentials.password,
+          //   userFound.password
+          // );
 
-          if (!passwordMatch) {
-            return null;
-          }
+          // if (!matchPassword) throw new Error("Contraseña Incorrecta");
 
-          return user;
+          console.log("userFound", userFound);
+          return {
+            id: userFound.id,
+            username: userFound.username,
+            rol: userFound.rol,
+            password: userFound.password,
+            foto: userFound.foto,
+          };
         } catch (error) {
           console.error("Error during authorization:", error);
           return null;

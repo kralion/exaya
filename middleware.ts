@@ -5,7 +5,7 @@ export const config = {
     "/dashboard",
     "/administracion",
     "/contable",
-    "/programacion/*",
+    "/programacion/:path*",
     "/encomiendas",
     "/pasajes",
     "/soporte",

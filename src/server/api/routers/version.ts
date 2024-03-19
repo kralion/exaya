@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 export const versionRouter = createTRPCRouter({
   exayaVersion: publicProcedure
@@ -14,8 +10,4 @@ export const versionRouter = createTRPCRouter({
         currentVersion: `v ${input.text}`,
       };
     }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
 });

@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, Space, Tag } from "antd";
 import { useSession } from "next-auth/react";
 import Loader from "./Loader";

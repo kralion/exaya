@@ -33,44 +33,30 @@ type TLogin = {
 };
 export default function Login() {
   const router = useRouter();
-  const version = api.version.exayaVersion.useQuery({
-    text: "1.4.7",
-  });
+  // const version = api.version.exayaVersion.useQuery({
+  //   text: "1.4.7",
+  // });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
 
   const onFinish = async (values: TLogin) => {
-    const { username, password } = values;
-    try {
-      setLoading(true);
-      const response = await signIn("credentials", {
-        username,
-        password,
-      });
-      setLoading(false);
-      if (response?.ok) {
-        await router.push("/dashboard");
-      } else {
-        openNotification({
-          message: "Credenciales Incorrectas",
-          description:
-            "Verifique sus credenciales, recuerde que son precreadas.",
-          placement: "topRight",
-          type: "error",
-        });
-      }
-    } catch (error) {
-      setLoading(false);
+    setLoading(true);
+    const response = await signIn("credentials", {
+      username: values.username,
+      password: values.password,
+      redirect: false,
+    });
+    setLoading(false);
+    if (response?.error) {
       openNotification({
-        message: "Error al iniciar sesión",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Ocurrió un error desconocido",
+        message: "Credenciales Incorrectas",
+        description: "El usuario o la contraseña son incorrectos",
         placement: "topRight",
         type: "error",
       });
+    } else {
+      await router.push("/dashboard");
     }
   };
 
@@ -80,7 +66,7 @@ export default function Login() {
     >
       <AppHead title="Login" />
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
-        <h1 className="font-mono ">{version.data?.currentVersion}</h1>
+        {/* <h1 className="font-mono ">{version.data?.currentVersion}</h1> */}
       </div>
 
       <div className="animate__animated animate__delay-1s animate__flipInX absolute z-10 m-5 flex items-center gap-1">
@@ -144,11 +130,11 @@ export default function Login() {
             ref={formRef}
             data-aos="fade-in"
             data-aos-duration="500"
-            initialValues={{ remember: true }}
             autoComplete="on"
             className={`${literata.className} w-[400px] drop-shadow-md `}
             name="control-ref"
-            onFinish={loading ? undefined : (onFinish as (values: any) => void)}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onFinish={onFinish}
           >
             <h3 className="mb-2">Usuario</h3>
             <Form.Item
