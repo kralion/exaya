@@ -1,26 +1,8 @@
 import { z } from "zod";
 import { env } from "@/env.mjs";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { clienteSchema } from "@/schemas";
 import type { ICliente } from "@/interfaces";
 export const clientesRouter = createTRPCRouter({
-  getAllClientes: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.cliente.findMany();
-  }),
-  getClienteById: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.cliente.findUnique({ where: { id: input.id } });
-    }),
-  createCliente: publicProcedure
-    .input(clienteSchema)
-    .query(({ ctx, input }) => {
-      return ctx.prisma.cliente.create({ data: input });
-    }),
   validateDni: publicProcedure
     .input(
       z.object({

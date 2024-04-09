@@ -1,12 +1,11 @@
 import { z } from "zod";
 
 const busSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   modelo: z.string(),
   foto: z.string(),
   placa: z.string(),
   asientos: z.number(),
-  createdAt: z.date(),
 });
 
-export default busSchema;
+export { busSchema };

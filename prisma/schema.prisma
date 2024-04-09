@@ -8,25 +8,27 @@ datasource db {
 }
 
 model Boleto {
-    asiento         Int
-    pasajeroDni     String
-    codigo          String   @unique
-    fechaRegistro   DateTime @default(now())
-    equipaje        String?
-    id              String   @id @default(uuid())
-    precio          Int
-    reservado       Boolean  @default(false)
-    telefonoCliente String
-    viaje           Viaje    @relation(fields: [viajeId], references: [id])
-    viajeId         String   @unique
+    asiento           Int
+    pasajeroDni       String
+    pasajeroNombres   String
+    pasajeroApellidos String
+    codigo            String   @unique
+    fechaRegistro     DateTime @default(now())
+    equipaje          String   @default("Sin Equipaje")
+    id                String   @id @default(uuid())
+    precio            Int
+    reservado         Boolean  @default(false)
+    telefonoCliente   String
+    viaje             Viaje    @relation(fields: [viajeId], references: [id])
+    viajeId           String   @unique
 }
 
 model Bus {
+    id            String   @id @default(cuid())
     Viaje         Viaje[]
     asientos      Int
     fechaRegistro DateTime @default(now())
-    foto          String?
-    id            String   @id @default(cuid())
+    foto          String   @default("https://img.freepik.com/premium-vector/bus-flat-color-icon-long-shadow-vector-illustration_755164-9961.jpg?w=740")
     modelo        String   @default("Scania Touring")
     placa         String   @unique
 }
@@ -35,7 +37,7 @@ model Conductor {
     claseLicencia  String
     conductorDni   String
     disponibilidad Boolean @default(true)
-    foto           String?
+    foto           String  @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
     id             String  @id @default(uuid())
     numeroLicencia String
     telefono       String
@@ -81,11 +83,17 @@ enum Role {
     GUEST
 }
 
+enum ViajeEstado {
+    DISPONIBLE
+    CANCELADO
+    LLENO
+}
+
 model Usuario {
     username       String    @unique
     usuarioDni     String    @unique
     id             String    @id @default(cuid())
-    foto           String?
+    foto           String    @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
     sedeDelegacion String
     telefono       String
     password       String
@@ -102,7 +110,7 @@ model Viaje {
     busId       String
     conductores Conductor[]
     encomiendas Encomienda[]
-    estado      String
+    estado      ViajeEstado  @default(DISPONIBLE)
     salida      DateTime
     id          String       @id @default(uuid())
     ruta        Ruta         @relation(fields: [rutaId], references: [id])

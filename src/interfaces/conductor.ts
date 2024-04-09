@@ -1,16 +1,13 @@
-import type { ICliente } from "./cliente";
-
 export interface IConductor {
   id: string;
-  foto?: string;
-  cliente: ICliente;
-  numeroLicencia: string;
+  conductorDni: string;
   claseLicencia: string;
-  telefono: string;
-  estadoDocumentario: string;
   disponibilidad: boolean;
+  foto?: string;
+  numeroLicencia: string;
+  telefono: string;
+  viajeId?: string;
 }
-
 export interface ConductorContextProps {
   conductoresRegistrados: IConductor[];
   handleAddConductor: (conductor: IConductor) => void;

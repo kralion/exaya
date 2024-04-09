@@ -9,7 +9,6 @@ const conductorSchema = z.object({
   numeroLicencia: z.string(),
   claseLicencia: z.string(),
   telefono: z.string(),
-  estadoDocumentario: z.string(),
   disponibilidad: z.boolean(),
 });
 

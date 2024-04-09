@@ -98,7 +98,7 @@ export function ConductoresInformacion() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {conductor.cliente.nombres}
+                        {conductor.conductorDni}
                       </a>
                       {conductor.disponibilidad === true ? (
                         <AiFillCheckCircle className=" text-green-500" />
@@ -175,14 +175,11 @@ export function ConductoresInformacion() {
 
             <p>
               <Typography.Text strong>Nombre : </Typography.Text>
-              <Typography.Text>{conductor?.cliente.nombres}</Typography.Text>
+              <Typography.Text>{conductor?.conductorDni}</Typography.Text>
             </p>
             <p>
               <Typography.Text strong>Apellidos : </Typography.Text>
-              <Typography.Text>
-                {conductor?.cliente.apellidoPaterno}{" "}
-                {conductor?.cliente.apellidoMaterno}
-              </Typography.Text>
+              <Typography.Text>{conductor?.conductorDni}</Typography.Text>
             </p>
 
             <p>
@@ -207,18 +204,6 @@ export function ConductoresInformacion() {
             <p>
               <Typography.Text strong>Télefono : </Typography.Text>
               <Typography.Text>{conductor?.telefono}</Typography.Text>
-            </p>
-            <p>
-              <Typography.Text strong>Documentos : </Typography.Text>
-              <Typography.Text>
-                {conductor?.estadoDocumentario === "Actualizados" ? (
-                  <Tag color="green">{conductor?.estadoDocumentario}</Tag>
-                ) : conductor?.estadoDocumentario === "En Trámite" ? (
-                  <Tag color="yellow">{conductor?.estadoDocumentario}</Tag>
-                ) : (
-                  <Tag color="red">{conductor?.estadoDocumentario}</Tag>
-                )}
-              </Typography.Text>
             </p>
           </div>
           <Image
