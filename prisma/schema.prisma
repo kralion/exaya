@@ -17,7 +17,6 @@ model Boleto {
     equipaje          String   @default("Sin Equipaje")
     id                String   @id @default(uuid())
     precio            Int
-    reservado         Boolean  @default(false)
     telefonoCliente   String
     viaje             Viaje    @relation(fields: [viajeId], references: [id])
     viajeId           String   @unique

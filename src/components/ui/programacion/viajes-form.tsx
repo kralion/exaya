@@ -1,12 +1,12 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { IBus, IRuta, viajeValuesSchema } from "@/interfaces";
+import { api } from "@/utils/api";
 import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select, TimePicker } from "antd";
-import React from "react";
+import type { z } from "zod";
 import style from "./frame.module.css";
 import PriceSelector from "./price-selector";
-import { api } from "@/utils/api";
-import type { TypeOf } from "zod";
+
+import type { viajeSchema } from "@/schemas";
 
 const { Option } = Select;
 const format = "HH:mm";
@@ -45,11 +45,9 @@ export function ViajesForm() {
     }
   };
 
-  const postViaje = api.viajes.createViaje.useMutation();
-  const onFinish = (values: TypeOf<typeof viajeValuesSchema>) => {
-    //TODO: Modificar el formato de los datos para que la mutacion los acepte
-    postViaje.mutate(values);
-    alert(JSON.stringify(values.busId));
+  const viajeMutation = api.viajes.createViaje.useMutation();
+  const onFinish = (values: z.infer<typeof viajeSchema>) => {
+    viajeMutation.mutate(values);
     openNotification({
       message: "Viaje creado",
       description: "El viaje se ha creado satisfactoriamente",
