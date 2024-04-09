@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
+import { IoMoonOutline, IoSunnyOutline } from "react-icons/io5";
 
-export default function ThemeToggle() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  };
+export default function ThemeToggle({
+  isChecked,
+  handleCheckboxChange,
+}: {
+  isChecked: boolean;
+  handleCheckboxChange: () => void;
+}) {
   return (
-    <label className="flex cursor-pointer select-none items-center">
+    <label className="flex cursor-pointer select-none items-center dark:text-black">
       <div className="relative">
         <input
           type="checkbox"
@@ -18,7 +18,7 @@ export default function ThemeToggle() {
         />
         <div
           className={`box block h-8 w-14 rounded-full ${
-            isChecked ? "bg-gray-800" : "bg-orange-500"
+            isChecked ? "bg-orange-500" : "bg-zinc-700"
           }`}
         ></div>
         <div
@@ -27,15 +27,15 @@ export default function ThemeToggle() {
           }`}
         >
           {isChecked ? (
-            <IoMoonOutline
+            <IoSunnyOutline
               className={
                 isChecked
-                  ? " text-orange-500"
+                  ? " "
                   : " z-10 translate-x-0 text-gray-800 duration-500 group-active:rotate-180"
               }
             />
           ) : (
-            <IoSunnyOutline className="duratiton-500 z-10  group-active:-rotate-45" />
+            <IoMoonOutline className="duratiton-500 z-10  group-active:-rotate-45" />
           )}
         </div>
       </div>

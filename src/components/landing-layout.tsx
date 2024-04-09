@@ -4,9 +4,11 @@ import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Footer from "./footer";
+import LandingDepth from "@/assets/landing-depth.jpg";
 import DesktopNavBar from "./ui/landingpage/desktopnav";
 import ThemeToggle from "./ui/landingpage/theme-toggle";
-import Footer from "./footer";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -40,19 +42,38 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isChecked, setIsChecked] = useState(false);
+  useEffect(() => {
+    const savedTheme =
+      typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setIsChecked(savedTheme ? savedTheme === "dark" : prefersDark);
+  }, []);
+
+  const handleCheckboxChange = () => {
+    const newChecked = !isChecked;
+    setIsChecked(newChecked);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", newChecked ? "dark" : "light");
+    }
+    document.documentElement.classList.toggle("dark");
+  };
+
   return (
     <AOSWrapper>
-      <div className={` ${inter.className} h-screen w-screen`}>
+      <div className={` ${inter.className}  dark:bg-zinc-800 dark:text-white`}>
         <div
-          className="absolute inset-1  bg-cover bg-center bg-no-repeat opacity-85 blur-md"
+          className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
           style={{
-            backgroundImage: `url(https://img.freepik.com/premium-photo/blurry-multicolor-modern-gradient-texture-jpg_534308-3898.jpg)`,
+            backgroundImage: `url(${LandingDepth.src})`,
             width: "100%",
           }}
         />
 
         <MobileNav navLinks={navLinks} />
-        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-5 pt-7 backdrop-blur-md  lg:fixed lg:mb-20 lg:px-10">
+        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-5 pt-7 backdrop-blur-sm  lg:fixed lg:mb-20 lg:px-10">
           <Link href="/">
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
@@ -72,9 +93,12 @@ export default function LandingLayout({
             </div>
           </Link>
           <DesktopNavBar navLinks={navLinks} />
-          <ThemeToggle />
+          <ThemeToggle
+            isChecked={isChecked}
+            handleCheckboxChange={handleCheckboxChange}
+          />
         </div>
-        <div className={`${inter.className} pt-10   text-center lg:pt-36 `}>
+        <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>
           {children}
         </div>
         <Footer />

@@ -1,11 +1,6 @@
 import AppHead from "@/components/head";
 import LandingLayout from "@/components/landing-layout";
-import {
-  BsInstagram,
-  BsLinkedin,
-  BsTwitterX,
-  BsWhatsapp,
-} from "react-icons/bs";
+import { BsLinkedin, BsTwitterX, BsWhatsapp } from "react-icons/bs";
 
 import ContactForm from "@/components/contact-form";
 import Link from "next/link";
@@ -14,16 +9,16 @@ export default function Index() {
   return (
     <LandingLayout>
       <AppHead title="Features" />
-      <div className=" relative space-y-3.5">
-        <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent  lg:text-5xl">
+      <div className=" relative space-y-3.5 ">
+        <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent   lg:text-5xl">
           Contacto
         </h1>
-        <h4 className=" tracking-tigh px-5 lg:px-[450px] ">
+        <h4 className=" tracking-tigh px-5 text-zinc-700 lg:px-[450px]">
           Rellena el siguiente formulario y ponte en contacto con nosotros.
           Estaremos encantados de atenderte.
         </h4>
         <div className="flex flex-col items-start justify-center px-5 py-10 text-white  lg:flex-row lg:px-36">
-          <div className="flex flex-col items-start space-y-8  rounded-t-xl bg-gradient-to-b from-primary to-yellow-300 p-6  text-left lg:h-[740px] lg:w-1/3 lg:rounded-l-xl lg:p-10">
+          <div className="flex flex-col items-start space-y-8    bg-gradient-to-b from-primary to-yellow-300 p-6 text-left  dark:from-orange-600 dark:to-yellow-600 lg:h-[740px] lg:w-1/3 lg:rounded-l-xl lg:p-10">
             <h1 className="text-xl font-semibold">Ponte en contacto</h1>
 
             <div className="flex flex-col items-start  space-y-1">
@@ -68,7 +63,7 @@ export default function Index() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col space-y-4  border-b-1 border-l-1 border-r-1  bg-white p-6 text-left lg:rounded-r-xl lg:border-r-1  lg:p-10">
+          <div className="flex flex-col space-y-4 border-b-1 border-l-1 border-r-1  bg-white p-6 text-left  dark:border-orange-700 dark:bg-orange-700/90  lg:rounded-r-xl lg:border-r-1  lg:p-10">
             <ContactForm />
           </div>
         </div>

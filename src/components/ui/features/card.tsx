@@ -28,7 +28,7 @@ export default function Card({
       />
       <div className="space-y-2 lg:text-left">
         <h1 className="font-semibold lg:text-xl">{cardTitle}</h1>
-        <h4 className="lg:text-md text-sm text-zinc-700">{cardDescription}</h4>
+        <h4 className="lg:text-md text-sm ">{cardDescription}</h4>
       </div>
     </div>
   );

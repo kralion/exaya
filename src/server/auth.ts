@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
-          if (!userFound) throw new Error("Usuario no Encontrado");
+          if (!userFound) throw new Error("Error al econtrar usuario");
 
           // const matchPassword = await compare(
           //   credentials.password,

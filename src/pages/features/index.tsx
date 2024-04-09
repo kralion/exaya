@@ -11,13 +11,13 @@ export default function Index() {
         <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent  lg:text-5xl">
           Features
         </h1>
-        <h4 className=" tracking-tigh px-5 lg:px-[450px] ">
+        <h4 className=" tracking-tigh px-5 dark:text-zinc-800 lg:px-[400px]">
           Exaya cuenta con funcionalidades que empoderan tu negocio con
           tecnologias modernas y herramientas del ahora.
         </h4>
       </div>
       <div className="flex items-center justify-center">
-        <div className="my-7 grid grid-cols-1 items-center justify-center gap-4 lg:my-20 lg:grid-cols-3">
+        <div className="my-7 grid grid-cols-1 items-center justify-center gap-5 lg:my-20 lg:grid-cols-3">
           <Card
             delay="200"
             cardTitle="Analíticas en Tiempo Real"

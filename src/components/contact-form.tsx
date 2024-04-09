@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Checkbox, Form, Input, Space } from "antd";
+import { Checkbox, Form, Input } from "antd";
 
 const onFinish = (values: any) => {
   console.log("Success:", values);
@@ -32,60 +31,63 @@ export default function ContactForm() {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <div className="flex gap-2 ">
+      <div className="flex gap-2  ">
         <Form.Item<FieldType>
-          label="Nombres"
           name="nombres"
           rules={[{ required: false, message: "Please input your username!" }]}
         >
+          <h3 className="mb-2 dark:text-white">Nombres</h3>
           <Input size="large" />
         </Form.Item>
         <Form.Item<FieldType>
-          label="Apellidos"
           name="apellidos"
           rules={[{ required: false, message: "Please input your username!" }]}
         >
+          <h3 className="mb-2 dark:text-white">Apellidos</h3>
           <Input size="large" />
         </Form.Item>
       </div>
       <Form.Item<FieldType>
-        label="Nombre de la Empresa"
         name="empresa"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
+        <h3 className="mb-2 dark:text-white">Nombre de la Empresa</h3>
         <Input size="large" />
       </Form.Item>
       <Form.Item<FieldType>
-        label="Email"
         name="email"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
+        <h3 className="mb-2 dark:text-white">Email</h3>
         <Input size="large" />
       </Form.Item>
       <Form.Item<FieldType>
-        label="Teléfono"
         name="telefono"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
+        <h3 className="mb-2 dark:text-white">Teléfono</h3>
         <Input size="large" />
       </Form.Item>
       <Form.Item<FieldType>
-        label="Mensaje"
         name="mensaje"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
+        <h3 className="mb-2 dark:text-white">Mensaje</h3>
         <Input.TextArea rows={4} />
       </Form.Item>
 
       <Form.Item<FieldType> name="accept" valuePropName="checked">
         <Checkbox className="space-x-2">
-          Me gustaría recebir correos sobre las nuevas actualizaciones de Exaya.
+          <span className="dark:text-white">
+            Me gustaría recebir correos sobre las nuevas actualizaciones de
+            Exaya.
+          </span>
         </Checkbox>
       </Form.Item>
 
       <Form.Item>
         <button
-          className="w-full rounded-lg bg-primary   py-2 text-white  active:opacity-80 "
+          className="w-full rounded-lg bg-primary py-2   text-white hover:opacity-80  active:opacity-80 "
           type="submit"
         >
           Enviar Mensaje

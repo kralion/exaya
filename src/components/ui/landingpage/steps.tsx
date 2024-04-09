@@ -6,7 +6,7 @@ export default function DevicesVersionSteps() {
       <div className="flex">
         <div className="mr-4 flex flex-col items-center">
           <div>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full border bg-orange-400 text-white ">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border bg-orange-400 text-white dark:bg-orange-600 ">
               <svg className="w-5  " stroke="currentColor" viewBox="0 0 24 24">
                 <polyline
                   fill="none"
@@ -21,7 +21,7 @@ export default function DevicesVersionSteps() {
           </div>
           <div
             data-aos="fade-up"
-            className="h-full w-[1px] border border-dotted border-black"
+            className="h-full w-[1px] border border-dotted border-black dark:bg-zinc-100"
           />
         </div>
         <div className="pb-20">
@@ -36,7 +36,7 @@ export default function DevicesVersionSteps() {
       <div className="flex">
         <div className="mr-4 flex flex-col items-center">
           <div>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full border bg-orange-400 text-white  ">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border bg-orange-400 text-white dark:bg-orange-600 ">
               <svg className="w-5  " stroke="currentColor" viewBox="0 0 24 24">
                 <polyline
                   fill="none"
@@ -59,13 +59,13 @@ export default function DevicesVersionSteps() {
           </p>
         </div>
       </div>
-      <div className="mt-10 rounded-xl border-1 p-4">
+      <div className="mt-10 rounded-xl border-1 p-4  dark:border-zinc-700">
         <div className="flex gap-2   ">
           <div
             data-aos="zoom-in"
             data-aos-delay="100"
             data-aos-duration="200"
-            className="flex items-center justify-center rounded-lg bg-white p-2 shadow-md"
+            className="flex items-center justify-center rounded-lg bg-white p-2 shadow-md "
           >
             <Image
               src="https://logowik.com/content/uploads/images/iso-27001-information-security5133.logowik.com.webp"

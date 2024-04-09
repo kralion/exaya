@@ -18,13 +18,13 @@ const dancing_Script = Dancing_Script({
 export default function Index() {
   return (
     <LandingLayout>
-      <div className="px-3">
-        <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.2] lg:h-[67rem]">
+      <div className="px-3 dark:bg-zinc-800">
+        <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.15] lg:h-[67rem]">
           <div className="relative " data-aos="fade-down">
             <div className="flex bg-gradient-to-r from-zinc-800 to-zinc-950 bg-clip-text text-3xl font-bold tracking-tight text-transparent  lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
             </div>
-            <p className="mt-5 px-10 font-semibold tracking-tight lg:px-80 lg:text-xl">
+            <p className="mt-5 px-10 font-semibold tracking-tight dark:text-zinc-800 lg:px-80 lg:text-xl">
               El socio tecnológico que acelera las operaciones de tu empresa en
               la industria del transporte impulsado con —{" "}
               <span className="bg-gradient-to-r from-red-700   to-black bg-clip-text text-transparent lg:bg-gradient-to-tr">
@@ -37,7 +37,7 @@ export default function Index() {
               href="/dashboard"
               className="hover:purple-900 group  mt-10 hidden cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5 font-semibold text-white  duration-500 hover:px-10 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70 lg:mt-16  lg:inline-flex lg:px-5  lg:py-3 lg:text-xl "
             >
-              <span className="duration-300 group-hover:-translate-x-2">
+              <span className="duration-300 group-hover:-translate-x-2 ">
                 Pruébalo gratis
               </span>
 
@@ -73,7 +73,7 @@ export default function Index() {
           </blockquote>
         </div>
       </div>
-      <div className=" mb-24 mt-24  space-y-3 px-4 lg:px-0">
+      <div className=" space-y-3 px-4  py-24  dark:bg-zinc-800 lg:px-0">
         <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
           Versionamiento para Control Total
         </h1>
@@ -85,7 +85,7 @@ export default function Index() {
           </p>
         </div>
       </div>
-      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left  lg:mr-44 lg:flex-row lg:items-start">
+      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left dark:bg-zinc-800  lg:flex-row lg:items-start lg:pr-44">
         <Image
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={HeroStepImage}

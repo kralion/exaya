@@ -19,7 +19,7 @@ export default function PlanesCard({
 }: PlanesCardProps) {
   {
     return (
-      <div className=" w-80 space-y-3.5 rounded-2xl bg-gradient-to-b  from-orange-400 from-10% to-yellow-200  p-7  text-left shadow-md   duration-200 hover:shadow-2xl   ">
+      <div className=" w-80 space-y-3.5 rounded-2xl bg-gradient-to-b from-orange-400  from-10% to-yellow-200 p-7  text-left  text-zinc-900 shadow-md   duration-200 hover:shadow-2xl   ">
         <h3 className="font-semibold ">{planTitle}</h3>
         <h2 className="animate__animated animate__flipInX animate__delay-1s text-3xl font-bold ">
           {planPrice}
