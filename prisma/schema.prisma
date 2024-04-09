@@ -104,7 +104,6 @@ model Usuario {
 }
 
 model Viaje {
-    activo      Boolean
     boletos     Boleto[]
     bus         Bus          @relation(fields: [busId], references: [id])
     busId       String

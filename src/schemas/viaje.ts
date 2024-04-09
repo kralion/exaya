@@ -1,12 +1,11 @@
 import { z } from "zod";
 
 const viajeSchema = z.object({
-  id: z.string(),
-  activo: z.boolean(),
+  id: z.string().optional(),
+  estado: z.enum(["DISPONIBLE", "CANCELADO", "LLENO"]),
   busId: z.string(),
-  estado: z.string(),
-  salida: z.date(),
   rutaId: z.string(),
+  salida: z.date(),
   tarifas: z.array(z.number().int().nonnegative()),
 });
 
