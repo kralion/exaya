@@ -7,7 +7,7 @@ import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,32 +33,35 @@ type TLogin = {
 };
 export default function Login() {
   const router = useRouter();
-  // const version = api.version.exayaVersion.useQuery({
-  //   text: "1.4.7",
-  // });
+  const version = api.version.exayaVersion.useQuery({
+    text: "1.5.17",
+  });
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
-
-  const onFinish = async (values: TLogin) => {
+  async function onFinish(values: TLogin) {
     setLoading(true);
-    const response = await signIn("credentials", {
+    const result = await signIn("credentials", {
       username: values.username,
       password: values.password,
       redirect: false,
     });
-    setLoading(false);
-    if (response?.error) {
+
+    if (result?.error) {
       openNotification({
-        message: "Credenciales Incorrectas",
-        description: "El usuario o la contraseña son incorrectos",
+        message: "Invalid Credentials",
+        description: "The username or password is incorrect",
         placement: "topRight",
         type: "error",
       });
+      setLoading(false);
     } else {
-      await router.push("/dashboard");
+      const session = await getSession();
+      if (session) {
+        await router.push("/dashboard").then(() => window.location.reload());
+      }
     }
-  };
+  }
 
   return (
     <div
@@ -66,7 +69,7 @@ export default function Login() {
     >
       <AppHead title="Login" />
       <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
-        {/* <h1 className="font-mono ">{version.data?.currentVersion}</h1> */}
+        <h1 className="font-mono ">{version.data?.currentVersion}</h1>
       </div>
 
       <div className="animate__animated animate__delay-1s animate__flipInX absolute z-10 m-5 flex items-center gap-1">
