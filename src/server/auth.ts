@@ -27,7 +27,6 @@ export const authOptions: NextAuthOptions = {
   debug: true,
   pages: {
     signIn: "/login",
-    signOut: "/login",
   },
 
   adapter: PrismaAdapter(prisma),
@@ -61,7 +60,7 @@ export const authOptions: NextAuthOptions = {
             foto: userFound.foto,
           };
         } catch (error) {
-          console.error("Error de Autorización:", error);
+          console.error(error);
           return null;
         }
       },

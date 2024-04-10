@@ -50,14 +50,19 @@ export default function Login() {
 
       if (result?.error) {
         openNotification({
-          message: "Error de autenticación",
+          message: result.error,
           description: "Usuario o contraseña incorrectos",
           placement: "topRight",
           type: "error",
         });
       }
     } catch (error) {
-      console.error(error);
+      openNotification({
+        message: "Falló la operación",
+        description: "Verifique sus credenciales",
+        placement: "topRight",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }

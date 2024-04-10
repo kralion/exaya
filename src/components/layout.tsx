@@ -1,7 +1,7 @@
 import AppHeader from "@/components/appheader";
 import "animate.css";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -69,16 +69,6 @@ const items: MenuProps["items"] = [
     key: "soporte",
     icon: <HiOutlineSupport />,
   },
-  {
-    key: "logout",
-    label: (
-      <Link href="/login" onClick={() => void signOut()}>
-        Salir
-      </Link>
-    ),
-    icon: <CgLogOut />,
-    danger: true,
-  },
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
@@ -95,7 +85,7 @@ export default function AppLayout({ children }: LayoutProps) {
       }}
     >
       <Sider
-        className=" m-2  rounded-lg border-2  border-slate-200 border-opacity-50 shadow-xl"
+        className=" m-2 rounded-lg border-2 border-slate-200  border-opacity-50  shadow-xl"
         collapsed={collapsed}
         style={{
           background: colorBgContainer,
@@ -112,6 +102,34 @@ export default function AppLayout({ children }: LayoutProps) {
           items={items}
           // defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
         />
+        <div className="p-2">
+          {collapsed ? (
+            <Button
+              type="text"
+              danger
+              icon={<CgLogOut />}
+              onClick={() =>
+                void signOut({
+                  callbackUrl: "/login",
+                })
+              }
+            />
+          ) : (
+            <Button
+              icon={<CgLogOut />}
+              type="text"
+              className=" h-10 w-full pl-5 text-left"
+              danger
+              onClick={() =>
+                void signOut({
+                  callbackUrl: "/login",
+                })
+              }
+            >
+              Salir
+            </Button>
+          )}
+        </div>
       </Sider>
       <Layout>
         <Header
