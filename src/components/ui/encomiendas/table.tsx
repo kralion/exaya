@@ -1,11 +1,11 @@
 import { columns } from "./columns";
 import React from "react";
 import { Table, Typography } from "antd";
-import { useEncomiendasContext } from "@/context/EncomiendasContext";
+import { api } from "@/utils/api";
 const { Title } = Typography;
 
 export function EncomiendasTable() {
-  const { encomiendas } = useEncomiendasContext();
+  const { data: encomiendas } = api.encomiendas.getAllEncomiendas.useQuery();
 
   return (
     <div className="space-y-3.5">

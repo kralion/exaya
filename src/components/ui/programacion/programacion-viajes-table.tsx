@@ -1,30 +1,44 @@
-import type { IBus, IRuta, IViaje } from "@/interfaces";
 import { api } from "@/utils/api";
 import { Button, Form, Popconfirm, Table, Tag, Tooltip } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import { useEffect, useState } from "react";
 import { TbLicense } from "react-icons/tb";
 
-export interface Item {
-  viajeId: number;
-  origen: string;
-  destino: string;
-  bus: string;
-  fecha: string;
+type TRow = {
+  key: number;
+  ruta: {
+    ciudadOrigen: string;
+    ciudadDestino: string;
+  };
+  bus: {
+    placa: string;
+    marca: string;
+    modelo: string;
+  };
+  placa: string;
+  marca: string;
+  modelo: string;
+  fechaSalida: Date;
   horaSalida: string;
   estado: string;
-}
+};
 
 export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const { data: viajes } = api.viajes.getAllViajes.useQuery();
+  const { data } = api.viajes.getAllViajes.useQuery();
+  const [viajes, setViajes] = useState<TRow[]>([]);
 
-  const viajesColumns: ColumnsType<IViaje> = [
+  useEffect(() => {
+    if (data) {
+      setViajes(viajes);
+    }
+  }, [viajes, data]);
+
+  const viajesColumns = [
     {
       title: "Ruta",
       dataIndex: "ruta",
       key: "ruta",
-      responsive: ["lg"],
-      render: (ruta: IRuta) => (
+      render: (ruta: { ciudadOrigen: string; ciudadDestino: string }) => (
         <span>
           {ruta.ciudadOrigen} - {ruta.ciudadDestino}
         </span>
@@ -34,10 +48,16 @@ export function ProgramacionTable() {
       title: "Bus",
       dataIndex: "bus",
       key: "placaBus",
-      responsive: ["lg"],
 
-      render: (bus: IBus) => (
-        <Tooltip className="cursor-pointer" key={bus?.id} title={bus.placa}>
+      render: (
+        index: number,
+        bus: {
+          placa: string;
+          marca: string;
+          modelo: string;
+        }
+      ) => (
+        <Tooltip className="cursor-pointer" key={index} title={bus.placa}>
           <TbLicense />
         </Tooltip>
       ),
@@ -46,7 +66,6 @@ export function ProgramacionTable() {
       title: "Fecha Salida",
       dataIndex: "fechaSalida",
       key: "fechaSalida",
-      responsive: ["lg"],
       render: (fechaSalida: Date) => (
         <Tag className="px-3 text-center font-semibold  shadow-md">
           {fechaSalida.toLocaleDateString("es-PE", {
@@ -61,7 +80,6 @@ export function ProgramacionTable() {
       title: "Hora Salida",
       dataIndex: "horaSalida",
       key: "hora",
-      responsive: ["lg"],
 
       render: (horaSalida: string) =>
         parseInt(horaSalida) < 18 ? (
@@ -81,7 +99,6 @@ export function ProgramacionTable() {
       title: "Estado",
       key: "estado",
       dataIndex: "estado",
-      responsive: ["lg"],
 
       render: (estado: string) => (
         <Tag
@@ -129,8 +146,7 @@ export function ProgramacionTable() {
     <Form form={form} component={false}>
       <Table
         dataSource={viajes}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        columns={viajesColumns as any}
+        columns={viajesColumns}
         rowClassName="editable-row"
         pagination={{
           defaultPageSize: 5,

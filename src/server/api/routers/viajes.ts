@@ -19,6 +19,34 @@ export const viajesRouter = createTRPCRouter({
       response: viajes,
     };
   }),
+
+  getConductoresForTodayViaje: publicProcedure.query(async ({ ctx }) => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    try {
+      const conductores = await ctx.prisma.conductor.findMany({
+        where: {
+          viaje: {
+            salida: {
+              gte: today,
+              lt: tomorrow,
+            },
+          },
+        },
+      });
+      return {
+        status: "success",
+        response: conductores,
+      };
+    } catch (error) {
+      return {
+        status: "error",
+        message: "Error al obtener los conductores",
+      };
+    }
+  }),
+
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
     const today = new Date();
     const tomorrow = new Date(today);

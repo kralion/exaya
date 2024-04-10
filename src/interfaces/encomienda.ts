@@ -14,8 +14,3 @@ export interface IEncomienda {
   codigo: string;
   precioEnvio: number;
 }
-
-export interface EncomiendasContextProps {
-  encomiendas: IEncomienda[];
-  handleDeleteEncomienda: (id: string) => void;
-}

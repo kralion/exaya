@@ -6,6 +6,7 @@ export const conductoresRouter = createTRPCRouter({
   getAllConductores: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.conductor.findMany();
   }),
+
   getConductorById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {

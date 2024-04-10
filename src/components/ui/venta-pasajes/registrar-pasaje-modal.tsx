@@ -81,7 +81,7 @@ export const RegistrarPasajeModal = ({
       codigo: codigo,
       asiento: selectedSeat,
     };
-    boletoMutation(boletoDataValidated);
+    // boletoMutation(boletoDataValidated);
     alert(
       JSON.stringify({
         ...boletoDataValidated,

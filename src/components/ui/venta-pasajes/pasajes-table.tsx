@@ -159,13 +159,17 @@ export const EncomiendasTable: React.FC = () => (
   />
 );
 
-//TODO : This calling should be inside a functional component
-// export const { data: singleViaje } = api.viajes.getViajesById.useQuery({
-//   id: "762f5150-5b73-4061-8964-db3c34e9b5ec",
-// });
+type TConductores = {
+  id: string;
+  name: string;
+  license: string;
+  profilePic: string;
+};
 const ManifiestoDrawer: React.FC = () => {
   const { openNotification } = useNotification();
   const [open, setOpen] = useState(false);
+  const { data: conductoresViaje } =
+    api.viajes.getConductoresForTodayViaje.useQuery();
 
   const showDrawer = () => {
     setOpen(true);
@@ -227,30 +231,11 @@ const ManifiestoDrawer: React.FC = () => {
           <Title level={4}>Conductores</Title>
 
           <List
-            dataSource={[
-              {
-                id: 1,
-                name: "Rafael Paredes",
-                profilePic: "https://randomuser.me/api/portraits/men/46.jpg",
-                license: "A III-C",
-              },
-              {
-                id: 2,
-                name: "Lorenzo Armendari",
-                profilePic: "https://randomuser.me/api/portraits/men/26.jpg",
-                license: "B II-C",
-              },
-              {
-                id: 1,
-                name: "Julio Jaramillo",
-                profilePic: "https://randomuser.me/api/portraits/men/24.jpg",
-                license: "A II-C",
-              },
-            ]}
+            dataSource={Array.isArray(conductoresViaje) ? conductoresViaje : []}
             bordered
-            renderItem={(driver, index) => (
+            renderItem={(driver: TConductores) => (
               <List.Item
-                key={index}
+                key={driver.id}
                 actions={[
                   <a
                     href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
@@ -423,9 +408,8 @@ export function PasajesTable() {
       <Table
         pagination={false}
         loading={isLoading}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        columns={viajesColumns as any}
-        dataSource={viajes}
+        columns={viajesColumns}
+        dataSource={Array.isArray(viajes) ? viajes : []}
       />
     </div>
   );
