@@ -24,6 +24,7 @@ declare module "next-auth" {
 }
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   pages: {
     signIn: "/login",
     signOut: "/login",
@@ -48,20 +49,10 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
-          if (!userFound) throw new Error("Error al econtrar usuario");
+          if (!userFound) throw new Error("Error al encontrar usuario");
           if (credentials.password !== userFound.password)
             throw new Error("Contraseña Incorrecta");
 
-          // FIXME: Utilizar bcrypt para comparar contraseñas
-
-          // const matchPassword = await compare(
-          //   credentials.password,
-          //   userFound.password
-          // );
-
-          // if (!matchPassword) throw new Error("Contraseña Incorrecta");
-
-          console.log("userFound", userFound);
           return {
             id: userFound.id,
             username: userFound.username,
@@ -70,7 +61,7 @@ export const authOptions: NextAuthOptions = {
             foto: userFound.foto,
           };
         } catch (error) {
-          console.error("Error de Autorizacion:", error);
+          console.error("Error de Autorización:", error);
           return null;
         }
       },

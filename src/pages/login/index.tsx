@@ -11,7 +11,6 @@ import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import type { FormInstance } from "antd/es/form";
@@ -32,7 +31,6 @@ type TLogin = {
   password: string;
 };
 export default function Login() {
-  const router = useRouter();
   // const actual = api.version.exayaVersion.useQuery({
   //   version: 11,
   // });
@@ -46,7 +44,8 @@ export default function Login() {
       const result = await signIn("credentials", {
         username: values.username,
         password: values.password,
-        redirect: false,
+        redirect: true,
+        callbackUrl: "/dashboard",
       });
 
       if (result?.error) {
@@ -56,8 +55,6 @@ export default function Login() {
           placement: "topRight",
           type: "error",
         });
-      } else {
-        router.push("/dashboard");
       }
     } catch (error) {
       console.error(error);
