@@ -32,7 +32,7 @@ export default function Administracion() {
     isLoading,
   } = api.viajes.getAllViajes.useQuery();
 
-  const onChange = (
+  const onDatePickerChange = (
     value: DatePickerProps["value"],
     dateString: [string, string] | string
   ) => {
@@ -53,19 +53,6 @@ export default function Administracion() {
               Analíticas por Horarios
             </Title>
             <div className="flex items-center ">
-              {salidasDiarias?.length === 0 && (
-                <Alert
-                  message={
-                    <p>
-                      Ups parece que no hay
-                      <code className="ml-2 underline">Horarios</code> para
-                      mostrar
-                    </p>
-                  }
-                  type="warning"
-                  showIcon
-                />
-              )}
               {isError && (
                 <Alert
                   message={
@@ -81,18 +68,37 @@ export default function Administracion() {
                   showIcon
                 />
               )}
-              {salidasDiarias?.map(
-                ({ id, salida }: { id: string; salida: Date }) => (
-                  <Suspense key={id} fallback={<ScheduleSkeleton />}>
-                    <RoundedButton
-                      horaSalida={new Date(salida).toLocaleTimeString("es-MX", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    />
-                  </Suspense>
-                )
+              {Array.isArray(salidasDiarias) && salidasDiarias.length === 0 && (
+                <Alert
+                  message={
+                    <p>
+                      Ups parece que no hay
+                      <code className="ml-2 underline">Horarios</code> para
+                      mostrar
+                    </p>
+                  }
+                  type="warning"
+                  showIcon
+                />
               )}
+
+              {Array.isArray(salidasDiarias) &&
+                salidasDiarias.length > 0 &&
+                salidasDiarias?.map(
+                  ({ id, salida }: { id: string; salida: string }) => (
+                    <Suspense key={id} fallback={<ScheduleSkeleton />}>
+                      <RoundedButton
+                        horaSalida={new Date(salida).toLocaleTimeString(
+                          "es-MX",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
+                      />
+                    </Suspense>
+                  )
+                )}
             </div>
           </div>
           <div>
@@ -104,7 +110,7 @@ export default function Administracion() {
                 style={{
                   height: 32,
                 }}
-                onChange={onChange}
+                onChange={onDatePickerChange as DatePickerProps["onChange"]}
                 onOk={onOk}
                 placeholder={placeHolderDate}
               />
@@ -114,11 +120,12 @@ export default function Administracion() {
                 loading={isLoading}
                 style={{ width: 180 }}
               >
-                {salidasDiarias?.map(({ id, ruta }: TRutaRender) => (
-                  <Select.Option key={id} value={id}>
-                    {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                  </Select.Option>
-                ))}
+                {Array.isArray(salidasDiarias) &&
+                  salidasDiarias.map(({ id, ruta }: TRutaRender) => (
+                    <Select.Option key={id} value={id}>
+                      {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                    </Select.Option>
+                  ))}
               </Select>
             </div>
           </div>
