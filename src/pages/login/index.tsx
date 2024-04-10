@@ -7,11 +7,11 @@ import AOSWrapper from "@/utils/AOS";
 import { api } from "@/utils/api";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import type { FormInstance } from "antd/es/form";
@@ -57,7 +57,7 @@ export default function Login() {
           type: "error",
         });
       } else {
-        await router.push("/dashboard").then(() => window.location.reload());
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error(error);
@@ -135,8 +135,9 @@ export default function Login() {
             autoComplete="on"
             className={`${literata.className} w-[400px] drop-shadow-md `}
             name="control-ref"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onFinish={onFinish}
+            onFinish={(values: TLogin) => {
+              onFinish(values).catch((error) => console.error(error));
+            }}
           >
             <h3 className="mb-2">Usuario</h3>
             <Form.Item

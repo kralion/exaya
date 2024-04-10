@@ -28,6 +28,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
     signOut: "/login",
   },
+
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
