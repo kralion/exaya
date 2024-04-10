@@ -1,5 +1,4 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { IBus } from "@/interfaces";
 import { api } from "@/utils/api";
 import type { UploadProps } from "antd";
 import {
@@ -18,20 +17,24 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { ImSpinner3 } from "react-icons/im";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { TbLicense } from "react-icons/tb";
-
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { busSchema } from "@/schemas";
+import type { z } from "zod";
 import styles from "./frame.module.css";
 
 type Props = {
   activator: string;
 };
 const { Title } = Typography;
+const DEFAULT_BUS_URL =
+  "https://img.freepik.com/premium-vector/bus-flat-color-icon-long-shadow-vector-illustration_755164-9961.jpg?w=740";
 
 export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
+  const [imageUrl, setImageUrl] = useState(DEFAULT_BUS_URL);
 
   const busCreateMutation = api.buses.createBus.useMutation();
   const showModal = () => {
@@ -89,7 +92,7 @@ export function BusForm({ activator }: Props) {
     }
     return isJpgOrPng && isLt2M;
   };
-  const onFinish = async (values: IBus) => {
+  const onFinish = async (values: z.infer<typeof busSchema>) => {
     await fetch("/api/image", {
       method: "POST",
       body: JSON.stringify(values.foto),
@@ -97,16 +100,13 @@ export function BusForm({ activator }: Props) {
       .then((res) => res.json())
       .then((data) => console.log(data));
 
-    //TODO: Validate this mutation before sending to the DB
+    busCreateMutation.mutate({
+      asientos: values.asientos,
+      placa: values.placa,
+      modelo: values.modelo,
+      foto: imageUrl,
+    });
 
-    // busCreateMutation.mutate({
-    //   asientos: parseInt(values.asientos.toString()),
-    //   placa: values.placa,
-    //   modelo: values.modelo,
-    //   foto: [
-    //     "https://img.freepik.com/premium-psd/isolated-realistic-matte-white-city-bus-car-from-left-front-angle-view_16145-3234.jpg?size=626&ext=jpg",
-    //   ],
-    // });
     form.resetFields();
     openNotification({
       message: "Conductor registrado",

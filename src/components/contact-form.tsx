@@ -1,21 +1,15 @@
 import { Checkbox, Form, Input } from "antd";
-
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
-type FieldType = {
+type TContact = {
   nombres: string;
   apellidos: string;
   empresa: string;
   email: string;
-  telefono: string;
   mensaje: string;
-  accept: boolean;
+  notificaciones: boolean;
+};
+
+const onFinish = (values: TContact) => {
+  console.log("Success:", values);
 };
 
 export default function ContactForm() {
@@ -28,18 +22,17 @@ export default function ContactForm() {
       style={{ maxWidth: 600 }}
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <div className="flex gap-2  ">
-        <Form.Item<FieldType>
+        <Form.Item
           name="nombres"
           rules={[{ required: false, message: "Please input your username!" }]}
         >
           <h3 className="mb-2 dark:text-white">Nombres</h3>
           <Input size="large" />
         </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           name="apellidos"
           rules={[{ required: false, message: "Please input your username!" }]}
         >
@@ -47,28 +40,21 @@ export default function ContactForm() {
           <Input size="large" />
         </Form.Item>
       </div>
-      <Form.Item<FieldType>
+      <Form.Item
         name="empresa"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
         <h3 className="mb-2 dark:text-white">Nombre de la Empresa</h3>
         <Input size="large" />
       </Form.Item>
-      <Form.Item<FieldType>
+      <Form.Item
         name="email"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
         <h3 className="mb-2 dark:text-white">Email</h3>
         <Input size="large" />
       </Form.Item>
-      <Form.Item<FieldType>
-        name="telefono"
-        rules={[{ required: false, message: "Please input your username!" }]}
-      >
-        <h3 className="mb-2 dark:text-white">Teléfono</h3>
-        <Input size="large" />
-      </Form.Item>
-      <Form.Item<FieldType>
+      <Form.Item
         name="mensaje"
         rules={[{ required: false, message: "Please input your username!" }]}
       >
@@ -76,7 +62,7 @@ export default function ContactForm() {
         <Input.TextArea rows={4} />
       </Form.Item>
 
-      <Form.Item<FieldType> name="accept" valuePropName="checked">
+      <Form.Item name="notificaciones" valuePropName="checked">
         <Checkbox className="space-x-2">
           <span className="dark:text-white">
             Me gustaría recebir correos sobre las nuevas actualizaciones de

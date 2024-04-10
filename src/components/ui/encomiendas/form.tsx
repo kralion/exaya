@@ -1,4 +1,3 @@
-import type { IEncomienda } from "@/interfaces";
 import type { CascaderProps, DatePickerProps } from "antd";
 import {
   Button,
@@ -11,6 +10,11 @@ import {
   Typography,
 } from "antd";
 import styles from "./frame.module.css";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { encomiendaSchema } from "@/schemas";
+import { api } from "@/utils/api";
+import { useState } from "react";
+import type { z } from "zod";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -43,8 +47,6 @@ const formItemLayout = {
   },
 };
 
-import { api } from "@/utils/api";
-import { useState } from "react";
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
@@ -67,12 +69,9 @@ export function EncomiendasForm() {
     }
   );
 
-  const onFinish = (values: IEncomienda) => {
-    alert(JSON.stringify(values, null, 2));
+  const onFinish = (values: z.infer<typeof encomiendaSchema>) => {
+    console.log(JSON.stringify(values, null, 2));
     form.resetFields();
-  };
-  const onFinishFailed = () => {
-    console.log("Falló el registro de la encomienda");
   };
 
   const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -88,7 +87,6 @@ export function EncomiendasForm() {
         form={form}
         layout="vertical"
         name="register"
-        onFinishFailed={onFinishFailed}
         onFinish={onFinish}
         initialValues={{ prefix: "+51" }}
         scrollToFirstError

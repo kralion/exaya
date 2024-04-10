@@ -1,5 +1,7 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { IConductor } from "@/interfaces";
+import type { z } from "zod";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { conductorSchema } from "@/schemas";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -16,7 +18,6 @@ import {
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
-import { IoCloudUploadOutline } from "react-icons/io5";
 import { default as style, default as styles } from "./frame.module.css";
 type Props = {
   activator: string;
@@ -56,7 +57,7 @@ export function ConductorForm({ activator }: Props) {
       dni: form.getFieldValue("dni") as string,
     });
 
-  const onFinish = (values: IConductor) => {
+  const onFinish = (values: z.infer<typeof conductorSchema>) => {
     form.resetFields();
     alert(JSON.stringify(values, null, 2));
     setIsModalOpen(false);

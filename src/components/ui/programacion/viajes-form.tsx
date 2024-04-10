@@ -5,8 +5,8 @@ import { Button, DatePicker, Form, Select, TimePicker } from "antd";
 import type { z } from "zod";
 import style from "./frame.module.css";
 import PriceSelector from "./price-selector";
-
-import type { viajeSchema } from "@/schemas";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { viajeSchema } from "@/schemas";
 
 const { Option } = Select;
 const format = "HH:mm";

@@ -22,6 +22,9 @@ import Image from "next/image";
 import type { CascaderProps } from "antd/lib/cascader";
 import { useState } from "react";
 import styles from "./frame.module.css";
+import type { z } from "zod";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { usuarioSchema } from "@/schemas";
 
 type Props = {
   activator: string;
@@ -58,18 +61,6 @@ const formItemLayout = {
     xs: { span: 30 },
     sm: { span: 30 },
   },
-};
-
-type TUsuarioForm = {
-  username: string;
-  nombres: string;
-  apellidos: string;
-  password: string;
-  usuarioDni: string;
-  rol: "ADMIN" | "GUEST" | "USER";
-  sedeDelegacion: string;
-  foto: string | null;
-  telefono: string;
 };
 
 export function UsuarioForm({ activator }: Props) {
@@ -132,23 +123,27 @@ export function UsuarioForm({ activator }: Props) {
   };
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
+  // TODO: Add this strategy to all the forms
+  const onFinish = (values: z.infer<typeof usuarioSchema>) => {
     const usuarioMutation = api.usuarios.createUser.useMutation();
-    usuarioMutation.mutate(values as TUsuarioForm);
-    form.resetFields();
-    openNotification({
-      message: "Operación Existosa",
-      description: "El usuario se registró correctamente",
-      type: "success",
-      placement: "topRight",
-    });
-  };
-  const onFinishFailed = () => {
-    openNotification({
-      message: "Error al Registrar",
-      description: "El usuario no se registró correctamente",
-      type: "error",
-      placement: "topRight",
+    usuarioMutation.mutate(values, {
+      onSuccess: (response) => {
+        form.resetFields();
+        openNotification({
+          message: "Operacion Exitosa",
+          description: response.message,
+          type: "success",
+          placement: "topRight",
+        });
+      },
+      onError: (error) => {
+        openNotification({
+          message: "Falló la operación",
+          description: error.message,
+          type: "error",
+          placement: "topRight",
+        });
+      },
     });
   };
   const {
@@ -187,7 +182,6 @@ export function UsuarioForm({ activator }: Props) {
           form={form}
           layout="vertical"
           name="register"
-          onFinishFailed={onFinishFailed}
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "
