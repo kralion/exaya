@@ -72,14 +72,7 @@ const items: MenuProps["items"] = [
   {
     key: "logout",
     label: (
-      <Link
-        href="/login"
-        onClick={() =>
-          void signOut({
-            callbackUrl: "/login",
-          })
-        }
-      >
+      <Link href="/login" onClick={() => void signOut()}>
         Salir
       </Link>
     ),

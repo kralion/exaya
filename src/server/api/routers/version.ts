@@ -4,10 +4,10 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 export const versionRouter = createTRPCRouter({
   exayaVersion: publicProcedure
-    .input(z.object({ text: z.string() }))
+    .input(z.object({ version: z.number() }))
     .query(({ input }) => {
       return {
-        currentVersion: `v ${input.text}`,
+        currentVersion: input.version,
       };
     }),
 });

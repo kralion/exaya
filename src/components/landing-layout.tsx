@@ -78,7 +78,6 @@ export default function LandingLayout({
             <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
-                //40 mobile
                 width={40}
                 height={40}
                 className=" drop-shadow-xl"
@@ -86,7 +85,7 @@ export default function LandingLayout({
                 priority
               />
               <span
-                className={` text-2xl  lg:text-3xl ${blackOpsOne.className}`}
+                className={` text-2xl text-zinc-900  lg:text-3xl ${blackOpsOne.className}`}
               >
                 Exaya
               </span>

@@ -24,17 +24,9 @@ declare module "next-auth" {
 }
 
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => {
-      console.log("user:", user);
-      return {
-        ...session,
-        user,
-      };
-    },
-  },
   pages: {
     signIn: "/login",
+    signOut: "/login",
   },
   adapter: PrismaAdapter(prisma),
   providers: [

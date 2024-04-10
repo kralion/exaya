@@ -33,45 +33,44 @@ type TLogin = {
 };
 export default function Login() {
   const router = useRouter();
-  const version = api.version.exayaVersion.useQuery({
-    text: "1.5.17",
-  });
+  // const actual = api.version.exayaVersion.useQuery({
+  //   version: 11,
+  // });
+
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
   async function onFinish(values: TLogin) {
     setLoading(true);
-    const result = await signIn("credentials", {
-      username: values.username,
-      password: values.password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      openNotification({
-        message: "Invalid Credentials",
-        description: "The username or password is incorrect",
-        placement: "topRight",
-        type: "error",
+    try {
+      const result = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
       });
-      setLoading(false);
-    } else {
-      const session = await getSession();
-      if (session) {
+
+      if (result?.error) {
+        openNotification({
+          message: "Error de autenticación",
+          description: "Usuario o contraseña incorrectos",
+          placement: "topRight",
+          type: "error",
+        });
+      } else {
         await router.push("/dashboard").then(() => window.location.reload());
       }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div
-      className={` ${literata.className} relative flex  h-screen bg-zinc-100/50`}
+      className={` ${literata.className} relative flex  h-screen bg-zinc-100/50 dark:bg-black`}
     >
       <AppHead title="Login" />
-      <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
-        <h1 className="font-mono ">{version.data?.currentVersion}</h1>
-      </div>
-
       <div className="animate__animated animate__delay-1s animate__flipInX absolute z-10 m-5 flex items-center gap-1">
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
@@ -157,6 +156,7 @@ export default function Login() {
             </Form.Item>
 
             <h4 className="mb-2">Contraseña</h4>
+
             <Form.Item
               name="password"
               rules={[
@@ -194,6 +194,11 @@ export default function Login() {
             <p className="flex items-center gap-1 font-mono">
               <GoKey /> <span>ramiro-exaya</span>
             </p>
+          </div>
+          <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
+            <h1 className="font-mono">
+              {/* Versión: {actual.data?.currentVersion} */}
+            </h1>
           </div>
         </AOSWrapper>
       </div>
