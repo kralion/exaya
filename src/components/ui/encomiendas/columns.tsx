@@ -2,10 +2,8 @@ import type { ICliente, IEncomienda, IViaje } from "@/interfaces";
 import { Button, Popconfirm, Tag, Typography } from "antd";
 import EncomiendaDetails from "./detalles-encomienda";
 import Image from "next/image";
-import { useEncomiendasContext } from "@/context/EncomiendasContext";
 
 export function DeleteEncomienda({ codigo }: { codigo: string }) {
-  const { handleDeleteEncomienda } = useEncomiendasContext();
   return (
     <Popconfirm
       okButtonProps={{
@@ -17,7 +15,7 @@ export function DeleteEncomienda({ codigo }: { codigo: string }) {
         },
       }}
       title="Estás segur@ ?"
-      onConfirm={() => handleDeleteEncomienda(codigo)}
+      onConfirm={() => console.log("Eliminado")}
     >
       <Button danger type="link">
         Eliminar
