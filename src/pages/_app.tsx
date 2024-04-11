@@ -42,7 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="https://brayanpaucar.netlify.app/assets/exaya-7af10efc.jpg"
+          content="https://i.ibb.co/MftqMm5/Exaya-OG-Image.jpg"
         />
         <meta property="og:url" content="https://exaya.netlify.app" />
       </Head>
