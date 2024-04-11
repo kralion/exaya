@@ -33,7 +33,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta
           property="og:title"
-          content="Exaya - Tu Solución de Gestión de Transporte"
+          content="Exaya - Solución de Gestión Empresarial a Medida"
         />
         <meta
           property="og:description"
@@ -42,9 +42,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:type" content="website" />
         <meta
           property="og:image"
-          content="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
+          content="https://brayanpaucar.netlify.app/assets/exaya-7af10efc.jpg"
         />
-        <meta property="og:url" content="https://github.com/Dv-Joan/exaya" />
+        <meta property="og:url" content="https://exaya.netlify.app" />
       </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
