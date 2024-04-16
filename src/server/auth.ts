@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
@@ -10,36 +11,30 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 
 declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: DefaultSession["user"] & {
-      id: string;
-      username: string;
+  interface User {
+    nombres: string;
+    apellidos: string;
+    rol: string;
+    foto: string;
+  }
+  interface Session {
+    user: User & DefaultSession["user"];
+    token: {
+      name: string;
       nombres: string;
       apellidos: string;
-      rol: UserRole;
-      password: string;
-      foto: string | null;
+      foto: string;
+      rol: string;
     };
-  }
-
-  enum UserRole {
-    ADMIN = "ADMIN",
-    USER = "USER",
   }
 }
 
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-  },
   pages: {
     signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
   },
   adapter: PrismaAdapter(prisma),
   secret: env.NEXTAUTH_SECRET,
@@ -61,23 +56,52 @@ export const authOptions: NextAuthOptions = {
         });
         //TODO: Implementar encriptación de contraseñas
 
+        if (!userFound) {
+          return null;
+        }
+
         const matchPassword = userFound?.password === credentials.password;
 
-        if (userFound && matchPassword) {
-          console.log("USUARIO ENCONTRADO", userFound);
-          return Promise.resolve({
-            id: userFound.id,
-            nombres: userFound.nombres,
-            apellidos: userFound.apellidos,
-            rol: userFound.rol,
-            foto: userFound.foto,
-          });
-        } else {
-          return Promise.resolve(null);
+        if (!matchPassword) {
+          return null;
         }
+
+        return {
+          id: userFound.id,
+          nombres: userFound.nombres,
+          apellidos: userFound.apellidos,
+          rol: userFound.rol,
+          foto: userFound.foto,
+        };
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          nombres: user.nombres,
+          apellidos: user.apellidos,
+          foto: user.foto,
+          rol: user.rol,
+        };
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          nombres: token.nombres,
+          apellidos: token.apellidos,
+          foto: token.foto,
+          rol: token.rol,
+        },
+      };
+    },
+  },
 };
 
 export const getServerAuthSession = (ctx: {

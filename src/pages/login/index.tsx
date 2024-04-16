@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
@@ -33,15 +34,14 @@ export default function Login() {
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
+  const router = useRouter();
   async function onFinish(values: TLogin) {
     setLoading(true);
     const result = await signIn("credentials", {
       username: values.username,
       password: values.password,
-      callbackUrl: "localhost:3000/dashboard",
       redirect: false,
     });
-    console.log("RESULT", result?.status);
     if (result?.error) {
       openNotification({
         message: "Error de autenticación",
@@ -49,6 +49,8 @@ export default function Login() {
         placement: "topRight",
         type: "error",
       });
+    } else {
+      router.push("/dashboard");
     }
     setLoading(false);
   }

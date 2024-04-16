@@ -1,9 +1,8 @@
+import { Tag, Typography } from "antd";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
-import React, { Suspense } from "react";
+import React from "react";
 import UserInfoDetails from "./user-info";
-import UserSkeleton from "./skeletons/user-info-skeleton";
-import { Tag, Typography } from "antd";
 
 const { Title } = Typography;
 
@@ -28,7 +27,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
       {!collapsed ? (
         <div
           onClick={() => setCollapsed(!collapsed)}
-          className="mt-5 flex cursor-pointer items-center justify-center   drop-shadow-md	"
+          className=" flex cursor-pointer items-center justify-center   drop-shadow-md	"
         >
           <Image
             src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
@@ -55,9 +54,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      <Suspense fallback={<UserSkeleton />}>
-        <UserInfoDetails collapsed={collapsed} />
-      </Suspense>
+      <UserInfoDetails collapsed={collapsed} />
     </div>
   );
 };

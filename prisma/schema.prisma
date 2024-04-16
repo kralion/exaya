@@ -68,15 +68,7 @@ model Ruta {
     terminalOrigen   String
 }
 
-model Session {
-    expires      DateTime
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    user         Usuario  @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId       String
-}
-
-enum Role {
+enum Rol {
     ADMIN
     USER
     GUEST
@@ -89,17 +81,16 @@ enum ViajeEstado {
 }
 
 model Usuario {
-    username       String    @unique
-    usuarioDni     String    @unique
-    id             String    @id @default(cuid())
-    foto           String    @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
+    username       String @unique
+    usuarioDni     String @unique
+    id             String @id @default(cuid())
+    foto           String @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
     sedeDelegacion String
     telefono       String
     password       String
     nombres        String
     apellidos      String
-    sessions       Session[]
-    rol            Role      @default(USER)
+    rol            Rol    @default(USER)
 }
 
 model Viaje {

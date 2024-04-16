@@ -1,4 +1,3 @@
-export { versionRouter } from "./version";
 export { boletosRouter } from "./boletos";
 export { clientesRouter } from "./clientes";
 export { viajesRouter } from "./viajes";

@@ -28,10 +28,17 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
   }
 
   return (
-    <Space wrap size={1} className="my-16 flex flex-col">
+    <Space wrap size={1} className="my-14 flex flex-col">
       <Avatar size={collapsed ? 35 : 80} src={sessionData?.user.foto} />
       {!collapsed && (
-        <div className="flex flex-col items-center justify-center gap-3">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <h5 className="font-semibold">
+            {sessionData?.user.nombres}{" "}
+            {sessionData?.user.apellidos.slice(
+              0,
+              sessionData?.user.apellidos.indexOf(" ")
+            )}
+          </h5>
           {sessionData?.user && (
             <Tag
               color={
@@ -41,20 +48,11 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
                   ? "green-inverse"
                   : "blue-inverse"
               }
-              className="mt-1 rounded-full font-semibold lowercase"
+              className="w-16 rounded-md text-center lowercase"
             >
               {sessionData?.user.rol}
             </Tag>
           )}
-          <Tag
-            color="purple-inverse"
-            className="mt-1 rounded-full font-semibold lowercase"
-          >
-            admin
-          </Tag>
-          <h5 className="">
-            {sessionData?.user.nombres} {sessionData?.user.apellidos}
-          </h5>
         </div>
       )}
     </Space>
