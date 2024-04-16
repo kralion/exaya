@@ -7,24 +7,36 @@ import {
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { compare } from "bcrypt";
-
-type TUser = {
-  id: string;
-  username: string;
-  rol: string;
-  password: string;
-  foto: string | null;
-};
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: TUser;
+    user: DefaultSession["user"] & {
+      id: string;
+      username: string;
+      nombres: string;
+      apellidos: string;
+      rol: UserRole;
+      password: string;
+      foto: string | null;
+    };
+  }
+
+  enum UserRole {
+    ADMIN = "ADMIN",
+    USER = "USER",
   }
 }
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
+  callbacks: {
+    session: ({ session, user }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: user.id,
+      },
+    }),
+  },
   pages: {
     signIn: "/login",
   },
@@ -34,10 +46,10 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+        username: { label: "username", type: "text" },
+        password: { label: "password", type: "password" },
       },
-      async authorize(credentials): Promise<TUser | null> {
+      authorize: async (credentials) => {
         if (!credentials?.username || !credentials.password) {
           return null;
         }
@@ -48,20 +60,22 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
+          //TODO: Implementar encriptación de contraseñas
+
           if (!userFound) throw new Error("Error al encontrar usuario");
           if (credentials.password !== userFound.password)
             throw new Error("Contraseña Incorrecta");
 
-          return {
+          return Promise.resolve({
             id: userFound.id,
-            username: userFound.username,
+            nombres: userFound.nombres,
+            apellidos: userFound.apellidos,
             rol: userFound.rol,
-            password: userFound.password,
             foto: userFound.foto,
-          };
+          });
         } catch (error) {
           console.error(error);
-          return null;
+          return Promise.resolve(null);
         }
       },
     }),

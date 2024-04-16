@@ -1,6 +1,5 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import {
-  versionRouter,
   boletosRouter,
   clientesRouter,
   viajesRouter,
@@ -17,7 +16,6 @@ import {
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  version: versionRouter,
   boletos: boletosRouter,
   viajes: viajesRouter,
   rutas: rutasRouter,

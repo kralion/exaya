@@ -4,16 +4,15 @@ import VideoBackground from "@/components/ui/video-background";
 import { useNotification } from "@/context/NotificationContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
-import { api } from "@/utils/api";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
+import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
-import type { FormInstance } from "antd/es/form";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
 
 const literata = Literata({
@@ -31,10 +30,6 @@ type TLogin = {
   password: string;
 };
 export default function Login() {
-  // const actual = api.version.exayaVersion.useQuery({
-  //   version: 11,
-  // });
-
   const { openNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
@@ -44,7 +39,6 @@ export default function Login() {
       const result = await signIn("credentials", {
         username: values.username,
         password: values.password,
-        redirect: true,
         callbackUrl: "/dashboard",
       });
 
@@ -198,10 +192,8 @@ export default function Login() {
               <GoKey /> <span>ramiro-exaya</span>
             </p>
           </div>
-          <div className="fixed bottom-0 right-0 z-10 p-2  text-sm text-slate-600">
-            <h1 className="font-mono">
-              {/* Versión: {actual.data?.currentVersion} */}
-            </h1>
+          <div className="fixed bottom-0 right-0 z-10 p-2  text-xs text-zinc-700">
+            <h1 className="font-mono">v1.0.25</h1>
           </div>
         </AOSWrapper>
       </div>
