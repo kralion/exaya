@@ -122,29 +122,36 @@ export function UsuarioForm({ activator }: Props) {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
+  const usuarioMutation = api.usuarios.createUser.useMutation();
 
   // TODO: Add this strategy to all the forms
   const onFinish = (values: z.infer<typeof usuarioSchema>) => {
-    const usuarioMutation = api.usuarios.createUser.useMutation();
-    usuarioMutation.mutate(values, {
-      onSuccess: (response) => {
-        form.resetFields();
-        openNotification({
-          message: "Operacion Exitosa",
-          description: response.message,
-          type: "success",
-          placement: "topRight",
-        });
+    alert(JSON.stringify(values, null, 2));
+    usuarioMutation.mutate(
+      {
+        ...values,
+        telefono: values.telefono.toString(),
       },
-      onError: (error) => {
-        openNotification({
-          message: "Falló la operación",
-          description: error.message,
-          type: "error",
-          placement: "topRight",
-        });
-      },
-    });
+      {
+        onSuccess: (response) => {
+          form.resetFields();
+          openNotification({
+            message: "Operacion Exitosa",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Falló la operación",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+        },
+      }
+    );
   };
   const {
     data: rutas,
