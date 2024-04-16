@@ -53,19 +53,17 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.username || !credentials.password) {
           return null;
         }
-        try {
-          const userFound = await prisma.usuario.findUnique({
-            where: {
-              username: credentials.username,
-            },
-          });
+        const userFound = await prisma.usuario.findUnique({
+          where: {
+            username: credentials.username,
+          },
+        });
+        //TODO: Implementar encriptación de contraseñas
 
-          //TODO: Implementar encriptación de contraseñas
+        const matchPassword = userFound?.password === credentials.password;
 
-          if (!userFound) throw new Error("Error al encontrar usuario");
-          if (credentials.password !== userFound.password)
-            throw new Error("Contraseña Incorrecta");
-
+        if (userFound && matchPassword) {
+          console.log("USUARIO ENCONTRADO", userFound);
           return Promise.resolve({
             id: userFound.id,
             nombres: userFound.nombres,
@@ -73,8 +71,7 @@ export const authOptions: NextAuthOptions = {
             rol: userFound.rol,
             foto: userFound.foto,
           });
-        } catch (error) {
-          console.error(error);
+        } else {
           return Promise.resolve(null);
         }
       },

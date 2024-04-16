@@ -3,7 +3,7 @@ import AppHead from "@/components/head";
 import VideoBackground from "@/components/ui/video-background";
 import { useNotification } from "@/context/NotificationContext";
 import styles from "@/styles/login.module.css";
-import AOSWrapper from "@/utils/AOS";
+import AOSWrapper from "@/utils/aos";
 import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
 import type { FormInstance } from "antd/es/form";

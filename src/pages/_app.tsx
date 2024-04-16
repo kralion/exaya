@@ -9,9 +9,6 @@ import dayjs from "dayjs";
 import NextTopLoader from "nextjs-toploader";
 import "dayjs/locale/es";
 import { ConfigProvider } from "antd";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
 
 dayjs.locale("es");
 
@@ -46,21 +43,19 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <meta property="og:url" content="https://exaya.netlify.app" />
       </Head>
-      <SessionProvider session={session}>
-        <QueryClientProvider client={queryClient}>
-          <ConfigProvider
-            locale={esEs}
-            theme={{
-              token: {
-                colorPrimary: "#FAAD14",
-              },
-            }}
-          >
-            <NextTopLoader showSpinner={false} color="#f97316" />
-            <Component {...pageProps} />
-          </ConfigProvider>
-        </QueryClientProvider>
-      </SessionProvider>
+      <ConfigProvider
+        locale={esEs}
+        theme={{
+          token: {
+            colorPrimary: "#FAAD14",
+          },
+        }}
+      >
+        <NextTopLoader showSpinner={false} color="#f97316" />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </ConfigProvider>
     </>
   );
 };
