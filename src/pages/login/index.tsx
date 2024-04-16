@@ -50,7 +50,13 @@ export default function Login() {
         type: "error",
       });
     } else {
-      router.push("/dashboard");
+      const originalUrl = sessionStorage.getItem("originalUrl");
+      if (originalUrl) {
+        router.push(originalUrl);
+        sessionStorage.removeItem("originalUrl");
+      } else {
+        router.push("/dashboard");
+      }
     }
     setLoading(false);
   }

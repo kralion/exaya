@@ -122,7 +122,7 @@ export default function AppLayout({ children }: LayoutProps) {
               danger
               onClick={() =>
                 void signOut({
-                  callbackUrl: "/login",
+                  callbackUrl: `${window.location.origin}/login`,
                 })
               }
             >
