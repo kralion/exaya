@@ -59,11 +59,10 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // const matchPassword = await compare(
-        //   credentials.password,
-        //   userFound.password
-        // );
-        const matchPassword = userFound?.password === credentials.password;
+        const matchPassword = await compare(
+          credentials.password,
+          userFound.password
+        );
 
         if (!matchPassword) {
           return null;

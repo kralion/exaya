@@ -1,17 +1,12 @@
-import { CldUploadWidget, CldImage } from "next-cloudinary";
 import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  Space,
-  Typography,
-} from "antd";
+  CldUploadWidget,
+  CldImage,
+  type CloudinaryUploadWidgetInfo,
+} from "next-cloudinary";
+import { Button, Form, Input, Modal, Select, Space, Typography } from "antd";
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { BsTelephone } from "react-icons/bs";
+import { BsTelephone, BsPassport } from "react-icons/bs";
 import style from "./frame.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import type { CascaderProps } from "antd/lib/cascader";
@@ -20,13 +15,6 @@ import styles from "./frame.module.css";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { usuarioSchema } from "@/schemas";
-interface SimpleUploadProps {
-  uploadPreset: string;
-}
-
-interface ResourceInfo {
-  public_id: string;
-}
 
 type Props = {
   activator: string;
@@ -68,7 +56,9 @@ const formItemLayout = {
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openNotification } = useNotification();
-
+  const [source, setSource] = useState<string | undefined>(null);
+  const [form] = Form.useForm();
+  const createUsuarioMutation = api.usuarios.createUser.useMutation();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -79,18 +69,17 @@ export function UsuarioForm({ activator }: Props) {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setSource(undefined);
   };
-  const [form] = Form.useForm();
-  const createUsuarioMutation = api.usuarios.createUser.useMutation();
 
   // TODO: Add this strategy to all the forms
   const onFinish = (values: z.infer<typeof usuarioSchema>) => {
-    alert(JSON.stringify(values, null, 2));
     createUsuarioMutation.mutate(
       {
         ...values,
-        telefono: values.telefono.toString(),
+        foto: source,
       },
+
       {
         onSuccess: (response) => {
           form.resetFields();
@@ -122,6 +111,7 @@ export function UsuarioForm({ activator }: Props) {
         .map((ruta) => ruta.ciudadOrigen)
         .filter((value, index, self) => self.indexOf(value) === index)
     : [];
+
   return (
     <>
       <button className={style.basicButton} onClick={showModal}>
@@ -165,7 +155,12 @@ export function UsuarioForm({ activator }: Props) {
             validateStatus="validating"
             help="Este campo será validado ..."
           >
-            <Input type="number" placeholder="12345678" />
+            <Input
+              type="number"
+              maxLength={9}
+              addonBefore={<BsPassport title="N° celular" />}
+              placeholder="12345678"
+            />
           </Form.Item>
           <Form.Item
             name="nombres"
@@ -200,9 +195,8 @@ export function UsuarioForm({ activator }: Props) {
             label="N° Celular"
             rules={[{ required: true, message: "Verifica este campo" }]}
           >
-            <InputNumber
+            <Input
               type="number"
-              controls={false}
               placeholder="987654321"
               maxLength={9}
               addonBefore={<BsTelephone title="N° celular" />}
@@ -212,6 +206,7 @@ export function UsuarioForm({ activator }: Props) {
           <Form.Item
             name="username"
             label="Usuario"
+            tooltip="Usuario para acceso al sistema"
             rules={[
               {
                 required: true,
@@ -254,17 +249,40 @@ export function UsuarioForm({ activator }: Props) {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Foto del Usuario" name="foto">
-            <CldUploadWidget
-              signatureEndpoint="/api/image-upload"
-              onSuccess={(info: ResourceInfo) => {
-                form.setFieldsValue({ foto: info.public_id });
-              }}
-            >
-              {({ open }) => {
-                return <button onClick={() => open()}>Upload an Image</button>;
-              }}
-            </CldUploadWidget>
+          <Form.Item label="Foto del Usuario">
+            <div>
+              <CldUploadWidget
+                uploadPreset="ml_default"
+                onSuccess={(result) => {
+                  setSource(result?.info.secure_url);
+                }}
+              >
+                {({ open }) => {
+                  function handleOnClick() {
+                    setSource(undefined);
+                    open();
+                  }
+                  return (
+                    <Button
+                      disabled={createUsuarioMutation.isLoading && !!source}
+                      onClick={handleOnClick}
+                    >
+                      Cargar Imagen
+                    </Button>
+                  );
+                }}
+              </CldUploadWidget>
+              {source && (
+                <CldImage
+                  width="100"
+                  className="mt-2 rounded-lg"
+                  height="100"
+                  src={source}
+                  sizes="50vw"
+                  alt="Imagen"
+                />
+              )}
+            </div>
           </Form.Item>
 
           <Form.Item

@@ -88,7 +88,8 @@ export default function UsuariosTable() {
                 className:
                   "bg-red-500 text-white rounded-md items-center justify-center",
               }}
-              onConfirm={handleUserDelete(usuario.id)}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onConfirm={() => handleUserDelete(usuario.id)}
               title="Confirmar Operación"
               okText="Eliminar"
             >
