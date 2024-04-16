@@ -1,10 +1,9 @@
-import type { ICliente } from "./cliente";
 import type { IViaje } from "./viaje";
 
 export interface IEncomienda {
   id: string;
-  remitente: ICliente;
-  destinatario: ICliente;
+  remitenteDni: string;
+  destinatarioDni: string;
   createdAt: Date;
   fechaEnvio: Date;
   comprobante: string;

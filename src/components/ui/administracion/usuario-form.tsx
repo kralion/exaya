@@ -254,7 +254,7 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Input placeholder="hugo-egoavil" type="email" />
+            <Input placeholder="hugo-egoavil" type="text" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -317,11 +317,12 @@ export function UsuarioForm({ activator }: Props) {
             ]}
           >
             <Select loading={isLoading || isFetching} placeholder="Huancayo">
-              {uniqueCiudadOrigen?.map((ciudad: string) => (
+              {/* {uniqueCiudadOrigen?.map((ciudad: string) => (
                 <Select.Option key={ciudad} value={ciudad}>
                   {ciudad}
                 </Select.Option>
-              ))}
+              ))} */}
+              <Select.Option value="Lima">Lima</Select.Option>
             </Select>
           </Form.Item>
           <Space className="flex justify-end">

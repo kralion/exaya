@@ -1,5 +1,5 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { ICliente, IUsuario } from "@/interfaces";
+import type { IUsuario } from "@/interfaces";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Alert, Avatar } from "antd";
 import Link from "next/link";
@@ -42,63 +42,46 @@ export default function UsuariosTable() {
     {
       title: "Foto",
       dataIndex: "foto",
-      key: "foto",
       render: (foto: string) => {
         return <Avatar src={foto} size="large" shape="circle" />;
       },
     },
     {
       title: "Nombres",
-      dataIndex: "cliente",
-      key: "nombres",
-      render: (cliente: ICliente) => (
-        <span className="font-semibold">{cliente.nombres}</span>
+      dataIndex: "nombres",
+      render: (nombres: string) => (
+        <span className="font-semibold">{nombres}</span>
       ),
     },
     {
       title: "Apellidos",
-      dataIndex: "cliente",
-      key: "apellidos",
-      render: (cliente: ICliente) => (
-        <span key={cliente.dni}>
-          {cliente.apellidoPaterno +
-            (cliente.apellidoMaterno ? " " + cliente.apellidoMaterno : "") ||
-            ""}
-        </span>
-      ),
+      dataIndex: "apellidos",
+      render: (apellidos: string) => <span>{apellidos}</span>,
     },
     {
       title: "DNI",
-      dataIndex: "cliente",
-      key: "dni",
-      render: (cliente: ICliente) => (
-        <Tag className="font-semibold" key={cliente.dni}>
-          {cliente.dni}
-        </Tag>
+      dataIndex: "usuarioDni",
+      render: (usuarioDni: string) => (
+        <Tag className="font-semibold">{usuarioDni}</Tag>
       ),
     },
     {
       title: "Sede Asignada",
       dataIndex: "sedeDelegacion",
-      key: "sedeDelegacion",
     },
     {
       title: "Rol del Usuario",
       dataIndex: "rol",
-      key: "rol",
       render: (rol: string) => (
         <Tag
           color={
-            rol === "administrador"
+            rol === "ADMIN"
               ? "gold-inverse"
-              : rol === "usuario"
-              ? "blue-inverse"
-              : rol === "supervisor"
+              : rol === "USER"
               ? "green-inverse"
               : "purple-inverse"
           }
           className="rounded-full font-semibold shadow-md "
-          key={rol}
         >
           {rol}
         </Tag>
@@ -106,7 +89,6 @@ export default function UsuariosTable() {
     },
     {
       title: "Acciones",
-      key: "acciones",
       render: (usuario: IUsuario) => {
         return (
           <Space size="middle">
