@@ -15,7 +15,7 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
         <Avatar
           size={collapsed ? 35 : 80}
           src={
-            "https://cdn-icons-png.flaticon.com/128/8509/8509694.png?ga=GA1.1.631442079.1696688262"
+            "https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png"
           }
         />
         {collapsed ? (

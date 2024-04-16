@@ -18,25 +18,16 @@ export default function UsuariosTable() {
   } = api.usuarios.getAllUsuarios.useQuery();
   const { openNotification } = useNotification();
   const handleUserDelete = async (id: string) => {
-    try {
-      await usuarioMutation({
-        id,
-      });
-      isDeleted &&
-        openNotification({
-          message: "Usuario Eliminado",
-          description: "El usuario ha sido eliminado correctamente",
-          type: "success",
-          placement: "topRight",
-        });
-    } catch (error) {
+    await usuarioMutation({
+      id,
+    });
+    isDeleted &&
       openNotification({
-        message: "Error al eliminar el usuario",
-        description: "El usuario no ha podido ser eliminado correctamente",
-        type: "error",
+        message: "Usuario Eliminado",
+        description: "El usuario ha sido eliminado correctamente",
+        type: "success",
         placement: "topRight",
       });
-    }
   };
   const columns = [
     {
@@ -97,7 +88,7 @@ export default function UsuariosTable() {
                 className:
                   "bg-red-500 text-white rounded-md items-center justify-center",
               }}
-              onConfirm={() => void handleUserDelete(usuario.id)}
+              onConfirm={handleUserDelete(usuario.id)}
               title="Confirmar Operación"
               okText="Eliminar"
             >

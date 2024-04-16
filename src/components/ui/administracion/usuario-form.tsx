@@ -1,4 +1,4 @@
-import { IoCloudUploadOutline } from "react-icons/io5";
+import { CldUploadWidget, CldImage } from "next-cloudinary";
 import {
   Button,
   Form,
@@ -8,23 +8,25 @@ import {
   Select,
   Space,
   Typography,
-  Upload,
-  message,
 } from "antd";
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { BsTelephone } from "react-icons/bs";
 import style from "./frame.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import type { UploadProps } from "antd/lib";
-import { ImSpinner3 } from "react-icons/im";
-import Image from "next/image";
 import type { CascaderProps } from "antd/lib/cascader";
 import { useState } from "react";
 import styles from "./frame.module.css";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { usuarioSchema } from "@/schemas";
+interface SimpleUploadProps {
+  uploadPreset: string;
+}
+
+interface ResourceInfo {
+  public_id: string;
+}
 
 type Props = {
   activator: string;
@@ -66,8 +68,6 @@ const formItemLayout = {
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openNotification } = useNotification();
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -76,58 +76,17 @@ export function UsuarioForm({ activator }: Props) {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-  const handleChange: UploadProps["onChange"] = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj as File, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-  const uploadButton = (
-    <button
-      className=" flex flex-col items-center justify-center"
-      type="button"
-    >
-      {loading ? (
-        <ImSpinner3 className="animate-spin" size={20} />
-      ) : (
-        <IoCloudUploadOutline size={20} />
-      )}
-      <div style={{ marginTop: 8 }}>{loading ? "Cargando" : "Subir Foto"}</div>
-    </button>
-  );
-  const getBase64 = (img: File, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-  };
-  const beforeUpload = async (file: File) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      await message.error("La imagen debe ser de tipo JPG o PNG");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      await message.error("Image must smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const [form] = Form.useForm();
-  const usuarioMutation = api.usuarios.createUser.useMutation();
+  const createUsuarioMutation = api.usuarios.createUser.useMutation();
 
   // TODO: Add this strategy to all the forms
   const onFinish = (values: z.infer<typeof usuarioSchema>) => {
     alert(JSON.stringify(values, null, 2));
-    usuarioMutation.mutate(
+    createUsuarioMutation.mutate(
       {
         ...values,
         telefono: values.telefono.toString(),
@@ -265,6 +224,7 @@ export function UsuarioForm({ activator }: Props) {
           </Form.Item>
           <Form.Item
             name="password"
+            label="Contraseña"
             rules={[
               {
                 required: true,
@@ -295,21 +255,16 @@ export function UsuarioForm({ activator }: Props) {
           </Form.Item>
 
           <Form.Item label="Foto del Usuario" name="foto">
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
+            <CldUploadWidget
+              signatureEndpoint="/api/image-upload"
+              onSuccess={(info: ResourceInfo) => {
+                form.setFieldsValue({ foto: info.public_id });
+              }}
             >
-              {imageUrl ? (
-                <Image src={imageUrl} alt="avatar" width={100} height={100} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
+              {({ open }) => {
+                return <button onClick={() => open()}>Upload an Image</button>;
+              }}
+            </CldUploadWidget>
           </Form.Item>
 
           <Form.Item
@@ -329,7 +284,7 @@ export function UsuarioForm({ activator }: Props) {
                   {ciudad}
                 </Select.Option>
               ))} */}
-              <Select.Option value="Lima">Lima</Select.Option>
+              <Select.Option value="Huancayo">Huancayo</Select.Option>
             </Select>
           </Form.Item>
           <Space className="flex justify-end">

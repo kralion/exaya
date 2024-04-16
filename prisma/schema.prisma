@@ -27,7 +27,7 @@ model Bus {
     Viaje         Viaje[]
     asientos      Int
     fechaRegistro DateTime @default(now())
-    foto          String   @default("https://img.freepik.com/premium-vector/bus-flat-color-icon-long-shadow-vector-illustration_755164-9961.jpg?w=740")
+    foto          String   @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285529/exaya/bus-placeholder_o1yclo.avif")
     modelo        String   @default("Scania Touring")
     placa         String   @unique
 }
@@ -36,7 +36,7 @@ model Conductor {
     claseLicencia  String
     conductorDni   String
     disponibilidad Boolean @default(true)
-    foto           String  @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
+    foto           String  @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713286238/exaya/driver-placeholder_lizdxg.avif")
     id             String  @id @default(uuid())
     numeroLicencia String
     telefono       String
@@ -84,7 +84,7 @@ model Usuario {
     username       String @unique
     usuarioDni     String @unique
     id             String @id @default(cuid())
-    foto           String @default("https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg?t=st=1712692756~exp=1712696356~hmac=b3d33e282723c8433bd6139a8135acb77bb9f233f203215517ff5da551250ac7&w=740")
+    foto           String @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
     sedeDelegacion String
     telefono       String
     password       String

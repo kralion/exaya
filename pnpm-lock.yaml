@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@auth/supabase-adapter':
     specifier: ^0.1.3
-    version: 0.1.18(@supabase/supabase-js@2.42.0)
+    version: 0.1.18(@supabase/supabase-js@2.42.4)
   '@next-auth/prisma-adapter':
     specifier: ^1.0.5
     version: 1.0.7(@prisma/client@5.12.1)(next-auth@4.24.7)
@@ -39,7 +39,7 @@ dependencies:
     specifier: ^5.1.1
     version: 5.1.1
   cloudinary:
-    specifier: ^2.0.3
+    specifier: ^2.1.0
     version: 2.1.0
   clsx:
     specifier: ^2.1.0
@@ -59,6 +59,9 @@ dependencies:
   next-auth:
     specifier: ^4.20.1
     version: 4.24.7(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)
+  next-cloudinary:
+    specifier: ^6.5.0
+    version: 6.5.0(next@13.5.6)(react@18.2.0)
   nextjs-toploader:
     specifier: ^1.6.6
     version: 1.6.11(next@13.5.6)(react-dom@18.2.0)(react@18.2.0)
@@ -253,13 +256,13 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/supabase-adapter@0.1.18(@supabase/supabase-js@2.42.0):
+  /@auth/supabase-adapter@0.1.18(@supabase/supabase-js@2.42.4):
     resolution: {integrity: sha512-UoULXChfPcnPQji/hhNXWWbi03nb1ApEicqZO/edq4/+usL7+UUsMNgKn/+z7odUtpWn6eVdW4Nuii9jlPfbvg==}
     peerDependencies:
       '@supabase/supabase-js': ^2.0.5
     dependencies:
       '@auth/core': 0.23.0
-      '@supabase/supabase-js': 2.42.0
+      '@supabase/supabase-js': 2.42.4
     transitivePeerDependencies:
       - nodemailer
     dev: false
@@ -465,6 +468,34 @@ packages:
       '@babel/helper-string-parser': 7.24.1
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
+
+  /@cloudinary-util/types@1.0.2:
+    resolution: {integrity: sha512-j3xUfN4uMFDMSvoQeOMxqKYsGZovlRFr8niOQXfcqoHp7NVBiJm8oy6y2HDGQhxH63irmFt8VtzJEnYwGYsGXg==}
+    dev: false
+
+  /@cloudinary-util/url-loader@5.2.2:
+    resolution: {integrity: sha512-gwoBuyoJBriUvmX3jk6Q1k5NdziloEhIp/4InLB6yBNe88K7bVbR/V8dJRhba0ZvlYDOOPjIiJLAa5J7xAnUlw==}
+    dependencies:
+      '@cloudinary-util/util': 3.0.0
+      '@cloudinary/url-gen': 1.15.0
+      zod: 3.22.4
+    dev: false
+
+  /@cloudinary-util/util@3.0.0:
+    resolution: {integrity: sha512-o6cJsN49OIelLcSkqUf4WzgefpePDFsAaeQfJbpcKhVdtvmWv71K0oZwMXuX62IY1OolqIg0etMiHtWZPhvPNA==}
+    dev: false
+
+  /@cloudinary/transformation-builder-sdk@1.13.3:
+    resolution: {integrity: sha512-tBMpjcwBjUgINGm2lKodb1fe32yBeq2KTSD7TrrFPm2/dQOb7lKmVuDaDe89IPcV+QZbb1JY/ZWL9pZjUV4aKw==}
+    dependencies:
+      '@cloudinary/url-gen': 1.15.0
+    dev: false
+
+  /@cloudinary/url-gen@1.15.0:
+    resolution: {integrity: sha512-bjU67eZxLUgoRy/Plli4TQio7q6P31OYqnEgXxeN9TKXrzr6h0DeEdIUhKI9gy3HkEBWXWWJIPh7j7gkOJPnyA==}
+    dependencies:
+      '@cloudinary/transformation-builder-sdk': 1.13.3
+    dev: false
 
   /@ctrl/tinycolor@3.6.1:
     resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
@@ -1206,8 +1237,8 @@ packages:
       '@supabase/node-fetch': 2.6.15
     dev: false
 
-  /@supabase/functions-js@2.2.2:
-    resolution: {integrity: sha512-sJGq1nludmi7pY/fdtCpyY/pYonx7MfHdN408bqb736guWcVI1AChYVbI4kUM978EuOE4Ci6l7bUudfGg07QRw==}
+  /@supabase/functions-js@2.3.0:
+    resolution: {integrity: sha512-GPXzSl4MXdc0P7q+TvE8XgaPdvGBeAJ0p6AN0tbKcezpkp32mpsDf58JXaWOJGyiWSVJn6z1W73eKxf6NZNaFA==}
     dependencies:
       '@supabase/node-fetch': 2.6.15
     dev: false
@@ -1219,14 +1250,14 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
-  /@supabase/postgrest-js@1.15.0:
-    resolution: {integrity: sha512-U4bwBOrhsXWqDjZiYNbVqMBtRGgIIYE0kE5ZNSwsIbeBWfr/UxOMrnkIQUBGIZRhpYW/tw1WnTdRl1AGNyaxcw==}
+  /@supabase/postgrest-js@1.15.2:
+    resolution: {integrity: sha512-9/7pUmXExvGuEK1yZhVYXPZnLEkDTwxgMQHXLrN5BwPZZm4iUCL1YEyep/Z2lIZah8d8M433mVAUEGsihUj5KQ==}
     dependencies:
       '@supabase/node-fetch': 2.6.15
     dev: false
 
-  /@supabase/realtime-js@2.9.3:
-    resolution: {integrity: sha512-lAp50s2n3FhGJFq+wTSXLNIDPw5Y0Wxrgt44eM5nLSA3jZNUUP3Oq2Ccd1CbZdVntPCWLZvJaU//pAd2NE+QnQ==}
+  /@supabase/realtime-js@2.9.4:
+    resolution: {integrity: sha512-wdq+2hZpgw0r2ldRs87d3U08Y8BrsO1bZxPNqbImpYshAEkusDz4vufR8KaqujKxqewmXS6YnUhuRVdvSEIKCA==}
     dependencies:
       '@supabase/node-fetch': 2.6.15
       '@types/phoenix': 1.6.4
@@ -1243,14 +1274,14 @@ packages:
       '@supabase/node-fetch': 2.6.15
     dev: false
 
-  /@supabase/supabase-js@2.42.0:
-    resolution: {integrity: sha512-1PDqJiA4iG45w3AAu6xkccJ3wPqlGJUoz9CPhScRLLTStxhewYhz0mjryTpXz1kgtNHdUAsirALreezn8UZMjA==}
+  /@supabase/supabase-js@2.42.4:
+    resolution: {integrity: sha512-tRn3wloKnnFdmEr3O2VIaxqzKACpyJ3ymLDmeq0V5lvhkJ+B4VH+QmDrnBbJJUkO2t+IHg65j5jombZxU4yMyw==}
     dependencies:
       '@supabase/auth-js': 2.63.0
-      '@supabase/functions-js': 2.2.2
+      '@supabase/functions-js': 2.3.0
       '@supabase/node-fetch': 2.6.15
-      '@supabase/postgrest-js': 1.15.0
-      '@supabase/realtime-js': 2.9.3
+      '@supabase/postgrest-js': 1.15.2
+      '@supabase/realtime-js': 2.9.4
       '@supabase/storage-js': 2.5.5
     transitivePeerDependencies:
       - bufferutil
@@ -1359,6 +1390,10 @@ packages:
 
   /@trpc/server@10.45.2:
     resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
+    dev: false
+
+  /@tsconfig/recommended@1.0.6:
+    resolution: {integrity: sha512-0IKu9GHYF1NGTJiYgfWwqnOQSlnE9V9R7YohHNNf0/fj/SyOZWzdd06JFr0fLpg1Mqw0kGbYg8w5xdkSqLKM9g==}
     dev: false
 
   /@types/aos@3.0.7:
@@ -4080,6 +4115,20 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       uuid: 8.3.2
+    dev: false
+
+  /next-cloudinary@6.5.0(next@13.5.6)(react@18.2.0):
+    resolution: {integrity: sha512-UZD0xEbwmoaYwAjXziKRXr8LrylLb4MWKNvgKeZxhTfkxU3AFFPlmY7obm+Fru1B4nxdh6nMIe7QjE5z4ByhkA==}
+    peerDependencies:
+      next: ^12 || ^13 || ^14
+      react: ^17 || ^18
+    dependencies:
+      '@cloudinary-util/types': 1.0.2
+      '@cloudinary-util/url-loader': 5.2.2
+      '@cloudinary-util/util': 3.0.0
+      '@tsconfig/recommended': 1.0.6
+      next: 13.5.6(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
     dev: false
 
   /next@13.5.6(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0):

@@ -14,6 +14,9 @@ const server = z.object({
   DATABASE_URL: z.string().min(1),
   API_RENIEC_TOKEN: z.string().min(1),
   API_RENIEC_URL: z.string().min(1),
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
+  NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string().min(1),
+  CLOUDINARY_API_SECRET: z.string().min(1),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
 });
 
@@ -37,6 +40,10 @@ const processEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
   API_RENIEC_TOKEN: process.env.API_RENIEC_TOKEN,
   API_RENIEC_URL: process.env.API_RENIEC_URL,
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
+    process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  NEXT_PUBLIC_CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
 
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };

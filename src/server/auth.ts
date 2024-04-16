@@ -9,6 +9,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
+import { compare } from "bcrypt";
 
 declare module "next-auth" {
   interface User {
@@ -54,12 +55,14 @@ export const authOptions: NextAuthOptions = {
             username: credentials.username,
           },
         });
-        //TODO: Implementar encriptación de contraseñas
-
         if (!userFound) {
           return null;
         }
 
+        // const matchPassword = await compare(
+        //   credentials.password,
+        //   userFound.password
+        // );
         const matchPassword = userFound?.password === credentials.password;
 
         if (!matchPassword) {
