@@ -35,31 +35,22 @@ export default function Login() {
   const formRef = useRef<FormInstance>(null);
   async function onFinish(values: TLogin) {
     setLoading(true);
-    try {
-      const result = await signIn("credentials", {
-        username: values.username,
-        password: values.password,
-        callbackUrl: "/dashboard",
-      });
-
-      if (result?.error) {
-        openNotification({
-          message: result.error,
-          description: "Usuario o contraseña incorrectos",
-          placement: "topRight",
-          type: "error",
-        });
-      }
-    } catch (error) {
+    const result = await signIn("credentials", {
+      username: values.username,
+      password: values.password,
+      callbackUrl: "localhost:3000/dashboard",
+      redirect: false,
+    });
+    console.log("RESULT", result?.status);
+    if (result?.error) {
       openNotification({
-        message: "Falló la operación",
-        description: "Verifique sus credenciales",
+        message: "Error de autenticación",
+        description: "Verifique sus credenciales antes de continuar",
         placement: "topRight",
         type: "error",
       });
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   return (
@@ -131,9 +122,8 @@ export default function Login() {
             autoComplete="on"
             className={`${literata.className} w-[400px] drop-shadow-md `}
             name="control-ref"
-            onFinish={(values: TLogin) => {
-              onFinish(values).catch((error) => console.error(error));
-            }}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onFinish={onFinish}
           >
             <h3 className="mb-2">Usuario</h3>
             <Form.Item
