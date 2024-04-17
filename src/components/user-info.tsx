@@ -9,24 +9,6 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
     return <UserSkeleton />;
   }
 
-  if (status === "unauthenticated") {
-    return (
-      <div className="my-16 flex flex-col items-center justify-center gap-3">
-        <Avatar
-          size={collapsed ? 35 : 80}
-          src={
-            "https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png"
-          }
-        />
-        {collapsed ? (
-          <Tag color="red-inverse"></Tag>
-        ) : (
-          <Tag color="red-inverse">No autenticado</Tag>
-        )}
-      </div>
-    );
-  }
-
   return (
     <Space wrap size={1} className="my-14 flex flex-col">
       <Avatar size={collapsed ? 35 : 80} src={sessionData?.user.foto} />
@@ -48,7 +30,7 @@ export default function UserInfo({ collapsed }: { collapsed: boolean }) {
                   ? "green-inverse"
                   : "blue-inverse"
               }
-              className="w-16 rounded-md text-center lowercase"
+              className="w-16 rounded-md text-center uppercase"
             >
               {sessionData?.user.rol}
             </Tag>

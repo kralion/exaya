@@ -1,18 +1,13 @@
-import {
-  CldUploadWidget,
-  CldImage,
-  type CloudinaryUploadWidgetInfo,
-} from "next-cloudinary";
-import { Button, Form, Input, Modal, Select, Space, Typography } from "antd";
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { BsTelephone, BsPassport } from "react-icons/bs";
-import style from "./frame.module.css";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { Button, Form, Input, Modal, Select, Space, Typography } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
-import styles from "./frame.module.css";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { BsPassport, BsTelephone } from "react-icons/bs";
 import type { z } from "zod";
+import { default as style, default as styles } from "./frame.module.css";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { usuarioSchema } from "@/schemas";
 
@@ -56,7 +51,7 @@ const formItemLayout = {
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openNotification } = useNotification();
-  const [source, setSource] = useState<string | undefined>(null);
+  const [source, setSource] = useState<string | undefined>();
   const [form] = Form.useForm();
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
   const showModal = () => {
@@ -72,7 +67,6 @@ export function UsuarioForm({ activator }: Props) {
     setSource(undefined);
   };
 
-  // TODO: Add this strategy to all the forms
   const onFinish = (values: z.infer<typeof usuarioSchema>) => {
     createUsuarioMutation.mutate(
       {
@@ -100,6 +94,7 @@ export function UsuarioForm({ activator }: Props) {
         },
       }
     );
+    setSource(undefined);
   };
   const {
     data: rutas,
@@ -157,8 +152,8 @@ export function UsuarioForm({ activator }: Props) {
           >
             <Input
               type="number"
-              maxLength={9}
-              addonBefore={<BsPassport title="N° celular" />}
+              maxLength={8}
+              addonBefore={<BsPassport />}
               placeholder="12345678"
             />
           </Form.Item>
@@ -199,7 +194,7 @@ export function UsuarioForm({ activator }: Props) {
               type="number"
               placeholder="987654321"
               maxLength={9}
-              addonBefore={<BsTelephone title="N° celular" />}
+              addonBefore={<BsTelephone />}
               style={{ width: "100%" }}
             />
           </Form.Item>
@@ -253,8 +248,51 @@ export function UsuarioForm({ activator }: Props) {
             <div>
               <CldUploadWidget
                 uploadPreset="ml_default"
+                options={{
+                  folder: "exaya",
+                  sources: ["local", "url", "camera"],
+                  language: "es",
+                  text: {
+                    es: {
+                      or: "o",
+                      menu: {
+                        files: "Mis Archivos",
+                        web: "Desde una URL",
+                        camera: "Cámara",
+                      },
+                      selection_counter: {
+                        selected: "Seleccionado",
+                      },
+                      queue: {
+                        done: "Listo",
+                        statuses: {
+                          uploading: "Subiendo...",
+                          error: "Error",
+                          timeout: "Tiempo de espera agotado",
+                          uploaded: "Subido",
+                          aborted: "Abortado",
+                          processing: "Procesando...",
+                        },
+                      },
+                      local: {
+                        browse: "Buscar",
+                        dd_title_single: "Arrastra y suelta un archivo aquí",
+                        dd_title_multi: "Arrastra y suelta archivos aquí",
+                        drop_title_single: "Arrastra y suelta un archivo aquí",
+                        drop_title_multiple: "Arrastra y suelta archivos aquí",
+                      },
+                    },
+                  },
+
+                  autoMinimize: true,
+                }}
                 onSuccess={(result) => {
-                  setSource(result?.info.secure_url);
+                  if (
+                    typeof result?.info === "object" &&
+                    "secure_url" in result.info
+                  ) {
+                    setSource(result.info.secure_url);
+                  }
                 }}
               >
                 {({ open }) => {
@@ -264,7 +302,7 @@ export function UsuarioForm({ activator }: Props) {
                   }
                   return (
                     <Button
-                      disabled={createUsuarioMutation.isLoading && !!source}
+                      disabled={createUsuarioMutation.isLoading && !source}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -297,12 +335,11 @@ export function UsuarioForm({ activator }: Props) {
             ]}
           >
             <Select loading={isLoading || isFetching} placeholder="Huancayo">
-              {/* {uniqueCiudadOrigen?.map((ciudad: string) => (
+              {uniqueCiudadOrigen?.map((ciudad: string) => (
                 <Select.Option key={ciudad} value={ciudad}>
                   {ciudad}
                 </Select.Option>
-              ))} */}
-              <Select.Option value="Huancayo">Huancayo</Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Space className="flex justify-end">

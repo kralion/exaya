@@ -70,7 +70,7 @@ export default function UsuariosTable() {
               ? "gold-inverse"
               : rol === "USER"
               ? "green-inverse"
-              : "purple-inverse"
+              : "blue-inverse"
           }
           className="rounded-full font-semibold shadow-md "
         >
