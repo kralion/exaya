@@ -35,6 +35,8 @@ model Bus {
 model Conductor {
     claseLicencia  String
     conductorDni   String
+    nombres        String
+    apellidos      String
     disponibilidad Boolean @default(true)
     foto           String  @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713286238/exaya/driver-placeholder_lizdxg.avif")
     id             String  @id @default(uuid())

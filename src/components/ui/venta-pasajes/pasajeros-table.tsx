@@ -50,7 +50,7 @@ export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
         showSizeChanger: true,
       }}
       columns={columns}
-      dataSource={pasajeros}
+      dataSource={pasajeros?.response}
     />
   );
 }

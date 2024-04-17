@@ -148,7 +148,7 @@ export function PasajesTable() {
         pagination={false}
         loading={isLoading}
         columns={columns}
-        dataSource={viajes}
+        dataSource={viajes?.response}
       />
     </div>
   );

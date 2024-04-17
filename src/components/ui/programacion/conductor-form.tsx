@@ -2,6 +2,7 @@ import { useNotification } from "@/context/NotificationContext";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { conductorSchema } from "@/schemas";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -13,7 +14,6 @@ import {
   Select,
   Space,
   Typography,
-  Upload,
 } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -37,7 +37,7 @@ const formItemLayout = {
 
 export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [profilePicList, setProfilePicList] = useState();
+  const [source, setSource] = useState<string | undefined>();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -52,14 +52,17 @@ export function ConductorForm({ activator }: Props) {
   };
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
+  const createConductorMutation = api.conductores.createConductor.useMutation();
   const { data: informacionConductor, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery({
       dni: form.getFieldValue("dni") as string,
     });
 
   const onFinish = (values: z.infer<typeof conductorSchema>) => {
-    form.resetFields();
-    alert(JSON.stringify(values, null, 2));
+    createConductorMutation.mutate({
+      ...values,
+      foto: source,
+    });
     setIsModalOpen(false);
     openNotification({
       message: "Conductor registrado",
@@ -67,21 +70,11 @@ export function ConductorForm({ activator }: Props) {
       type: "success",
       placement: "topRight",
     });
+    form.resetFields();
   };
   const onFinishFailed = () => {
     console.log("Falló el registro");
   };
-  const profilePicFile = (e: { fileList: any }) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return e && e.fileList;
-  };
-
-  // const handleProfilePicFileChange = (newProfilePicFileList) => {
-  //   setProfilePicList(newProfilePicFileList);
-  // };
 
   return (
     <>
@@ -189,32 +182,83 @@ export function ConductorForm({ activator }: Props) {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            label="Foto Conductor"
-            name="foto_perfil"
-            getValueFromEvent={profilePicFile}
-            valuePropName="fileList"
-          >
-            <Upload
-              action="/upload.do"
-              listType="picture-card"
-              fileList={profilePicList}
-              beforeUpload={() => false}
-              showUploadList={{
-                showRemoveIcon: true,
-                showPreviewIcon: false,
-              }}
-              // onChange={({ fileList: newProfilePicFileList }) =>
-              //   handleProfilePicFileChange(newProfilePicFileList)
-              // }
-            >
-              {/* {profilePicList.length === 0 && (
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <IoCloudUploadOutline size={30} />
-                  <span>Subir foto</span>
-                </div>
-              )} */}
-            </Upload>
+          <Form.Item label="Foto del Usuario">
+            <div>
+              <CldUploadWidget
+                uploadPreset="ml_default"
+                options={{
+                  folder: "exaya",
+                  sources: ["local", "url", "camera"],
+                  language: "es",
+                  text: {
+                    es: {
+                      or: "o",
+                      menu: {
+                        files: "Mis Archivos",
+                        web: "Desde una URL",
+                        camera: "Cámara",
+                      },
+                      selection_counter: {
+                        selected: "Seleccionado",
+                      },
+                      queue: {
+                        done: "Listo",
+                        statuses: {
+                          uploading: "Subiendo...",
+                          error: "Error",
+                          timeout: "Tiempo de espera agotado",
+                          uploaded: "Subido",
+                          aborted: "Abortado",
+                          processing: "Procesando...",
+                        },
+                      },
+                      local: {
+                        browse: "Buscar",
+                        dd_title_single: "Arrastra y suelta un archivo aquí",
+                        dd_title_multi: "Arrastra y suelta archivos aquí",
+                        drop_title_single: "Arrastra y suelta un archivo aquí",
+                        drop_title_multiple: "Arrastra y suelta archivos aquí",
+                      },
+                    },
+                  },
+
+                  autoMinimize: true,
+                }}
+                onSuccess={(result) => {
+                  if (
+                    typeof result?.info === "object" &&
+                    "secure_url" in result.info
+                  ) {
+                    setSource(result.info.secure_url);
+                  }
+                }}
+              >
+                {({ open }) => {
+                  function handleOnClick() {
+                    setSource(undefined);
+                    open();
+                  }
+                  return (
+                    <Button
+                      disabled={createConductorMutation.isLoading && !source}
+                      onClick={handleOnClick}
+                    >
+                      Cargar Imagen
+                    </Button>
+                  );
+                }}
+              </CldUploadWidget>
+              {source && (
+                <CldImage
+                  width="100"
+                  className="mt-2 rounded-lg"
+                  height="100"
+                  src={source}
+                  sizes="50vw"
+                  alt="Imagen"
+                />
+              )}
+            </div>
           </Form.Item>
 
           <div>

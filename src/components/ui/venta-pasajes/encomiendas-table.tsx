@@ -49,7 +49,7 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
         showSizeChanger: true,
       }}
       columns={columns}
-      dataSource={encomiendas}
+      dataSource={encomiendas?.response}
     />
   );
 }

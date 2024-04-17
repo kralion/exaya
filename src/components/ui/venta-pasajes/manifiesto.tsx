@@ -17,7 +17,7 @@ type TConductor = {
 export function Manifiesto({ viajeId }: { viajeId: string }) {
   const { openNotification } = useNotification();
   const [open, setOpen] = useState(false);
-  const { data: conductoresDelViaje, isLoading } =
+  const { data: conductores, isLoading } =
     api.viajes.getConductoresByViajeId.useQuery({
       id: viajeId,
     });
@@ -82,7 +82,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
           <Title level={4}>Conductores</Title>
 
           <List
-            dataSource={conductoresDelViaje}
+            dataSource={conductores?.response || []}
             bordered
             // TODO: Try this
             // header={<Title level={5}>Conductores</Title>}
