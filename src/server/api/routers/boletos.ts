@@ -46,6 +46,54 @@ export const boletosRouter = createTRPCRouter({
         };
       }
     }),
+
+  getBoletosByStatus: publicProcedure
+    .input(
+      z.object({
+        status: z.enum(["PAGADO", "RESERVADO", "DISPONIBLE"]),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const boletos = await ctx.prisma.boleto.findMany({
+          where: { estado: input.status },
+        });
+        return {
+          status: "success",
+          response: boletos,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener el boleto",
+        };
+      }
+    }),
+
+  getBoletosByStatusAndViajeId: publicProcedure
+    .input(
+      z.object({
+        status: z.enum(["PAGADO", "RESERVADO", "DISPONIBLE"]),
+        viajeId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const boletos = await ctx.prisma.boleto.findMany({
+          where: { estado: input.status, viajeId: input.viajeId },
+        });
+        return {
+          status: "success",
+          response: boletos,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener el boleto",
+        };
+      }
+    }),
+
   getBoletosByViaje: publicProcedure
     .input(z.object({ viajeId: z.string() }))
     .query(async ({ input, ctx }) => {

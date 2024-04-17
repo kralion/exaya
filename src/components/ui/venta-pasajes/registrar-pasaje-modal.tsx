@@ -30,20 +30,26 @@ const { Title, Text } = Typography;
 
 const { Option } = Select;
 
-const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
-const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  const [soldSeats, setSoldSeats] = useState<number[]>(INITIAL_SOLDS_SEATS);
-  const [bookedSeats, setBookedSeats] = useState<number[]>(BOOKED_SEATS);
   const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: lastestCodeOfBoleto } =
     api.boletos.getLatestCodeOfBoleto.useQuery();
+  const { data: boletosVendidos } =
+    api.boletos.getBoletosByStatusAndViajeId.useQuery({
+      status: "PAGADO",
+      viajeId,
+    });
+  const { data: boletosReservados } =
+    api.boletos.getBoletosByStatusAndViajeId.useQuery({
+      status: "RESERVADO",
+      viajeId,
+    });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoletos.useMutation();
   const { data: reniecResponse } = api.clientes.validateDni.useQuery(
@@ -91,7 +97,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       description: "Boleto registrado correctamente",
       type: "success",
     });
-    setSoldSeats([...soldSeats, values.asiento]);
     form.resetFields();
     setOpenRegister(false);
   }
@@ -180,10 +185,16 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   >
                     <path
                       className={
-                        soldSeats.includes(seatNumber)
-                          ? "fill-green-300 stroke-green-600"
-                          : bookedSeats.includes(seatNumber)
+                        reniecResponse?.status === "error"
+                          ? "fill-red-300 stroke-red-600"
+                          : boletosReservados?.response?.some(
+                              (boleto) => boleto.asiento === selectedSeat
+                            )
                           ? "fill-yellow-300 stroke-yellow-600"
+                          : boletosVendidos?.response?.some(
+                              (boleto) => boleto.asiento === selectedSeat
+                            )
+                          ? "fill-green-300 stroke-green-600"
                           : "fill-white stroke-slate-500"
                       }
                       d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
@@ -218,10 +229,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           <Divider className="my-4" />
           <Space direction="horizontal" className="flex gap-3">
             <Text type="secondary">
-              Vendidos: {soldSeats.length} de {viaje?.response?.bus.asientos}
+              Vendidos: {boletosVendidos?.response?.length} de{" "}
+              {viaje?.response?.bus.asientos}
             </Text>
             <Text type="secondary">
-              Reservados: {bookedSeats.length} de{" "}
+              Reservados: {boletosReservados?.response?.length} de{" "}
               {viaje?.response?.bus.asientos}
             </Text>
           </Space>
@@ -233,12 +245,17 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             <div className="flex justify-between pr-5">
               <h3>Registro de Boleto</h3>
               <div>
-                {selectedSeat !== null && soldSeats.includes(selectedSeat) ? (
+                {selectedSeat !== null &&
+                boletosVendidos?.response?.some(
+                  (seat) => seat.asiento === selectedSeat
+                ) ? (
                   <Tag color="green-inverse" className="px-3 py-1">
                     Vendido
                   </Tag>
                 ) : selectedSeat !== null &&
-                  bookedSeats.includes(selectedSeat) ? (
+                  boletosReservados?.response?.some(
+                    (seat) => seat.asiento === selectedSeat
+                  ) ? (
                   <Tag color="yellow-inverse" className="px-3 py-1  text-black">
                     Reservado
                   </Tag>
@@ -362,10 +379,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   htmlType="submit"
                   loading={isLoading}
                   disabled={
-                    selectedSeat === null ||
-                    soldSeats.includes(selectedSeat) ||
-                    bookedSeats.includes(selectedSeat) ||
-                    reniecResponse?.status === "error"
+                    reniecResponse?.status === "error" ||
+                    boletosReservados?.response?.some(
+                      (boleto) => boleto.asiento === selectedSeat
+                    ) ||
+                    boletosVendidos?.response?.some(
+                      (boleto) => boleto.asiento === selectedSeat
+                    )
                   }
                 >
                   Registrar
