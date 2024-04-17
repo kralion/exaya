@@ -1,7 +1,13 @@
 import { z } from "zod";
 import { env } from "@/env.mjs";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import type { ICliente } from "@/interfaces";
+
+type ReniecResponse = {
+  dni: string;
+  nombres: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+};
 export const clientesRouter = createTRPCRouter({
   validateDni: publicProcedure
     .input(
@@ -24,7 +30,7 @@ export const clientesRouter = createTRPCRouter({
           return {
             status: "success",
             help: "DNI Encontrado",
-            data: (await response.json()) as ICliente,
+            data: (await response.json()) as ReniecResponse,
           };
         } else {
           return { status: "error", help: "DNI no existe" };

@@ -1,7 +1,6 @@
 import React from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import styles from "./planes.module.css";
-import "animate.css";
 import { PricingModal } from "@/components/pricing-modal";
 type PlanesCardProps = {
   planTitle: string;
@@ -21,9 +20,14 @@ export default function PlanesCard({
     return (
       <div className=" w-80 space-y-3.5 rounded-2xl bg-gradient-to-b from-orange-400  from-10% to-yellow-200 p-7  text-left  text-zinc-900 shadow-md   duration-200 hover:shadow-2xl   ">
         <h3 className="font-semibold ">{planTitle}</h3>
-        <h2 className="animate__animated animate__flipInX animate__delay-1s text-3xl font-bold ">
+        <h3
+          data-aos="flip-up"
+          data-aos-delay="500"
+          data-aos-duration="500"
+          className="text-3xl font-bold "
+        >
           {planPrice}
-        </h2>
+        </h3>
         <h4 className=" lowercase text-zinc-700">{planTimeCharger}</h4>
         <p className="  text-sm">{planDescription}</p>
 

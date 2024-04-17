@@ -4,7 +4,6 @@ import { ContableCard } from "@/components/ui/contable/contable-card";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
 import { RoundedButton } from "@/components/ui/rounded-button";
 import { api } from "@/utils/api";
-import "animate.css";
 import {
   Alert,
   DatePicker,

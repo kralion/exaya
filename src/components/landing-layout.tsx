@@ -1,6 +1,5 @@
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "../utils/aos";
-import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -75,7 +74,7 @@ export default function LandingLayout({
         <MobileNav navLinks={navLinks} />
         <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-5 pt-7 backdrop-blur-sm  lg:fixed lg:mb-20 lg:px-10">
           <Link href="/">
-            <div className="animate__animated animate__flipInX flex items-center justify-start duration-300  hover:opacity-70 ">
+            <div className=" flex items-center justify-start duration-300  hover:opacity-70 ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 width={40}

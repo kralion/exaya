@@ -4,7 +4,6 @@ import VideoBackground from "@/components/ui/video-background";
 import { useNotification } from "@/context/NotificationContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/aos";
-import "animate.css";
 import { Checkbox, Form, Input, Spin } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { signIn } from "next-auth/react";
@@ -60,7 +59,11 @@ export default function Login() {
       className={` ${literata.className} relative flex  h-screen bg-zinc-100/50 dark:bg-black`}
     >
       <AppHead title="Login" />
-      <div className="animate__animated animate__delay-1s animate__flipInX absolute z-10 m-5 flex items-center gap-1">
+      <div
+        data-aos="fade-in"
+        data-aos-duration="1000"
+        className=" absolute z-10 m-5 flex items-center gap-1"
+      >
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={50}
@@ -79,7 +82,7 @@ export default function Login() {
           Operativa
         </h5>
       </div>
-      <h5 className="animate__animated animate__delay-1s animate__fadeIn absolute bottom-5 left-5 z-50 text-sm font-extralight  text-zinc-300 ">
+      <h5 className=" absolute bottom-5 left-5 z-10 text-sm font-extralight  text-zinc-300 ">
         Desarrollado por{" "}
         <Link
           href="https://twitter.com/brayanpaucar_"

@@ -1,9 +1,7 @@
 import PassengerAsset from "@/assets/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
-import type { IBoleto } from "@/interfaces";
 import { FaSquare } from "react-icons/fa";
 import { api } from "@/utils/api";
-import "animate.css";
 import {
   Button,
   Divider,
@@ -18,8 +16,11 @@ import {
 } from "antd";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuDelete, LuPrinter } from "react-icons/lu";
+import type { z } from "zod";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { boletoSchema } from "@/schemas";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -34,7 +35,8 @@ type ViajeDetailsProps = {
   viajeBusPlaca: string;
   viajeId: string;
 };
-
+const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
+const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
 export const RegistrarPasajeModal = ({
   viajeId,
   viajeBusPlaca,
@@ -43,15 +45,15 @@ export const RegistrarPasajeModal = ({
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
-  const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
-
   const [soldSeats, setSoldSeats] = useState<number[]>(INITIAL_SOLDS_SEATS);
   const [bookedSeats, setBookedSeats] = useState<number[]>(BOOKED_SEATS);
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
-
-  const { data: informacionCliente } = api.clientes.validateDni.useQuery(
+  const { data: lastestCodeOfBoleto } =
+    api.boletos.getLatestCodeOfBoleto.useQuery();
+  const { mutateAsync: createBoletoMutation, isLoading } =
+    api.boletos.createBoletos.useMutation();
+  const { data: reniecResponse } = api.clientes.validateDni.useQuery(
     {
       dni: form.getFieldValue("dni") as string,
     },
@@ -60,34 +62,29 @@ export const RegistrarPasajeModal = ({
     }
   );
 
-  let lastCodigoNumber = 0; // This should be stored persistently
-
-  function generateNextCodigo() {
-    lastCodigoNumber += 1;
+  function generateNextCodigo(lastestCode: string): string {
+    const lastCodigoNumber = parseInt(lastestCode?.split("-")[1] ?? "", 10) + 1;
+    const lastCodigoPrefix = lastestCode?.split("-")[0] ?? "";
     const numberString = String(lastCodigoNumber).padStart(5, "0");
-    return `B003-${numberString}`;
+    return `${lastCodigoPrefix}-${numberString}`;
   }
-  const { isLoading, mutate: boletoMutation } =
-    api.boletos.createBoletos.useMutation();
-  const onFinish = (values: IBoleto) => {
-    const codigo = generateNextCodigo();
-    const boletoDataValidated = {
-      nombre: informacionCliente?.data?.nombres,
-      apellidoPaterno: informacionCliente?.data?.apellidoPaterno,
-      apellidoMaterno: informacionCliente?.data?.apellidoMaterno,
-      dni: informacionCliente?.data?.dni,
+
+  async function onFinish(values: z.infer<typeof boletoSchema>) {
+    const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
+      reniecResponse?.data?.apellidoMaterno ?? ""
+    }`;
+
+    if (!apellidosCliente) {
+      return null;
+    }
+    await createBoletoMutation({
       ...values,
-      viajeId: viajeId,
-      codigo: codigo,
-      asiento: selectedSeat,
-    };
-    // boletoMutation(boletoDataValidated);
-    alert(
-      JSON.stringify({
-        ...boletoDataValidated,
-        asiento: selectedSeat,
-      })
-    );
+      codigo: generateNextCodigo(lastestCodeOfBoleto?.response || "S1-00000"),
+      viajeId,
+      pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
+      pasajeroApellidos: apellidosCliente,
+    });
+
     openNotification({
       placement: "topRight",
       message: "Operacion Exitosa",
@@ -97,7 +94,7 @@ export const RegistrarPasajeModal = ({
     setSoldSeats([...soldSeats, values.asiento]);
     form.resetFields();
     setOpenRegister(false);
-  };
+  }
 
   const handlePrintTicket = () => {
     openNotification({
@@ -268,6 +265,7 @@ export const RegistrarPasajeModal = ({
           form={form}
           name="control-hooks"
           className="mt-7"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           style={{ width: 450 }}
         >
@@ -279,24 +277,24 @@ export const RegistrarPasajeModal = ({
             validateStatus={
               form.getFieldValue("dni") === ""
                 ? ""
-                : informacionCliente?.status === "error"
+                : reniecResponse?.status === "error"
                 ? "error"
-                : informacionCliente?.status === "success"
+                : reniecResponse?.status === "success"
                 ? "success"
                 : "validating"
             }
             help={
               form.getFieldValue("dni") ===
-              "" ? null : informacionCliente?.status === "error" ? (
+              "" ? null : reniecResponse?.status === "error" ? (
                 "El DNI no existe"
-              ) : informacionCliente?.status === "success" ? (
+              ) : reniecResponse?.status === "success" ? (
                 <p className="text-green-500">
-                  {informacionCliente?.data?.nombres}{" "}
-                  {informacionCliente?.data?.apellidoPaterno}{" "}
-                  {informacionCliente?.data?.apellidoMaterno}
+                  {reniecResponse.data?.nombres}{" "}
+                  {reniecResponse.data?.apellidoPaterno}{" "}
+                  {reniecResponse.data?.apellidoMaterno}
                 </p>
               ) : (
-                "Ingrese el los 8 digitos del DNI"
+                "Ingrese los 8 dígitos del DNI"
               )
             }
           >
@@ -368,7 +366,7 @@ export const RegistrarPasajeModal = ({
                     selectedSeat === null ||
                     soldSeats.includes(selectedSeat) ||
                     bookedSeats.includes(selectedSeat) ||
-                    informacionCliente?.status === "error"
+                    reniecResponse?.status === "error"
                   }
                 >
                   Registrar

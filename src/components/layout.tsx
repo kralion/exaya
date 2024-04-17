@@ -1,5 +1,4 @@
 import AppHeader from "@/components/appheader";
-import "animate.css";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
@@ -153,7 +152,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className=" animate__animated animate__zoomIn animate__delay-500 m-2   rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          className="  m-2   rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
         >
           {children}
         </Content>

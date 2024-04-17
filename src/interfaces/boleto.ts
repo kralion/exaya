@@ -1,11 +1,13 @@
 export interface IBoleto {
-  id: string;
-  clienteId: string;
-  viajeId: string;
-  equipajes: string;
   asiento: number;
+  pasajeroDni: string;
+  pasajeroNombres: string;
+  pasajeroApellidos: string;
   codigo: string;
-  telefonoCliente: string;
-  precio: number;
+  fechaRegistro: Date;
   equipaje: string;
+  id: string;
+  precio: number;
+  telefonoCliente: string;
+  viajeId: string;
 }

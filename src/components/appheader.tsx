@@ -34,7 +34,6 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
             width={40}
             height={40}
             title="Exaya"
-            className="animate__animated animate__flip"
             alt="logo"
             priority
           />
@@ -46,7 +45,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
       ) : (
         <Image
           onClick={() => setCollapsed(!collapsed)}
-          className="animate__animated animate__flip ml-1 mt-5  flex cursor-pointer items-center justify-center text-center  drop-shadow-md"
+          className="ml-1 mt-5  flex cursor-pointer items-center justify-center text-center  drop-shadow-md"
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={40}
           height={40}

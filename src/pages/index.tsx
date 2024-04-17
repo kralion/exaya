@@ -3,7 +3,6 @@ import HeroStepImage from "@/assets/responsive-hero.svg";
 import LandingLayout from "@/components/landing-layout";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
-import "animate.css";
 import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,7 +48,9 @@ export default function Index() {
             <Image
               src={Asset3D5}
               // width = {80 mobile}
-              className="animate__animated animate__fadeInDown animate__delay-1s absolute -top-32 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
+              data-aos="fade-down"
+              data-aos-duration="1500"
+              className="absolute -top-32 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
               alt="asset"
             />
           </div>

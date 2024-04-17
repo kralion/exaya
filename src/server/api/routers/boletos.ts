@@ -10,6 +10,24 @@ export const boletosRouter = createTRPCRouter({
   getAllBoletos: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.boleto.findMany();
   }),
+
+  getLatestCodeOfBoleto: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const boleto = await ctx.prisma.boleto.findFirst({
+        orderBy: { id: "desc" },
+      });
+      return {
+        status: "success",
+        response: boleto?.codigo,
+      };
+    } catch (error) {
+      return {
+        status: "error",
+        message: "Error al obtener el codigo del último boleto generado",
+      };
+    }
+  }),
+
   getBoletosByCode: publicProcedure
     .input(z.object({ codigo: z.string() }))
     .query(async ({ input, ctx }) => {
