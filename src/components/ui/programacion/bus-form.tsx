@@ -1,21 +1,10 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import type { UploadProps } from "antd";
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Space,
-  Typography,
-  Upload,
-  message,
-} from "antd";
-import Image from "next/image";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
+
+import { Button, Form, Input, Modal, Space, Typography } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { ImSpinner3 } from "react-icons/im";
-import { IoCloudUploadOutline } from "react-icons/io5";
 import { TbLicense } from "react-icons/tb";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { busSchema } from "@/schemas";
@@ -26,46 +15,16 @@ type Props = {
   activator: string;
 };
 const { Title } = Typography;
-const DEFAULT_BUS_URL =
-  "https://img.freepik.com/premium-vector/bus-flat-color-icon-long-shadow-vector-illustration_755164-9961.jpg?w=740";
 
 export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openNotification } = useNotification();
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState(DEFAULT_BUS_URL);
-
-  const busCreateMutation = api.buses.createBus.useMutation();
+  const [source, setSource] = useState<string | undefined>();
+  const createBusMutation = api.buses.createBus.useMutation();
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  const handleChange: UploadProps["onChange"] = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj as File, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
-  const uploadButton = (
-    <button
-      className=" flex flex-col items-center justify-center"
-      type="button"
-    >
-      {loading ? (
-        <ImSpinner3 className="animate-spin" size={20} />
-      ) : (
-        <IoCloudUploadOutline size={20} />
-      )}
-      <div style={{ marginTop: 8 }}>{loading ? "Cargando" : "Subir Foto"}</div>
-    </button>
-  );
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -76,54 +35,36 @@ export function BusForm({ activator }: Props) {
     form.resetFields();
   };
 
-  const getBase64 = (img: File, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-  };
-  const beforeUpload = async (file: File) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      await message.error("La imagen debe ser de tipo JPG o PNG");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      await message.error("Image must smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
-  const onFinish = async (values: z.infer<typeof busSchema>) => {
-    await fetch("/api/image", {
-      method: "POST",
-      body: JSON.stringify(values.foto),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-
-    busCreateMutation.mutate({
-      asientos: values.asientos,
-      placa: values.placa,
-      modelo: values.modelo,
-      foto: imageUrl,
-    });
-
-    form.resetFields();
-    openNotification({
-      message: "Conductor registrado",
-      description: "El bus ha sido registrado exitosamente",
-      type: "success",
-      placement: "topRight",
-    });
+  function onFinish(values: z.infer<typeof busSchema>) {
+    createBusMutation.mutate(
+      {
+        asientos: values.asientos,
+        placa: values.placa,
+        modelo: values.modelo,
+        foto: source,
+      },
+      {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Bus registrado",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
+          form.resetFields();
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+        },
+      }
+    );
     setIsModalOpen(false);
-  };
-  const onFinishFailed = () => {
-    openNotification({
-      message: "Error",
-      description: "Ocurrió algún error al registrar el bus",
-      type: "error",
-      placement: "topRight",
-    });
-  };
+  }
 
   return (
     <>
@@ -151,8 +92,7 @@ export function BusForm({ activator }: Props) {
           form={form}
           layout="vertical"
           name="register"
-          onFinishFailed={onFinishFailed}
-          onFinish={busCreateMutation.isLoading ? undefined : onFinish}
+          onFinish={onFinish}
           scrollToFirstError
         >
           <Form.Item
@@ -200,25 +140,91 @@ export function BusForm({ activator }: Props) {
             <Input placeholder="Scania Turismo Grant" />
           </Form.Item>
           <Form.Item label="Foto del Bus" name="foto">
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              {imageUrl ? (
-                <Image src={imageUrl} alt="avatar" width={100} height={100} />
-              ) : (
-                uploadButton
+            <div>
+              <CldUploadWidget
+                uploadPreset="ml_default"
+                options={{
+                  folder: "exaya",
+                  maxImageFileSize: 5000000,
+                  sources: ["local", "url", "camera"],
+                  language: "es",
+                  text: {
+                    es: {
+                      or: "o",
+                      menu: {
+                        files: "Mis Archivos",
+                        web: "Desde una URL",
+                        camera: "Cámara",
+                      },
+                      selection_counter: {
+                        selected: "Seleccionado",
+                      },
+                      queue: {
+                        done: "Listo",
+                        statuses: {
+                          uploading: "Subiendo...",
+                          error: "Error",
+                          timeout: "Tiempo de espera agotado",
+                          uploaded: "Subido",
+                          aborted: "Abortado",
+                          processing: "Procesando...",
+                        },
+                      },
+                      local: {
+                        browse: "Buscar",
+                        dd_title_single: "Arrastra y suelta un archivo aquí",
+                        dd_title_multi: "Arrastra y suelta archivos aquí",
+                        drop_title_single: "Arrastra y suelta un archivo aquí",
+                        drop_title_multiple: "Arrastra y suelta archivos aquí",
+                      },
+                    },
+                  },
+
+                  autoMinimize: true,
+                }}
+                onSuccess={(result) => {
+                  if (
+                    typeof result?.info === "object" &&
+                    "secure_url" in result.info
+                  ) {
+                    setSource(result.info.secure_url);
+                  }
+                }}
+              >
+                {({ open }) => {
+                  function handleOnClick() {
+                    setSource(undefined);
+                    open();
+                  }
+                  return (
+                    <Button
+                      disabled={createBusMutation.isLoading && !source}
+                      onClick={handleOnClick}
+                    >
+                      Cargar Imagen
+                    </Button>
+                  );
+                }}
+              </CldUploadWidget>
+              {source && (
+                <CldImage
+                  width="100"
+                  className="mt-2 rounded-lg"
+                  height="100"
+                  src={source}
+                  sizes="50vw"
+                  alt="Imagen"
+                />
               )}
-            </Upload>
+            </div>
           </Form.Item>
 
           <Space className="mt-10">
-            <button className={styles.basicButton} type="submit">
+            <button
+              disabled={createBusMutation.isLoading}
+              className={styles.basicButton}
+              type="submit"
+            >
               Registrar
             </button>
 

@@ -8,19 +8,22 @@ body {
   overflow-x: hidden;
 }
 
-/* También puedes definir un estilo personalizado para la barra de desplazamiento, por ejemplo, */
-/* Cambiar el color de fondo de la barra de desplazamiento (opcional) */
-body::-webkit-scrollbar {
-  width: 0.4rem;
-  /* Ajusta el ancho según tu preferencia */
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-body::-webkit-scrollbar-track {
-  background: transparent; /* Color de fondo de la pista */
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-/* Cambiar el color de la barra de desplazamiento (opcional) */
-body::-webkit-scrollbar-thumb {
-  background-color: #f77810;
-  border-radius: 20px; /* Color de la barra de desplazamiento */
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #f77810;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f18a2a;
 }

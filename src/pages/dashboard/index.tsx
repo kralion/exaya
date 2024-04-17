@@ -7,10 +7,18 @@ import { GrSchedulePlay } from "react-icons/gr";
 import { IoReceiptOutline } from "react-icons/io5";
 import { TbFileInvoice } from "react-icons/tb";
 import AppLayout from "../../components/layout";
+import { api } from "@/utils/api";
 
-const totalViajesProgramados = 6;
-const viajesActivos = 4;
+type TViajeEstado = {
+  estado: "DISPONIBLE" | "LLENO" | "CANCELADO";
+};
+
 export default function Dashboard() {
+  const { data: viajesDiarios } = api.viajes.getViajesForToday.useQuery();
+  const totalViajesProgramados = viajesDiarios?.response?.length;
+  const viajesActivos = viajesDiarios?.response?.filter(
+    (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
+  ).length;
   return (
     <AppLayout>
       <AppHead title="Panel de Control" />
@@ -33,7 +41,7 @@ export default function Dashboard() {
                 className="drop-shadow-lg"
                 title="Activos"
                 value={viajesActivos}
-                suffix={`/${totalViajesProgramados}`}
+                suffix={`/${totalViajesProgramados || 0}`}
               />
             </div>
           </ControlPaneCard>

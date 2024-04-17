@@ -1,39 +1,21 @@
 import { api } from "@/utils/api";
 import { Button, Form, Popconfirm, Table, Tag, Tooltip } from "antd";
-import { useEffect, useState } from "react";
 import { TbLicense } from "react-icons/tb";
-
-type TRow = {
-  key: number;
-  ruta: {
-    ciudadOrigen: string;
-    ciudadDestino: string;
-  };
-  bus: {
-    placa: string;
-    marca: string;
-    modelo: string;
-  };
-  placa: string;
-  marca: string;
-  modelo: string;
-  fechaSalida: Date;
-  horaSalida: string;
-  estado: string;
+const convertTo12HourFormat = (hours: number, minutes: number) => {
+  const suffix = hours >= 12 ? "PM" : "AM";
+  hours = hours > 12 ? hours - 12 : hours;
+  hours = hours === 0 ? 12 : hours;
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")} ${suffix}`;
+  return formattedTime;
 };
 
 export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const { data } = api.viajes.getAllViajes.useQuery();
-  const [viajes, setViajes] = useState<TRow[]>([]);
+  const { data: viajes } = api.viajes.getAllViajes.useQuery();
 
-  useEffect(() => {
-    if (data) {
-      setViajes(viajes);
-    }
-  }, [viajes, data]);
-
-  const viajesColumns = [
+  const columns = [
     {
       title: "Ruta",
       dataIndex: "ruta",
@@ -47,53 +29,56 @@ export function ProgramacionTable() {
     {
       title: "Bus",
       dataIndex: "bus",
-      key: "placaBus",
+      key: "bus",
 
-      render: (
-        index: number,
-        bus: {
-          placa: string;
-          marca: string;
-          modelo: string;
-        }
-      ) => (
-        <Tooltip className="cursor-pointer" key={index} title={bus.placa}>
+      render: (bus: { placa: string; id: string }) => (
+        <Tooltip className="cursor-pointer" key={bus.id} title={bus.placa}>
           <TbLicense />
         </Tooltip>
       ),
     },
     {
       title: "Fecha Salida",
-      dataIndex: "fechaSalida",
+      dataIndex: "salida",
       key: "fechaSalida",
-      render: (fechaSalida: Date) => (
+      render: (salida: Date) => (
         <Tag className="px-3 text-center font-semibold  shadow-md">
-          {fechaSalida.toLocaleDateString("es-PE", {
+          {new Date(salida).toLocaleDateString("es-ES", {
+            weekday: "long",
             year: "numeric",
-            month: "numeric",
-            day: "numeric",
+            month: "2-digit",
+            day: "2-digit",
           })}
         </Tag>
       ),
     },
     {
       title: "Hora Salida",
-      dataIndex: "horaSalida",
+      dataIndex: "salida",
       key: "hora",
+      render: (salida: string) => {
+        const date = new Date(salida);
+        let hours = date.getUTCHours();
+        const minutes = date.getUTCMinutes();
 
-      render: (horaSalida: string) =>
-        parseInt(horaSalida) < 18 ? (
+        if (hours >= 24) {
+          hours -= 24;
+        }
+
+        const horaSalida = convertTo12HourFormat(hours, minutes);
+        return hours < 18 ? (
           <Tag
-            className="px-3 text-center font-semibold text-black shadow-md"
+            className="w-[70px] rounded-full text-center font-semibold  shadow-md"
             color="yellow-inverse"
           >
-            {horaSalida}
+            <span className="text-black">{horaSalida}</span>
           </Tag>
         ) : (
-          <Tag className="bg-gray-700 px-3 text-center font-semibold text-white shadow-md">
+          <Tag className="w-[70px] rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
             {horaSalida}
           </Tag>
-        ),
+        );
+      },
     },
     {
       title: "Estado",
@@ -104,9 +89,9 @@ export function ProgramacionTable() {
         <Tag
           className="px-3 text-center font-semibold  shadow-md"
           color={
-            estado === "EN VENTA"
+            estado === "DISPONIBLE"
               ? "green"
-              : estado === "INACTIVO"
+              : estado === "LLENO"
               ? "red"
               : "yellow"
           }
@@ -145,8 +130,8 @@ export function ProgramacionTable() {
   return (
     <Form form={form} component={false}>
       <Table
-        dataSource={viajes}
-        columns={viajesColumns}
+        dataSource={viajes?.response}
+        columns={columns}
         rowClassName="editable-row"
         pagination={{
           defaultPageSize: 5,

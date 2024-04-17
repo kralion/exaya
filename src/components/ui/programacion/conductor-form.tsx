@@ -188,6 +188,7 @@ export function ConductorForm({ activator }: Props) {
                 uploadPreset="ml_default"
                 options={{
                   folder: "exaya",
+                  maxImageFileSize: 5000000,
                   sources: ["local", "url", "camera"],
                   language: "es",
                   text: {

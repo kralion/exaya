@@ -7,8 +7,8 @@ import {
 import { viajeSchema } from "@/schemas";
 
 export const viajesRouter = createTRPCRouter({
-  getAllViajes: publicProcedure.query(({ ctx }) => {
-    const viajes = ctx.prisma.viaje.findMany({
+  getAllViajes: publicProcedure.query(async ({ ctx }) => {
+    const viajes = await ctx.prisma.viaje.findMany({
       include: {
         ruta: true,
         bus: true,
@@ -58,6 +58,7 @@ export const viajesRouter = createTRPCRouter({
       }
     }),
 
+  //TODO: It seems like the TIMEZONE is not being WORKING we are 5 hours ahead
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
     const today = new Date();
     const tomorrow = new Date(today);

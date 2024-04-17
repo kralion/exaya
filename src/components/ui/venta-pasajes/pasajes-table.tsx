@@ -10,7 +10,7 @@ const { Title } = Typography;
 const convertTo12HourFormat = (hours: number, minutes: number) => {
   const suffix = hours >= 12 ? "PM" : "AM";
   hours = hours > 12 ? hours - 12 : hours;
-  hours = hours === 0 ? 12 : hours; // the hour '0' should be '12'
+  hours = hours === 0 ? 12 : hours;
   const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} ${suffix}`;
@@ -102,7 +102,7 @@ const columns: ColumnsType = [
           className="w-[70px] rounded-full text-center font-semibold text-black shadow-md"
           color="yellow-inverse"
         >
-          {horaSalida}
+          <span className="text-black">{horaSalida}</span>
         </Tag>
       ) : (
         <Tag className="w-[70px] rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">

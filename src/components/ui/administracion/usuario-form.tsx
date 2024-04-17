@@ -67,7 +67,7 @@ export function UsuarioForm({ activator }: Props) {
     setSource(undefined);
   };
 
-  const onFinish = (values: z.infer<typeof usuarioSchema>) => {
+  function onFinish(values: z.infer<typeof usuarioSchema>) {
     createUsuarioMutation.mutate(
       {
         ...values,
@@ -95,7 +95,7 @@ export function UsuarioForm({ activator }: Props) {
       }
     );
     setSource(undefined);
-  };
+  }
   const {
     data: rutas,
     isLoading,
@@ -250,6 +250,7 @@ export function UsuarioForm({ activator }: Props) {
                 uploadPreset="ml_default"
                 options={{
                   folder: "exaya",
+                  maxImageFileSize: 5000000,
                   sources: ["local", "url", "camera"],
                   language: "es",
                   text: {
