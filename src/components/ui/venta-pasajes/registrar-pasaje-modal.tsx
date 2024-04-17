@@ -30,8 +30,6 @@ const { Title, Text } = Typography;
 
 const { Option } = Select;
 
-const seats = Array.from({ length: 40 }, (_, i) => i + 1);
-
 const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
 const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
@@ -41,6 +39,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
   const [soldSeats, setSoldSeats] = useState<number[]>(INITIAL_SOLDS_SEATS);
   const [bookedSeats, setBookedSeats] = useState<number[]>(BOOKED_SEATS);
+  const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: lastestCodeOfBoleto } =
@@ -49,11 +48,15 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     api.boletos.createBoletos.useMutation();
   const { data: reniecResponse } = api.clientes.validateDni.useQuery(
     {
-      dni: form.getFieldValue("dni") as string,
+      dni: form.getFieldValue("pasajeroDni") as string,
     },
     {
       enabled: queryEnabled,
     }
+  );
+  const seats = Array.from(
+    { length: viaje?.response?.bus.asientos || 40 },
+    (_, i) => i + 1
   );
 
   function generateNextCodigo(lastestCode: string): string {
@@ -73,6 +76,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     }
     await createBoletoMutation({
       ...values,
+      telefonoCliente: values.telefonoCliente.toString(),
+      pasajeroDni: values.pasajeroDni.toString(),
+      asiento: selectedSeat,
       codigo: generateNextCodigo(lastestCodeOfBoleto?.response || "S1-00000"),
       viajeId,
       pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
@@ -121,17 +127,17 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               <Title level={4}>Distribución de Asientos</Title>
               <span>
                 <Tag color="blue" className="px-3">
-                  BXA-04T
+                  {viaje?.response?.bus.placa}
                 </Tag>
               </span>
             </div>
-            <Space direction="horizontal" className="flex gap-3">
+            <Space direction="horizontal" className="flex gap-4">
               <Text
                 className="font-normal"
                 rootClassName="flex gap-1 items-center"
                 type="success"
               >
-                <FaSquare className="text-green-500" size={15} />
+                <FaSquare className="rounded-md text-green-500" size={15} />
                 Vendido
               </Text>
               <Text
@@ -139,16 +145,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 rootClassName="flex gap-1 items-center"
                 type="warning"
               >
-                <FaSquare className="text-yellow-500" size={15} />
+                <FaSquare className="rounded-md text-yellow-500" size={15} />
                 Reservado
-              </Text>
-              <Text
-                className="font-normal"
-                rootClassName="flex gap-1 items-center"
-                type="secondary"
-              >
-                <FaSquare size={15} />
-                Disponible
               </Text>
             </Space>
             <Divider className="mb-4" />
@@ -219,8 +217,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           </div>
           <Divider className="my-4" />
           <Space direction="horizontal" className="flex gap-3">
-            <Text type="secondary">Vendidos: {soldSeats.length} de 40</Text>
-            <Text type="secondary">Reservados: {bookedSeats.length} de 40</Text>
+            <Text type="secondary">
+              Vendidos: {soldSeats.length} de {viaje?.response?.bus.asientos}
+            </Text>
+            <Text type="secondary">
+              Reservados: {bookedSeats.length} de{" "}
+              {viaje?.response?.bus.asientos}
+            </Text>
           </Space>
         </div>
       </Modal>
@@ -236,7 +239,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   </Tag>
                 ) : selectedSeat !== null &&
                   bookedSeats.includes(selectedSeat) ? (
-                  <Tag color="yellow-inverse" className="px-3 py-1 text-black">
+                  <Tag color="yellow-inverse" className="px-3 py-1  text-black">
                     Reservado
                   </Tag>
                 ) : (
@@ -264,12 +267,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           style={{ width: 450 }}
         >
           <Form.Item
-            name="dni"
+            name="pasajeroDni"
             label="DNI"
             tooltip="DNI del pasajero, esta información es validada con la RENIEC "
             rules={[{ required: true }]}
             validateStatus={
-              form.getFieldValue("dni") === ""
+              form.getFieldValue("pasajeroDni") === ""
                 ? ""
                 : reniecResponse?.status === "error"
                 ? "error"
@@ -278,7 +281,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 : "validating"
             }
             help={
-              form.getFieldValue("dni") ===
+              form.getFieldValue("pasajeroDni") ===
               "" ? null : reniecResponse?.status === "error" ? (
                 "El DNI no existe"
               ) : reniecResponse?.status === "success" ? (
@@ -295,10 +298,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             <InputNumber
               onChange={(value: string | null) => {
                 const dni = JSON.stringify(value);
-                form.setFieldValue("dni", dni);
+                form.setFieldValue("pasajeroDni", dni);
                 setQueryEnabled(dni.length === 8);
               }}
               type="number"
+              maxLength={8}
               className="w-full"
               controls={false}
             />
@@ -314,12 +318,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               rules={[{ required: true, message: "Selecciona el precio" }]}
             >
               <Select placeholder="40" allowClear>
-                <Option value="30">30</Option>
-                <Option value="45">45</Option>
+                <Option value={30}>30</Option>
+                <Option value={45}>45</Option>
               </Select>
             </Form.Item>
             <Form.Item
-              name="telefono"
+              name="telefonoCliente"
               label="Telefono"
               tooltip="Telefono del pasajero para contactarlo "
               rules={[{ required: true, message: "Ingresa el teléfono" }]}
@@ -328,6 +332,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 style={{
                   width: 215,
                 }}
+                maxLength={9}
                 type="number"
                 controls={false}
               />
@@ -335,8 +340,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           </Space>
           <Form.Item
             tooltip="Describe los equipajes que lleva el pasajero"
-            name="equipajes"
-            label="Equipajes"
+            name="equipaje"
+            label="Equipaje"
           >
             <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
           </Form.Item>
@@ -346,7 +351,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               alt="logo"
               height={70}
               className="  drop-shadow-xl "
-              width={250}
+              width={200}
             />
           </div>
 

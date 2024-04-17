@@ -7,6 +7,16 @@ import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 const { Title } = Typography;
 
+const convertTo12HourFormat = (hours: number, minutes: number) => {
+  const suffix = hours >= 12 ? "PM" : "AM";
+  hours = hours > 12 ? hours - 12 : hours;
+  hours = hours === 0 ? 12 : hours; // the hour '0' should be '12'
+  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")} ${suffix}`;
+  return formattedTime;
+};
+
 const columns: ColumnsType = [
   {
     title: "Origen",
@@ -73,23 +83,33 @@ const columns: ColumnsType = [
   },
   {
     title: "Hora Salida",
-    dataIndex: "horaSalida",
-    key: "hora",
+    dataIndex: "salida",
+    key: "horaSalida",
     responsive: ["lg"],
 
-    render: (horaSalida: string) =>
-      parseInt(horaSalida) < 18 ? (
+    render: (salida: string) => {
+      const date = new Date(salida);
+      let hours = date.getUTCHours();
+      const minutes = date.getUTCMinutes();
+
+      if (hours >= 24) {
+        hours -= 24;
+      }
+
+      const horaSalida = convertTo12HourFormat(hours, minutes);
+      return hours < 18 ? (
         <Tag
-          className="w-14 rounded-full text-center font-semibold text-black shadow-md"
+          className="w-[70px] rounded-full text-center font-semibold text-black shadow-md"
           color="yellow-inverse"
         >
           {horaSalida}
         </Tag>
       ) : (
-        <Tag className="w-14 rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
+        <Tag className="w-[70px] rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
           {horaSalida}
         </Tag>
-      ),
+      );
+    },
   },
   {
     title: "Tarifas",

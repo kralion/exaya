@@ -7,19 +7,26 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum BoletoEstado {
+    DISPONIBLE
+    RESERVADO
+    PAGADO
+}
+
 model Boleto {
     asiento           Int
     pasajeroDni       String
+    estado            BoletoEstado @default(DISPONIBLE)
     pasajeroNombres   String
     pasajeroApellidos String
-    codigo            String   @unique
-    fechaRegistro     DateTime @default(now())
-    equipaje          String   @default("Sin Equipaje")
-    id                String   @id @default(uuid())
+    codigo            String       @unique
+    fechaRegistro     DateTime     @default(now())
+    equipaje          String       @default("Sin Equipaje")
+    id                String       @id @default(uuid())
     precio            Int
     telefonoCliente   String
-    viaje             Viaje    @relation(fields: [viajeId], references: [id])
-    viajeId           String   @unique
+    viaje             Viaje        @relation(fields: [viajeId], references: [id])
+    viajeId           String       @unique
 }
 
 model Bus {
