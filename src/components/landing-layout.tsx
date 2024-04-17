@@ -1,5 +1,5 @@
 import MobileNav from "@/components/ui/landingpage/mobilenav";
-import AOSWrapper from "@/utils/aos";
+import AOSWrapper from "../utils/aos";
 import "animate.css";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
