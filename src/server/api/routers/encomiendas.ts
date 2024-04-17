@@ -7,6 +7,29 @@ export const encomiendasRouter = createTRPCRouter({
     return ctx.prisma.encomienda.findMany();
   }),
 
+  getEncomiendasByViajeId: publicProcedure
+    .input(
+      encomiendaSchema.pick({
+        viajeId: true,
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const encomiendas = await ctx.prisma.encomienda.findMany({
+          where: { viajeId: input.viajeId },
+        });
+        return {
+          status: "success",
+          response: encomiendas,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener las encomiendas",
+        };
+      }
+    }),
+
   getEncomiendaByCodigo: publicProcedure
     .input(
       encomiendaSchema.pick({

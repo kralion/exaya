@@ -23,6 +23,5 @@
 }
 
 .createButton {
-  composes: button;
   padding-inline: 20px;
 }

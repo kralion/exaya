@@ -1,297 +1,18 @@
-import { TfiMoreAlt } from "react-icons/tfi";
-
-import {
-  Avatar,
-  Drawer,
-  Dropdown,
-  List,
-  Progress,
-  Table,
-  Tag,
-  Tooltip,
-  Typography,
-} from "antd";
-import type { ColumnsType } from "antd/es/table";
-import { AiFillPrinter } from "react-icons/ai";
-import { TbLicense } from "react-icons/tb";
-
-import { useNotification } from "@/context/NotificationContext";
-import type { IBus, IRuta, IViaje } from "@/interfaces";
 import { api } from "@/utils/api";
-import React, { useState } from "react";
-import type { ZodNumberCheck } from "zod";
+import { Dropdown, Table, Tag, Tooltip, Typography } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { TbLicense } from "react-icons/tb";
+import { TfiMoreAlt } from "react-icons/tfi";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import { Manifiesto } from "./manifiesto";
 const { Title } = Typography;
-interface ManifiestoDataType {
-  dni: number extends ZodNumberCheck ? number : string;
-  nombres: string;
-  apellidos: string;
-  asiento: number;
-  precio: number;
-}
 
-const manifiestoColumns: ColumnsType<ManifiestoDataType> = [
-  {
-    title: "Nombres ",
-    dataIndex: "nombres",
-    key: "nombres",
-    responsive: ["lg"],
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Apellidos",
-    dataIndex: "apellidos",
-    key: "apellidos",
-    responsive: ["lg"],
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "N° Asiento ",
-    dataIndex: "asiento",
-    key: "asiento",
-    responsive: ["md"],
-  },
-  {
-    title: "Precio",
-    dataIndex: "precio",
-    key: "precio",
-    responsive: ["md"],
-    render: (precio: number) => (
-      <Tag>
-        {precio.toLocaleString("es-PE", {
-          style: "currency",
-          currency: "PEN",
-        })}
-      </Tag>
-    ),
-  },
-  {
-    title: "DNI / Pasaporte",
-    dataIndex: "dni",
-    key: "dni",
-    responsive: ["md"],
-  },
-];
-
-const pasajeros: ManifiestoDataType[] = [
-  {
-    dni: "12345678",
-    nombres: "Hugo",
-    apellidos: "Fernandez Saavedra",
-    asiento: 32,
-    precio: 40,
-  },
-  {
-    dni: "12345678",
-    nombres: "Sofía",
-    apellidos: "Montesinos Rodríguez",
-    asiento: 14,
-    precio: 40,
-  },
-  {
-    dni: "12345678",
-    nombres: "Martín",
-    apellidos: "García Alvarado",
-    asiento: 25,
-    precio: 45,
-  },
-
-  {
-    dni: "12345678",
-    nombres: "Valentina",
-    apellidos: "Huamaní Salcedo",
-    asiento: 35,
-    precio: 50,
-  },
-  {
-    dni: "12345678",
-    nombres: "Ana María",
-    apellidos: "Vargas Chávez",
-    asiento: 7,
-    precio: 45,
-  },
-  {
-    dni: "12345678",
-    nombres: "Martín",
-    apellidos: "García Alvarado",
-    asiento: 25,
-    precio: 45,
-  },
-
-  {
-    dni: "12345678",
-    nombres: "Valentina",
-    apellidos: "Huamaní Salcedo",
-    asiento: 35,
-    precio: 50,
-  },
-  {
-    dni: "12345678",
-    nombres: "Ana María",
-    apellidos: "Vargas Chávez",
-    asiento: 7,
-    precio: 45,
-  },
-];
-
-export const ManifiestoTable: React.FC = () => (
-  <Table
-    pagination={{
-      defaultPageSize: 5,
-      position: ["bottomRight"],
-      pageSizeOptions: ["5", "10", "20", "50"],
-      showSizeChanger: true,
-    }}
-    columns={manifiestoColumns}
-    dataSource={pasajeros}
-  />
-);
-export const EncomiendasTable: React.FC = () => (
-  <Table
-    pagination={{
-      defaultPageSize: 5,
-      position: ["bottomRight"],
-      pageSizeOptions: ["5", "10", "20", "50"],
-      showSizeChanger: true,
-    }}
-    columns={manifiestoColumns}
-    dataSource={pasajeros}
-  />
-);
-
-type TConductores = {
-  id: string;
-  name: string;
-  license: string;
-  profilePic: string;
-};
-const ManifiestoDrawer: React.FC = () => {
-  const { openNotification } = useNotification();
-  const [open, setOpen] = useState(false);
-  const { data: conductoresViaje } =
-    api.viajes.getConductoresForTodayViaje.useQuery();
-
-  const showDrawer = () => {
-    setOpen(true);
-  };
-
-  const onClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <>
-      <Typography
-        title="Ver Manifiesto"
-        onClick={showDrawer}
-        className="flex items-center justify-center"
-      >
-        Ver Manifiesto
-      </Typography>
-
-      <Drawer
-        title={
-          <div className="flex items-center justify-between ">
-            <Title className="text-left" level={4}>
-              Manifiesto del Viaje
-            </Title>
-            <button
-              onClick={() =>
-                openNotification({
-                  placement: "top",
-                  description:
-                    "Se va a imprimir automaticamente, solo redirijase a la impresora",
-                  message: "Operación Exitosa",
-                  type: "success",
-                })
-              }
-            >
-              <Tag
-                color="green"
-                icon={<AiFillPrinter />}
-                className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
-                title="Se va a imprimir automaticamente"
-                onClick={onClose}
-              >
-                Imprimir
-              </Tag>
-            </button>
-          </div>
-        }
-        placement="right"
-        onClose={onClose}
-        open={open}
-        size="large"
-      >
-        <div className="flex flex-col gap-2">
-          <Progress status="active" percent={50} size={[680, 10]}>
-            <Title level={5}>{"Viaje de Lima a Arequipa - 10/10/2021"}</Title>
-          </Progress>
-
-          <Title level={4}>Conductores</Title>
-
-          <List
-            dataSource={Array.isArray(conductoresViaje) ? conductoresViaje : []}
-            bordered
-            renderItem={(driver: TConductores) => (
-              <List.Item
-                key={driver.id}
-                actions={[
-                  <a
-                    href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
-                    target="_blank"
-                    rel="noreferrer"
-                    key={`a-${driver.id}`}
-                  >
-                    Ver Informacion
-                  </a>,
-                ]}
-              >
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      className="h-12 w-12 border-slate-400"
-                      src={driver.profilePic}
-                    />
-                  }
-                  title={driver.name}
-                  description={`Conductor con licencia ${driver.license}`}
-                />
-              </List.Item>
-            )}
-          />
-          <Title className="mt-7" level={4}>
-            Pasajeros
-          </Title>
-          <ManifiestoTable />
-          <Title className="mt-7" level={4}>
-            Encomiendas
-          </Title>
-          <EncomiendasTable />
-        </div>
-      </Drawer>
-    </>
-  );
-};
-
-const items = [
-  {
-    key: "1",
-    // label: <RegistrarPasajeModal viajeSingleBusPlaca={singleViaje?.bus.placa || "BYW-WE5"} />,
-    label: <RegistrarPasajeModal viajeBusPlaca="BYD-34S" viajeId="agasda" />,
-  },
-  {
-    key: "2",
-    label: <ManifiestoDrawer />,
-  },
-];
-
-const viajesColumns: ColumnsType<IViaje> = [
+const columns: ColumnsType = [
   {
     title: "Origen",
     dataIndex: "ruta",
     key: "origen",
-    render: (ruta: IRuta) => ruta.ciudadOrigen,
+    render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
 
     filters: [
       {
@@ -306,6 +27,7 @@ const viajesColumns: ColumnsType<IViaje> = [
     filterSearch: true,
 
     onFilter: (value, record) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       record.ruta.ciudadOrigen.includes(value as string),
   },
   {
@@ -313,7 +35,9 @@ const viajesColumns: ColumnsType<IViaje> = [
     dataIndex: "ruta",
     key: "destino",
     responsive: ["lg"],
-    render: (ruta: IRuta) => <span>{ruta.ciudadDestino}</span>,
+    render: (ruta: { ciudadDestino: string }) => (
+      <span>{ruta.ciudadDestino}</span>
+    ),
 
     filters: [
       {
@@ -332,6 +56,7 @@ const viajesColumns: ColumnsType<IViaje> = [
 
     filterSearch: true,
     onFilter: (value, record) =>
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       record.ruta?.ciudadDestino.includes(value as string),
   },
   {
@@ -340,8 +65,8 @@ const viajesColumns: ColumnsType<IViaje> = [
     key: "placaBus",
     responsive: ["lg"],
 
-    render: (bus: IBus) => (
-      <Tooltip className="cursor-pointer" key={bus?.id} title={bus.placa}>
+    render: (bus: { placa: string }) => (
+      <Tooltip className="cursor-pointer" title={bus.placa}>
         <TbLicense />
       </Tooltip>
     ),
@@ -389,16 +114,30 @@ const viajesColumns: ColumnsType<IViaje> = [
     title: "",
     key: "acciones",
     responsive: ["lg"],
-    render: () => (
-      <Dropdown menu={{ items }}>
-        <TfiMoreAlt className="cursor-pointer" />
-      </Dropdown>
-    ),
+    dataIndex: "id",
+    render: (id: string) => {
+      const items = [
+        {
+          key: "1",
+          label: <RegistrarPasajeModal viajeId={id} />,
+        },
+        {
+          key: "2",
+          label: <Manifiesto viajeId={id} />,
+        },
+      ];
+
+      return (
+        <Dropdown menu={{ items }}>
+          <TfiMoreAlt className="cursor-pointer" />
+        </Dropdown>
+      );
+    },
   },
 ];
 
 export function PasajesTable() {
-  const { data: viajes, isLoading } = api.viajes.getAllViajes.useQuery();
+  const { data: viajes, isLoading } = api.viajes.getViajesForToday.useQuery();
 
   return (
     <div className="w-full">
@@ -408,8 +147,8 @@ export function PasajesTable() {
       <Table
         pagination={false}
         loading={isLoading}
-        columns={viajesColumns}
-        dataSource={Array.isArray(viajes) ? viajes : []}
+        columns={columns}
+        dataSource={viajes}
       />
     </div>
   );

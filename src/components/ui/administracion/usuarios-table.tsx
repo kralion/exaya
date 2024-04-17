@@ -1,10 +1,8 @@
 import { useNotification } from "@/context/NotificationContext";
-import type { IUsuario } from "@/interfaces";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Alert, Avatar } from "antd";
 import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
-
 export default function UsuariosTable() {
   const {
     mutateAsync: usuarioMutation,
@@ -80,7 +78,7 @@ export default function UsuariosTable() {
     },
     {
       title: "Acciones",
-      render: (usuario: IUsuario) => {
+      render: (id: string) => {
         return (
           <Space size="middle">
             <Popconfirm
@@ -89,7 +87,7 @@ export default function UsuariosTable() {
                   "bg-red-500 text-white rounded-md items-center justify-center",
               }}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onConfirm={() => handleUserDelete(usuario.id)}
+              onConfirm={() => handleUserDelete(id)}
               title="Confirmar Operación"
               okText="Eliminar"
             >

@@ -1,6 +1,5 @@
 import PassengerAsset from "@/assets/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
-import { FaSquare } from "react-icons/fa";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -16,7 +15,8 @@ import {
 } from "antd";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FaSquare } from "react-icons/fa";
 import { LuDelete, LuPrinter } from "react-icons/lu";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -31,16 +31,10 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const seats = Array.from({ length: 40 }, (_, i) => i + 1);
-type ViajeDetailsProps = {
-  viajeBusPlaca: string;
-  viajeId: string;
-};
+
 const INITIAL_SOLDS_SEATS = [12, 13, 15, 27, 35, 1, 3, 27];
 const BOOKED_SEATS = [4, 5, 6, 9, 11, 16, 38];
-export const RegistrarPasajeModal = ({
-  viajeId,
-  viajeBusPlaca,
-}: ViajeDetailsProps) => {
+export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
@@ -127,7 +121,7 @@ export const RegistrarPasajeModal = ({
               <Title level={4}>Distribución de Asientos</Title>
               <span>
                 <Tag color="blue" className="px-3">
-                  {viajeBusPlaca}
+                  BXA-04T
                 </Tag>
               </span>
             </div>

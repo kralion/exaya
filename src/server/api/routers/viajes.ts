@@ -20,32 +20,43 @@ export const viajesRouter = createTRPCRouter({
     };
   }),
 
-  getConductoresForTodayViaje: publicProcedure.query(async ({ ctx }) => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    try {
-      const conductores = await ctx.prisma.conductor.findMany({
-        where: {
-          viaje: {
-            salida: {
-              gte: today,
-              lt: tomorrow,
-            },
-          },
-        },
-      });
-      return {
-        status: "success",
-        response: conductores,
-      };
-    } catch (error) {
-      return {
-        status: "error",
-        message: "Error al obtener los conductores",
-      };
-    }
-  }),
+  getConductoresByViajeId: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const conductores = await ctx.prisma.conductor.findMany({
+          where: { viajeId: input.id },
+        });
+        return {
+          status: "success",
+          response: conductores,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los conductores",
+        };
+      }
+    }),
+
+  getBoletosByViajeId: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const boletos = await ctx.prisma.boleto.findMany({
+          where: { viajeId: input.id },
+        });
+        return {
+          status: "success",
+          response: boletos,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los boletos",
+        };
+      }
+    }),
 
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
     const today = new Date();
