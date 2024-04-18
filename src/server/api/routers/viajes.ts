@@ -109,7 +109,7 @@ export const viajesRouter = createTRPCRouter({
       }
     }),
 
-  getViajesByRutaDestiny: publicProcedure
+  getViajesByRutaDestinyAndStatus: publicProcedure
     .input(z.object({ destiny: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
@@ -118,10 +118,7 @@ export const viajesRouter = createTRPCRouter({
             ruta: {
               ciudadDestino: input.destiny,
             },
-          },
-          include: {
-            ruta: true,
-            bus: true,
+            estado: "DISPONIBLE",
           },
         });
         return {

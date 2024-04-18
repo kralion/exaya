@@ -36,7 +36,7 @@ export function EncomiendasForm() {
   const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
   const { data: rutas } = api.rutas.getAllRutas.useQuery();
   const { data: viajesDiariosDisponibles } =
-    api.viajes.getViajesByRutaDestiny.useQuery({
+    api.viajes.getViajesByRutaDestinyAndStatus.useQuery({
       destiny: form.getFieldValue("destino") as string,
     });
   const { openNotification } = useNotification();
@@ -49,7 +49,7 @@ export function EncomiendasForm() {
   );
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
-      dni: form.getFieldValue("dniDestinatario") as string,
+      dni: form.getFieldValue("destinatarioDni") as string,
     },
     {
       enabled: receiverQueryEnabled,
@@ -57,7 +57,7 @@ export function EncomiendasForm() {
   );
   const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
     {
-      dni: form.getFieldValue("dniRemitente") as string,
+      dni: form.getFieldValue("remitenteDni") as string,
     },
     {
       enabled: senderQueryEnabled,
@@ -72,6 +72,24 @@ export function EncomiendasForm() {
   }
 
   async function onFinish(values: z.infer<typeof encomiendaSchema>) {
+    if (remitenteInformacion?.status === "error") {
+      openNotification({
+        message: "Error al registrar encomienda",
+        description: "El DNI del Remitente es requerido y debe ser válido",
+        type: "error",
+        placement: "bottomRight",
+      });
+      return;
+    }
+    if (receptorInformacion?.status === "error") {
+      openNotification({
+        message: "Error al registrar encomienda",
+        description: "El DNI del Destinatario es requerido y debe ser válido",
+        type: "error",
+        placement: "bottomRight",
+      });
+      return;
+    }
     await createEncomiendaMutation.mutateAsync(
       {
         ...values,
@@ -281,7 +299,7 @@ export function EncomiendasForm() {
           >
             <DatePicker
               className="w-full min-w-[150px]"
-              placeholder="18/10/2023"
+              placeholder="18/05/2024"
             />
           </Form.Item>
         </div>
