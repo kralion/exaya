@@ -1,6 +1,5 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import type { DatePickerProps } from "antd";
 import { Button, DatePicker, Form, Select } from "antd";
 import style from "./frame.module.css";
 
@@ -15,8 +14,6 @@ type TViaje = {
   salida: Date;
   busId: string;
   rutaId: string;
-  fechaSalida: DatePickerProps["value"];
-  horaSalida: DatePickerProps["value"];
   tarifas: number[];
   estado: "DISPONIBLE" | "CANCELADO" | "LLENO";
 };
@@ -28,15 +25,14 @@ export function ViajesForm() {
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
   const onFinish = (values: TViaje) => {
-    const formattedSalida = values.salida
-      .toISOString()
-      .replace("T", " ")
-      .substring(0, 19);
+    const salidaDate = new Date(values.salida);
+    salidaDate.setHours(salidaDate.getHours() - 5);
+    const salidaISO = salidaDate.toISOString();
     createViajeMutation.mutate(
       {
         ...values,
         estado: "DISPONIBLE",
-        salida: new Date(formattedSalida),
+        salida: new Date(salidaISO),
       },
       {
         onSuccess: (response) => {
