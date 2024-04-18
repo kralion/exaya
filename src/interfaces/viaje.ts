@@ -1,6 +1,5 @@
 import type { IBoleto } from "./boleto";
 import type { IBus } from "./bus";
-import type { IConductor } from "./conductor";
 import type { IEncomienda } from "./encomienda";
 import type { IRuta } from "./ruta";
 import { z } from "zod";
@@ -11,7 +10,6 @@ export interface IViaje {
   activo: boolean;
   tarifas: number[];
   fechaSalida: Date;
-  conductores: IConductor[];
   horaSalida: string;
   boletos: IBoleto[];
   encomiendas: IEncomienda[];
