@@ -52,14 +52,15 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoletos.useMutation();
-  const { data: reniecResponse } = api.clientes.validateDni.useQuery(
-    {
-      dni: form.getFieldValue("pasajeroDni") as string,
-    },
-    {
-      enabled: queryEnabled,
-    }
-  );
+  const { data: reniecResponse, error: errorValidacionDNI } =
+    api.clientes.validateDni.useQuery(
+      {
+        dni: form.getFieldValue("pasajeroDni") as string,
+      },
+      {
+        enabled: queryEnabled,
+      }
+    );
   const seats = Array.from(
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
@@ -289,11 +290,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             tooltip="DNI del pasajero, esta información es validada con la RENIEC "
             rules={[{ required: true }]}
             validateStatus={
-              form.getFieldValue("pasajeroDni") === ""
-                ? ""
-                : reniecResponse?.status === "error"
+              errorValidacionDNI
                 ? "error"
-                : reniecResponse?.status === "success"
+                : reniecResponse
                 ? "success"
                 : "validating"
             }

@@ -3,6 +3,8 @@ import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Alert, Avatar } from "antd";
 import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegTrashCan } from "react-icons/fa6";
+
 export default function UsuariosTable() {
   const {
     data: usuarios,
@@ -12,13 +14,19 @@ export default function UsuariosTable() {
   } = api.usuarios.getAllUsuarios.useQuery();
   const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openNotification } = useNotification();
+
   const handleUserDelete = (id: string) => {
     usuarioDeleteMutation.mutate(
+      { id },
+
       {
-        id,
-      },
-      {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Operación Exitosa",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
           void refetch();
         },
         onError: (error) => {
@@ -84,18 +92,17 @@ export default function UsuariosTable() {
     },
     {
       title: "Acciones",
-      render: (id: string) => {
+      render: (record: { id: string }) => {
         return (
           <Space size="middle">
             <Popconfirm
               okButtonProps={{
-                className:
-                  "bg-red-500 text-white rounded-md items-center justify-center",
+                danger: true,
               }}
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onConfirm={() => handleUserDelete(id)}
-              title="Confirmar Operación"
-              okText="Eliminar"
+              onConfirm={() => handleUserDelete(record.id)}
+              title="Estás segur@ de eliminar este usuario?"
+              cancelText="No"
+              okText="Sí"
             >
               <Button
                 type="link"
@@ -103,7 +110,7 @@ export default function UsuariosTable() {
                 danger
                 title="Eliminar Usuario"
               >
-                <RiDeleteBin6Line
+                <FaRegTrashCan
                   size="1.2em"
                   className="text-red-400 hover:text-red-600"
                 />

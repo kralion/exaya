@@ -7,6 +7,7 @@ type NotificationProps = {
   message: string;
   description?: string;
   type: "success" | "info" | "warning" | "error";
+  icon?: React.ReactNode;
 };
 
 const Context = React.createContext({

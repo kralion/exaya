@@ -38,6 +38,7 @@ const formItemLayout = {
 export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [source, setSource] = useState<string | undefined>();
+  const [queryEnabled, setQueryEnabled] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -53,15 +54,25 @@ export function ConductorForm({ activator }: Props) {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
   const createConductorMutation = api.conductores.createConductor.useMutation();
-  const { data: informacionConductor, error: errorValidacionDNI } =
-    api.clientes.validateDni.useQuery({
-      dni: form.getFieldValue("dni") as string,
-    });
+  const { data: reniecResponse, error: errorValidacionDNI } =
+    api.clientes.validateDni.useQuery(
+      {
+        dni: form.getFieldValue("conductorDni") as string,
+      },
+      {
+        enabled: queryEnabled,
+      }
+    );
 
   const onFinish = (values: z.infer<typeof conductorSchema>) => {
+    const apellidosConductor = `${
+      reniecResponse?.data?.apellidoPaterno ?? ""
+    } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
     createConductorMutation.mutate({
       ...values,
       foto: source,
+      nombres: reniecResponse?.data?.nombres ?? "No registrado",
+      apellidos: apellidosConductor,
     });
     setIsModalOpen(false);
     openNotification({
@@ -71,9 +82,6 @@ export function ConductorForm({ activator }: Props) {
       placement: "topRight",
     });
     form.resetFields();
-  };
-  const onFinishFailed = () => {
-    console.log("Falló el registro");
   };
 
   return (
@@ -102,13 +110,12 @@ export function ConductorForm({ activator }: Props) {
           form={form}
           layout="vertical"
           name="register"
-          onFinishFailed={onFinishFailed}
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "
         >
           <Form.Item
-            name="dni"
+            name="conductorDni"
             label="DNI"
             tooltip="DNI del conductor, esta información es validada con la RENIEC "
             rules={[
@@ -119,19 +126,27 @@ export function ConductorForm({ activator }: Props) {
             validateStatus={
               errorValidacionDNI
                 ? "error"
-                : informacionConductor
+                : reniecResponse
                 ? "success"
                 : "validating"
             }
             help={
               <p>
-                {informacionConductor?.data?.nombres}{" "}
-                {informacionConductor?.data?.apellidoPaterno}{" "}
-                {informacionConductor?.data?.apellidoMaterno}
+                {reniecResponse?.data?.nombres}{" "}
+                {reniecResponse?.data?.apellidoPaterno}{" "}
+                {reniecResponse?.data?.apellidoMaterno}
               </p>
             }
           >
-            <Input type="text" className="w-full" />
+            <InputNumber
+              onChange={(value: string | null) => {
+                const dni = JSON.stringify(value);
+                form.setFieldValue("pasajeroDni", dni);
+                setQueryEnabled(dni.length === 8);
+              }}
+              type="text"
+              className="w-full"
+            />
           </Form.Item>
 
           <Form.Item

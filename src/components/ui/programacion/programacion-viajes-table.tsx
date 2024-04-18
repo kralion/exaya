@@ -132,14 +132,11 @@ export function ProgramacionTable() {
         <div className="flex items-baseline ">
           <Popconfirm
             okButtonProps={{
-              style: {
-                backgroundColor: "#f5222d",
-                color: "white",
-                borderRadius: "5px",
-                border: "none",
-              },
+              danger: true,
             }}
-            title="Estás seguro ?"
+            title="Estás segur@ de eliminar este viaje?"
+            okText="Sí"
+            cancelText="No"
             onConfirm={() => {
               handleDelete(id);
             }}

@@ -45,14 +45,9 @@ export default function EncomiendaDetails({ codigo, modalActivator }: Props) {
             {encomienda && (
               <div>
                 <Popconfirm
-                  title="¿Está seguro de cambiar el estado de la encomienda?"
+                  title="¿Está segur@ de cambiar el estado de la encomienda?"
                   onConfirm={handleOkStatusChange}
-                  okText="Si"
-                  okButtonProps={
-                    status === true
-                      ? { className: "bg-red-500" }
-                      : { className: "bg-green-500" }
-                  }
+                  okText="Sí"
                   cancelText="No"
                 >
                   <Tag

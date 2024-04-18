@@ -1,7 +1,18 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Button, Form, Input, Modal, Select, Space, Typography } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  Space,
+  Typography,
+} from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
+import { HiOutlineUpload } from "react-icons/hi";
+
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -50,28 +61,48 @@ const formItemLayout = {
 
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [queryEnabled, setQueryEnabled] = useState(false);
   const { openNotification } = useNotification();
   const [source, setSource] = useState<string | undefined>();
   const [form] = Form.useForm();
+  const { data: reniecResponse, error: errorValidacionDNI } =
+    api.clientes.validateDni.useQuery(
+      {
+        dni: form.getFieldValue("usuarioDni") as string,
+      },
+      {
+        enabled: queryEnabled,
+      }
+    );
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSource(undefined);
+    form.resetFields();
   };
 
   function onFinish(values: z.infer<typeof usuarioSchema>) {
+    const apellidosConductor = `${
+      reniecResponse?.data?.apellidoPaterno ?? ""
+    } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
+    alert(
+      JSON.stringify(
+        {
+          ...values,
+          nombres: reniecResponse?.data?.nombres ?? "No registrado",
+          apellidos: apellidosConductor,
+        },
+        null,
+        2
+      )
+    );
     createUsuarioMutation.mutate(
       {
         ...values,
         foto: source,
+        nombres: reniecResponse?.data?.nombres ?? "No registrado",
+        apellidos: apellidosConductor,
       },
 
       {
@@ -109,7 +140,10 @@ export function UsuarioForm({ activator }: Props) {
 
   return (
     <>
-      <button className={style.basicButton} onClick={showModal}>
+      <button
+        className={style.basicButton}
+        onClick={() => setIsModalOpen(true)}
+      >
         <AiOutlinePlusCircle size={15} />
         {activator}
       </button>
@@ -124,9 +158,19 @@ export function UsuarioForm({ activator }: Props) {
           </p>
         }
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={handleCancel}
         onCancel={handleCancel}
-        footer={null}
+        footer={
+          <Space className="flex justify-end">
+            <button type="submit" className={styles.basicButton}>
+              Registrar
+            </button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
+        }
       >
         <Form
           {...formItemLayout}
@@ -147,42 +191,39 @@ export function UsuarioForm({ activator }: Props) {
                 whitespace: true,
               },
             ]}
-            validateStatus="validating"
-            help="Este campo será validado ..."
+            validateStatus={
+              errorValidacionDNI
+                ? "error"
+                : reniecResponse
+                ? "success"
+                : "validating"
+            }
+            help={
+              form.getFieldValue("usuarioDni") ===
+              "" ? null : reniecResponse?.status === "error" ? (
+                "El DNI no existe"
+              ) : reniecResponse?.status === "success" ? (
+                <p className="text-green-500">
+                  {reniecResponse.data?.nombres}{" "}
+                  {reniecResponse.data?.apellidoPaterno}{" "}
+                  {reniecResponse.data?.apellidoMaterno}
+                </p>
+              ) : (
+                "Ingrese los 8 dígitos del DNI"
+              )
+            }
           >
-            <Input
+            <InputNumber
               type="number"
               maxLength={8}
               addonBefore={<BsPassport />}
               placeholder="12345678"
+              onChange={(value: string | null) => {
+                const dni = JSON.stringify(value);
+                form.setFieldValue("usuarioDni", dni);
+                setQueryEnabled(dni.length === 8);
+              }}
             />
-          </Form.Item>
-          <Form.Item
-            name="nombres"
-            label="Nombres"
-            rules={[
-              {
-                required: true,
-                message: "Ingresa los nombres del conductor",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input placeholder="Roberto" />
-          </Form.Item>
-
-          <Form.Item
-            name="apellidos"
-            label="Apellidos"
-            rules={[
-              {
-                required: true,
-                message: "Ingresa los apellidos del conductor",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input placeholder="Quiroz" />
           </Form.Item>
 
           <Form.Item
@@ -210,7 +251,7 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Input placeholder="hugo-egoavil" type="text" />
+            <Input placeholder="exaya-user" type="text" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -222,7 +263,7 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Input.Password type="password" />
+            <Input.Password placeholder="*********" type="password" />
           </Form.Item>
 
           <Form.Item
@@ -235,7 +276,7 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Select placeholder="ADMIN">
+            <Select placeholder="Administrador">
               {rolesSistema?.map((rol) => (
                 <Select.Option key={rol.value} value={rol.value}>
                   {rol.label}
@@ -303,7 +344,8 @@ export function UsuarioForm({ activator }: Props) {
                   }
                   return (
                     <Button
-                      disabled={createUsuarioMutation.isLoading && !source}
+                      icon={<HiOutlineUpload />}
+                      disabled={createUsuarioMutation.isLoading}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -343,15 +385,6 @@ export function UsuarioForm({ activator }: Props) {
               ))}
             </Select>
           </Form.Item>
-          <Space className="flex justify-end">
-            <button type="submit" className={styles.basicButton}>
-              Registrar
-            </button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
         </Form>
       </Modal>
     </>

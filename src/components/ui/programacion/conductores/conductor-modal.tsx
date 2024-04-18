@@ -20,7 +20,7 @@ export default function ConductorModal({ id, open, setOpen }: TProps) {
 
   const showDeleteConfirm = (id: string) => {
     confirm({
-      title: "Estas seguro de eliminar a este conductor ?",
+      title: "Estas segur@ de eliminar a este conductor ?",
       icon: <PiWarningCircleBold size={30} className="mr-4" color="red" />,
       content: "Todos los datos serán eliminados",
       okText: "Sí",

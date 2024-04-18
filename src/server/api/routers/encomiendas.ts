@@ -55,7 +55,7 @@ export const encomiendasRouter = createTRPCRouter({
         };
       }
     }),
-  deleteEncomienda: publicProcedure
+  deleteEncomiendaByCodigo: publicProcedure
     .input(
       encomiendaSchema.pick({
         codigo: true,
