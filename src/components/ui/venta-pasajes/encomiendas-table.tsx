@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Table, Tag, Typography } from "antd";
+import { Table, Tag } from "antd";
 const columns = [
   {
     title: "Nombres ",

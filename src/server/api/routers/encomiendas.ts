@@ -40,6 +40,9 @@ export const encomiendasRouter = createTRPCRouter({
       try {
         const encomienda = await ctx.prisma.encomienda.findUnique({
           where: { codigo: input.codigo },
+          include: {
+            viaje: true,
+          },
         });
         return {
           status: "success",
