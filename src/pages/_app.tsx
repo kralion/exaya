@@ -2,13 +2,15 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { api } from "@/utils/api";
+import { useState } from "react";
 import Head from "next/head";
 import "@/styles/globals.css";
 import esEs from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import NextTopLoader from "nextjs-toploader";
 import "dayjs/locale/es";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
+import ThemeToggle from "@/components/theme-toggle";
 
 dayjs.locale("es");
 
@@ -16,6 +18,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const { defaultAlgorithm, darkAlgorithm } = theme;
+  const [theming, setTheming] = useState("defaultAlgorithm");
   return (
     <>
       <Head>
@@ -49,8 +53,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
           token: {
             colorPrimary: "#FAAD14",
           },
+          algorithm: theming === "dark" ? darkAlgorithm : defaultAlgorithm,
         }}
       >
+        <ThemeToggle setTheme={setTheming} />
         <NextTopLoader showSpinner={false} color="#f97316" />
         <SessionProvider session={session}>
           <Component {...pageProps} />
