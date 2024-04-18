@@ -89,6 +89,57 @@ export const viajesRouter = createTRPCRouter({
       };
     }
   }),
+
+  getViajesByDate: publicProcedure
+    .input(z.object({ date: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const date = new Date(input.date);
+        const viajes = await ctx.prisma.viaje.findMany({
+          where: {
+            AND: [
+              {
+                salida: {
+                  gte: new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    date.getDate(),
+                    0,
+                    0,
+                    0
+                  ),
+                },
+              },
+              {
+                salida: {
+                  lt: new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    date.getDate(),
+                    23,
+                    59,
+                    59
+                  ),
+                },
+              },
+            ],
+          },
+          include: {
+            ruta: true,
+            bus: true,
+          },
+        });
+        return {
+          status: "success",
+          response: viajes,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los viajes",
+        };
+      }
+    }),
   getViajeById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {

@@ -156,8 +156,10 @@ const columns: ColumnsType = [
   },
 ];
 
-export function PasajesTable() {
-  const { data: viajes, isLoading } = api.viajes.getViajesForToday.useQuery();
+export function PasajesTable({ dayQuery }: { dayQuery: string }) {
+  const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
+    date: dayQuery,
+  });
 
   return (
     <div className="w-full">
