@@ -1,11 +1,8 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import type { DatePickerProps } from "antd";
-import { Button, DatePicker, Form, Select, TimePicker } from "antd";
+import { Button, DatePicker, Form, Select } from "antd";
 import style from "./frame.module.css";
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-
-const format = "HH:mm";
 
 const layout = {
   labelCol: { span: 5 },
@@ -31,15 +28,15 @@ export function ViajesForm() {
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
   const onFinish = (values: TViaje) => {
+    const formattedSalida = values.salida
+      .toISOString()
+      .replace("T", " ")
+      .substring(0, 19);
     createViajeMutation.mutate(
       {
         ...values,
         estado: "DISPONIBLE",
-        salida: new Date(
-          `${values.fechaSalida?.format("YYYY-MM-DD") ?? "2024-11-12"} ${
-            values.horaSalida?.format("HH:mm") ?? "20:30"
-          }`
-        ),
+        salida: new Date(formattedSalida),
       },
       {
         onSuccess: (response) => {
@@ -78,7 +75,7 @@ export function ViajesForm() {
     <Form
       {...layout}
       form={form}
-      name="control-hooks"
+      name="viaje-form"
       onFinish={onFinish}
       className="flex justify-between"
     >
@@ -86,7 +83,7 @@ export function ViajesForm() {
         <div className="flex gap-2">
           <Form.Item
             name="rutaId"
-            rules={[{ required: true, message: "Selecciona" }]}
+            rules={[{ required: true, message: "Requerido" }]}
           >
             <Select
               style={{ width: 300 }}
@@ -110,7 +107,7 @@ export function ViajesForm() {
 
           <Form.Item
             name="busId"
-            rules={[{ required: true, message: "Selecciona" }]}
+            rules={[{ required: true, message: "Requerido" }]}
           >
             <Select
               loading={isLoadingBus === true || isFetchingBus === true}
@@ -126,27 +123,15 @@ export function ViajesForm() {
             </Select>
           </Form.Item>
           <Form.Item
-            name="fechaSalida"
-            rules={[{ required: true, message: "Selecciona" }]}
+            rules={[{ required: true, message: "Requerido" }]}
+            name="salida"
           >
-            <DatePicker style={{ width: 120 }} placeholder="Fecha" />
-          </Form.Item>
-          <Form.Item
-            name="horaSalida"
-            rules={[{ required: true, message: "Selecciona" }]}
-          >
-            <TimePicker
-              style={{ width: 90 }}
-              minuteStep={15}
-              format={format}
-              placeholder="Hora"
-              showNow={false}
-            />
+            <DatePicker showTime format="YYYY-MM-DD HH:mm" minuteStep={15} />
           </Form.Item>
         </div>
         <Form.Item
           name="tarifas"
-          rules={[{ required: true, message: "Selecciona" }]}
+          rules={[{ required: true, message: "Requerido" }]}
         >
           <Select
             mode="multiple"

@@ -120,6 +120,9 @@ export const viajesRouter = createTRPCRouter({
             },
             estado: "DISPONIBLE",
           },
+          include: {
+            ruta: true,
+          },
         });
         return {
           status: "success",

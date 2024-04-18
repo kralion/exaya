@@ -37,16 +37,14 @@ export function EncomiendasForm() {
   const { data: rutas } = api.rutas.getAllRutas.useQuery();
   const { data: viajesDiariosDisponibles } =
     api.viajes.getViajesByRutaDestinyAndStatus.useQuery({
-      destiny: form.getFieldValue("destino") as string,
+      destiny: form.getFieldValue("ciudadDestino") as string,
     });
   const { openNotification } = useNotification();
   const { data: lastestCodeOfEncomienda } =
     api.encomiendas.getLatestCodeOfEncomienda.useQuery();
   const createEncomiendaMutation =
     api.encomiendas.createEncomienda.useMutation();
-  const selectedRuta = rutas?.find(
-    (ruta) => ruta.ciudadDestino === form.getFieldValue("destino")
-  );
+
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
       dni: form.getFieldValue("destinatarioDni") as string,
@@ -187,7 +185,7 @@ export function EncomiendasForm() {
             onChange={(value) => {
               const dni = String(value);
               form.setFieldValue("remitenteDni", dni);
-              setReceiverQueryEnabled(dni.length === 8);
+              setSenderQueryEnabled(dni.length === 8);
             }}
             type="number"
             className="w-full"
@@ -236,7 +234,7 @@ export function EncomiendasForm() {
             onChange={(value) => {
               const dni = String(value);
               form.setFieldValue("destinatarioDni", dni);
-              setSenderQueryEnabled(dni.length === 8);
+              setReceiverQueryEnabled(dni.length === 8);
             }}
             type="number"
             className="w-full"
@@ -247,7 +245,7 @@ export function EncomiendasForm() {
         <Form.Item
           name="ciudadOrigen"
           label="Origen"
-          rules={[{ type: "array", required: true, message: "Selecciona" }]}
+          rules={[{ required: true, message: "Selecciona" }]}
         >
           <Select placeholder="Jr.Angaraes 123 - Huancayo">
             {rutas?.map((origen: { id: string; ciudadOrigen: string }) => (
@@ -259,9 +257,19 @@ export function EncomiendasForm() {
         </Form.Item>
         <Form.Item
           name="ciudadDestino"
-          help={selectedRuta ? selectedRuta.terminalDestino : "No hay Llegadas"}
+          help={
+            viajesDiariosDisponibles?.response?.find(
+              (viaje: {
+                ruta: {
+                  ciudadDestino: string;
+                  terminalDestino: string;
+                };
+              }) =>
+                viaje.ruta.ciudadDestino === form.getFieldValue("ciudadDestino")
+            )?.ruta.terminalDestino
+          }
           label="Destino"
-          rules={[{ type: "array", required: true, message: "Selecciona" }]}
+          rules={[{ required: true, message: "Selecciona" }]}
         >
           <Select placeholder="Huancayo">
             {rutas?.map((destino: { id: string; ciudadDestino: string }) => (
@@ -315,14 +323,20 @@ export function EncomiendasForm() {
               },
             ]}
           >
-            <Select style={{ width: 120 }} placeholder="Boleto">
+            <Select
+              onChange={(value: boolean) => {
+                alert(value);
+              }}
+              style={{ width: 120 }}
+              placeholder="Boleto"
+            >
               <Select.Option value={false}>Boleto</Select.Option>
               <Select.Option value={true}>Factura</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
             name="pagado"
-            help="¿Ya se pagó por la encomienda?"
+            tooltip="¿Ya se pagó por la encomienda?"
             label="Pagado"
           >
             <Switch
@@ -373,8 +387,8 @@ export function EncomiendasForm() {
             </Select>
           </Form.Item>
         </div>
-        {form.getFieldValue("factura") === true ? (
-          <div className="col-span-3">
+        {form.getFieldValue("factura") === false ? (
+          <div className="col-span-2">
             <Form.Item
               name="empresa"
               label="Nombre de la Empresa"
