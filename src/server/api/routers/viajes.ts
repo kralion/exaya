@@ -61,8 +61,10 @@ export const viajesRouter = createTRPCRouter({
   //TODO: It seems like the TIMEZONE is not being WORKING we are 5 hours ahead
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
     const today = new Date();
+    today.setHours(today.getHours() - 5);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(tomorrow.getHours() - 5);
     try {
       const viajesDiarios = await ctx.prisma.viaje.findMany({
         where: {

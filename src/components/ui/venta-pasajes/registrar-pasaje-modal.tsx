@@ -1,4 +1,3 @@
-import PassengerAsset from "@/assets/passenger.png";
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import {
@@ -17,7 +16,6 @@ import { Concert_One } from "next/font/google";
 import Image from "next/image";
 import { useState } from "react";
 import { FaSquare } from "react-icons/fa";
-import { LuDelete, LuPrinter } from "react-icons/lu";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
@@ -102,25 +100,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setOpenRegister(false);
   }
 
-  const handlePrintTicket = () => {
-    openNotification({
-      placement: "topRight",
-      message: "Operacion Exitosa",
-      description: "Redireccionando a Impresion",
-      type: "success",
-    });
-  };
-
-  const [disabledPrint, setDisabledPrint] = useState(true);
-
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
-  };
-
-  const handleSeatBooking = () => {
-    setDisabledPrint(false);
-    alert("Asiento reservado");
   };
 
   return (
@@ -243,7 +225,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex justify-between pr-5">
+            <div className="flex items-center gap-4 pr-5">
               <h3>Registro de Boleto</h3>
               <div>
                 {selectedSeat !== null &&
@@ -263,7 +245,44 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 ) : (
                   ""
                 )}
-                <Tag className="px-3 py-1">Asiento {selectedSeat}</Tag>
+
+                <svg
+                  key={selectedSeat}
+                  width="40"
+                  height="40"
+                  viewBox="0 2 24 22"
+                >
+                  <path
+                    className={
+                      reniecResponse?.status === "error"
+                        ? "fill-red-300 stroke-red-600"
+                        : boletosReservados?.response?.some(
+                            (boleto) => boleto.asiento === selectedSeat
+                          )
+                        ? "fill-yellow-300 stroke-yellow-600"
+                        : boletosVendidos?.response?.some(
+                            (boleto) => boleto.asiento === selectedSeat
+                          )
+                        ? "fill-green-300 stroke-green-600"
+                        : "fill-white stroke-slate-500"
+                    }
+                    d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
+                  ></path>
+                  <path
+                    className="fill-amber-200 stroke-amber-600"
+                    d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
+                  ></path>
+                  <text
+                    x="50%"
+                    y="50%"
+                    textAnchor="middle"
+                    dy=".3em"
+                    fontSize="6"
+                    className={`text-[7px] font-bold  ${concertOne.className}`}
+                  >
+                    {selectedSeat}
+                  </text>
+                </svg>
               </div>
             </div>
             <hr className="mt-2 " />
@@ -271,163 +290,137 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         }
         centered
         open={openRegister}
-        onCancel={() => setOpenRegister(false)}
+        onCancel={() => {
+          setOpenRegister(false);
+          form.resetFields();
+        }}
         width={500}
-        footer={null}
+        footer={
+          <Space className="mt-10">
+            <Button
+              onClick={() => {
+                setOpenRegister(false);
+                form.resetFields();
+              }}
+              danger
+              type="text"
+            >
+              Cancelar
+            </Button>
+            <Button type="default">Reservar</Button>
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+              className="duration-75 hover:opacity-80 active:opacity-100"
+            >
+              Imprimir
+            </Button>
+
+            <Button
+              htmlType="submit"
+              type="primary"
+              loading={isLoading}
+              disabled={
+                reniecResponse?.status === "error" ||
+                boletosReservados?.response?.some(
+                  (boleto) => boleto.asiento === selectedSeat
+                ) ||
+                boletosVendidos?.response?.some(
+                  (boleto) => boleto.asiento === selectedSeat
+                )
+              }
+            >
+              Registrar
+            </Button>
+          </Space>
+        }
       >
         <Form
           layout="vertical"
           form={form}
-          name="control-hooks"
-          className="mt-7"
+          name="registrar-pasaje"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           style={{ width: 450 }}
         >
-          <Form.Item
-            name="pasajeroDni"
-            label="DNI"
-            tooltip="DNI del pasajero, esta información es validada con la RENIEC "
-            rules={[{ required: true }]}
-            validateStatus={
-              errorValidacionDNI
-                ? "error"
-                : reniecResponse
-                ? "success"
-                : "validating"
-            }
-            help={
-              form.getFieldValue("pasajeroDni") ===
-              "" ? null : reniecResponse?.status === "error" ? (
-                "El DNI no existe"
-              ) : reniecResponse?.status === "success" ? (
-                <p className="text-green-500">
-                  {reniecResponse.data?.nombres}{" "}
-                  {reniecResponse.data?.apellidoPaterno}{" "}
-                  {reniecResponse.data?.apellidoMaterno}
-                </p>
-              ) : (
-                "Ingrese los 8 dígitos del DNI"
-              )
-            }
-          >
-            <InputNumber
-              onChange={(value: string | null) => {
-                const dni = JSON.stringify(value);
-                form.setFieldValue("pasajeroDni", dni);
-                setQueryEnabled(dni.length === 8);
-              }}
-              type="number"
-              maxLength={8}
-              className="w-full"
-              controls={false}
-            />
-          </Form.Item>
-
-          <Space direction="horizontal" className="flex gap-5">
+          <Space>
             <Form.Item
-              name="precio"
-              label="Precio"
-              style={{
-                width: 215,
-              }}
-              rules={[{ required: true, message: "Selecciona el precio" }]}
+              name="pasajeroDni"
+              label="DNI"
+              tooltip="DNI del pasajero, esta información es validada con la RENIEC "
+              rules={[{ required: true }]}
+              validateStatus={
+                errorValidacionDNI
+                  ? "error"
+                  : reniecResponse
+                  ? "success"
+                  : "validating"
+              }
+              help={
+                form.getFieldValue("pasajeroDni") ===
+                "" ? null : reniecResponse?.status === "error" ? (
+                  "El DNI no existe"
+                ) : reniecResponse?.status === "success" ? (
+                  <p className="text-green-500">
+                    {reniecResponse.data?.nombres}{" "}
+                    {reniecResponse.data?.apellidoPaterno}{" "}
+                    {reniecResponse.data?.apellidoMaterno}
+                  </p>
+                ) : (
+                  ""
+                )
+              }
             >
-              <Select placeholder="40" allowClear>
-                <Option value={30}>30</Option>
-                <Option value={45}>45</Option>
-              </Select>
+              <InputNumber
+                onChange={(value: string | null) => {
+                  const dni = JSON.stringify(value);
+                  form.setFieldValue("pasajeroDni", dni);
+                  setQueryEnabled(dni.length === 8);
+                }}
+                style={{
+                  width: 270,
+                }}
+                type="number"
+                maxLength={8}
+                className="w-full"
+                controls={false}
+              />
             </Form.Item>
             <Form.Item
               name="telefonoCliente"
               label="Telefono"
               tooltip="Telefono del pasajero para contactarlo "
-              rules={[{ required: true, message: "Ingresa el teléfono" }]}
+              rules={[{ required: true, message: "Requerido" }]}
             >
               <InputNumber
                 style={{
-                  width: 215,
+                  width: 95,
                 }}
                 maxLength={9}
                 type="number"
                 controls={false}
               />
             </Form.Item>
+            <Form.Item
+              name="precio"
+              label="Precio"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Select placeholder="40" allowClear>
+                {viaje?.response?.tarifas.map(
+                  (tarifa: number, index: number) => (
+                    <Option key={index} value={tarifa}>
+                      {tarifa}
+                    </Option>
+                  )
+                )}
+              </Select>
+            </Form.Item>
           </Space>
-          <Form.Item
-            tooltip="Describe los equipajes que lleva el pasajero"
-            name="equipaje"
-            label="Equipaje"
-          >
+          <Form.Item name="equipaje" label="Equipaje">
             <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
-          </Form.Item>
-          <div className="flex justify-center">
-            <Image
-              src={PassengerAsset}
-              alt="logo"
-              height={70}
-              className="  drop-shadow-xl "
-              width={200}
-            />
-          </div>
-
-          <Form.Item>
-            <div className="mt-5 flex items-center justify-between">
-              <div className="flex gap-3">
-                <Button
-                  htmlType="submit"
-                  loading={isLoading}
-                  disabled={
-                    reniecResponse?.status === "error" ||
-                    boletosReservados?.response?.some(
-                      (boleto) => boleto.asiento === selectedSeat
-                    ) ||
-                    boletosVendidos?.response?.some(
-                      (boleto) => boleto.asiento === selectedSeat
-                    )
-                  }
-                >
-                  Registrar
-                </Button>
-
-                <Button
-                  type="default"
-                  htmlType="button"
-                  onClick={handleSeatBooking}
-                >
-                  Reservar
-                </Button>
-              </div>
-              <div className=" flex gap-2">
-                <Button
-                  className="rounded-full"
-                  icon={<LuDelete className=" p-0.5 text-red-500" size={25} />}
-                  type="text"
-                  htmlType="button"
-                  onClick={() => {
-                    form.resetFields();
-                  }}
-                />
-
-                <Button
-                  disabled={disabledPrint}
-                  className="rounded-full bg-green-200 "
-                  icon={
-                    <LuPrinter
-                      className={
-                        disabledPrint
-                          ? "text-gray-500"
-                          : "rounded-full p-0.5  text-green-500"
-                      }
-                      size={25}
-                    />
-                  }
-                  title="Imprimir"
-                  type="text"
-                  onClick={handlePrintTicket}
-                />
-              </div>
-            </div>
           </Form.Item>
         </Form>
       </Modal>

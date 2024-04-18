@@ -49,17 +49,14 @@ export default function UsuariosTable() {
         return <Avatar src={foto} size="large" shape="circle" />;
       },
     },
+    //TODO: In new version of tailwindcss capitalize nombres and apellidos
     {
       title: "Nombres",
       dataIndex: "nombres",
-      render: (nombres: string) => (
-        <span className="font-semibold">{nombres}</span>
-      ),
     },
     {
       title: "Apellidos",
       dataIndex: "apellidos",
-      render: (apellidos: string) => <span>{apellidos}</span>,
     },
     {
       title: "DNI",
