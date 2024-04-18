@@ -1,5 +1,4 @@
 export * from "./boleto";
-export * from "./conductor";
 export * from "./ruta";
 export * from "./viaje";
 export * from "./bus";
