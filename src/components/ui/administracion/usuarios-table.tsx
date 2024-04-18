@@ -5,28 +5,34 @@ import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
 export default function UsuariosTable() {
   const {
-    mutateAsync: usuarioMutation,
-    isLoading: isDeleting,
-    isSuccess: isDeleted,
-  } = api.usuarios.deleteUser.useMutation();
-  const {
     data: usuarios,
     isLoading,
     isError,
+    refetch,
   } = api.usuarios.getAllUsuarios.useQuery();
+  const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openNotification } = useNotification();
-  const handleUserDelete = async (id: string) => {
-    await usuarioMutation({
-      id,
-    });
-    isDeleted &&
-      openNotification({
-        message: "Usuario Eliminado",
-        description: "El usuario ha sido eliminado correctamente",
-        type: "success",
-        placement: "topRight",
-      });
+  const handleUserDelete = (id: string) => {
+    usuarioDeleteMutation.mutate(
+      {
+        id,
+      },
+      {
+        onSuccess: () => {
+          void refetch();
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error en la Operación",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+        },
+      }
+    );
   };
+
   const columns = [
     {
       title: "Foto",
@@ -129,11 +135,7 @@ export default function UsuariosTable() {
           showIcon
         />
       )}
-      <Table
-        columns={columns}
-        dataSource={usuarios}
-        loading={isLoading || isDeleting}
-      />
+      <Table columns={columns} dataSource={usuarios} loading={isLoading} />
     </>
   );
 }

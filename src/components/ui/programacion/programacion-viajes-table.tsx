@@ -1,3 +1,4 @@
+import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { Button, Form, Popconfirm, Table, Tag, Tooltip } from "antd";
 import { TbLicense } from "react-icons/tb";
@@ -13,7 +14,30 @@ const convertTo12HourFormat = (hours: number, minutes: number) => {
 
 export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const { data: viajes } = api.viajes.getAllViajes.useQuery();
+  const { data: viajes, refetch } = api.viajes.getAllViajes.useQuery();
+  const { openNotification } = useNotification();
+  const deleteViajeMutation = api.viajes.deleteViajeById.useMutation();
+
+  const handleDelete = (id: string) => {
+    deleteViajeMutation.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          void refetch();
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error en la Operación",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+        },
+      }
+    );
+
+    deleteViajeMutation.reset();
+  };
 
   const columns = [
     {
@@ -103,8 +127,8 @@ export function ProgramacionTable() {
 
     {
       title: "Acciones",
-      dataIndex: "acciones",
-      render: () => (
+      dataIndex: "id",
+      render: (id: string) => (
         <div className="flex items-baseline ">
           <Popconfirm
             okButtonProps={{
@@ -116,7 +140,9 @@ export function ProgramacionTable() {
               },
             }}
             title="Estás seguro ?"
-            onConfirm={() => alert("Eliminado")}
+            onConfirm={() => {
+              handleDelete(id);
+            }}
           >
             <Button danger type="link">
               Eliminar

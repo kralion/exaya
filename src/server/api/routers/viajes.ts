@@ -153,11 +153,13 @@ export const viajesRouter = createTRPCRouter({
         };
       }
     }),
-  deleteViaje: protectedProcedure
+  deleteViajeById: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       try {
-        await ctx.prisma.viaje.delete({ where: { id: input.id } });
+        await ctx.prisma.viaje.delete({
+          where: { id: input.id },
+        });
         return {
           status: "success",
           message: "Viaje eliminado exitosamente",

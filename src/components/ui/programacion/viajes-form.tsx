@@ -2,6 +2,7 @@ import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { Button, DatePicker, Form, Select } from "antd";
 import style from "./frame.module.css";
+import { useEffect } from "react";
 
 const layout = {
   labelCol: { span: 5 },
@@ -24,6 +25,26 @@ export function ViajesForm() {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
+  const {
+    data: rutas,
+    isFetching: isFetchingRutas,
+    isLoading: isLoadingRutas,
+  } = api.rutas.getAllRutas.useQuery();
+  const {
+    data: bus,
+    isFetching: isFetchingBus,
+    isLoading: isLoadingBus,
+  } = api.buses.getAllBuses.useQuery();
+  const getAllViajesQuery = api.viajes.getAllViajes.useQuery();
+
+  useEffect(() => {
+    async function fetchData() {
+      if (createViajeMutation.isSuccess) {
+        await getAllViajesQuery.refetch();
+      }
+    }
+    void fetchData();
+  }, [createViajeMutation.isSuccess, getAllViajesQuery]);
   const onFinish = (values: TViaje) => {
     const salidaDate = new Date(values.salida);
     salidaDate.setHours(salidaDate.getHours() - 5);
@@ -37,7 +58,7 @@ export function ViajesForm() {
       {
         onSuccess: (response) => {
           openNotification({
-            message: "Viaje registrado",
+            message: "Operación Exitosa",
             description: response.message,
             type: "success",
             placement: "topRight",
@@ -56,16 +77,6 @@ export function ViajesForm() {
 
     form.resetFields();
   };
-  const {
-    data: rutas,
-    isFetching: isFetchingRutas,
-    isLoading: isLoadingRutas,
-  } = api.rutas.getAllRutas.useQuery();
-  const {
-    data: bus,
-    isFetching: isFetchingBus,
-    isLoading: isLoadingBus,
-  } = api.buses.getAllBuses.useQuery();
 
   return (
     <Form
