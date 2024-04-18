@@ -78,6 +78,25 @@ export const encomiendasRouter = createTRPCRouter({
       }
     }),
 
+  getLatestCodeOfEncomienda: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const encomienda = await ctx.prisma.encomienda.findFirst({
+        orderBy: {
+          fechaEnvio: "desc",
+        },
+      });
+      return {
+        status: "success",
+        response: encomienda?.codigo,
+      };
+    } catch (error) {
+      return {
+        status: "error",
+        message: "Error al obtener el último código de encomienda",
+      };
+    }
+  }),
+
   createEncomienda: publicProcedure
     .input(encomiendaSchema)
     .mutation(async ({ input, ctx }) => {

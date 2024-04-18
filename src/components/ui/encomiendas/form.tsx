@@ -1,4 +1,3 @@
-import type { CascaderProps, DatePickerProps } from "antd";
 import {
   Button,
   DatePicker,
@@ -12,29 +11,13 @@ import {
 import styles from "./frame.module.css";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { encomiendaSchema } from "@/schemas";
+import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
+import { useNotification } from "@/context/NotificationContext";
+
 import { api } from "@/utils/api";
 import { useState } from "react";
 import type { z } from "zod";
-
-const { Option } = Select;
 const { Title } = Typography;
-
-interface DataNodeType {
-  value: string;
-  label: string;
-  children?: DataNodeType[];
-}
-
-const terminales: CascaderProps<DataNodeType>["options"] = [
-  {
-    value: "huancayo",
-    label: "Jr.Angaraes 123 - Huancayo",
-  },
-  {
-    value: "ayacucho",
-    label: "Terminal Terrestre - Ayacucho",
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -51,7 +34,19 @@ export function EncomiendasForm() {
   const [form] = Form.useForm();
   const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
   const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
-
+  const { data: rutas } = api.rutas.getAllRutas.useQuery();
+  const { data: viajesDiariosDisponibles } =
+    api.viajes.getViajesByRutaDestiny.useQuery({
+      destiny: form.getFieldValue("destino") as string,
+    });
+  const { openNotification } = useNotification();
+  const { data: lastestCodeOfEncomienda } =
+    api.encomiendas.getLatestCodeOfEncomienda.useQuery();
+  const createEncomiendaMutation =
+    api.encomiendas.createEncomienda.useMutation();
+  const selectedRuta = rutas?.find(
+    (ruta) => ruta.ciudadDestino === form.getFieldValue("destino")
+  );
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
       dni: form.getFieldValue("dniDestinatario") as string,
@@ -69,14 +64,54 @@ export function EncomiendasForm() {
     }
   );
 
-  const onFinish = (values: z.infer<typeof encomiendaSchema>) => {
-    console.log(JSON.stringify(values, null, 2));
-    form.resetFields();
-  };
+  function generateNextCodigo(lastestCode: string): string {
+    const lastCodigoNumber = parseInt(lastestCode?.split("-")[1] ?? "", 10) + 1;
+    const lastCodigoPrefix = lastestCode?.split("-")[0] ?? "";
+    const numberString = String(lastCodigoNumber).padStart(5, "0");
+    return `${lastCodigoPrefix}-${numberString}`;
+  }
 
-  const onDateChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
+  async function onFinish(values: z.infer<typeof encomiendaSchema>) {
+    await createEncomiendaMutation.mutateAsync(
+      {
+        ...values,
+        codigo: generateNextCodigo(
+          lastestCodeOfEncomienda?.response || "S1-00000"
+        ),
+        fechaEnvio: new Date(values.fechaEnvio),
+        remitenteNombres: remitenteInformacion?.data?.nombres ?? "",
+        remitenteApellidos: `${
+          remitenteInformacion?.data?.apellidoPaterno ?? ""
+        } ${remitenteInformacion?.data?.apellidoMaterno ?? ""}`,
+        destinatarioNombres: receptorInformacion?.data?.nombres ?? "",
+        destinatarioApellidos: `${
+          receptorInformacion?.data?.apellidoPaterno ?? ""
+        } ${receptorInformacion?.data?.apellidoMaterno ?? ""}`,
+      },
+
+      {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Encomienda registrada",
+            description: response.message,
+            type: "success",
+            placement: "bottomRight",
+          });
+        },
+
+        onError: (error) => {
+          openNotification({
+            message: "Error al registrar encomienda",
+            description: error.message,
+            type: "error",
+            placement: "bottomRight",
+          });
+        },
+      }
+    );
+
+    form.resetFields();
+  }
 
   return (
     <div className="space-y-7">
@@ -87,13 +122,14 @@ export function EncomiendasForm() {
         form={form}
         layout="vertical"
         name="register"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onFinish={onFinish}
         initialValues={{ prefix: "+51" }}
         scrollToFirstError
         className="grid grid-flow-row grid-cols-4 gap-x-3.5 gap-y-7"
       >
         <Form.Item
-          name="dniRemitente"
+          name="remitenteDni"
           label="DNI del Remitente"
           tooltip="Persona que va a enviar la encomienda"
           rules={[
@@ -104,7 +140,7 @@ export function EncomiendasForm() {
             },
           ]}
           validateStatus={
-            form.getFieldValue("dniRemitente") === ""
+            form.getFieldValue("remitenteDni") === ""
               ? ""
               : remitenteInformacion?.status === "error"
               ? "error"
@@ -113,7 +149,7 @@ export function EncomiendasForm() {
               : "validating"
           }
           help={
-            form.getFieldValue("dniRemitente") === "" ? (
+            form.getFieldValue("remitenteDni") === "" ? (
               ""
             ) : remitenteInformacion?.status === "error" ? (
               "El DNI no existe"
@@ -132,7 +168,7 @@ export function EncomiendasForm() {
             placeholder="12345678"
             onChange={(value) => {
               const dni = String(value);
-              form.setFieldValue("dniRemitente", dni);
+              form.setFieldValue("remitenteDni", dni);
               setReceiverQueryEnabled(dni.length === 8);
             }}
             type="number"
@@ -142,7 +178,7 @@ export function EncomiendasForm() {
         </Form.Item>
 
         <Form.Item
-          name="dniDestinatario"
+          name="destinatarioDni"
           label="DNI del Destinatario"
           tooltip="Persona que va a recibir la encomienda"
           rules={[
@@ -153,7 +189,7 @@ export function EncomiendasForm() {
             },
           ]}
           validateStatus={
-            form.getFieldValue("dniDestinatario") === ""
+            form.getFieldValue("destinatarioDni") === ""
               ? ""
               : receptorInformacion?.status === "error"
               ? "error"
@@ -162,7 +198,7 @@ export function EncomiendasForm() {
               : "validating"
           }
           help={
-            form.getFieldValue("dniDestinatario") === "" ? (
+            form.getFieldValue("destinatarioDni") === "" ? (
               ""
             ) : receptorInformacion?.status === "error" ? (
               "El DNI no existe"
@@ -181,7 +217,7 @@ export function EncomiendasForm() {
             placeholder="12345678"
             onChange={(value) => {
               const dni = String(value);
-              form.setFieldValue("dniDestinatario", dni);
+              form.setFieldValue("destinatarioDni", dni);
               setSenderQueryEnabled(dni.length === 8);
             }}
             type="number"
@@ -191,28 +227,29 @@ export function EncomiendasForm() {
         </Form.Item>
 
         <Form.Item
-          name="origen"
+          name="ciudadOrigen"
           label="Origen"
           rules={[{ type: "array", required: true, message: "Selecciona" }]}
         >
           <Select placeholder="Jr.Angaraes 123 - Huancayo">
-            {terminales?.map((terminal, index) => (
-              <Option key={index} value={terminal.value}>
-                {terminal.label}
-              </Option>
+            {rutas?.map((origen: { id: string; ciudadOrigen: string }) => (
+              <Select.Option key={origen.id} value={origen.ciudadOrigen}>
+                {origen.ciudadOrigen}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>
         <Form.Item
-          name="destino"
+          name="ciudadDestino"
+          help={selectedRuta ? selectedRuta.terminalDestino : "No hay Llegadas"}
           label="Destino"
           rules={[{ type: "array", required: true, message: "Selecciona" }]}
         >
-          <Select placeholder="Jr.Angaraes 123 - Huancayo ">
-            {terminales?.map((terminal, index) => (
-              <Option key={index} value={terminal.value}>
-                {terminal.label}
-              </Option>
+          <Select placeholder="Huancayo">
+            {rutas?.map((destino: { id: string; ciudadDestino: string }) => (
+              <Select.Option key={destino.id} value={destino.ciudadDestino}>
+                {destino.ciudadDestino}
+              </Select.Option>
             ))}
           </Select>
         </Form.Item>
@@ -220,11 +257,17 @@ export function EncomiendasForm() {
           <Form.Item
             name="precio"
             label="Precio"
-            rules={[{ required: true, message: "Requerido" }]}
+            rules={[
+              {
+                min: 1,
+                required: true,
+                message: "Requerido",
+              },
+            ]}
           >
-            <InputNumber
+            <Input
+              addonBefore="S/."
               type="number"
-              controls={false}
               style={{ width: "100%" }}
               placeholder="25"
             />
@@ -239,14 +282,13 @@ export function EncomiendasForm() {
             <DatePicker
               className="w-full min-w-[150px]"
               placeholder="18/10/2023"
-              onChange={onDateChange}
             />
           </Form.Item>
         </div>
 
         <div className="flex gap-3.5">
           <Form.Item
-            name="comprobante"
+            name="factura"
             label="Comprobante"
             rules={[
               {
@@ -256,18 +298,22 @@ export function EncomiendasForm() {
             ]}
           >
             <Select style={{ width: 120 }} placeholder="Boleto">
-              <Option value="boleto">Boleto</Option>
-              <Option value="factura">Factura</Option>
+              <Select.Option value={false}>Boleto</Select.Option>
+              <Select.Option value={true}>Factura</Select.Option>
             </Select>
           </Form.Item>
-          <Form.Item name="estado" label="Estado">
+          <Form.Item
+            name="pagado"
+            help="¿Ya se pagó por la encomienda?"
+            label="Pagado"
+          >
             <Switch
-              checkedChildren="Pagado"
-              unCheckedChildren="Por Pagar"
+              checkedChildren="Sí"
+              unCheckedChildren="No"
               className=" bg-red-500 shadow-lg"
               onChange={(checked) =>
                 form.setFieldsValue({
-                  estado: checked ? "Pagado" : "Por Pagar",
+                  estado: checked ? true : false,
                 })
               }
             />
@@ -284,8 +330,8 @@ export function EncomiendasForm() {
             />
           </Form.Item>
           <Form.Item
-            name="viaje"
-            tooltip="En qué viaje se llevara la encomienda"
+            name="viajeId"
+            tooltip="En qué turno se va a enviar la encomienda"
             label="Viaje"
             rules={[
               {
@@ -295,11 +341,59 @@ export function EncomiendasForm() {
             ]}
           >
             <Select style={{ width: 120 }} placeholder="AYHYO-1">
-              <Option value="ayhyo-1">AYHYO-1</Option>
-              <Option value="hyoay-2">HYOAY-2</Option>
+              {viajesDiariosDisponibles?.response?.map(
+                (viaje: { id: string; salida: Date }) => (
+                  <Select.Option key={viaje.id} value={viaje.id}>
+                    {new Date(viaje.salida).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </Select.Option>
+                )
+              )}
             </Select>
           </Form.Item>
         </div>
+        {form.getFieldValue("factura") === true ? (
+          <div className="col-span-3">
+            <Form.Item
+              name="empresa"
+              label="Nombre de la Empresa"
+              rules={[
+                {
+                  required: true,
+                  message: "Requerido",
+                  whitespace: true,
+                },
+              ]}
+            >
+              <Input
+                style={{
+                  width: 200,
+                }}
+                addonBefore={<FaBuilding />}
+                placeholder="Empresa de Transportes SAC"
+              />
+            </Form.Item>
+            <Form.Item
+              name="ruc"
+              label="RUC"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Input
+                type="number"
+                addonBefore={<FaBuildingShield />}
+                style={{
+                  width: 100,
+                }}
+                maxLength={11}
+                placeholder="12345678901"
+              />
+            </Form.Item>
+          </div>
+        ) : null}
+        <div></div>
 
         <div className="col-span-4 flex items-end justify-end gap-3">
           <button type="submit" className={styles.basicButton}>

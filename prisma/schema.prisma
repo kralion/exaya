@@ -54,17 +54,27 @@ model Conductor {
 }
 
 model Encomienda {
-    codigo          String   @unique
-    descripcion     String
-    destinatarioDni String
-    factura         Boolean  @default(false)
-    fechaEnvio      DateTime @default(now())
-    id              String   @id @default(uuid())
-    pagado          Boolean  @default(false)
-    precio          Int
-    remitenteDni    String
-    viaje           Viaje    @relation(fields: [viajeId], references: [id])
-    viajeId         String
+    codigo                String   @unique
+    descripcion           String
+    destinatarioDni       String
+    destinatarioNombres   String
+    destinatarioApellidos String
+    destinatarioTelefono  String
+    remitenteTelefono     String
+    ciudadDestino         String
+    ciudadOrigen          String
+    remitenteNombres      String
+    remitenteApellidos    String
+    factura               Boolean  @default(false)
+    empresa               String?
+    ruc                   String?
+    fechaEnvio            DateTime @default(now())
+    id                    String   @id @default(uuid())
+    pagado                Boolean  @default(false)
+    precio                Int
+    remitenteDni          String
+    viaje                 Viaje    @relation(fields: [viajeId], references: [id])
+    viajeId               String
 }
 
 model Ruta {

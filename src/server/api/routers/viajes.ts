@@ -108,6 +108,33 @@ export const viajesRouter = createTRPCRouter({
         };
       }
     }),
+
+  getViajesByRutaDestiny: publicProcedure
+    .input(z.object({ destiny: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const viajes = await ctx.prisma.viaje.findMany({
+          where: {
+            ruta: {
+              ciudadDestino: input.destiny,
+            },
+          },
+          include: {
+            ruta: true,
+            bus: true,
+          },
+        });
+        return {
+          status: "success",
+          response: viajes,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los viajes",
+        };
+      }
+    }),
   createViaje: publicProcedure
     .input(viajeSchema)
     .mutation(async ({ input, ctx }) => {

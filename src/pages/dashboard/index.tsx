@@ -15,6 +15,7 @@ type TViajeEstado = {
 
 export default function Dashboard() {
   const { data: viajesDiarios } = api.viajes.getViajesForToday.useQuery();
+  const { data: lastestCode } = api.boletos.getLatestCodeOfBoleto.useQuery();
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(
     (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
@@ -74,7 +75,7 @@ export default function Dashboard() {
                     size={20}
                   />
                   <Typography.Text strong className="text-xl drop-shadow-lg">
-                    B023DF
+                    {lastestCode?.response}
                   </Typography.Text>
                 </span>
               </p>
