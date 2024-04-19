@@ -1,7 +1,7 @@
 import LoginGradientLight from "@/assets/images/login-gradient-light.png";
 import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
-import AppHead from "@/components/landing/head";
 import VideoBackground from "@/components/exaya/video-background";
+import AppHead from "@/components/landing/head";
 import { useNotification } from "@/context/NotificationContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
@@ -12,7 +12,7 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
 
@@ -35,6 +35,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
+
   async function onFinish(values: TLogin) {
     setLoading(true);
     const result = await signIn("credentials", {
@@ -106,9 +107,10 @@ export default function Login() {
 
       <div
         style={{
+          // TODO: Add logic for dynamic LoginGradient Image based on the theme
           backgroundImage: `url(${LoginGradientLight.src})`,
         }}
-        className={` ${literata.className} flex w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
+        className={` ${literata.className} flex  w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
       >
         <h3
           className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-5xl font-bold  text-transparent drop-shadow-xl   `}
