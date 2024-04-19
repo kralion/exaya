@@ -2,9 +2,11 @@ import AppHead from "@/components/landing/head";
 import AppLayout from "@/components/exaya/layout";
 import { BsWhatsapp } from "react-icons/bs";
 import { IoMdBook } from "react-icons/io";
-import { Tag } from "antd";
+import { Space, Tag, Typography } from "antd";
 import { Literata } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
+const { Text } = Typography;
 
 const literata = Literata({
   weight: "400",
@@ -22,21 +24,19 @@ export default function Soporte() {
           src="https://ouch-cdn2.icons8.com/sWspUF6_ECZRNO0zP1znr5bnaExFblS6xwyuGCVi1KE/rs:fit:368:417/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODM1/LzM4MTRiZDg2LWU2/ZjEtNDE2Yi1iNjMw/LTU1ZDQ0NmU1NTc5/MS5wbmc.png"
           alt="Support Banner"
         />
-        <div className="my-7 flex flex-col items-center justify-center text-center">
-          <div className="space-y-3">
+        <div className="my-7 flex flex-col items-center justify-center gap-7 text-center">
+          <Space direction="vertical" className="mx-auto w-2/3">
             <h1 className={` ${literata.className} text-3xl `}>
               Estás teniendo algún problema ?
             </h1>
-            <h5>
+            <Text>
               Si tienes algún problema con la sistema web, puedes contactarnos
-              instantáneamente por medio <br />
-              de nuestro chat en vivo. O si lo prefieres, puedes agendar una{" "}
-              <br />
+              instantáneamente por medio de nuestro chat en vivo o agendar una
               cita con nosotros.
-            </h5>
-          </div>
-          <div className="mb-12 mt-7 flex gap-3">
-            <a
+            </Text>
+          </Space>
+          <div className="flex gap-3">
+            <Link
               href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
               target="_blank"
             >
@@ -47,8 +47,8 @@ export default function Soporte() {
                 <BsWhatsapp size={15} />
                 Chat en vivo
               </Tag>
-            </a>
-            <a
+            </Link>
+            <Link
               href="mailto:joan300501@gmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
             "
             >
@@ -59,25 +59,25 @@ export default function Soporte() {
                 <IoMdBook size={15} />
                 Agendar una cita
               </Tag>
-            </a>
+            </Link>
           </div>
-          <h5 className="my-3 font-bold">
-            O nos puedes contactar por medio de
+          <h5 className="mb-3 font-bold">
+            Nuestro medios de contacto son estos :
           </h5>
-          <div className="mb-14 flex gap-3">
-            <Tag className="flex border-none bg-blue-100 font-bold">
+          <Space className="mb-14 flex gap-3">
+            <Tag className="flex border-none ">
               E-mail :
-              <span className="flex items-center gap-2 pl-1  text-blue-600">
+              <Text className="flex items-center gap-2 pl-1  text-blue-600">
                 joan300501@gmail.com
-              </span>
+              </Text>
             </Tag>
-            <Tag className="flex border-none  bg-blue-100 font-bold">
+            <Tag className="flex border-none">
               Teléfono :
-              <span className="flex items-center gap-2 pl-1 text-blue-600">
-                +51 914 019 629
-              </span>
+              <Text className="flex items-center gap-2 pl-1 text-blue-600">
+                914 019 629
+              </Text>
             </Tag>
-          </div>
+          </Space>
         </div>
       </div>
     </AppLayout>

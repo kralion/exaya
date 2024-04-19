@@ -1,6 +1,6 @@
 import AppHeader from "@/components/exaya/appheader";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, Space, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -78,18 +78,13 @@ export default function AppLayout({ children }: LayoutProps) {
   } = theme.useToken();
 
   return (
-    <Layout
-      style={{
-        minHeight: "123vh",
-      }}
-    >
+    <Layout className="  p-4">
       <Sider
-        className=" m-2 rounded-lg border-2 border-slate-200  border-opacity-50  shadow-xl"
+        className="h-fit rounded-lg border-2 border-slate-200  border-opacity-50  shadow-xl"
         collapsed={collapsed}
         style={{
           background: colorBgContainer,
           borderRadius: 21,
-          height: "105vh",
         }}
         collapsedWidth={50}
         onCollapse={(value) => setCollapsed(value)}
@@ -101,11 +96,12 @@ export default function AppLayout({ children }: LayoutProps) {
           items={items}
           // defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
         />
-        <div className="p-2">
+        <div className=" px-2 pb-2">
           {collapsed ? (
             <Button
               type="text"
               danger
+              className="rounded-b-xl rounded-t-md"
               icon={<CgLogOut />}
               onClick={() =>
                 void signOut({
@@ -115,9 +111,8 @@ export default function AppLayout({ children }: LayoutProps) {
             />
           ) : (
             <Button
-              icon={<CgLogOut />}
               type="text"
-              className=" h-10 w-full pl-5 text-left"
+              className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
               danger
               onClick={() =>
                 void signOut({
@@ -125,25 +120,24 @@ export default function AppLayout({ children }: LayoutProps) {
                 })
               }
             >
+              <CgLogOut />
               Salir
             </Button>
           )}
         </div>
       </Sider>
-      <Layout>
+      <Layout className="ml-4 space-y-4">
         <Header
-          className=" relative m-2 mt-2.5 flex  items-center  rounded-lg  border-2 border-slate-200  border-opacity-50 shadow-md"
+          className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50  px-3 shadow-md"
           style={{
             background: colorBgContainer,
             borderRadius: 14,
           }}
         >
-          <div className="absolute left-2.5 flex w-full items-center justify-between pr-7">
-            <AIAssistantInput />
-            <h3 className=" pt-2 text-center font-bold text-primary  ">
-              Expreso Ayacucho S.A.C
-            </h3>
-          </div>
+          <AIAssistantInput />
+          <h3 className=" absolute right-5  text-center font-bold text-primary  ">
+            Expreso Ayacucho S.A.C
+          </h3>
         </Header>
 
         <Content
@@ -152,7 +146,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className="  m-2   rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-xl"
+          className="rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-lg"
         >
           {children}
         </Content>
