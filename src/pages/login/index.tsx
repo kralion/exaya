@@ -1,4 +1,5 @@
-import LoginGradient from "@/assets/images/login-gradient.png";
+import LoginGradientLight from "@/assets/images/login-gradient-light.png";
+import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
 import AppHead from "@/components/landing/head";
 import VideoBackground from "@/components/exaya/video-background";
 import { useNotification } from "@/context/NotificationContext";
@@ -11,7 +12,7 @@ import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
 
@@ -105,9 +106,9 @@ export default function Login() {
 
       <div
         style={{
-          backgroundImage: `url(${LoginGradient.src})`,
+          backgroundImage: `url(${LoginGradientLight.src})`,
         }}
-        className={` ${literata.className} flex w-full min-w-[60%] flex-col items-center  justify-center bg-cover pl-5`}
+        className={` ${literata.className} flex w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
       >
         <h3
           className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-5xl font-bold  text-transparent drop-shadow-xl   `}
