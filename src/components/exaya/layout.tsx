@@ -80,7 +80,7 @@ export default function AppLayout({ children }: LayoutProps) {
   return (
     <Layout className="  p-4">
       <Sider
-        className="h-fit rounded-lg border-2 border-slate-200  border-opacity-50  shadow-xl"
+        className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
         collapsed={collapsed}
         style={{
           background: colorBgContainer,
@@ -128,7 +128,7 @@ export default function AppLayout({ children }: LayoutProps) {
       </Sider>
       <Layout className="ml-4 space-y-4">
         <Header
-          className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50  px-3 shadow-md"
+          className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50 px-3  shadow-md dark:border-zinc-800"
           style={{
             background: colorBgContainer,
             borderRadius: 14,
@@ -146,7 +146,7 @@ export default function AppLayout({ children }: LayoutProps) {
             padding: 21,
             borderRadius: 21,
           }}
-          className="rounded-lg border-2 border-slate-100  border-opacity-50  bg-purple-100  shadow-lg"
+          className="rounded-lg border-2 border-slate-100 border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
         >
           {children}
         </Content>

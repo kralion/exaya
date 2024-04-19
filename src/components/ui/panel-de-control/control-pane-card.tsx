@@ -20,7 +20,7 @@ export const ControlPaneCard = ({
   return (
     <Link href={href}>
       <Card
-        className="min-h-[250px] cursor-pointer border-1   backdrop-blur-3xl   hover:bg-orange-100/20 hover:shadow-md"
+        className="min-h-[250px] cursor-pointer border-1 backdrop-blur-3xl   hover:bg-orange-100/20   hover:shadow-md dark:border-zinc-800"
         type="inner"
         bordered={false}
         title={

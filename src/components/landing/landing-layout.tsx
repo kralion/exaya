@@ -3,11 +3,9 @@ import AOSWrapper from "@/utils/AOS";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Footer from "./footer";
 import LandingDepth from "@/assets/images/landing-depth.jpg";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
-import ThemeToggle from "../ui/landingpage/theme-toggle";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -41,25 +39,6 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [isChecked, setIsChecked] = useState(false);
-  useEffect(() => {
-    const savedTheme =
-      typeof window !== "undefined" ? localStorage.getItem("theme") : null;
-    const prefersDark =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-    setIsChecked(savedTheme ? savedTheme === "dark" : prefersDark);
-  }, []);
-
-  const handleCheckboxChange = () => {
-    const newChecked = !isChecked;
-    setIsChecked(newChecked);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("theme", newChecked ? "dark" : "light");
-    }
-    document.documentElement.classList.toggle("dark");
-  };
-
   return (
     <AOSWrapper>
       <div className={` ${inter.className}  dark:bg-zinc-800 dark:text-white`}>
@@ -91,10 +70,6 @@ export default function LandingLayout({
             </div>
           </Link>
           <DesktopNavBar navLinks={navLinks} />
-          <ThemeToggle
-            isChecked={isChecked}
-            handleCheckboxChange={handleCheckboxChange}
-          />
         </div>
         <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>
           {children}

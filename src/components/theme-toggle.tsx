@@ -16,9 +16,18 @@ export default function ThemeToggle({
       style={{ left: 14, bottom: 14 }}
       icon={<VscSymbolColor />}
     >
-      <FloatButton onClick={() => setTheme("dark")} icon={<IoMoonOutline />} />
       <FloatButton
-        onClick={() => setTheme("defaultAlgorithm")}
+        onClick={() => {
+          setTheme("dark");
+          document.documentElement.classList.toggle("dark");
+        }}
+        icon={<IoMoonOutline />}
+      />
+      <FloatButton
+        onClick={() => {
+          setTheme("defaultAlgorithm");
+          document.documentElement.classList.remove("dark");
+        }}
         icon={<TiWeatherSunny />}
       />
     </FloatButton.Group>
