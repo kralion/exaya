@@ -5,17 +5,17 @@ import Image from "next/image";
 import { api } from "@/utils/api";
 
 type Props = {
-  codigo: string;
+  id: string;
   modalActivator: string;
 };
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
-export default function EncomiendaDetails({ codigo, modalActivator }: Props) {
+export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const [open, setOpen] = useState(false);
   const { openNotification } = useNotification();
   const [status, setStatus] = useState(false);
-  const { data: encomienda } = api.encomiendas.getEncomiendaByCodigo.useQuery({
-    codigo,
+  const { data: encomienda } = api.encomiendas.getEncomiendaById.useQuery({
+    id,
   });
 
   const showModal = () => {
@@ -76,60 +76,52 @@ export default function EncomiendaDetails({ codigo, modalActivator }: Props) {
           <div className="flex justify-between">
             <div className="space-y-3">
               <p>
-                <Typography.Text strong>Guía: </Typography.Text>
-                <Typography.Text code> {codigo}</Typography.Text>
+                <Text strong>Guía: </Text>
+                <Text code>
+                  {encomienda?.response?.serie}-{encomienda?.response?.codigo}
+                </Text>
               </p>
 
               <p>
-                <Typography.Text strong>Remitente: </Typography.Text>
-                <Typography.Text>
-                  {encomienda?.response?.remitenteDni}
-                </Typography.Text>
+                <Text strong>Remitente: </Text>
+                <Text>{encomienda?.response?.remitenteDni}</Text>
               </p>
               <p>
-                <Typography.Text strong>Receptor: </Typography.Text>
-                <Typography.Text>
-                  {encomienda?.response?.destinatarioDni}
-                </Typography.Text>
+                <Text strong>Receptor: </Text>
+                <Text>{encomienda?.response?.destinatarioDni}</Text>
               </p>
               <p>
-                <Typography.Text strong>Comprobante: </Typography.Text>
+                <Text strong>Comprobante: </Text>
                 {encomienda?.response?.factura ? (
-                  <Typography.Text code>Factura</Typography.Text>
+                  <Text code>Factura</Text>
                 ) : (
-                  <Typography.Text code>Boleta</Typography.Text>
+                  <Text code>Boleta</Text>
                 )}
               </p>
               <p>
                 {/* TODO: Change this to the correct value, to ORIGEN AND DESTINO */}
-                <Typography.Text strong>Origen: </Typography.Text>
-                <Typography.Text>
-                  {encomienda?.response?.viaje.estado}
-                </Typography.Text>
+                <Text strong>Origen: </Text>
+                <Text>{encomienda?.response?.viaje.estado}</Text>
               </p>
               <p>
-                <Typography.Text strong>Destino: </Typography.Text>
-                <Typography.Text>
-                  {encomienda?.response?.viaje.estado}
-                </Typography.Text>
+                <Text strong>Destino: </Text>
+                <Text>{encomienda?.response?.viaje.estado}</Text>
               </p>
               <p>
-                <Typography.Text strong>Fecha de Envío: </Typography.Text>
-                <Typography.Text>
+                <Text strong>Fecha de Envío: </Text>
+                <Text>
                   {encomienda?.response?.viaje.salida.toLocaleString("es-PE", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
-                </Typography.Text>
+                </Text>
               </p>
               <hr className="mb-7 mt-3 w-64" />
 
               <p className="flex flex-col ">
-                <Typography.Text strong>Descripción: </Typography.Text>
-                <Typography.Text>
-                  {encomienda?.response?.descripcion}
-                </Typography.Text>
+                <Text strong>Descripción: </Text>
+                <Text>{encomienda?.response?.descripcion}</Text>
               </p>
             </div>
             <Image

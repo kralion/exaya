@@ -1,4 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { z } from "zod";
 
 import { encomiendaSchema } from "@/schemas";
 
@@ -30,16 +31,16 @@ export const encomiendasRouter = createTRPCRouter({
       }
     }),
 
-  getEncomiendaByCodigo: publicProcedure
+  getEncomiendaById: publicProcedure
     .input(
-      encomiendaSchema.pick({
-        codigo: true,
+      z.object({
+        id: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
       try {
         const encomienda = await ctx.prisma.encomienda.findUnique({
-          where: { codigo: input.codigo },
+          where: { id: input.id },
           include: {
             viaje: true,
           },
@@ -55,16 +56,16 @@ export const encomiendasRouter = createTRPCRouter({
         };
       }
     }),
-  deleteEncomiendaByCodigo: publicProcedure
+  deleteEncomiendaById: publicProcedure
     .input(
-      encomiendaSchema.pick({
-        codigo: true,
+      z.object({
+        id: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       try {
         await ctx.prisma.encomienda.delete({
-          where: { codigo: input.codigo },
+          where: { id: input.id },
         });
         return {
           status: "success",
@@ -118,14 +119,14 @@ export const encomiendasRouter = createTRPCRouter({
 
   updateEncomienda: publicProcedure
     .input(
-      encomiendaSchema.pick({
-        codigo: true,
+      z.object({
+        id: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       try {
         await ctx.prisma.encomienda.update({
-          where: { codigo: input.codigo },
+          where: { id: input.id },
           data: input,
         });
         return {

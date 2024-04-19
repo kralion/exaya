@@ -36,8 +36,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
-  const { data: lastestCodeOfBoleto } =
-    api.boletos.getLatestCodeOfBoleto.useQuery();
   const { data: boletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
@@ -64,13 +62,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
 
-  function generateNextCodigo(lastestCode: string): string {
-    const lastCodigoNumber = parseInt(lastestCode?.split("-")[1] ?? "", 10) + 1;
-    const lastCodigoPrefix = lastestCode?.split("-")[0] ?? "";
-    const numberString = String(lastCodigoNumber).padStart(5, "0");
-    return `${lastCodigoPrefix}-${numberString}`;
-  }
-
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
@@ -84,7 +75,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       telefonoCliente: values.telefonoCliente.toString(),
       pasajeroDni: values.pasajeroDni.toString(),
       asiento: selectedSeat,
-      codigo: generateNextCodigo(lastestCodeOfBoleto?.response || "S1-00000"),
       viajeId,
       pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
       pasajeroApellidos: apellidosCliente,

@@ -11,7 +11,7 @@ export function EncomiendasTable() {
     api.encomiendas.getAllEncomiendas.useQuery();
   const { openNotification } = useNotification();
   const deleteEncomiendaMutation =
-    api.encomiendas.deleteEncomiendaByCodigo.useMutation();
+    api.encomiendas.deleteEncomiendaById.useMutation();
   function capitalizeFirstLetter(string: string | undefined) {
     if (string === undefined) {
       return "";
@@ -91,12 +91,12 @@ export function EncomiendasTable() {
     },
     {
       title: "Acciones",
-      dataIndex: "codigo",
+      dataIndex: "id",
       key: "action",
-      render: (codigo: string) => {
+      render: (id: string) => {
         return (
           <Space className="items-baseline gap-2">
-            <EncomiendaDetails codigo={codigo} modalActivator="Ver Detalles" />
+            <EncomiendaDetails id={id} modalActivator="Ver Detalles" />
 
             <Popconfirm
               okButtonProps={{
@@ -105,7 +105,7 @@ export function EncomiendasTable() {
               title="Estás segur@ de eliminar esta encomienda?"
               okText="Sí"
               cancelText="No"
-              onConfirm={() => handleDeleteEncomienda(codigo)}
+              onConfirm={() => handleDeleteEncomienda(id)}
             >
               <Button danger type="link">
                 Eliminar
@@ -116,9 +116,9 @@ export function EncomiendasTable() {
       },
     },
   ];
-  function handleDeleteEncomienda(codigo: string) {
+  function handleDeleteEncomienda(id: string) {
     deleteEncomiendaMutation.mutate(
-      { codigo },
+      { id },
       {
         onSuccess: (response) => {
           openNotification({

@@ -68,7 +68,8 @@ model Conductor {
 }
 
 model Encomienda {
-    codigo                String   @unique
+    codigo                Int      @default(autoincrement())
+    serie                 Serie    @default(AG001)
     descripcion           String
     destinatarioDni       String
     destinatarioNombres   String

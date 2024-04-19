@@ -17,7 +17,19 @@ const encomiendaSchema = z.object({
   factura: z.boolean(),
   pagado: z.boolean(),
   descripcion: z.string(),
-  codigo: z.string(),
+  serie: z.enum([
+    "AG001",
+    "AG002",
+    "AG003",
+    "AG004",
+    "AG005",
+    "AG006",
+    "AG007",
+    "AG008",
+    "AG009",
+    "AG010",
+  ]),
+  codigo: z.number(),
 });
 
 export default encomiendaSchema;
