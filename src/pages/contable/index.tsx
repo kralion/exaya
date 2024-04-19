@@ -1,5 +1,5 @@
 import AppLayout from "@/components/exaya/layout";
-import { RoundedButton } from "@/components/exaya/rounded-button";
+
 import AppHead from "@/components/landing/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
@@ -8,6 +8,7 @@ import TableContable from "@/components/ui/contable/table";
 import { api } from "@/utils/api";
 import {
   Alert,
+  Button,
   DatePicker,
   FloatButton,
   Input,
@@ -15,8 +16,9 @@ import {
   Typography,
 } from "antd";
 import dayjs from "dayjs";
-import { Suspense } from "react";
+import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { MdTimelapse } from "react-icons/md";
 
 const { Title } = Typography;
 
@@ -27,7 +29,9 @@ export default function Contable() {
     isLoading,
   } = api.viajes.getAllViajes.useQuery();
   const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
-
+  const [scheduleTimeQuery, setScheduleTimeQuery] = useState<string>(
+    dayjs().format("HH:mm")
+  );
   return (
     <AppLayout>
       <AppHead title="Contable" />
@@ -39,48 +43,37 @@ export default function Contable() {
                 Horarios
               </Title>
               <div className="flex items-center gap-2">
-                {Array.isArray(salidasDiarias) &&
-                  salidasDiarias.length === 0 && (
-                    <Alert
-                      message={
-                        <p>
-                          Ups parece que no hay
-                          <code className="ml-2 underline">Horarios</code> para
-                          mostrar
-                        </p>
-                      }
-                      type="warning"
-                      showIcon
-                    />
-                  )}
+                {isLoading && <ScheduleSkeleton />}
+                {salidasDiarias?.response.length === 0 && (
+                  <Alert
+                    message="No hay horarios disponibles que contabilizar para hoy"
+                    type="warning"
+                    showIcon
+                  />
+                )}
                 {isError && (
                   <Alert
-                    message={
-                      <p>
-                        Error al obtener los datos de los
-                        <code className="ml-2 underline">Horarios</code> por
-                        favor
-                        <a href="." className="ml-2 underline">
-                          recarge la página
-                        </a>
-                      </p>
-                    }
+                    message="Error al obtener los horarios de salida, por favor recargue la página"
                     type="error"
                     showIcon
                   />
                 )}
 
-                {Array.isArray(salidasDiarias) &&
-                  salidasDiarias.length > 0 &&
-                  salidasDiarias.map(
-                    ({ id, salida }: { id: string; salida: string }) => (
-                      <Suspense key={id} fallback={<ScheduleSkeleton />}>
-                        <RoundedButton
-                          horaSalida={dayjs(salida).format("HH:mm")}
-                        />
-                      </Suspense>
-                    )
-                  )}
+                {salidasDiarias?.response.map(
+                  ({ id, salida }: { id: string; salida: Date }) => (
+                    <Button
+                      key={id}
+                      onClick={() =>
+                        setScheduleTimeQuery(salida.toLocaleTimeString())
+                      }
+                      icon={<MdTimelapse className="animate-spin" />}
+                      shape="round"
+                      type="dashed"
+                    >
+                      {salida.toLocaleTimeString()}
+                    </Button>
+                  )
+                )}
               </div>
             </div>
 
@@ -102,18 +95,20 @@ export default function Contable() {
                   style={{ width: 180 }}
                 >
                   {salidasDiarias?.response.map(
-                    ({
-                      id,
-                      ruta,
-                    }: {
-                      id: string;
-                      ruta: { ciudadOrigen: string; ciudadDestino: string };
+                    (salida: {
+                      ruta: {
+                        ciudadDestino: string;
+                        ciudadOrigen: string;
+                        id: string;
+                      };
                     }) => (
                       <Select.Option
-                        key={id}
-                        value={ruta.ciudadOrigen + ruta.ciudadDestino}
+                        key={salida.ruta.id}
+                        value={
+                          salida.ruta.ciudadOrigen + salida.ruta.ciudadDestino
+                        }
                       >
-                        {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                        {salida.ruta.ciudadOrigen} - {salida.ruta.ciudadDestino}
                       </Select.Option>
                     )
                   )}
@@ -136,7 +131,7 @@ export default function Contable() {
               cardConcept="75% del recaudado"
             />
             <ContableCard
-              cardTitle="Comision"
+              cardTitle="Comisión"
               cardValue={590}
               cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
               cardConcept="15% del recaudado"
@@ -165,7 +160,7 @@ export default function Contable() {
               suffix={<CiSearch className="cursor-pointer" />}
             />
           </div>
-          <TableContable />
+          <TableContable scheduleTimeQuery={scheduleTimeQuery} />
         </div>
       </div>
       <FloatButton.BackTop visibilityHeight={0} />

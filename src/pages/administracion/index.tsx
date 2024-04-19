@@ -1,5 +1,5 @@
-import AppHead from "@/components/landing/head";
 import AppLayout from "@/components/exaya/layout";
+import AppHead from "@/components/landing/head";
 import AdministracionStepsSkeleton from "@/components/skeletons/administracion-steps-skeleton";
 import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
@@ -10,11 +10,10 @@ import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
-import { RoundedButton } from "@/components/exaya/rounded-button";
 import { api } from "@/utils/api";
-import { Alert, DatePicker, Select, Typography } from "antd";
-import type { DatePickerProps } from "antd/es/date-picker";
+import { Alert, Button, DatePicker, Select, Typography } from "antd";
 import { Suspense } from "react";
+import { MdTimelapse } from "react-icons/md";
 const { Title } = Typography;
 
 type TRutaRender = {
@@ -32,17 +31,6 @@ export default function Administracion() {
     isLoading,
   } = api.viajes.getAllViajes.useQuery();
 
-  const onDatePickerChange = (
-    value: DatePickerProps["value"],
-    dateString: [string, string] | string
-  ) => {
-    console.log("Fecha seleccionada: ", dateString);
-  };
-
-  const onOk = (value: DatePickerProps["value"]) => {
-    console.log("onOk: ", value);
-  };
-  const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
   return (
     <AppLayout>
       <AppHead title="Administracion" />
@@ -68,7 +56,8 @@ export default function Administracion() {
                   showIcon
                 />
               )}
-              {Array.isArray(salidasDiarias) && salidasDiarias.length === 0 && (
+              {isLoading && <ScheduleSkeleton />}
+              {salidasDiarias?.response.length === 0 && (
                 <Alert
                   message={
                     <p>
@@ -81,24 +70,21 @@ export default function Administracion() {
                   showIcon
                 />
               )}
-
-              {Array.isArray(salidasDiarias) &&
-                salidasDiarias.length > 0 &&
-                salidasDiarias?.map(
-                  ({ id, salida }: { id: string; salida: string }) => (
-                    <Suspense key={id} fallback={<ScheduleSkeleton />}>
-                      <RoundedButton
-                        horaSalida={new Date(salida).toLocaleTimeString(
-                          "es-MX",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                      />
-                    </Suspense>
-                  )
-                )}
+              {salidasDiarias?.response.map(
+                ({ id, salida }: { id: string; salida: Date }) => (
+                  <Button
+                    key={id}
+                    // onClick={() =>
+                    //   setScheduleTimeQuery(salida.toLocaleTimeString())
+                    // }
+                    icon={<MdTimelapse className="animate-spin" />}
+                    shape="round"
+                    type="dashed"
+                  >
+                    {salida.toLocaleTimeString()}
+                  </Button>
+                )
+              )}
             </div>
           </div>
           <div>
@@ -110,9 +96,6 @@ export default function Administracion() {
                 style={{
                   height: 32,
                 }}
-                onChange={onDatePickerChange as DatePickerProps["onChange"]}
-                onOk={onOk}
-                placeholder={placeHolderDate}
               />
 
               <Select

@@ -19,6 +19,33 @@ export const boletosRouter = createTRPCRouter({
     });
   }),
 
+  getBoletosByViajeTimeSchedule: publicProcedure
+    .input(z.object({ scheduleTimeQuery: z.string() }))
+    .query(async ({ input, ctx }) => {
+      //TODO: I am querying to the entire salida, and not to the time of salida
+      try {
+        const boletos = await ctx.prisma.boleto.findMany({
+          where: { viaje: { salida: input.scheduleTimeQuery } },
+          include: {
+            viaje: {
+              include: {
+                ruta: { select: { ciudadDestino: true, ciudadOrigen: true } },
+              },
+            },
+          },
+        });
+        return {
+          status: "success",
+          response: boletos,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los boletos",
+        };
+      }
+    }),
+
   getLatestCodeOfBoleto: publicProcedure.query(async ({ ctx }) => {
     try {
       const boleto = await ctx.prisma.boleto.findFirst({

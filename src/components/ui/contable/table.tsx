@@ -2,9 +2,16 @@ import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
-export default function TableContable() {
-  const { data: boletos } = api.boletos.getAllBoletos.useQuery();
-  const filterItems = boletos?.map((boleto) => ({
+export default function TableContable({
+  scheduleTimeQuery,
+}: {
+  scheduleTimeQuery: string;
+}) {
+  const { data: boletos } = api.boletos.getBoletosByViajeTimeSchedule.useQuery({
+    scheduleTimeQuery,
+  });
+
+  const filterItems = boletos?.response?.map((boleto) => ({
     text: boleto.viaje.ruta.ciudadDestino,
     value: boleto.viaje.ruta.ciudadDestino,
   }));
@@ -61,7 +68,7 @@ export default function TableContable() {
         pageSizeOptions: ["5", "10"],
       }}
       columns={columns}
-      dataSource={boletos}
+      dataSource={boletos?.response}
     />
   );
 }

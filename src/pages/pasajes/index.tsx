@@ -8,7 +8,9 @@ import React from "react";
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const [dayQuery, setDayQuery] = React.useState<string>("");
+  const [dayQuery, setDayQuery] = React.useState<string>(
+    dayjs().format("YYYY-MM-DD")
+  );
   const wrapperStyle: React.CSSProperties = {
     width: 300,
     border: `1px solid ${token.colorBorderSecondary}`,
@@ -25,7 +27,6 @@ function Pasajes() {
             className="shadow-lg duration-300 hover:shadow-xl"
             style={wrapperStyle}
             fullscreen={false}
-            defaultValue={dayjs()}
             onSelect={(date, { source }) => {
               if (source === "date") {
                 setDayQuery(date.format("YYYY-MM-DD"));
