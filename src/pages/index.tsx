@@ -1,7 +1,7 @@
-import Asset3D5 from "@/assets/3d-asset-5.png";
-import HeroStepImage from "@/assets/responsive-hero.svg";
-import LandingLayout from "@/components/landing-layout";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import Asset3D5 from "@/assets/images/3d-asset-5.png";
+import HeroStepImage from "@/assets/svg/responsive-hero.svg";
+import LandingLayout from "@/components/landing/landing-layout";
+import { ContainerScroll } from "@/components/landing/container-scroll-animation";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import { Dancing_Script } from "next/font/google";
 import Image from "next/image";

@@ -1,8 +1,8 @@
-import AppHead from "@/components/head";
-import LandingLayout from "@/components/landing-layout";
+import AppHead from "@/components/landing/head";
+import LandingLayout from "@/components/landing/landing-layout";
 import { BsLinkedin, BsTwitterX, BsWhatsapp } from "react-icons/bs";
 
-import ContactForm from "@/components/contact-form";
+import ContactForm from "@/components/landing/contact-form";
 import Link from "next/link";
 
 export default function Index() {

@@ -1,7 +1,6 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { Button, DatePicker, Form, Select } from "antd";
-import style from "./frame.module.css";
 import { useEffect } from "react";
 
 const layout = {
@@ -156,13 +155,13 @@ export function ViajesForm() {
 
       <Form.Item>
         <div className="flex gap-2">
-          <button
+          <Button
             disabled={createViajeMutation.isLoading}
-            type="submit"
-            className={style.basicButton}
+            htmlType="submit"
+            type="primary"
           >
             Crear Viaje
-          </button>
+          </Button>
 
           <Button
             htmlType="button"

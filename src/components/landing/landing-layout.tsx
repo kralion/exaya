@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Footer from "./footer";
-import LandingDepth from "@/assets/landing-depth.jpg";
-import DesktopNavBar from "./ui/landingpage/desktopnav";
-import ThemeToggle from "./ui/landingpage/theme-toggle";
+import LandingDepth from "@/assets/images/landing-depth.jpg";
+import DesktopNavBar from "../ui/landingpage/desktopnav";
+import ThemeToggle from "../ui/landingpage/theme-toggle";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],

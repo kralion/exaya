@@ -1,8 +1,8 @@
-import AppHead from "@/components/head";
+import AppHead from "@/components/landing/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
-import { RoundedButton } from "@/components/ui/rounded-button";
+import { RoundedButton } from "@/components/exaya/rounded-button";
 import { api } from "@/utils/api";
 import {
   Alert,
@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import React, { Suspense } from "react";
 import { CiSearch } from "react-icons/ci";
-import AppLayout from "../../components/layout";
+import AppLayout from "@/components/exaya/layout";
 dayjs.extend(customParseFormat);
 const { Title } = Typography;
 

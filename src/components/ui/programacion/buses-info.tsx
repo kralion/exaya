@@ -1,41 +1,25 @@
 import React from "react";
 import { Card, Space, Tag } from "antd";
 import { Image } from "antd";
-import { busesInfo } from "@/data";
 import { BiCheckCircle, BiInfoCircle } from "react-icons/bi";
 import { api } from "@/utils/api";
-
-type TBusInfo = {
-  id: string;
-  bus: {
-    placa: string;
-    foto: string;
-    modelo: string;
-  };
-  ruta: {
-    id: string;
-    rutaSerie: string;
-  };
-  activo: boolean;
-};
 
 const { Meta } = Card;
 
 export function BusesInformacion() {
-  const data = api.buses.getAllBuses.useQuery();
-  console.log(data.data?.length);
+  const { data: buses } = api.buses.getAllBuses.useQuery();
   return (
     <Space
       direction="vertical"
       size="large"
       className="grid grid-flow-row grid-cols-2 gap-5"
     >
-      {busesInfo.map((viaje: TBusInfo) => (
+      {buses?.map((bus) => (
         <Card
           rootClassName="shadow-md cursor-default font-semibold "
           cover={
             <Image
-              src={viaje.bus.foto}
+              src={bus.foto}
               alt="Bus preview"
               className=" object-cover"
               height={150}
@@ -44,22 +28,22 @@ export function BusesInformacion() {
           }
           actions={[
             <Tag
-              color={viaje.activo ? "green-inverse" : "red-inverse"}
-              key={viaje.id}
+              color={bus.modelo ? "green-inverse" : "red-inverse"}
+              key={bus.id}
             >
-              {viaje.activo ? "Activo" : "Inactivo"}
+              {bus.modelo ? "Activo" : "Inactivo"}
             </Tag>,
-            <Tag key={viaje.bus.placa}>{viaje.bus.placa}</Tag>,
-            <Tag key={viaje.ruta.id}>{viaje.ruta.rutaSerie}</Tag>,
+            <Tag key={bus.placa}>{bus.placa}</Tag>,
+            <Tag key={bus.id}>{bus.asientos}</Tag>,
           ]}
-          key={viaje.bus.placa}
+          key={bus.placa}
           className="min-w-[245px]"
         >
           <Meta
             title={
               <p className="flex items-center gap-1.5">
                 <span>
-                  {viaje.activo ? (
+                  {bus.asientos ? (
                     <BiCheckCircle
                       title="El vehiculo está en recorrido"
                       size={20}
@@ -73,15 +57,13 @@ export function BusesInformacion() {
                     />
                   )}
                 </span>
-                <span className="font-normal">{viaje.bus.placa}</span>
+                <span className="font-normal">{bus.placa}</span>
               </p>
             }
             description={
               <p>
                 <span>Modelo: </span>
-                <span className="font-normal">
-                  {viaje.bus.modelo || "Stándar"}
-                </span>
+                <span className="font-normal">{bus.modelo}</span>
               </p>
             }
           />

@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
-import { default as style, default as styles } from "./frame.module.css";
+
 type Props = {
   activator: string;
 };
@@ -86,10 +86,10 @@ export function ConductorForm({ activator }: Props) {
 
   return (
     <>
-      <button className={style.basicButton} onClick={showModal}>
+      <Button type="primary" onClick={showModal}>
         {activator}
         <AiOutlinePlusCircle size={15} />
-      </button>
+      </Button>
       <Modal
         centered
         title={
@@ -310,9 +310,9 @@ export function ConductorForm({ activator }: Props) {
             </Form.Item>
           </div>
           <Space className="mt-10">
-            <button className={styles.basicButton} type="submit">
+            <Button htmlType="submit" type="primary">
               Registrar
-            </button>
+            </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar

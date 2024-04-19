@@ -1,4 +1,4 @@
-import AppHeader from "@/components/appheader";
+import AppHeader from "@/components/exaya/appheader";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
@@ -11,7 +11,7 @@ import { HiOutlineSupport } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
-import { AIAssistantInput } from "./ui/panel-de-control/ai-assistant-input";
+import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
 
 interface LayoutProps {

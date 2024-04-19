@@ -8,7 +8,6 @@ import {
   Switch,
   Typography,
 } from "antd";
-import styles from "./frame.module.css";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { encomiendaSchema } from "@/schemas";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
@@ -428,9 +427,9 @@ export function EncomiendasForm() {
         <div></div>
 
         <div className="col-span-4 flex items-end justify-end gap-3">
-          <button type="submit" className={styles.basicButton}>
+          <Button htmlType="submit" type="primary">
             Registrar
-          </button>
+          </Button>
 
           <Button htmlType="reset" onClick={() => form.resetFields()}>
             Cancelar

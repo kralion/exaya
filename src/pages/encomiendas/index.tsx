@@ -1,8 +1,8 @@
 import { EncomiendasForm } from "@/components/ui/encomiendas/form";
 import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 import { FloatButton } from "antd";
-import AppLayout from "../../components/layout";
-import AppHead from "@/components/head";
+import AppLayout from "@/components/exaya/layout";
+import AppHead from "@/components/landing/head";
 
 function Encomiendas() {
   return (

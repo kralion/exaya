@@ -1,6 +1,6 @@
-import LoginGradient from "@/assets/login-gradient.png";
-import AppHead from "@/components/head";
-import VideoBackground from "@/components/ui/video-background";
+import LoginGradient from "@/assets/images/login-gradient.png";
+import AppHead from "@/components/landing/head";
+import VideoBackground from "@/components/exaya/video-background";
 import { useNotification } from "@/context/NotificationContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";

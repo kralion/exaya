@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import styles from "./planes.module.css";
-import { PricingModal } from "@/components/pricing-modal";
+import { PricingModal } from "@/components/landing/pricing-modal";
 type PlanesCardProps = {
   planTitle: string;
   planPrice: string;

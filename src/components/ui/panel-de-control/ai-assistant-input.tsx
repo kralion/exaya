@@ -1,12 +1,11 @@
 import { useNotification } from "@/context/NotificationContext";
-import { AutoComplete, Input } from "antd";
+import { AutoComplete, Button, Input } from "antd";
 import type { SelectProps } from "antd/es/select";
 import { useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ImSpinner10 } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import { TypeAnimation } from "react-type-animation";
-import style from "./frame.module.css";
 const { TextArea } = Input;
 const getRandomInt = (max: number, min = 0) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -124,7 +123,7 @@ export const AIAssistantInput = () => {
             )}
           </div>
         </AutoComplete>
-        <button onClick={handleGenerate} className={style.button}>
+        <Button onClick={handleGenerate}>
           {generating ? (
             <span>
               <ImSpinner10
@@ -137,7 +136,7 @@ export const AIAssistantInput = () => {
               <IoMdSend size={25} />
             </span>
           )}
-        </button>
+        </Button>
       </div>
     </>
   );

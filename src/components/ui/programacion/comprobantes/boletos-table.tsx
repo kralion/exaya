@@ -1,11 +1,10 @@
-import { boletosRegistrados } from "@/data";
-import type { IBoleto } from "@/interfaces";
 import { LuSettings } from "react-icons/lu";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
+import { api } from "@/utils/api";
 const { Title } = Typography;
-const columns: ColumnsType<IBoleto> = [
+const columns: ColumnsType = [
   {
     title: "Código",
     dataIndex: "id",
@@ -60,35 +59,34 @@ const columns: ColumnsType<IBoleto> = [
   },
 ];
 
-const data: any = [...boletosRegistrados];
-
 const handleConfigurar = () => {
   alert("Configurar");
 };
 
-const ComprobantesTable: React.FC = () => (
-  <div className="space-y-3.5">
-    <div className="flex justify-between">
-      <Title level={5}>Boletos Recientes</Title>
-      <LuSettings
-        className="cursor-not-allowed hover:opacity-70"
-        title="Configurar"
-        onClick={handleConfigurar}
-        size={20}
+export default function ComprobantesTable() {
+  const { data: boletos } = api.boletos.getAllBoletos.useQuery();
+  return (
+    <div className="space-y-3.5">
+      <div className="flex justify-between">
+        <Title level={5}>Boletos Recientes</Title>
+        <LuSettings
+          className="cursor-not-allowed hover:opacity-70"
+          title="Configurar"
+          onClick={handleConfigurar}
+          size={20}
+        />
+      </div>
+      <Table
+        columns={columns}
+        pagination={{
+          defaultPageSize: 3,
+          position: ["bottomRight"],
+          pageSizeOptions: ["3", "6", "9"],
+          showSizeChanger: true,
+        }}
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        dataSource={boletos}
       />
     </div>
-    <Table
-      columns={columns}
-      pagination={{
-        defaultPageSize: 3,
-        position: ["bottomRight"],
-        pageSizeOptions: ["3", "6", "9"],
-        showSizeChanger: true,
-      }}
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      dataSource={data}
-    />
-  </div>
-);
-
-export default ComprobantesTable;
+  );
+}

@@ -1,5 +1,5 @@
-import AppHead from "@/components/head";
-import AppLayout from "@/components/layout";
+import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/exaya/layout";
 import AdministracionStepsSkeleton from "@/components/skeletons/administracion-steps-skeleton";
 import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
@@ -10,7 +10,7 @@ import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
-import { RoundedButton } from "@/components/ui/rounded-button";
+import { RoundedButton } from "@/components/exaya/rounded-button";
 import { api } from "@/utils/api";
 import { Alert, DatePicker, Select, Typography } from "antd";
 import type { DatePickerProps } from "antd/es/date-picker";

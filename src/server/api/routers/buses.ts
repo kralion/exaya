@@ -4,7 +4,12 @@ import { z } from "zod";
 
 export const busesRouter = createTRPCRouter({
   getAllBuses: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.bus.findMany();
+    return ctx.prisma.bus.findMany({
+      //TODO: Rewrite this include
+      include: {
+        Viaje: true,
+      },
+    });
   }),
 
   getBusById: publicProcedure

@@ -31,6 +31,7 @@ model Boleto {
 
 model Bus {
     id            String   @id @default(cuid())
+    //TODO: To lowercase Viaje
     Viaje         Viaje[]
     asientos      Int
     fechaRegistro DateTime @default(now())
@@ -61,6 +62,7 @@ model Encomienda {
     destinatarioApellidos String
     destinatarioTelefono  String
     remitenteTelefono     String
+    // TODO: Delete this columns because it comes from the viajeId
     ciudadDestino         String
     ciudadOrigen          String
     remitenteNombres      String

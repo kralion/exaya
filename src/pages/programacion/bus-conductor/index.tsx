@@ -1,5 +1,5 @@
-import AppHead from "@/components/head";
-import AppLayout from "@/components/layout";
+import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/exaya/layout";
 import {
   ConductorForm,
   BusForm,

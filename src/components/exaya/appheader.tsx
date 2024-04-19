@@ -2,7 +2,7 @@ import { Tag, Typography } from "antd";
 import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
 import React from "react";
-import UserInfoDetails from "./user-info";
+import SessionInfo from "./session-info";
 
 const { Title } = Typography;
 
@@ -11,12 +11,12 @@ const blackOpsOne = Black_Ops_One({
   weight: ["400"],
 });
 
-type HeaderProps = {
+type Props = {
   collapsed: boolean;
   setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
+export default function AppHeader({ collapsed, setCollapsed }: Props) {
   return (
     <div>
       {!collapsed ? (
@@ -53,9 +53,7 @@ const AppHeader: React.FC<HeaderProps> = ({ collapsed, setCollapsed }) => {
         />
       )}
 
-      <UserInfoDetails collapsed={collapsed} />
+      <SessionInfo collapsed={collapsed} />
     </div>
   );
-};
-
-export default AppHeader;
+}

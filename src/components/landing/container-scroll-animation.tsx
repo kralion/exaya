@@ -3,7 +3,7 @@
 "use client";
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
-import ExayaPreview from "@/assets/exaya-preview.png";
+import ExayaPreview from "@/assets/images/exaya-preview.png";
 import Image from "next/image";
 export const ContainerScroll = () => {
   const containerRef = useRef<any>(null);

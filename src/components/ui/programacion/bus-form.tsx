@@ -9,7 +9,6 @@ import { TbLicense } from "react-icons/tb";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { busSchema } from "@/schemas";
 import type { z } from "zod";
-import styles from "./frame.module.css";
 
 type Props = {
   activator: string;
@@ -68,10 +67,10 @@ export function BusForm({ activator }: Props) {
 
   return (
     <>
-      <button className={styles.basicButton} onClick={showModal}>
+      <Button type="primary" onClick={showModal}>
         {activator}
         <AiOutlinePlusCircle size={15} />
-      </button>
+      </Button>
       <Modal
         width={350}
         centered
@@ -220,13 +219,13 @@ export function BusForm({ activator }: Props) {
           </Form.Item>
 
           <Space className="mt-10">
-            <button
+            <Button
               disabled={createBusMutation.isLoading}
-              className={styles.basicButton}
-              type="submit"
+              htmlType="submit"
+              type="primary"
             >
               Registrar
-            </button>
+            </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar

@@ -1,4 +1,4 @@
-import AppLayout from "@/components/layout";
+import AppLayout from "@/components/exaya/layout";
 import { Card, FloatButton, Typography, QRCode, Statistic } from "antd";
 import CountUp from "react-countup";
 import { HiOutlineClipboardCopy } from "react-icons/hi";
@@ -6,7 +6,7 @@ import { HiOutlineClipboardCopy } from "react-icons/hi";
 import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
-import AppHead from "@/components/head";
+import AppHead from "@/components/landing/head";
 import { RxClipboardCopy } from "react-icons/rx";
 const { Title } = Typography;
 function ProgramacionComprobantes() {

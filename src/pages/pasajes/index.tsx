@@ -1,6 +1,6 @@
 import { PasajesTable } from "@/components/ui/venta-pasajes/";
 import { FloatButton } from "antd";
-import AppLayout from "../../components/layout";
+import AppLayout from "@/components/exaya/layout";
 import { Calendar, theme, Typography } from "antd";
 import dayjs from "dayjs";
 import React from "react";

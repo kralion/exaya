@@ -39,6 +39,13 @@ export default function ConductorModal({ id, open, setOpen }: TProps) {
     });
     setOpen(false);
   };
+  function capitalizeFirstLetter(string: string | undefined) {
+    if (string === undefined) {
+      return "";
+    }
+    const lowerCaseString = string.toLowerCase();
+    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+  }
   return (
     <Modal
       title={<Title level={3}>Información del Conductor</Title>}
@@ -82,13 +89,13 @@ export default function ConductorModal({ id, open, setOpen }: TProps) {
           <p>
             <Typography.Text strong>Nombre : </Typography.Text>
             <Typography.Text>
-              {conductorSingle?.response?.conductorDni}
+              {capitalizeFirstLetter(conductorSingle?.response?.nombres)}
             </Typography.Text>
           </p>
           <p>
             <Typography.Text strong>Apellidos : </Typography.Text>
             <Typography.Text>
-              {conductorSingle?.response?.conductorDni}
+              {capitalizeFirstLetter(conductorSingle?.response?.apellidos)}
             </Typography.Text>
           </p>
 

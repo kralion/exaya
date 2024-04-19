@@ -1,10 +1,19 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Button, Popconfirm, Space, Table, Tag, Alert, Avatar } from "antd";
+import {
+  Button,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+  Alert,
+  Avatar,
+  Typography,
+} from "antd";
 import Link from "next/link";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
-
+const { Text } = Typography;
 export default function UsuariosTable() {
   const {
     data: usuarios,
@@ -14,6 +23,13 @@ export default function UsuariosTable() {
   } = api.usuarios.getAllUsuarios.useQuery();
   const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openNotification } = useNotification();
+  function capitalizeFirstLetter(string: string | undefined) {
+    if (string === undefined) {
+      return "";
+    }
+    const lowerCaseString = string.toLowerCase();
+    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+  }
 
   const handleUserDelete = (id: string) => {
     usuarioDeleteMutation.mutate(
@@ -49,14 +65,19 @@ export default function UsuariosTable() {
         return <Avatar src={foto} size="large" shape="circle" />;
       },
     },
-    //TODO: In new version of tailwindcss capitalize nombres and apellidos
     {
       title: "Nombres",
       dataIndex: "nombres",
+      render: (nombres: string) => (
+        <Text>{capitalizeFirstLetter(nombres)}</Text>
+      ),
     },
     {
       title: "Apellidos",
       dataIndex: "apellidos",
+      render: (apellidos: string) => (
+        <Text>{capitalizeFirstLetter(apellidos)}</Text>
+      ),
     },
     {
       title: "DNI",

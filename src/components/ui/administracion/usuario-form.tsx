@@ -18,7 +18,7 @@ import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsPassport, BsTelephone } from "react-icons/bs";
 import type { z } from "zod";
-import { default as style, default as styles } from "./frame.module.css";
+
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { usuarioSchema } from "@/schemas";
 
@@ -140,13 +140,10 @@ export function UsuarioForm({ activator }: Props) {
 
   return (
     <>
-      <button
-        className={style.basicButton}
-        onClick={() => setIsModalOpen(true)}
-      >
+      <Button type="primary" onClick={() => setIsModalOpen(true)}>
         <AiOutlinePlusCircle size={15} />
         {activator}
-      </button>
+      </Button>
       <Modal
         centered
         title={
@@ -162,9 +159,9 @@ export function UsuarioForm({ activator }: Props) {
         onCancel={handleCancel}
         footer={
           <Space className="flex justify-end">
-            <button type="submit" className={styles.basicButton}>
+            <Button htmlType="submit" type="primary">
               Registrar
-            </button>
+            </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>
               Cancelar

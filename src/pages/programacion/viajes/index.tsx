@@ -1,8 +1,8 @@
 import React from "react";
 import { ProgramacionTable } from "@/components/ui/programacion/programacion-viajes-table";
 import { ViajesForm } from "@/components/ui/programacion/viajes-form";
-import AppLayout from "@/components/layout";
-import AppHead from "@/components/head";
+import AppLayout from "@/components/exaya/layout";
+import AppHead from "@/components/landing/head";
 import { Typography } from "antd";
 const { Title } = Typography;
 function ProgramacionViajes() {

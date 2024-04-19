@@ -2,8 +2,9 @@ import React from "react";
 import { Table, Tag, Typography, Button, Popconfirm } from "antd";
 import { api } from "@/utils/api";
 import EncomiendaDetails from "./detalles-encomienda";
+import type { TableColumnsType } from "antd";
 import { useNotification } from "@/context/NotificationContext";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export function EncomiendasTable() {
   const { data: encomiendas, refetch } =
@@ -11,57 +12,80 @@ export function EncomiendasTable() {
   const { openNotification } = useNotification();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaByCodigo.useMutation();
-  const columns = [
-    {
-      title: "Receptor",
-      dataIndex: "destinatario",
-      key: "destinatario",
-      render: (destinatario: { nombres: string; apellidoPaterno: string }) => (
-        <span>
-          {destinatario.nombres}
-          {destinatario.apellidoPaterno}
-        </span>
-      ),
-    },
+  function capitalizeFirstLetter(string: string | undefined) {
+    if (string === undefined) {
+      return "";
+    }
+    const lowerCaseString = string.toLowerCase();
+    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+  }
+  const columns: TableColumnsType = [
     {
       title: "Remitente",
-      dataIndex: "remitente",
-      key: "remitente",
-      render: (remitente: { nombres: string; apellidoPaterno: string }) => (
-        <span>
-          {remitente.nombres}
-          {remitente.apellidoPaterno}
-        </span>
-      ),
+      children: [
+        {
+          title: "Nombres",
+          dataIndex: "remitenteNombres",
+          key: "nombres",
+          render: (remitenteNombres: string) => (
+            <Text>{capitalizeFirstLetter(remitenteNombres)}</Text>
+          ),
+        },
+        {
+          title: "Apellidos",
+          dataIndex: "remitenteApellidos",
+          key: "apellidos",
+          render: (remitenteApellidos: string) => (
+            <Text>{capitalizeFirstLetter(remitenteApellidos)}</Text>
+          ),
+        },
+      ],
     },
     {
+      title: "Destinatario",
+      children: [
+        {
+          title: "Nombres",
+          dataIndex: "destinatarioNombres",
+          key: "nombres",
+          render: (destinatarioNombres: string) => (
+            <Text>{capitalizeFirstLetter(destinatarioNombres)}</Text>
+          ),
+        },
+        {
+          title: "Apellidos",
+          dataIndex: "destinatarioApellidos",
+          key: "apellidos",
+          render: (destinatarioApellidos: string) => (
+            <Text>{capitalizeFirstLetter(destinatarioApellidos)}</Text>
+          ),
+        },
+      ],
+    },
+
+    {
       title: "Precio",
-      dataIndex: "precioEnvio",
+      dataIndex: "precio",
       key: "precio",
       render: (precioEnvio: number) => (
-        <Tag color="green-inverse" className=" font-semibold shadow-md">
-          S/. {precioEnvio}.00
-        </Tag>
+        <Tag color="green-inverse">S/. {precioEnvio}</Tag>
       ),
     },
     {
       title: "Destino",
       dataIndex: "viaje",
       key: "destino",
-      render: (viaje: {
-        ruta: { ciudadDestino: string; ciudadOrigen: string };
-      }) => <span>{viaje.ruta.ciudadOrigen}</span>,
+      render: (viaje: { ruta: { ciudadDestino: string } }) => (
+        <span>{viaje.ruta.ciudadDestino}</span>
+      ),
     },
     {
       title: "Fecha de Envío",
-      dataIndex: "viaje",
+      dataIndex: "fechaEnvio",
       key: "fechaEnvio",
-      render: (viaje: {
-        fechaSalida: Date;
-        ruta: { ciudadDestino: string; ciudadOrigen: string };
-      }) => (
+      render: (viaje: { salida: Date }) => (
         <span>
-          {viaje.fechaSalida.toLocaleString("es-PE", {
+          {viaje.salida.toLocaleString("es-PE", {
             year: "numeric",
             month: "numeric",
             day: "numeric",
