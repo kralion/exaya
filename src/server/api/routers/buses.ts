@@ -7,7 +7,7 @@ export const busesRouter = createTRPCRouter({
     return ctx.prisma.bus.findMany({
       //TODO: Rewrite this include
       include: {
-        Viaje: true,
+        viaje: true,
       },
     });
   }),

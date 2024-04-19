@@ -84,7 +84,6 @@ export default function ComprobantesTable() {
           pageSizeOptions: ["3", "6", "9"],
           showSizeChanger: true,
         }}
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         dataSource={boletos}
       />
     </div>

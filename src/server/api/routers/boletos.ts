@@ -8,7 +8,15 @@ import { boletoSchema } from "@/schemas";
 
 export const boletosRouter = createTRPCRouter({
   getAllBoletos: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.boleto.findMany();
+    return ctx.prisma.boleto.findMany({
+      include: {
+        viaje: {
+          include: {
+            ruta: { select: { ciudadDestino: true } },
+          },
+        },
+      },
+    });
   }),
 
   getLatestCodeOfBoleto: publicProcedure.query(async ({ ctx }) => {
@@ -28,12 +36,31 @@ export const boletosRouter = createTRPCRouter({
     }
   }),
 
-  getBoletosByCode: publicProcedure
-    .input(z.object({ codigo: z.string() }))
+  getBoletosByRutaDestiny: publicProcedure
+    .input(z.object({ destino: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const boletos = await ctx.prisma.boleto.findMany({
+          where: { viaje: { ruta: { ciudadDestino: input.destino } } },
+        });
+        return {
+          status: "success",
+          response: boletos,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los boletos",
+        };
+      }
+    }),
+
+  getBoletosById: publicProcedure
+    .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
         const boleto = await ctx.prisma.boleto.findUnique({
-          where: { id: input.codigo },
+          where: { id: input.id },
         });
         return {
           status: "success",
@@ -108,11 +135,11 @@ export const boletosRouter = createTRPCRouter({
         };
       }
     }),
-  deleteBoletosByCode: protectedProcedure
-    .input(z.object({ codigo: z.string() }))
+  deleteBoletosById: protectedProcedure
+    .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
-        await ctx.prisma.boleto.delete({ where: { id: input.codigo } });
+        await ctx.prisma.boleto.delete({ where: { id: input.id } });
         return {
           status: "success",
           message: "Boleto eliminado exitosamente",
@@ -142,12 +169,12 @@ export const boletosRouter = createTRPCRouter({
         };
       }
     }),
-  updateBoletoByCode: protectedProcedure
-    .input(boletoSchema)
+  updateBoletoById: protectedProcedure
+    .input(boletoSchema.extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       try {
         await ctx.prisma.boleto.update({
-          where: { id: input.codigo },
+          where: { id: input.id },
           data: input,
         });
         return {

@@ -6,8 +6,6 @@ const encomiendaSchema = z.object({
   destinatarioNombres: z.string(),
   destinatarioApellidos: z.string(),
   destinatarioTelefono: z.string(),
-  ciudadOrigen: z.string(),
-  ciudadDestino: z.string(),
   remitenteNombres: z.string(),
   remitenteApellidos: z.string(),
   remitenteTelefono: z.string(),

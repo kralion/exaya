@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Tag, Typography, Button, Popconfirm } from "antd";
+import { Table, Tag, Typography, Button, Popconfirm, Space } from "antd";
 import { api } from "@/utils/api";
 import EncomiendaDetails from "./detalles-encomienda";
 import type { TableColumnsType } from "antd";
@@ -75,23 +75,19 @@ export function EncomiendasTable() {
       title: "Destino",
       dataIndex: "viaje",
       key: "destino",
-      render: (viaje: { ruta: { ciudadDestino: string } }) => (
-        <span>{viaje.ruta.ciudadDestino}</span>
-      ),
+      render: (viaje: { ruta: { ciudadDestino: string } }) =>
+        viaje.ruta.ciudadDestino,
     },
     {
       title: "Fecha de Envío",
       dataIndex: "fechaEnvio",
       key: "fechaEnvio",
-      render: (viaje: { salida: Date }) => (
-        <span>
-          {viaje.salida.toLocaleString("es-PE", {
-            year: "numeric",
-            month: "numeric",
-            day: "numeric",
-          })}
-        </span>
-      ),
+      render: (viaje: { salida: Date }) =>
+        viaje.salida.toLocaleString("es-PE", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        }),
     },
     {
       title: "Acciones",
@@ -99,7 +95,7 @@ export function EncomiendasTable() {
       key: "action",
       render: (codigo: string) => {
         return (
-          <div className="flex items-baseline gap-2">
+          <Space className="items-baseline gap-2">
             <EncomiendaDetails codigo={codigo} modalActivator="Ver Detalles" />
 
             <Popconfirm
@@ -115,7 +111,7 @@ export function EncomiendasTable() {
                 Eliminar
               </Button>
             </Popconfirm>
-          </div>
+          </Space>
         );
       },
     },

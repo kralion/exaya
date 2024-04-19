@@ -1,8 +1,10 @@
+import AppLayout from "@/components/exaya/layout";
+import { RoundedButton } from "@/components/exaya/rounded-button";
 import AppHead from "@/components/landing/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
-import { RoundedButton } from "@/components/exaya/rounded-button";
+import TableContable from "@/components/ui/contable/table";
 import { api } from "@/utils/api";
 import {
   Alert,
@@ -10,109 +12,13 @@ import {
   FloatButton,
   Input,
   Select,
-  Table,
-  Tag,
   Typography,
 } from "antd";
-import type { DatePickerProps } from "antd/es/date-picker";
-import type { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { CiSearch } from "react-icons/ci";
-import AppLayout from "@/components/exaya/layout";
-dayjs.extend(customParseFormat);
+
 const { Title } = Typography;
-
-const onDatePickerChange = (
-  value: DatePickerProps["value"],
-  dateString: [string, string] | string
-) => {
-  console.log("Fecha seleccionada: ", dateString);
-};
-
-const onOk = (value: DatePickerProps["value"]) => {
-  console.log("onOk: ", value);
-};
-
-interface DataType {
-  key: React.Key;
-  destino: string;
-  serie: string;
-  numero: number;
-  asiento: string;
-  viaje: string;
-  monto: string;
-  clientedni: number;
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: "Destino",
-    dataIndex: "destino",
-    filters: [
-      {
-        text: "Huancayo",
-        value: "Huancayo",
-      },
-      {
-        text: "Ayacucho",
-        value: "Ayacucho",
-      },
-    ],
-    onFilter: (value, record) => record.destino.indexOf(value as string) === 0,
-  },
-  {
-    title: "Serie",
-    dataIndex: "serie",
-  },
-  {
-    title: "Numero",
-    dataIndex: "numero",
-  },
-  { title: "Asiento", dataIndex: "asiento" },
-  {
-    title: "Viaje",
-    dataIndex: "viaje",
-  },
-  {
-    title: "Monto",
-    dataIndex: "monto",
-    render: (text) => (
-      <Tag
-        className="rounded-full font-semibold shadow-md"
-        color="green-inverse"
-      >
-        {text}
-      </Tag>
-    ),
-  },
-  {
-    title: "Cliente DNI",
-    dataIndex: "clientedni",
-  },
-];
-
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    destino: `Huancayo ${i}`,
-    serie: "B003",
-    numero: 3370 + i,
-    asiento: `${i + 7}`,
-    viaje: `1531${i}`,
-    monto: "s/. 30.00",
-    clientedni: 75994622 + i,
-  });
-}
-type TRutaSelect = {
-  id: string;
-  ruta: {
-    ciudadOrigen: string;
-    ciudadDestino: string;
-  };
-};
 
 export default function Contable() {
   const {
@@ -187,8 +93,6 @@ export default function Contable() {
                   style={{
                     height: 32,
                   }}
-                  onChange={onDatePickerChange as DatePickerProps["onChange"]}
-                  onOk={onOk}
                   placeholder={placeHolderDate}
                 />
 
@@ -197,15 +101,22 @@ export default function Contable() {
                   loading={isLoading}
                   style={{ width: 180 }}
                 >
-                  {Array.isArray(salidasDiarias) &&
-                    salidasDiarias.map(({ id, ruta }: TRutaSelect) => (
+                  {salidasDiarias?.response.map(
+                    ({
+                      id,
+                      ruta,
+                    }: {
+                      id: string;
+                      ruta: { ciudadOrigen: string; ciudadDestino: string };
+                    }) => (
                       <Select.Option
                         key={id}
                         value={ruta.ciudadOrigen + ruta.ciudadDestino}
                       >
                         {ruta.ciudadOrigen} - {ruta.ciudadDestino}
                       </Select.Option>
-                    ))}
+                    )
+                  )}
                 </Select>
               </div>
             </div>
@@ -254,16 +165,7 @@ export default function Contable() {
               suffix={<CiSearch className="cursor-pointer" />}
             />
           </div>
-          <Table
-            pagination={{
-              position: ["bottomCenter"],
-              defaultPageSize: 5,
-              showSizeChanger: true,
-              pageSizeOptions: ["5", "10"],
-            }}
-            columns={columns}
-            dataSource={data}
-          />
+          <TableContable />
         </div>
       </div>
       <FloatButton.BackTop visibilityHeight={0} />

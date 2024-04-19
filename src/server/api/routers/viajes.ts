@@ -125,7 +125,12 @@ export const viajesRouter = createTRPCRouter({
             ],
           },
           include: {
-            ruta: true,
+            ruta: {
+              select: {
+                ciudadDestino: true,
+                ciudadOrigen: true,
+              },
+            },
             bus: true,
           },
         });

@@ -13,13 +13,27 @@ enum BoletoEstado {
     PAGADO
 }
 
+enum Serie {
+    AG001
+    AG002
+    AG003
+    AG004
+    AG005
+    AG006
+    AG007
+    AG008
+    AG009
+    AG010
+}
+
 model Boleto {
     asiento           Int
     pasajeroDni       String
     estado            BoletoEstado @default(DISPONIBLE)
     pasajeroNombres   String
     pasajeroApellidos String
-    codigo            String       @unique
+    serie             Serie        @default(AG001)
+    codigo            Int          @default(autoincrement())
     fechaRegistro     DateTime     @default(now())
     equipaje          String       @default("Sin Equipaje")
     id                String       @id @default(uuid())
@@ -31,8 +45,7 @@ model Boleto {
 
 model Bus {
     id            String   @id @default(cuid())
-    //TODO: To lowercase Viaje
-    Viaje         Viaje[]
+    viaje         Viaje[]
     asientos      Int
     fechaRegistro DateTime @default(now())
     foto          String   @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285529/exaya/bus-placeholder_o1yclo.avif")
@@ -62,9 +75,6 @@ model Encomienda {
     destinatarioApellidos String
     destinatarioTelefono  String
     remitenteTelefono     String
-    // TODO: Delete this columns because it comes from the viajeId
-    ciudadDestino         String
-    ciudadOrigen          String
     remitenteNombres      String
     remitenteApellidos    String
     factura               Boolean  @default(false)
@@ -103,6 +113,7 @@ enum ViajeEstado {
 
 model Usuario {
     username       String @unique
+    serie          Serie  @default(AG001)
     usuarioDni     String @unique
     id             String @id @default(cuid())
     foto           String @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
