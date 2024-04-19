@@ -1,5 +1,4 @@
 import AppLayout from "@/components/exaya/layout";
-
 import AppHead from "@/components/landing/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
@@ -32,6 +31,54 @@ export default function Contable() {
   const [scheduleTimeQuery, setScheduleTimeQuery] = useState<string>(
     dayjs().format("HH:mm")
   );
+  const { data: viajeQueried, isLoading: isLoadingContableQuery } =
+    api.viajes.getViajesByDate.useQuery({
+      date: scheduleTimeQuery,
+    });
+
+  const totalTravelEncomiendasIncome =
+    viajeQueried?.response?.reduce(
+      (
+        total: number,
+        viaje: {
+          encomiendas: { precio: number }[];
+        }
+      ) =>
+        total +
+        viaje.encomiendas.reduce(
+          (
+            acc: number,
+            encomienda: {
+              precio: number;
+            }
+          ) => acc + encomienda.precio,
+          0
+        ),
+      0
+    ) ?? 0;
+
+  const totalTravelTicketsIncome =
+    viajeQueried?.response?.reduce(
+      (
+        total: number,
+        viaje: {
+          boletos: { precio: number }[];
+        }
+      ) =>
+        total +
+        viaje.boletos.reduce(
+          (
+            acc: number,
+            boleto: {
+              precio: number;
+            }
+          ) => acc + boleto.precio,
+          0
+        ),
+      0
+    ) ?? 0;
+  const total15PercentComission =
+    (totalTravelTicketsIncome + totalTravelEncomiendasIncome) * 0.15;
   return (
     <AppLayout>
       <AppHead title="Contable" />
@@ -119,26 +166,30 @@ export default function Contable() {
           <div className=" flex items-center justify-between"></div>
           <div className="flex gap-3.5">
             <ContableCard
+              isLoading={isLoadingContableQuery}
               cardTitle="Recaudado"
-              cardValue={5400}
+              cardValue={totalTravelTicketsIncome}
               cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
               cardConcept="Viajes & Encomiendas"
             />
             <ContableCard
+              isLoading={isLoadingContableQuery}
               cardTitle="Ingresos"
-              cardValue={4800}
+              cardValue={totalTravelTicketsIncome - total15PercentComission}
               cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
               cardConcept="75% del recaudado"
             />
             <ContableCard
+              isLoading={isLoadingContableQuery}
               cardTitle="Comisión"
-              cardValue={590}
+              cardValue={total15PercentComission}
               cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
               cardConcept="15% del recaudado"
             />
             <ContableCard
+              isLoading={isLoadingContableQuery}
               cardTitle="Encomiendas"
-              cardValue={315}
+              cardValue={totalTravelEncomiendasIncome}
               cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
               cardConcept="Ingresos"
             />

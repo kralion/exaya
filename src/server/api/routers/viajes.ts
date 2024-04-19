@@ -131,6 +131,8 @@ export const viajesRouter = createTRPCRouter({
                 ciudadOrigen: true,
               },
             },
+            boletos: true,
+            encomiendas: true,
             bus: true,
           },
         });
