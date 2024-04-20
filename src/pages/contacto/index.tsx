@@ -18,7 +18,7 @@ export default function Index() {
           Estaremos encantados de atenderte.
         </h4>
         <div className="flex flex-col items-start justify-center px-5 py-10 text-white  lg:flex-row lg:px-36">
-          <div className="flex flex-col items-start space-y-8    bg-gradient-to-b from-primary to-yellow-300 p-6 text-left  dark:from-orange-600 dark:to-yellow-600 lg:h-[740px] lg:w-1/3 lg:rounded-l-xl lg:p-10">
+          <div className="flex flex-col items-start space-y-8    bg-gradient-to-b from-primary to-yellow-300 p-6 text-left  dark:from-orange-600 dark:to-yellow-600 lg:h-[645px] lg:w-1/3 lg:rounded-l-xl lg:p-10">
             <h1 className="text-xl font-semibold">Ponte en contacto</h1>
 
             <div className="flex flex-col items-start  space-y-1">

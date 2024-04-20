@@ -34,7 +34,7 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/dashboard"
-              className="hover:purple-900 group  mt-10 hidden cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5 font-semibold text-white  duration-500 hover:px-10 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70 lg:mt-16  lg:inline-flex lg:px-5  lg:py-3 lg:text-xl "
+              className="hover:purple-900 group  mt-10 hidden cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5 font-semibold text-white  duration-500 hover:px-10 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70   lg:inline-flex lg:px-5  lg:py-3 lg:text-xl "
             >
               <span className="duration-300 group-hover:-translate-x-2 ">
                 Pruébalo gratis
@@ -55,7 +55,7 @@ export default function Index() {
             />
           </div>
 
-          <div className=" mt-10 flex flex-col overflow-hidden lg:mt-0  lg:min-h-[670px]">
+          <div className=" mt-10 flex flex-col overflow-hidden lg:-mt-20  lg:min-h-[670px]">
             <ContainerScroll />
           </div>
           <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
