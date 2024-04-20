@@ -33,10 +33,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
+  const { data: viaje } = api.viajes.getViajeById.useQuery({
+    id: viajeId,
+  });
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
-  const { data: boletosVendidos } =
+  const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
       viajeId,
@@ -47,7 +49,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       viajeId,
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
-    api.boletos.createBoletos.useMutation();
+    api.boletos.createBoleto.useMutation();
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
       {
@@ -70,22 +72,38 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     if (!apellidosCliente) {
       return null;
     }
-    await createBoletoMutation({
-      ...values,
-      telefonoCliente: values.telefonoCliente.toString(),
-      pasajeroDni: values.pasajeroDni.toString(),
-      asiento: selectedSeat,
-      viajeId,
-      pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
-      pasajeroApellidos: apellidosCliente,
-    });
+    await createBoletoMutation(
+      {
+        ...values,
+        telefonoCliente: values.telefonoCliente.toString(),
+        pasajeroDni: values.pasajeroDni.toString(),
+        asiento: selectedSeat,
+        viajeId,
+        pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
+        pasajeroApellidos: apellidosCliente,
+      },
+      {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Boleto Registrado",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
+          void refetchBoletosVendidos();
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error en la Operación",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+          void refetchBoletosVendidos();
+        },
+      }
+    );
 
-    openNotification({
-      placement: "topRight",
-      message: "Operacion Exitosa",
-      description: "Boleto registrado correctamente",
-      type: "success",
-    });
     form.resetFields();
     setOpenRegister(false);
   }

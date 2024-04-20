@@ -24,7 +24,8 @@ export const AIAssistantInput = () => {
       setGenerating(false);
       openNotification({
         message: "Boleto generado",
-        description: "El boleto se ha generado correctamente",
+        description:
+          "El boleto se ha generado correctamente, los detalles se visualizan en el viaje para el que fue creado",
         placement: "topRight",
         type: "success",
       });

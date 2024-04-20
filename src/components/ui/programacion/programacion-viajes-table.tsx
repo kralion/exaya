@@ -22,7 +22,13 @@ export function ProgramacionTable() {
     deleteViajeMutation.mutate(
       { id },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Viaje Eliminado",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
           void refetch();
         },
         onError: (error) => {

@@ -40,12 +40,14 @@ export const busesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Bus created successfully",
+          message:
+            "Los detalles del bus se pueden ver en la lista de buses disponibles",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al crear el bus",
+          message:
+            "Ocurrió un error al registrar el bus , por favor recarge la página e intente de nuevo",
         };
       }
     }),

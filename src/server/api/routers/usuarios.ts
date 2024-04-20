@@ -49,12 +49,14 @@ export const usuariosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Usuario creado exitosamente",
+          message:
+            "Todos los detalles del usuario creado se pueden visualizar haciendo click sobre el nombre de usuario",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al crear el usuario",
+          message:
+            "Ocurrió un error al crear el usuario, por favor recargue la página e intente nuevamente",
         };
       }
     }),
@@ -72,12 +74,14 @@ export const usuariosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Usuario eliminado exitosamente",
+          message:
+            "Todos los datos relacionados con el usuario han sido eliminados",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al eliminar el usuario",
+          message:
+            "Ocurrió un error al eliminar el usuario, por favor recargue la página e intente nuevamente",
         };
       }
     }),

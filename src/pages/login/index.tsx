@@ -46,7 +46,8 @@ export default function Login() {
     if (result?.error) {
       openNotification({
         message: "Error de autenticación",
-        description: "Verifique sus credenciales antes de continuar",
+        description:
+          "Verifique sus credenciales e intente de nuevo, recuerde que las credenciales son precreadas",
         placement: "topRight",
         type: "error",
       });

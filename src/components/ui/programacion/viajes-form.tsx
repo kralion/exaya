@@ -62,6 +62,8 @@ export function ViajesForm() {
             type: "success",
             placement: "topRight",
           });
+
+          // TODO: Add refetch query
         },
         onError: (error) => {
           openNotification({

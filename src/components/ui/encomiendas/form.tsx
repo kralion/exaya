@@ -63,7 +63,8 @@ export function EncomiendasForm() {
     if (remitenteInformacion?.status === "error") {
       openNotification({
         message: "Error al registrar encomienda",
-        description: "El DNI del Remitente es requerido y debe ser válido",
+        description:
+          "El DNI del Remitente es requerido y debe ser válido, por favor verifique el valor",
         type: "error",
         placement: "bottomRight",
       });
@@ -72,7 +73,8 @@ export function EncomiendasForm() {
     if (receptorInformacion?.status === "error") {
       openNotification({
         message: "Error al registrar encomienda",
-        description: "El DNI del Destinatario es requerido y debe ser válido",
+        description:
+          "El DNI del Destinatario es requerido y debe ser válido , por favor verifique el valor",
         type: "error",
         placement: "bottomRight",
       });

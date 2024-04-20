@@ -109,7 +109,7 @@ export function UsuarioForm({ activator }: Props) {
         onSuccess: (response) => {
           form.resetFields();
           openNotification({
-            message: "Operacion Exitosa",
+            message: "Usuario Creado",
             description: response.message,
             type: "success",
             placement: "topRight",

@@ -178,7 +178,7 @@ export const boletosRouter = createTRPCRouter({
         };
       }
     }),
-  createBoletos: protectedProcedure
+  createBoleto: protectedProcedure
     .input(boletoSchema)
     .mutation(async ({ input, ctx }) => {
       try {
@@ -187,12 +187,14 @@ export const boletosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Boleto creado exitosamente",
+          message:
+            "El asiento seleccionado ahora será marcado como vendido, listo para impresión",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al crear el boleto",
+          message:
+            "Ocurrió un error al registrar el boleto, por favor intente de nuevo",
         };
       }
     }),

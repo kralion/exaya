@@ -68,19 +68,33 @@ export function ConductorForm({ activator }: Props) {
     const apellidosConductor = `${
       reniecResponse?.data?.apellidoPaterno ?? ""
     } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
-    createConductorMutation.mutate({
-      ...values,
-      foto: source,
-      nombres: reniecResponse?.data?.nombres ?? "No registrado",
-      apellidos: apellidosConductor,
-    });
+    createConductorMutation.mutate(
+      {
+        ...values,
+        foto: source,
+        nombres: reniecResponse?.data?.nombres ?? "No registrado",
+        apellidos: apellidosConductor,
+      },
+      {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Conductor registrado",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error al registrar el conductor",
+            description: error.message,
+            type: "success",
+            placement: "topRight",
+          });
+        },
+      }
+    );
     setIsModalOpen(false);
-    openNotification({
-      message: "Conductor registrado",
-      description: "El conductor ha sido registrado exitosamente",
-      type: "success",
-      placement: "topRight",
-    });
     form.resetFields();
   };
 

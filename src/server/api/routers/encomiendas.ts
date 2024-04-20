@@ -69,12 +69,14 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Encomienda eliminada exitosamente",
+          message:
+            "Todos los datos relacionados con la encomienda han sido eliminados de la base de datos",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al eliminar la encomienda",
+          message:
+            "Ocurrió un error al eliminar la encomienda, por favor recargue la página e intente nuevamente",
         };
       }
     }),
@@ -107,12 +109,14 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Encomienda creada exitosamente",
+          message:
+            "Puedes ver los detalles de la encomien en la tabla de encomiendas",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al crear la encomienda",
+          message:
+            "Ocurrió un error inesperado al crear la encomienda, por favor recarge la página e intente nuevamente",
         };
       }
     }),
@@ -131,12 +135,14 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Encomienda actualizada exitosamente",
+          message:
+            "Los detalles de la encomienda fueron actualizados con los nuevos valores",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al actualizar la encomienda",
+          message:
+            "Ocurrió un error inesperado al actualizar la encomienda, por favor recarge la página e intente nuevamente",
         };
       }
     }),

@@ -11,7 +11,6 @@ import {
   Typography,
 } from "antd";
 import Link from "next/link";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegTrashCan } from "react-icons/fa6";
 const { Text } = Typography;
 export default function UsuariosTable() {
@@ -38,7 +37,7 @@ export default function UsuariosTable() {
       {
         onSuccess: (response) => {
           openNotification({
-            message: "Operación Exitosa",
+            message: "Usuario Eliminado",
             description: response.message,
             type: "success",
             placement: "topRight",

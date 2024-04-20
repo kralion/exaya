@@ -204,12 +204,14 @@ export const viajesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Viaje creado exitosamente",
+          message:
+            "Puedes visualizar los detalles en la tabla inferior y tambien en pestaña de pasajes",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al crear el viaje",
+          message:
+            "Ocurrió un error al registrar el viaje, por favor recarge la página e intente de nuevo",
         };
       }
     }),
@@ -222,12 +224,14 @@ export const viajesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Viaje eliminado exitosamente",
+          message:
+            "El viaje y los datos relacionados fueron eliminados de la base de datos",
         };
       } catch (error) {
         return {
           status: "error",
-          message: "Error al eliminar el viaje",
+          message:
+            "Ocurrió un error al eliminar el viaje, por favor recargue la página e intente nuevamente",
         };
       }
     }),
