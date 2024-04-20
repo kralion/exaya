@@ -3,7 +3,7 @@ import { FloatButton } from "antd";
 import { TiWeatherSunny } from "react-icons/ti";
 import { IoMoonOutline } from "react-icons/io5";
 import { VscSymbolColor } from "react-icons/vsc";
-// import switchOffSound from "@/assets/sounds/switch-off.mp3";
+// import {switchOffSound} from "@/assets/sounds/switch-off.mp3";
 // import switchOnSound from "@/assets/sounds/switch-on.mp3";
 // import useSound from "use-sound";
 

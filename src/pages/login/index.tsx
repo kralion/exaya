@@ -108,11 +108,16 @@ export default function Login() {
 
       <div
         style={{
-          // TODO: Add logic for dynamic LoginGradient Image based on the theme
           backgroundImage: `url(${LoginGradientLight.src})`,
         }}
         className={` ${literata.className} flex  w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
       >
+        <div
+          className="dark:absolute dark:inset-0 dark:bg-cover"
+          style={{
+            backgroundImage: `url(${LoginGradientDark.src})`,
+          }}
+        />
         <h3
           className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-5xl font-bold text-transparent drop-shadow-xl  dark:from-orange-600 dark:to-zinc-100   `}
         >
@@ -126,8 +131,6 @@ export default function Login() {
         <AOSWrapper>
           <Form
             ref={formRef}
-            data-aos="fade-in"
-            data-aos-duration="500"
             autoComplete="on"
             className={`${literata.className} w-[400px] drop-shadow-md `}
             name="control-ref"
