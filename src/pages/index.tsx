@@ -17,16 +17,16 @@ const dancing_Script = Dancing_Script({
 export default function Index() {
   return (
     <LandingLayout>
-      <div className="px-3 dark:bg-zinc-800">
+      <div className="px-3 dark:bg-zinc-900">
         <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.15] lg:h-[67rem]">
           <div className="relative " data-aos="fade-down">
-            <div className="flex bg-gradient-to-r from-zinc-800 to-zinc-950 bg-clip-text text-3xl font-bold tracking-tight text-transparent  lg:mx-48 lg:text-6xl">
+            <div className="flex bg-gradient-to-r from-zinc-800 to-zinc-950 bg-clip-text text-3xl font-bold tracking-tight text-transparent dark:from-white dark:to-zinc-300  lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
             </div>
-            <p className="mt-5 px-10 font-semibold tracking-tight dark:text-zinc-800 lg:px-80 lg:text-xl">
+            <p className="mt-5 px-10 tracking-tight text-zinc-700 dark:text-zinc-200 lg:px-80 lg:text-xl">
               El socio tecnológico que acelera las operaciones de tu empresa en
               la industria del transporte impulsado con —{" "}
-              <span className="bg-gradient-to-r from-red-700   to-black bg-clip-text text-transparent lg:bg-gradient-to-tr">
+              <span className="bg-gradient-to-r from-red-700 to-black bg-clip-text  font-semibold   text-transparent dark:from-red-100 dark:to-white lg:bg-gradient-to-tr">
                 inteligencia artificial.
               </span>
             </p>
@@ -74,7 +74,7 @@ export default function Index() {
           </blockquote>
         </div>
       </div>
-      <div className=" space-y-3 px-4  py-24  dark:bg-zinc-800 lg:px-0">
+      <div className=" space-y-3 px-4  py-24  dark:bg-zinc-900 lg:px-0">
         <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
           Versionamiento para Control Total
         </h1>
@@ -86,7 +86,7 @@ export default function Index() {
           </p>
         </div>
       </div>
-      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left dark:bg-zinc-800  lg:flex-row lg:items-start lg:pr-44">
+      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left dark:bg-zinc-900  lg:flex-row lg:items-start lg:pr-44">
         <Image
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={HeroStepImage}

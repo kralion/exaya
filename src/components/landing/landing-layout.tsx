@@ -4,7 +4,7 @@ import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "./footer";
-import LandingDepth from "@/assets/images/landing-depth.jpg";
+import Gradient from "@/assets/images/dark-gradient.png";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
 const inter = Inter({
   weight: ["800", "600", "300"],
@@ -41,11 +41,11 @@ export default function LandingLayout({
 }) {
   return (
     <AOSWrapper>
-      <div className={` ${inter.className}  dark:bg-zinc-800 dark:text-white`}>
+      <div className={` ${inter.className}  dark:bg-zinc-900 dark:text-white`}>
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
           style={{
-            backgroundImage: `url(${LandingDepth.src})`,
+            backgroundImage: `url(${Gradient.src})`,
             width: "100%",
           }}
         />
@@ -63,7 +63,7 @@ export default function LandingLayout({
                 priority
               />
               <span
-                className={` text-2xl text-zinc-900  lg:text-3xl ${blackOpsOne.className}`}
+                className={` text-2xl text-zinc-900 dark:text-zinc-200  lg:text-3xl ${blackOpsOne.className}`}
               >
                 Exaya
               </span>

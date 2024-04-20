@@ -8,10 +8,10 @@ export default function Index() {
     <LandingLayout>
       <AppHead title="Features" />
       <div className=" relative space-y-3.5">
-        <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent  lg:text-5xl">
+        <h1 className="bg-gradient-to-r from-zinc-700 to-black bg-clip-text text-2xl font-bold tracking-tight text-transparent dark:from-white dark:to-zinc-300  lg:text-5xl">
           Features
         </h1>
-        <h4 className=" tracking-tigh px-5 dark:text-zinc-800 lg:px-[400px]">
+        <h4 className=" tracking-tigh px-5 dark:text-zinc-200 lg:px-[400px]">
           Exaya cuenta con funcionalidades que empoderan tu negocio con
           tecnologias modernas y herramientas del ahora.
         </h4>

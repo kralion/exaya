@@ -1,4 +1,4 @@
-import { Button, Modal, Typography } from "antd";
+import { Modal, Typography } from "antd";
 import React, { useState } from "react";
 import { BsWhatsapp } from "react-icons/bs";
 

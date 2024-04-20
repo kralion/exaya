@@ -84,15 +84,15 @@ export default function Login() {
           Operativa
         </h5>
       </div>
-      <h5 className=" absolute bottom-5 left-5 z-10 text-sm font-extralight  text-zinc-300 ">
+      <h5 className=" absolute bottom-5 left-16 z-10 text-sm font-extralight  text-zinc-300 ">
         Desarrollado por{" "}
         <Link
           href="https://twitter.com/brayanpaucar_"
           target="_blank"
           rel="noopener noreferrer"
-          className=" text-white hover:underline"
+          className=" text-white underline hover:opacity-80"
         >
-          @BrayanPaucar
+          Brayan Paucar
         </Link>
       </h5>
 
@@ -113,12 +113,12 @@ export default function Login() {
         className={` ${literata.className} flex  w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
       >
         <h3
-          className={`  bg-gradient-to-l from-black  to-orange-500 bg-clip-text text-left text-5xl font-bold  text-transparent drop-shadow-xl   `}
+          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-5xl font-bold text-transparent drop-shadow-xl  dark:from-orange-600 dark:to-zinc-100   `}
         >
           Inicio de Sesión
         </h3>
         <div className="mb-10 text-center">
-          <h4 className="mt-2 text-sm">
+          <h4 className="mt-2 text-sm dark:text-zinc-300">
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>
@@ -150,7 +150,7 @@ export default function Login() {
               />
             </Form.Item>
 
-            <h4 className="mb-2">Contraseña</h4>
+            <h3 className="mb-2">Contraseña</h3>
 
             <Form.Item
               name="password"
@@ -182,7 +182,7 @@ export default function Login() {
               </button>
             </div>
           </Form>
-          <div className="flex gap-4 p-4 text-xs  text-zinc-600">
+          <div className="flex gap-4 p-4 text-xs  text-zinc-600 dark:text-zinc-400">
             <p className="flex items-center gap-1 font-mono ">
               <HiOutlineUser /> <span>ramiro</span>
             </p>
@@ -190,7 +190,7 @@ export default function Login() {
               <GoKey /> <span>ramiro-exaya</span>
             </p>
           </div>
-          <div className="fixed bottom-0 right-0 z-10 p-2  text-xs text-zinc-700">
+          <div className="fixed bottom-0 right-0 z-10 p-2  text-xs text-zinc-700 dark:text-zinc-400">
             <h1 className="font-mono">v1.0.25</h1>
           </div>
         </AOSWrapper>

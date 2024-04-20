@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
-import ExayaPreview from "@/assets/images/exaya-preview.png";
-import Image from "next/image";
+import ExayaHeroLight from "@/assets/images/exaya-light.png";
+import ExayaHeroDark from "@/assets/images/exaya-dark.png";
 export const ContainerScroll = () => {
   const containerRef = useRef<any>(null);
   const { scrollYProgress } = useScroll({
@@ -42,14 +40,11 @@ export const ContainerScroll = () => {
           scale,
         }}
       >
-        <Image
-          src={ExayaPreview}
+        <img
+          src={ExayaHeroLight.src}
           alt="banner"
           className="mx-auto drop-shadow-xl "
           data-aos="fade-up"
-          width={1100}
-          height={800}
-          priority
         />
       </motion.div>
     </div>
