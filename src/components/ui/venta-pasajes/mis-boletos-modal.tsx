@@ -12,7 +12,7 @@ export const MisBoletos = ({ viajeId }: { viajeId: string }) => {
   const { data: misBoletos, isLoading } =
     api.viajes.getMisBoletosByViajeId.useQuery({
       id: viajeId,
-      // userId: usuarioId,
+      userId: usuarioId ?? "",
     });
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: viajeId,

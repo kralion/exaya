@@ -17,6 +17,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
+import { useSession } from "next-auth/react";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 const concertOne = Concert_One({
@@ -36,6 +37,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: viajeId,
   });
+  const { data: session } = useSession();
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
@@ -75,6 +77,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     await createBoletoMutation(
       {
         ...values,
+        usuarioId: session?.user?.id as string,
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,

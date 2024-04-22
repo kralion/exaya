@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const encomiendaSchema = z.object({
   remitenteDni: z.string(),
+  usuarioId: z.string(),
   destinatarioDni: z.string(),
   destinatarioNombres: z.string(),
   destinatarioApellidos: z.string(),

@@ -12,6 +12,7 @@ import {
 import { encomiendaSchema } from "@/schemas";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 import { useNotification } from "@/context/NotificationContext";
+import { useSession } from "next-auth/react";
 
 import { api } from "@/utils/api";
 import { useState } from "react";
@@ -31,6 +32,7 @@ const formItemLayout = {
 
 export function EncomiendasForm() {
   const [form] = Form.useForm();
+  const { data: session } = useSession();
   const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
   const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
   const { data: rutas } = api.rutas.getAllRutas.useQuery();
@@ -83,6 +85,7 @@ export function EncomiendasForm() {
     await createEncomiendaMutation.mutateAsync(
       {
         ...values,
+        usuarioId: session?.user?.id as string,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion?.data?.nombres ?? "",
         remitenteApellidos: `${
@@ -418,7 +421,7 @@ export function EncomiendasForm() {
 
         <div className="col-span-4 flex items-end justify-end gap-3">
           <Button htmlType="submit" type="primary">
-            Registrar
+            Registrar Encomienda
           </Button>
 
           <Button htmlType="reset" onClick={() => form.resetFields()}>

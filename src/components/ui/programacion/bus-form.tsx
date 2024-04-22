@@ -67,9 +67,12 @@ export function BusForm({ activator }: Props) {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button
+        icon={<AiOutlinePlusCircle size={15} />}
+        type="primary"
+        onClick={showModal}
+      >
         {activator}
-        <AiOutlinePlusCircle size={15} />
       </Button>
       <Modal
         width={350}
@@ -85,7 +88,21 @@ export function BusForm({ activator }: Props) {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={null}
+        footer={
+          <Space className="mt-10">
+            <Button
+              disabled={createBusMutation.isLoading}
+              htmlType="submit"
+              type="primary"
+            >
+              Registrar
+            </Button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
+        }
       >
         <Form
           form={form}
@@ -217,20 +234,6 @@ export function BusForm({ activator }: Props) {
               )}
             </div>
           </Form.Item>
-
-          <Space className="mt-10">
-            <Button
-              disabled={createBusMutation.isLoading}
-              htmlType="submit"
-              type="primary"
-            >
-              Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
         </Form>
       </Modal>
     </>

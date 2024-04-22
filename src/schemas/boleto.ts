@@ -9,6 +9,7 @@ import { z } from "zod";
 
 const boletoSchema = z.object({
   telefonoCliente: z.string(),
+  usuarioId: z.string(),
   asiento: z.number().nonnegative().min(1),
   pasajeroDni: z.string(),
   serie: z.enum([

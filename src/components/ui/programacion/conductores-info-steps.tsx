@@ -32,23 +32,19 @@ type TConductor = {
 };
 
 export function ConductoresInformacion() {
-  const [open, setOpen] = useState(false);
   const { data: conductoresRegistrados } =
     api.conductores.getAllConductores.useQuery();
 
   return (
-    <>
-      <List
-        itemLayout="horizontal"
-        className=" w-max  min-w-[500px] rounded-lg border-1 "
-        dataSource={conductoresRegistrados}
-        renderItem={(conductor: TConductor, index) =>
-          (conductoresRegistrados?.length ?? 0) > 0 ? (
+    <List
+      itemLayout="horizontal"
+      className=" w-max  min-w-[500px] rounded-lg border-1 "
+      dataSource={conductoresRegistrados}
+      renderItem={(conductor: TConductor, index) =>
+        (conductoresRegistrados?.length ?? 0) > 0 ? (
+          <ConductorModal id={conductor.id}>
             <Suspense fallback={<ConductorInfoStepSkeleton />}>
               <List.Item
-                onClick={() => {
-                  setOpen(true);
-                }}
                 key={index}
                 className="cursor-pointer  rounded-lg  bg-zinc-100 shadow-md duration-100 hover:opacity-80 hover:shadow-none"
                 style={{
@@ -84,30 +80,25 @@ export function ConductoresInformacion() {
                   style={{ marginTop: 8 }}
                   type="inline"
                   current={
-                    conductor.claseLicencia === "A2B"
+                    conductor.claseLicencia === "A-IIIC"
                       ? 2
-                      : conductor.claseLicencia === "A3A"
+                      : conductor.claseLicencia === "A-IIIB"
                       ? 1
                       : 0
                   }
                   items={items}
                 />
-                <ConductorModal
-                  id={conductor.id}
-                  open={open}
-                  setOpen={setOpen}
-                />
               </List.Item>
             </Suspense>
-          ) : (
-            <Empty
-              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-              imageStyle={{ height: 60 }}
-              description={<span>No hay conductores</span>}
-            />
-          )
-        }
-      />
-    </>
+          </ConductorModal>
+        ) : (
+          <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{ height: 60 }}
+            description={<span>No hay conductores</span>}
+          />
+        )
+      }
+    />
   );
 }

@@ -44,7 +44,7 @@ export const viajesRouter = createTRPCRouter({
       z.object({
         id: z.string(),
 
-        // userId: z.string()
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -52,7 +52,7 @@ export const viajesRouter = createTRPCRouter({
         const boletos = await ctx.prisma.boleto.findMany({
           where: {
             viajeId: input.id,
-            // usuarioId: input.userId
+            usuarioId: input.userId,
           },
           include: {
             viaje: {

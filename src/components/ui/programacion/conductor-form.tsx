@@ -100,9 +100,12 @@ export function ConductorForm({ activator }: Props) {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button
+        icon={<AiOutlinePlusCircle size={15} />}
+        type="primary"
+        onClick={showModal}
+      >
         {activator}
-        <AiOutlinePlusCircle size={15} />
       </Button>
       <Modal
         centered
@@ -117,7 +120,17 @@ export function ConductorForm({ activator }: Props) {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={null}
+        footer={
+          <Space className="mt-10">
+            <Button htmlType="submit" type="primary">
+              Registrar
+            </Button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
+        }
       >
         <Form
           {...formItemLayout}
@@ -291,47 +304,19 @@ export function ConductorForm({ activator }: Props) {
             </div>
           </Form.Item>
 
-          <div>
-            <Form.Item
-              name="estado_documentario"
-              label="Estad Documentario"
-              rules={[
-                {
-                  type: "array",
-                  required: true,
-                  message: "Seleeciona el estado documentario",
-                },
-              ]}
-            >
-              <Select placeholder="Seleccione el estado documentario">
-                <Select.Option value="Actualizados">Actualizados</Select.Option>
-                <Select.Option value="EnTramite">En Trámite</Select.Option>
-                <Select.Option value="Vencidos">Vencidos</Select.Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="disponibilidad"
-              label="Disponibilidad"
-              tooltip="Esta opción permite habilitar o deshabilitar al conductor"
-              rules={[
-                { required: true, message: "Disponibilidad del conductor" },
-              ]}
-            >
-              <Radio.Group>
-                <Radio value={false}>No</Radio>
-                <Radio value={true}>Sí</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </div>
-          <Space className="mt-10">
-            <Button htmlType="submit" type="primary">
-              Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
+          <Form.Item
+            name="disponibilidad"
+            label="Disponibilidad"
+            tooltip="Esta opción permite habilitar o deshabilitar al conductor"
+            rules={[
+              { required: true, message: "Disponibilidad del conductor" },
+            ]}
+          >
+            <Radio.Group>
+              <Radio value={false}>No</Radio>
+              <Radio value={true}>Sí</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Form>
       </Modal>
     </>

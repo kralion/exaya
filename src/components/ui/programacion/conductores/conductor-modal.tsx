@@ -1,6 +1,7 @@
 import { api } from "@/utils/api";
 import { Button, Modal, Tag, Typography } from "antd";
 import Image from "next/image";
+import { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 const { confirm } = Modal;
@@ -8,16 +9,15 @@ const { Title } = Typography;
 
 type TProps = {
   id: string;
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  children: React.ReactNode;
 };
 
-export default function ConductorModal({ id, open, setOpen }: TProps) {
+export default function ConductorModal({ id, children: activator }: TProps) {
   const conductorDeleteMutation = api.conductores.deleteConductor.useMutation();
   const { data: conductorSingle } = api.conductores.getConductorById.useQuery({
     id,
   });
-
+  const [open, setOpen] = useState(false);
   const showDeleteConfirm = (id: string) => {
     confirm({
       title: "Estas segur@ de eliminar a este conductor ?",
@@ -135,6 +135,7 @@ export default function ConductorModal({ id, open, setOpen }: TProps) {
           alt="Bus Preview"
         />
       </div>
+      {activator}
     </Modal>
   );
 }
