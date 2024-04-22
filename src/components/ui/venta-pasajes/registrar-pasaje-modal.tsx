@@ -78,6 +78,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
+        serie: session?.user.serieBoleto || "AG001",
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
