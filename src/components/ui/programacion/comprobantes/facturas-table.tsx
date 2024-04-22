@@ -1,8 +1,6 @@
+import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { LuSettings } from "react-icons/lu";
-import React from "react";
-import { api } from "@/utils/api";
 const { Title, Text } = Typography;
 
 const columns: ColumnsType = [
@@ -74,9 +72,6 @@ const columns: ColumnsType = [
   },
 ];
 
-const handleConfigurar = () => {
-  alert("Configurar");
-};
 export default function FacturasTable() {
   const { data: facturas } =
     api.encomiendas.getAllFacturasEncomiendas.useQuery();
@@ -84,12 +79,6 @@ export default function FacturasTable() {
     <div className="my-7 space-y-3.5">
       <div className="flex justify-between">
         <Title level={5}>Facturas Recientes</Title>
-        <LuSettings
-          className="cursor-not-allowed hover:opacity-70"
-          title="Configurar"
-          onClick={handleConfigurar}
-          size={20}
-        />
       </div>
 
       <Table

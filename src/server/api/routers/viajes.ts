@@ -125,6 +125,51 @@ export const viajesRouter = createTRPCRouter({
     }
   }),
 
+  getViajesByScheduleTime: publicProcedure
+    .input(z.object({ time: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const time = new Date(input.time);
+        const viajes = await ctx.prisma.viaje.findMany({
+          where: {
+            salida: {
+              gte: new Date(
+                time.getFullYear(),
+                time.getMonth(),
+                time.getDate(),
+                time.getHours(),
+                time.getMinutes(),
+                time.getSeconds()
+              ),
+              lt: new Date(
+                time.getFullYear(),
+                time.getMonth(),
+                time.getDate(),
+                time.getHours(),
+                time.getMinutes(),
+                time.getSeconds() + 1
+              ),
+            },
+          },
+          include: {
+            ruta: true,
+            bus: true,
+            boletos: true,
+            encomiendas: true,
+          },
+        });
+        return {
+          status: "success",
+          response: viajes,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los viajes",
+        };
+      }
+    }),
+
   getViajesByDate: publicProcedure
     .input(z.object({ date: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -166,6 +211,61 @@ export const viajesRouter = createTRPCRouter({
                 ciudadOrigen: true,
               },
             },
+            boletos: true,
+            encomiendas: true,
+            bus: true,
+          },
+        });
+        return {
+          status: "success",
+          response: viajes,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener los viajes",
+        };
+      }
+    }),
+  getViajesByDateAndRutaId: publicProcedure
+    .input(z.object({ date: z.string(), id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      try {
+        const date = new Date(input.date);
+        const viajes = await ctx.prisma.viaje.findMany({
+          where: {
+            AND: [
+              {
+                salida: {
+                  gte: new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    date.getDate(),
+                    0,
+                    0,
+                    0
+                  ),
+                },
+              },
+              {
+                salida: {
+                  lt: new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    date.getDate(),
+                    23,
+                    59,
+                    59
+                  ),
+                },
+              },
+              {
+                rutaId: input.id,
+              },
+            ],
+          },
+          include: {
+            ruta: true,
             boletos: true,
             encomiendas: true,
             bus: true,

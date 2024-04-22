@@ -10,30 +10,34 @@ import {
   Button,
   DatePicker,
   FloatButton,
-  Input,
   Select,
   Typography,
+  type DatePickerProps,
 } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { CiSearch } from "react-icons/ci";
 import { MdTimelapse } from "react-icons/md";
 
 const { Title } = Typography;
-
 export default function Contable() {
+  const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
+  const [dateQuery, setDateQuery] = useState<string>(placeHolderDate);
+  const [rutaId, setRutaId] = useState<string>("");
   const {
     data: salidasDiarias,
-    isError,
     isLoading,
-  } = api.viajes.getAllViajes.useQuery();
-  const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
+    isError,
+  } = api.viajes.getViajesByDateAndRutaId.useQuery({
+    date: dateQuery,
+    id: rutaId,
+  });
+
   const [scheduleTimeQuery, setScheduleTimeQuery] = useState<string>(
     dayjs().format("HH:mm")
   );
   const { data: viajeQueried, isLoading: isLoadingContableQuery } =
-    api.viajes.getViajesByDate.useQuery({
-      date: scheduleTimeQuery,
+    api.viajes.getViajesByScheduleTime.useQuery({
+      time: scheduleTimeQuery,
     });
 
   const totalTravelEncomiendasIncome =
@@ -79,6 +83,9 @@ export default function Contable() {
     ) ?? 0;
   const total15PercentComission =
     (totalTravelTicketsIncome + totalTravelEncomiendasIncome) * 0.15;
+  const onDateChange: DatePickerProps["onChange"] = (date) => {
+    setDateQuery(date?.toISOString().slice(0, 10) ?? placeHolderDate);
+  };
   return (
     <AppLayout>
       <AppHead title="Contable" />
@@ -91,7 +98,7 @@ export default function Contable() {
               </Title>
               <div className="flex items-center gap-2">
                 {isLoading && <ScheduleSkeleton />}
-                {salidasDiarias?.response.length === 0 && (
+                {salidasDiarias?.response?.length === 0 && (
                   <Alert
                     message="No hay horarios disponibles que contabilizar para hoy"
                     type="warning"
@@ -106,7 +113,7 @@ export default function Contable() {
                   />
                 )}
 
-                {salidasDiarias?.response.map(
+                {salidasDiarias?.response?.map(
                   ({ id, salida }: { id: string; salida: Date }) => (
                     <Button
                       key={id}
@@ -133,29 +140,30 @@ export default function Contable() {
                   style={{
                     height: 32,
                   }}
+                  onChange={onDateChange}
                   placeholder={placeHolderDate}
                 />
 
                 <Select
-                  placeholder="Ruta"
+                  placeholder="Viaje"
                   loading={isLoading}
                   style={{ width: 180 }}
                 >
-                  {salidasDiarias?.response.map(
-                    (salida: {
+                  {salidasDiarias?.response?.map(
+                    (salidaDiaria: {
                       ruta: {
-                        ciudadDestino: string;
                         ciudadOrigen: string;
+                        ciudadDestino: string;
                         id: string;
                       };
                     }) => (
                       <Select.Option
-                        key={salida.ruta.id}
-                        value={
-                          salida.ruta.ciudadOrigen + salida.ruta.ciudadDestino
-                        }
+                        key={salidaDiaria.ruta.id}
+                        value={salidaDiaria.ruta.id}
+                        onClick={() => setRutaId(salidaDiaria.ruta.id)}
                       >
-                        {salida.ruta.ciudadOrigen} - {salida.ruta.ciudadDestino}
+                        {salidaDiaria.ruta.ciudadOrigen} -{" "}
+                        {salidaDiaria.ruta.ciudadDestino}
                       </Select.Option>
                     )
                   )}
@@ -199,19 +207,11 @@ export default function Contable() {
         <div className="space-y-3.5">
           <div className="flex items-baseline justify-between">
             <Title level={5} className="pt-7 tracking-tight text-slate-800">
-              Historial de Registros
+              Historial de Registros Contables
             </Title>
-            <Input
-              placeholder="Buscar por DNI"
-              type="number"
-              className="w-48  "
-              onPressEnter={() => {
-                alert("Enter");
-              }}
-              suffix={<CiSearch className="cursor-pointer" />}
-            />
+            <DatePicker onChange={onDateChange} />
           </div>
-          <TableContable scheduleTimeQuery={scheduleTimeQuery} />
+          <TableContable scheduleDateQuery={dateQuery} />
         </div>
       </div>
       <FloatButton.BackTop visibilityHeight={0} />

@@ -1,25 +1,25 @@
 import { api } from "@/utils/api";
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 export default function TableContable({
-  scheduleTimeQuery,
+  scheduleDateQuery,
 }: {
-  scheduleTimeQuery: string;
+  scheduleDateQuery: string;
 }) {
-  const { data: boletos } = api.boletos.getBoletosByViajeTimeSchedule.useQuery({
-    scheduleTimeQuery,
+  const { data: contables } = api.viajes.getViajesByDate.useQuery({
+    date: scheduleDateQuery,
   });
 
-  const filterItems = boletos?.response?.map((boleto) => ({
-    text: boleto.viaje.ruta.ciudadDestino,
-    value: boleto.viaje.ruta.ciudadDestino,
+  const filterItems = contables?.response?.map((contable) => ({
+    text: contable.ruta.ciudadDestino,
+    value: contable.ruta.ciudadDestino,
   }));
 
   const columns: ColumnsType = [
     {
       title: "Destino",
-      dataIndex: "ciudadDestino",
+      dataIndex: "ruta",
       filters: filterItems,
       filterSearch: true,
       onFilter: (
@@ -30,33 +30,43 @@ export default function TableContable({
       ) => record.ruta?.ciudadDestino?.includes(value as string),
     },
     {
-      title: "Serie",
-      dataIndex: "codigo",
+      title: "N° Boletos",
+      dataIndex: "boletos",
+      render: (boletos: { length: number }) => boletos.length,
     },
     {
-      title: "Numero",
-      dataIndex: "numero",
+      title: "N° Encomiendas",
+      dataIndex: "encomiendas",
+      render: (encomiendas: { length: number }) => encomiendas.length,
     },
-    { title: "Asiento", dataIndex: "asiento" },
+
     {
-      title: "Viaje",
-      dataIndex: "viaje",
-    },
-    {
-      title: "Monto",
-      dataIndex: "monto",
-      render: (text) => (
-        <Tag
-          className="rounded-full font-semibold shadow-md"
-          color="green-inverse"
-        >
-          {text}
-        </Tag>
-      ),
-    },
-    {
-      title: "Cliente DNI",
-      dataIndex: "clientedni",
+      title: "Montos",
+      children: [
+        {
+          title: "Boletos",
+          dataIndex: "boletos",
+          render: (boletos: { precio: number }[]) => {
+            const total = boletos.reduce(
+              (acc: number, boleto: { precio: number }) => acc + boleto.precio,
+              0
+            );
+            return total;
+          },
+        },
+        {
+          title: "Encomiendas",
+          dataIndex: "encomiendas",
+          render: (encomiendas: { precio: number }[]) => {
+            const total = encomiendas.reduce(
+              (acc: number, encomienda: { precio: number }) =>
+                acc + encomienda.precio,
+              0
+            );
+            return total;
+          },
+        },
+      ],
     },
   ];
   return (
@@ -68,7 +78,7 @@ export default function TableContable({
         pageSizeOptions: ["5", "10"],
       }}
       columns={columns}
-      dataSource={boletos?.response}
+      dataSource={contables?.response}
     />
   );
 }

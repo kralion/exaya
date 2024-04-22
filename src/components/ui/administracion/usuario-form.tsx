@@ -7,7 +7,7 @@ import {
   InputNumber,
   Modal,
   Select,
-  SelectProps,
+  type SelectProps,
   Space,
   Typography,
 } from "antd";
@@ -257,8 +257,11 @@ export function UsuarioForm({ activator }: Props) {
 
   return (
     <>
-      <Button type="primary" onClick={() => setIsModalOpen(true)}>
-        <AiOutlinePlusCircle size={15} />
+      <Button
+        type="primary"
+        icon={<AiOutlinePlusCircle size={15} />}
+        onClick={() => setIsModalOpen(true)}
+      >
         {activator}
       </Button>
       <Modal

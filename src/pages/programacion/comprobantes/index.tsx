@@ -1,5 +1,12 @@
 import AppLayout from "@/components/exaya/layout";
-import { Card, FloatButton, Typography, QRCode, Statistic } from "antd";
+import {
+  Card,
+  FloatButton,
+  Typography,
+  QRCode,
+  Statistic,
+  type StatisticProps,
+} from "antd";
 import CountUp from "react-countup";
 import { HiOutlineClipboardCopy } from "react-icons/hi";
 import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
@@ -8,9 +15,30 @@ import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-ta
 import AppHead from "@/components/landing/head";
 import { RxClipboardCopy } from "react-icons/rx";
 import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
+import { api } from "@/utils/api";
+import { useState } from "react";
+
+const formatter: StatisticProps["formatter"] = (value) => (
+  <CountUp end={value as number} separator="," />
+);
 const { Title } = Typography;
 function ProgramacionComprobantes() {
-  const formatter = (value: number) => <CountUp end={value} separator="," />;
+  const [current, setCurrent] = useState(0);
+  const { data: pasajes } = api.boletos.getAllBoletos.useQuery();
+  const { data: encomiendas } =
+    api.encomiendas.getAllBoletosEncomiendas.useQuery();
+  const totalBoletos = (pasajes?.length ?? 0) + (encomiendas?.length ?? 0);
+  const { data: facturas } =
+    api.encomiendas.getAllFacturasEncomiendas.useQuery();
+
+  function handleSunatTaxesSender() {
+    setTimeout(() => {
+      if (current < 3) {
+        setCurrent(current + 1);
+      }
+    }, 2000);
+  }
+
   return (
     <AppLayout>
       <AppHead title="Programacion Comprobantes" />
@@ -27,9 +55,9 @@ function ProgramacionComprobantes() {
           <div className="flex items-center gap-3.5">
             <Statistic
               title="Cantidad de boletos enviados a la base de datos de la SUNAT"
-              value={485005}
+              value={totalBoletos}
               className="w-36"
-              // formatter={formatter}
+              formatter={formatter}
               prefix={<HiOutlineClipboardCopy size={30} />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />
@@ -45,10 +73,10 @@ function ProgramacionComprobantes() {
             <Statistic
               title="
             Facturas registradas hacia la base de datos de la SUNAT"
-              value={112893}
+              value={facturas?.length}
               className="w-36"
               precision={2}
-              // formatter={formatter}
+              formatter={formatter}
               prefix={<RxClipboardCopy size={30} className="mt-2" />}
             />
             <QRCode value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar" />
@@ -56,9 +84,10 @@ function ProgramacionComprobantes() {
         </Card>
         <Steps
           size="small"
+          onChange={handleSunatTaxesSender}
           className="ml-10 mt-5"
           direction="vertical"
-          current={1}
+          current={current}
           items={[
             {
               title: "Actualizado",

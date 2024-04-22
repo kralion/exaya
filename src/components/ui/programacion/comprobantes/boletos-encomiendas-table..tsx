@@ -73,7 +73,7 @@ export default function BoletosEncomiendasTable() {
   return (
     <div className="my-7 space-y-3.5">
       <div className="flex justify-between">
-        <Title level={5}>Facturas Recientes</Title>
+        <Title level={5}>Boletos Recientes</Title>
         {/* TODO: Implementar Configuracion de comprobante
         <Tooltip title="search">
           <Button
