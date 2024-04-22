@@ -2,6 +2,7 @@ import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { Button, DatePicker, Form, Select } from "antd";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const layout = {
   labelCol: { span: 5 },
@@ -24,6 +25,7 @@ export function ViajesForm() {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
+  const { data: session } = useSession();
   const {
     data: rutas,
     isFetching: isFetchingRutas,
@@ -51,6 +53,7 @@ export function ViajesForm() {
     createViajeMutation.mutate(
       {
         ...values,
+        usuarioId: session?.user?.id as string,
         estado: "DISPONIBLE",
         salida: new Date(salidaISO),
       },

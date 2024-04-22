@@ -2,6 +2,7 @@ import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 const { Title, Text } = Typography;
+
 const columns: ColumnsType = [
   {
     title: "Código",
@@ -35,15 +36,12 @@ const columns: ColumnsType = [
       );
     },
   },
-  {
-    title: "DNI Cliente",
-    dataIndex: "pasajeroDni",
-  },
+
   {
     title: "Fecha Emisión",
-    dataIndex: "fechaRegistro",
-    render: (fechaRegistro: string) => {
-      return <Text>{new Date(fechaRegistro).toLocaleDateString()}</Text>;
+    dataIndex: "fechaEnvío",
+    render: (fechaEnvio: string) => {
+      return <Text>{new Date(fechaEnvio).toLocaleDateString()}</Text>;
     },
   },
   {
@@ -63,12 +61,12 @@ const columns: ColumnsType = [
   },
 ];
 
-export default function BoletosTable() {
-  const { data: boletos } = api.boletos.getAllBoletos.useQuery();
+export default function BoletosEncomiendasTable() {
+  const { data: boletas } = api.encomiendas.getAllBoletosEncomiendas.useQuery();
   return (
-    <div className="space-y-3.5">
+    <div className="my-7 space-y-3.5">
       <div className="flex justify-between">
-        <Title level={5}>Boletos Recientes</Title>
+        <Title level={5}>Facturas Recientes</Title>
         {/* TODO: Implementar Configuracion de comprobante
         <Tooltip title="search">
           <Button
@@ -78,6 +76,7 @@ export default function BoletosTable() {
           />
         </Tooltip> */}
       </div>
+
       <Table
         columns={columns}
         pagination={{
@@ -86,7 +85,7 @@ export default function BoletosTable() {
           pageSizeOptions: ["3", "6", "9"],
           showSizeChanger: true,
         }}
-        dataSource={boletos}
+        dataSource={boletas}
       />
     </div>
   );

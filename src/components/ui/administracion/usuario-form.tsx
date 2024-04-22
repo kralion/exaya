@@ -7,6 +7,7 @@ import {
   InputNumber,
   Modal,
   Select,
+  SelectProps,
   Space,
   Typography,
 } from "antd";
@@ -32,6 +33,122 @@ interface RolNodeType {
   label: string;
   children?: RolNodeType[];
 }
+
+interface SerieBoletoType {
+  value:
+    | "AG001"
+    | "AG002"
+    | "AG003"
+    | "AG004"
+    | "AG005"
+    | "AG006"
+    | "AG007"
+    | "AG008"
+    | "AG009"
+    | "AG010";
+  label: string;
+}
+
+interface SerieEncomiendaType {
+  value:
+    | "EAG001"
+    | "EAG002"
+    | "EAG003"
+    | "EAG004"
+    | "EAG005"
+    | "EAG006"
+    | "EAG007"
+    | "EAG008"
+    | "EAG009"
+    | "EAG010";
+  label: string;
+}
+
+const seriesEncomienda: SelectProps<SerieEncomiendaType>["options"] = [
+  {
+    value: "EAG001",
+    label: "EAG001",
+  },
+  {
+    value: "EAG002",
+    label: "EAG002",
+  },
+  {
+    value: "EAG003",
+    label: "EAG003",
+  },
+  {
+    value: "EAG004",
+    label: "EAG004",
+  },
+  {
+    value: "EAG005",
+    label: "EAG005",
+  },
+  {
+    value: "EAG006",
+    label: "EAG006",
+  },
+  {
+    value: "EAG007",
+    label: "EAG007",
+  },
+  {
+    value: "EAG008",
+    label: "EAG008",
+  },
+  {
+    value: "EAG009",
+    label: "EAG009",
+  },
+  {
+    value: "EAG010",
+    label: "EAG010",
+  },
+];
+
+const seriesBoleto: SelectProps<SerieBoletoType>["options"] = [
+  {
+    value: "AG001",
+    label: "AG001",
+  },
+  {
+    value: "AG002",
+    label: "AG002",
+  },
+  {
+    value: "AG003",
+    label: "AG003",
+  },
+  {
+    value: "AG004",
+    label: "AG004",
+  },
+  {
+    value: "AG005",
+    label: "AG005",
+  },
+  {
+    value: "AG006",
+    label: "AG006",
+  },
+  {
+    value: "AG007",
+    label: "AG007",
+  },
+  {
+    value: "AG008",
+    label: "AG008",
+  },
+  {
+    value: "AG009",
+    label: "AG009",
+  },
+  {
+    value: "AG010",
+    label: "AG010",
+  },
+];
 
 const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   {
@@ -226,7 +343,7 @@ export function UsuarioForm({ activator }: Props) {
           <Form.Item
             name="telefono"
             label="N° Celular"
-            rules={[{ required: true, message: "Verifica este campo" }]}
+            rules={[{ required: true, message: "Verifica" }]}
           >
             <Input
               type="number"
@@ -243,7 +360,7 @@ export function UsuarioForm({ activator }: Props) {
             rules={[
               {
                 required: true,
-                message: "Ingresa el nombre de usuario",
+                message: "Requerido",
                 whitespace: true,
               },
             ]}
@@ -256,7 +373,7 @@ export function UsuarioForm({ activator }: Props) {
             rules={[
               {
                 required: true,
-                message: "Escriba la contraseña",
+                message: "Requerido",
               },
             ]}
           >
@@ -269,7 +386,7 @@ export function UsuarioForm({ activator }: Props) {
             rules={[
               {
                 required: true,
-                message: "Selecciona el Rol",
+                message: "Selecciona",
               },
             ]}
           >
@@ -280,6 +397,30 @@ export function UsuarioForm({ activator }: Props) {
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item
+            name="serieBoleto"
+            label="Serie de Boletos"
+            rules={[
+              {
+                required: true,
+                message: "Requerido",
+              },
+            ]}
+          >
+            <Select options={seriesBoleto} />
+          </Form.Item>
+          <Form.Item
+            name="serieEncomienda"
+            label="Serie de Encomiendas"
+            rules={[
+              {
+                required: true,
+                message: "Requerido",
+              },
+            ]}
+          >
+            <Select options={seriesEncomienda} />
           </Form.Item>
 
           <Form.Item label="Foto del Usuario">

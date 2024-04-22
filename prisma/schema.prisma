@@ -13,7 +13,7 @@ enum BoletoEstado {
     PAGADO
 }
 
-enum Serie {
+enum SerieBoleto {
     AG001
     AG002
     AG003
@@ -26,6 +26,19 @@ enum Serie {
     AG010
 }
 
+enum SerieEncomienda {
+    EAG001
+    EAG002
+    EAG003
+    EAG004
+    EAG005
+    EAG006
+    EAG007
+    EAG008
+    EAG009
+    EAG010
+}
+
 model Boleto {
     asiento           Int
     pasajeroDni       String
@@ -34,7 +47,7 @@ model Boleto {
     pasajeroApellidos String
     usuario           Usuario      @relation(fields: [usuarioId], references: [id])
     usuarioId         String
-    serie             Serie        @default(AG001)
+    serie             SerieBoleto  @default(AG001)
     codigo            Int          @default(autoincrement())
     fechaRegistro     DateTime     @default(now())
     equipaje          String       @default("Sin Equipaje")
@@ -70,10 +83,10 @@ model Conductor {
 }
 
 model Encomienda {
-    codigo                Int      @default(autoincrement())
-    serie                 Serie    @default(AG001)
+    codigo                Int             @default(autoincrement())
+    serie                 SerieEncomienda @default(EAG001)
     descripcion           String
-    usuario               Usuario  @relation(fields: [usuarioId], references: [id])
+    usuario               Usuario         @relation(fields: [usuarioId], references: [id])
     usuarioId             String
     destinatarioDni       String
     destinatarioNombres   String
@@ -82,15 +95,15 @@ model Encomienda {
     remitenteTelefono     String
     remitenteNombres      String
     remitenteApellidos    String
-    factura               Boolean  @default(false)
+    factura               Boolean         @default(false)
     empresa               String?
     ruc                   String?
-    fechaEnvio            DateTime @default(now())
-    id                    String   @id @default(uuid())
-    pagado                Boolean  @default(false)
+    fechaEnvio            DateTime        @default(now())
+    id                    String          @id @default(uuid())
+    pagado                Boolean         @default(false)
     precio                Int
     remitenteDni          String
-    viaje                 Viaje    @relation(fields: [viajeId], references: [id])
+    viaje                 Viaje           @relation(fields: [viajeId], references: [id])
     viajeId               String
 }
 
@@ -117,20 +130,21 @@ enum ViajeEstado {
 }
 
 model Usuario {
-    username       String       @unique
-    serie          Serie        @default(AG001)
-    usuarioDni     String       @unique
-    id             String       @id @default(cuid())
-    foto           String       @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
-    sedeDelegacion String
-    telefono       String
-    password       String
-    nombres        String
-    apellidos      String
-    rol            Rol          @default(USER)
-    encomienda     Encomienda[]
-    boleto         Boleto[]
-    viaje          Viaje[]
+    username        String          @unique
+    serieBoleto     SerieBoleto     @default(AG001)
+    serieEncomienda SerieEncomienda @default(EAG001)
+    usuarioDni      String          @unique
+    id              String          @id @default(cuid())
+    foto            String          @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
+    sedeDelegacion  String
+    telefono        String
+    password        String
+    nombres         String
+    apellidos       String
+    rol             Rol             @default(USER)
+    encomienda      Encomienda[]
+    boleto          Boleto[]
+    viaje           Viaje[]
 }
 
 model Viaje {

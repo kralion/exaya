@@ -4,8 +4,19 @@ import { z } from "zod";
 import { encomiendaSchema } from "@/schemas";
 
 export const encomiendasRouter = createTRPCRouter({
-  getAllEncomiendas: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.encomienda.findMany();
+  getAllBoletosEncomiendas: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.encomienda.findMany({
+      where: { factura: false },
+      include: { viaje: { include: { ruta: true } } },
+      orderBy: { fechaEnvio: "desc" },
+    });
+  }),
+  getAllFacturasEncomiendas: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.encomienda.findMany({
+      where: { factura: true },
+      include: { viaje: { include: { ruta: true } } },
+      orderBy: { fechaEnvio: "desc" },
+    });
   }),
 
   getEncomiendasByViajeId: publicProcedure

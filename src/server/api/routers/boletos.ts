@@ -12,10 +12,11 @@ export const boletosRouter = createTRPCRouter({
       include: {
         viaje: {
           include: {
-            ruta: { select: { ciudadDestino: true } },
+            ruta: true,
           },
         },
       },
+      orderBy: { fechaRegistro: "desc" },
     });
   }),
 

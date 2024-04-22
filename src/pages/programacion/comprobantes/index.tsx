@@ -2,19 +2,20 @@ import AppLayout from "@/components/exaya/layout";
 import { Card, FloatButton, Typography, QRCode, Statistic } from "antd";
 import CountUp from "react-countup";
 import { HiOutlineClipboardCopy } from "react-icons/hi";
-
-import ComprobantesTable from "@/components/ui/programacion/comprobantes/boletos-table";
+import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import { Steps } from "antd";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
 import AppHead from "@/components/landing/head";
 import { RxClipboardCopy } from "react-icons/rx";
+import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
 const { Title } = Typography;
 function ProgramacionComprobantes() {
   const formatter = (value: number) => <CountUp end={value} separator="," />;
   return (
     <AppLayout>
       <AppHead title="Programacion Comprobantes" />
-      <ComprobantesTable />
+      <BoletosTable />
+      <BoletosEncomiendasTable />
       <FacturasTable />
       <div className="flex gap-3.5">
         <Card
