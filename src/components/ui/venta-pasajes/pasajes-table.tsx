@@ -5,6 +5,7 @@ import { TbLicense } from "react-icons/tb";
 import { TfiMoreAlt } from "react-icons/tfi";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
+import { MisBoletos } from "./mis-boletos-modal";
 const { Title } = Typography;
 
 const convertTo12HourFormat = (hours: number, minutes: number) => {
@@ -146,6 +147,10 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
           {
             key: "2",
             label: <Manifiesto viajeId={id} />,
+          },
+          {
+            key: "3",
+            label: <MisBoletos viajeId={id} />,
           },
         ];
 

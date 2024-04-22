@@ -15,6 +15,7 @@ declare module "next-auth" {
   interface User {
     nombres: string;
     apellidos: string;
+    id: string;
     rol: string;
     foto: string;
   }
@@ -22,6 +23,8 @@ declare module "next-auth" {
     user: User & DefaultSession["user"];
     token: {
       name: string;
+      id: string;
+
       nombres: string;
       apellidos: string;
       foto: string;
@@ -84,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           nombres: user.nombres,
+          id: user.id,
           apellidos: user.apellidos,
           foto: user.foto,
           rol: user.rol,
@@ -99,6 +103,7 @@ export const authOptions: NextAuthOptions = {
           nombres: token.nombres,
           apellidos: token.apellidos,
           foto: token.foto,
+          id: token.id,
           rol: token.rol,
         },
       };

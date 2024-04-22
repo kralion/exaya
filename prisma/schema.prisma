@@ -32,6 +32,8 @@ model Boleto {
     estado            BoletoEstado @default(DISPONIBLE)
     pasajeroNombres   String
     pasajeroApellidos String
+    usuario           Usuario      @relation(fields: [usuarioId], references: [id])
+    usuarioId         String
     serie             Serie        @default(AG001)
     codigo            Int          @default(autoincrement())
     fechaRegistro     DateTime     @default(now())
@@ -71,6 +73,8 @@ model Encomienda {
     codigo                Int      @default(autoincrement())
     serie                 Serie    @default(AG001)
     descripcion           String
+    usuario               Usuario  @relation(fields: [usuarioId], references: [id])
+    usuarioId             String
     destinatarioDni       String
     destinatarioNombres   String
     destinatarioApellidos String
@@ -91,7 +95,7 @@ model Encomienda {
 }
 
 model Ruta {
-    Viaje            Viaje[]
+    viaje            Viaje[]
     ciudadDestino    String
     ciudadOrigen     String
     duracionEstimada Int
@@ -113,17 +117,20 @@ enum ViajeEstado {
 }
 
 model Usuario {
-    username       String @unique
-    serie          Serie  @default(AG001)
-    usuarioDni     String @unique
-    id             String @id @default(cuid())
-    foto           String @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
+    username       String       @unique
+    serie          Serie        @default(AG001)
+    usuarioDni     String       @unique
+    id             String       @id @default(cuid())
+    foto           String       @default("https://res.cloudinary.com/diqe1byxy/image/upload/v1713285660/exaya/user-placeholder_d7njq8.png")
     sedeDelegacion String
     telefono       String
     password       String
     nombres        String
     apellidos      String
-    rol            Rol    @default(USER)
+    rol            Rol          @default(USER)
+    encomienda     Encomienda[]
+    boleto         Boleto[]
+    viaje          Viaje[]
 }
 
 model Viaje {
@@ -131,6 +138,8 @@ model Viaje {
     bus         Bus          @relation(fields: [busId], references: [id])
     busId       String
     conductores Conductor[]
+    usuario     Usuario      @relation(fields: [usuarioId], references: [id])
+    usuarioId   String
     encomiendas Encomienda[]
     estado      ViajeEstado  @default(DISPONIBLE)
     salida      DateTime
