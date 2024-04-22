@@ -7,7 +7,7 @@ export const encomiendasRouter = createTRPCRouter({
   getAllBoletosEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({
       where: { factura: false },
-      include: { viaje: { include: { ruta: true } } },
+      include: { viaje: { include: { ruta: true, usuario: true } } },
       orderBy: { fechaEnvio: "desc" },
     });
   }),

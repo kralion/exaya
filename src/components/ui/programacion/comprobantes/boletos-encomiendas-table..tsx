@@ -21,6 +21,13 @@ const columns: ColumnsType = [
       },
     ],
   },
+  {
+    title: "Agencia",
+    dataIndex: "viaje",
+    render: (viaje: { usuario: { sedeDelegacion: string } }) => {
+      return <Text>{viaje.usuario.sedeDelegacion}</Text>;
+    },
+  },
 
   {
     title: "Viaje",

@@ -36,6 +36,13 @@ const columns: ColumnsType = [
     },
   },
   {
+    title: "Sede",
+    dataIndex: "usuario",
+    render: (usuario: { sedeDelegacion: string }) => {
+      return <Text>{usuario.sedeDelegacion}</Text>;
+    },
+  },
+  {
     title: "DNI Cliente",
     dataIndex: "pasajeroDni",
   },
