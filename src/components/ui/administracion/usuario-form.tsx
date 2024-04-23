@@ -203,17 +203,6 @@ export function UsuarioForm({ activator }: Props) {
     const apellidosConductor = `${
       reniecResponse?.data?.apellidoPaterno ?? ""
     } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
-    alert(
-      JSON.stringify(
-        {
-          ...values,
-          nombres: reniecResponse?.data?.nombres ?? "No registrado",
-          apellidos: apellidosConductor,
-        },
-        null,
-        2
-      )
-    );
     createUsuarioMutation.mutate(
       {
         ...values,
@@ -277,17 +266,7 @@ export function UsuarioForm({ activator }: Props) {
         open={isModalOpen}
         onOk={handleCancel}
         onCancel={handleCancel}
-        footer={
-          <Space className="flex justify-end">
-            <Button htmlType="submit" type="primary">
-              Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
-        }
+        footer={null}
       >
         <Form
           {...formItemLayout}
@@ -426,6 +405,25 @@ export function UsuarioForm({ activator }: Props) {
             <Select options={seriesEncomienda} />
           </Form.Item>
 
+          <Form.Item
+            name="sedeDelegacion"
+            tooltip="Sede donde va a trabajar el usuario"
+            label="Sede Delegación"
+            rules={[
+              {
+                required: true,
+                message: "Selecciona",
+              },
+            ]}
+          >
+            <Select loading={isLoading || isFetching} placeholder="Huancayo">
+              {uniqueCiudadOrigen?.map((ciudad: string) => (
+                <Select.Option key={ciudad} value={ciudad}>
+                  {ciudad}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item label="Foto del Usuario">
             <div>
               <CldUploadWidget
@@ -486,7 +484,7 @@ export function UsuarioForm({ activator }: Props) {
                   return (
                     <Button
                       icon={<HiOutlineUpload />}
-                      disabled={createUsuarioMutation.isLoading}
+                      disabled={source !== undefined}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -497,7 +495,7 @@ export function UsuarioForm({ activator }: Props) {
               {source && (
                 <CldImage
                   width="100"
-                  className="mt-2 rounded-lg"
+                  className="border-rounded mt-2 rounded-lg border-2 border-dashed border-gray-300"
                   height="100"
                   src={source}
                   sizes="50vw"
@@ -507,25 +505,19 @@ export function UsuarioForm({ activator }: Props) {
             </div>
           </Form.Item>
 
-          <Form.Item
-            name="sedeDelegacion"
-            tooltip="Sede donde va a trabajar el usuario"
-            label="Sede Delegación"
-            rules={[
-              {
-                required: true,
-                message: "Selecciona",
-              },
-            ]}
-          >
-            <Select loading={isLoading || isFetching} placeholder="Huancayo">
-              {uniqueCiudadOrigen?.map((ciudad: string) => (
-                <Select.Option key={ciudad} value={ciudad}>
-                  {ciudad}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+          <Space className="mt-36 flex justify-end">
+            <Button
+              loading={createUsuarioMutation.isLoading}
+              htmlType="submit"
+              type="primary"
+            >
+              Registrar
+            </Button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
         </Form>
       </Modal>
     </>

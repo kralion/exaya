@@ -4,12 +4,12 @@ import { Table, Tag } from "antd";
 const columns = [
   {
     title: "Nombres ",
-    dataIndex: "nombres",
+    dataIndex: "pasajeroNombres",
     key: "nombres",
   },
   {
     title: "Apellidos",
-    dataIndex: "apellidos",
+    dataIndex: "pasajeroApellidos",
     key: "apellidos",
   },
   {
@@ -32,7 +32,7 @@ const columns = [
   },
   {
     title: "DNI / Pasaporte",
-    dataIndex: "dni",
+    dataIndex: "pasajeroDni",
     key: "dni",
   },
 ];

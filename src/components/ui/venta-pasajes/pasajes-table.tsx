@@ -1,11 +1,13 @@
 import { api } from "@/utils/api";
 import { Dropdown, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { TbLicense } from "react-icons/tb";
+import { IoFilterSharp } from "react-icons/io5";
+import { TbBus } from "react-icons/tb";
 import { TfiMoreAlt } from "react-icons/tfi";
-import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
+import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+
 const { Title } = Typography;
 
 const convertTo12HourFormat = (hours: number, minutes: number) => {
@@ -38,8 +40,10 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
       filters: origenFilterItems,
       filterSearch: true,
+      filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
         value,
+
         record: {
           ruta: { ciudadOrigen: string };
         }
@@ -53,6 +57,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       render: (ruta: { ciudadDestino: string }) => ruta.ciudadDestino,
       filters: destinoFilterItems,
       filterSearch: true,
+      filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
         value,
         record: {
@@ -61,13 +66,17 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       ) => record.ruta?.ciudadDestino?.includes(value as string),
     },
     {
-      title: "Bus",
+      title: "Placa",
       dataIndex: "bus",
       key: "placaBus",
       responsive: ["lg"],
       render: (bus: { placa: string }) => (
         <Tooltip className="cursor-pointer" title={bus.placa}>
-          <TbLicense />
+          <TbBus
+            strokeWidth={1}
+            size={25}
+            className="text-zinc-600 dark:text-zinc-400"
+          />
         </Tooltip>
       ),
     },
@@ -100,18 +109,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
         }
 
         const horaSalida = convertTo12HourFormat(hours, minutes);
-        return hours < 18 ? (
-          <Tag
-            className="w-[70px] rounded-full text-center font-semibold text-black shadow-md"
-            color="yellow-inverse"
-          >
-            <span className="text-black">{horaSalida}</span>
-          </Tag>
-        ) : (
-          <Tag className="w-[70px] rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
-            {horaSalida}
-          </Tag>
-        );
+        return <Tag>{horaSalida}</Tag>;
       },
     },
     {
@@ -119,19 +117,16 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       key: "tarifas",
       dataIndex: "tarifas",
       responsive: ["lg"],
-
-      render: (tarifas: number[]) => (
-        <>
-          {tarifas?.map((tarifa) => (
-            <Tag key={tarifa}>
-              {tarifa.toLocaleString("es-PE", {
-                style: "currency",
-                currency: "PEN",
-              })}
-            </Tag>
-          ))}
-        </>
-      ),
+      render: (tarifas: number[]) => {
+        return tarifas.map((tarifa, index) => (
+          <Tag color="volcano-inverse" key={index}>
+            {tarifa.toLocaleString("es-PE", {
+              style: "currency",
+              currency: "PEN",
+            })}
+          </Tag>
+        ));
+      },
     },
     {
       title: "",

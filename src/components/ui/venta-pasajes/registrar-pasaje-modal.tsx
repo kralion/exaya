@@ -78,12 +78,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        serie: session?.user.serieBoleto || "AG001",
+        serie: session?.user.serieBoleto,
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
+        estado: "PAGADO",
         viajeId,
-        pasajeroNombres: reniecResponse?.data?.nombres ?? "No registrado",
+        pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
       },
       {
@@ -94,7 +95,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             placement: "topRight",
           });
-          void refetchBoletosVendidos();
         },
         onError: (error) => {
           openNotification({
@@ -103,11 +103,24 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "error",
             placement: "topRight",
           });
-          void refetchBoletosVendidos();
         },
       }
     );
 
+    alert(
+      JSON.stringify({
+        ...values,
+        usuarioId: session?.user?.id as string,
+        serie: session?.user.serieBoleto,
+        telefonoCliente: values.telefonoCliente.toString(),
+        pasajeroDni: values.pasajeroDni.toString(),
+        asiento: selectedSeat,
+        estado: "PAGADO",
+        viajeId,
+        pasajeroNombres: reniecResponse?.data?.nombres,
+        pasajeroApellidos: apellidosCliente,
+      })
+    );
     form.resetFields();
     setOpenRegister(false);
   }
@@ -240,24 +253,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             <div className="flex items-center gap-4 pr-5">
               <h3>Registro de Boleto</h3>
               <div>
-                {selectedSeat !== null &&
-                boletosVendidos?.response?.some(
-                  (seat) => seat.asiento === selectedSeat
-                ) ? (
-                  <Tag color="green-inverse" className="px-3 py-1">
-                    Vendido
-                  </Tag>
-                ) : selectedSeat !== null &&
-                  boletosReservados?.response?.some(
-                    (seat) => seat.asiento === selectedSeat
-                  ) ? (
-                  <Tag color="yellow-inverse" className="px-3 py-1  text-black">
-                    Reservado
-                  </Tag>
-                ) : (
-                  ""
-                )}
-
                 <svg
                   key={selectedSeat}
                   width="40"
@@ -266,11 +261,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 >
                   <path
                     className={
-                      reniecResponse?.status === "error"
-                        ? "fill-red-300 stroke-red-600"
-                        : boletosReservados?.response?.some(
-                            (boleto) => boleto.asiento === selectedSeat
-                          )
+                      boletosReservados?.response?.some(
+                        (boleto) => boleto.asiento === selectedSeat
+                      )
                         ? "fill-yellow-300 stroke-yellow-600"
                         : boletosVendidos?.response?.some(
                             (boleto) => boleto.asiento === selectedSeat
@@ -307,47 +300,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
         }}
         width={500}
-        footer={
-          <Space className="mt-10">
-            <Button
-              onClick={() => {
-                setOpenRegister(false);
-                form.resetFields();
-              }}
-              danger
-              type="text"
-            >
-              Cancelar
-            </Button>
-            <Button type="default">Reservar</Button>
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#52c41a",
-              }}
-              className="duration-75 hover:opacity-80 active:opacity-100"
-            >
-              Imprimir
-            </Button>
-
-            <Button
-              htmlType="submit"
-              type="primary"
-              loading={isLoading}
-              disabled={
-                reniecResponse?.status === "error" ||
-                boletosReservados?.response?.some(
-                  (boleto) => boleto.asiento === selectedSeat
-                ) ||
-                boletosVendidos?.response?.some(
-                  (boleto) => boleto.asiento === selectedSeat
-                )
-              }
-            >
-              Registrar
-            </Button>
-          </Space>
-        }
+        footer={null}
       >
         <Form
           layout="vertical"
@@ -434,6 +387,45 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           <Form.Item name="equipaje" label="Equipaje">
             <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
           </Form.Item>
+          <Space className="flex justify-end">
+            <Button
+              onClick={() => {
+                setOpenRegister(false);
+                form.resetFields();
+              }}
+              danger
+              type="text"
+            >
+              Cancelar
+            </Button>
+            <Button type="default">Reservar</Button>
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+              className="duration-75 hover:opacity-80 active:opacity-100"
+            >
+              Imprimir
+            </Button>
+
+            <Button
+              htmlType="submit"
+              type="primary"
+              loading={isLoading}
+              disabled={
+                reniecResponse?.status === "error" ||
+                boletosReservados?.response?.some(
+                  (boleto) => boleto.asiento === selectedSeat
+                ) ||
+                boletosVendidos?.response?.some(
+                  (boleto) => boleto.asiento === selectedSeat
+                )
+              }
+            >
+              Registrar
+            </Button>
+          </Space>
         </Form>
       </Modal>
     </div>

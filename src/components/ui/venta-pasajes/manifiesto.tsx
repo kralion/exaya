@@ -41,6 +41,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
       </Typography>
 
       <Drawer
+        closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
             <Title className="text-left" level={4}>

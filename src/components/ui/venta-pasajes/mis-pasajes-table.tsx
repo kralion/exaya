@@ -21,7 +21,7 @@ export function MisBoletosVendidosTable({
           responsive: ["lg"],
         },
         {
-          title: "Codigo",
+          title: "Número",
           dataIndex: "codigo",
           key: "codigo",
           responsive: ["lg"],
@@ -38,17 +38,6 @@ export function MisBoletosVendidosTable({
       title: "Pasajero",
       dataIndex: "pasajeroDni",
       key: "pasajeroDni",
-    },
-    {
-      title: "Pasajero",
-      dataIndex: "pasajeroDni",
-      key: "viaje",
-      responsive: ["lg"],
-      render: (viaje: { bus: { placa: string } }) => (
-        <Tooltip className="cursor-pointer" title={viaje.bus.placa}>
-          <TbLicense />
-        </Tooltip>
-      ),
     },
     {
       title: "Equipaje",
