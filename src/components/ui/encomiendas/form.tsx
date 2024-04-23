@@ -35,9 +35,9 @@ const formItemLayout = {
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const [remitenteDNI, setRemitenteDNI] = useState<string>("");
+  const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
-  const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
-  const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
   const { data: viajesDiariosDisponibles } =
     api.viajes.getViajesByDate.useQuery({
       date: dateQuery.format("YYYY-MM-DD"),
@@ -49,10 +49,10 @@ export function EncomiendasForm() {
 
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
-      dni: form.getFieldValue("destinatarioDni") as string,
+      dni: destinatarioDNI,
     },
     {
-      enabled: receiverQueryEnabled,
+      enabled: destinatarioDNI.length === 8,
     }
   );
   const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
@@ -60,7 +60,7 @@ export function EncomiendasForm() {
       dni: form.getFieldValue("remitenteDni") as string,
     },
     {
-      enabled: senderQueryEnabled,
+      enabled: remitenteDNI.length === 8,
     }
   );
 
@@ -150,7 +150,7 @@ export function EncomiendasForm() {
             },
           ]}
           validateStatus={
-            form.getFieldValue("remitenteDni") === ""
+            remitenteDNI === ""
               ? ""
               : remitenteInformacion?.status === "error"
               ? "error"
@@ -159,7 +159,7 @@ export function EncomiendasForm() {
               : "validating"
           }
           help={
-            form.getFieldValue("remitenteDni") === "" ? (
+            remitenteDNI === "" ? (
               ""
             ) : remitenteInformacion?.status === "error" ? (
               "El DNI no existe"
@@ -174,16 +174,14 @@ export function EncomiendasForm() {
             )
           }
         >
-          <InputNumber
-            placeholder="12345678"
-            onChange={(value) => {
-              const dni = String(value);
-              form.setFieldValue("remitenteDni", dni);
-              setSenderQueryEnabled(dni.length === 8);
+          <Input
+            placeholder="23354545"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setRemitenteDNI(event.target.value);
             }}
             type="number"
+            maxLength={8}
             className="w-full"
-            controls={false}
           />
         </Form.Item>
 
@@ -198,7 +196,7 @@ export function EncomiendasForm() {
             },
           ]}
           validateStatus={
-            form.getFieldValue("destinatarioDni") === ""
+            destinatarioDNI === ""
               ? ""
               : receptorInformacion?.status === "error"
               ? "error"
@@ -207,7 +205,7 @@ export function EncomiendasForm() {
               : "validating"
           }
           help={
-            form.getFieldValue("destinatarioDni") === "" ? (
+            destinatarioDNI === "" ? (
               ""
             ) : receptorInformacion?.status === "error" ? (
               "El DNI no existe"
@@ -222,16 +220,14 @@ export function EncomiendasForm() {
             )
           }
         >
-          <InputNumber
-            placeholder="12345678"
-            onChange={(value) => {
-              const dni = String(value);
-              form.setFieldValue("destinatarioDni", dni);
-              setReceiverQueryEnabled(dni.length === 8);
+          <Input
+            placeholder="54774145"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setDestinatarioDNI(event.target.value);
             }}
             type="number"
+            maxLength={8}
             className="w-full"
-            controls={false}
           />
         </Form.Item>
         <div className="col-span-2 flex gap-4">
