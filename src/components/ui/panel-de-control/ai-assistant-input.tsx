@@ -1,9 +1,11 @@
 import { useNotification } from "@/context/NotificationContext";
 import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
+import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ImSpinner10 } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
+import { IoMic, IoMicOutline } from "react-icons/io5";
 import { TypeAnimation } from "react-type-animation";
 
 const { TextArea } = Input;
@@ -13,6 +15,10 @@ export const AIAssistantInput = () => {
   useHotkeys("ctrl+enter", () => {
     inputRef.current?.focus();
   });
+  const [audioRecorded, setAudioRecorded] = useState<Blob | null>(null);
+  const { startRecording, stopRecording, recordingBlob, isRecording } =
+    useAudioRecorder();
+
   const [value, setValue] = useState("");
   const [generating, setGenerating] = useState(false);
 
@@ -23,7 +29,7 @@ export const AIAssistantInput = () => {
     setTimeout(() => {
       setGenerating(false);
       openNotification({
-        message: "Boleto generado",
+        message: "Operación exitosa",
         description:
           "El boleto se ha generado correctamente, los detalles se visualizan en el viaje para el que fue creado",
         placement: "topRight",
@@ -40,6 +46,17 @@ export const AIAssistantInput = () => {
     "Vender el asiento 40 para 35645123 para hoy a 45 soles",
     "Y yo me encargo de generar el boleto, tu solo tienes que imprimirlo...",
   ];
+
+  const handleStopRecording = () => {
+    stopRecording();
+    setAudioRecorded(recordingBlob || null);
+    handleGenerate();
+  };
+
+  const handleStartRecording = () => {
+    setAudioRecorded(null);
+    startRecording();
+  };
 
   return (
     <Space className=" items-center justify-center gap-1">
@@ -63,13 +80,27 @@ export const AIAssistantInput = () => {
         title="También puedes usar Ctrl + Enter para enfocar el input"
         onPressEnter={handleGenerate}
       />
+
+      <Button
+        onClick={isRecording ? handleStopRecording : handleStartRecording}
+        type="text"
+        icon={
+          isRecording ? (
+            <IoMic className="animate-pulse" size={20} />
+          ) : (
+            <IoMicOutline className="text-zinc-600" size={20} />
+          )
+        }
+        className="absolute left-[575px] top-3.5 z-10"
+      />
+
       {!focused && (
         <TypeAnimation
           preRenderFirstString={true}
           sequence={placeholderTexts}
           speed={15}
           deletionSpeed={70}
-          className="absolute left-6 top-0 text-gray-400"
+          className="absolute left-6 top-0 text-zinc-500"
           repeat={4}
         />
       )}
