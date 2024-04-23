@@ -5,14 +5,16 @@ import {
   Input,
   InputNumber,
   Select,
+  Space,
   Switch,
   Typography,
 } from "antd";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { encomiendaSchema } from "@/schemas";
-import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 import { useNotification } from "@/context/NotificationContext";
+import dayjs, { type Dayjs } from "dayjs";
 import { useSession } from "next-auth/react";
+import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 
 import { api } from "@/utils/api";
 import { useState } from "react";
@@ -33,14 +35,15 @@ const formItemLayout = {
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
   const [senderQueryEnabled, setSenderQueryEnabled] = useState(false);
   const [receiverQueryEnabled, setReceiverQueryEnabled] = useState(false);
-  const { data: rutas } = api.rutas.getAllRutas.useQuery();
   const { data: viajesDiariosDisponibles } =
-    api.viajes.getViajesByRutaDestinyAndStatus.useQuery({
-      destiny: form.getFieldValue("ciudadDestino") as string,
+    api.viajes.getViajesByDate.useQuery({
+      date: dateQuery.format("YYYY-MM-DD"),
     });
   const { openNotification } = useNotification();
+  const [facturaUI, setFacturaUI] = useState(false);
   const createEncomiendaMutation =
     api.encomiendas.createEncomienda.useMutation();
 
@@ -134,12 +137,11 @@ export function EncomiendasForm() {
         onFinish={onFinish}
         initialValues={{ prefix: "+51" }}
         scrollToFirstError
-        className="grid grid-flow-row grid-cols-4 gap-x-3.5 gap-y-7"
+        className="grid grid-flow-row grid-cols-4 gap-4"
       >
         <Form.Item
           name="remitenteDni"
           label="DNI del Remitente"
-          tooltip="Persona que va a enviar la encomienda"
           rules={[
             {
               required: true,
@@ -168,7 +170,7 @@ export function EncomiendasForm() {
                 {remitenteInformacion?.data?.apellidoMaterno}
               </p>
             ) : (
-              "Validando"
+              ""
             )
           }
         >
@@ -188,7 +190,6 @@ export function EncomiendasForm() {
         <Form.Item
           name="destinatarioDni"
           label="DNI del Destinatario"
-          tooltip="Persona que va a recibir la encomienda"
           rules={[
             {
               required: true,
@@ -217,7 +218,7 @@ export function EncomiendasForm() {
                 {receptorInformacion?.data?.apellidoMaterno}
               </p>
             ) : (
-              "Validando"
+              ""
             )
           }
         >
@@ -233,78 +234,72 @@ export function EncomiendasForm() {
             controls={false}
           />
         </Form.Item>
-
-        <Form.Item
-          name="ciudadOrigen"
-          label="Origen"
-          rules={[{ required: true, message: "Selecciona" }]}
-        >
-          <Select placeholder="Jr.Angaraes 123 - Huancayo">
-            {rutas?.map((origen: { id: string; ciudadOrigen: string }) => (
-              <Select.Option key={origen.id} value={origen.ciudadOrigen}>
-                {origen.ciudadOrigen}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="ciudadDestino"
-          help={
-            viajesDiariosDisponibles?.response?.find(
-              (viaje: {
-                ruta: {
-                  ciudadDestino: string;
-                  terminalDestino: string;
-                };
-              }) =>
-                viaje.ruta.ciudadDestino === form.getFieldValue("ciudadDestino")
-            )?.ruta.terminalDestino
-          }
-          label="Destino"
-          rules={[{ required: true, message: "Selecciona" }]}
-        >
-          <Select placeholder="Huancayo">
-            {rutas?.map((destino: { id: string; ciudadDestino: string }) => (
-              <Select.Option key={destino.id} value={destino.ciudadDestino}>
-                {destino.ciudadDestino}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <div className="flex gap-3.5">
-          <Form.Item
-            name="precio"
-            label="Precio"
-            rules={[
-              {
-                min: 1,
-                required: true,
-                message: "Requerido",
-              },
-            ]}
-          >
-            <Input
-              addonBefore="S/."
-              type="number"
-              style={{ width: "100%" }}
-              placeholder="25"
-            />
-          </Form.Item>
-
+        <div className="col-span-2 flex gap-4">
           <Form.Item
             name="fechaEnvio"
             label="Fecha de Envío"
-            tooltip="Fecha en la que se va a cargar al compartimento de encomiendas"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <DatePicker
+              style={{ width: 150 }}
+              onChange={(date) => setDateQuery(date)}
               className="w-full min-w-[150px]"
               placeholder="18/05/2024"
             />
           </Form.Item>
+          <Form.Item
+            name="viajeId"
+            tooltip="Qué viaje llevará la encomienda"
+            label="Viaje"
+            rules={[
+              {
+                required: true,
+                message: "Selecciona",
+              },
+            ]}
+          >
+            <Select
+              style={{ width: 340 }}
+              placeholder="Selva Central - Huancayo - 08:30 PM"
+            >
+              {viajesDiariosDisponibles?.response?.map(
+                (viaje: {
+                  ruta: { ciudadOrigen: string; ciudadDestino: string };
+                  id: string;
+                  salida: Date;
+                }) => (
+                  <Select.Option key={viaje.id} value={viaje.id}>
+                    {viaje.ruta.ciudadOrigen} - {viaje.ruta.ciudadDestino} -{" "}
+                    {new Date(viaje.salida).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </Select.Option>
+                )
+              )}
+            </Select>
+          </Form.Item>
         </div>
-
-        <div className="flex gap-3.5">
+        <Form.Item
+          name="precio"
+          label="Precio"
+          rules={[
+            {
+              min: 1,
+              required: true,
+              message: "Requerido",
+            },
+          ]}
+        >
+          <Input
+            addonBefore="S/."
+            type="number"
+            style={{ width: "100%" }}
+            placeholder="25"
+          />
+        </Form.Item>
+        <div className="flex justify-between">
           <Form.Item
             name="factura"
             label="Comprobante"
@@ -316,10 +311,8 @@ export function EncomiendasForm() {
             ]}
           >
             <Select
-              onChange={(value: boolean) => {
-                alert(value);
-              }}
-              style={{ width: 120 }}
+              onChange={(value) => setFacturaUI(value as boolean)}
+              style={{ width: 150 }}
               placeholder="Boleto"
             >
               <Select.Option value={false}>Boleto</Select.Option>
@@ -334,6 +327,7 @@ export function EncomiendasForm() {
             <Switch
               checkedChildren="Sí"
               unCheckedChildren="No"
+              style={{ width: 80 }}
               className=" bg-red-500 shadow-lg"
               onChange={(checked) =>
                 form.setFieldsValue({
@@ -343,44 +337,18 @@ export function EncomiendasForm() {
             />
           </Form.Item>
         </div>
-        <div className="col-span-2 flex gap-3.5">
-          <Form.Item name="descripcion" label="Descripción">
-            <Input.TextArea
-              style={{
-                width: 375,
-              }}
-              placeholder="Qué contiene y como se vé la encomienda ?"
-              autoSize={{ minRows: 1, maxRows: 2 }}
-            />
-          </Form.Item>
-          <Form.Item
-            name="viajeId"
-            tooltip="En qué turno se va a enviar la encomienda"
-            label="Viaje"
-            rules={[
-              {
-                required: true,
-                message: "Selecciona",
-              },
-            ]}
-          >
-            <Select style={{ width: 120 }} placeholder="AYHYO-1">
-              {viajesDiariosDisponibles?.response?.map(
-                (viaje: { id: string; salida: Date }) => (
-                  <Select.Option key={viaje.id} value={viaje.id}>
-                    {new Date(viaje.salida).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </Select.Option>
-                )
-              )}
-            </Select>
-          </Form.Item>
-        </div>
-        {form.getFieldValue("factura") === false ? (
-          <div className="col-span-2">
+        <Form.Item
+          className="col-span-2"
+          name="descripcion"
+          label="Descripción"
+        >
+          <Input.TextArea
+            placeholder="Qué contiene y como se vé la encomienda ?"
+            autoSize={{ minRows: 1, maxRows: 2 }}
+          />
+        </Form.Item>
+        {facturaUI === true ? (
+          <Space className="col-span-2 flex gap-4">
             <Form.Item
               name="empresa"
               label="Nombre de la Empresa"
@@ -394,7 +362,7 @@ export function EncomiendasForm() {
             >
               <Input
                 style={{
-                  width: 200,
+                  width: 505,
                 }}
                 addonBefore={<FaBuilding />}
                 placeholder="Empresa de Transportes SAC"
@@ -408,16 +376,13 @@ export function EncomiendasForm() {
               <Input
                 type="number"
                 addonBefore={<FaBuildingShield />}
-                style={{
-                  width: 100,
-                }}
                 maxLength={11}
+                style={{ width: 505 }}
                 placeholder="12345678901"
               />
             </Form.Item>
-          </div>
+          </Space>
         ) : null}
-        <div></div>
 
         <div className="col-span-4 flex items-end justify-end gap-3">
           <Button htmlType="submit" type="primary">
