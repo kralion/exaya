@@ -6,10 +6,8 @@ const encomiendaSchema = z.object({
   destinatarioDni: z.string(),
   destinatarioNombres: z.string(),
   destinatarioApellidos: z.string(),
-  destinatarioTelefono: z.string(),
   remitenteNombres: z.string(),
   remitenteApellidos: z.string(),
-  remitenteTelefono: z.string(),
   precio: z.number().nonnegative().min(1),
   viajeId: z.string(),
   empresa: z.string().optional(),
@@ -30,7 +28,6 @@ const encomiendaSchema = z.object({
     "EAG009",
     "EAG010",
   ]),
-  codigo: z.number(),
 });
 
 export default encomiendaSchema;

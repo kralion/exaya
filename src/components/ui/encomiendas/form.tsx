@@ -35,6 +35,7 @@ const formItemLayout = {
 export function EncomiendasForm() {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const [pagado, setPagado] = useState<boolean>(false);
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
@@ -89,6 +90,9 @@ export function EncomiendasForm() {
       {
         ...values,
         usuarioId: session?.user?.id as string,
+        pagado,
+        serie: session?.user.serieEncomienda || "EAG001",
+        precio: parseFloat(values.precio.toString()),
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion?.data?.nombres ?? "",
         remitenteApellidos: `${
@@ -122,6 +126,8 @@ export function EncomiendasForm() {
     );
 
     form.resetFields();
+    setRemitenteDNI("");
+    setDestinatarioDNI("");
   }
 
   return (
@@ -288,12 +294,7 @@ export function EncomiendasForm() {
             },
           ]}
         >
-          <Input
-            addonBefore="S/."
-            type="number"
-            style={{ width: "100%" }}
-            placeholder="25"
-          />
+          <Input addonBefore="S/." type="number" placeholder="25" />
         </Form.Item>
         <div className="flex justify-between">
           <Form.Item
@@ -325,11 +326,9 @@ export function EncomiendasForm() {
               unCheckedChildren="No"
               style={{ width: 80 }}
               className=" bg-red-500 shadow-lg"
-              onChange={(checked) =>
-                form.setFieldsValue({
-                  estado: checked ? true : false,
-                })
-              }
+              onChange={(checked) => {
+                setPagado(checked);
+              }}
             />
           </Form.Item>
         </div>
@@ -385,7 +384,14 @@ export function EncomiendasForm() {
             Registrar Encomienda
           </Button>
 
-          <Button htmlType="reset" onClick={() => form.resetFields()}>
+          <Button
+            htmlType="reset"
+            onClick={() => {
+              setRemitenteDNI("");
+              setDestinatarioDNI("");
+              form.resetFields();
+            }}
+          >
             Cancelar
           </Button>
         </div>
