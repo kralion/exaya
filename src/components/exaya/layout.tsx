@@ -136,7 +136,7 @@ export default function AppLayout({ children }: LayoutProps) {
         >
           <AIAssistantInput />
           <h3 className=" absolute right-5  text-center font-bold text-primary  ">
-            Expreso Ayacucho S.A.C
+            Expreso Ayacucho
           </h3>
         </Header>
 

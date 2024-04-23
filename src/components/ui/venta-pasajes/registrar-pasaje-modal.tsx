@@ -109,6 +109,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       }
     );
     form.resetFields();
+    setPasajeroDNI("");
     setOpenRegister(false);
   }
 
@@ -154,7 +155,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         }
         centered
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setPasajeroDNI("");
+          setOpen(false);
+        }}
         footer={null}
         width={900}
       >
@@ -267,7 +271,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                     y="50%"
                     textAnchor="middle"
                     dy=".3em"
-                    className={`text-xs font-bold  ${concertOne.className}`}
+                    className={`text-[10px] font-bold  ${concertOne.className}`}
                   >
                     {selectedSeat}
                   </text>
@@ -312,7 +316,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 "" ? null : reniecResponse?.status === "error" ? (
                   "El DNI no existe"
                 ) : reniecResponse?.status === "success" ? (
-                  <p className="text-green-500">
+                  <p>
                     {reniecResponse.data?.nombres}{" "}
                     {reniecResponse.data?.apellidoPaterno}{" "}
                     {reniecResponse.data?.apellidoMaterno}

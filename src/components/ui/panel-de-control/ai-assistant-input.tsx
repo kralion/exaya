@@ -3,7 +3,6 @@ import { Button, Input, Space, Typography } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
-import { IoMdSend } from "react-icons/io";
 import { BsSendFill } from "react-icons/bs";
 
 import { IoMic, IoMicOutline } from "react-icons/io5";
@@ -18,6 +17,7 @@ export const AIAssistantInput = () => {
   const [generating, setGenerating] = useState(false);
   const { openNotification } = useNotification();
 
+  //TODO: Implementar la lógica de generación de boleto con manejador de errores para cuando el input (audio o texto) no sea válido o no se pueda generar el boleto por cuestiones de lógica de negocio o de validación Ej. "No se puede generar un boleto para un asiento que ya está ocupado", etc.
   const handleGenerate = () => {
     setGenerating(true);
     setTimeout(() => {
@@ -50,8 +50,8 @@ export const AIAssistantInput = () => {
           title="También puedes usar Ctrl + Enter para enfocar el input"
           onPressEnter={handleGenerate}
           allowClear
-          style={{ width: 600 }}
-          defaultValue="Crear un boleto para el asiento 7 para 74845147 para el 15/10/2023 a 50 soles."
+          style={{ width: 700 }}
+          defaultValue="Boleto para el asiento 7 para 74845147 el día 15/10/2023 a 50 soles en el turno de las 20:30"
         />
         <Button
           onClick={isRecording ? handleStopRecording : handleStartRecording}

@@ -446,6 +446,8 @@ export function UsuarioForm({ activator }: Props) {
                       },
                       queue: {
                         done: "Listo",
+                        mini_upload_count: "{{num}} archivo(s) subido(s)",
+                        mini_title_processing: "Procesando...",
                         statuses: {
                           uploading: "Subiendo...",
                           error: "Error",
@@ -495,7 +497,7 @@ export function UsuarioForm({ activator }: Props) {
               {source && (
                 <CldImage
                   width="100"
-                  className="border-rounded mt-2 rounded-lg border-2 border-dashed border-gray-300"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                   height="100"
                   src={source}
                   sizes="50vw"

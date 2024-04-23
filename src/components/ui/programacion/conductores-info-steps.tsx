@@ -1,6 +1,6 @@
 import ConductorInfoStepSkeleton from "@/components/skeletons/conductor-step-skeleton";
 import { api } from "@/utils/api";
-import { Avatar, Empty, List, Steps } from "antd";
+import { Avatar, Button, Empty, List, Steps } from "antd";
 import { Suspense, useState } from "react";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import ConductorModal from "./conductores/conductor-modal";
@@ -24,6 +24,8 @@ const items = [
 type TConductor = {
   id: string;
   conductorDni: string;
+  nombres: string;
+  apellidos: string;
   numeroLicencia: string;
   foto: string;
   telefono: string;
@@ -38,59 +40,55 @@ export function ConductoresInformacion() {
   return (
     <List
       itemLayout="horizontal"
-      className=" w-max  min-w-[500px] rounded-lg border-1 "
+      className=" w-[500px] rounded-lg "
       dataSource={conductoresRegistrados}
       renderItem={(conductor: TConductor, index) =>
         (conductoresRegistrados?.length ?? 0) > 0 ? (
-          <ConductorModal id={conductor.id}>
-            <Suspense fallback={<ConductorInfoStepSkeleton />}>
-              <List.Item
-                key={index}
-                className="cursor-pointer  rounded-lg  bg-zinc-100 shadow-md duration-100 hover:opacity-80 hover:shadow-none"
-                style={{
-                  paddingLeft: 14,
-                  paddingRight: 14,
-                }}
-              >
-                <List.Item.Meta
-                  avatar={<Avatar src={conductor.foto} />}
-                  title={
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href="https://www.sutran.gob.pe/informacion-del-conductor-y-bus-de-tu-viaje/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {conductor.conductorDni}
-                      </Link>
-                      {conductor.disponibilidad === true ? (
-                        <AiFillCheckCircle className=" text-green-500" />
-                      ) : (
-                        <AiFillCloseCircle className=" text-red-500" />
-                      )}
-                    </div>
-                  }
-                  description={
-                    <div className="flex items-center gap-3">
-                      <p>{conductor.numeroLicencia}</p>
-                    </div>
-                  }
-                />
-                <Steps
-                  style={{ marginTop: 8 }}
-                  type="inline"
-                  current={
-                    conductor.claseLicencia === "A-IIIC"
-                      ? 2
-                      : conductor.claseLicencia === "A-IIIB"
-                      ? 1
-                      : 0
-                  }
-                  items={items}
-                />
-              </List.Item>
-            </Suspense>
-          </ConductorModal>
+          <Suspense fallback={<ConductorInfoStepSkeleton />}>
+            <List.Item
+              key={index}
+              className="cursor-pointer  rounded-lg  shadow-lg  dark:shadow-white/10"
+              style={{
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
+              <List.Item.Meta
+                avatar={<Avatar src={conductor.foto} />}
+                title={
+                  <div className="flex items-center gap-2">
+                    <ConductorModal
+                      activator={`${conductor.nombres} ${conductor.apellidos}`}
+                      id={conductor.id}
+                    />
+
+                    {conductor.disponibilidad === true ? (
+                      <AiFillCheckCircle className=" text-green-500" />
+                    ) : (
+                      <AiFillCloseCircle className=" text-red-500" />
+                    )}
+                  </div>
+                }
+                description={
+                  <div className="flex items-center gap-3">
+                    <p>{conductor.numeroLicencia}</p>
+                  </div>
+                }
+              />
+              <Steps
+                style={{ marginTop: 8 }}
+                type="inline"
+                current={
+                  conductor.claseLicencia === "A-IIIC"
+                    ? 2
+                    : conductor.claseLicencia === "A-IIIB"
+                    ? 1
+                    : 0
+                }
+                items={items}
+              />
+            </List.Item>
+          </Suspense>
         ) : (
           <Empty
             image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"

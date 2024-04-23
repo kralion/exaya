@@ -25,13 +25,10 @@ export function BusForm({ activator }: Props) {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
+    setSource(undefined);
   };
 
   function onFinish(values: z.infer<typeof busSchema>) {
@@ -80,29 +77,14 @@ export function BusForm({ activator }: Props) {
         title={
           <p className="mb-7">
             <Title level={3}>Agregar Bus</Title>
-            <Typography.Text className=" font-light text-slate-600">
+            <Typography.Text className=" font-light ">
               Formulario con la informacion del bus
             </Typography.Text>
           </p>
         }
         open={isModalOpen}
-        onOk={handleOk}
         onCancel={handleCancel}
-        footer={
-          <Space className="mt-10">
-            <Button
-              disabled={createBusMutation.isLoading}
-              htmlType="submit"
-              type="primary"
-            >
-              Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
-        }
+        footer={null}
       >
         <Form
           form={form}
@@ -176,6 +158,8 @@ export function BusForm({ activator }: Props) {
                         selected: "Seleccionado",
                       },
                       queue: {
+                        mini_title_processing: "Procesando...",
+                        mini_upload_count: "{{num}} archivo(s) subido(s)",
                         done: "Listo",
                         statuses: {
                           uploading: "Subiendo...",
@@ -214,7 +198,7 @@ export function BusForm({ activator }: Props) {
                   }
                   return (
                     <Button
-                      disabled={createBusMutation.isLoading && !source}
+                      disabled={source !== undefined}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -225,7 +209,7 @@ export function BusForm({ activator }: Props) {
               {source && (
                 <CldImage
                   width="100"
-                  className="mt-2 rounded-lg"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                   height="100"
                   src={source}
                   sizes="50vw"
@@ -234,6 +218,19 @@ export function BusForm({ activator }: Props) {
               )}
             </div>
           </Form.Item>
+          <Space className="flex justify-end">
+            <Button
+              disabled={createBusMutation.isLoading}
+              htmlType="submit"
+              type="primary"
+            >
+              Registrar
+            </Button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
         </Form>
       </Modal>
     </>

@@ -38,29 +38,27 @@ const formItemLayout = {
 export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [source, setSource] = useState<string | undefined>();
-  const [queryEnabled, setQueryEnabled] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
+    setConductorDNI("");
+    setSource(undefined);
   };
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
+  const [conductorDNI, setConductorDNI] = useState<string>("");
   const createConductorMutation = api.conductores.createConductor.useMutation();
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
       {
-        dni: form.getFieldValue("conductorDni") as string,
+        dni: conductorDNI,
       },
       {
-        enabled: queryEnabled,
+        enabled: conductorDNI.length === 8,
       }
     );
 
@@ -94,7 +92,8 @@ export function ConductorForm({ activator }: Props) {
         },
       }
     );
-    setIsModalOpen(false);
+    setConductorDNI("");
+    setSource(undefined);
     form.resetFields();
   };
 
@@ -112,25 +111,14 @@ export function ConductorForm({ activator }: Props) {
         title={
           <p className="mb-7">
             <Title level={3}>Agregar Conductor</Title>
-            <Typography.Text className=" font-light text-slate-600">
+            <Typography.Text type="secondary" className=" font-light ">
               Formulario con la informacion del conductor
             </Typography.Text>
           </p>
         }
         open={isModalOpen}
-        onOk={handleOk}
         onCancel={handleCancel}
-        footer={
-          <Space className="mt-10">
-            <Button htmlType="submit" type="primary">
-              Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
-            </Button>
-          </Space>
-        }
+        footer={null}
       >
         <Form
           {...formItemLayout}
@@ -168,8 +156,7 @@ export function ConductorForm({ activator }: Props) {
             <InputNumber
               onChange={(value: string | null) => {
                 const dni = JSON.stringify(value);
-                form.setFieldValue("pasajeroDni", dni);
-                setQueryEnabled(dni.length === 8);
+                setConductorDNI(dni);
               }}
               type="text"
               className="w-full"
@@ -179,13 +166,12 @@ export function ConductorForm({ activator }: Props) {
           <Form.Item
             name="telefono"
             label="N° Celular"
-            rules={[{ required: true, message: "Verifica este campo" }]}
+            rules={[{ required: true, message: "Requerido" }]}
           >
-            <InputNumber
-              controls={false}
+            <Input
               type="number"
-              placeholder="987654321"
               maxLength={9}
+              placeholder="987654321"
               addonBefore={<BsTelephone title="N° celular" />}
               style={{ width: "100%" }}
             />
@@ -196,7 +182,7 @@ export function ConductorForm({ activator }: Props) {
             rules={[
               {
                 required: true,
-                message: "Ingresa la licencia del conductor",
+                message: "Requerido",
                 whitespace: true,
               },
             ]}
@@ -246,6 +232,8 @@ export function ConductorForm({ activator }: Props) {
                       },
                       queue: {
                         done: "Listo",
+                        mini_title_processing: "Procesando...",
+                        mini_upload_count: "{{num}} archivo(s) subido(s)",
                         statuses: {
                           uploading: "Subiendo...",
                           error: "Error",
@@ -283,7 +271,7 @@ export function ConductorForm({ activator }: Props) {
                   }
                   return (
                     <Button
-                      disabled={createConductorMutation.isLoading && !source}
+                      disabled={source !== undefined}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -294,7 +282,7 @@ export function ConductorForm({ activator }: Props) {
               {source && (
                 <CldImage
                   width="100"
-                  className="mt-2 rounded-lg"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                   height="100"
                   src={source}
                   sizes="50vw"
@@ -317,6 +305,15 @@ export function ConductorForm({ activator }: Props) {
               <Radio value={true}>Sí</Radio>
             </Radio.Group>
           </Form.Item>
+          <Space className="col-span-2 mt-10 justify-end">
+            <Button htmlType="submit" type="primary">
+              Registrar
+            </Button>
+
+            <Button danger htmlType="reset" onClick={handleCancel}>
+              Cancelar
+            </Button>
+          </Space>
         </Form>
       </Modal>
     </>
