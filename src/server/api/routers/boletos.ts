@@ -13,7 +13,9 @@ export const boletosRouter = createTRPCRouter({
         viaje: {
           include: {
             ruta: true,
-            usuario: true,
+            usuario: {
+              select: { sedeDelegacion: true },
+            },
           },
         },
       },

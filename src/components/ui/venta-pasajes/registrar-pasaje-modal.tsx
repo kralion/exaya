@@ -31,6 +31,7 @@ const { Option } = Select;
 
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
+  const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
@@ -55,7 +56,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
       {
-        dni: form.getFieldValue("pasajeroDni") as string,
+        dni: pasajeroDNI,
       },
       {
         enabled: queryEnabled,
@@ -78,7 +79,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        serie: session?.user.serieBoleto,
+        serie: session?.user.serieBoleto ?? "AG001",
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
@@ -88,15 +89,14 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         pasajeroApellidos: apellidosCliente,
       },
       {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: (response) => {
           openNotification({
             message: "Boleto Registrado",
             description: response.message,
             type: "success",
             placement: "topRight",
           });
-          await refetchBoletosVendidos();
+          void refetchBoletosVendidos();
         },
         onError: (error) => {
           openNotification({
@@ -188,7 +188,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                               (boleto) => boleto.asiento === seatNumber
                             )
                           ? "fill-green-300 stroke-green-600"
-                          : "fill-white stroke-slate-500"
+                          : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
                       }
                       d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
                     ></path>
@@ -216,7 +216,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               width={500}
               height={500}
               alt="bus-preview"
-              className="rounded-xl"
+              className="rounded-xl dark:invert"
             />
           </div>
           <Divider className="my-4" />
@@ -235,8 +235,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex items-center gap-4 pr-5">
-              <h3>Registro de Boleto</h3>
+            <div className="flex gap-2 pr-5">
+              <h3>Asiento</h3>
               <div>
                 <svg
                   key={selectedSeat}
@@ -254,7 +254,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                             (boleto) => boleto.asiento === selectedSeat
                           )
                         ? "fill-green-300 stroke-green-600"
-                        : "fill-white stroke-slate-500"
+                        : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
                     }
                     d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
                   ></path>
@@ -267,8 +267,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                     y="50%"
                     textAnchor="middle"
                     dy=".3em"
-                    fontSize="6"
-                    className={`text-[7px] font-bold  ${concertOne.className}`}
+                    className={`text-xs font-bold  ${concertOne.className}`}
                   >
                     {selectedSeat}
                   </text>
@@ -326,8 +325,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               <InputNumber
                 onChange={(value: string | null) => {
                   const dni = JSON.stringify(value);
-                  form.setFieldValue("pasajeroDni", dni);
+                  if (dni.length > 8) {
+                    return;
+                  }
                   setQueryEnabled(dni.length === 8);
+                  setPasajeroDNI(dni);
                 }}
                 style={{
                   width: 310,

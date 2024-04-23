@@ -57,7 +57,7 @@ function ControlPaneGraph() {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart
-        className="rounded-xl border-1 hover:bg-orange-100/10 hover:shadow-md  dark:border-zinc-800 "
+        className="rounded-xl border-1  duration-200 hover:bg-orange-100/10 hover:shadow-md dark:border-zinc-800  dark:hover:bg-black/50 "
         data={data}
       >
         <Legend

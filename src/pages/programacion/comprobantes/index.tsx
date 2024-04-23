@@ -16,28 +16,42 @@ import AppHead from "@/components/landing/head";
 import { RxClipboardCopy } from "react-icons/rx";
 import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
 import { api } from "@/utils/api";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNotification } from "@/context/NotificationContext";
 
-const formatter: StatisticProps["formatter"] = (value) => (
-  <CountUp end={value as number} separator="," />
-);
 const { Title } = Typography;
 function ProgramacionComprobantes() {
   const [current, setCurrent] = useState(0);
   const { data: pasajes } = api.boletos.getAllBoletos.useQuery();
+  const { openNotification } = useNotification();
   const { data: encomiendas } =
     api.encomiendas.getAllBoletosEncomiendas.useQuery();
   const totalBoletos = (pasajes?.length ?? 0) + (encomiendas?.length ?? 0);
   const { data: facturas } =
     api.encomiendas.getAllFacturasEncomiendas.useQuery();
 
-  function handleSunatTaxesSender() {
+  const handleSunatTaxesSender = useCallback(() => {
     setTimeout(() => {
       if (current < 3) {
         setCurrent(current + 1);
       }
-    }, 2000);
-  }
+    }, 3000);
+    if (current === 3) {
+      openNotification({
+        message: "Comprobantes enviados",
+        description:
+          "Los comprobantes registrados han sido enviados a la base de datos de la SUNAT",
+        type: "success",
+        placement: "bottomRight",
+      });
+    }
+  }, [current, openNotification]);
+  const formatter: StatisticProps["formatter"] = (value) => (
+    <CountUp delay={2000} duration={10} end={value as number} separator="," />
+  );
+  useEffect(() => {
+    handleSunatTaxesSender();
+  }, [handleSunatTaxesSender]);
 
   return (
     <AppLayout>
@@ -47,7 +61,7 @@ function ProgramacionComprobantes() {
       <FacturasTable />
       <div className="flex gap-3.5">
         <Card
-          className=" min-h-[150px]   backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"
+          className=" min-h-[150px]  backdrop-blur-3xl duration-200 hover:bg-blue-100/20   hover:shadow-md dark:hover:bg-black/50"
           type="inner"
           bordered
           title={<Title level={4}>Boletos Registrados</Title>}
@@ -64,7 +78,7 @@ function ProgramacionComprobantes() {
           </div>
         </Card>
         <Card
-          className="min-h-[150px]    backdrop-blur-3xl   hover:bg-blue-100/20 hover:shadow-md"
+          className="min-h-[150px] backdrop-blur-3xl duration-200   hover:bg-blue-100/20   hover:shadow-md dark:hover:bg-black/50"
           type="inner"
           bordered
           title={<Title level={4}>Facturas Generadas</Title>}

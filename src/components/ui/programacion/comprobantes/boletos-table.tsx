@@ -1,6 +1,7 @@
 import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
 const { Title, Text } = Typography;
 const columns: ColumnsType = [
   {
@@ -13,7 +14,7 @@ const columns: ColumnsType = [
         responsive: ["lg"],
       },
       {
-        title: "Codigo",
+        title: "Número",
         dataIndex: "codigo",
         key: "codigo",
         responsive: ["lg"],
@@ -36,10 +37,11 @@ const columns: ColumnsType = [
     },
   },
   {
-    title: "Sede",
-    dataIndex: "usuario",
-    render: (usuario: { sedeDelegacion: string }) => {
-      return <Text>{usuario.sedeDelegacion}</Text>;
+    title: "Agencia",
+    dataIndex: "viaje",
+    key: "usuario",
+    render: (viaje: { usuario: { sedeDelegacion: string } }) => {
+      return <Text>{viaje.usuario.sedeDelegacion}</Text>;
     },
   },
   {
@@ -50,7 +52,9 @@ const columns: ColumnsType = [
     title: "Fecha Emisión",
     dataIndex: "fechaRegistro",
     render: (fechaRegistro: string) => {
-      return <Text>{new Date(fechaRegistro).toLocaleDateString()}</Text>;
+      const date = dayjs(fechaRegistro);
+      const formattedDate = date.format("DD-MM-YYYY");
+      return <Text>{formattedDate}</Text>;
     },
   },
   {
