@@ -4,7 +4,7 @@ import { api } from "@/utils/api";
 import EncomiendaDetails from "./detalles-encomienda";
 import type { TableColumnsType } from "antd";
 import { useNotification } from "@/context/NotificationContext";
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function EncomiendasTable() {
   const { data: encomiendas, refetch } =
@@ -12,55 +12,17 @@ export function EncomiendasTable() {
   const { openNotification } = useNotification();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
-  function capitalizeFirstLetter(string: string | undefined) {
-    if (string === undefined) {
-      return "";
-    }
-    const lowerCaseString = string.toLowerCase();
-    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
-  }
+
   const columns: TableColumnsType = [
     {
       title: "Remitente",
-      children: [
-        {
-          title: "Nombres",
-          dataIndex: "remitenteNombres",
-          key: "nombres",
-          render: (remitenteNombres: string) => (
-            <Text>{capitalizeFirstLetter(remitenteNombres)}</Text>
-          ),
-        },
-        {
-          title: "Apellidos",
-          dataIndex: "remitenteApellidos",
-          key: "apellidos",
-          render: (remitenteApellidos: string) => (
-            <Text>{capitalizeFirstLetter(remitenteApellidos)}</Text>
-          ),
-        },
-      ],
+      dataIndex: "remitenteDni",
+      key: "nombres",
     },
     {
       title: "Destinatario",
-      children: [
-        {
-          title: "Nombres",
-          dataIndex: "destinatarioNombres",
-          key: "nombres",
-          render: (destinatarioNombres: string) => (
-            <Text>{capitalizeFirstLetter(destinatarioNombres)}</Text>
-          ),
-        },
-        {
-          title: "Apellidos",
-          dataIndex: "destinatarioApellidos",
-          key: "apellidos",
-          render: (destinatarioApellidos: string) => (
-            <Text>{capitalizeFirstLetter(destinatarioApellidos)}</Text>
-          ),
-        },
-      ],
+      dataIndex: "destinatarioDni",
+      key: "nombres",
     },
 
     {
@@ -68,7 +30,7 @@ export function EncomiendasTable() {
       dataIndex: "precio",
       key: "precio",
       render: (precioEnvio: number) => (
-        <Tag color="green-inverse">S/. {precioEnvio}</Tag>
+        <Tag color="blue">S/. {precioEnvio}</Tag>
       ),
     },
     {
@@ -82,12 +44,10 @@ export function EncomiendasTable() {
       title: "Fecha de Envío",
       dataIndex: "fechaEnvio",
       key: "fechaEnvio",
-      render: (viaje: { salida: Date }) =>
-        viaje.salida.toLocaleString("es-PE", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-        }),
+      render: (fechaEnvio: string) => {
+        const date = new Date(fechaEnvio);
+        return date.toLocaleDateString();
+      },
     },
     {
       title: "Acciones",
@@ -97,7 +57,6 @@ export function EncomiendasTable() {
         return (
           <Space className="items-baseline gap-2">
             <EncomiendaDetails id={id} modalActivator="Ver Detalles" />
-
             <Popconfirm
               okButtonProps={{
                 danger: true,
@@ -120,10 +79,9 @@ export function EncomiendasTable() {
     deleteEncomiendaMutation.mutate(
       { id },
       {
-        onSuccess: (response) => {
+        onSuccess: () => {
           openNotification({
             message: "Encomienda eliminada",
-            description: response.message,
             type: "success",
             placement: "topRight",
           });

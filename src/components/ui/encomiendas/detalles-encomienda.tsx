@@ -3,6 +3,7 @@ import { Button, Modal, Popconfirm, Tag, Typography } from "antd";
 import React, { useState } from "react";
 import Image from "next/image";
 import { api } from "@/utils/api";
+import EncomiendaAsset from "@/assets/images/encomienda.png";
 
 type Props = {
   id: string;
@@ -42,29 +43,24 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
         title={
           <div>
             <Title level={3}>Detalles de la Encomienda</Title>
-            {encomienda && (
-              <div>
-                <Popconfirm
-                  title="¿Está segur@ de cambiar el estado de la encomienda?"
-                  onConfirm={handleOkStatusChange}
-                  okText="Sí"
-                  cancelText="No"
-                >
-                  <Tag
-                    className="cursor-pointer rounded-full px-5 font-semibold  hover:opacity-80 "
-                    color={status === true ? "green-inverse" : "red-inverse"}
-                  >
-                    {status === true ? "Pagado" : "Por Pagar"}
-                  </Tag>
-                </Popconfirm>
-                <Tag
-                  color="gold-inverse"
-                  className="rounded-full px-5 font-semibold shadow-md"
-                >
-                  S/. {encomienda.response?.precio}.00
-                </Tag>
-              </div>
-            )}
+            {encomienda?.response?.pagado === true ? "" : <Tag>Por Pagar</Tag>}
+            <Popconfirm
+              title="¿Esto se cambiará a PAGADO"
+              onConfirm={handleOkStatusChange}
+              okText="Sí"
+              cancelText="No"
+            >
+              <Tag
+                className="cursor-pointer rounded-full font-semibold  hover:opacity-80 "
+                color={
+                  encomienda?.response?.pagado === true
+                    ? "green-inverse"
+                    : "red-inverse"
+                }
+              >
+                S/. {encomienda?.response?.precio}.00
+              </Tag>
+            </Popconfirm>
           </div>
         }
         open={open}
@@ -84,11 +80,17 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
 
               <p>
                 <Text strong>Remitente: </Text>
-                <Text>{encomienda?.response?.remitenteDni}</Text>
+                <Text>
+                  {encomienda?.response?.remitenteNombres}{" "}
+                  {encomienda?.response?.remitenteApellidos}
+                </Text>
               </p>
               <p>
                 <Text strong>Receptor: </Text>
-                <Text>{encomienda?.response?.destinatarioDni}</Text>
+                <Text>
+                  {encomienda?.response?.destinatarioNombres}{" "}
+                  {encomienda?.response?.destinatarioApellidos}
+                </Text>
               </p>
               <p>
                 <Text strong>Comprobante: </Text>
@@ -125,8 +127,9 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
               </p>
             </div>
             <Image
-              src="https://img.freepik.com/free-vector/post-office-abstract-concept-vector-illustration_335657-5688.jpg?size=626&ext=jpg"
+              src={EncomiendaAsset}
               alt="logo"
+              className="drop-shadow-xl"
               height={50}
               width={300}
             />
