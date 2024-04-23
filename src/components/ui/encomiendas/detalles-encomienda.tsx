@@ -1,9 +1,18 @@
 import { useNotification } from "@/context/NotificationContext";
-import { Button, Modal, Popconfirm, Tag, Typography } from "antd";
+import {
+  Alert,
+  Button,
+  Divider,
+  Modal,
+  Popconfirm,
+  Tag,
+  Typography,
+} from "antd";
 import React, { useState } from "react";
 import Image from "next/image";
 import { api } from "@/utils/api";
 import EncomiendaAsset from "@/assets/images/encomienda.png";
+import { CgDetailsMore } from "react-icons/cg";
 
 type Props = {
   id: string;
@@ -14,7 +23,8 @@ const { Title, Text } = Typography;
 export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const [open, setOpen] = useState(false);
   const { openNotification } = useNotification();
-  const [status, setStatus] = useState(false);
+  const { mutate: statusMutation } =
+    api.encomiendas.updateEncomiendaStatus.useMutation();
   const { data: encomienda } = api.encomiendas.getEncomiendaById.useQuery({
     id,
   });
@@ -24,20 +34,38 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
   };
 
   const handleOkStatusChange = () => {
-    setStatus(!status);
-    openNotification({
-      message: "Estado de Encomienda Actualizado",
-      description: `El estado de la encomienda ha sido actualizado a ${
-        status === true ? "Por Pagar" : "Pagado"
-      }`,
-      type: "success",
-      placement: "topRight",
-    });
+    statusMutation(
+      { id, pagado: !encomienda?.response?.pagado },
+      {
+        onSuccess: (response) => {
+          openNotification({
+            type: "success",
+            message: "Operación Exitosa",
+            description: response.message,
+            placement: "bottomRight",
+          });
+        },
+        onError: (error) => {
+          openNotification({
+            type: "error",
+            message: "Error de Actualización",
+            description: error.message,
+            placement: "bottomRight",
+          });
+        },
+      }
+    );
+    setOpen(false);
   };
 
   return (
     <>
-      <Button onClick={showModal}>{modalActivator}</Button>
+      <Button
+        icon={<CgDetailsMore />}
+        title={modalActivator}
+        onClick={showModal}
+        type="primary"
+      />
       <Modal
         width={700}
         title={
@@ -51,7 +79,9 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
               cancelText="No"
             >
               <Tag
-                className="cursor-pointer rounded-full font-semibold  hover:opacity-80 "
+                className={` cursor-pointer rounded-full font-semibold  hover:opacity-80
+                ${encomienda?.response?.pagado === true ? "" : "animate-pulse"}
+                  `}
                 color={
                   encomienda?.response?.pagado === true
                     ? "green-inverse"
@@ -67,17 +97,16 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
         onCancel={() => setOpen(false)}
         footer={null}
       >
-        <hr className="mb-7 mt-3" />
-        <div className="px-5 pb-10 ">
+        <div>
+          <Divider />
           <div className="flex justify-between">
             <div className="space-y-3">
               <p>
-                <Text strong>Guía: </Text>
+                <Text strong>Guía : </Text>
                 <Text code>
                   {encomienda?.response?.serie}-{encomienda?.response?.codigo}
                 </Text>
               </p>
-
               <p>
                 <Text strong>Remitente: </Text>
                 <Text>
@@ -86,29 +115,32 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
                 </Text>
               </p>
               <p>
-                <Text strong>Receptor: </Text>
+                <Text strong>Destinatario: </Text>
                 <Text>
                   {encomienda?.response?.destinatarioNombres}{" "}
                   {encomienda?.response?.destinatarioApellidos}
                 </Text>
               </p>
               <p>
-                <Text strong>Comprobante: </Text>
-                {encomienda?.response?.factura ? (
-                  <Text code>Factura</Text>
-                ) : (
-                  <Text code>Boleta</Text>
-                )}
-              </p>
-              <p>
-                {/* TODO: Change this to the correct value, to ORIGEN AND DESTINO */}
                 <Text strong>Origen: </Text>
-                <Text>{encomienda?.response?.viaje.estado}</Text>
-              </p>
+                <Text>{encomienda?.response?.viaje.ruta.ciudadOrigen}</Text>
+              </p>{" "}
               <p>
                 <Text strong>Destino: </Text>
-                <Text>{encomienda?.response?.viaje.estado}</Text>
+                <Text>{encomienda?.response?.viaje.ruta.ciudadDestino}</Text>
               </p>
+              {encomienda?.response?.factura && (
+                <>
+                  <p>
+                    <Text strong>Empresa: </Text>
+                    {encomienda?.response?.empresa}
+                  </p>
+                  <p>
+                    <Text strong>RUC: </Text>
+                    {encomienda?.response?.ruc}
+                  </p>
+                </>
+              )}
               <p>
                 <Text strong>Fecha de Envío: </Text>
                 <Text>
@@ -119,21 +151,21 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
                   })}
                 </Text>
               </p>
-              <hr className="mb-7 mt-3 w-64" />
-
-              <p className="flex flex-col ">
-                <Text strong>Descripción: </Text>
-                <Text>{encomienda?.response?.descripcion}</Text>
-              </p>
             </div>
             <Image
               src={EncomiendaAsset}
-              alt="logo"
+              alt="asset"
               className="drop-shadow-xl"
-              height={50}
-              width={300}
+              width={250}
+              height={250}
             />
           </div>
+          <Divider />
+          <Alert
+            showIcon
+            description={encomienda?.response?.descripcion}
+            type="info"
+          />
         </div>
       </Modal>
     </>

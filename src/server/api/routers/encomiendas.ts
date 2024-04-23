@@ -59,7 +59,12 @@ export const encomiendasRouter = createTRPCRouter({
         const encomienda = await ctx.prisma.encomienda.findUnique({
           where: { id: input.id },
           include: {
-            viaje: true,
+            viaje: {
+              include: {
+                ruta: true,
+                usuario: true,
+              },
+            },
           },
         });
         return {
@@ -160,6 +165,32 @@ export const encomiendasRouter = createTRPCRouter({
           status: "error",
           message:
             "Ocurrió un error inesperado al actualizar la encomienda, por favor recarge la página e intente nuevamente",
+        };
+      }
+    }),
+
+  updateEncomiendaStatus: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        pagado: z.boolean(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.prisma.encomienda.update({
+          where: { id: input.id },
+          data: { pagado: input.pagado },
+        });
+        return {
+          status: "success",
+          message: "El estado de la encomienda ha sido actualizado con éxito",
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message:
+            "Ocurrió un error inesperado al actualizar el estado de la encomienda, por favor recarge la página e intente nuevamente",
         };
       }
     }),
