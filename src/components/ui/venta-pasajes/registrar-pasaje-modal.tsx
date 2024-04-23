@@ -88,13 +88,15 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         pasajeroApellidos: apellidosCliente,
       },
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openNotification({
             message: "Boleto Registrado",
             description: response.message,
             type: "success",
             placement: "topRight",
           });
+          await refetchBoletosVendidos();
         },
         onError: (error) => {
           openNotification({
@@ -105,21 +107,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           });
         },
       }
-    );
-
-    alert(
-      JSON.stringify({
-        ...values,
-        usuarioId: session?.user?.id as string,
-        serie: session?.user.serieBoleto,
-        telefonoCliente: values.telefonoCliente.toString(),
-        pasajeroDni: values.pasajeroDni.toString(),
-        asiento: selectedSeat,
-        estado: "PAGADO",
-        viajeId,
-        pasajeroNombres: reniecResponse?.data?.nombres,
-        pasajeroApellidos: apellidosCliente,
-      })
     );
     form.resetFields();
     setOpenRegister(false);
@@ -193,14 +180,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   >
                     <path
                       className={
-                        reniecResponse?.status === "error"
-                          ? "fill-red-300 stroke-red-600"
-                          : boletosReservados?.response?.some(
-                              (boleto) => boleto.asiento === selectedSeat
-                            )
+                        boletosReservados?.response?.some(
+                          (boleto) => boleto.asiento === seatNumber
+                        )
                           ? "fill-yellow-300 stroke-yellow-600"
                           : boletosVendidos?.response?.some(
-                              (boleto) => boleto.asiento === selectedSeat
+                              (boleto) => boleto.asiento === seatNumber
                             )
                           ? "fill-green-300 stroke-green-600"
                           : "fill-white stroke-slate-500"
@@ -299,7 +284,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           setOpenRegister(false);
           form.resetFields();
         }}
-        width={500}
+        width={550}
         footer={null}
       >
         <Form
@@ -308,7 +293,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           name="registrar-pasaje"
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
-          style={{ width: 450 }}
+          style={{ width: 500 }}
         >
           <Space>
             <Form.Item
@@ -345,7 +330,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   setQueryEnabled(dni.length === 8);
                 }}
                 style={{
-                  width: 270,
+                  width: 310,
                 }}
                 type="number"
                 maxLength={8}
@@ -355,17 +340,15 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             </Form.Item>
             <Form.Item
               name="telefonoCliente"
-              label="Telefono"
-              tooltip="Telefono del pasajero para contactarlo "
+              label="Teléfono"
               rules={[{ required: true, message: "Requerido" }]}
             >
-              <InputNumber
+              <Input
                 style={{
-                  width: 95,
+                  width: 110,
                 }}
                 maxLength={9}
                 type="number"
-                controls={false}
               />
             </Form.Item>
             <Form.Item

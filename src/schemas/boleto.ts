@@ -1,10 +1,10 @@
 import { z } from "zod";
 const boletoSchema = z.object({
-  telefonoCliente: z.string(),
+  telefonoCliente: z.string().min(9).max(9),
   usuarioId: z.string(),
   asiento: z.number().nonnegative().min(1),
-  estado: z.enum(["DISPONIBLE", "PAGADO", "RESERVADO"]).default("DISPONIBLE"),
-  pasajeroDni: z.string(),
+  estado: z.enum(["DISPONIBLE", "PAGADO", "RESERVADO"]),
+  pasajeroDni: z.string().min(8).max(8),
   serie: z
     .enum([
       "AG001",

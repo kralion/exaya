@@ -39,7 +39,6 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       key: "origen",
       render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
       filters: origenFilterItems,
-      filterSearch: true,
       filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
         value,
@@ -56,7 +55,6 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
       responsive: ["lg"],
       render: (ruta: { ciudadDestino: string }) => ruta.ciudadDestino,
       filters: destinoFilterItems,
-      filterSearch: true,
       filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
         value,
