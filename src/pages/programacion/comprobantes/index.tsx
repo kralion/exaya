@@ -119,7 +119,7 @@ function ProgramacionComprobantes() {
         />
       </div>
 
-      <FloatButton.BackTop visibilityHeight={0} />
+      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

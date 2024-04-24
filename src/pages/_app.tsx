@@ -50,6 +50,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <ConfigProvider
         locale={esEs}
         theme={{
+          components: {
+            Slider: {
+              handleColor: "#d9d9d9",
+              handleActiveColor: "#8c8c8c",
+              handleSizeHover: 10,
+            },
+          },
           token: {
             colorPrimary: "#FAAD14",
           },

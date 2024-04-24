@@ -1,59 +1,71 @@
-import { Card, Slider, Space, Typography } from "antd";
-const { Title, Paragraph } = Typography;
+import { Card, Slider, type SliderSingleProps, Space, Typography } from "antd";
+const { Title, Paragraph, Text } = Typography;
 
-export function StatsSegments() {
+type Props = {
+  totalVendidos: number;
+  totalReservados: number;
+  totalPerdidos: number;
+};
+export function StatsSegments({
+  totalVendidos,
+  totalReservados,
+  totalPerdidos,
+}: Props) {
+  const totalAsientos = totalVendidos + totalReservados + totalPerdidos;
+  const marks: SliderSingleProps["marks"] = {
+    0: "0",
+    [totalAsientos]: {
+      style: { color: "#f50" },
+      label: <strong>{totalAsientos}</strong>,
+    },
+  };
   return (
     <Card
       title={
         <Space direction="vertical" className="gap-0">
           <Title className="pt-2" level={4}>
-            Monitor de Segmentos
-          </Title>{" "}
+            Monitor de Segmentación
+          </Title>
           <Paragraph className="font-light">
-            Representacion de el numero de clientes atendidos en el dia,
-            clasificados respectivamente
+            Presentación de los clientes atendidos en un día específico,
+            organizados según criterios específicos
           </Paragraph>
         </Space>
       }
       className="duration-200 dark:hover:bg-black/50"
     >
       <div>
-        <span className="font-bold">ATENDIDOS</span>
+        <Text>Vendidos</Text>
         <Slider
-          defaultValue={81}
-          trackStyle={{
-            backgroundColor: "#52c41a",
+          value={totalVendidos}
+          max={totalAsientos}
+          styles={{
+            track: { backgroundColor: "#52c41a" },
           }}
           disabled={false}
-          marks={{
-            0: "0%",
-            100: "100%",
-          }}
+          marks={marks}
         />
       </div>
       <div>
-        <span className="font-bold">SESGO</span>
+        <Text>Reservados</Text>
         <Slider
-          defaultValue={14}
-          trackStyle={{
-            backgroundColor: "#f5222d",
-          }}
+          value={totalReservados}
+          styles={{ track: { backgroundColor: "#1890ff" } }}
+          max={totalAsientos}
           disabled={false}
-          marks={{
-            0: "0%",
-            100: "100%",
-          }}
+          marks={marks}
         />
       </div>
       <div>
-        <span className="font-bold">PERDIDOS</span>
+        <Text>Perdidos</Text>
         <Slider
-          defaultValue={5}
-          disabled={false}
-          marks={{
-            0: "0%",
-            100: "100%",
+          max={totalAsientos}
+          styles={{
+            track: { backgroundColor: "#f5222d" },
           }}
+          value={totalPerdidos}
+          disabled={false}
+          marks={marks}
         />
       </div>
     </Card>

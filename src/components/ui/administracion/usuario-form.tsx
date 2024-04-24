@@ -26,7 +26,7 @@ import { usuarioSchema } from "@/schemas";
 type Props = {
   activator: string;
 };
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface RolNodeType {
   value: "ADMIN" | "GUEST" | "USER";
@@ -258,9 +258,9 @@ export function UsuarioForm({ activator }: Props) {
         title={
           <p className="mb-7">
             <Title level={3}>Agregar Usuario</Title>
-            <Typography.Text className=" font-light text-slate-600">
+            <Text type="secondary" className=" font-light ">
               Formulario con la informacion del Usuario
-            </Typography.Text>
+            </Text>
           </p>
         }
         open={isModalOpen}

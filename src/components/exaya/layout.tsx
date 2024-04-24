@@ -1,6 +1,6 @@
 import AppHeader from "@/components/exaya/appheader";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, Space, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";

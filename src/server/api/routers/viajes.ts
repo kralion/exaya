@@ -205,12 +205,7 @@ export const viajesRouter = createTRPCRouter({
             ],
           },
           include: {
-            ruta: {
-              select: {
-                ciudadDestino: true,
-                ciudadOrigen: true,
-              },
-            },
+            ruta: true,
             boletos: true,
             encomiendas: true,
             bus: true,
@@ -290,6 +285,8 @@ export const viajesRouter = createTRPCRouter({
           where: { id: input.id },
           include: {
             bus: true,
+            boletos: true,
+            encomiendas: true,
           },
         });
         return {

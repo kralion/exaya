@@ -4,7 +4,7 @@ import AdministracionStepsSkeleton from "@/components/skeletons/administracion-s
 import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
-import KpiUtilidad from "@/components/ui/administracion/kpi-utilidad";
+import KpiGraphs from "@/components/ui/administracion/kpi-graphs";
 import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
@@ -13,7 +13,6 @@ import { api } from "@/utils/api";
 import {
   Alert,
   Button,
-  Card,
   DatePicker,
   FloatButton,
   Select,
@@ -22,10 +21,12 @@ import {
 } from "antd";
 import { Suspense, useState } from "react";
 
-const { Title } = Typography;
-
+const { Title, Text } = Typography;
+type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
+type THorario = { id: string; salida: Date };
 export default function Administracion() {
   const [dateQuery, setDateQuery] = useState(new Date());
+  const [currentViajeId, setCurrentViajeId] = useState("");
   const {
     data: salidasDiarias,
     isError,
@@ -33,11 +34,52 @@ export default function Administracion() {
   } = api.viajes.getViajesByDate.useQuery({
     date: dateQuery.toISOString(),
   });
+  const [horarios, setHorarios] = useState<THorario[]>([]);
+  // TODO: Consider to use useTransition for this data
+  const { data: currentViaje } = api.viajes.getViajeById.useQuery({
+    id: currentViajeId,
+  });
+
+  const handleCurrentViaje = (id: string) => {
+    setCurrentViajeId(id);
+  };
+  const onChangeRuta = (id: string) => {
+    // setHorarios(
+    //   salidasDiarias?.response?.find(
+    //     (salidaDiaria: { id: string; horarios: THorario[] }) =>
+    //       salidaDiaria.id === id
+    //   )?.horarios
+    // );
+  };
+  const totalBoletosVendidos =
+    currentViaje?.response?.boletos.filter(
+      (boleto: { estado: Estado }) => boleto.estado === "PAGADO"
+    ).length ?? 0;
+
+  const totalBoletosReservados =
+    currentViaje?.response?.boletos.filter(
+      (boleto: { estado: Estado }) => boleto.estado === "RESERVADO"
+    ).length ?? 0;
+  const totalBoletosNoVendidos =
+    (currentViaje?.response?.bus.asientos || 40) - totalBoletosVendidos;
+
+  const totalIncomeEncomiendas =
+    currentViaje?.response?.encomiendas.reduce(
+      (acc: number, encomienda: { precio: number }) => acc + encomienda.precio,
+      0
+    ) ?? 0;
+
+  const totalIncomeBoletos =
+    currentViaje?.response?.boletos.reduce(
+      (acc: number, boleto: { precio: number }) => acc + boleto.precio,
+      0
+    ) ?? 0;
+
+  const totalIncome = totalIncomeBoletos + totalIncomeEncomiendas;
 
   return (
     <AppLayout>
       <AppHead title="Administracion" />
-
       <Space direction="vertical" className="gap-4">
         <Space className="flex items-start justify-between">
           <Space direction="vertical">
@@ -63,35 +105,30 @@ export default function Administracion() {
                 <Alert
                   className="px-2 py-0.5"
                   message={
-                    <p>
-                      Ups parece que no hay
-                      <code className="ml-2 underline">Horarios</code> para
-                      mostrar
-                    </p>
+                    <Text type="warning">
+                      Para ver los horarios, seleccione una fecha y una ruta
+                    </Text>
                   }
                   type="warning"
                   showIcon
                 />
               )}
-              {salidasDiarias?.response?.map(
-                ({ id, salida }: { id: string; salida: Date }) => (
-                  <Button
-                    className="mr-2 px-0"
-                    size="small"
-                    type="primary"
-                    key={id}
-                    // onClick={() =>
-                    //   setScheduleTimeQuery(salida.toLocaleTimeString())
-                    // }
-                    shape="round"
-                  >
-                    {salida.toLocaleTimeString(undefined, {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Button>
-                )
-              )}
+
+              {horarios.map(({ id, salida }) => (
+                <Button
+                  key={id}
+                  shape="round"
+                  size="small"
+                  className="mr-2"
+                  type="primary"
+                  onClick={() => handleCurrentViaje(id)}
+                >
+                  {salida.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Button>
+              ))}
             </div>
           </Space>
           <Space className=" gap-4">
@@ -111,6 +148,9 @@ export default function Administracion() {
               <Title level={5}>Ruta</Title>
               <Select
                 placeholder="Ruta"
+                onChange={(id: string) => {
+                  onChangeRuta(id);
+                }}
                 loading={isLoading}
                 style={{ width: 215 }}
               >
@@ -138,14 +178,26 @@ export default function Administracion() {
           {/* TODO: Use isLoading for rendering this skeletons */}
           <div className="flex flex-col gap-4">
             <Suspense fallback={<GeneralStatisticsSkeleton />}>
-              <StatsSegments />
+              <StatsSegments
+                totalReservados={totalBoletosReservados}
+                totalPerdidos={totalBoletosNoVendidos}
+                totalVendidos={totalBoletosVendidos}
+              />
             </Suspense>
             <Suspense fallback={<AdministracionStepsSkeleton />}>
-              <AdministracionSteps />
+              <AdministracionSteps
+                totalIncomeCurrentViaje={totalIncome}
+                totalAsientos={currentViaje?.response?.bus.asientos}
+                totalVendidos={totalBoletosVendidos}
+              />
             </Suspense>
           </div>
           <Suspense fallback={<GaugeSkeleton />}>
-            <KpiUtilidad />
+            <KpiGraphs
+              totalAsientos={currentViaje?.response?.bus.asientos}
+              totalVendidos={totalBoletosVendidos}
+              totalIncome={totalIncome}
+            />
           </Suspense>
         </Space>
         <Space className="mt-10 flex justify-between">
@@ -154,7 +206,7 @@ export default function Administracion() {
         </Space>
         <UsuariosTable />
       </Space>
-      <FloatButton.BackTop visibilityHeight={0} />
+      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

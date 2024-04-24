@@ -213,7 +213,7 @@ export default function Contable() {
           <TableContable scheduleDateQuery={dateQuery} />
         </div>
       </div>
-      <FloatButton.BackTop visibilityHeight={0} />
+      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

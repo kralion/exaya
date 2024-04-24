@@ -1,23 +1,24 @@
 import { Card, Tag, Typography } from "antd";
-import React from "react";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { Cell, Pie, PieChart, Tooltip } from "recharts";
 const { Title } = Typography;
-
 const RADIAN = Math.PI / 180;
-
-const data = [
-  { name: "NCF", value: 14, color: "#f5222d" },
-  { name: "OPP", value: 34, color: "#FAAD14" },
-  { name: "CUM", value: 52, color: "#52c41a" },
+const dataKPIUtilidad = [
+  { name: "Intermedio", value: 25, color: "#f5222d" },
+  { name: "Proceso", value: 45, color: "#fadb14" },
+  { name: "Obtenido", value: 35, color: "#52c41a" },
+];
+const dataKPIEficiencia = [
+  { name: "Intermedio", value: 15, color: "#f5222d" },
+  { name: "Proceso", value: 43, color: "#fadb14" },
+  { name: "Obtenido", value: 42, color: "#52c41a" },
 ];
 const cx = 150;
 const cy = 200;
 const iR = 50;
 const oR = 100;
-const value = 54.18;
 type needleProps = {
   value: number;
-  data: any;
+  data: { value: number; color: string }[];
   cx: number;
   cy: number;
   iR: number;
@@ -25,9 +26,11 @@ type needleProps = {
   color: string;
 };
 
+const MIN_VALUE_UTILITY = 10;
+const MIN_VALUE_EFFICIENCY = 15;
+
 const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
   let total = 0;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   data?.forEach((v: { value: number }) => {
     total += v.value;
   });
@@ -57,13 +60,51 @@ const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
   ];
 };
 
-export default function KpiUtilidad() {
+export default function KpiGraphs({
+  totalIncome,
+  totalAsientos,
+  totalVendidos,
+}: {
+  totalIncome: number;
+  totalAsientos: number | undefined;
+  totalVendidos: number | undefined;
+}) {
+  const gastosFijosPorViaje = [
+    {
+      combustible: 500,
+      peajes: 30,
+      costoMantenimiento: 100,
+      salarioConductor: 200,
+      varios: 50,
+    },
+  ];
+  const comisiónAgencia = 0.15 * totalIncome;
+  const gastosFijosTotales = gastosFijosPorViaje.reduce(
+    (acc, gasto) =>
+      acc +
+      gasto.combustible +
+      gasto.peajes +
+      gasto.costoMantenimiento +
+      gasto.salarioConductor +
+      gasto.varios,
+    0
+  );
+  const margenGananciaNeta =
+    totalIncome !== 0
+      ? ((totalIncome - gastosFijosTotales - comisiónAgencia) / totalIncome) *
+        100
+      : MIN_VALUE_UTILITY;
+
+  const margenUtilizacionRecursos =
+    totalVendidos && totalAsientos
+      ? (totalVendidos / totalAsientos) * 100
+      : MIN_VALUE_EFFICIENCY;
   {
     return (
       <Card
         title={
           <Title className="pt-2" level={4}>
-            Indicadoes de KPI Empresarial
+            Estadísticas de Indicadores KPI
           </Title>
         }
         className="duration-200 dark:hover:bg-black/50"
@@ -72,11 +113,8 @@ export default function KpiUtilidad() {
           <PieChart width={300} height={200}>
             <Tooltip
               contentStyle={{
-                backgroundColor: "#DDEECC",
-                borderRadius: "5px",
+                borderRadius: "7px",
                 borderWidth: "1px",
-                opacity: "revert",
-                borderColor: "#4396D7",
               }}
             />
 
@@ -85,7 +123,7 @@ export default function KpiUtilidad() {
               startAngle={180}
               animationDuration={1000}
               endAngle={0}
-              data={data}
+              data={dataKPIEficiencia}
               cx={cx}
               cy={cy}
               innerRadius={iR}
@@ -93,13 +131,13 @@ export default function KpiUtilidad() {
               fill="#f5222d"
               stroke="none"
             >
-              {data.map((entry, index) => (
+              {dataKPIEficiencia.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
             {needle({
-              value: value,
-              data: data,
+              value: margenUtilizacionRecursos,
+              data: dataKPIEficiencia,
               cx: cx,
               cy: cy,
               iR: iR,
@@ -108,13 +146,11 @@ export default function KpiUtilidad() {
             })}
           </PieChart>
           <div className="flex flex-col items-center justify-center gap-3 ">
-            <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
-              54.18%
+            <Tag className="ml-5 mt-1 w-fit font-bold ">
+              {margenUtilizacionRecursos}%
             </Tag>
-
             <Tag className="ml-5 mt-1 w-fit">
-              {" "}
-              <strong>KPI</strong> : Utilidad Empresarial
+              <strong>KPI</strong> : Eficiencia Operativa
             </Tag>
           </div>
         </div>
@@ -122,11 +158,8 @@ export default function KpiUtilidad() {
           <PieChart width={300} height={200}>
             <Tooltip
               contentStyle={{
-                backgroundColor: "#DDEECC",
-                borderRadius: "5px",
+                borderRadius: "7px",
                 borderWidth: "1px",
-                opacity: "revert",
-                borderColor: "#4396D7",
               }}
             />
 
@@ -135,7 +168,7 @@ export default function KpiUtilidad() {
               startAngle={180}
               animationDuration={1000}
               endAngle={0}
-              data={data}
+              data={dataKPIUtilidad}
               cx={cx}
               cy={cy}
               innerRadius={iR}
@@ -143,13 +176,13 @@ export default function KpiUtilidad() {
               fill="#f5222d"
               stroke="none"
             >
-              {data.map((entry, index) => (
+              {dataKPIUtilidad.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
             {needle({
-              value: value,
-              data: data,
+              value: margenGananciaNeta,
+              data: dataKPIUtilidad,
               cx: cx,
               cy: cy,
               iR: iR,
@@ -157,14 +190,12 @@ export default function KpiUtilidad() {
               color: "#faad14",
             })}
           </PieChart>
-          <div className="flex flex-col items-center justify-center gap-3 ">
-            <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
-              82.07%
+          <div className="mx-auto flex flex-col items-center gap-3 ">
+            <Tag className="ml-5 mt-1 w-fit font-bold ">
+              {margenGananciaNeta}%
             </Tag>
-
-            <Tag className="ml-5 mt-1 w-fit">
-              {" "}
-              <strong>KPI</strong> : Eficiencia Operativa
+            <Tag className="ml-5 mt-1">
+              <strong>KPI</strong> : Utilidad Empresarial
             </Tag>
           </div>
         </div>
