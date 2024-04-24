@@ -1,12 +1,22 @@
-import { Card, Slider, Typography } from "antd";
+import { Card, Slider, Space, Typography } from "antd";
+const { Title, Paragraph } = Typography;
 
 export function StatsSegments() {
   return (
-    <Card title="Monitor de actividades" className="hover:shadow-md">
-      <Typography.Paragraph>
-        Representacion de el numero de clientes atendidos en el dia,
-        clasificados respectivamente
-      </Typography.Paragraph>
+    <Card
+      title={
+        <Space direction="vertical" className="gap-0">
+          <Title className="pt-2" level={4}>
+            Monitor de Segmentos
+          </Title>{" "}
+          <Paragraph className="font-light">
+            Representacion de el numero de clientes atendidos en el dia,
+            clasificados respectivamente
+          </Paragraph>
+        </Space>
+      }
+      className="duration-200 dark:hover:bg-black/50"
+    >
       <div>
         <span className="font-bold">ATENDIDOS</span>
         <Slider

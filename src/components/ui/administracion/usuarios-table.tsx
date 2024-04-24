@@ -12,7 +12,8 @@ import {
 } from "antd";
 import Link from "next/link";
 import { FaRegTrashCan } from "react-icons/fa6";
-const { Text } = Typography;
+import { UsuarioForm } from "./usuario-form";
+const { Text, Title } = Typography;
 export default function UsuariosTable() {
   const {
     data: usuarios,

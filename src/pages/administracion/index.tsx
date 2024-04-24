@@ -4,42 +4,44 @@ import AdministracionStepsSkeleton from "@/components/skeletons/administracion-s
 import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
-import KpiChart from "@/components/ui/administracion/kpi-chart";
 import KpiUtilidad from "@/components/ui/administracion/kpi-utilidad";
 import { StatsSegments } from "@/components/ui/administracion/stats";
 import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { api } from "@/utils/api";
-import { Alert, Button, DatePicker, Select, Typography } from "antd";
-import { Suspense } from "react";
-import { MdTimelapse } from "react-icons/md";
+import {
+  Alert,
+  Button,
+  Card,
+  DatePicker,
+  FloatButton,
+  Select,
+  Space,
+  Typography,
+} from "antd";
+import { Suspense, useState } from "react";
+
 const { Title } = Typography;
 
-type TRutaRender = {
-  id: string;
-  ruta: {
-    ciudadOrigen: string;
-    ciudadDestino: string;
-  };
-};
-
 export default function Administracion() {
+  const [dateQuery, setDateQuery] = useState(new Date());
   const {
     data: salidasDiarias,
     isError,
     isLoading,
-  } = api.viajes.getAllViajes.useQuery();
+  } = api.viajes.getViajesByDate.useQuery({
+    date: dateQuery.toISOString(),
+  });
 
   return (
     <AppLayout>
       <AppHead title="Administracion" />
-      <div className="mb-7">
-        <div className="flex justify-between">
-          <div>
-            <Title level={5} className="text-slate-800">
-              Analíticas por Horarios
-            </Title>
+
+      <Space direction="vertical" className="gap-4">
+        <Space className="flex items-start justify-between">
+          <Space direction="vertical">
+            <Title level={5}>Analíticas por Horarios</Title>
             <div className="flex items-center ">
               {isError && (
                 <Alert
@@ -57,8 +59,9 @@ export default function Administracion() {
                 />
               )}
               {isLoading && <ScheduleSkeleton />}
-              {salidasDiarias?.response.length === 0 && (
+              {salidasDiarias?.response?.length === 0 && (
                 <Alert
+                  className="px-2 py-0.5"
                   message={
                     <p>
                       Ups parece que no hay
@@ -70,84 +73,88 @@ export default function Administracion() {
                   showIcon
                 />
               )}
-              {salidasDiarias?.response.map(
+              {salidasDiarias?.response?.map(
                 ({ id, salida }: { id: string; salida: Date }) => (
                   <Button
+                    className="mr-2 px-0"
+                    size="small"
+                    type="primary"
                     key={id}
                     // onClick={() =>
                     //   setScheduleTimeQuery(salida.toLocaleTimeString())
                     // }
-                    icon={<MdTimelapse className="animate-spin" />}
                     shape="round"
-                    type="dashed"
                   >
-                    {salida.toLocaleTimeString()}
+                    {salida.toLocaleTimeString(undefined, {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </Button>
                 )
               )}
             </div>
-          </div>
-          <div>
-            <Title level={5} className=" pr-48 text-slate-800">
-              Busqueda Específica
-            </Title>
-            <div className="flex gap-3.5">
+          </Space>
+          <Space className=" gap-4">
+            <Space direction="vertical">
+              <Title level={5}>Fecha</Title>
               <DatePicker
-                style={{
-                  height: 32,
+                style={{ width: 120 }}
+                placeholder="24-04-2024"
+                onChange={(date) => {
+                  if (date) {
+                    setDateQuery(date.toDate());
+                  }
                 }}
               />
-
+            </Space>
+            <Space direction="vertical">
+              <Title level={5}>Ruta</Title>
               <Select
                 placeholder="Ruta"
                 loading={isLoading}
-                style={{ width: 180 }}
+                style={{ width: 215 }}
               >
-                {Array.isArray(salidasDiarias) &&
-                  salidasDiarias.map(({ id, ruta }: TRutaRender) => (
+                {salidasDiarias?.response?.map(
+                  ({
+                    id,
+                    ruta,
+                  }: {
+                    id: string;
+                    ruta: {
+                      ciudadOrigen: string;
+                      ciudadDestino: string;
+                    };
+                  }) => (
                     <Select.Option key={id} value={id}>
                       {ruta.ciudadOrigen} - {ruta.ciudadDestino}
                     </Select.Option>
-                  ))}
+                  )
+                )}
               </Select>
-            </div>
-          </div>
-        </div>
-        <div className=" flex justify-between"></div>
-      </div>
-      <div>
-        <div className="flex items-center justify-between ">
-          <Title level={5}>Estadísticas Generales</Title>
-          <Title level={5}>Gauge de Utilidad Percibida</Title>
-        </div>
-        <div className="flex gap-3.5">
-          <Suspense fallback={<GeneralStatisticsSkeleton />}>
-            <StatsSegments />
-          </Suspense>
-          <div className="flex rounded-md border-1  hover:shadow-md ">
-            <Suspense fallback={<GaugeSkeleton />}>
-              <KpiChart />
+            </Space>
+          </Space>
+        </Space>
+        <Space className="items-start gap-4">
+          {/* TODO: Use isLoading for rendering this skeletons */}
+          <div className="flex flex-col gap-4">
+            <Suspense fallback={<GeneralStatisticsSkeleton />}>
+              <StatsSegments />
             </Suspense>
-            <Suspense fallback={<GaugeSkeleton />}>
-              <KpiUtilidad />
+            <Suspense fallback={<AdministracionStepsSkeleton />}>
+              <AdministracionSteps />
             </Suspense>
           </div>
-        </div>
-        <div className="mt-5 rounded-md border-1  p-3   hover:shadow-md">
-          <Title level={5}>Indices de Administración</Title>
-          <Suspense fallback={<AdministracionStepsSkeleton />}>
-            <AdministracionSteps />
+          <Suspense fallback={<GaugeSkeleton />}>
+            <KpiUtilidad />
           </Suspense>
-        </div>
-      </div>
-      <div className="my-7 flex justify-between">
-        <Title level={5} className="text-slate-800">
-          Tabla de Usuarios
-        </Title>
-        <UsuarioForm activator="Agregar Usuario" />
-      </div>
-
-      <UsuariosTable />
+        </Space>
+        <Space className="mt-10 flex justify-between">
+          <Title level={4}>Tabla de Usuarios</Title>
+          <UsuarioForm activator="Agregar Usuario" />
+        </Space>
+        <UsuariosTable />
+      </Space>
+      <FloatButton.BackTop visibilityHeight={0} />
     </AppLayout>
   );
 }

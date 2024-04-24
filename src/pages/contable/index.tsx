@@ -27,9 +27,8 @@ export default function Contable() {
     data: salidasDiarias,
     isLoading,
     isError,
-  } = api.viajes.getViajesByDateAndRutaId.useQuery({
+  } = api.viajes.getViajesByDate.useQuery({
     date: dateQuery,
-    id: rutaId,
   });
 
   const [scheduleTimeQuery, setScheduleTimeQuery] = useState<string>(
@@ -113,8 +112,9 @@ export default function Contable() {
                   />
                 )}
 
-                {salidasDiarias?.response?.map(
-                  ({ id, salida }: { id: string; salida: Date }) => (
+                {salidasDiarias?.response
+                  ?.filter((salidaDiaria) => salidaDiaria.ruta.id === rutaId)
+                  ?.map(({ id, salida }: { id: string; salida: Date }) => (
                     <Button
                       key={id}
                       onClick={() =>
@@ -126,8 +126,7 @@ export default function Contable() {
                     >
                       {salida.toLocaleTimeString()}
                     </Button>
-                  )
-                )}
+                  ))}
               </div>
             </div>
 
@@ -145,7 +144,7 @@ export default function Contable() {
                 />
 
                 <Select
-                  placeholder="Viaje"
+                  placeholder="Ayacucho-Huancayo"
                   loading={isLoading}
                   style={{ width: 180 }}
                 >

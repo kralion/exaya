@@ -1,6 +1,7 @@
-import { Tag } from "antd";
+import { Card, Tag, Typography } from "antd";
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
+const { Title } = Typography;
 
 const RADIAN = Math.PI / 180;
 
@@ -59,56 +60,115 @@ const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
 export default function KpiUtilidad() {
   {
     return (
-      <div className="flex flex-col text-center">
-        <PieChart width={300} height={200}>
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#DDEECC",
-              borderRadius: "5px",
-              borderWidth: "1px",
-              opacity: "revert",
-              borderColor: "#4396D7",
-            }}
-          />
+      <Card
+        title={
+          <Title className="pt-2" level={4}>
+            Indicadoes de KPI Empresarial
+          </Title>
+        }
+        className="duration-200 dark:hover:bg-black/50"
+      >
+        <div>
+          <PieChart width={300} height={200}>
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#DDEECC",
+                borderRadius: "5px",
+                borderWidth: "1px",
+                opacity: "revert",
+                borderColor: "#4396D7",
+              }}
+            />
 
-          <Pie
-            dataKey="value"
-            startAngle={180}
-            animationDuration={1000}
-            endAngle={0}
-            data={data}
-            cx={cx}
-            cy={cy}
-            innerRadius={iR}
-            outerRadius={oR}
-            fill="#f5222d"
-            stroke="none"
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          {needle({
-            value: value,
-            data: data,
-            cx: cx,
-            cy: cy,
-            iR: iR,
-            oR: oR,
-            color: "#faad14",
-          })}
-        </PieChart>
-        <div className="flex flex-col items-center justify-center gap-3 ">
-          <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
-            54.18%
-          </Tag>
+            <Pie
+              dataKey="value"
+              startAngle={180}
+              animationDuration={1000}
+              endAngle={0}
+              data={data}
+              cx={cx}
+              cy={cy}
+              innerRadius={iR}
+              outerRadius={oR}
+              fill="#f5222d"
+              stroke="none"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            {needle({
+              value: value,
+              data: data,
+              cx: cx,
+              cy: cy,
+              iR: iR,
+              oR: oR,
+              color: "#faad14",
+            })}
+          </PieChart>
+          <div className="flex flex-col items-center justify-center gap-3 ">
+            <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
+              54.18%
+            </Tag>
 
-          <Tag className="ml-5 mt-1 w-fit">
-            {" "}
-            <strong>KPI</strong> : Utilidad Empresarial
-          </Tag>
+            <Tag className="ml-5 mt-1 w-fit">
+              {" "}
+              <strong>KPI</strong> : Utilidad Empresarial
+            </Tag>
+          </div>
         </div>
-      </div>
+        <div>
+          <PieChart width={300} height={200}>
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#DDEECC",
+                borderRadius: "5px",
+                borderWidth: "1px",
+                opacity: "revert",
+                borderColor: "#4396D7",
+              }}
+            />
+
+            <Pie
+              dataKey="value"
+              startAngle={180}
+              animationDuration={1000}
+              endAngle={0}
+              data={data}
+              cx={cx}
+              cy={cy}
+              innerRadius={iR}
+              outerRadius={oR}
+              fill="#f5222d"
+              stroke="none"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            {needle({
+              value: value,
+              data: data,
+              cx: cx,
+              cy: cy,
+              iR: iR,
+              oR: oR,
+              color: "#faad14",
+            })}
+          </PieChart>
+          <div className="flex flex-col items-center justify-center gap-3 ">
+            <Tag color="gold-inverse" className="ml-2 mt-1 w-fit font-bold ">
+              82.07%
+            </Tag>
+
+            <Tag className="ml-5 mt-1 w-fit">
+              {" "}
+              <strong>KPI</strong> : Eficiencia Operativa
+            </Tag>
+          </div>
+        </div>
+      </Card>
     );
   }
 }
