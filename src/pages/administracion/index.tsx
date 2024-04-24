@@ -23,7 +23,6 @@ import { Suspense, useState } from "react";
 
 const { Title, Text } = Typography;
 type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
-type THorario = { id: string; salida: Date };
 export default function Administracion() {
   const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
@@ -34,7 +33,6 @@ export default function Administracion() {
   } = api.viajes.getViajesByDate.useQuery({
     date: dateQuery.toISOString(),
   });
-  const [horarios, setHorarios] = useState<THorario[]>([]);
   // TODO: Consider to use useTransition for this data
   const { data: currentViaje } = api.viajes.getViajeById.useQuery({
     id: currentViajeId,
@@ -43,13 +41,22 @@ export default function Administracion() {
   const handleCurrentViaje = (id: string) => {
     setCurrentViajeId(id);
   };
-  const onChangeRuta = (id: string) => {
-    // setHorarios(
-    //   salidasDiarias?.response?.find(
-    //     (salidaDiaria: { id: string; horarios: THorario[] }) =>
-    //       salidaDiaria.id === id
-    //   )?.horarios
-    // );
+  const [horarios, setHorarios] = useState<Date[]>([]);
+  const onChangeRuta = (viajeId: string) => {
+    if (!salidasDiarias?.response) {
+      console.error("salidasDiarias or its response is not defined");
+      return;
+    }
+    const horariosFound = salidasDiarias.response.find(
+      (salida) => salida.id === viajeId
+    );
+    if (!horariosFound) {
+      console.error("horariosFound is not defined");
+      return;
+    }
+    setHorarios(
+      horariosFound.salida.toString().split(",") as unknown as Date[]
+    );
   };
   const totalBoletosVendidos =
     currentViaje?.response?.boletos.filter(
@@ -114,16 +121,19 @@ export default function Administracion() {
                 />
               )}
 
-              {horarios.map(({ id, salida }) => (
+              {horarios.map((horario) => (
                 <Button
-                  key={id}
+                  key={horario.toString()}
                   shape="round"
-                  size="small"
+                  type={
+                    currentViajeId === horario.toString()
+                      ? "primary"
+                      : "default"
+                  }
                   className="mr-2"
-                  type="primary"
-                  onClick={() => handleCurrentViaje(id)}
+                  onClick={() => handleCurrentViaje(horario.toString())}
                 >
-                  {salida.toLocaleTimeString([], {
+                  {new Date(horario).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}

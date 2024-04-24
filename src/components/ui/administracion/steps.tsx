@@ -26,7 +26,7 @@ export default function AdministracionSteps({
           Indices de Administración
         </Title>
       }
-      className="duration-200 dark:hover:bg-black/50"
+      className="shadow duration-200 dark:hover:bg-black/50"
     >
       <Steps
         direction="vertical"

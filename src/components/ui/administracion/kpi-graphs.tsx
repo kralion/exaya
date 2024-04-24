@@ -107,7 +107,7 @@ export default function KpiGraphs({
             Estadísticas de Indicadores KPI
           </Title>
         }
-        className="duration-200 dark:hover:bg-black/50"
+        className="shadow duration-200 dark:hover:bg-black/50"
       >
         <div>
           <PieChart width={300} height={200}>

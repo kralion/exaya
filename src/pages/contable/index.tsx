@@ -11,24 +11,22 @@ import {
   DatePicker,
   FloatButton,
   Select,
+  Space,
   Typography,
   type DatePickerProps,
 } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { MdTimelapse } from "react-icons/md";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 export default function Contable() {
-  const placeHolderDate = new Date(Date.now()).toISOString().slice(0, 10);
-  const [dateQuery, setDateQuery] = useState<string>(placeHolderDate);
-  const [rutaId, setRutaId] = useState<string>("");
+  const [dateQuery, setDateQuery] = useState(new Date());
   const {
     data: salidasDiarias,
     isLoading,
     isError,
   } = api.viajes.getViajesByDate.useQuery({
-    date: dateQuery,
+    date: dateQuery.toISOString(),
   });
 
   const [scheduleTimeQuery, setScheduleTimeQuery] = useState<string>(
@@ -82,133 +80,143 @@ export default function Contable() {
     ) ?? 0;
   const total15PercentComission =
     (totalTravelTicketsIncome + totalTravelEncomiendasIncome) * 0.15;
-  const onDateChange: DatePickerProps["onChange"] = (date) => {
-    setDateQuery(date?.toISOString().slice(0, 10) ?? placeHolderDate);
+
+  const [currentViajeId, setCurrentViajeId] = useState("");
+
+  const handleCurrentViaje = (id: string) => {
+    setCurrentViajeId(id);
+  };
+  const [horarios, setHorarios] = useState<Date[]>([]);
+  const onChangeRuta = (viajeId: string) => {
+    if (!salidasDiarias?.response) {
+      console.error("salidasDiarias or its response is not defined");
+      return;
+    }
+    const horariosFound = salidasDiarias.response.find(
+      (salida) => salida.id === viajeId
+    );
+    if (!horariosFound) {
+      console.error("horariosFound is not defined");
+      return;
+    }
+    setHorarios(
+      horariosFound.salida.toString().split(",") as unknown as Date[]
+    );
   };
   return (
     <AppLayout>
       <AppHead title="Contable" />
       <div className="space-y-7">
-        <div className="flex flex-col gap-3.5">
-          <div className="flex justify-between">
-            <div>
-              <Title level={5} className="text-slate-800">
-                Horarios
-              </Title>
-              <div className="flex items-center gap-2">
-                {isLoading && <ScheduleSkeleton />}
-                {salidasDiarias?.response?.length === 0 && (
-                  <Alert
-                    message="No hay horarios disponibles que contabilizar para hoy"
-                    type="warning"
-                    showIcon
-                  />
-                )}
-                {isError && (
-                  <Alert
-                    message="Error al obtener los horarios de salida, por favor recargue la página"
-                    type="error"
-                    showIcon
-                  />
-                )}
-
-                {salidasDiarias?.response
-                  ?.filter((salidaDiaria) => salidaDiaria.ruta.id === rutaId)
-                  ?.map(({ id, salida }: { id: string; salida: Date }) => (
-                    <Button
-                      key={id}
-                      onClick={() =>
-                        setScheduleTimeQuery(salida.toLocaleTimeString())
-                      }
-                      icon={<MdTimelapse className="animate-spin" />}
-                      shape="round"
-                      type="dashed"
-                    >
-                      {salida.toLocaleTimeString()}
-                    </Button>
-                  ))}
-              </div>
-            </div>
-
-            <div>
-              <Title level={5} className=" text-slate-800">
-                Búsqueda Específica
-              </Title>{" "}
-              <div className="flex gap-3.5">
-                <DatePicker
-                  style={{
-                    height: 32,
-                  }}
-                  onChange={onDateChange}
-                  placeholder={placeHolderDate}
+        <Space className="flex items-start justify-between">
+          <Space direction="vertical">
+            <Title level={5}>Analíticas por Horarios</Title>
+            <div className="flex items-center ">
+              {isError && (
+                <Alert
+                  message={
+                    <p>
+                      Error al obtener los datos de los
+                      <code className="ml-2 underline">Horarios</code> por favor
+                      <a href="." className="ml-2 underline">
+                        recarge la página
+                      </a>
+                    </p>
+                  }
+                  type="error"
+                  showIcon
                 />
+              )}
+              {isLoading && <ScheduleSkeleton />}
+              {salidasDiarias?.response?.length === 0 && (
+                <Alert
+                  className="px-2 py-0.5"
+                  message={
+                    <Text type="warning">
+                      Para ver los horarios, seleccione una fecha y una ruta
+                    </Text>
+                  }
+                  type="warning"
+                  showIcon
+                />
+              )}
 
-                <Select
-                  placeholder="Ayacucho-Huancayo"
-                  loading={isLoading}
-                  style={{ width: 180 }}
+              {horarios.map((horario) => (
+                <Button
+                  key={horario.toString()}
+                  shape="round"
+                  type={
+                    currentViajeId === horario.toString()
+                      ? "primary"
+                      : "default"
+                  }
+                  className="mr-2"
+                  onClick={() => handleCurrentViaje(horario.toString())}
                 >
-                  {salidasDiarias?.response?.map(
-                    (salidaDiaria: {
-                      ruta: {
-                        ciudadOrigen: string;
-                        ciudadDestino: string;
-                        id: string;
-                      };
-                    }) => (
-                      <Select.Option
-                        key={salidaDiaria.ruta.id}
-                        value={salidaDiaria.ruta.id}
-                        onClick={() => setRutaId(salidaDiaria.ruta.id)}
-                      >
-                        {salidaDiaria.ruta.ciudadOrigen} -{" "}
-                        {salidaDiaria.ruta.ciudadDestino}
-                      </Select.Option>
-                    )
-                  )}
-                </Select>
-              </div>
+                  {new Date(horario).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Button>
+              ))}
             </div>
-          </div>
-          <div className=" flex items-center justify-between"></div>
-          <div className="flex gap-3.5">
-            <ContableCard
-              isLoading={isLoadingContableQuery}
-              cardTitle="Recaudado"
-              cardValue={totalTravelTicketsIncome}
-              cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
-              cardConcept="Viajes & Encomiendas"
-            />
-            <ContableCard
-              isLoading={isLoadingContableQuery}
-              cardTitle="Ingresos"
-              cardValue={totalTravelTicketsIncome - total15PercentComission}
-              cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
-              cardConcept="75% del recaudado"
-            />
-            <ContableCard
-              isLoading={isLoadingContableQuery}
-              cardTitle="Comisión"
-              cardValue={total15PercentComission}
-              cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
-              cardConcept="15% del recaudado"
-            />
-            <ContableCard
-              isLoading={isLoadingContableQuery}
-              cardTitle="Encomiendas"
-              cardValue={totalTravelEncomiendasIncome}
-              cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
-              cardConcept="Ingresos"
-            />
-          </div>
-          <EstadisticasNumericas />
-        </div>
+          </Space>
+          <Space className=" gap-4">
+            <Space direction="vertical">
+              <Title level={5}>Fecha</Title>
+              <DatePicker
+                style={{ width: 120 }}
+                placeholder="24-04-2024"
+                onChange={(date) => {
+                  if (date) {
+                    setDateQuery(date.toDate());
+                  }
+                }}
+              />
+            </Space>
+            <Space direction="vertical">
+              <Title level={5}>Ruta</Title>
+              <Select
+                placeholder="Ruta"
+                onChange={(id: string) => {
+                  onChangeRuta(id);
+                }}
+                loading={isLoading}
+                style={{ width: 215 }}
+              >
+                {salidasDiarias?.response?.map(
+                  ({
+                    id,
+                    ruta,
+                  }: {
+                    id: string;
+                    ruta: {
+                      ciudadOrigen: string;
+                      ciudadDestino: string;
+                    };
+                  }) => (
+                    <Select.Option key={id} value={id}>
+                      {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                    </Select.Option>
+                  )
+                )}
+              </Select>
+            </Space>
+          </Space>
+        </Space>
         <div className="space-y-3.5">
           <div className="flex items-baseline justify-between">
             <Title level={5} className="pt-7 tracking-tight text-slate-800">
               Historial de Registros Contables
             </Title>
-            <DatePicker onChange={onDateChange} />
+            <DatePicker
+              style={{ width: 120 }}
+              placeholder="24-04-2024"
+              onChange={(date) => {
+                if (date) {
+                  setDateQuery(date.toDate());
+                }
+              }}
+            />
           </div>
           <TableContable scheduleDateQuery={dateQuery} />
         </div>

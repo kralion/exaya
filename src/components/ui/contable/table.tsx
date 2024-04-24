@@ -5,10 +5,10 @@ import type { ColumnsType } from "antd/es/table";
 export default function TableContable({
   scheduleDateQuery,
 }: {
-  scheduleDateQuery: string;
+  scheduleDateQuery: Date;
 }) {
   const { data: contables } = api.viajes.getViajesByDate.useQuery({
-    date: scheduleDateQuery,
+    date: scheduleDateQuery.toISOString(),
   });
 
   const filterItems = contables?.response?.map((contable) => ({
