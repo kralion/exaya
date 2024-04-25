@@ -90,6 +90,10 @@ export default function Contable() {
     setCurrentViajeId("");
   }, [dateQuery]);
 
+  const totalBoletosVendidos = currentViaje?.response?.boletos.length ?? 0;
+  const totalEncomiendasRegistradas =
+    currentViaje?.response?.encomiendas.length ?? 0;
+
   const total15PercentComission =
     (totalTravelBoletosIncome + totalTravelEncomiendasIncome) * 0.15;
 
@@ -234,14 +238,14 @@ export default function Contable() {
               cardValue={
                 totalTravelBoletosIncome + totalTravelEncomiendasIncome
               }
-              cardIcon="https://img.icons8.com/?size=1x&id=104073&format=png"
+              cardIcon="https://img.icons8.com/?size=48&id=QcHNP3WWSRuv&format=png"
               cardConcept="Encomiendas y boletos de viaje"
             />
             <ContableCard
               isLoading={isLoadingCurrentViaje}
               cardTitle="Boletos de Viaje"
               cardValue={totalTravelBoletosIncome}
-              cardIcon="https://img.icons8.com/?size=1x&id=53863&format=png"
+              cardIcon="https://img.icons8.com/?size=48&id=M7oiFLCDxN28&format=png"
               cardConcept="Recaudado por boletos de viaje"
             />
 
@@ -249,20 +253,23 @@ export default function Contable() {
               isLoading={isLoadingCurrentViaje}
               cardTitle="Encomiendas"
               cardValue={totalTravelEncomiendasIncome}
-              cardIcon="https://img.icons8.com/?size=1x&id=13133&format=png"
+              cardIcon="https://img.icons8.com/?size=48&id=t389Jj1YrNtG&format=png"
               cardConcept="Ingresos por encomiendas"
             />
             <ContableCard
               isLoading={isLoadingCurrentViaje}
               cardTitle="Comisiones"
               cardValue={total15PercentComission}
-              cardIcon="https://img.icons8.com/?size=1x&id=Yljd2UCqSpbe&format=png"
+              cardIcon="https://img.icons8.com/?size=48&id=o1jbKGDkJEkU&format=png"
               cardConcept="15% del total bruto recaudado"
             />
           </div>
-          <EstadisticasNumericas />
+          <EstadisticasNumericas
+            totalBoletosVendidos={totalBoletosVendidos}
+            totalEncomiendasRegistradas={totalEncomiendasRegistradas}
+          />
         </Space>
-        <Space direction="vertical">
+        <Space direction="vertical" className="w-full">
           <Title level={5} className="tracking-tight">
             Historial de Registros Contables
           </Title>

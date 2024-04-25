@@ -1,4 +1,4 @@
-import { Card, Skeleton, Typography } from "antd";
+import { Card, Skeleton, Space, Typography } from "antd";
 import Image from "next/image";
 type Card = {
   cardTitle: string;
@@ -7,6 +7,7 @@ type Card = {
   cardValue: number | undefined;
   isLoading: boolean;
 };
+const { Paragraph } = Typography;
 export function ContableCard({
   cardTitle,
   cardIcon,
@@ -17,9 +18,8 @@ export function ContableCard({
   return (
     <Card
       title={cardTitle}
-      className=" w-full min-w-[240px]  shadow-md duration-200 hover:shadow-lg"
+      className="w-full shadow-md duration-200 hover:shadow-lg dark:hover:bg-black/50"
     >
-      {/* <h4 className="text-sm text-slate-400 ">{cardTitle}</h4> */}
       {isLoading ? (
         <Skeleton.Button
           style={{
@@ -36,10 +36,15 @@ export function ContableCard({
           })}
         </Typography.Title>
       )}
-      <Typography.Text className="font-Roboto flex items-center gap-1 pt-5 text-slate-400">
-        <Image src={cardIcon} alt="icon" width={20} height={20} />
-        {cardConcept}
-      </Typography.Text>
+      <Card.Meta
+        description={
+          <Space className="mt-2 flex items-center gap-1">
+            <Image src={cardIcon} alt="icon" width={20} height={20} />
+            {cardConcept}
+          </Space>
+        }
+        className="font-Roboto text-[13px] text-slate-400"
+      />
     </Card>
   );
 }
