@@ -41,7 +41,7 @@ export default function TableContable({
     },
 
     {
-      title: "Montos",
+      title: "Montos en S/.",
       children: [
         {
           title: "Boletos",

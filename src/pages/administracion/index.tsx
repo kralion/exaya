@@ -19,7 +19,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import { Suspense, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 const { Title, Text } = Typography;
 type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
@@ -47,6 +47,8 @@ export default function Administracion() {
       console.error("salidasDiarias or its response is not defined");
       return;
     }
+    setHorarios([]);
+
     const horariosFound = salidasDiarias.response.find(
       (salida) => salida.id === viajeId
     );
@@ -84,6 +86,21 @@ export default function Administracion() {
 
   const totalIncome = totalIncomeBoletos + totalIncomeEncomiendas;
 
+  const onDateChange = useCallback(
+    (date: Date | null) => {
+      if (date) {
+        setDateQuery(date);
+      }
+    },
+    [setDateQuery]
+  );
+  useEffect(() => {
+    setHorarios([]);
+  }, [dateQuery]);
+  useEffect(() => {
+    setCurrentViajeId("");
+  }, [dateQuery]);
+
   return (
     <AppLayout>
       <AppHead title="Administracion" />
@@ -108,50 +125,51 @@ export default function Administracion() {
                 />
               )}
               {isLoading && <ScheduleSkeleton />}
-              {salidasDiarias?.response?.length === 0 && (
+              {horarios.length === 0 ? (
                 <Alert
                   className="px-2 py-0.5"
                   message={
                     <Text type="warning">
-                      Para ver los horarios, seleccione una fecha y una ruta
+                      No hay horarios disponibles para la fecha y ruta
+                      seleccionada
                     </Text>
                   }
                   type="warning"
                   showIcon
                 />
+              ) : (
+                horarios.map((horario, index) =>
+                  !horario ? (
+                    <ScheduleSkeleton key={index} />
+                  ) : (
+                    <Button
+                      key={index}
+                      shape="round"
+                      type={
+                        currentViajeId === horario.toString()
+                          ? "primary"
+                          : "default"
+                      }
+                      className="mr-2"
+                      onClick={() => handleCurrentViaje(horario.toString())}
+                    >
+                      {new Date(horario).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Button>
+                  )
+                )
               )}
-
-              {horarios.map((horario) => (
-                <Button
-                  key={horario.toString()}
-                  shape="round"
-                  type={
-                    currentViajeId === horario.toString()
-                      ? "primary"
-                      : "default"
-                  }
-                  className="mr-2"
-                  onClick={() => handleCurrentViaje(horario.toString())}
-                >
-                  {new Date(horario).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Button>
-              ))}
             </div>
           </Space>
-          <Space className=" gap-4">
+          <Space className="gap-4">
             <Space direction="vertical">
               <Title level={5}>Fecha</Title>
               <DatePicker
                 style={{ width: 120 }}
                 placeholder="24-04-2024"
-                onChange={(date) => {
-                  if (date) {
-                    setDateQuery(date.toDate());
-                  }
-                }}
+                onChange={onDateChange}
               />
             </Space>
             <Space direction="vertical">
@@ -163,6 +181,10 @@ export default function Administracion() {
                 }}
                 loading={isLoading}
                 style={{ width: 215 }}
+                disabled={
+                  !salidasDiarias?.response ||
+                  salidasDiarias.response.length === 0
+                }
               >
                 {salidasDiarias?.response?.map(
                   ({
