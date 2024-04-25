@@ -1,5 +1,5 @@
 import { useNotification } from "@/context/NotificationContext";
-import { Button, Input, Space, Typography } from "antd";
+import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -76,15 +76,13 @@ export const AIAssistantInput = () => {
         icon={
           <BsSendFill
             size={13}
-            className="absolute top-2 rotate-45 text-black dark:text-white"
+            className="absolute top-2 rotate-45  text-white"
           />
         }
         onClick={handleGenerate}
         loading={generating}
       >
-        <Typography.Text className="hidden pl-4  sm:block">
-          Generar
-        </Typography.Text>
+        Generar
       </Button>
     </Space>
   );

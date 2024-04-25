@@ -233,11 +233,7 @@ export function UsuarioForm({ activator }: Props) {
     );
     setSource(undefined);
   }
-  const {
-    data: rutas,
-    isLoading,
-    isFetching,
-  } = api.rutas.getAllRutas.useQuery();
+  const { data: rutas, isLoading } = api.rutas.getAllRutas.useQuery();
   const uniqueCiudadOrigen = rutas
     ? rutas
         .map((ruta) => ruta.ciudadOrigen)
@@ -408,7 +404,7 @@ export function UsuarioForm({ activator }: Props) {
           <Form.Item
             name="sedeDelegacion"
             tooltip="Sede donde va a trabajar el usuario"
-            label="Sede Delegación"
+            label="Agencia"
             rules={[
               {
                 required: true,
@@ -416,7 +412,7 @@ export function UsuarioForm({ activator }: Props) {
               },
             ]}
           >
-            <Select loading={isLoading || isFetching} placeholder="Huancayo">
+            <Select loading={isLoading} placeholder="Huancayo">
               {uniqueCiudadOrigen?.map((ciudad: string) => (
                 <Select.Option key={ciudad} value={ciudad}>
                   {ciudad}

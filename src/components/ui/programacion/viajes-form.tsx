@@ -19,23 +19,17 @@ type TViaje = {
   estado: "DISPONIBLE" | "CANCELADO" | "LLENO";
 };
 
-const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65];
+const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100];
 
 export function ViajesForm() {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
   const { data: session } = useSession();
-  const {
-    data: rutas,
-    isFetching: isFetchingRutas,
-    isLoading: isLoadingRutas,
-  } = api.rutas.getAllRutas.useQuery();
-  const {
-    data: bus,
-    isFetching: isFetchingBus,
-    isLoading: isLoadingBus,
-  } = api.buses.getAllBuses.useQuery();
+  const { data: rutas, isLoading: isLoadingRutas } =
+    api.rutas.getAllRutas.useQuery();
+  const { data: bus, isLoading: isLoadingBus } =
+    api.buses.getAllBuses.useQuery();
   const getAllViajesQuery = api.viajes.getAllViajes.useQuery();
 
   useEffect(() => {
@@ -100,7 +94,7 @@ export function ViajesForm() {
               style={{ width: 300 }}
               placeholder="Ruta"
               allowClear
-              loading={isLoadingRutas === true || isFetchingRutas === true}
+              loading={isLoadingRutas}
             >
               {rutas?.map(
                 (ruta: {
@@ -121,7 +115,7 @@ export function ViajesForm() {
             rules={[{ required: true, message: "Requerido" }]}
           >
             <Select
-              loading={isLoadingBus === true || isFetchingBus === true}
+              loading={isLoadingBus}
               style={{ width: 120 }}
               placeholder="BXG-01K"
               allowClear

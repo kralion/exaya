@@ -1,13 +1,15 @@
 import AppHead from "@/components/landing/head";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
-import ControlPanePieChart from "@/components/ui/panel-de-control/piechart";
-import { Progress, Statistic, Typography } from "antd";
-import { GrSchedulePlay } from "react-icons/gr";
-import { IoReceiptOutline } from "react-icons/io5";
-import { TbFileInvoice } from "react-icons/tb";
-import AppLayout from "../../components/exaya/layout";
 import { api } from "@/utils/api";
+import { Space, Statistic, Typography } from "antd";
+import { useSession } from "next-auth/react";
+import { GrSchedulePlay } from "react-icons/gr";
+import { IoTicketOutline } from "react-icons/io5";
+import { LiaLuggageCartSolid } from "react-icons/lia";
+import AppLayout from "../../components/exaya/layout";
+import { ProgressesCard } from "@/components/ui/panel-de-control/progresses-card";
+import { CiClock2 } from "react-icons/ci";
 
 type TViajeEstado = {
   estado: "DISPONIBLE" | "LLENO" | "CANCELADO";
@@ -15,7 +17,11 @@ type TViajeEstado = {
 
 export default function Dashboard() {
   const { data: viajesDiarios } = api.viajes.getViajesForToday.useQuery();
-  const { data: lastestCode } = api.boletos.getLatestCodeOfBoleto.useQuery();
+  const { data: lastestCodeBoleto } =
+    api.boletos.getLatestCodeOfBoleto.useQuery();
+  const { data: lastestCodeEncomienda } =
+    api.encomiendas.getLatestCodeOfEncomienda.useQuery();
+  const { data: session } = useSession();
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(
     (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
@@ -23,107 +29,67 @@ export default function Dashboard() {
   return (
     <AppLayout>
       <AppHead title="Panel de Control" />
-      <div className="grid grid-flow-row grid-cols-3 gap-3.5 ">
-        <div className="duration-200">
-          <ControlPaneCard
-            href="/programacion/viajes"
-            cardTitle="Viajes"
-            cardDescription="Numero de viajes programados para hoy y los viajes que figuran como disponibles en el sistema del total de registrados"
-          >
-            <div className="mt-7 flex justify-between font-semibold">
-              <Statistic
-                className="drop-shadow-lg "
-                title="Programados"
-                value={totalViajesProgramados}
-                prefix={<GrSchedulePlay size={20} className=" opacity-40" />}
-              />
+      <div className="grid  grid-flow-row grid-cols-3 grid-rows-3 gap-4 ">
+        <ControlPaneCard
+          href="/pasajes"
+          cardTitle="Viajes"
+          cardDescription="Número de viajes programados para hoy y los viajes que figuran como activos en el sistema del total de registrados"
+        >
+          <Space className="w-full justify-between">
+            <Statistic
+              className="mt-8  drop-shadow-lg"
+              title="Activos"
+              value={viajesActivos}
+              suffix={`/${totalViajesProgramados ?? 0}`}
+            />
+            <Statistic
+              className="mt-8 drop-shadow-lg"
+              rootClassName="text-right"
+              title="Programados"
+              value={totalViajesProgramados}
+            />
+          </Space>
+        </ControlPaneCard>
+        <ControlPaneCard
+          href="/contable"
+          cardDescription="Códigos de los últimos comprobantes nuevos generados en el sistema boletos de viaje y las encomiendas"
+          cardTitle="Comprobantes"
+        >
+          <Space className="w-full justify-between">
+            <Space direction="vertical" className="mt-8 gap-2">
+              <Typography.Text type="secondary" className="font-light">
+                Boleto
+              </Typography.Text>
+              <Space>
+                <IoTicketOutline
+                  className="text-zinc-400 drop-shadow-lg"
+                  size={20}
+                />
+                <Typography.Text strong>
+                  {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
+                </Typography.Text>
+              </Space>
+            </Space>
 
-              <Statistic
-                className="drop-shadow-lg"
-                title="Activos"
-                value={viajesActivos}
-                suffix={`/${totalViajesProgramados || 0}`}
-              />
-            </div>
-          </ControlPaneCard>
-        </div>
-        <div className=" duration-200">
-          <ControlPaneCard
-            href="/pasajes"
-            cardDescription="Último código de boleto de viaje vendido y última factura generada registrados en el sistema, con su respectivo número de serie."
-            cardTitle="Boletos"
-          >
-            <div className=" flex items-center justify-between font-semibold">
-              <p className="mt-7 flex flex-col gap-2">
-                <Typography.Text type="secondary">Factura</Typography.Text>
-                <span className="flex items-center gap-1 text-2xl">
-                  <TbFileInvoice
-                    className="text-zinc-400 drop-shadow-lg"
-                    size={20}
-                  />
-                  <Typography.Text strong className="text-xl drop-shadow-lg">
-                    F0042HD
-                  </Typography.Text>
-                </span>
-              </p>
-
-              <p className="mt-7 flex flex-col gap-2">
-                <Typography.Text type="secondary">Boleto</Typography.Text>
-                <span className="flex items-center gap-1 text-2xl">
-                  <IoReceiptOutline
-                    className="text-zinc-400 drop-shadow-lg"
-                    size={20}
-                  />
-                  <Typography.Text strong className="text-xl drop-shadow-lg">
-                    {lastestCode?.response}
-                  </Typography.Text>
-                </span>
-              </p>
-            </div>
-          </ControlPaneCard>
-        </div>
-        <div className="row-span-2">
-          <ControlPaneCard
-            href="/venta-pasajes"
-            cardDescription="Porcentaje de ocupación de asientos para cada viaje, y la preferencia de los pasajeros por los asientos delanteros, traseros o del medio   "
-            cardTitle="Asientos Ocupados"
-          >
-            <div style={{ width: "auto", paddingTop: 20 }}>
-              <Typography.Text strong>Horario 20:00</Typography.Text>
-              <Progress
-                strokeColor={{
-                  "0%": "#4096FF",
-                  "100%": "#87d068",
-                }}
-                percent={50}
-                size="small"
-              />
-              <Typography.Text>Horario 21:00</Typography.Text>
-              <Progress
-                status="active"
-                percent={70}
-                strokeColor={{
-                  "0%": "#4096FF",
-                  "100%": "#87d068",
-                }}
-                size="small"
-              />
-              <Typography.Text>Horario 21:30</Typography.Text>
-              <Progress
-                status="active"
-                strokeColor={{
-                  "0%": "#4096FF",
-                  "100%": "#87d068",
-                }}
-                percent={30}
-              />
-            </div>
-            <ControlPanePieChart />
-          </ControlPaneCard>
-        </div>
-        <section className="col-span-2 ">
-          <ControlPaneGraph />
-        </section>
+            <Space direction="vertical" className="mt-8 gap-2 text-right">
+              <Typography.Text type="secondary" className="font-light">
+                Encomienda
+              </Typography.Text>
+              <Space>
+                <LiaLuggageCartSolid
+                  className="text-zinc-400 drop-shadow-lg"
+                  size={20}
+                />
+                <Typography.Text strong>
+                  {session?.user.serieEncomienda}- 00
+                  {lastestCodeEncomienda?.response}
+                </Typography.Text>
+              </Space>
+            </Space>
+          </Space>
+        </ControlPaneCard>
+        <ProgressesCard viajesDiarios={viajesDiarios?.response} />
+        <ControlPaneGraph />
       </div>
     </AppLayout>
   );

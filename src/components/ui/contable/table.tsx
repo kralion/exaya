@@ -7,7 +7,7 @@ export default function TableContable({
 }: {
   scheduleDateQuery: Date;
 }) {
-  const { data: contables } = api.viajes.getViajesByDate.useQuery({
+  const { data: contables, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: scheduleDateQuery.toISOString(),
   });
 
@@ -119,6 +119,7 @@ export default function TableContable({
         showSizeChanger: true,
         pageSizeOptions: ["5", "10"],
       }}
+      loading={isLoading}
       columns={columns}
       dataSource={contables?.response}
     />

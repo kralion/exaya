@@ -195,7 +195,7 @@ export default function Login() {
             </p>
           </div>
           <div className="fixed bottom-0 right-0 z-10 p-2  text-xs text-zinc-700 dark:text-zinc-400">
-            <h1 className="font-mono">v1.0.25</h1>
+            <h1 className="font-mono">v2.10.25</h1>
           </div>
         </AOSWrapper>
       </div>

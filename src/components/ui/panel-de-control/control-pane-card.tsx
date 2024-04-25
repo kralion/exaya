@@ -18,21 +18,27 @@ export const ControlPaneCard = ({
   href,
 }: Card) => {
   return (
-    <Link href={href}>
-      <Card
-        className="min-h-[250px] cursor-pointer border-1 backdrop-blur-3xl duration-200  hover:bg-orange-100/20  hover:shadow-md   dark:border-zinc-800 dark:hover:bg-black/50"
-        type="inner"
-        bordered={false}
-        title={
-          <Title className="pt-2" level={4}>
+    <Card
+      className="cursor-pointer border-1 backdrop-blur-3xl duration-200 hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
+      type="inner"
+      bordered={false}
+      title={
+        <Link
+          href={href}
+          className="group flex items-center justify-between duration-100"
+        >
+          <Title level={4} className="pt-2 group-hover:opacity-70 ">
             {cardTitle}
           </Title>
-        }
-        extra={<RxOpenInNewWindow title="Ver más" />}
-      >
-        <Meta description={cardDescription} />
-        {children}
-      </Card>
-    </Link>
+          <RxOpenInNewWindow
+            className="text-black group-hover:opacity-70 dark:text-white"
+            title="Ver más"
+          />
+        </Link>
+      }
+    >
+      <Meta description={cardDescription} />
+      {children}
+    </Card>
   );
 };

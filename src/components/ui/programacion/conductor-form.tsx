@@ -195,18 +195,16 @@ export function ConductorForm({ activator }: Props) {
             label="Clase Licencia"
             rules={[
               {
-                type: "array",
                 required: true,
                 message: "Selecciona",
               },
             ]}
           >
             <Select placeholder="A II-B">
-              <Select.Option value="A II-A">A II-A</Select.Option>
-              <Select.Option value="A II-B">A II-B</Select.Option>
-              <Select.Option value="A II-C">A II-C</Select.Option>
-              <Select.Option value="A II-A">A III-A</Select.Option>
-              <Select.Option value="A II-B">A III-B</Select.Option>
+              <Select.Option value="AII-A">AII-A</Select.Option>
+              <Select.Option value="AII-B">AII-B</Select.Option>
+              <Select.Option value="AIII-B">AIII-B</Select.Option>
+              <Select.Option value="AIII-C">AIII-C</Select.Option>
             </Select>
           </Form.Item>
 

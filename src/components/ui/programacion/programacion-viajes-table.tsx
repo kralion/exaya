@@ -14,7 +14,11 @@ const convertTo12HourFormat = (hours: number, minutes: number) => {
 
 export function ProgramacionTable() {
   const [form] = Form.useForm();
-  const { data: viajes, refetch } = api.viajes.getAllViajes.useQuery();
+  const {
+    data: viajes,
+    refetch,
+    isLoading,
+  } = api.viajes.getAllViajes.useQuery();
   const { openNotification } = useNotification();
   const deleteViajeMutation = api.viajes.deleteViajeById.useMutation();
 
@@ -161,6 +165,7 @@ export function ProgramacionTable() {
       <Table
         dataSource={viajes?.response}
         columns={columns}
+        loading={isLoading}
         rowClassName="editable-row"
         pagination={{
           defaultPageSize: 5,

@@ -73,7 +73,7 @@ const columns: ColumnsType = [
 ];
 
 export default function FacturasTable() {
-  const { data: facturas } =
+  const { data: facturas, isLoading } =
     api.encomiendas.getAllFacturasEncomiendas.useQuery();
   return (
     <div className="my-7 space-y-3.5">
@@ -83,6 +83,7 @@ export default function FacturasTable() {
 
       <Table
         columns={columns}
+        loading={isLoading}
         pagination={{
           defaultPageSize: 3,
           position: ["bottomRight"],

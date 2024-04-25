@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 // FIXME: Correct the columns rendered in the table
 export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
-  const { data: encomiendas } =
+  const { data: encomiendas, isLoading } =
     api.encomiendas.getEncomiendasByViajeId.useQuery({
       viajeId,
     });
@@ -59,6 +59,7 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
         showSizeChanger: true,
       }}
       columns={columns}
+      loading={isLoading}
       dataSource={encomiendas?.response}
     />
   );

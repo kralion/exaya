@@ -9,8 +9,11 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 
 export function EncomiendasTable() {
-  const { data: encomiendas, refetch } =
-    api.encomiendas.getAllEncomiendas.useQuery();
+  const {
+    data: encomiendas,
+    refetch,
+    isLoading,
+  } = api.encomiendas.getAllEncomiendas.useQuery();
   const { openNotification } = useNotification();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
@@ -59,7 +62,7 @@ export function EncomiendasTable() {
         return (
           <Space className="items-baseline gap-2">
             <EncomiendaDetails id={id} modalActivator="Ver Detalles" />
-            <Button title="Editar" icon={<FiEdit3 />} />
+            <Button disabled title="Editar" icon={<FiEdit3 />} />
             <Popconfirm
               okButtonProps={{
                 danger: true,
@@ -114,6 +117,7 @@ export function EncomiendasTable() {
         }}
         dataSource={encomiendas}
         columns={columns}
+        loading={isLoading}
       />
     </div>
   );

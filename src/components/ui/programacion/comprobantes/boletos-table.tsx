@@ -75,7 +75,7 @@ const columns: ColumnsType = [
 ];
 
 export default function BoletosTable() {
-  const { data: boletos } = api.boletos.getAllBoletos.useQuery();
+  const { data: boletos, isLoading } = api.boletos.getAllBoletos.useQuery();
   return (
     <div className="space-y-3.5">
       <div className="flex justify-between">
@@ -91,6 +91,7 @@ export default function BoletosTable() {
       </div>
       <Table
         columns={columns}
+        loading={isLoading}
         pagination={{
           defaultPageSize: 3,
           position: ["bottomRight"],

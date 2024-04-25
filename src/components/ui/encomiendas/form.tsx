@@ -39,10 +39,12 @@ export function EncomiendasForm() {
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
-  const { data: viajesDiariosDisponibles } =
-    api.viajes.getViajesByDate.useQuery({
-      date: dateQuery.format("YYYY-MM-DD"),
-    });
+  const {
+    data: viajesDiariosDisponibles,
+    isLoading: isLoadingViajesDiariosDisponibles,
+  } = api.viajes.getViajesByDate.useQuery({
+    date: dateQuery.format("YYYY-MM-DD"),
+  });
   const { openNotification } = useNotification();
   const [facturaUI, setFacturaUI] = useState(false);
   const createEncomiendaMutation =
@@ -261,6 +263,7 @@ export function EncomiendasForm() {
             ]}
           >
             <Select
+              loading={isLoadingViajesDiariosDisponibles}
               style={{ width: 340 }}
               placeholder="Selva Central - Huancayo - 08:30 PM"
             >

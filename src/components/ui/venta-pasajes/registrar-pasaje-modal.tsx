@@ -35,9 +35,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  const { data: viaje } = api.viajes.getViajeById.useQuery({
-    id: viajeId,
-  });
+  const { data: viaje, isLoading: isLoadingViaje } =
+    api.viajes.getViajeById.useQuery({
+      id: viajeId,
+    });
   const { data: session } = useSession();
   const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
@@ -362,12 +363,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               label="Precio"
               rules={[{ required: true, message: "Requerido" }]}
             >
-              <Select placeholder="40" allowClear>
+              <Select loading={isLoadingViaje} placeholder="40" allowClear>
                 {viaje?.response?.tarifas.map(
                   (tarifa: number, index: number) => (
-                    <Option key={index} value={tarifa}>
+                    <Select.Option key={index} value={tarifa}>
                       {tarifa}
-                    </Option>
+                    </Select.Option>
                   )
                 )}
               </Select>

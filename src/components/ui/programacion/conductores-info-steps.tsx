@@ -34,11 +34,12 @@ type TConductor = {
 };
 
 export function ConductoresInformacion() {
-  const { data: conductoresRegistrados } =
+  const { data: conductoresRegistrados, isLoading } =
     api.conductores.getAllConductores.useQuery();
 
   return (
     <List
+      loading={isLoading}
       itemLayout="horizontal"
       className=" w-[500px] rounded-lg "
       dataSource={conductoresRegistrados}

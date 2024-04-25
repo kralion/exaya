@@ -1,7 +1,6 @@
 import { Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableProps } from "antd/lib/table";
-import { TbLicense } from "react-icons/tb";
 
 export function MisBoletosVendidosTable({
   data,

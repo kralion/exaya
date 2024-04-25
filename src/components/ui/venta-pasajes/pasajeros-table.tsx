@@ -38,9 +38,10 @@ const columns = [
 ];
 
 export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
-  const { data: pasajeros } = api.viajes.getBoletosByViajeId.useQuery({
-    id: viajeId,
-  });
+  const { data: pasajeros, isLoading } =
+    api.viajes.getBoletosByViajeId.useQuery({
+      id: viajeId,
+    });
   return (
     <Table
       pagination={{
@@ -49,6 +50,7 @@ export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
         pageSizeOptions: ["5", "10", "20", "50"],
         showSizeChanger: true,
       }}
+      loading={isLoading}
       columns={columns}
       dataSource={pasajeros?.response}
     />
