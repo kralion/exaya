@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Progress, Space, Typography } from "antd";
+import { Alert, Card, Progress, Skeleton, Space, Typography } from "antd";
 import { RxOpenInNewWindow } from "react-icons/rx";
 const { Title, Text } = Typography;
 import Link from "next/link";
@@ -16,6 +16,7 @@ type TViajeDiario = {
   boletos: {
     id: string;
     asiento: number;
+    pasajeroDni: string;
   }[];
   bus: { asientos: number };
   salida: Date;
@@ -23,12 +24,14 @@ type TViajeDiario = {
 
 type Props = {
   viajesDiarios: TViajeDiario[] | undefined;
+  isLoading: boolean;
 };
 
-export const ProgressesCard = ({ viajesDiarios }: Props) => {
+export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
   return (
     <Card
-      className="row-span-3 border-1 backdrop-blur-3xl duration-200    hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
+      loading={isLoading}
+      className="row-span-3 mx-auto border-1 backdrop-blur-3xl duration-200    hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
       type="inner"
       bordered={false}
       title={
@@ -47,7 +50,7 @@ export const ProgressesCard = ({ viajesDiarios }: Props) => {
       }
     >
       <Meta description="Porcentaje de ocupación de asientos para cada viaje, y la preferencia de los pasajeros por los asientos delanteros, traseros o del medio" />
-      <div style={{ width: "auto", paddingTop: 20 }}>
+      <Space className="my-8 w-full" direction="vertical">
         {viajesDiarios?.map(
           (viajeDiario: {
             id: string;
@@ -65,20 +68,40 @@ export const ProgressesCard = ({ viajesDiarios }: Props) => {
             return (
               <Space key={viajeDiario.id} direction="vertical" size={12}>
                 <Text>Horario {viajeDiario.salida.toLocaleTimeString()}</Text>
-                <Progress
-                  status={status}
-                  strokeColor={{
-                    "0%": "#4096FF",
-                    "100%": "#87d068",
-                  }}
-                  percent={percent}
-                />
+                {isLoading ? (
+                  <Skeleton.Button
+                    active
+                    style={{
+                      width: 300,
+                      borderRadius: 20,
+                      height: 13,
+                    }}
+                  />
+                ) : (
+                  <Progress
+                    status={status}
+                    strokeColor={{
+                      "0%": "#4096FF",
+                      "100%": "#87d068",
+                    }}
+                    percent={percent}
+                  />
+                )}
               </Space>
             );
           }
         )}
-      </div>
-      <ControlPanePieChart />
+      </Space>
+      {/* {viajesDiarios?.length === 0 ? (
+        <Alert
+          className="mt-8"
+          message="Para mostrar el gráfico de progreso, primero debes registrar un viaje"
+          type="info"
+          showIcon
+        />
+      ) : ( */}
+      <ControlPanePieChart viajesDiarios={viajesDiarios} />
+      {/* )} */}
     </Card>
   );
 };

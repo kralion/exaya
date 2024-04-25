@@ -2,24 +2,23 @@ import AppHead from "@/components/landing/head";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import { api } from "@/utils/api";
-import { Space, Statistic, Typography } from "antd";
+import { Skeleton, Space, Statistic, Typography } from "antd";
 import { useSession } from "next-auth/react";
-import { GrSchedulePlay } from "react-icons/gr";
 import { IoTicketOutline } from "react-icons/io5";
 import { LiaLuggageCartSolid } from "react-icons/lia";
 import AppLayout from "../../components/exaya/layout";
 import { ProgressesCard } from "@/components/ui/panel-de-control/progresses-card";
-import { CiClock2 } from "react-icons/ci";
 
 type TViajeEstado = {
   estado: "DISPONIBLE" | "LLENO" | "CANCELADO";
 };
 
 export default function Dashboard() {
-  const { data: viajesDiarios } = api.viajes.getViajesForToday.useQuery();
-  const { data: lastestCodeBoleto } =
+  const { data: viajesDiarios, isLoading: isLoadingViajesDiarios } =
+    api.viajes.getViajesForToday.useQuery();
+  const { data: lastestCodeBoleto, isLoading: isLoadingBoletoCode } =
     api.boletos.getLatestCodeOfBoleto.useQuery();
-  const { data: lastestCodeEncomienda } =
+  const { data: lastestCodeEncomienda, isLoading: isLoadingEncomiendaCode } =
     api.encomiendas.getLatestCodeOfEncomienda.useQuery();
   const { data: session } = useSession();
   const totalViajesProgramados = viajesDiarios?.response?.length;
@@ -38,12 +37,14 @@ export default function Dashboard() {
           <Space className="w-full justify-between">
             <Statistic
               className="mt-8  drop-shadow-lg"
+              loading={isLoadingViajesDiarios}
               title="Activos"
               value={viajesActivos}
               suffix={`/${totalViajesProgramados ?? 0}`}
             />
             <Statistic
               className="mt-8 drop-shadow-lg"
+              loading={isLoadingViajesDiarios}
               rootClassName="text-right"
               title="Programados"
               value={totalViajesProgramados}
@@ -65,9 +66,13 @@ export default function Dashboard() {
                   className="text-zinc-400 drop-shadow-lg"
                   size={20}
                 />
-                <Typography.Text strong>
-                  {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
-                </Typography.Text>
+                {isLoadingBoletoCode ? (
+                  <Skeleton.Button active size="small" style={{ width: 100 }} />
+                ) : (
+                  <Typography.Text strong>
+                    {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
+                  </Typography.Text>
+                )}
               </Space>
             </Space>
 
@@ -80,15 +85,22 @@ export default function Dashboard() {
                   className="text-zinc-400 drop-shadow-lg"
                   size={20}
                 />
-                <Typography.Text strong>
-                  {session?.user.serieEncomienda}- 00
-                  {lastestCodeEncomienda?.response}
-                </Typography.Text>
+                {isLoadingEncomiendaCode ? (
+                  <Skeleton.Button active size="small" style={{ width: 100 }} />
+                ) : (
+                  <Typography.Text strong>
+                    {session?.user.serieEncomienda}- 00
+                    {lastestCodeEncomienda?.response}
+                  </Typography.Text>
+                )}
               </Space>
             </Space>
           </Space>
         </ControlPaneCard>
-        <ProgressesCard viajesDiarios={viajesDiarios?.response} />
+        <ProgressesCard
+          isLoading={isLoadingViajesDiarios}
+          viajesDiarios={viajesDiarios?.response}
+        />
         <ControlPaneGraph />
       </div>
     </AppLayout>

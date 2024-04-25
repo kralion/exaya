@@ -1,6 +1,17 @@
 import { PieChart, Pie, Tooltip } from "recharts";
+import React from "react";
 
-const data01 = [
+type TViajeDiario = {
+  id: string;
+  boletos: {
+    id: string;
+    asiento: number;
+    pasajeroDni: string;
+  }[];
+  bus: { asientos: number };
+};
+
+const legacyData1 = [
   {
     name: "A. Frontales",
     value: 40,
@@ -22,7 +33,7 @@ const data01 = [
     value: 27,
   },
 ];
-const data02 = [
+const legacyData2 = [
   {
     name: "Adultos",
     value: 40,
@@ -46,37 +57,119 @@ const data02 = [
   },
 ];
 
-import React from "react";
+function clasificarAsientos(
+  viajesDiarios: TViajeDiario[]
+): Record<string, number> {
+  const clasificacion: Record<string, number> = {
+    "A. Frontales": 0,
+    "A. Medio": 0,
+    "A. Finales": 0,
+    Pasillo: 0,
+    Ventana: 0,
+  };
 
-function ControlPanePieChart() {
+  for (const viaje of viajesDiarios) {
+    for (const boleto of viaje.boletos) {
+      const asiento = boleto.asiento;
+      const totalAsientos = viaje.bus.asientos;
+
+      if (asiento <= totalAsientos * 0.2) {
+        clasificacion["A. Frontales"]++;
+      } else if (asiento <= totalAsientos * 0.4) {
+        clasificacion["A. Medio"]++;
+      } else {
+        clasificacion["A. Finales"]++;
+      }
+
+      if (asiento % 2 === 0) {
+        clasificacion.Ventana++;
+      } else {
+        clasificacion.Pasillo++;
+      }
+    }
+  }
+
+  return clasificacion;
+}
+
+function clasificarPersona(
+  dni: string | undefined
+): "Adultos" | "Niños" | "Tercera Edad" {
+  const primerDigito = parseInt(dni?.[0] ?? "", 10);
+
+  if (primerDigito >= 0 && primerDigito <= 3) {
+    return "Adultos";
+  } else if (primerDigito === 4) {
+    return "Niños";
+  } else if (primerDigito >= 6 && primerDigito <= 9) {
+    return "Tercera Edad";
+  } else {
+    throw new Error("DNI inválido");
+  }
+}
+
+function clasificarPasajeros(
+  viajesDiarios: TViajeDiario[]
+): Record<string, number> {
+  const clasificacion: Record<string, number> = {
+    Adultos: 0,
+    Niños: 0,
+    "Tercera Edad": 0,
+  };
+
+  for (const viaje of viajesDiarios) {
+    for (const boleto of viaje.boletos) {
+      const categoria = clasificarPersona(boleto.pasajeroDni);
+      clasificacion[categoria]++;
+    }
+  }
+
+  return clasificacion;
+}
+
+function ControlPanePieChart({
+  viajesDiarios,
+}: {
+  viajesDiarios: TViajeDiario[] | undefined;
+}) {
+  const data01 = Object.entries(clasificarAsientos(viajesDiarios || [])).map(
+    ([name, value]) => ({ name, value })
+  );
+  const data02 = Object.entries(clasificarPasajeros(viajesDiarios || [])).map(
+    ([name, value]) => ({ name, value })
+  );
+
   return (
-    <PieChart width={250} height={250}>
+    <PieChart width={260} height={260}>
       <Tooltip
         contentStyle={{
-          backgroundColor: "rgba(255,255,255,0.7)",
-          borderRadius: "10px",
-          border: "none",
+          borderRadius: "7px",
+          borderWidth: "1px",
+          height: "30px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       />
       <Pie
-        data={data01}
+        data={legacyData1}
         dataKey="value"
         nameKey="name"
         cx="50%"
         cy="50%"
         outerRadius={50}
-        fill="#1AFD6D"
+        fill="#faad14"
       />
       <Pie
-        data={data02}
+        data={legacyData2}
         dataKey="value"
         nameKey="name"
         cx="50%"
         cy="50%"
-        className=" font-semibold text-black"
+        className="font-semibold text-black"
         innerRadius={60}
         outerRadius={80}
-        fill="#4096FF"
+        fill="#a0d911"
         label
       />
     </PieChart>

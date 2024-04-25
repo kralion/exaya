@@ -121,6 +121,10 @@ export default function KpiGraphs({
               contentStyle={{
                 borderRadius: "7px",
                 borderWidth: "1px",
+                height: "30px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             />
 
