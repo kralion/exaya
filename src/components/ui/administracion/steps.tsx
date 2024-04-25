@@ -28,7 +28,7 @@ export default function AdministracionSteps({
       loading={isLoading}
       title={
         <Title className="pt-2" level={4}>
-          Indices de Administración
+          Métricas de Recursos y Utilidades Percibidas
         </Title>
       }
       className="shadow duration-200 dark:hover:bg-black/50"
@@ -47,13 +47,13 @@ export default function AdministracionSteps({
                 : "error",
             description: (
               <Text type="secondary">
-                Se logró un{" "}
+                Este indicador representa la tasa de conversión de recursos en
+                el viaje actual. Actualmente se tiene un{" "}
                 <Text type="warning" className="font-bold">
                   {seatUtilizationRate}%
-                </Text>{" "}
-                de utilización de recursos disponibles en el bus. Este índice
-                mide la cantidad de asientos ocupados en relación a la cantidad
-                de pasajeros.
+                </Text>
+                , a medida que se acerque al 100% se marcará con un check de
+                conformidad.
               </Text>
             ),
           },
@@ -68,7 +68,8 @@ export default function AdministracionSteps({
             description: (
               <Text type="secondary">
                 Este métrica permite calcular el monto con respecto al
-                cumplimiento de la cuota de ventas, lográndose un monto total de{" "}
+                cumplimiento de la cuota de ventas. Actualmente se tiene un
+                monto igual a{" "}
                 <Text type="warning" className="font-bold">
                   S/. {totalIncomeCurrentViaje}
                 </Text>

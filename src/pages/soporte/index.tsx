@@ -7,6 +7,7 @@ import { Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 const { Text } = Typography;
+import SoporteGradient from "@/assets/images/soporte-gradient.png";
 
 const literata = Literata({
   weight: "400",
@@ -17,12 +18,21 @@ export default function Soporte() {
   return (
     <AppLayout>
       <AppHead title="Soporte" />
-      <div className="flex flex-col items-center gap-7">
+      <Space
+        direction="vertical"
+        className="flex w-full flex-col items-center gap-7 rounded-2xl pt-2"
+        style={{
+          backgroundImage: `url(${SoporteGradient.src})`,
+          height: "200px",
+          width: "100%",
+        }}
+      >
         <Image
           width={200}
           height={200}
           src="https://ouch-cdn2.icons8.com/sWspUF6_ECZRNO0zP1znr5bnaExFblS6xwyuGCVi1KE/rs:fit:368:417/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODM1/LzM4MTRiZDg2LWU2/ZjEtNDE2Yi1iNjMw/LTU1ZDQ0NmU1NTc5/MS5wbmc.png"
           alt="Support Banner"
+          className="drop-shadow-xl"
         />
         <div className="my-7 flex flex-col items-center justify-center gap-7 text-center">
           <Space direction="vertical" className="mx-auto w-2/3">
@@ -30,7 +40,7 @@ export default function Soporte() {
               Estás teniendo algún problema ?
             </h1>
             <Text>
-              Si tienes algún problema con la sistema web, puedes contactarnos
+              Si tienes algún problema con la software, puedes contactarnos
               instantáneamente por medio de nuestro chat en vivo o agendar una
               cita con nosotros.
             </Text>
@@ -61,10 +71,8 @@ export default function Soporte() {
               </Tag>
             </Link>
           </div>
-          <h5 className="mb-3 font-bold">
-            Nuestro medios de contacto son estos :
-          </h5>
-          <Space className="mb-14 flex gap-3">
+          <Text>Nuestros medios de comuncación</Text>
+          <Space className="flex gap-3">
             <Tag className="flex border-none ">
               E-mail :
               <Text className="flex items-center gap-2 pl-1  text-blue-600">
@@ -79,7 +87,7 @@ export default function Soporte() {
             </Tag>
           </Space>
         </div>
-      </div>
+      </Space>
     </AppLayout>
   );
 }

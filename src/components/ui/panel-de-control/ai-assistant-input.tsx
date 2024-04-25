@@ -4,10 +4,12 @@ import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
 import { BsSendFill } from "react-icons/bs";
-
+interface InputRef extends HTMLInputElement {
+  input: HTMLInputElement;
+}
 import { IoMic, IoMicOutline } from "react-icons/io5";
 export const AIAssistantInput = () => {
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<InputRef>(null);
   useHotkeys("ctrl+enter", () => {
     inputRef.current?.focus();
   });
@@ -50,6 +52,7 @@ export const AIAssistantInput = () => {
           title="También puedes usar Ctrl + Enter para enfocar el input"
           onPressEnter={handleGenerate}
           allowClear
+          ref={inputRef}
           style={{ width: 700 }}
           defaultValue="Boleto para el asiento 7 para 74845147 el día 15/10/2023 a 50 soles en el turno de las 20:30"
         />
@@ -72,11 +75,11 @@ export const AIAssistantInput = () => {
       </Space.Compact>
       <Button
         type="primary"
-        className="relative"
+        className="relative px-5"
         icon={
           <BsSendFill
             size={13}
-            className="absolute top-2 rotate-45  text-white"
+            className="absolute left-2 top-2 rotate-45  text-white"
           />
         }
         onClick={handleGenerate}

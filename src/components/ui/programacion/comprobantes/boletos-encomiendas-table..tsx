@@ -1,6 +1,7 @@
 import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
 const { Title, Text } = Typography;
 
 const columns: ColumnsType = [
@@ -48,7 +49,9 @@ const columns: ColumnsType = [
     title: "Fecha Emisión",
     dataIndex: "fechaEnvío",
     render: (fechaEnvio: string) => {
-      return <Text>{new Date(fechaEnvio).toLocaleDateString()}</Text>;
+      const date = dayjs(fechaEnvio);
+      const formattedDate = date.format("DD-MM-YYYY");
+      return <Text>{formattedDate}</Text>;
     },
   },
   {
@@ -74,7 +77,7 @@ export default function BoletosEncomiendasTable() {
   return (
     <div className="my-7 space-y-3.5">
       <div className="flex justify-between">
-        <Title level={5}>Boletos Recientes</Title>
+        <Title level={5}>Boletos de Encomienda Recientes</Title>
         {/* TODO: Implementar Configuracion de comprobante
         <Tooltip title="search">
           <Button

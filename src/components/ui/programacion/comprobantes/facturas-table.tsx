@@ -1,6 +1,7 @@
 import { api } from "@/utils/api";
-import { Table, Tag, Typography } from "antd";
+import { Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import dayjs from "dayjs";
 const { Title, Text } = Typography;
 
 const columns: ColumnsType = [
@@ -14,7 +15,7 @@ const columns: ColumnsType = [
         responsive: ["lg"],
       },
       {
-        title: "Codigo",
+        title: "Número",
         dataIndex: "codigo",
         key: "codigo",
         responsive: ["lg"],
@@ -22,8 +23,15 @@ const columns: ColumnsType = [
     ],
   },
   {
-    title: "Razón Social",
-    dataIndex: "ruc",
+    title: "Empresa",
+    dataIndex: "empresa",
+    render: (empresa: string) => {
+      return (
+        <Tooltip title={empresa}>
+          <Text>{empresa.slice(0, 20)}</Text>
+        </Tooltip>
+      );
+    },
   },
   {
     title: "Agencia",
@@ -52,7 +60,9 @@ const columns: ColumnsType = [
     title: "Fecha Emisión",
     dataIndex: "fechaEnvío",
     render: (fechaEnvio: string) => {
-      return <Text>{new Date(fechaEnvio).toLocaleDateString()}</Text>;
+      const date = dayjs(fechaEnvio);
+      const formattedDate = date.format("DD-MM-YYYY");
+      return <Text>{formattedDate}</Text>;
     },
   },
   {

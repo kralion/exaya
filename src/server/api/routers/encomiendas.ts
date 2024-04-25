@@ -20,7 +20,7 @@ export const encomiendasRouter = createTRPCRouter({
   getAllFacturasEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({
       where: { factura: true },
-      include: { viaje: { include: { ruta: true } } },
+      include: { viaje: { include: { ruta: true, usuario: true } } },
       orderBy: { fechaEnvio: "desc" },
     });
   }),

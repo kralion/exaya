@@ -10,7 +10,7 @@ function ProgramacionViajes() {
     <AppLayout>
       <AppHead title="Programacion de Viajes" />
       <div className="space-y-3.5">
-        <Title level={5}>Programacion de Viajes</Title>
+        <Title level={5}>Programación de Viajes</Title>
         <ViajesForm />
         <Title level={5}>Historial de Salidas</Title>
         <ProgramacionTable />

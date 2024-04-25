@@ -78,7 +78,7 @@ export function BusForm({ activator }: Props) {
           <p className="mb-7">
             <Title level={3}>Agregar Bus</Title>
             <Typography.Text className=" font-light ">
-              Formulario con la informacion del bus
+              Rellene los campos para registrar un nuevo bus
             </Typography.Text>
           </p>
         }

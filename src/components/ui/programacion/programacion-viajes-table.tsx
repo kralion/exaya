@@ -1,7 +1,19 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Button, Form, Popconfirm, Table, Tag, Tooltip } from "antd";
-import { TbLicense } from "react-icons/tb";
+import {
+  Button,
+  Form,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from "antd";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { TbBus } from "react-icons/tb";
+import { FiEdit3 } from "react-icons/fi";
+const { Text } = Typography;
 const convertTo12HourFormat = (hours: number, minutes: number) => {
   const suffix = hours >= 12 ? "PM" : "AM";
   hours = hours > 12 ? hours - 12 : hours;
@@ -22,7 +34,7 @@ export function ProgramacionTable() {
   const { openNotification } = useNotification();
   const deleteViajeMutation = api.viajes.deleteViajeById.useMutation();
 
-  const handleDelete = (id: string) => {
+  const handleDeleteViaje = (id: string) => {
     deleteViajeMutation.mutate(
       { id },
       {
@@ -67,7 +79,11 @@ export function ProgramacionTable() {
 
       render: (bus: { placa: string; id: string }) => (
         <Tooltip className="cursor-pointer" key={bus.id} title={bus.placa}>
-          <TbLicense />
+          <TbBus
+            strokeWidth={1}
+            size={25}
+            className="text-zinc-600 dark:text-zinc-400"
+          />
         </Tooltip>
       ),
     },
@@ -75,16 +91,13 @@ export function ProgramacionTable() {
       title: "Fecha Salida",
       dataIndex: "salida",
       key: "fechaSalida",
-      render: (salida: Date) => (
-        <Tag className="px-3 text-center font-semibold  shadow-md">
-          {new Date(salida).toLocaleDateString("es-ES", {
-            weekday: "long",
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })}
-        </Tag>
-      ),
+      render: (salida: Date) =>
+        new Date(salida).toLocaleDateString("es-ES", {
+          weekday: "long",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }),
     },
     {
       title: "Hora Salida",
@@ -100,18 +113,7 @@ export function ProgramacionTable() {
         }
 
         const horaSalida = convertTo12HourFormat(hours, minutes);
-        return hours < 18 ? (
-          <Tag
-            className="w-[70px] rounded-full text-center font-semibold  shadow-md"
-            color="yellow-inverse"
-          >
-            <span className="text-black">{horaSalida}</span>
-          </Tag>
-        ) : (
-          <Tag className="w-[70px] rounded-full bg-gray-700 text-center font-semibold text-white shadow-md">
-            {horaSalida}
-          </Tag>
-        );
+        return <Tag>{horaSalida}</Tag>;
       },
     },
     {
@@ -121,13 +123,12 @@ export function ProgramacionTable() {
 
       render: (estado: string) => (
         <Tag
-          className="px-3 text-center font-semibold  shadow-md"
           color={
             estado === "DISPONIBLE"
-              ? "green"
+              ? "green-inverse"
               : estado === "LLENO"
-              ? "red"
-              : "yellow"
+              ? "red-inverse"
+              : "yellow-inverse"
           }
         >
           {estado}
@@ -139,23 +140,25 @@ export function ProgramacionTable() {
       title: "Acciones",
       dataIndex: "id",
       render: (id: string) => (
-        <div className="flex items-baseline ">
+        <Space className="items-baseline gap-2">
+          <Button disabled title="Editar" icon={<FiEdit3 />} />
           <Popconfirm
             okButtonProps={{
               danger: true,
             }}
-            title="Estás segur@ de eliminar este viaje?"
+            title="Estás segur@ de eliminar este viaje ?"
             okText="Sí"
             cancelText="No"
-            onConfirm={() => {
-              handleDelete(id);
-            }}
+            onConfirm={() => handleDeleteViaje(id)}
           >
-            <Button danger type="link">
-              Eliminar
-            </Button>
+            <Button
+              title="Eliminar"
+              icon={<FaRegTrashCan />}
+              type="text"
+              danger
+            />
           </Popconfirm>
-        </div>
+        </Space>
       ),
     },
   ];

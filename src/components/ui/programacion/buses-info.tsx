@@ -1,53 +1,29 @@
-import React from "react";
-import { Card, Space, Tag } from "antd";
-import { Image } from "antd";
-import { BiCheckCircle, BiInfoCircle } from "react-icons/bi";
 import { api } from "@/utils/api";
+import { Card, Image, Space, Tag } from "antd";
+import { BiCheckCircle, BiInfoCircle } from "react-icons/bi";
 
 const { Meta } = Card;
 
 export function BusesInformacion() {
-  const { data: buses } = api.buses.getAllBuses.useQuery();
+  const { data: buses, isLoading } = api.buses.getAllBuses.useQuery();
   return (
-    <Space
-      direction="vertical"
-      size="large"
-      className="grid grid-flow-row grid-cols-2 gap-5"
-    >
+    <Space className="grid grid-flow-row grid-cols-2 gap-4">
       {buses?.map((bus) => (
         <Card
-          rootClassName="shadow-md cursor-default font-semibold "
-          cover={
-            <Image
-              src={bus.foto}
-              alt="Bus preview"
-              className=" object-cover"
-              height={150}
-              width={245}
-            />
-          }
-          actions={[
-            <Tag
-              color={bus.modelo ? "green-inverse" : "red-inverse"}
-              key={bus.id}
-            >
-              {bus.modelo ? "Activo" : "Inactivo"}
-            </Tag>,
-            <Tag key={bus.placa}>{bus.placa}</Tag>,
-            <Tag key={bus.id}>{bus.asientos}</Tag>,
-          ]}
+          className="shadow-lg dark:hover:bg-black/50"
+          loading={isLoading}
+          cover={<Image src={bus.foto} alt="bus" width={250} />}
           key={bus.placa}
-          className="min-w-[245px]"
         >
           <Meta
             title={
-              <p className="flex items-center gap-1.5">
+              <Space className="flex items-center gap-1.5">
                 <span>
                   {bus.asientos ? (
                     <BiCheckCircle
                       title="El vehiculo está en recorrido"
                       size={20}
-                      className="rounded-full text-green-500 duration-200 hover:bg-green-500 hover:text-white "
+                      className="rounded-full  bg-green-500 text-white duration-200 "
                     />
                   ) : (
                     <BiInfoCircle
@@ -57,14 +33,20 @@ export function BusesInformacion() {
                     />
                   )}
                 </span>
-                <span className="font-normal">{bus.placa}</span>
-              </p>
+                <Space className="gap-8 font-normal">
+                  {bus.placa}
+                  <strong>
+                    <Tag color="success"> Bus Cama </Tag>
+                  </strong>
+                </Space>
+              </Space>
             }
             description={
-              <p>
-                <span>Modelo: </span>
-                <span className="font-normal">{bus.modelo}</span>
-              </p>
+              <Space direction="horizontal">
+                <span className="font-normal">
+                  {bus.modelo} {bus.asientos} asientos
+                </span>
+              </Space>
             }
           />
         </Card>

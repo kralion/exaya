@@ -254,7 +254,7 @@ export function UsuarioForm({ activator }: Props) {
         title={
           <p className="mb-7">
             <Title level={3}>Agregar Usuario</Title>
-            <Text type="secondary" className=" font-light ">
+            <Text className=" font-light ">
               Formulario con la informacion del Usuario
             </Text>
           </p>

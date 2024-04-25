@@ -12,6 +12,7 @@ import {
 } from "antd";
 import Link from "next/link";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { FiEdit3 } from "react-icons/fi";
 
 const { Text } = Typography;
 export default function UsuariosTable() {
@@ -31,7 +32,7 @@ export default function UsuariosTable() {
     return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
   }
 
-  const handleUserDelete = (id: string) => {
+  const handleDeleteUser = (id: string) => {
     usuarioDeleteMutation.mutate(
       { id },
 
@@ -112,27 +113,23 @@ export default function UsuariosTable() {
       title: "Acciones",
       render: (record: { id: string }) => {
         return (
-          <Space size="middle">
+          <Space className="items-baseline gap-2">
+            <Button disabled title="Editar" icon={<FiEdit3 />} />
             <Popconfirm
               okButtonProps={{
                 danger: true,
               }}
-              onConfirm={() => handleUserDelete(record.id)}
               title="Estás segur@ de eliminar este usuario?"
-              cancelText="No"
               okText="Sí"
+              cancelText="No"
+              onConfirm={() => handleDeleteUser(record.id)}
             >
               <Button
-                type="link"
-                className="flex items-center justify-center"
+                title="Eliminar"
+                icon={<FaRegTrashCan />}
+                type="text"
                 danger
-                title="Eliminar Usuario"
-              >
-                <FaRegTrashCan
-                  size="1.2em"
-                  className="text-red-400 hover:text-red-600"
-                />
-              </Button>
+              />
             </Popconfirm>
           </Space>
         );

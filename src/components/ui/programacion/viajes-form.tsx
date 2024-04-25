@@ -77,72 +77,67 @@ export function ViajesForm() {
   };
 
   return (
-    <Form
-      {...layout}
-      form={form}
-      name="viaje-form"
-      onFinish={onFinish}
-      className="flex justify-between"
-    >
-      <div>
-        <div className="flex gap-2">
-          <Form.Item
-            name="rutaId"
-            rules={[{ required: true, message: "Requerido" }]}
-          >
-            <Select
-              style={{ width: 300 }}
-              placeholder="Ruta"
-              allowClear
-              loading={isLoadingRutas}
-            >
-              {rutas?.map(
-                (ruta: {
-                  id: string;
-                  ciudadOrigen: string;
-                  ciudadDestino: string;
-                }) => (
-                  <Select.Option key={ruta.id} value={ruta.id}>
-                    {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                  </Select.Option>
-                )
-              )}
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="busId"
-            rules={[{ required: true, message: "Requerido" }]}
-          >
-            <Select
-              loading={isLoadingBus}
-              style={{ width: 120 }}
-              placeholder="BXG-01K"
-              allowClear
-            >
-              {bus?.map((bus: { id: string; placa: string }) => (
-                <Select.Option key={bus.id} value={bus.id}>
-                  {bus.placa}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            rules={[{ required: true, message: "Requerido" }]}
-            name="salida"
-          >
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" minuteStep={15} />
-          </Form.Item>
-        </div>
+    <Form {...layout} form={form} name="viaje-form" onFinish={onFinish}>
+      <div className="flex gap-2">
         <Form.Item
-          name="tarifas"
+          name="rutaId"
           rules={[{ required: true, message: "Requerido" }]}
         >
           <Select
-            mode="multiple"
-            style={{ width: "100%" }}
-            placeholder="Tarifas"
+            style={{ width: 300 }}
+            placeholder="Ruta"
+            allowClear
+            loading={isLoadingRutas}
           >
+            {rutas?.map(
+              (ruta: {
+                id: string;
+                ciudadOrigen: string;
+                ciudadDestino: string;
+              }) => (
+                <Select.Option key={ruta.id} value={ruta.id}>
+                  {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                </Select.Option>
+              )
+            )}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="busId"
+          rules={[{ required: true, message: "Requerido" }]}
+        >
+          <Select
+            loading={isLoadingBus}
+            style={{ width: 140 }}
+            placeholder="Bus"
+            allowClear
+          >
+            {bus?.map((bus: { id: string; placa: string }) => (
+              <Select.Option key={bus.id} value={bus.id}>
+                {bus.placa}
+              </Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          rules={[{ required: true, message: "Requerido" }]}
+          name="salida"
+        >
+          <DatePicker
+            style={{ width: 200 }}
+            showTime
+            placeholder="Fecha de Salida"
+            format="YYYY-MM-DD HH:mm"
+            minuteStep={15}
+          />
+        </Form.Item>
+        <Form.Item
+          name="tarifas"
+          className="w-full"
+          rules={[{ required: true, message: "Requerido" }]}
+        >
+          <Select mode="multiple" placeholder="Tarifas">
             {tarifasGenerales.map((tarifa) => (
               <Select.Option key={tarifa} value={tarifa}>
                 {tarifa}
@@ -153,7 +148,7 @@ export function ViajesForm() {
       </div>
 
       <Form.Item>
-        <div className="flex gap-2">
+        <div className="flex justify-end gap-2">
           <Button
             disabled={createViajeMutation.isLoading}
             htmlType="submit"

@@ -51,7 +51,7 @@ const columns: ColumnsType = [
   {
     title: "Fecha Emisión",
     dataIndex: "fechaRegistro",
-    render: (fechaRegistro: string) => {
+    render: (fechaRegistro: Date) => {
       const date = dayjs(fechaRegistro);
       const formattedDate = date.format("DD-MM-YYYY");
       return <Text>{formattedDate}</Text>;
@@ -79,7 +79,7 @@ export default function BoletosTable() {
   return (
     <div className="space-y-3.5">
       <div className="flex justify-between">
-        <Title level={5}>Boletos Recientes</Title>
+        <Title level={5}>Boletos de Viaje Recientes</Title>
         {/* TODO: Implementar Configuracion de comprobante
         <Tooltip title="search">
           <Button

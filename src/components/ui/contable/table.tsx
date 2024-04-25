@@ -1,6 +1,7 @@
 import { api } from "@/utils/api";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { IoFilterSharp } from "react-icons/io5";
 const IGV_RATE = 0.18;
 export default function TableContable({
   scheduleDateQuery,
@@ -11,9 +12,9 @@ export default function TableContable({
     date: scheduleDateQuery.toISOString(),
   });
 
-  const filterItems = contables?.response?.map((contable) => ({
-    text: contable.ruta.ciudadDestino,
-    value: contable.ruta.ciudadDestino,
+  const filterItems = (contables?.response || []).map((contable) => ({
+    text: `${contable.ruta.ciudadOrigen} - ${contable.ruta.ciudadDestino}`,
+    value: `${contable.ruta.ciudadOrigen} - ${contable.ruta.ciudadDestino}`,
   }));
 
   const columns: ColumnsType = [
@@ -21,17 +22,22 @@ export default function TableContable({
       title: "Ruta",
       dataIndex: "ruta",
       filters: filterItems,
+      filterOnClose: true,
+      filterIcon: <IoFilterSharp size={16} />,
       width: "25%",
-      filterSearch: true,
       render: (ruta: { ciudadOrigen: string; ciudadDestino: string }) =>
         `${ruta.ciudadOrigen} - ${ruta.ciudadDestino}`,
       onFilter: (
         value,
         record: {
-          ruta: { ciudadDestino: string };
+          ruta: { ciudadOrigen: string; ciudadDestino: string };
         }
-      ) => record.ruta?.ciudadDestino?.includes(value as string),
+      ) =>
+        `${record.ruta?.ciudadOrigen} - ${record.ruta?.ciudadDestino}`.includes(
+          value as string
+        ),
     },
+
     {
       title: "Viaje",
       dataIndex: "salida",
@@ -74,7 +80,7 @@ export default function TableContable({
           (acc: number, boleto: { precio: number }) => acc + boleto.precio,
           0
         );
-        return total;
+        return <Tag color="green-inverse">{total}</Tag>;
       },
     },
     {

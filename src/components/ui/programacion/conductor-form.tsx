@@ -111,8 +111,8 @@ export function ConductorForm({ activator }: Props) {
         title={
           <p className="mb-7">
             <Title level={3}>Agregar Conductor</Title>
-            <Typography.Text type="secondary" className=" font-light ">
-              Formulario con la informacion del conductor
+            <Typography.Text className=" font-light ">
+              Rellene los campos para registrar un nuevo conductor
             </Typography.Text>
           </p>
         }
@@ -208,7 +208,7 @@ export function ConductorForm({ activator }: Props) {
             </Select>
           </Form.Item>
 
-          <Form.Item label="Foto del Usuario">
+          <Form.Item label="Foto del Conductor">
             <div>
               <CldUploadWidget
                 uploadPreset="ml_default"
