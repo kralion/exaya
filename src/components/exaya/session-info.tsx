@@ -19,7 +19,11 @@ export default function SessionInfo({ collapsed }: { collapsed: boolean }) {
 
   return (
     <Space wrap size={1} className="my-14 flex flex-col">
-      <Avatar size={collapsed ? 35 : 80} src={sessionData?.user.foto} />
+      <Avatar
+        className="rounded-full border-4 border-yellow-400"
+        size={collapsed ? 35 : 80}
+        src={sessionData?.user.foto}
+      />
       {!collapsed && (
         <Space direction="vertical" className="items-center gap-1">
           <Text>
