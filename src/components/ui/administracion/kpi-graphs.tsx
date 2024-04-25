@@ -1,3 +1,4 @@
+import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import { Card, Tag, Typography } from "antd";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 const { Title } = Typography;
@@ -60,15 +61,19 @@ const needle = ({ value, data, cx, cy, iR, oR, color }: needleProps) => {
   ];
 };
 
+type Props = {
+  totalIncome: number;
+  totalAsientos: number | undefined;
+  totalVendidos: number | undefined;
+  isLoading: boolean;
+};
+
 export default function KpiGraphs({
   totalIncome,
   totalAsientos,
   totalVendidos,
-}: {
-  totalIncome: number;
-  totalAsientos: number | undefined;
-  totalVendidos: number | undefined;
-}) {
+  isLoading,
+}: Props) {
   const gastosFijosPorViaje = [
     {
       combustible: 500,
@@ -90,18 +95,18 @@ export default function KpiGraphs({
     0
   );
   const margenGananciaNeta =
-    totalIncome !== 0
+    totalIncome > gastosFijosTotales + comisiónAgencia
       ? ((totalIncome - gastosFijosTotales - comisiónAgencia) / totalIncome) *
         100
       : MIN_VALUE_UTILITY;
-
   const margenUtilizacionRecursos =
-    totalVendidos && totalAsientos
-      ? (totalVendidos / totalAsientos) * 100
+    totalVendidos && (totalAsientos ?? 0) > 10
+      ? (totalVendidos / (totalAsientos ?? 0)) * 100
       : MIN_VALUE_EFFICIENCY;
   {
     return (
       <Card
+        loading={isLoading}
         title={
           <Title className="pt-2" level={4}>
             Estadísticas de Indicadores KPI
@@ -110,6 +115,7 @@ export default function KpiGraphs({
         className="shadow duration-200 dark:hover:bg-black/50"
       >
         <div>
+          {/* <GaugeSkeleton loading={isLoading} /> */}
           <PieChart width={300} height={200}>
             <Tooltip
               contentStyle={{

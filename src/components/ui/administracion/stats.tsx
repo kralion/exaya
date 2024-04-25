@@ -5,11 +5,13 @@ type Props = {
   totalVendidos: number;
   totalReservados: number;
   totalPerdidos: number;
+  isLoading: boolean;
 };
 export function StatsSegments({
   totalVendidos,
   totalReservados,
   totalPerdidos,
+  isLoading,
 }: Props) {
   const totalAsientos = totalVendidos + totalReservados + totalPerdidos;
   const marks: SliderSingleProps["marks"] = {
@@ -21,6 +23,7 @@ export function StatsSegments({
   };
   return (
     <Card
+      loading={isLoading}
       title={
         <Space direction="vertical" className="gap-0">
           <Title className="pt-2" level={4}>

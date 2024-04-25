@@ -34,12 +34,13 @@ export default function Administracion() {
     date: dateQuery.toISOString(),
   });
   // TODO: Consider to use useTransition for this data
-  const { data: currentViaje } = api.viajes.getViajeById.useQuery({
-    id: currentViajeId,
-  });
+  const { data: currentViaje, isLoading: isLoadingCurrentViaje } =
+    api.viajes.getViajeById.useQuery({
+      id: currentViajeId,
+    });
 
-  const handleCurrentViaje = (id: string) => {
-    setCurrentViajeId(id);
+  const handleCurrentViaje = (viajeId: string) => {
+    setCurrentViajeId(viajeId);
   };
   const [horarios, setHorarios] = useState<Date[]>([]);
   const onChangeRuta = (viajeId: string) => {
@@ -162,24 +163,29 @@ export default function Administracion() {
                 !isLoading &&
                 (salidasDiarias?.response?.length ?? 0) > 0 &&
                 horarios.length > 0 &&
-                horarios.map((horario) => (
-                  <Button
-                    key={horario.toString()}
-                    shape="round"
-                    type={
-                      currentViajeId === horario.toString()
-                        ? "primary"
-                        : "default"
-                    }
-                    className="mr-2"
-                    onClick={() => handleCurrentViaje(horario.toString())}
-                  >
-                    {new Date(horario).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Button>
-                ))}
+                horarios.map((horario) => {
+                  const viajeData = salidasDiarias?.response?.find(
+                    (salida) => salida.salida.toString() === horario.toString()
+                  );
+                  const viajeId = viajeData?.id;
+
+                  return (
+                    <Button
+                      key={horario.toString()}
+                      shape="round"
+                      type={currentViajeId === viajeId ? "primary" : "default"}
+                      className="mr-2"
+                      onClick={() => {
+                        handleCurrentViaje(viajeId || "");
+                      }}
+                    >
+                      {new Date(horario).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Button>
+                  );
+                })}
             </div>
           </Space>
           <Space className="gap-4">
@@ -230,6 +236,7 @@ export default function Administracion() {
           <div className="flex flex-col gap-4">
             <Suspense fallback={<GeneralStatisticsSkeleton />}>
               <StatsSegments
+                isLoading={isLoadingCurrentViaje}
                 totalReservados={totalBoletosReservados}
                 totalPerdidos={totalBoletosNoVendidos}
                 totalVendidos={totalBoletosVendidos}
@@ -237,19 +244,19 @@ export default function Administracion() {
             </Suspense>
             <Suspense fallback={<AdministracionStepsSkeleton />}>
               <AdministracionSteps
+                isLoading={isLoadingCurrentViaje}
                 totalIncomeCurrentViaje={totalIncome}
                 totalAsientos={currentViaje?.response?.bus.asientos}
                 totalVendidos={totalBoletosVendidos}
               />
             </Suspense>
           </div>
-          <Suspense fallback={<GaugeSkeleton />}>
-            <KpiGraphs
-              totalAsientos={currentViaje?.response?.bus.asientos}
-              totalVendidos={totalBoletosVendidos}
-              totalIncome={totalIncome}
-            />
-          </Suspense>
+          <KpiGraphs
+            isLoading={isLoadingCurrentViaje}
+            totalAsientos={currentViaje?.response?.bus.asientos}
+            totalVendidos={totalBoletosVendidos}
+            totalIncome={totalIncome}
+          />
         </Space>
         <Space className="mt-10 flex justify-between">
           <Title level={4}>Tabla de Usuarios</Title>

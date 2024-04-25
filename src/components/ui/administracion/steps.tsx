@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Card, Steps, Typography } from "antd";
 const { Title, Text } = Typography;
 
+type Props = {
+  totalVendidos: number;
+  totalAsientos: number | undefined;
+  totalIncomeCurrentViaje: number;
+  isLoading: boolean;
+};
+
 export default function AdministracionSteps({
   totalVendidos,
   totalAsientos,
   totalIncomeCurrentViaje,
-}: {
-  totalVendidos: number;
-  totalAsientos: number | undefined;
-  totalIncomeCurrentViaje: number;
-}) {
+  isLoading,
+}: Props) {
   const [seatUtilizationRate, setSeatUtilizationRate] = useState(0);
 
   // TODO: Use a kinda old patterns for calculating the salesTarget
@@ -21,6 +25,7 @@ export default function AdministracionSteps({
 
   return (
     <Card
+      loading={isLoading}
       title={
         <Title className="pt-2" level={4}>
           Indices de Administración
