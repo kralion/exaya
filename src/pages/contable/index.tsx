@@ -101,7 +101,7 @@ export default function Contable() {
           <Space className="flex items-start justify-between">
             <Space direction="vertical">
               <Title level={5}>Analíticas por Horarios</Title>
-              <div className="flex items-center ">
+              <div className="flex items-center">
                 {isError && (
                   <Alert
                     message={
@@ -110,7 +110,7 @@ export default function Contable() {
                         <code className="ml-2 underline">Horarios</code> por
                         favor
                         <a href="." className="ml-2 underline">
-                          recarge la página
+                          recargue la página
                         </a>
                       </p>
                     }
@@ -118,38 +118,62 @@ export default function Contable() {
                     showIcon
                   />
                 )}
-                {isLoading && <ScheduleSkeleton />}
-                {salidasDiarias?.response?.length === 0 && (
-                  <Alert
-                    className="px-2 py-0.5"
-                    message={
-                      <Text type="warning">
-                        Para ver los horarios, seleccione una fecha y una ruta
-                      </Text>
-                    }
-                    type="warning"
-                    showIcon
-                  />
-                )}
 
-                {horarios.map((horario) => (
-                  <Button
-                    key={horario.toString()}
-                    shape="round"
-                    type={
-                      currentViajeId === horario.toString()
-                        ? "primary"
-                        : "default"
-                    }
-                    className="mr-2"
-                    onClick={() => handleCurrentViaje(horario.toString())}
-                  >
-                    {new Date(horario).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Button>
-                ))}
+                {!isError && isLoading && <ScheduleSkeleton />}
+
+                {!isError &&
+                  !isLoading &&
+                  salidasDiarias?.response?.length === 0 && (
+                    <Alert
+                      className="px-2 py-0.5"
+                      message={
+                        <Text type="danger">
+                          No hay horarios disponibles para la ruta seleccionada
+                        </Text>
+                      }
+                      type="error"
+                      showIcon
+                    />
+                  )}
+
+                {!isError &&
+                  !isLoading &&
+                  (salidasDiarias?.response?.length ?? 0) > 0 &&
+                  horarios.length === 0 && (
+                    <Alert
+                      className="px-2 py-0.5"
+                      message={
+                        <Text type="warning">
+                          Para ver los horarios, seleccione una fecha y una ruta
+                        </Text>
+                      }
+                      type="warning"
+                      showIcon
+                    />
+                  )}
+
+                {!isError &&
+                  !isLoading &&
+                  (salidasDiarias?.response?.length ?? 0) > 0 &&
+                  horarios.length > 0 &&
+                  horarios.map((horario) => (
+                    <Button
+                      key={horario.toString()}
+                      shape="round"
+                      type={
+                        currentViajeId === horario.toString()
+                          ? "primary"
+                          : "default"
+                      }
+                      className="mr-2"
+                      onClick={() => handleCurrentViaje(horario.toString())}
+                    >
+                      {new Date(horario).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </Button>
+                  ))}
               </div>
             </Space>
             <Space className=" gap-4">
