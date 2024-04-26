@@ -6,6 +6,8 @@ import {
 } from "@/server/api/trpc";
 import { viajeSchema } from "@/schemas";
 import moment from "moment-timezone";
+import { TRPCError } from "@trpc/server";
+
 export const viajesRouter = createTRPCRouter({
   getAllViajes: publicProcedure.query(async ({ ctx }) => {
     const viajes = await ctx.prisma.viaje.findMany({
@@ -334,22 +336,34 @@ export const viajesRouter = createTRPCRouter({
   deleteViajeById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      try {
-        await ctx.prisma.viaje.delete({
-          where: { id: input.id },
+      const viaje = await ctx.prisma.viaje.findUnique({
+        where: { id: input.id },
+        include: { boletos: true },
+      });
+
+      if (!viaje) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "El viaje no existe",
         });
-        return {
-          status: "success",
-          message:
-            "El viaje y los datos relacionados fueron eliminados de la base de datos",
-        };
-      } catch (error) {
-        return {
-          status: "error",
-          message:
-            "Ocurrió un error al eliminar el viaje, por favor recargue la página e intente nuevamente",
-        };
       }
+
+      if (viaje.boletos.length > 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "No se puede eliminar un viaje que tiene boletos asociados",
+        });
+      }
+
+      await ctx.prisma.viaje.delete({
+        where: { id: input.id },
+      });
+
+      return {
+        status: "success",
+        message:
+          "El viaje y los datos relacionados fueron eliminados de la base de datos",
+      };
     }),
   updateViajeById: publicProcedure
     .input(viajeSchema.extend({ id: z.string() }))

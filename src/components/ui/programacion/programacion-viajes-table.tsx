@@ -1,7 +1,6 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
-import { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import { TbBus } from "react-icons/tb";
@@ -25,34 +24,31 @@ export function ProgramacionTable({
     refetch,
     isLoading,
   } = api.viajes.getAllViajes.useQuery();
-  const { openNotification } = useNotification();
-  const deleteViajeMutation = api.viajes.deleteViajeById.useMutation();
+  const { mutate: deleteViajeMutation } =
+    api.viajes.deleteViajeById.useMutation();
+  const { openMessage } = useMessageContext();
 
   const handleDeleteViaje = (id: string) => {
-    deleteViajeMutation.mutate(
+    deleteViajeMutation(
       { id },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Viaje Eliminado",
-            description: response.message,
+          openMessage({
+            content: response.message,
+            duration: 3,
             type: "success",
-            placement: "topRight",
           });
           void refetch();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error en la Operación",
-            description: error.message,
+          openMessage({
+            content: error.message,
+            duration: 3,
             type: "error",
-            placement: "topRight",
           });
         },
       }
     );
-
-    deleteViajeMutation.reset();
   };
 
   const columns = [

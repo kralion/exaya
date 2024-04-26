@@ -113,7 +113,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       responsive: ["lg"],
       render: (tarifas: number[]) => {
         return tarifas.map((tarifa, index) => (
-          <Tag color="volcano-inverse" key={index}>
+          <Tag className="mr-1 mt-1" color="volcano-inverse" key={index}>
             {tarifa.toLocaleString("es-PE", {
               style: "currency",
               currency: "PEN",

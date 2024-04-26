@@ -1,9 +1,8 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Button, DatePicker, Form, Select } from "antd";
-import { useCallback, useEffect } from "react";
+import { Button, DatePicker, DatePickerProps, Form, Select } from "antd";
+import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import moment from "moment-timezone";
 
 const layout = {
   labelCol: { span: 5 },
@@ -37,19 +36,19 @@ export function ViajesForm({
     api.rutas.getAllRutas.useQuery();
   const { data: bus, isLoading: isLoadingBus } =
     api.buses.getAllBuses.useQuery();
-  const getAllViajesQuery = api.viajes.getAllViajes.useQuery();
+  const { refetch } = api.viajes.getAllViajes.useQuery();
   const { data: singleViaje } = api.viajes.getViajeById.useQuery({
     id: idToEdit,
   });
+  const [dateViaje, setDateViaje] = useState<string | string[]>();
   const updateViajeMutation = api.viajes.updateViajeById.useMutation();
   const handleSetEditViajeValues = useCallback(() => {
-    const salidaForEdit = new Date(singleViaje?.response?.salida ?? "");
     if (singleViaje) {
       console.log(singleViaje);
       form.setFieldsValue({
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
-        salida: salidaForEdit,
+        // salida: salidaForEdit,
         tarifas: singleViaje?.response?.tarifas,
       });
     }
@@ -90,22 +89,13 @@ export function ViajesForm({
     }
   }, [idToEdit, handleSetEditViajeValues]);
 
-  useEffect(() => {
-    async function fetchData() {
-      if (createViajeMutation.isSuccess) {
-        await getAllViajesQuery.refetch();
-      }
-    }
-    void fetchData();
-  }, [createViajeMutation.isSuccess, getAllViajesQuery]);
   const onFinish = (values: TViaje) => {
-    const salidaFormatted = moment(values.salida).format("YYYY-MM-DD HH:mm");
     createViajeMutation.mutate(
       {
         ...values,
         usuarioId: session?.user?.id as string,
+        salida: new Date(values.salida),
         estado: "DISPONIBLE",
-        salida: new Date(salidaFormatted),
       },
       {
         onSuccess: (response) => {
@@ -115,8 +105,7 @@ export function ViajesForm({
             type: "success",
             placement: "topRight",
           });
-
-          // TODO: Add refetch query
+          void refetch();
         },
         onError: (error) => {
           openNotification({
@@ -126,10 +115,11 @@ export function ViajesForm({
             placement: "topRight",
           });
         },
+        onSettled: () => {
+          form.resetFields();
+        },
       }
     );
-
-    form.resetFields();
   };
 
   return (
@@ -207,24 +197,17 @@ export function ViajesForm({
         <div className="flex justify-end gap-2">
           <Button
             disabled={createViajeMutation.isLoading}
-            onClick={() => {
-              if (idToEdit) {
-                handleEditViaje(form.getFieldsValue() as TViaje);
-              } else {
-                form.submit();
-              }
-            }}
             htmlType="submit"
             type="primary"
           >
-            {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
+            Crear Viaje
           </Button>
 
           <Button
             htmlType="button"
             onClick={() => {
               form.resetFields();
-              setIdToEdit("");
+              // setIdToEdit("");
             }}
           >
             Cancelar
