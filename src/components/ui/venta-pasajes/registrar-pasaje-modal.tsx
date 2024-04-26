@@ -1,4 +1,3 @@
-import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -13,6 +12,7 @@ import {
   Typography,
 } from "antd";
 import { Concert_One } from "next/font/google";
+import { useMessageContext } from "@/context/MessageContext";
 import Image from "next/image";
 import { useState } from "react";
 import { FaSquare } from "react-icons/fa";
@@ -27,10 +27,9 @@ const concertOne = Concert_One({
 });
 const { Title, Text } = Typography;
 
-const { Option } = Select;
-
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
+  const { openMessage } = useMessageContext();
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
@@ -40,7 +39,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       id: viajeId,
     });
   const { data: session } = useSession();
-  const { openNotification } = useNotification();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
@@ -91,20 +89,18 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Boleto Registrado",
-            description: response.message,
+          openMessage({
+            content: response.message,
             type: "success",
-            placement: "topRight",
+            duration: 3,
           });
           void refetchBoletosVendidos();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error en la Operación",
-            description: error.message,
+          openMessage({
+            content: error.message,
             type: "error",
-            placement: "topRight",
+            duration: 3,
           });
         },
       }
@@ -125,14 +121,14 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <div>
-            <div className="flex gap-4">
+            <Space className="items-center gap-4">
               <Title level={4}>Distribución de Asientos</Title>
               <span>
                 <Tag color="blue" className="px-3">
                   {viaje?.response?.bus.placa}
                 </Tag>
               </span>
-            </div>
+            </Space>
             <Space direction="horizontal" className="flex gap-4">
               <Text
                 className="font-normal"

@@ -2,6 +2,7 @@ import { usuarioSchema } from "@/schemas";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { hash } from "bcrypt";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const usuariosRouter = createTRPCRouter({
   getAllUsuarios: publicProcedure.query(({ ctx }) => {
@@ -68,22 +69,42 @@ export const usuariosRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      try {
-        await ctx.prisma.usuario.delete({
-          where: { id: input.id },
+      const user = await ctx.prisma.usuario.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!user)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "El usuario no existe",
         });
-        return {
-          status: "success",
-          message:
-            "Todos los datos relacionados con el usuario han sido eliminados",
-        };
-      } catch (error) {
+
+      if (user.rol === "ADMIN") {
         return {
           status: "error",
-          message:
-            "Ocurrió un error al eliminar el usuario, por favor recargue la página e intente nuevamente",
+          message: "No se puede eliminar un usuario administrador",
         };
       }
+
+      const boletos = await ctx.prisma.boleto.findMany({
+        where: { usuarioId: input.id },
+      });
+
+      if (boletos.length > 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "No se puede eliminar un usuario con boletos registrados, contacte a soporte para proceder",
+        });
+      }
+
+      await ctx.prisma.usuario.delete({
+        where: { id: input.id },
+      });
+      return {
+        status: "success",
+        message: "Usuario eliminado exitosamente",
+      };
     }),
 
   updateUser: protectedProcedure

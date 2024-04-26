@@ -1,4 +1,3 @@
-import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -13,7 +12,7 @@ import {
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
 import { HiOutlineUpload } from "react-icons/hi";
-
+import { useMessageContext } from "@/context/MessageContext";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -178,8 +177,8 @@ const formItemLayout = {
 
 export function UsuarioForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openMessage } = useMessageContext();
   const [queryEnabled, setQueryEnabled] = useState(false);
-  const { openNotification } = useNotification();
   const [source, setSource] = useState<string | undefined>();
   const [form] = Form.useForm();
   const { data: reniecResponse, error: errorValidacionDNI } =
@@ -213,21 +212,21 @@ export function UsuarioForm({ activator }: Props) {
 
       {
         onSuccess: (response) => {
-          form.resetFields();
-          openNotification({
-            message: "Usuario Creado",
-            description: response.message,
+          openMessage({
+            content: response.message,
+            duration: 3,
             type: "success",
-            placement: "topRight",
           });
         },
         onError: (error) => {
-          openNotification({
-            message: "Falló la operación",
-            description: error.message,
+          openMessage({
+            content: error.message,
+            duration: 3,
             type: "error",
-            placement: "topRight",
           });
+        },
+        onSettled: () => {
+          form.resetFields();
         },
       }
     );

@@ -1,35 +1,34 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import { Button, Input, Space } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
 import { BsSendFill } from "react-icons/bs";
+import { IoMic, IoMicOutline } from "react-icons/io5";
 interface InputRef extends HTMLInputElement {
   input: HTMLInputElement;
 }
-import { IoMic, IoMicOutline } from "react-icons/io5";
 export const AIAssistantInput = () => {
   const inputRef = useRef<InputRef>(null);
   useHotkeys("ctrl+enter", () => {
     inputRef.current?.focus();
   });
+  const { openMessage } = useMessageContext();
   const [audioRecorded, setAudioRecorded] = useState<Blob | null>(null);
   const { startRecording, stopRecording, recordingBlob, isRecording } =
     useAudioRecorder();
   const [generating, setGenerating] = useState(false);
-  const { openNotification } = useNotification();
 
   //TODO: Implementar la lógica de generación de boleto con manejador de errores para cuando el input (audio o texto) no sea válido o no se pueda generar el boleto por cuestiones de lógica de negocio o de validación Ej. "No se puede generar un boleto para un asiento que ya está ocupado", etc.
   const handleGenerate = () => {
     setGenerating(true);
     setTimeout(() => {
       setGenerating(false);
-      openNotification({
-        message: "Operación exitosa",
-        description:
-          "El boleto se ha generado correctamente, los detalles se visualizan en el viaje para el que fue creado",
-        placement: "topRight",
+      openMessage({
+        content:
+          "Operación realizada con éxito, dirígete al panel correspondiente para revisar",
         type: "success",
+        duration: 3,
       });
     }, 3000);
   };

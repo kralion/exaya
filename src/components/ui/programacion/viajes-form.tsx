@@ -1,8 +1,10 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import { Button, DatePicker, DatePickerProps, Form, Select } from "antd";
+import { Button, DatePicker, DatePickerProps, Form, Select, Space } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useMessageContext } from "@/context/MessageContext";
+import moment from "moment-timezone";
 
 const layout = {
   labelCol: { span: 5 },
@@ -30,6 +32,8 @@ export function ViajesForm({
 }) {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
+  const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
+    api.conductores.getAllConductores.useQuery();
   const createViajeMutation = api.viajes.createViaje.useMutation();
   const { data: session } = useSession();
   const { data: rutas, isLoading: isLoadingRutas } =
@@ -40,7 +44,7 @@ export function ViajesForm({
   const { data: singleViaje } = api.viajes.getViajeById.useQuery({
     id: idToEdit,
   });
-  const [dateViaje, setDateViaje] = useState<string | string[]>();
+  const { openMessage } = useMessageContext();
   const updateViajeMutation = api.viajes.updateViajeById.useMutation();
   const handleSetEditViajeValues = useCallback(() => {
     if (singleViaje) {
@@ -48,7 +52,10 @@ export function ViajesForm({
       form.setFieldsValue({
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
-        // salida: salidaForEdit,
+        // salida: moment(singleViaje?.response?.salida),
+        conductores: singleViaje?.response?.conductores.map(
+          (conductor: { id: string }) => conductor.id
+        ),
         tarifas: singleViaje?.response?.tarifas,
       });
     }
@@ -64,19 +71,17 @@ export function ViajesForm({
       },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Operación Exitosa",
-            description: response.message,
+          openMessage({
+            content: response.message,
+            duration: 3,
             type: "success",
-            placement: "topRight",
           });
         },
         onError: (error) => {
-          openNotification({
-            message: "Error",
-            description: error.message,
+          openMessage({
+            content: error.message,
+            duration: 3,
             type: "error",
-            placement: "topRight",
           });
         },
       }
@@ -109,20 +114,18 @@ export function ViajesForm({
       },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Operación Exitosa",
-            description: response.message,
+          openMessage({
+            content: response.message,
+            duration: 3,
             type: "success",
-            placement: "topRight",
           });
           void refetch();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error",
-            description: error.message,
+          openMessage({
+            content: error.message,
+            duration: 3,
             type: "error",
-            placement: "topRight",
           });
         },
         onSettled: () => {
@@ -134,96 +137,134 @@ export function ViajesForm({
 
   return (
     <Form {...layout} form={form} name="viaje-form" onFinish={onFinish}>
-      <div className="flex gap-2">
-        <Form.Item
-          name="rutaId"
-          rules={[{ required: true, message: "Requerido" }]}
-        >
-          <Select
-            style={{ width: 300 }}
-            placeholder="Ruta"
-            allowClear
-            loading={isLoadingRutas}
-          >
-            {rutas?.map(
-              (ruta: {
-                id: string;
-                ciudadOrigen: string;
-                ciudadDestino: string;
-              }) => (
-                <Select.Option key={ruta.id} value={ruta.id}>
-                  {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                </Select.Option>
-              )
-            )}
-          </Select>
-        </Form.Item>
+      <Space className="w-full items-start justify-between">
+        <Space direction="vertical" className="gap-0">
+          <Space className="gap-4">
+            <Form.Item
+              name="rutaId"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Select
+                style={{ width: 300 }}
+                placeholder="Ruta"
+                allowClear
+                loading={isLoadingRutas}
+              >
+                {rutas?.map(
+                  (ruta: {
+                    id: string;
+                    ciudadOrigen: string;
+                    ciudadDestino: string;
+                  }) => (
+                    <Select.Option key={ruta.id} value={ruta.id}>
+                      {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                    </Select.Option>
+                  )
+                )}
+              </Select>
+            </Form.Item>
 
-        <Form.Item
-          name="busId"
-          rules={[{ required: true, message: "Requerido" }]}
-        >
-          <Select
-            loading={isLoadingBus}
-            style={{ width: 140 }}
-            placeholder="Bus"
-            allowClear
-          >
-            {bus?.map((bus: { id: string; placa: string }) => (
-              <Select.Option key={bus.id} value={bus.id}>
-                {bus.placa}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          rules={[{ required: true, message: "Requerido" }]}
-          name="salida"
-        >
-          <DatePicker
-            style={{ width: 200 }}
-            showTime
-            placeholder="Fecha de Salida"
-            format="YYYY-MM-DD HH:mm"
-            minuteStep={15}
-          />
-        </Form.Item>
-        <Form.Item
-          name="tarifas"
-          className="w-full"
-          rules={[{ required: true, message: "Requerido" }]}
-        >
-          <Select mode="multiple" placeholder="Tarifas">
-            {tarifasGenerales.map((tarifa) => (
-              <Select.Option key={tarifa} value={tarifa}>
-                {tarifa}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </div>
+            <Form.Item
+              name="busId"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Select
+                loading={isLoadingBus}
+                style={{ width: 140 }}
+                placeholder="Bus"
+                allowClear
+              >
+                {bus?.map((bus: { id: string; placa: string }) => (
+                  <Select.Option key={bus.id} value={bus.id}>
+                    {bus.placa}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              rules={[{ required: true, message: "Requerido" }]}
+              name="salida"
+            >
+              <DatePicker
+                style={{ width: 200 }}
+                showTime
+                placeholder="Fecha de Salida"
+                format="YYYY-MM-DD HH:mm"
+                minuteStep={15}
+              />
+            </Form.Item>
+          </Space>
+          <Space className="gap-4">
+            <Form.Item
+              name="tarifas"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Select
+                style={{
+                  width: 225,
+                }}
+                mode="multiple"
+                placeholder="Tarifas"
+              >
+                {tarifasGenerales.map((tarifa) => (
+                  <Select.Option key={tarifa} value={tarifa}>
+                    {tarifa}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="conductores"
+              rules={[{ required: true, message: "Requerido" }]}
+            >
+              <Select
+                mode="multiple"
+                style={{
+                  width: 430,
+                }}
+                loading={isLoadingConductores}
+                placeholder="Conductores"
+              >
+                {conductoresRegistrados?.map(
+                  (conductor: {
+                    id: string;
+                    nombres: string;
+                    apellidos: string;
+                  }) => (
+                    <Select.Option key={conductor.id} value={conductor.id}>
+                      {conductor.nombres}
+                      {conductor.apellidos.slice(
+                        conductor.apellidos.indexOf(" ")
+                      )}
+                    </Select.Option>
+                  )
+                )}
+              </Select>
+            </Form.Item>
+          </Space>
+        </Space>
+        <Form.Item>
+          <div className="flex justify-end gap-2">
+            <Button
+              disabled={createViajeMutation.isLoading}
+              htmlType="submit"
+              type="primary"
+            >
+              Crear Viaje
+            </Button>
 
-      <Form.Item>
-        <div className="flex justify-end gap-2">
-          <Button
-            disabled={createViajeMutation.isLoading}
-            htmlType="submit"
-            type="primary"
-          >
-            Crear Viaje
-          </Button>
-
-          <Button
-            htmlType="button"
-            onClick={() => {
-              form.resetFields();
-              // setIdToEdit("");
-            }}
-          >
-            Cancelar
-          </Button>
-        </div>
-      </Form.Item>
+            <Button
+              htmlType="button"
+              onClick={() => {
+                form.resetFields();
+                // setIdToEdit("");
+              }}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </Form.Item>
+      </Space>
     </Form>
   );
 }

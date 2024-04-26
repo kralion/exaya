@@ -5,6 +5,7 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { boletoSchema } from "@/schemas";
+import { TRPCError } from "@trpc/server";
 
 export const boletosRouter = createTRPCRouter({
   getAllBoletos: publicProcedure.query(({ ctx }) => {
@@ -169,18 +170,19 @@ export const boletosRouter = createTRPCRouter({
   deleteBoletosById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
-      try {
-        await ctx.prisma.boleto.delete({ where: { id: input.id } });
-        return {
-          status: "success",
-          message: "Boleto eliminado exitosamente",
-        };
-      } catch (error) {
-        return {
-          status: "error",
-          message: "Error al eliminar el boleto",
-        };
+      const boleto = await ctx.prisma.boleto.delete({
+        where: { id: input.id },
+      });
+      if (!boleto) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Boleto no encontrado",
+        });
       }
+      return {
+        status: "sucess",
+        message: "Se lleva un registro de todos los boletos eliminados",
+      };
     }),
   createBoleto: publicProcedure
     .input(boletoSchema)
@@ -191,14 +193,12 @@ export const boletosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "El asiento seleccionado ahora será marcado como vendido, listo para impresión",
+          message: `Asiento : ${input.asiento} registrado exitosamente`,
         };
       } catch (error) {
         return {
           status: "error",
-          message:
-            "Ocurrió un error al registrar el boleto, por favor intente de nuevo",
+          message: "Ocurrió un error al registrar el boleto",
         };
       }
     }),

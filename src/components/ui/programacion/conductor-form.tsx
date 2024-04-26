@@ -18,6 +18,7 @@ import {
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
+import { useMessageContext } from "@/context/MessageContext";
 
 type Props = {
   activator: string;
@@ -38,6 +39,7 @@ const formItemLayout = {
 export function ConductorForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [source, setSource] = useState<string | undefined>();
+  const { openMessage } = useMessageContext();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -75,26 +77,26 @@ export function ConductorForm({ activator }: Props) {
       },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Conductor registrado",
-            description: response.message,
+          openMessage({
+            content: response.message,
+            duration: 3,
             type: "success",
-            placement: "topRight",
           });
         },
         onError: (error) => {
-          openNotification({
-            message: "Error al registrar el conductor",
-            description: error.message,
-            type: "success",
-            placement: "topRight",
+          openMessage({
+            content: error.message,
+            duration: 3,
+            type: "error",
           });
+        },
+        onSettled: () => {
+          form.resetFields();
         },
       }
     );
     setConductorDNI("");
     setSource(undefined);
-    form.resetFields();
   };
 
   return (

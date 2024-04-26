@@ -6,11 +6,13 @@ const MessageContext = createContext(
     openMessage: ({
       content,
       duration,
+      key,
       type,
     }: {
       content: string;
-      duration: number;
-      type: "success" | "error" | "info" | "warning";
+      key?: "updatable";
+      duration?: number;
+      type: "success" | "error" | "info" | "warning" | "loading";
     }) => void;
   }
 );
@@ -25,25 +27,28 @@ export const MessageProvider = ({
     const openMessage = ({
       content,
       duration,
+      key,
       type,
     }: {
       content: string;
-      duration: number;
-      type: "success" | "error" | "info" | "warning";
+      duration?: number;
+      type: "success" | "error" | "info" | "warning" | "loading";
       className?: string;
+      key?: "updatable";
     }) => {
       void messageApi.open({
         content,
         duration,
         type,
+        key,
         className:
           type === "error"
-            ? "text-red-500 dark:text-red-300"
+            ? "text-red-600 dark:text-red-300"
             : type === "success"
-            ? "text-green-500 dark:text-green-300"
-            : type === "info"
-            ? "text-blue-500 dark:text-blue-300"
-            : "text-yellow-500 dark:text-yellow-300",
+            ? "text-green-600 dark:text-green-300"
+            : type === "warning"
+            ? "text-yellow-600 dark:text-yellow-300"
+            : "text-blue-600 dark:text-blue-300",
       });
     };
     return { openMessage };

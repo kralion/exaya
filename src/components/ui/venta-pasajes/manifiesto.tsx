@@ -1,6 +1,6 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import { Avatar, Drawer, List, Progress, Tag, Typography } from "antd";
+import { Avatar, Drawer, List, Progress, Space, Tag, Typography } from "antd";
 import { useState } from "react";
 import { AiFillPrinter } from "react-icons/ai";
 import { EncomiendasManifiestoTable } from "./encomiendas-table";
@@ -15,12 +15,15 @@ type TConductor = {
 };
 
 export function Manifiesto({ viajeId }: { viajeId: string }) {
-  const { openNotification } = useNotification();
   const [open, setOpen] = useState(false);
+  const { openMessage } = useMessageContext();
   const { data: conductores, isLoading } =
     api.viajes.getConductoresByViajeId.useQuery({
       id: viajeId,
     });
+  const { data: viajeCurrent } = api.viajes.getViajeById.useQuery({
+    id: viajeId,
+  });
 
   const showDrawer = () => {
     setOpen(true);
@@ -29,7 +32,31 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
   const onClose = () => {
     setOpen(false);
   };
-
+  let percent = 0;
+  if (
+    viajeCurrent?.response?.boletos &&
+    viajeCurrent?.response?.bus?.asientos
+  ) {
+    const pagadoBoletosCount = viajeCurrent.response.boletos.filter(
+      (b: { estado: string }) => b.estado === "PAGADO"
+    ).length;
+    const totalAsientosCount = viajeCurrent.response.bus.asientos;
+    percent = (pagadoBoletosCount / totalAsientosCount) * 100;
+  }
+  const viajeStatus = viajeCurrent?.response?.estado;
+  function handlePrint() {
+    openMessage({
+      key: "updatable",
+      content: "Cargando el manifiesto...",
+      type: "loading",
+    });
+    setTimeout(() => {
+      openMessage({
+        content: "Impresión realizada con éxito",
+        type: "success",
+      });
+    }, 3000);
+  }
   return (
     <>
       <Typography
@@ -44,30 +71,28 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
-            <Title className="text-left" level={4}>
-              Manifiesto del Viaje
-            </Title>
-            <button
-              onClick={() =>
-                openNotification({
-                  placement: "top",
-                  description:
-                    "Se va a imprimir automaticamente, solo redirijase a la impresora",
-                  message: "Operación Exitosa",
-                  type: "success",
-                })
-              }
+            <Space>
+              <Title level={5}>
+                {viajeCurrent?.response?.ruta?.ciudadOrigen} -{" "}
+                {viajeCurrent?.response?.ruta?.ciudadDestino}
+              </Title>
+              <Title level={5}>
+                {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
+                {viajeCurrent?.response?.salida.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Title>
+            </Space>
+
+            <Tag
+              color="green"
+              icon={<AiFillPrinter />}
+              className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
+              onClick={handlePrint}
             >
-              <Tag
-                color="green"
-                icon={<AiFillPrinter />}
-                className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
-                title="Se va a imprimir automaticamente"
-                onClick={onClose}
-              >
-                Imprimir
-              </Tag>
-            </button>
+              Imprimir
+            </Tag>
           </div>
         }
         placement="right"
@@ -76,9 +101,17 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         size="large"
       >
         <div className="flex flex-col gap-2">
-          <Progress status="active" percent={50} size={[680, 10]}>
-            <Title level={5}>{"Viaje de Lima a Arequipa - 10/10/2021"}</Title>
-          </Progress>
+          <Progress
+            status={
+              viajeStatus === "DISPONIBLE"
+                ? "active"
+                : viajeStatus === "CANCELADO"
+                ? "exception"
+                : "success"
+            }
+            percent={percent}
+            size={[680, 10]}
+          />
 
           <Title level={4}>Conductores</Title>
 

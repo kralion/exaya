@@ -54,14 +54,12 @@ export const conductoresRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Los detalles del conductor se pueden ver en la lista de conductores, en la sección de conductores",
+          message: "Conductor creado exitosamente",
         };
       } catch (error) {
         return {
           status: "error",
-          message:
-            "Ocurrió un error al registrar el conductor , por favor recarge la página e intente de nuevo",
+          message: "Ocurrió un error al registrar el conductor",
         };
       }
     }),

@@ -1,4 +1,4 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -23,7 +23,7 @@ export default function UsuariosTable() {
     refetch,
   } = api.usuarios.getAllUsuarios.useQuery();
   const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   function capitalizeFirstLetter(string: string | undefined) {
     if (string === undefined) {
       return "";
@@ -38,21 +38,21 @@ export default function UsuariosTable() {
 
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Usuario Eliminado",
-            description: response.message,
+          openMessage({
+            content: response.message,
             type: "success",
-            placement: "topRight",
+            duration: 3,
           });
-          void refetch();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error en la Operación",
-            description: error.message,
+          openMessage({
+            content: error.message,
             type: "error",
-            placement: "topRight",
+            duration: 3,
           });
+        },
+        onSettled: () => {
+          void refetch();
         },
       }
     );

@@ -273,6 +273,8 @@ export const viajesRouter = createTRPCRouter({
             bus: true,
             boletos: true,
             encomiendas: true,
+            conductores: true,
+            ruta: true,
           },
         });
         return {
@@ -322,14 +324,12 @@ export const viajesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Puedes visualizar los detalles en la tabla inferior y tambien en pestaña de pasajes",
+          message: "Viaje creado exitosamente",
         };
       } catch (error) {
         return {
           status: "error",
-          message:
-            "Ocurrió un error al registrar el viaje, por favor recarge la página e intente de nuevo",
+          message: "Ocurrió un error al registrar el viaje",
         };
       }
     }),
@@ -351,7 +351,8 @@ export const viajesRouter = createTRPCRouter({
       if (viaje.boletos.length > 0) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "No se puede eliminar un viaje que tiene boletos vendidos",
+          message:
+            "Error, el viaje tiene boletos vendidos, elimine los boletos primero",
         });
       }
 
@@ -361,7 +362,7 @@ export const viajesRouter = createTRPCRouter({
 
       return {
         status: "success",
-        message: "Viaje Eliminado",
+        message: "Viaje Eliminado correctamente",
       };
     }),
   updateViajeById: publicProcedure
