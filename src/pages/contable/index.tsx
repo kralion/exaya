@@ -55,6 +55,7 @@ export default function Contable() {
       horariosFound.salida.toString().split(",") as unknown as Date[]
     );
   };
+
   const totalTravelEncomiendasIncome =
     currentViaje?.response?.encomiendas.reduce(
       (
@@ -212,22 +213,48 @@ export default function Contable() {
                     salidasDiarias.response.length === 0
                   }
                 >
-                  {salidasDiarias?.response?.map(
-                    ({
-                      id,
-                      ruta,
-                    }: {
-                      id: string;
-                      ruta: {
-                        ciudadOrigen: string;
-                        ciudadDestino: string;
-                      };
-                    }) => (
-                      <Select.Option key={id} value={id}>
-                        {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                      </Select.Option>
+                  {salidasDiarias?.response
+                    ?.reduce(
+                      (
+                        acc: {
+                          id: string;
+                          ruta: {
+                            ciudadOrigen: string;
+                            ciudadDestino: string;
+                          };
+                        }[],
+                        current
+                      ) => {
+                        const existing = acc.find(
+                          (item) =>
+                            item.ruta.ciudadOrigen ===
+                              current.ruta.ciudadOrigen &&
+                            item.ruta.ciudadDestino ===
+                              current.ruta.ciudadDestino
+                        );
+                        if (!existing) {
+                          acc.push(current);
+                        }
+                        return acc;
+                      },
+                      []
                     )
-                  )}
+                    .map(
+                      ({
+                        id,
+                        ruta,
+                      }: {
+                        id: string;
+                        ruta: {
+                          ciudadOrigen: string;
+                          ciudadDestino: string;
+                        };
+                      }) => (
+                        <Select.Option key={id} value={id}>
+                          {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                        </Select.Option>
+                      )
+                    )}
                 </Select>
               </Space>
             </Space>
