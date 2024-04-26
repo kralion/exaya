@@ -182,7 +182,7 @@ export const boletosRouter = createTRPCRouter({
         };
       }
     }),
-  createBoleto: protectedProcedure
+  createBoleto: publicProcedure
     .input(boletoSchema)
     .mutation(async ({ input, ctx }) => {
       try {

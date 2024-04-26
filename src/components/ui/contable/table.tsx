@@ -1,15 +1,16 @@
 import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { type Dayjs } from "dayjs";
 import { IoFilterSharp } from "react-icons/io5";
 const IGV_RATE = 0.18;
 export default function TableContable({
   scheduleDateQuery,
 }: {
-  scheduleDateQuery: Date;
+  scheduleDateQuery: Dayjs;
 }) {
   const { data: contables, isLoading } = api.viajes.getViajesByDate.useQuery({
-    date: scheduleDateQuery.toISOString(),
+    date: scheduleDateQuery.format("YYYY-MM-DD"),
   });
 
   const filterItems = (contables?.response || []).map((contable) => ({

@@ -1,16 +1,19 @@
-import { PasajesTable } from "@/components/ui/venta-pasajes/";
-import { FloatButton } from "antd";
 import AppLayout from "@/components/exaya/layout";
-import { Calendar, theme, Typography } from "antd";
+import { PasajesTable } from "@/components/ui/venta-pasajes/";
+import { Calendar, FloatButton, theme, Typography } from "antd";
+import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
 
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const [dayQuery, setDayQuery] = React.useState<string>(
-    dayjs().format("YYYY-MM-DD")
-  );
+  const [dayQuery, setDayQuery] = useState(() => dayjs());
+
+  const onSelect = (newValue: Dayjs) => {
+    setDayQuery(newValue);
+  };
+
   const wrapperStyle: React.CSSProperties = {
     width: 300,
     border: `1px solid ${token.colorBorderSecondary}`,
@@ -27,11 +30,7 @@ function Pasajes() {
             className="shadow-lg duration-300 hover:shadow-xl"
             style={wrapperStyle}
             fullscreen={false}
-            onSelect={(date, { source }) => {
-              if (source === "date") {
-                setDayQuery(date.format("YYYY-MM-DD"));
-              }
-            }}
+            onSelect={onSelect}
           />
         </div>
       </div>

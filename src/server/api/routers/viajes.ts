@@ -5,7 +5,7 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { viajeSchema } from "@/schemas";
-
+import moment from "moment-timezone";
 export const viajesRouter = createTRPCRouter({
   getAllViajes: publicProcedure.query(async ({ ctx }) => {
     const viajes = await ctx.prisma.viaje.findMany({
@@ -93,19 +93,15 @@ export const viajesRouter = createTRPCRouter({
       }
     }),
 
-  //TODO: It seems like the TIMEZONE is not being WORKING we are 5 hours ahead
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
-    const today = new Date();
-    today.setHours(today.getHours());
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate());
-    tomorrow.setHours(tomorrow.getHours());
+    const today = moment.tz("America/Lima").startOf("day");
+    const tomorrow = moment.tz("America/Lima").startOf("day").add(1, "days");
     try {
       const viajesDiarios = await ctx.prisma.viaje.findMany({
         where: {
           salida: {
-            gte: today,
-            lt: tomorrow,
+            gte: today.toDate(),
+            lt: tomorrow.toDate(),
           },
         },
         include: {
@@ -175,47 +171,34 @@ export const viajesRouter = createTRPCRouter({
     .input(z.object({ date: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
-        const date = new Date(input.date);
-        const viajes = await ctx.prisma.viaje.findMany({
-          where: {
-            AND: [
-              {
-                salida: {
-                  gte: new Date(
-                    date.getFullYear(),
-                    date.getMonth(),
-                    date.getDate(),
-                    0,
-                    0,
-                    0
-                  ),
-                },
+        const date = moment(input.date, "YYYY-MM-DD");
+        const startOfTheDay = date.startOf("day").toDate();
+        const endOfTheDay = date.add(1, "day").startOf("day").toDate();
+        try {
+          const viajes = await ctx.prisma.viaje.findMany({
+            where: {
+              salida: {
+                gte: startOfTheDay,
+                lt: endOfTheDay,
               },
-              {
-                salida: {
-                  lt: new Date(
-                    date.getFullYear(),
-                    date.getMonth(),
-                    date.getDate(),
-                    23,
-                    59,
-                    59
-                  ),
-                },
-              },
-            ],
-          },
-          include: {
-            ruta: true,
-            boletos: true,
-            encomiendas: true,
-            bus: true,
-          },
-        });
-        return {
-          status: "success",
-          response: viajes,
-        };
+            },
+            include: {
+              ruta: true,
+              boletos: true,
+              encomiendas: true,
+              bus: true,
+            },
+          });
+          return {
+            status: "success",
+            response: viajes,
+          };
+        } catch (error) {
+          return {
+            status: "error",
+            message: "Error al obtener los viajes",
+          };
+        }
       } catch (error) {
         return {
           status: "error",

@@ -7,22 +7,12 @@ import { TfiMoreAlt } from "react-icons/tfi";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-
+import { type Dayjs } from "dayjs";
 const { Title } = Typography;
 
-const convertTo12HourFormat = (hours: number, minutes: number) => {
-  const suffix = hours >= 12 ? "PM" : "AM";
-  hours = hours > 12 ? hours - 12 : hours;
-  hours = hours === 0 ? 12 : hours;
-  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")} ${suffix}`;
-  return formattedTime;
-};
-
-export function PasajesTable({ dayQuery }: { dayQuery: string }) {
+export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
-    date: dayQuery,
+    date: dayQuery.format("YYYY-MM-DD"),
   });
   const origenFilterItems = viajes?.response?.map((viaje) => ({
     text: viaje.ruta.ciudadOrigen,
@@ -110,7 +100,9 @@ export function PasajesTable({ dayQuery }: { dayQuery: string }) {
           hours -= 24;
         }
 
-        const horaSalida = convertTo12HourFormat(hours, minutes);
+        const horaSalida = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}`;
         return <Tag>{horaSalida}</Tag>;
       },
     },

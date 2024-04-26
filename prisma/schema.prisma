@@ -55,7 +55,7 @@ model Boleto {
     precio            Int
     telefonoCliente   String
     viaje             Viaje        @relation(fields: [viajeId], references: [id])
-    viajeId           String       @unique
+    viajeId           String
 }
 
 model Bus {

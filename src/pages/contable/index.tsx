@@ -15,17 +15,18 @@ import {
   Typography,
 } from "antd";
 import { useCallback, useEffect, useState } from "react";
+import dayjs, { type Dayjs } from "dayjs";
 
 const { Title, Text } = Typography;
 export default function Contable() {
-  const [dateQuery, setDateQuery] = useState(new Date());
+  const [dateQuery, setDateQuery] = useState<Dayjs>(() => dayjs());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
     data: salidasDiarias,
     isLoading,
     isError,
   } = api.viajes.getViajesByDate.useQuery({
-    date: dateQuery.toISOString(),
+    date: dateQuery.format("YYYY-MM-DD"),
   });
 
   const { data: currentViaje, isLoading: isLoadingCurrentViaje } =
@@ -76,7 +77,7 @@ export default function Contable() {
       0
     ) ?? 0;
   const onDateChange = useCallback(
-    (date: Date | null) => {
+    (date: Dayjs) => {
       if (date) {
         setDateQuery(date);
       }
