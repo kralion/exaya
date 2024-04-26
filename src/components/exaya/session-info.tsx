@@ -1,9 +1,12 @@
 import { Avatar, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import UserSkeleton from "../skeletons/user-info-skeleton";
+import { useContext } from "react";
+import { SelectedContext, CollapsedContext } from "@/context/MenuContext";
 const { Text } = Typography;
 
-export default function SessionInfo({ collapsed }: { collapsed: boolean }) {
+export default function SessionInfo() {
+  const { isCollapsed } = useContext(CollapsedContext);
   const { data: sessionData, status } = useSession();
 
   if (status === "loading") {
@@ -21,10 +24,10 @@ export default function SessionInfo({ collapsed }: { collapsed: boolean }) {
     <Space wrap size={1} className="my-14 flex flex-col">
       <Avatar
         className="rounded-full border-4 border-yellow-400"
-        size={collapsed ? 35 : 80}
+        size={isCollapsed ? 35 : 80}
         src={sessionData?.user.foto}
       />
-      {!collapsed && (
+      {!isCollapsed && (
         <Space direction="vertical" className="items-center gap-1">
           <Text>
             {capitalizeFirstLetter(

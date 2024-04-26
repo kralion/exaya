@@ -3,7 +3,8 @@ import { Black_Ops_One } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 import SessionInfo from "./session-info";
-
+import { useContext } from "react";
+import { CollapsedContext } from "@/context/MenuContext";
 const { Title } = Typography;
 
 const blackOpsOne = Black_Ops_One({
@@ -11,22 +12,18 @@ const blackOpsOne = Black_Ops_One({
   weight: ["400"],
 });
 
-type Props = {
-  collapsed: boolean;
-  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export default function AppHeader({ collapsed, setCollapsed }: Props) {
+export default function AppHeader() {
+  const { isCollapsed, toggleCollapsed } = useContext(CollapsedContext);
   return (
     <div>
-      {!collapsed ? (
+      {!isCollapsed ? (
         <Tag className="m-2 rounded-full border-orange-300  bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 font-semibold text-white shadow-xl  ">
           Powered with AI
         </Tag>
       ) : null}
-      {!collapsed ? (
+      {!isCollapsed ? (
         <div
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => toggleCollapsed()}
           className=" flex cursor-pointer items-center justify-center   drop-shadow-md	"
         >
           <Image
@@ -44,7 +41,7 @@ export default function AppHeader({ collapsed, setCollapsed }: Props) {
         </div>
       ) : (
         <Image
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => toggleCollapsed()}
           className="ml-1 mt-5  flex cursor-pointer items-center justify-center text-center  drop-shadow-md"
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={40}
@@ -53,7 +50,7 @@ export default function AppHeader({ collapsed, setCollapsed }: Props) {
         />
       )}
 
-      <SessionInfo collapsed={collapsed} />
+      <SessionInfo />
     </div>
   );
 }

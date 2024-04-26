@@ -2,7 +2,6 @@ import AppHeader from "@/components/exaya/appheader";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
 import React, { useState } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
@@ -12,66 +11,49 @@ import { IoTicketOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
+import { usePathname, useRouter } from "next/navigation";
 const { Header, Footer, Sider, Content } = Layout;
-
+import { useContext } from "react";
+import { SelectedContext, CollapsedContext } from "@/context/MenuContext";
 interface LayoutProps {
   children: React.ReactNode;
 }
-const items: MenuProps["items"] = [
-  {
-    label: <Link href="/dashboard">Dashboard</Link>,
-    key: "dashboard",
-    icon: <LuLayoutDashboard />,
-  },
-  {
-    label: <Link href="/pasajes">Pasajes</Link>,
-    key: "pasajes",
-    icon: <IoTicketOutline />,
-  },
-  {
-    label: <Link href="/encomiendas">Encomiendas</Link>,
-    icon: <LuLuggage />,
-    key: "encomiendas",
-  },
 
-  {
-    key: "programacion",
-    label: "Planner",
-    icon: <MdCalendarMonth />,
-    children: [
-      {
-        key: "bus-conductor",
-        label: <Link href="/programacion/bus-conductor">Bus Conductor</Link>,
-      },
-      {
-        key: "comprobantes",
-        label: <Link href="/programacion/comprobantes">Comprobantes</Link>,
-      },
-      {
-        key: "viajes",
-        label: <Link href="/programacion/viajes">Viajes</Link>,
-      },
-    ],
-  },
-  {
-    label: <Link href="/contable">Contable</Link>,
-    icon: <GrMoney />,
-    key: "contable",
-  },
-  {
-    key: "administacion",
-    label: <Link href="/administracion">Administración</Link>,
-    icon: <AiOutlineSetting />,
-  },
-  {
-    label: <Link href="/soporte">Soporte</Link>,
-    key: "soporte",
-    icon: <HiOutlineSupport />,
-  },
+type MenuItem = Required<MenuProps>["items"][number];
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: "group"
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
+const items: MenuItem[] = [
+  getItem("Dashboard", "dashboard", <LuLayoutDashboard />),
+  getItem("Pasajes", "pasajes", <IoTicketOutline />),
+  getItem("Encomiendas", "encomiendas", <LuLuggage />),
+  getItem("Planner", "programacion", <MdCalendarMonth />, [
+    getItem("Bus Conductor", "programacion/bus-conductor"),
+    getItem("Comprobantes", "programacion/comprobantes"),
+    getItem("Viajes", "programacion/viajes"),
+  ]),
+  getItem("Contable", "contable", <GrMoney />),
+  getItem("Administración", "administracion", <AiOutlineSetting />),
+  getItem("Soporte", "soporte", <HiOutlineSupport />),
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const { isCollapsed, toggleCollapsed } = useContext(CollapsedContext);
+  const { selectedKey, setSelectedKey } = useContext(SelectedContext);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const {
     token: { colorBgContainer },
@@ -81,23 +63,27 @@ export default function AppLayout({ children }: LayoutProps) {
     <Layout className="  p-4">
       <Sider
         className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
-        collapsed={collapsed}
+        collapsed={isCollapsed}
         style={{
           background: colorBgContainer,
           borderRadius: 21,
         }}
         collapsedWidth={50}
-        onCollapse={(value) => setCollapsed(value)}
       >
-        <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <AppHeader />
         <Menu
-          selectable={true}
           mode="inline"
+          selectable={true}
+          inlineCollapsed={isCollapsed}
+          selectedKeys={[selectedKey]}
           items={items}
-          // defaultSelectedKeys={[pathToKey[selectedKey] || "dashboard"]}
+          onSelect={(item) => {
+            setSelectedKey(item.key);
+            router.push(`/${item.key}`);
+          }}
         />
         <div className=" px-2 pb-2">
-          {collapsed ? (
+          {isCollapsed ? (
             <Button
               type="text"
               danger
@@ -105,7 +91,7 @@ export default function AppLayout({ children }: LayoutProps) {
               icon={<CgLogOut />}
               onClick={() =>
                 void signOut({
-                  callbackUrl: "/login",
+                  callbackUrl: `${process.env.NEXTAUTH_URL ?? ""}/login`,
                   redirect: true,
                 })
               }
@@ -117,7 +103,7 @@ export default function AppLayout({ children }: LayoutProps) {
               danger
               onClick={() =>
                 void signOut({
-                  callbackUrl: "/login",
+                  callbackUrl: `${process.env.NEXTAUTH_URL ?? ""}/login`,
                   redirect: true,
                 })
               }
