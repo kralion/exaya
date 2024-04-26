@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Dropdown, Table, Tag, Tooltip, Typography } from "antd";
+import { Dropdown, Space, Table, Tag, Tooltip, Typography, theme } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { IoFilterSharp } from "react-icons/io5";
 import { TbBus } from "react-icons/tb";
@@ -8,12 +8,14 @@ import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { type Dayjs } from "dayjs";
-const { Title } = Typography;
+import { CollapsedContext } from "@/context/MenuContext";
+import { useContext } from "react";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
+  const { isCollapsed } = useContext(CollapsedContext);
   const origenFilterItems = viajes?.response?.map((viaje) => ({
     text: viaje.ruta.ciudadOrigen,
     value: viaje.ruta.ciudadOrigen,
@@ -29,7 +31,6 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       key: "origen",
       render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
       filterOnClose: true,
-
       filters: origenFilterItems,
       filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
@@ -44,10 +45,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       title: "Destino",
       dataIndex: "ruta",
       key: "destino",
-      responsive: ["lg"],
       render: (ruta: { ciudadDestino: string }) => ruta.ciudadDestino,
       filterOnClose: true,
-
       filters: destinoFilterItems,
       filterIcon: <IoFilterSharp size={16} />,
       onFilter: (
@@ -57,26 +56,11 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         }
       ) => record.ruta?.ciudadDestino?.includes(value as string),
     },
-    {
-      title: "Placa",
-      dataIndex: "bus",
-      key: "placaBus",
-      responsive: ["lg"],
-      render: (bus: { placa: string }) => (
-        <Tooltip className="cursor-pointer" title={bus.placa}>
-          <TbBus
-            strokeWidth={1}
-            size={25}
-            className="text-zinc-600 dark:text-zinc-400"
-          />
-        </Tooltip>
-      ),
-    },
+
     {
       title: "Hora Salida",
       dataIndex: "salida",
       key: "horaSalida",
-      responsive: ["lg"],
       sorter: {
         compare: (
           a: {
@@ -92,28 +76,44 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         },
       },
       render: (salida: string) => {
-        const date = new Date(salida);
-        let hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-
-        if (hours >= 24) {
-          hours -= 24;
-        }
-
-        const horaSalida = `${hours.toString().padStart(2, "0")}:${minutes
-          .toString()
-          .padStart(2, "0")}`;
-        return <Tag>{horaSalida}</Tag>;
+        const salidaFormatted = new Date(salida);
+        return (
+          <Tag>
+            {salidaFormatted.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Tag>
+        );
       },
+    },
+    {
+      title: "Placa",
+      dataIndex: "bus",
+      key: "placaBus",
+      render: (bus: { placa: string }) => (
+        <Tooltip className="cursor-pointer" title={bus.placa}>
+          <TbBus
+            strokeWidth={1}
+            size={25}
+            className="text-zinc-600 dark:text-zinc-400"
+          />
+        </Tooltip>
+      ),
     },
     {
       title: "Tarifas",
       key: "tarifas",
       dataIndex: "tarifas",
-      responsive: ["lg"],
       render: (tarifas: number[]) => {
+        const tarifaClassified = tarifas.map((tarifa) => {
+          if (tarifa <= 20) return "orange-inverse";
+          if (tarifa <= 40) return "blue-inverse";
+          if (tarifa <= 60) return "green-inverse";
+          return "red";
+        });
         return tarifas.map((tarifa, index) => (
-          <Tag className="mr-1 mt-1" color="volcano-inverse" key={index}>
+          <Tag key={index} color={tarifaClassified[index]} className="mb-1.5">
             {tarifa.toLocaleString("es-PE", {
               style: "currency",
               currency: "PEN",
@@ -125,7 +125,6 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
     {
       title: "",
       key: "acciones",
-      responsive: ["lg"],
       dataIndex: "id",
       render: (id: string) => {
         const items = [
@@ -152,16 +151,47 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
     },
   ];
   return (
-    <div className="w-full">
-      <Title level={5} className="mb-3.5">
-        Viajes del Día
-      </Title>
-      <Table
-        pagination={false}
-        loading={isLoading}
-        columns={columns}
-        dataSource={viajes?.response}
-      />
-    </div>
+    <Table
+      expandable={{
+        expandedRowRender: (record: {
+          salida: Date;
+          bus: { asientos: number };
+          boletos: any[];
+        }) => (
+          <Space className="w-full justify-between">
+            <Space>
+              <Typography.Text type="secondary">Salida : </Typography.Text>
+              <Typography.Text className=" font-mono font-semibold">
+                {new Date(record.salida).toLocaleDateString()}
+              </Typography.Text>
+            </Space>
+            <Space>
+              <Typography.Text type="secondary">
+                Total Asientos :{" "}
+              </Typography.Text>
+              <Typography.Text className=" font-mono font-semibold">
+                {record.bus.asientos}
+              </Typography.Text>
+            </Space>
+
+            <Space>
+              <Typography.Text type="secondary">
+                Boletos Vendidos :{" "}
+              </Typography.Text>
+              <Typography.Text className=" font-mono font-semibold">
+                {record.boletos.length}
+              </Typography.Text>
+            </Space>
+          </Space>
+        ),
+      }}
+      pagination={false}
+      loading={isLoading}
+      columns={columns}
+      dataSource={viajes?.response}
+      style={{
+        width: ` ${(isCollapsed && "860px") || "100%"}`,
+      }}
+    />
   );
 }

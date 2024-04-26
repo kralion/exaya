@@ -90,11 +90,21 @@ export function ViajesForm({
   }, [idToEdit, handleSetEditViajeValues]);
 
   const onFinish = (values: TViaje) => {
+    const salidaDate = new Date(values.salida);
+    const salidaDateInUTC = new Date(
+      salidaDate.getUTCFullYear(),
+      salidaDate.getUTCMonth(),
+      salidaDate.getUTCDate(),
+      salidaDate.getUTCHours() - 5,
+      salidaDate.getUTCMinutes(),
+      salidaDate.getUTCSeconds()
+    );
+
     createViajeMutation.mutate(
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        salida: new Date(values.salida),
+        salida: salidaDateInUTC,
         estado: "DISPONIBLE",
       },
       {

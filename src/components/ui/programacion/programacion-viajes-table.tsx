@@ -4,16 +4,6 @@ import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import { TbBus } from "react-icons/tb";
-const convertTo12HourFormat = (hours: number, minutes: number) => {
-  const suffix = hours >= 12 ? "PM" : "AM";
-  hours = hours > 12 ? hours - 12 : hours;
-  hours = hours === 0 ? 12 : hours;
-  const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")} ${suffix}`;
-  return formattedTime;
-};
-
 export function ProgramacionTable({
   setIdToEdit,
 }: {
@@ -94,16 +84,11 @@ export function ProgramacionTable({
       dataIndex: "salida",
       key: "hora",
       render: (salida: string) => {
-        const date = new Date(salida);
-        let hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-
-        if (hours >= 24) {
-          hours -= 24;
-        }
-
-        const horaSalida = convertTo12HourFormat(hours, minutes);
-        return <Tag>{horaSalida}</Tag>;
+        const salidaFormatted = new Date(salida);
+        return salidaFormatted.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
       },
     },
     {
@@ -113,6 +98,7 @@ export function ProgramacionTable({
 
       render: (estado: string) => (
         <Tag
+          className="rounded-full"
           color={
             estado === "DISPONIBLE"
               ? "green-inverse"

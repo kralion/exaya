@@ -351,7 +351,7 @@ export const viajesRouter = createTRPCRouter({
       if (viaje.boletos.length > 0) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "No se puede eliminar un viaje que tiene boletos asociados",
+          message: "No se puede eliminar un viaje que tiene boletos vendidos",
         });
       }
 
@@ -361,8 +361,7 @@ export const viajesRouter = createTRPCRouter({
 
       return {
         status: "success",
-        message:
-          "El viaje y los datos relacionados fueron eliminados de la base de datos",
+        message: "Viaje Eliminado",
       };
     }),
   updateViajeById: publicProcedure

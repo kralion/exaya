@@ -1,6 +1,6 @@
 import AppLayout from "@/components/exaya/layout";
 import { PasajesTable } from "@/components/ui/venta-pasajes/";
-import { Calendar, FloatButton, theme, Typography } from "antd";
+import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { useState } from "react";
@@ -22,18 +22,21 @@ function Pasajes() {
 
   return (
     <AppLayout>
-      <div className="flex justify-between gap-5 ">
-        <PasajesTable dayQuery={dayQuery} />
-        <div className="space-y-3.5">
-          <Title level={5}>Checker de Disponibilidad </Title>
+      <Space className="w-full items-start justify-between">
+        <Space className="gap-2" direction="vertical">
+          <Title level={4}>Viajes del Día</Title>
+          <PasajesTable dayQuery={dayQuery} />
+        </Space>
+        <Space className="gap-2" direction="vertical">
+          <Title level={4}>Checker de Disponibilidad </Title>
           <Calendar
             className="shadow-lg duration-300 hover:shadow-xl"
             style={wrapperStyle}
             fullscreen={false}
             onSelect={onSelect}
           />
-        </div>
-      </div>
+        </Space>
+      </Space>
       <FloatButton.BackTop visibilityHeight={50} />
     </AppLayout>
   );
