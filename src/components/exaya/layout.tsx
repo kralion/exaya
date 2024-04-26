@@ -105,9 +105,8 @@ export default function AppLayout({ children }: LayoutProps) {
               icon={<CgLogOut />}
               onClick={() =>
                 void signOut({
-                  callbackUrl: `${
-                    process.env.NEXT_PUBLIC_BASE_URL ?? ""
-                  }/login`,
+                  callbackUrl: "/login",
+                  redirect: true,
                 })
               }
             />
@@ -118,9 +117,8 @@ export default function AppLayout({ children }: LayoutProps) {
               danger
               onClick={() =>
                 void signOut({
-                  callbackUrl: `${
-                    process.env.NEXT_PUBLIC_BASE_URL ?? ""
-                  }/login`,
+                  callbackUrl: "/login",
+                  redirect: true,
                 })
               }
             >
