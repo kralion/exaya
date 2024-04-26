@@ -1,8 +1,10 @@
 import AppHeader from "@/components/exaya/appheader";
+import { CollapsedContext, SelectedContext } from "@/context/MenuContext";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
 import { signOut } from "next-auth/react";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useContext } from "react";
 import { AiOutlineSetting } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
 import { GrMoney } from "react-icons/gr";
@@ -11,10 +13,7 @@ import { IoTicketOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
-import { usePathname, useRouter } from "next/navigation";
 const { Header, Footer, Sider, Content } = Layout;
-import { useContext } from "react";
-import { SelectedContext, CollapsedContext } from "@/context/MenuContext";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -50,10 +49,9 @@ const items: MenuItem[] = [
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
-  const { isCollapsed, toggleCollapsed } = useContext(CollapsedContext);
+  const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
-  const pathname = usePathname();
 
   const {
     token: { colorBgContainer },
@@ -91,7 +89,7 @@ export default function AppLayout({ children }: LayoutProps) {
               icon={<CgLogOut />}
               onClick={() =>
                 void signOut({
-                  callbackUrl: `${process.env.NEXTAUTH_URL ?? ""}/login`,
+                  callbackUrl: `${window.location.origin}/login`,
                   redirect: true,
                 })
               }
@@ -103,7 +101,7 @@ export default function AppLayout({ children }: LayoutProps) {
               danger
               onClick={() =>
                 void signOut({
-                  callbackUrl: `${process.env.NEXTAUTH_URL ?? ""}/login`,
+                  callbackUrl: `${window.location.origin}/login`,
                   redirect: true,
                 })
               }

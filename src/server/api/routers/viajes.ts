@@ -351,7 +351,7 @@ export const viajesRouter = createTRPCRouter({
         };
       }
     }),
-  updateViaje: publicProcedure
+  updateViajeById: publicProcedure
     .input(viajeSchema.extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       try {

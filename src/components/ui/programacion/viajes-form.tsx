@@ -1,8 +1,9 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import { Button, DatePicker, Form, Select } from "antd";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import moment from "moment-timezone";
 
 const layout = {
   labelCol: { span: 5 },
@@ -21,7 +22,13 @@ type TViaje = {
 
 const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100];
 
-export function ViajesForm() {
+export function ViajesForm({
+  idToEdit,
+  setIdToEdit,
+}: {
+  idToEdit: string;
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const [form] = Form.useForm();
   const { openNotification } = useNotification();
   const createViajeMutation = api.viajes.createViaje.useMutation();
@@ -31,6 +38,57 @@ export function ViajesForm() {
   const { data: bus, isLoading: isLoadingBus } =
     api.buses.getAllBuses.useQuery();
   const getAllViajesQuery = api.viajes.getAllViajes.useQuery();
+  const { data: singleViaje } = api.viajes.getViajeById.useQuery({
+    id: idToEdit,
+  });
+  const updateViajeMutation = api.viajes.updateViajeById.useMutation();
+  const handleSetEditViajeValues = useCallback(() => {
+    const salidaForEdit = new Date(singleViaje?.response?.salida ?? "");
+    if (singleViaje) {
+      console.log(singleViaje);
+      form.setFieldsValue({
+        rutaId: singleViaje?.response?.rutaId,
+        busId: singleViaje?.response?.busId,
+        salida: salidaForEdit,
+        tarifas: singleViaje?.response?.tarifas,
+      });
+    }
+  }, [singleViaje, form]);
+
+  function handleEditViaje(values: TViaje) {
+    updateViajeMutation.mutate(
+      {
+        ...values,
+        id: idToEdit,
+        usuarioId: session?.user?.id as string,
+        estado: "DISPONIBLE",
+      },
+      {
+        onSuccess: (response) => {
+          openNotification({
+            message: "Operación Exitosa",
+            description: response.message,
+            type: "success",
+            placement: "topRight",
+          });
+        },
+        onError: (error) => {
+          openNotification({
+            message: "Error",
+            description: error.message,
+            type: "error",
+            placement: "topRight",
+          });
+        },
+      }
+    );
+  }
+
+  useEffect(() => {
+    if (idToEdit) {
+      handleSetEditViajeValues();
+    }
+  }, [idToEdit, handleSetEditViajeValues]);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,15 +99,13 @@ export function ViajesForm() {
     void fetchData();
   }, [createViajeMutation.isSuccess, getAllViajesQuery]);
   const onFinish = (values: TViaje) => {
-    const salidaDate = new Date(values.salida);
-    salidaDate.setHours(salidaDate.getHours() - 5);
-    const salidaISO = salidaDate.toISOString();
+    const salidaFormatted = moment(values.salida).format("YYYY-MM-DD HH:mm");
     createViajeMutation.mutate(
       {
         ...values,
         usuarioId: session?.user?.id as string,
         estado: "DISPONIBLE",
-        salida: new Date(salidaISO),
+        salida: new Date(salidaFormatted),
       },
       {
         onSuccess: (response) => {
@@ -151,16 +207,24 @@ export function ViajesForm() {
         <div className="flex justify-end gap-2">
           <Button
             disabled={createViajeMutation.isLoading}
+            onClick={() => {
+              if (idToEdit) {
+                handleEditViaje(form.getFieldsValue() as TViaje);
+              } else {
+                form.submit();
+              }
+            }}
             htmlType="submit"
             type="primary"
           >
-            Crear Viaje
+            {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
           </Button>
 
           <Button
             htmlType="button"
             onClick={() => {
               form.resetFields();
+              setIdToEdit("");
             }}
           >
             Cancelar

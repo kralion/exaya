@@ -1,19 +1,10 @@
 import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
-import {
-  Button,
-  Form,
-  Popconfirm,
-  Space,
-  Table,
-  Tag,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { TbBus } from "react-icons/tb";
 import { FiEdit3 } from "react-icons/fi";
-const { Text } = Typography;
+import { TbBus } from "react-icons/tb";
 const convertTo12HourFormat = (hours: number, minutes: number) => {
   const suffix = hours >= 12 ? "PM" : "AM";
   hours = hours > 12 ? hours - 12 : hours;
@@ -24,8 +15,11 @@ const convertTo12HourFormat = (hours: number, minutes: number) => {
   return formattedTime;
 };
 
-export function ProgramacionTable() {
-  const [form] = Form.useForm();
+export function ProgramacionTable({
+  setIdToEdit,
+}: {
+  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
+}) {
   const {
     data: viajes,
     refetch,
@@ -141,7 +135,11 @@ export function ProgramacionTable() {
       dataIndex: "id",
       render: (id: string) => (
         <Space className="items-baseline gap-2">
-          <Button disabled title="Editar" icon={<FiEdit3 />} />
+          <Button
+            title="Editar"
+            onClick={() => setIdToEdit(id)}
+            icon={<FiEdit3 />}
+          />
           <Popconfirm
             okButtonProps={{
               danger: true,
@@ -164,19 +162,17 @@ export function ProgramacionTable() {
   ];
 
   return (
-    <Form form={form} component={false}>
-      <Table
-        dataSource={viajes?.response}
-        columns={columns}
-        loading={isLoading}
-        rowClassName="editable-row"
-        pagination={{
-          defaultPageSize: 5,
-          position: ["bottomRight"],
-          pageSizeOptions: ["5", "10", "20"],
-          showSizeChanger: true,
-        }}
-      />
-    </Form>
+    <Table
+      dataSource={viajes?.response}
+      columns={columns}
+      loading={isLoading}
+      rowClassName="editable-row"
+      pagination={{
+        defaultPageSize: 5,
+        position: ["bottomRight"],
+        pageSizeOptions: ["5", "10", "20"],
+        showSizeChanger: true,
+      }}
+    />
   );
 }
