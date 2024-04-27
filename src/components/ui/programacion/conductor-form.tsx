@@ -1,4 +1,3 @@
-import { useNotification } from "@/context/NotificationContext";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { conductorSchema } from "@/schemas";
@@ -20,38 +19,19 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
 import { useMessageContext } from "@/context/MessageContext";
 
-type Props = {
-  activator: string;
-};
 const { Title } = Typography;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 30 },
-  },
-  wrapperCol: {
-    xs: { span: 30 },
-    sm: { span: 30 },
-  },
-};
-
-export function ConductorForm({ activator }: Props) {
+export function ConductorForm({ activator }: { activator: string }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [source, setSource] = useState<string | undefined>();
   const { openMessage } = useMessageContext();
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCancel = () => {
+    form.resetFields();
     setIsModalOpen(false);
     setConductorDNI("");
     setSource(undefined);
   };
   const [form] = Form.useForm();
-  const { openNotification } = useNotification();
   const [conductorDNI, setConductorDNI] = useState<string>("");
   const createConductorMutation = api.conductores.createConductor.useMutation();
   const { data: reniecResponse, error: errorValidacionDNI } =
@@ -65,14 +45,20 @@ export function ConductorForm({ activator }: Props) {
     );
 
   const onFinish = (values: z.infer<typeof conductorSchema>) => {
-    const apellidosConductor = `${
-      reniecResponse?.data?.apellidoPaterno ?? ""
-    } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
+    if (!reniecResponse?.data) {
+      return openMessage({
+        content: "Verique el DNI del conductor",
+        duration: 3,
+        type: "error",
+      });
+    }
+    const apellidosConductor = `${reniecResponse?.data?.apellidoPaterno} ${reniecResponse?.data?.apellidoMaterno}`;
+
     createConductorMutation.mutate(
       {
         ...values,
         foto: source,
-        nombres: reniecResponse?.data?.nombres ?? "No registrado",
+        nombres: reniecResponse.data.nombres,
         apellidos: apellidosConductor,
       },
       {
@@ -92,11 +78,11 @@ export function ConductorForm({ activator }: Props) {
         },
         onSettled: () => {
           form.resetFields();
+          setConductorDNI("");
+          setSource(undefined);
         },
       }
     );
-    setConductorDNI("");
-    setSource(undefined);
   };
 
   return (
@@ -104,7 +90,7 @@ export function ConductorForm({ activator }: Props) {
       <Button
         icon={<AiOutlinePlusCircle size={15} />}
         type="primary"
-        onClick={showModal}
+        onClick={() => setIsModalOpen(true)}
       >
         {activator}
       </Button>
@@ -123,10 +109,9 @@ export function ConductorForm({ activator }: Props) {
         footer={null}
       >
         <Form
-          {...formItemLayout}
           form={form}
           layout="vertical"
-          name="register"
+          name="register-driver"
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "

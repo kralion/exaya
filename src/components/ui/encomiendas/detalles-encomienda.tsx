@@ -1,4 +1,4 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import {
   Alert,
   Button,
@@ -22,7 +22,7 @@ const { Title, Text } = Typography;
 
 export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const [open, setOpen] = useState(false);
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   const { mutate: statusMutation } =
     api.encomiendas.updateEncomiendaStatus.useMutation();
   const { data: encomienda } = api.encomiendas.getEncomiendaById.useQuery({
@@ -38,19 +38,17 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
       { id, pagado: !encomienda?.response?.pagado },
       {
         onSuccess: (response) => {
-          openNotification({
+          openMessage({
+            content: response.message,
             type: "success",
-            message: "Operación Exitosa",
-            description: response.message,
-            placement: "bottomRight",
+            duration: 3,
           });
         },
         onError: (error) => {
-          openNotification({
+          openMessage({
+            content: error.message,
             type: "error",
-            message: "Error de Actualización",
-            description: error.message,
-            placement: "bottomRight",
+            duration: 3,
           });
         },
       }

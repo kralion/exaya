@@ -1,7 +1,6 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
-
 import { Button, Form, Input, Modal, Space, Typography } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -18,13 +17,9 @@ const { Title } = Typography;
 export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   const [source, setSource] = useState<string | undefined>();
   const createBusMutation = api.buses.createBus.useMutation();
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
@@ -41,25 +36,25 @@ export function BusForm({ activator }: Props) {
       },
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Bus registrado",
-            description: response.message,
+          openMessage({
+            content: response.message,
             type: "success",
-            placement: "topRight",
+            duration: 3,
           });
-          form.resetFields();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error",
-            description: error.message,
+          openMessage({
+            content: error.message,
             type: "error",
-            placement: "topRight",
+            duration: 3,
           });
+        },
+        onSettled: () => {
+          form.resetFields();
+          setSource(undefined);
         },
       }
     );
-    setIsModalOpen(false);
   }
 
   return (
@@ -67,7 +62,7 @@ export function BusForm({ activator }: Props) {
       <Button
         icon={<AiOutlinePlusCircle size={15} />}
         type="primary"
-        onClick={showModal}
+        onClick={() => setIsModalOpen(true)}
       >
         {activator}
       </Button>

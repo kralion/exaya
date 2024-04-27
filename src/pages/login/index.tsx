@@ -2,7 +2,7 @@ import LoginGradientLight from "@/assets/images/login-gradient-light.png";
 import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
 import VideoBackground from "@/components/exaya/video-background";
 import AppHead from "@/components/landing/head";
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { Checkbox, Form, Input, Spin } from "antd";
@@ -31,7 +31,7 @@ type TLogin = {
   password: string;
 };
 export default function Login() {
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
@@ -44,14 +44,17 @@ export default function Login() {
       redirect: false,
     });
     if (result?.error) {
-      openNotification({
-        message: "Error de autenticación",
-        description:
-          "Verifique sus credenciales e intente de nuevo, recuerde que las credenciales son precreadas",
-        placement: "topRight",
+      openMessage({
+        content: result.error,
         type: "error",
+        duration: 3,
       });
     } else {
+      openMessage({
+        content: "Redirigiendo al dashboard...",
+        type: "loading",
+        duration: 3,
+      });
       router.push("/dashboard");
     }
     setLoading(false);
@@ -102,7 +105,7 @@ export default function Login() {
         className="fixed right-3 top-3 z-10 flex items-center justify-center gap-1 text-sm underline hover:opacity-60  "
       >
         <HiOutlineArrowLeft />
-        Atrás
+        Ir al inicio
       </Link>
       <VideoBackground />
 
@@ -119,12 +122,12 @@ export default function Login() {
           }}
         />
         <h3
-          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-5xl font-bold text-transparent drop-shadow-xl  dark:from-orange-600 dark:to-zinc-100   `}
+          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-5xl font-bold text-transparent drop-shadow-xl  dark:from-orange-600 dark:to-orange-300   `}
         >
           Inicio de Sesión
         </h3>
-        <div className="mb-10 text-center">
-          <h4 className="mt-2 text-sm dark:text-zinc-300">
+        <div className="z-50 mb-10 text-center">
+          <h4 className="mt-2 text-sm dark:text-white">
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>

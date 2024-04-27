@@ -3,7 +3,7 @@ import { Table, Tag, Typography, Button, Popconfirm, Space } from "antd";
 import { api } from "@/utils/api";
 import EncomiendaDetails from "./detalles-encomienda";
 import type { TableColumnsType } from "antd";
-import { useNotification } from "@/context/NotificationContext";
+import { useMessageContext } from "@/context/MessageContext";
 const { Title } = Typography;
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
@@ -14,7 +14,7 @@ export function EncomiendasTable() {
     refetch,
     isLoading,
   } = api.encomiendas.getAllEncomiendas.useQuery();
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
 
@@ -88,20 +88,19 @@ export function EncomiendasTable() {
     deleteEncomiendaMutation.mutate(
       { id },
       {
-        onSuccess: () => {
-          openNotification({
-            message: "Encomienda eliminada",
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
             type: "success",
-            placement: "topRight",
+            duration: 3,
           });
           void refetch();
         },
         onError: (error) => {
-          openNotification({
-            message: "Error al eliminar la encomienda",
-            description: error.message,
+          openMessage({
+            content: error.message,
             type: "error",
-            placement: "topRight",
+            duration: 3,
           });
         },
       }

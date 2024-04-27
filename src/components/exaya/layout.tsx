@@ -60,11 +60,14 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <MessageProvider>
-      <Layout className="  p-4">
+      <Layout className="p-4">
         <Sider
           className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
           collapsed={isCollapsed}
           style={{
+            position: "fixed",
+            top: 14,
+            left: 14,
             background: colorBgContainer,
             borderRadius: 21,
           }}
@@ -114,7 +117,11 @@ export default function AppLayout({ children }: LayoutProps) {
             )}
           </div>
         </Sider>
-        <Layout className="ml-4 space-y-4">
+        <Layout
+          className={`space-y-3 duration-500 ${
+            isCollapsed ? "ml-14 " : "ml-52"
+          }`}
+        >
           <Header
             className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50 px-3  shadow-md dark:border-zinc-800"
             style={{
@@ -124,7 +131,7 @@ export default function AppLayout({ children }: LayoutProps) {
           >
             <AIAssistantInput />
             <h3 className=" absolute right-5  text-center font-bold text-primary  ">
-              Expreso Ayacucho
+              Nombre de la Empresa S.A
             </h3>
           </Header>
 

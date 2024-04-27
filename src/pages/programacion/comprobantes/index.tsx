@@ -3,7 +3,6 @@ import AppHead from "@/components/landing/head";
 import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
 import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
-import { useNotification } from "@/context/NotificationContext";
 import { api } from "@/utils/api";
 import {
   Card,
@@ -23,7 +22,6 @@ const { Title } = Typography;
 function ProgramacionComprobantes() {
   const [current, setCurrent] = useState(0);
   const { data: pasajes } = api.boletos.getAllBoletos.useQuery();
-  const { openNotification } = useNotification();
   const { data: encomiendas } =
     api.encomiendas.getAllBoletosEncomiendas.useQuery();
   const totalBoletos = (pasajes?.length ?? 0) + (encomiendas?.length ?? 0);

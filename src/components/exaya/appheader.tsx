@@ -25,12 +25,12 @@ export default function AppHeader() {
         <div
           onClick={() => toggleCollapsed()}
           className=" flex cursor-pointer items-center justify-center   drop-shadow-md	"
+          title="Collapsar"
         >
           <Image
             src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
             width={40}
             height={40}
-            title="Exaya"
             alt="logo"
             priority
           />

@@ -1,4 +1,3 @@
-import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
 import { Card, Tag, Typography } from "antd";
 import { Cell, Pie, PieChart, Tooltip } from "recharts";
 const { Title } = Typography;
@@ -115,7 +114,6 @@ export default function KpiGraphs({
         className="shadow duration-200 dark:hover:bg-black/50"
       >
         <div>
-          {/* <GaugeSkeleton loading={isLoading} /> */}
           <PieChart width={300} height={200}>
             <Tooltip
               contentStyle={{
@@ -155,6 +153,7 @@ export default function KpiGraphs({
               color: "#faad14",
             })}
           </PieChart>
+
           <div className="flex flex-col items-center justify-center gap-3 ">
             <Tag className="ml-5 mt-1 w-fit font-bold ">
               {margenUtilizacionRecursos}%

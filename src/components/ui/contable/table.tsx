@@ -1,17 +1,10 @@
 import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { type Dayjs } from "dayjs";
 import { IoFilterSharp } from "react-icons/io5";
 const IGV_RATE = 0.18;
-export default function TableContable({
-  scheduleDateQuery,
-}: {
-  scheduleDateQuery: Dayjs;
-}) {
-  const { data: contables, isLoading } = api.viajes.getViajesByDate.useQuery({
-    date: scheduleDateQuery.format("YYYY-MM-DD"),
-  });
+export default function TableContable() {
+  const { data: contables, isLoading } = api.viajes.getAllViajes.useQuery();
 
   const filterItems = (contables?.response || []).map((contable) => ({
     text: `${contable.ruta.ciudadOrigen} - ${contable.ruta.ciudadDestino}`,
@@ -81,7 +74,7 @@ export default function TableContable({
           (acc: number, boleto: { precio: number }) => acc + boleto.precio,
           0
         );
-        return <Tag color="green-inverse">{total}</Tag>;
+        return total;
       },
     },
     {
@@ -114,7 +107,25 @@ export default function TableContable({
         );
         const totalIncome = totalBoletos + totalEncomiendas;
         const igv = totalIncome * IGV_RATE;
-        return totalIncome + igv;
+        const totalIncomeWithIGV = totalIncome + igv;
+
+        return (
+          <Tag
+            title="Estará de rojo hasta alcanzar la meta"
+            color={
+              totalIncomeWithIGV > 1000
+                ? "green"
+                : totalIncomeWithIGV > 800
+                ? "blue"
+                : "red"
+            }
+          >
+            {totalIncomeWithIGV.toLocaleString("es-PE", {
+              style: "currency",
+              currency: "PEN",
+            })}
+          </Tag>
+        );
       },
     },
   ];

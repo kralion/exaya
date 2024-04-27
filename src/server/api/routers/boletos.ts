@@ -118,18 +118,6 @@ export const boletosRouter = createTRPCRouter({
   createBoleto: publicProcedure
     .input(boletoSchema)
     .mutation(async ({ input, ctx }) => {
-      const existingBoleto = await ctx.prisma.boleto.findFirst({
-        where: {
-          asiento: input.asiento,
-        },
-      });
-      if (existingBoleto) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Asiento ocupado, actualice la página",
-        });
-      }
-
       try {
         await ctx.prisma.boleto.create({
           data: input,

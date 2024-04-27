@@ -1,8 +1,5 @@
 import AppLayout from "@/components/exaya/layout";
 import AppHead from "@/components/landing/head";
-import AdministracionStepsSkeleton from "@/components/skeletons/administracion-steps-skeleton";
-import GaugeSkeleton from "@/components/skeletons/gauge-skeleton";
-import GeneralStatisticsSkeleton from "@/components/skeletons/general-statistics-skeleton";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import KpiGraphs from "@/components/ui/administracion/kpi-graphs";
 import { StatsSegments } from "@/components/ui/administracion/stats";
@@ -19,7 +16,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const { Title, Text } = Typography;
 type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
@@ -38,28 +35,17 @@ export default function Administracion() {
     api.viajes.getViajeById.useQuery({
       id: currentViajeId,
     });
-
-  const handleCurrentViaje = (viajeId: string) => {
-    setCurrentViajeId(viajeId);
-  };
   const [horarios, setHorarios] = useState<Date[]>([]);
-  const onChangeRuta = (viajeId: string) => {
-    if (!salidasDiarias?.response) {
-      console.error("salidasDiarias or its response is not defined");
-      return;
-    }
-    setHorarios([]);
 
-    const horariosFound = salidasDiarias.response.find(
-      (salida) => salida.id === viajeId
-    );
-    if (!horariosFound) {
-      console.error("horariosFound is not defined");
+  const onChangeRuta = (rutaId: string) => {
+    if (!salidasDiarias?.response) {
       return;
     }
-    setHorarios(
-      horariosFound.salida.toString().split(",") as unknown as Date[]
-    );
+
+    const horariosFound = salidasDiarias.response
+      .filter((viaje) => viaje.ruta.id === rutaId)
+      .map((viaje) => viaje.salida);
+    setHorarios(horariosFound);
   };
   const totalBoletosVendidos =
     currentViaje?.response?.boletos.filter(
@@ -101,7 +87,21 @@ export default function Administracion() {
   useEffect(() => {
     setCurrentViajeId("");
   }, [dateQuery]);
+  const getUniqueRoutes = (salidasDiarias: {
+    response: {
+      ruta: { ciudadOrigen: string; ciudadDestino: string; id: string };
+    }[];
+  }) => {
+    const uniqueRoutes = new Map();
+    salidasDiarias?.response?.forEach(({ ruta }) => {
+      const key = `${ruta.ciudadOrigen}-${ruta.ciudadDestino}`;
+      if (!uniqueRoutes.has(key)) {
+        uniqueRoutes.set(key, ruta.id);
+      }
+    });
 
+    return Array.from(uniqueRoutes.entries());
+  };
   return (
     <AppLayout>
       <AppHead title="Administracion" />
@@ -113,13 +113,9 @@ export default function Administracion() {
               {isError && (
                 <Alert
                   message={
-                    <p>
-                      Error al obtener los datos de los
-                      <code className="ml-2 underline">Horarios</code> por favor
-                      <a href="." className="ml-2 underline">
-                        recargue la página
-                      </a>
-                    </p>
+                    <Text type="danger">
+                      Error al cargar los horarios, intenta de nuevo.
+                    </Text>
                   }
                   type="error"
                   showIcon
@@ -135,7 +131,8 @@ export default function Administracion() {
                     className="px-2 py-0.5"
                     message={
                       <Text type="danger">
-                        No hay horarios disponibles para la ruta seleccionada
+                        Debes de seleccionar una fecha y ruta para ver los
+                        horarios
                       </Text>
                     }
                     type="error"
@@ -151,7 +148,7 @@ export default function Administracion() {
                     className="px-2 py-0.5"
                     message={
                       <Text type="warning">
-                        Para ver los horarios, seleccione una fecha y una ruta
+                        Para ver los horarios, ahora seleccione la ruta
                       </Text>
                     }
                     type="warning"
@@ -163,20 +160,20 @@ export default function Administracion() {
                 !isLoading &&
                 (salidasDiarias?.response?.length ?? 0) > 0 &&
                 horarios.length > 0 &&
-                horarios.map((horario) => {
-                  const viajeData = salidasDiarias?.response?.find((ruta) =>
-                    ruta.salida.toString().includes(horario.toString())
+                horarios.map((horario, index) => {
+                  const viajeData = salidasDiarias?.response?.find(
+                    (ruta) => ruta.salida.getTime() === horario.getTime()
                   );
                   const viajeId = viajeData?.id;
-
                   return (
                     <Button
-                      key={horario.toString()}
+                      key={index}
                       shape="round"
+                      size="small"
                       type={currentViajeId === viajeId ? "primary" : "default"}
-                      className="mr-2"
+                      className="mr-2 font-mono"
                       onClick={() => {
-                        handleCurrentViaje(viajeId || "");
+                        setCurrentViajeId(viajeId as string);
                       }}
                     >
                       {new Date(horario).toLocaleTimeString([], {
@@ -195,14 +192,16 @@ export default function Administracion() {
                 style={{ width: 120 }}
                 placeholder="24-04-2024"
                 onChange={onDateChange}
+                // TODO: Fix this
+                // defaultValue={dayjs(new Date()).toDate()}
               />
             </Space>
             <Space direction="vertical">
               <Title level={5}>Ruta</Title>
               <Select
                 placeholder="Ruta"
-                onChange={(id: string) => {
-                  onChangeRuta(id);
+                onChange={(rutaId: string) => {
+                  onChangeRuta(rutaId);
                 }}
                 loading={isLoading}
                 style={{ width: 215 }}
@@ -211,45 +210,35 @@ export default function Administracion() {
                   salidasDiarias.response.length === 0
                 }
               >
-                {salidasDiarias?.response?.map(
-                  ({
-                    id,
-                    ruta,
-                  }: {
-                    id: string;
-                    ruta: {
-                      ciudadOrigen: string;
-                      ciudadDestino: string;
-                    };
-                  }) => (
-                    <Select.Option key={id} value={id}>
-                      {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                    </Select.Option>
-                  )
-                )}
+                {salidasDiarias?.response &&
+                  getUniqueRoutes(salidasDiarias).map(
+                    ([rutaString, rutaId]) => (
+                      <Select.Option
+                        key={rutaString as string}
+                        value={rutaId as string}
+                      >
+                        {rutaString}
+                      </Select.Option>
+                    )
+                  )}
               </Select>
             </Space>
           </Space>
         </Space>
         <Space className="items-start gap-4">
-          {/* TODO: Use isLoading for rendering this skeletons */}
           <div className="flex flex-col gap-4">
-            <Suspense fallback={<GeneralStatisticsSkeleton />}>
-              <StatsSegments
-                isLoading={isLoadingCurrentViaje}
-                totalReservados={totalBoletosReservados}
-                totalPerdidos={totalBoletosNoVendidos}
-                totalVendidos={totalBoletosVendidos}
-              />
-            </Suspense>
-            <Suspense fallback={<AdministracionStepsSkeleton />}>
-              <AdministracionSteps
-                isLoading={isLoadingCurrentViaje}
-                totalIncomeCurrentViaje={totalIncome}
-                totalAsientos={currentViaje?.response?.bus.asientos}
-                totalVendidos={totalBoletosVendidos}
-              />
-            </Suspense>
+            <StatsSegments
+              isLoading={isLoadingCurrentViaje}
+              totalReservados={totalBoletosReservados}
+              totalPerdidos={totalBoletosNoVendidos}
+              totalVendidos={totalBoletosVendidos}
+            />
+            <AdministracionSteps
+              isLoading={isLoadingCurrentViaje}
+              totalIncomeCurrentViaje={totalIncome}
+              totalAsientos={currentViaje?.response?.bus.asientos}
+              totalVendidos={totalBoletosVendidos}
+            />
           </div>
           <KpiGraphs
             isLoading={isLoadingCurrentViaje}

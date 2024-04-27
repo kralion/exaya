@@ -19,41 +19,31 @@ import dayjs, { type Dayjs } from "dayjs";
 
 const { Title, Text } = Typography;
 export default function Contable() {
-  const [dateQuery, setDateQuery] = useState<Dayjs>(() => dayjs());
+  const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
     data: salidasDiarias,
-    isLoading,
     isError,
+    isLoading,
   } = api.viajes.getViajesByDate.useQuery({
-    date: dateQuery.format("YYYY-MM-DD"),
+    date: dateQuery.toISOString(),
   });
 
   const { data: currentViaje, isLoading: isLoadingCurrentViaje } =
     api.viajes.getViajeById.useQuery({
       id: currentViajeId,
     });
-  const handleCurrentViaje = (viajeId: string) => {
-    setCurrentViajeId(viajeId);
-  };
-  const [horarios, setHorarios] = useState<Date[]>([]);
-  const onChangeRuta = (viajeId: string) => {
-    if (!salidasDiarias?.response) {
-      console.error("salidasDiarias or its response is not defined");
-      return;
-    }
-    setHorarios([]);
 
-    const horariosFound = salidasDiarias.response.find(
-      (salida) => salida.id === viajeId
-    );
-    if (!horariosFound) {
-      console.error("horariosFound is not defined");
+  const [horarios, setHorarios] = useState<Date[]>([]);
+  const onChangeRuta = (rutaId: string) => {
+    if (!salidasDiarias?.response) {
       return;
     }
-    setHorarios(
-      horariosFound.salida.toString().split(",") as unknown as Date[]
-    );
+
+    const horariosFound = salidasDiarias.response
+      .filter((viaje) => viaje.ruta.id === rutaId)
+      .map((viaje) => viaje.salida);
+    setHorarios(horariosFound);
   };
 
   const totalTravelEncomiendasIncome =
@@ -77,14 +67,7 @@ export default function Contable() {
       ) => total + boleto.precio,
       0
     ) ?? 0;
-  const onDateChange = useCallback(
-    (date: Dayjs) => {
-      if (date) {
-        setDateQuery(date);
-      }
-    },
-    [setDateQuery]
-  );
+
   useEffect(() => {
     setHorarios([]);
   }, [dateQuery]);
@@ -98,7 +81,35 @@ export default function Contable() {
 
   const total15PercentComission =
     (totalTravelBoletosIncome + totalTravelEncomiendasIncome) * 0.15;
+  const onDateChange = useCallback(
+    (date: Date | null) => {
+      if (date) {
+        setDateQuery(date);
+      }
+    },
+    [setDateQuery]
+  );
+  useEffect(() => {
+    setHorarios([]);
+  }, [dateQuery]);
+  useEffect(() => {
+    setCurrentViajeId("");
+  }, [dateQuery]);
+  const getUniqueRoutes = (salidasDiarias: {
+    response: {
+      ruta: { ciudadOrigen: string; ciudadDestino: string; id: string };
+    }[];
+  }) => {
+    const uniqueRoutes = new Map();
+    salidasDiarias?.response?.forEach(({ ruta }) => {
+      const key = `${ruta.ciudadOrigen}-${ruta.ciudadDestino}`;
+      if (!uniqueRoutes.has(key)) {
+        uniqueRoutes.set(key, ruta.id);
+      }
+    });
 
+    return Array.from(uniqueRoutes.entries());
+  };
   return (
     <AppLayout>
       <AppHead title="Contable" />
@@ -111,14 +122,9 @@ export default function Contable() {
                 {isError && (
                   <Alert
                     message={
-                      <p>
-                        Error al obtener los datos de los
-                        <code className="ml-2 underline">Horarios</code> por
-                        favor
-                        <a href="." className="ml-2 underline">
-                          recargue la página
-                        </a>
-                      </p>
+                      <Text type="danger">
+                        Error al cargar los horarios, intenta de nuevo.
+                      </Text>
                     }
                     type="error"
                     showIcon
@@ -134,7 +140,8 @@ export default function Contable() {
                       className="px-2 py-0.5"
                       message={
                         <Text type="danger">
-                          No hay horarios disponibles para la ruta seleccionada
+                          Debes de seleccionar una fecha y ruta para ver los
+                          horarios
                         </Text>
                       }
                       type="error"
@@ -150,7 +157,7 @@ export default function Contable() {
                       className="px-2 py-0.5"
                       message={
                         <Text type="warning">
-                          Para ver los horarios, seleccione una fecha y una ruta
+                          Para ver los horarios, ahora seleccione la ruta
                         </Text>
                       }
                       type="warning"
@@ -162,23 +169,22 @@ export default function Contable() {
                   !isLoading &&
                   (salidasDiarias?.response?.length ?? 0) > 0 &&
                   horarios.length > 0 &&
-                  horarios.map((horario) => {
+                  horarios.map((horario, index) => {
                     const viajeData = salidasDiarias?.response?.find(
-                      (salida) =>
-                        salida.salida.toString() === horario.toString()
+                      (ruta) => ruta.salida.getTime() === horario.getTime()
                     );
                     const viajeId = viajeData?.id;
-
                     return (
                       <Button
-                        key={horario.toString()}
+                        key={index}
                         shape="round"
+                        size="small"
                         type={
                           currentViajeId === viajeId ? "primary" : "default"
                         }
-                        className="mr-2"
+                        className="mr-2 font-mono"
                         onClick={() => {
-                          handleCurrentViaje(viajeId || "");
+                          setCurrentViajeId(viajeId as string);
                         }}
                       >
                         {new Date(horario).toLocaleTimeString([], {
@@ -190,21 +196,23 @@ export default function Contable() {
                   })}
               </div>
             </Space>
-            <Space className=" gap-4">
+            <Space className="gap-4">
               <Space direction="vertical">
                 <Title level={5}>Fecha</Title>
                 <DatePicker
                   style={{ width: 120 }}
                   placeholder="24-04-2024"
                   onChange={onDateChange}
+                  // TODO: Fix this
+                  // defaultValue={dayjs(new Date()).toDate()}
                 />
               </Space>
               <Space direction="vertical">
                 <Title level={5}>Ruta</Title>
                 <Select
                   placeholder="Ruta"
-                  onChange={(id: string) => {
-                    onChangeRuta(id);
+                  onChange={(rutaId: string) => {
+                    onChangeRuta(rutaId);
                   }}
                   loading={isLoading}
                   style={{ width: 215 }}
@@ -213,45 +221,14 @@ export default function Contable() {
                     salidasDiarias.response.length === 0
                   }
                 >
-                  {salidasDiarias?.response
-                    ?.reduce(
-                      (
-                        acc: {
-                          id: string;
-                          ruta: {
-                            ciudadOrigen: string;
-                            ciudadDestino: string;
-                          };
-                        }[],
-                        current
-                      ) => {
-                        const existing = acc.find(
-                          (item) =>
-                            item.ruta.ciudadOrigen ===
-                              current.ruta.ciudadOrigen &&
-                            item.ruta.ciudadDestino ===
-                              current.ruta.ciudadDestino
-                        );
-                        if (!existing) {
-                          acc.push(current);
-                        }
-                        return acc;
-                      },
-                      []
-                    )
-                    .map(
-                      ({
-                        id,
-                        ruta,
-                      }: {
-                        id: string;
-                        ruta: {
-                          ciudadOrigen: string;
-                          ciudadDestino: string;
-                        };
-                      }) => (
-                        <Select.Option key={id} value={id}>
-                          {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                  {salidasDiarias?.response &&
+                    getUniqueRoutes(salidasDiarias).map(
+                      ([rutaString, rutaId]) => (
+                        <Select.Option
+                          key={rutaString as string}
+                          value={rutaId as string}
+                        >
+                          {rutaString}
                         </Select.Option>
                       )
                     )}
@@ -301,7 +278,7 @@ export default function Contable() {
           <Title level={5} className="tracking-tight">
             Historial de Registros Contables
           </Title>
-          <TableContable scheduleDateQuery={dateQuery} />
+          <TableContable />
         </Space>
       </Space>
       <FloatButton.BackTop className="bottom-4 right-4" />

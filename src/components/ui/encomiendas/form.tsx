@@ -3,15 +3,14 @@ import {
   DatePicker,
   Form,
   Input,
-  InputNumber,
   Select,
   Space,
   Switch,
   Typography,
 } from "antd";
+import { useMessageContext } from "@/context/MessageContext";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { encomiendaSchema } from "@/schemas";
-import { useNotification } from "@/context/NotificationContext";
 import dayjs, { type Dayjs } from "dayjs";
 import { useSession } from "next-auth/react";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
@@ -45,7 +44,7 @@ export function EncomiendasForm() {
   } = api.viajes.getViajesByDate.useQuery({
     date: dateQuery.format("YYYY-MM-DD"),
   });
-  const { openNotification } = useNotification();
+  const { openMessage } = useMessageContext();
   const [facturaUI, setFacturaUI] = useState(false);
   const createEncomiendaMutation =
     api.encomiendas.createEncomienda.useMutation();
@@ -69,22 +68,18 @@ export function EncomiendasForm() {
 
   async function onFinish(values: z.infer<typeof encomiendaSchema>) {
     if (remitenteInformacion?.status === "error") {
-      openNotification({
-        message: "Error al registrar encomienda",
-        description:
-          "El DNI del Remitente es requerido y debe ser válido, por favor verifique el valor",
+      openMessage({
+        content: "Si el DNI del remitente es correcto, contacte a soporte",
         type: "error",
-        placement: "bottomRight",
+        duration: 3,
       });
       return;
     }
     if (receptorInformacion?.status === "error") {
-      openNotification({
-        message: "Error al registrar encomienda",
-        description:
-          "El DNI del Destinatario es requerido y debe ser válido , por favor verifique el valor",
+      openMessage({
+        content: "Si el DNI del destinatario es correcto, contacte a soporte",
         type: "error",
-        placement: "bottomRight",
+        duration: 3,
       });
       return;
     }
@@ -108,28 +103,27 @@ export function EncomiendasForm() {
 
       {
         onSuccess: (response) => {
-          openNotification({
-            message: "Encomienda registrada",
-            description: response.message,
+          openMessage({
+            content: response.message,
             type: "success",
-            placement: "bottomRight",
+            duration: 3,
           });
         },
 
         onError: (error) => {
-          openNotification({
-            message: "Error al registrar encomienda",
-            description: error.message,
+          openMessage({
+            content: error.message,
             type: "error",
-            placement: "bottomRight",
+            duration: 3,
           });
+        },
+        onSettled: () => {
+          form.resetFields();
+          setRemitenteDNI("");
+          setDestinatarioDNI("");
         },
       }
     );
-
-    form.resetFields();
-    setRemitenteDNI("");
-    setDestinatarioDNI("");
   }
 
   return (

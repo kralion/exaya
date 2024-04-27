@@ -14,6 +14,8 @@ export const viajesRouter = createTRPCRouter({
       include: {
         ruta: true,
         bus: true,
+        boletos: true,
+        encomiendas: true,
       },
     });
     return {

@@ -7,7 +7,11 @@ import Footer from "./footer";
 import LightGradient from "@/assets/images/light-gradient.png";
 import DarkGradient from "@/assets/images/dark-gradient.png";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
-import { Tag } from "antd";
+import { Button, Tag } from "antd";
+import { CiLogin } from "react-icons/ci";
+import { FiLogIn } from "react-icons/fi";
+
+import { BsArrowRight } from "react-icons/bs";
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -28,11 +32,6 @@ export const navLinks = [
   {
     label: "Membresías",
     href: "/planes",
-  },
-
-  {
-    label: "Ingresar",
-    href: "/login",
   },
 ];
 
@@ -83,6 +82,16 @@ export default function LandingLayout({
             Powered with AI
           </Tag>
           <DesktopNavBar navLinks={navLinks} />
+          <Link
+            href="/login"
+            className="group hidden cursor-pointer items-center justify-center gap-2 rounded-full border-orange-400  bg-gradient-to-r from-orange-400 to-orange-500 p-3 text-xs font-semibold  text-white duration-200 hover:px-4 hover:shadow hover:shadow-orange-700 active:opacity-70 dark:text-black   dark:shadow-orange-300  lg:flex  "
+          >
+            <span className="duration-300 ">Ingresar</span>
+            <FiLogIn
+              className="duration-300 group-hover:translate-x-1"
+              size={15}
+            />
+          </Link>
         </div>
         <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>
           {children}

@@ -1,8 +1,9 @@
 import React from "react";
 import { FloatButton } from "antd";
 import { TiWeatherSunny } from "react-icons/ti";
-import { IoMoonOutline } from "react-icons/io5";
-import { VscSymbolColor } from "react-icons/vsc";
+import { FaRegEye } from "react-icons/fa";
+import { IoMdMoon } from "react-icons/io";
+
 // import {switchOffSound} from "@/assets/sounds/switch-off.mp3";
 // import switchOnSound from "@/assets/sounds/switch-on.mp3";
 // import useSound from "use-sound";
@@ -18,10 +19,9 @@ export default function ThemeToggle({
   // const [playOff] = useSound(switchOffSound);
   return (
     <FloatButton.Group
-      trigger="click"
-      type="primary"
-      style={{ left: 14, bottom: 14 }}
-      icon={<VscSymbolColor />}
+      trigger="hover"
+      style={{ left: 14, bottom: 10 }}
+      icon={<FaRegEye />}
     >
       <FloatButton
         onClick={() => {
@@ -29,7 +29,7 @@ export default function ThemeToggle({
           document.documentElement.classList.toggle("dark");
           // playOff();
         }}
-        icon={<IoMoonOutline />}
+        icon={<IoMdMoon title="Modo Oscuro" />}
       />
       <FloatButton
         onClick={() => {
@@ -37,7 +37,7 @@ export default function ThemeToggle({
           document.documentElement.classList.remove("dark");
           // playOn();
         }}
-        icon={<TiWeatherSunny />}
+        icon={<TiWeatherSunny title="Modo Claro" />}
       />
     </FloatButton.Group>
   );

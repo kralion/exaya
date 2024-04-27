@@ -184,13 +184,12 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "El estado de la encomienda ha sido actualizado con éxito",
+          message: "Estado de la encomienda actualizado",
         };
       } catch (error) {
         return {
           status: "error",
-          message:
-            "Ocurrió un error inesperado al actualizar el estado de la encomienda, por favor recarge la página e intente nuevamente",
+          message: "Ocurrió un error, actualiza la pagina",
         };
       }
     }),
