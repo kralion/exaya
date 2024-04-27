@@ -150,7 +150,7 @@ export default function Login() {
             >
               <Input
                 type="text"
-                className={`rounded-lg px-5  py-2    ${literata.className}`}
+                className={`rounded-lg px-3  py-2    ${literata.className}`}
               />
             </Form.Item>
 
@@ -166,7 +166,7 @@ export default function Login() {
               ]}
             >
               <Input.Password
-                className={`rounded-lg  px-5  py-2    ${literata.className}`}
+                className={`rounded-lg  px-3  py-2    ${literata.className}`}
                 type="password"
               />
             </Form.Item>

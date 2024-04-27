@@ -5,10 +5,10 @@ import { api } from "@/utils/api";
 import { useState } from "react";
 import Head from "next/head";
 import "@/styles/globals.css";
-import esEs from "antd/locale/es_ES";
+import locale from "antd/locale/es_ES";
 import dayjs from "dayjs";
-import NextTopLoader from "nextjs-toploader";
 import "dayjs/locale/es";
+import NextTopLoader from "nextjs-toploader";
 import { ConfigProvider, theme } from "antd";
 import ThemeToggle from "@/components/theme-toggle";
 import { MenuProvider } from "@/context/MenuContext";
@@ -48,7 +48,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <meta property="og:url" content="https://exaya.netlify.app" />
       </Head>
       <ConfigProvider
-        locale={esEs}
+        locale={locale}
         theme={{
           components: {
             Slider: {

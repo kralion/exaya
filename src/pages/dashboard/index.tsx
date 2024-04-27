@@ -1,13 +1,11 @@
 import AppHead from "@/components/landing/head";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
+import { ProgressesCard } from "@/components/ui/panel-de-control/progresses-card";
 import { api } from "@/utils/api";
 import { Skeleton, Space, Statistic, Typography } from "antd";
 import { useSession } from "next-auth/react";
-import { IoTicketOutline } from "react-icons/io5";
-import { LiaLuggageCartSolid } from "react-icons/lia";
 import AppLayout from "../../components/exaya/layout";
-import { ProgressesCard } from "@/components/ui/panel-de-control/progresses-card";
 
 type TViajeEstado = {
   estado: "DISPONIBLE" | "LLENO" | "CANCELADO";
@@ -61,39 +59,29 @@ export default function Dashboard() {
               <Typography.Text type="secondary" className="font-light">
                 Boleto
               </Typography.Text>
-              <Space>
-                <IoTicketOutline
-                  className="text-zinc-400 drop-shadow-lg"
-                  size={20}
-                />
-                {isLoadingBoletoCode ? (
-                  <Skeleton.Button active size="small" style={{ width: 100 }} />
-                ) : (
-                  <Typography.Text strong>
-                    {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
-                  </Typography.Text>
-                )}
-              </Space>
+
+              {isLoadingBoletoCode ? (
+                <Skeleton.Button active size="small" style={{ width: 100 }} />
+              ) : (
+                <Typography.Text className="text-xl">
+                  {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
+                </Typography.Text>
+              )}
             </Space>
 
             <Space direction="vertical" className="mt-8 gap-2 text-right">
               <Typography.Text type="secondary" className="font-light">
                 Encomienda
               </Typography.Text>
-              <Space>
-                <LiaLuggageCartSolid
-                  className="text-zinc-400 drop-shadow-lg"
-                  size={20}
-                />
-                {isLoadingEncomiendaCode ? (
-                  <Skeleton.Button active size="small" style={{ width: 100 }} />
-                ) : (
-                  <Typography.Text strong>
-                    {session?.user.serieEncomienda}- 00
-                    {lastestCodeEncomienda?.response}
-                  </Typography.Text>
-                )}
-              </Space>
+
+              {isLoadingEncomiendaCode ? (
+                <Skeleton.Button active size="small" style={{ width: 100 }} />
+              ) : (
+                <Typography.Text className="text-xl">
+                  {session?.user.serieEncomienda}- 00
+                  {lastestCodeEncomienda?.response}
+                </Typography.Text>
+              )}
             </Space>
           </Space>
         </ControlPaneCard>

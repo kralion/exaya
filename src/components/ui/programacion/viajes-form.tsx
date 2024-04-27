@@ -1,10 +1,9 @@
-import { useNotification } from "@/context/NotificationContext";
-import { api } from "@/utils/api";
-import { Button, DatePicker, DatePickerProps, Form, Select, Space } from "antd";
-import { useCallback, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useMessageContext } from "@/context/MessageContext";
-import moment from "moment-timezone";
+import { api } from "@/utils/api";
+import { Button, DatePicker, Form, Select, Space } from "antd";
+import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const layout = {
   labelCol: { span: 5 },
@@ -23,15 +22,8 @@ type TViaje = {
 
 const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100];
 
-export function ViajesForm({
-  idToEdit,
-  setIdToEdit,
-}: {
-  idToEdit: string;
-  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
-}) {
+export function ViajesForm({ idToEdit }: { idToEdit: string }) {
   const [form] = Form.useForm();
-  const { openNotification } = useNotification();
   const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
     api.conductores.getAllConductores.useQuery();
   const createViajeMutation = api.viajes.createViaje.useMutation();
@@ -46,26 +38,13 @@ export function ViajesForm({
   });
   const { openMessage } = useMessageContext();
   const updateViajeMutation = api.viajes.updateViajeById.useMutation();
-  const handleSetEditViajeValues = useCallback(() => {
-    if (singleViaje) {
-      console.log(singleViaje);
-      form.setFieldsValue({
-        rutaId: singleViaje?.response?.rutaId,
-        busId: singleViaje?.response?.busId,
-        // salida: moment(singleViaje?.response?.salida),
-        conductores: singleViaje?.response?.conductores.map(
-          (conductor: { id: string }) => conductor.id
-        ),
-        tarifas: singleViaje?.response?.tarifas,
-      });
-    }
-  }, [singleViaje, form]);
 
   function handleEditViaje(values: TViaje) {
     updateViajeMutation.mutate(
       {
         ...values,
         id: idToEdit,
+        salida: new Date(dayjs(values.salida).format("YYYY-MM-DD HH:mm:ss")),
         usuarioId: session?.user?.id as string,
         estado: "DISPONIBLE",
       },
@@ -84,32 +63,18 @@ export function ViajesForm({
             type: "error",
           });
         },
+        onSettled: () => {
+          form.resetFields();
+        },
       }
     );
   }
-
-  useEffect(() => {
-    if (idToEdit) {
-      handleSetEditViajeValues();
-    }
-  }, [idToEdit, handleSetEditViajeValues]);
-
   const onFinish = (values: TViaje) => {
-    const salidaDate = new Date(values.salida);
-    const salidaDateInUTC = new Date(
-      salidaDate.getUTCFullYear(),
-      salidaDate.getUTCMonth(),
-      salidaDate.getUTCDate(),
-      salidaDate.getUTCHours() - 5,
-      salidaDate.getUTCMinutes(),
-      salidaDate.getUTCSeconds()
-    );
-
     createViajeMutation.mutate(
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        salida: salidaDateInUTC,
+        salida: new Date(dayjs(values.salida).format("YYYY-MM-DD HH:mm:ss")),
         estado: "DISPONIBLE",
       },
       {
@@ -134,9 +99,27 @@ export function ViajesForm({
       }
     );
   };
+  useEffect(() => {
+    if (singleViaje) {
+      form.setFieldsValue({
+        rutaId: singleViaje?.response?.rutaId,
+        busId: singleViaje?.response?.busId,
+        salida: dayjs(singleViaje?.response?.salida),
+        conductores: singleViaje?.response?.conductores.map(
+          (conductor: { id: string }) => conductor.id
+        ),
+        tarifas: singleViaje?.response?.tarifas,
+      });
+    }
+  }, [singleViaje, form]);
 
   return (
-    <Form {...layout} form={form} name="viaje-form" onFinish={onFinish}>
+    <Form
+      {...layout}
+      form={form}
+      name="viaje-form"
+      onFinish={idToEdit ? handleEditViaje : onFinish}
+    >
       <Space className="w-full items-start justify-between">
         <Space direction="vertical" className="gap-0">
           <Space className="gap-4">
@@ -181,6 +164,7 @@ export function ViajesForm({
                 ))}
               </Select>
             </Form.Item>
+
             <Form.Item
               rules={[{ required: true, message: "Requerido" }]}
               name="salida"
@@ -188,9 +172,9 @@ export function ViajesForm({
               <DatePicker
                 style={{ width: 200 }}
                 showTime
+                showNow={false}
                 placeholder="Fecha de Salida"
                 format="YYYY-MM-DD HH:mm"
-                minuteStep={15}
               />
             </Form.Item>
           </Space>
@@ -246,11 +230,16 @@ export function ViajesForm({
         <Form.Item>
           <div className="flex justify-end gap-2">
             <Button
-              disabled={createViajeMutation.isLoading}
+              disabled={
+                createViajeMutation.isLoading || updateViajeMutation.isLoading
+              }
+              loading={
+                createViajeMutation.isLoading || updateViajeMutation.isLoading
+              }
               htmlType="submit"
               type="primary"
             >
-              Crear Viaje
+              {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
             </Button>
 
             <Button
