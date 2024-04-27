@@ -24,33 +24,6 @@ export const boletosRouter = createTRPCRouter({
     });
   }),
 
-  getBoletosByViajeTimeSchedule: publicProcedure
-    .input(z.object({ scheduleTimeQuery: z.string() }))
-    .query(async ({ input, ctx }) => {
-      //TODO: I am querying to the entire salida, and not to the time of salida
-      try {
-        const boletos = await ctx.prisma.boleto.findMany({
-          where: { viaje: { salida: input.scheduleTimeQuery } },
-          include: {
-            viaje: {
-              include: {
-                ruta: { select: { ciudadDestino: true, ciudadOrigen: true } },
-              },
-            },
-          },
-        });
-        return {
-          status: "success",
-          response: boletos,
-        };
-      } catch (error) {
-        return {
-          status: "error",
-          message: "Error al obtener los boletos",
-        };
-      }
-    }),
-
   getLatestCodeOfBoleto: publicProcedure.query(async ({ ctx }) => {
     try {
       const boleto = await ctx.prisma.boleto.findFirst({
@@ -68,25 +41,6 @@ export const boletosRouter = createTRPCRouter({
     }
   }),
 
-  getBoletosByRutaDestiny: publicProcedure
-    .input(z.object({ destino: z.string() }))
-    .query(async ({ input, ctx }) => {
-      try {
-        const boletos = await ctx.prisma.boleto.findMany({
-          where: { viaje: { ruta: { ciudadDestino: input.destino } } },
-        });
-        return {
-          status: "success",
-          response: boletos,
-        };
-      } catch (error) {
-        return {
-          status: "error",
-          message: "Error al obtener los boletos",
-        };
-      }
-    }),
-
   getBoletosById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -97,29 +51,6 @@ export const boletosRouter = createTRPCRouter({
         return {
           status: "success",
           response: boleto,
-        };
-      } catch (error) {
-        return {
-          status: "error",
-          message: "Error al obtener el boleto",
-        };
-      }
-    }),
-
-  getBoletosByStatus: publicProcedure
-    .input(
-      z.object({
-        status: z.enum(["PAGADO", "RESERVADO", "DISPONIBLE"]),
-      })
-    )
-    .query(async ({ input, ctx }) => {
-      try {
-        const boletos = await ctx.prisma.boleto.findMany({
-          where: { estado: input.status },
-        });
-        return {
-          status: "success",
-          response: boletos,
         };
       } catch (error) {
         return {
@@ -187,6 +118,18 @@ export const boletosRouter = createTRPCRouter({
   createBoleto: publicProcedure
     .input(boletoSchema)
     .mutation(async ({ input, ctx }) => {
+      const existingBoleto = await ctx.prisma.boleto.findFirst({
+        where: {
+          asiento: input.asiento,
+        },
+      });
+      if (existingBoleto) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Asiento ocupado, actualice la página",
+        });
+      }
+
       try {
         await ctx.prisma.boleto.create({
           data: input,

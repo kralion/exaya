@@ -318,6 +318,19 @@ export const viajesRouter = createTRPCRouter({
   createViaje: publicProcedure
     .input(viajeSchema)
     .mutation(async ({ input, ctx }) => {
+      const existingViaje = await ctx.prisma.viaje.findFirst({
+        where: {
+          rutaId: input.rutaId,
+          busId: input.busId,
+          salida: input.salida,
+        },
+      });
+      if (existingViaje) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Ya existe el viaje, actualice la página",
+        });
+      }
       try {
         await ctx.prisma.viaje.create({
           data: input,
@@ -329,7 +342,7 @@ export const viajesRouter = createTRPCRouter({
       } catch (error) {
         return {
           status: "error",
-          message: "Ocurrió un error al registrar el viaje",
+          message: "Error al crear el viaje",
         };
       }
     }),
@@ -344,7 +357,7 @@ export const viajesRouter = createTRPCRouter({
       if (!viaje) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "El viaje no existe",
+          message: "El viaje no existe, actualice la página",
         });
       }
 
@@ -352,7 +365,7 @@ export const viajesRouter = createTRPCRouter({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message:
-            "Error, el viaje tiene boletos vendidos, elimine los boletos primero",
+            "El viaje tiene boletos vendidos, elimine los boletos primero",
         });
       }
 

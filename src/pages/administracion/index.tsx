@@ -164,8 +164,8 @@ export default function Administracion() {
                 (salidasDiarias?.response?.length ?? 0) > 0 &&
                 horarios.length > 0 &&
                 horarios.map((horario) => {
-                  const viajeData = salidasDiarias?.response?.find(
-                    (salida) => salida.salida.toString() === horario.toString()
+                  const viajeData = salidasDiarias?.response?.find((ruta) =>
+                    ruta.salida.toString().includes(horario.toString())
                   );
                   const viajeId = viajeData?.id;
 

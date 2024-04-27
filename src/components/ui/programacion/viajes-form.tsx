@@ -5,10 +5,6 @@ import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-const layout = {
-  labelCol: { span: 5 },
-};
-
 type TViaje = {
   ciudadOrigen: string;
   ciudadDestino: string;
@@ -100,7 +96,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
     );
   };
   useEffect(() => {
-    if (singleViaje) {
+    if (idToEdit && singleViaje?.response) {
       form.setFieldsValue({
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
@@ -111,11 +107,10 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
         tarifas: singleViaje?.response?.tarifas,
       });
     }
-  }, [singleViaje, form]);
+  }, [singleViaje, form, idToEdit]);
 
   return (
     <Form
-      {...layout}
       form={form}
       name="viaje-form"
       onFinish={idToEdit ? handleEditViaje : onFinish}

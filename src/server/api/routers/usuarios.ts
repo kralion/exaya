@@ -73,6 +73,16 @@ export const usuariosRouter = createTRPCRouter({
         where: { id: input.id },
       });
 
+      const currentUser = await ctx.prisma.usuario.findUnique({
+        where: { id: ctx.session.user.id },
+      });
+      if (currentUser?.rol !== "ADMIN") {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Solo los administradores pueden eliminar usuarios",
+        });
+      }
+
       if (!user)
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -80,10 +90,19 @@ export const usuariosRouter = createTRPCRouter({
         });
 
       if (user.rol === "ADMIN") {
-        return {
-          status: "error",
-          message: "No se puede eliminar un usuario administrador",
-        };
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "No es posible borrar a un usuario administrador",
+        });
+      }
+
+      const sessionUserId = ctx.session.user.id;
+      if (sessionUserId === user.id) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "No es posible borrar el usuario con el que se ha iniciado sesión",
+        });
       }
 
       const boletos = await ctx.prisma.boleto.findMany({
