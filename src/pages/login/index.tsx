@@ -35,7 +35,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
-
   async function onFinish(values: TLogin) {
     setLoading(true);
     const result = await signIn("credentials", {
@@ -45,7 +44,7 @@ export default function Login() {
     });
     if (result?.error) {
       openMessage({
-        content: result.error,
+        content: "Credenciales incorrectas",
         type: "error",
         duration: 3,
       });
@@ -53,7 +52,7 @@ export default function Login() {
       openMessage({
         content: "Redirigiendo al dashboard...",
         type: "loading",
-        duration: 3,
+        duration: 2,
       });
       router.push("/dashboard");
     }

@@ -12,6 +12,7 @@ import NextTopLoader from "nextjs-toploader";
 import { ConfigProvider, theme } from "antd";
 import ThemeToggle from "@/components/theme-toggle";
 import { MenuProvider } from "@/context/MenuContext";
+import { MessageProvider } from "@/context/MessageContext";
 dayjs.locale("es");
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -63,13 +64,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
           algorithm: theming === "dark" ? darkAlgorithm : defaultAlgorithm,
         }}
       >
-        <MenuProvider>
-          <ThemeToggle setTheme={setTheming} />
-          <SessionProvider session={session}>
-            <NextTopLoader showSpinner={false} color="#f97316" />
-            <Component {...pageProps} />
-          </SessionProvider>
-        </MenuProvider>
+        <MessageProvider>
+          <MenuProvider>
+            <ThemeToggle setTheme={setTheming} />
+            <SessionProvider session={session}>
+              <NextTopLoader showSpinner={false} color="#f97316" />
+              <Component {...pageProps} />
+            </SessionProvider>
+          </MenuProvider>
+        </MessageProvider>
       </ConfigProvider>
     </>
   );

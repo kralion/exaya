@@ -13,7 +13,6 @@ import { IoTicketOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
-import { MessageProvider } from "@/context/MessageContext";
 const { Header, Footer, Sider, Content } = Layout;
 interface LayoutProps {
   children: React.ReactNode;
@@ -53,103 +52,95 @@ export default function AppLayout({ children }: LayoutProps) {
   const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
+  const handleSignOut = async () => {
+    const callbackUrl = `${process.env.NEXT_PUBLIC_AUTH_URL ?? ""}/login`;
+    await signOut({ callbackUrl, redirect: true });
+  };
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <MessageProvider>
-      <Layout className="p-4">
-        <Sider
-          className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
-          collapsed={isCollapsed}
+    <Layout className="p-4">
+      <Sider
+        className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
+        collapsed={isCollapsed}
+        style={{
+          position: "fixed",
+          top: 14,
+          left: 14,
+          background: colorBgContainer,
+          borderRadius: 21,
+        }}
+        collapsedWidth={50}
+      >
+        <AppHeader />
+        <Menu
+          mode="inline"
+          selectable={true}
+          inlineCollapsed={isCollapsed}
+          selectedKeys={[selectedKey]}
+          items={items}
+          onSelect={(item) => {
+            setSelectedKey(item.key);
+            router.push(`/${item.key}`);
+          }}
+        />
+        <div className=" px-2 pb-2">
+          {isCollapsed ? (
+            <Button
+              type="text"
+              danger
+              className="rounded-b-xl rounded-t-md"
+              icon={<CgLogOut />}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleSignOut}
+            />
+          ) : (
+            <Button
+              type="text"
+              className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
+              danger
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleSignOut}
+            >
+              <CgLogOut />
+              Salir
+            </Button>
+          )}
+        </div>
+      </Sider>
+      <Layout
+        className={`space-y-3 duration-500 ${isCollapsed ? "ml-14 " : "ml-52"}`}
+      >
+        <Header
+          className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50 px-3  shadow-md dark:border-zinc-800"
           style={{
-            position: "fixed",
-            top: 14,
-            left: 14,
             background: colorBgContainer,
+            borderRadius: 14,
+          }}
+        >
+          <AIAssistantInput />
+          <h3 className=" absolute right-5  text-center font-bold text-primary  ">
+            Nombre de la Empresa S.A
+          </h3>
+        </Header>
+
+        <Content
+          style={{
+            background: colorBgContainer,
+            padding: 21,
             borderRadius: 21,
           }}
-          collapsedWidth={50}
+          className="min-h-[620px] rounded-lg border-2 border-slate-100 border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
         >
-          <AppHeader />
-          <Menu
-            mode="inline"
-            selectable={true}
-            inlineCollapsed={isCollapsed}
-            selectedKeys={[selectedKey]}
-            items={items}
-            onSelect={(item) => {
-              setSelectedKey(item.key);
-              router.push(`/${item.key}`);
-            }}
-          />
-          <div className=" px-2 pb-2">
-            {isCollapsed ? (
-              <Button
-                type="text"
-                danger
-                className="rounded-b-xl rounded-t-md"
-                icon={<CgLogOut />}
-                onClick={() =>
-                  void signOut({
-                    callbackUrl: `${window.location.origin}/login`,
-                    redirect: true,
-                  })
-                }
-              />
-            ) : (
-              <Button
-                type="text"
-                className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
-                danger
-                onClick={() =>
-                  void signOut({
-                    callbackUrl: `${window.location.origin}/login`,
-                    redirect: true,
-                  })
-                }
-              >
-                <CgLogOut />
-                Salir
-              </Button>
-            )}
-          </div>
-        </Sider>
-        <Layout
-          className={`space-y-3 duration-500 ${
-            isCollapsed ? "ml-14 " : "ml-52"
-          }`}
-        >
-          <Header
-            className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50 px-3  shadow-md dark:border-zinc-800"
-            style={{
-              background: colorBgContainer,
-              borderRadius: 14,
-            }}
-          >
-            <AIAssistantInput />
-            <h3 className=" absolute right-5  text-center font-bold text-primary  ">
-              Nombre de la Empresa S.A
-            </h3>
-          </Header>
-
-          <Content
-            style={{
-              background: colorBgContainer,
-              padding: 21,
-              borderRadius: 21,
-            }}
-            className="min-h-[620px] rounded-lg border-2 border-slate-100 border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
-          >
-            {children}
-          </Content>
-          <Footer className="my-5 text-center text-sm text-zinc-400">
-            © 2024 Expreso Ayacucho S.A.C. Todos los derechos reservados.
-          </Footer>
-        </Layout>
+          {children}
+        </Content>
+        <Footer className="my-5 text-center text-sm text-zinc-400">
+          © 2024 Expreso Ayacucho S.A.C. Todos los derechos reservados.
+        </Footer>
       </Layout>
-    </MessageProvider>
+    </Layout>
   );
 }

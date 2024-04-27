@@ -14,6 +14,7 @@ const server = z.object({
   DATABASE_URL: z.string().min(1),
   API_RENIEC_TOKEN: z.string().min(1),
   API_RENIEC_URL: z.string().min(1),
+  NEXT_PUBLIC_AUTH_URL: z.string().min(1),
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
   NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string().min(1),
   CLOUDINARY_API_SECRET: z.string().min(1),
@@ -39,6 +40,7 @@ const processEnv = {
   NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   DATABASE_URL: process.env.DATABASE_URL,
   API_RENIEC_TOKEN: process.env.API_RENIEC_TOKEN,
+  NEXT_PUBLIC_AUTH_URL: process.env.NEXT_PUBLIC_AUTH_URL,
   API_RENIEC_URL: process.env.API_RENIEC_URL,
   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
