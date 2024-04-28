@@ -64,15 +64,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
           algorithm: theming === "dark" ? darkAlgorithm : defaultAlgorithm,
         }}
       >
-        <MessageProvider>
-          <MenuProvider>
-            <ThemeToggle setTheme={setTheming} />
-            <SessionProvider session={session}>
-              <NextTopLoader showSpinner={false} color="#f97316" />
-              <Component {...pageProps} />
-            </SessionProvider>
-          </MenuProvider>
-        </MessageProvider>
+        <MenuProvider>
+          <ThemeToggle setTheme={setTheming} />
+          <SessionProvider session={session}>
+            <NextTopLoader showSpinner={false} color="#f97316" />
+            <Component {...pageProps} />
+          </SessionProvider>
+        </MenuProvider>
       </ConfigProvider>
     </>
   );

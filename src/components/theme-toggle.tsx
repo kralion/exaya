@@ -20,7 +20,7 @@ export default function ThemeToggle({
   return (
     <FloatButton.Group
       trigger="hover"
-      style={{ left: 14, bottom: 10 }}
+      style={{ left: 5, bottom: 5 }}
       icon={<FaRegEye />}
     >
       <FloatButton

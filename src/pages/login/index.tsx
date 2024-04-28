@@ -2,7 +2,6 @@ import LoginGradientLight from "@/assets/images/login-gradient-light.png";
 import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
 import VideoBackground from "@/components/exaya/video-background";
 import AppHead from "@/components/landing/head";
-import { useMessageContext } from "@/context/MessageContext";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { Checkbox, Form, Input, Spin } from "antd";
@@ -15,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
+import { useNotification } from "@/context/notification";
 
 const literata = Literata({
   weight: "400",
@@ -31,10 +31,10 @@ type TLogin = {
   password: string;
 };
 export default function Login() {
-  const { openMessage } = useMessageContext();
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
+  const { openNotification } = useNotification();
   async function onFinish(values: TLogin) {
     setLoading(true);
     const result = await signIn("credentials", {
@@ -43,17 +43,13 @@ export default function Login() {
       redirect: false,
     });
     if (result?.error) {
-      openMessage({
-        content: "Credenciales incorrectas",
+      openNotification({
+        message: "Error de Autenticación",
+        description: "Verifica que las credenciales  sean las correctas",
         type: "error",
-        duration: 3,
+        placement: "topRight",
       });
     } else {
-      openMessage({
-        content: "Redirigiendo al dashboard...",
-        type: "loading",
-        duration: 2,
-      });
       router.push("/dashboard");
     }
     setLoading(false);

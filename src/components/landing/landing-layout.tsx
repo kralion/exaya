@@ -84,13 +84,10 @@ export default function LandingLayout({
           <DesktopNavBar navLinks={navLinks} />
           <Link
             href="/login"
-            className="group hidden cursor-pointer items-center justify-center gap-2 rounded-full border-orange-400  bg-gradient-to-r from-orange-400 to-orange-500 p-3 text-xs font-semibold  text-white duration-200 hover:px-4 hover:shadow hover:shadow-orange-700 active:opacity-70 dark:text-black   dark:shadow-orange-300  lg:flex  "
+            className="hidden items-center gap-2 rounded-full border-2 border-orange-500 bg-primary p-3 text-xs font-semibold text-white shadow shadow-primary duration-200 hover:opacity-80 active:scale-95 dark:border-black/10 dark:bg-black/80 dark:text-primary dark:shadow-black lg:flex   "
           >
-            <span className="duration-300 ">Ingresar</span>
-            <FiLogIn
-              className="duration-300 group-hover:translate-x-1"
-              size={15}
-            />
+            <span>Ingresar</span>
+            <FiLogIn size={15} />
           </Link>
         </div>
         <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>

@@ -7,6 +7,7 @@ import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
+import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 const dancing_Script = Dancing_Script({
   subsets: ["latin"],
@@ -34,15 +35,15 @@ export default function Index() {
           <div className="relative">
             <Link
               href="/dashboard"
-              className="hover:purple-900 group absolute left-[530px] right-[530px] z-50 mt-10 hidden cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500 px-3 py-1.5 font-semibold text-white  duration-500 hover:px-10 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70 dark:shadow-orange-500   lg:inline-flex  lg:py-3 lg:text-xl "
+              className="hover:purple-900 group z-50 mt-10 hidden w-64 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500  py-1.5 font-semibold text-white  duration-500 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70 dark:shadow-orange-500   lg:inline-flex  lg:py-3 lg:text-xl "
             >
-              <span className="duration-300 group-hover:-translate-x-2 ">
+              <span className="duration-300 group-hover:-translate-x-1 ">
                 Pruébalo gratis
               </span>
 
-              <BsArrowRight
-                className="duration-300 group-hover:translate-x-3"
-                strokeWidth={0.7}
+              <HiOutlineArrowNarrowRight
+                size={25}
+                className="duration-500 group-hover:translate-x-2"
               />
             </Link>
             <Image
@@ -50,12 +51,12 @@ export default function Index() {
               // width = {80 mobile}
               data-aos="fade-down"
               data-aos-duration="1500"
-              className="absolute -top-32 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
+              className="absolute -top-10 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
               alt="asset"
             />
           </div>
 
-          <div className=" mt-10 flex flex-col overflow-hidden  lg:min-h-[670px]">
+          <div className="flex flex-col overflow-hidden  lg:min-h-[670px]">
             <ContainerScroll />
           </div>
           <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
