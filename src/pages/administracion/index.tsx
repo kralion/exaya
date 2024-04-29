@@ -108,9 +108,15 @@ export default function Administracion() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  if (session?.user.rol !== "ADMIN") {
-    router.back();
-  }
+  useEffect(
+    () => {
+      if (session?.user.rol !== "ADMIN") {
+        router.back();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [session]
+  );
   return (
     <AppLayout>
       <AppHead title="Administracion" />

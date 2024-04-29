@@ -1,3 +1,4 @@
+"use client";
 import AppLayout from "@/components/exaya/layout";
 import AppHead from "@/components/landing/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
@@ -16,14 +17,12 @@ import {
 } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useMessageContext } from "@/context/MessageContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 export default function Contable() {
   const { data: session } = useSession();
   const router = useRouter();
-  const { openMessage } = useMessageContext();
   const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
@@ -115,9 +114,15 @@ export default function Contable() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  if (session?.user.rol !== "ADMIN") {
-    router.back();
-  }
+  useEffect(
+    () => {
+      if (session?.user.rol !== "ADMIN") {
+        router.back();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [session]
+  );
 
   return (
     <AppLayout>
