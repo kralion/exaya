@@ -14,7 +14,7 @@ import type { CascaderProps } from "antd/lib/cascader";
 import { HiOutlineUpload } from "react-icons/hi";
 import { useMessageContext } from "@/context/MessageContext";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsPassport, BsTelephone } from "react-icons/bs";
 import type { z } from "zod";
@@ -24,6 +24,9 @@ import { usuarioSchema } from "@/schemas";
 
 type Props = {
   activator: string;
+  usuarioIdToEdit: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
 };
 const { Title, Text } = Typography;
 
@@ -175,8 +178,12 @@ const formItemLayout = {
   },
 };
 
-export function UsuarioForm({ activator }: Props) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export function UsuarioForm({
+  activator,
+  usuarioIdToEdit,
+  setIsModalOpen,
+  isModalOpen,
+}: Props) {
   const { openMessage } = useMessageContext();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const [source, setSource] = useState<string | undefined>();
@@ -191,22 +198,77 @@ export function UsuarioForm({ activator }: Props) {
       }
     );
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
-
+  const updateUserMutation = api.usuarios.updateUser.useMutation();
+  const { data: rutas, isLoading } = api.rutas.getAllRutas.useQuery();
+  const { data: usuarioSingle } = api.usuarios.getUsuarioById.useQuery({
+    id: usuarioIdToEdit,
+  });
+  const uniqueCiudadOrigen = rutas
+    ? rutas
+        .map((ruta) => ruta.ciudadOrigen)
+        .filter((value, index, self) => self.indexOf(value) === index)
+    : [];
   const handleCancel = () => {
     setIsModalOpen(false);
     setSource(undefined);
     form.resetFields();
   };
 
-  function onFinish(values: z.infer<typeof usuarioSchema>) {
-    const apellidosConductor = `${
-      reniecResponse?.data?.apellidoPaterno ?? ""
-    } ${reniecResponse?.data?.apellidoMaterno ?? ""}`;
+  function handleUpdateUser(values: z.infer<typeof usuarioSchema>) {
+    if (reniecResponse?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
+        duration: 3,
+        type: "error",
+      });
+    }
+    const apellidosConductor = `${reniecResponse.data.apellidoPaterno} ${reniecResponse.data.apellidoMaterno}`;
+    if (usuarioSingle?.response) {
+      updateUserMutation.mutate(
+        {
+          ...values,
+          foto: source,
+          id: usuarioSingle.response.id,
+          nombres: reniecResponse.data.nombres,
+          apellidos: apellidosConductor,
+        },
+        {
+          onSuccess: (response) => {
+            openMessage({
+              content: response.message,
+              duration: 3,
+              type: "success",
+            });
+          },
+          onError: (error) => {
+            openMessage({
+              content: error.message,
+              duration: 3,
+              type: "error",
+            });
+          },
+          onSettled: () => {
+            form.resetFields();
+          },
+        }
+      );
+    }
+  }
+
+  function handleCreateUser(values: z.infer<typeof usuarioSchema>) {
+    if (reniecResponse?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
+        duration: 3,
+        type: "error",
+      });
+    }
+    const apellidosConductor = `${reniecResponse.data.apellidoPaterno} ${reniecResponse.data.apellidoMaterno}`;
     createUsuarioMutation.mutate(
       {
         ...values,
         foto: source,
-        nombres: reniecResponse?.data?.nombres ?? "No registrado",
+        nombres: reniecResponse.data.nombres,
         apellidos: apellidosConductor,
       },
 
@@ -227,17 +289,34 @@ export function UsuarioForm({ activator }: Props) {
         },
         onSettled: () => {
           form.resetFields();
+          setSource(undefined);
         },
       }
     );
-    setSource(undefined);
   }
-  const { data: rutas, isLoading } = api.rutas.getAllRutas.useQuery();
-  const uniqueCiudadOrigen = rutas
-    ? rutas
-        .map((ruta) => ruta.ciudadOrigen)
-        .filter((value, index, self) => self.indexOf(value) === index)
-    : [];
+
+  function onFinish(values: z.infer<typeof usuarioSchema>) {
+    if (usuarioIdToEdit) {
+      handleUpdateUser(values);
+    } else {
+      handleCreateUser(values);
+    }
+  }
+
+  useEffect(() => {
+    if (usuarioSingle?.response && usuarioIdToEdit) {
+      form.setFieldsValue({
+        usuarioDni: usuarioSingle.response.usuarioDni,
+        telefono: usuarioSingle.response.telefono,
+        username: usuarioSingle.response.username,
+        rol: usuarioSingle.response.rol,
+        serieBoleto: usuarioSingle.response.serieBoleto,
+        serieEncomienda: usuarioSingle.response.serieEncomienda,
+        sedeDelegacion: usuarioSingle.response.sedeDelegacion,
+      });
+      setSource(usuarioSingle.response.foto);
+    }
+  }, [usuarioSingle, usuarioIdToEdit, form]);
 
   return (
     <>
@@ -504,11 +583,13 @@ export function UsuarioForm({ activator }: Props) {
 
           <Space className="mt-36 flex justify-end">
             <Button
-              loading={createUsuarioMutation.isLoading}
+              loading={
+                createUsuarioMutation.isLoading || updateUserMutation.isLoading
+              }
               htmlType="submit"
               type="primary"
             >
-              Registrar
+              {usuarioIdToEdit ? "Guardar Cambios" : "Registrar"}
             </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>

@@ -5,14 +5,21 @@ import { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 const { confirm } = Modal;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 type TProps = {
   id: string;
   activator: string;
+  setConductorIdToEdit: (id: string) => void;
+  setIsModalOpen: (value: boolean) => void;
 };
 
-export default function ConductorModal({ id, activator }: TProps) {
+export default function ConductorModal({
+  id,
+  activator,
+  setConductorIdToEdit,
+  setIsModalOpen,
+}: TProps) {
   const conductorDeleteMutation = api.conductores.deleteConductor.useMutation();
   const { data: conductorSingle } = api.conductores.getConductorById.useQuery({
     id,
@@ -64,13 +71,15 @@ export default function ConductorModal({ id, activator }: TProps) {
         }}
         width={550}
         footer={
-          <div>
-            {/* {isEditing ? (
-              <Button onClick={handleSave}>Guardar</Button>
-            ) : (
-              <Button onClick={handleEdit}>Editar</Button>
-            )} */}
-
+          <Space>
+            <Button
+              onClick={() => {
+                setConductorIdToEdit(conductorSingle?.response?.id as string);
+                setIsModalOpen(true);
+              }}
+            >
+              Editar
+            </Button>
             <Button
               danger
               onClick={() =>
@@ -79,7 +88,7 @@ export default function ConductorModal({ id, activator }: TProps) {
             >
               Eliminar
             </Button>
-          </div>
+          </Space>
         }
       >
         <div className="mt-8 flex justify-between">

@@ -14,15 +14,24 @@ import {
   Space,
   Typography,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
 import { useMessageContext } from "@/context/MessageContext";
 
 const { Title } = Typography;
-
-export function ConductorForm({ activator }: { activator: string }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+type Props = {
+  activator: string;
+  conductorIdToEdit: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+};
+export function ConductorForm({
+  activator,
+  conductorIdToEdit,
+  setIsModalOpen,
+  isModalOpen,
+}: Props) {
   const [source, setSource] = useState<string | undefined>();
   const { openMessage } = useMessageContext();
   const handleCancel = () => {
@@ -34,6 +43,10 @@ export function ConductorForm({ activator }: { activator: string }) {
   const [form] = Form.useForm();
   const [conductorDNI, setConductorDNI] = useState<string>("");
   const createConductorMutation = api.conductores.createConductor.useMutation();
+  const updateConductorMutation = api.conductores.updateConductor.useMutation();
+  const { data: conductorSingle } = api.conductores.getConductorById.useQuery({
+    id: conductorIdToEdit,
+  });
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
       {
@@ -43,8 +56,49 @@ export function ConductorForm({ activator }: { activator: string }) {
         enabled: conductorDNI.length === 8,
       }
     );
+  function handleUpdateConductor(values: z.infer<typeof conductorSchema>) {
+    if (!reniecResponse?.data) {
+      return openMessage({
+        content: "Verique el DNI del conductor",
+        duration: 3,
+        type: "error",
+      });
+    }
+    const apellidosConductor = `${reniecResponse.data.apellidoPaterno} ${reniecResponse.data.apellidoMaterno}`;
 
-  const onFinish = (values: z.infer<typeof conductorSchema>) => {
+    updateConductorMutation.mutate(
+      {
+        ...values,
+        foto: source,
+        id: conductorIdToEdit,
+        nombres: reniecResponse.data.nombres,
+        apellidos: apellidosConductor,
+      },
+      {
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
+            duration: 3,
+            type: "success",
+          });
+        },
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            duration: 3,
+            type: "error",
+          });
+        },
+        onSettled: () => {
+          form.resetFields();
+          setConductorDNI("");
+          setSource(undefined);
+        },
+      }
+    );
+  }
+
+  function handleCreateConductor(values: z.infer<typeof conductorSchema>) {
     if (!reniecResponse?.data) {
       return openMessage({
         content: "Verique el DNI del conductor",
@@ -83,7 +137,28 @@ export function ConductorForm({ activator }: { activator: string }) {
         },
       }
     );
+  }
+
+  const onFinish = (values: z.infer<typeof conductorSchema>) => {
+    if (conductorIdToEdit) {
+      handleUpdateConductor(values);
+    } else {
+      handleCreateConductor(values);
+    }
   };
+
+  useEffect(() => {
+    if (conductorSingle && conductorIdToEdit) {
+      form.setFieldsValue({
+        conductorDni: conductorSingle?.response?.conductorDni,
+        telefono: conductorSingle?.response?.telefono,
+        licencia_conducir: conductorSingle?.response?.numeroLicencia,
+        nivel: conductorSingle?.response?.claseLicencia,
+        disponibilidad: conductorSingle?.response?.disponibilidad,
+      });
+      setSource(conductorSingle?.response?.foto);
+    }
+  }, [form, conductorIdToEdit, conductorSingle]);
 
   return (
     <>
@@ -291,8 +366,15 @@ export function ConductorForm({ activator }: { activator: string }) {
             </Radio.Group>
           </Form.Item>
           <Space className="col-span-2 mt-10 justify-end">
-            <Button htmlType="submit" type="primary">
-              Registrar
+            <Button
+              htmlType="submit"
+              loading={
+                createConductorMutation.isLoading ||
+                updateConductorMutation.isLoading
+              }
+              type="primary"
+            >
+              {conductorIdToEdit ? "Guardar Cambios" : "Registrar"}
             </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>

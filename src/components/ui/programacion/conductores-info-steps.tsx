@@ -2,6 +2,7 @@ import { api } from "@/utils/api";
 import { Avatar, Empty, List, Steps } from "antd";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import ConductorModal from "./conductores/conductor-modal";
+import { useState } from "react";
 
 const items = [
   {
@@ -30,7 +31,13 @@ type TConductor = {
   claseLicencia: string;
 };
 
-export function ConductoresInformacion() {
+export function ConductoresInformacion({
+  setConductorIdToEdit,
+  setIsModalOpen,
+}: {
+  setConductorIdToEdit: (id: string) => void;
+  setIsModalOpen: (value: boolean) => void;
+}) {
   const { data: conductoresRegistrados, isLoading } =
     api.conductores.getAllConductores.useQuery();
 
@@ -55,6 +62,8 @@ export function ConductoresInformacion() {
               title={
                 <div className="flex items-center gap-2">
                   <ConductorModal
+                    setIsModalOpen={setIsModalOpen}
+                    setConductorIdToEdit={setConductorIdToEdit}
                     activator={`${conductor.nombres} ${conductor.apellidos}`}
                     id={conductor.id}
                   />

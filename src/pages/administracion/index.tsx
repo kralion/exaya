@@ -22,7 +22,9 @@ const { Title, Text } = Typography;
 type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
 export default function Administracion() {
   const [dateQuery, setDateQuery] = useState(new Date());
+  const [usuarioIdToEdit, setUsuarioIdToEdit] = useState<string>("");
   const [currentViajeId, setCurrentViajeId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     data: salidasDiarias,
     isError,
@@ -249,9 +251,17 @@ export default function Administracion() {
         </Space>
         <Space className="mt-10 flex justify-between">
           <Title level={4}>Tabla de Usuarios</Title>
-          <UsuarioForm activator="Agregar Usuario" />
+          <UsuarioForm
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            usuarioIdToEdit={usuarioIdToEdit}
+            activator="Agregar Usuario"
+          />
         </Space>
-        <UsuariosTable />
+        <UsuariosTable
+          setIsModalOpen={setIsModalOpen}
+          setUsuarioIdToEdit={setUsuarioIdToEdit}
+        />
       </Space>
       <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>

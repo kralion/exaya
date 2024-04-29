@@ -15,7 +15,13 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 
 const { Text } = Typography;
-export default function UsuariosTable() {
+export default function UsuariosTable({
+  setUsuarioIdToEdit,
+  setIsModalOpen,
+}: {
+  setUsuarioIdToEdit: (id: string) => void;
+  setIsModalOpen: (value: boolean) => void;
+}) {
   const {
     data: usuarios,
     isLoading,
@@ -114,7 +120,14 @@ export default function UsuariosTable() {
       render: (record: { id: string }) => {
         return (
           <Space className="items-baseline gap-2">
-            <Button disabled title="Editar" icon={<FiEdit3 />} />
+            <Button
+              onClick={() => {
+                setUsuarioIdToEdit(record.id);
+                setIsModalOpen(true);
+              }}
+              title="Editar"
+              icon={<FiEdit3 />}
+            />
             <Popconfirm
               okButtonProps={{
                 danger: true,

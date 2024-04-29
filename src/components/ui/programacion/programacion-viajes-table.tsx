@@ -7,7 +7,7 @@ import { TbBus } from "react-icons/tb";
 export function ProgramacionTable({
   setIdToEdit,
 }: {
-  setIdToEdit: React.Dispatch<React.SetStateAction<string>>;
+  setIdToEdit: (id: string) => void;
 }) {
   const {
     data: viajes,
