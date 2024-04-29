@@ -15,10 +15,15 @@ import {
   Typography,
 } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import dayjs, { type Dayjs } from "dayjs";
+import { useSession } from "next-auth/react";
+import { useMessageContext } from "@/context/MessageContext";
+import { useRouter } from "next/router";
 
 const { Title, Text } = Typography;
 export default function Contable() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { openMessage } = useMessageContext();
   const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
@@ -110,6 +115,10 @@ export default function Contable() {
 
     return Array.from(uniqueRoutes.entries());
   };
+  if (session?.user.rol !== "ADMIN") {
+    router.back();
+  }
+
   return (
     <AppLayout>
       <AppHead title="Contable" />

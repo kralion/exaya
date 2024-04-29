@@ -13,7 +13,7 @@ import { IoTicketOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 const { Header, Footer, Sider, Content } = Layout;
 interface LayoutProps {
   children: React.ReactNode;
@@ -53,6 +53,7 @@ export default function AppLayout({ children }: LayoutProps) {
   const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
+  const { data: session } = useSession();
   const handleSignOut = async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
   };
@@ -81,7 +82,14 @@ export default function AppLayout({ children }: LayoutProps) {
             selectable={true}
             inlineCollapsed={isCollapsed}
             selectedKeys={[selectedKey]}
-            items={items}
+            items={
+              session?.user?.rol === "ADMIN"
+                ? items
+                : items.filter(
+                    (item) =>
+                      item?.key !== "administracion" && item?.key !== "contable"
+                  )
+            }
             onSelect={(item) => {
               setSelectedKey(item.key);
               router.push(`/${item.key}`);

@@ -10,39 +10,23 @@ import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { compare } from "bcrypt";
-
-enum SerieBoleto {
-  AG001 = "AG001",
-  AG002 = "AG002",
-  AG003 = "AG003",
-  AG004 = "AG004",
-  AG005 = "AG005",
-  AG006 = "AG006",
-  AG007 = "AG007",
-  AG008 = "AG008",
-  AG009 = "AG009",
-  AG010 = "AG010",
-}
-
-enum SerieEncomienda {
-  EAG001 = "EAG001",
-  EAG002 = "EAG002",
-  EAG003 = "EAG003",
-  EAG004 = "EAG004",
-  EAG005 = "EAG005",
-  EAG006 = "EAG006",
-  EAG007 = "EAG007",
-  EAG008 = "EAG008",
-  EAG009 = "EAG009",
-  EAG010 = "EAG010",
-}
+import type { SerieBoleto, SerieEncomienda, Rol } from "@/types/auth";
 
 declare module "next-auth" {
   interface User {
     nombres: string;
     apellidos: string;
     id: string;
-    rol: string;
+    rol: Rol;
+    serieBoleto: SerieBoleto;
+    serieEncomienda: SerieEncomienda;
+    foto: string;
+  }
+  interface JWT {
+    id: string;
+    nombres: string;
+    apellidos: string;
+    rol: Rol;
     serieBoleto: SerieBoleto;
     serieEncomienda: SerieEncomienda;
     foto: string;
@@ -55,7 +39,7 @@ declare module "next-auth" {
       nombres: string;
       apellidos: string;
       foto: string;
-      rol: string;
+      rol: Rol;
       serieBoleto: SerieBoleto;
       serieEncomienda: SerieEncomienda;
     };
@@ -104,7 +88,7 @@ export const authOptions: NextAuthOptions = {
           id: userFound.id,
           nombres: userFound.nombres,
           apellidos: userFound.apellidos,
-          rol: userFound.rol,
+          rol: userFound.rol as Rol,
           serieEncomienda: userFound.serieEncomienda as SerieEncomienda,
           serieBoleto: userFound.serieBoleto as SerieBoleto,
           foto: userFound.foto,
@@ -113,7 +97,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session({ token, session }) {
       return {
         ...session,
         user: {
@@ -127,6 +111,20 @@ export const authOptions: NextAuthOptions = {
           rol: token.rol,
         },
       };
+    },
+    async jwt({ token, user }) {
+      if (user)
+        return {
+          ...token,
+          id: user.id,
+          nombres: user.nombres,
+          apellidos: user.apellidos,
+          rol: user.rol,
+          serieBoleto: user.serieBoleto,
+          serieEncomienda: user.serieEncomienda,
+          foto: user.foto,
+        };
+      return token;
     },
   },
 };

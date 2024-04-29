@@ -23,3 +23,9 @@ export enum SerieEncomienda {
   EAG009 = "EAG009",
   EAG010 = "EAG010",
 }
+
+export enum Rol {
+  ADMIN = "ADMIN",
+  USER = "USER",
+  GUEST = "GUEST",
+}
