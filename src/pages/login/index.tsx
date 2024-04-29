@@ -6,12 +6,12 @@ import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { Checkbox, Form, Input, Spin } from "antd";
 import type { FormInstance } from "antd/es/form";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
 import { useNotification } from "@/context/notification";
@@ -32,6 +32,7 @@ type TLogin = {
 };
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
   const { openNotification } = useNotification();
@@ -54,6 +55,11 @@ export default function Login() {
     }
     setLoading(false);
   }
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
   return (
     <div

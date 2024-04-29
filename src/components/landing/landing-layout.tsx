@@ -1,17 +1,17 @@
+import DarkGradient from "@/assets/images/dark-gradient.png";
+import LightGradient from "@/assets/images/light-gradient.png";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
+import { Tag } from "antd";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "./footer";
-import LightGradient from "@/assets/images/light-gradient.png";
-import DarkGradient from "@/assets/images/dark-gradient.png";
-import DesktopNavBar from "../ui/landingpage/desktopnav";
-import { Button, Tag } from "antd";
-import { CiLogin } from "react-icons/ci";
 import { FiLogIn } from "react-icons/fi";
-
+import DesktopNavBar from "../ui/landingpage/desktopnav";
+import Footer from "./footer";
+import { useSession } from "next-auth/react";
 import { BsArrowRight } from "react-icons/bs";
+
 const inter = Inter({
   weight: ["800", "600", "300"],
   subsets: ["latin-ext"],
@@ -40,6 +40,7 @@ export default function LandingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { data: session } = useSession();
   return (
     <AOSWrapper>
       <div className={` ${inter.className}  dark:bg-zinc-900 dark:text-white`}>
@@ -82,12 +83,20 @@ export default function LandingLayout({
             Powered with AI
           </Tag>
           <DesktopNavBar navLinks={navLinks} />
-          <Link
-            href="/login"
-            className="hidden items-center gap-2 rounded-full border-2 border-orange-500 bg-primary p-3 text-xs font-semibold text-white shadow shadow-primary duration-200 hover:opacity-80 active:scale-95 dark:border-black/10 dark:bg-black/80 dark:text-primary dark:shadow-black lg:flex   "
-          >
-            <span>Ingresar</span>
-            <FiLogIn size={15} />
+          <Link href={session ? "/dashboard" : "/login"}>
+            {session ? (
+              <button className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
+                Ir al Dashboard{" "}
+                <BsArrowRight
+                  className="duration-300 group-hover:translate-x-2"
+                  size={15}
+                />
+              </button>
+            ) : (
+              <button className="flex items-center gap-1 text-sm font-semibold underline active:opacity-80 dark:no-underline dark:hover:underline">
+                Iniciar Sesión
+              </button>
+            )}
           </Link>
         </div>
         <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>

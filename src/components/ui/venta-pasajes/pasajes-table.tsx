@@ -1,32 +1,42 @@
+import { CollapsedContext } from "@/context/MenuContext";
 import { api } from "@/utils/api";
 import { Button, Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { type Dayjs } from "dayjs";
+import { useContext } from "react";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoFilterSharp } from "react-icons/io5";
 import { TbBus } from "react-icons/tb";
-import { TfiMoreAlt } from "react-icons/tfi";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import { type Dayjs } from "dayjs";
-import { CollapsedContext } from "@/context/MenuContext";
-import { useContext } from "react";
-import { CgMoreO } from "react-icons/cg";
-import { CiMenuFries } from "react-icons/ci";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
   const { isCollapsed } = useContext(CollapsedContext);
-  const origenFilterItems = viajes?.response?.map((viaje) => ({
-    text: viaje.ruta.ciudadOrigen,
-    value: viaje.ruta.ciudadOrigen,
-  }));
-  const destinoFilterItems = viajes?.response?.map((viaje) => ({
-    text: viaje.ruta.ciudadDestino,
-    value: viaje.ruta.ciudadDestino,
-  }));
+  const origenFilterItems = viajes?.response
+    ?.map((viaje) => ({
+      text: viaje.ruta.ciudadOrigen,
+      value: viaje.ruta.ciudadOrigen,
+    }))
+    .filter(
+      (viaje, index, self) =>
+        index ===
+        self.findIndex((v) => v.text === viaje.text && v.value === viaje.value)
+    );
+
+  const destinoFilterItems = viajes?.response
+    ?.map((viaje) => ({
+      text: viaje.ruta.ciudadDestino,
+      value: viaje.ruta.ciudadDestino,
+    }))
+    .filter(
+      (viaje, index, self) =>
+        index ===
+        self.findIndex((v) => v.text === viaje.text && v.value === viaje.value)
+    );
   const columns: ColumnsType = [
     {
       title: "Origen",
@@ -194,7 +204,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       }}
       pagination={false}
       loading={isLoading}
-      rootClassName="min-w-[755px] duration-500"
+      // rootClassName="min-w-[755px] duration-500"
       columns={columns}
       dataSource={viajes?.response}
       style={{
