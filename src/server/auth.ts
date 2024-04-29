@@ -113,21 +113,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        return {
-          ...token,
-          nombres: user.nombres,
-          serieBoleto: user.serieBoleto,
-          serieEncomienda: user.serieEncomienda,
-          id: user.id,
-          apellidos: user.apellidos,
-          foto: user.foto,
-          rol: user.rol,
-        };
-      }
-      return token;
-    },
     async session({ session, token }) {
       return {
         ...session,

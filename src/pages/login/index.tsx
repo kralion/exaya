@@ -198,7 +198,7 @@ export default function Login() {
               <GoKey /> <span>ramiro-exaya</span>
             </p>
           </div>
-          <div className="fixed bottom-0 right-0 z-10 p-2  text-xs text-zinc-700 dark:text-zinc-400">
+          <div className="fixed bottom-0 right-0 z-10 p-2  text-xs">
             <h1 className="font-mono">v2.10.25</h1>
           </div>
         </AOSWrapper>
