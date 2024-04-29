@@ -1,5 +1,5 @@
 import AppLayout from "@/components/exaya/layout";
-import { PasajesTable } from "@/components/ui/venta-pasajes/";
+import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
 import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
@@ -24,11 +24,11 @@ function Pasajes() {
     <AppLayout>
       <Space className="w-full items-start justify-between">
         <Space className="gap-2" direction="vertical">
-          <Title level={4}>Viajes del Día</Title>
+          <Title level={4}>Tabla de Viajes</Title>
           <PasajesTable dayQuery={dayQuery} />
         </Space>
         <Space className="gap-2" direction="vertical">
-          <Title level={4}>Checker de Disponibilidad </Title>
+          <Title level={4}>Tracker por Fechas</Title>
           <Calendar
             className="shadow-lg duration-300 hover:shadow-xl"
             style={wrapperStyle}

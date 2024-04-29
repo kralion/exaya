@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
+import { Button, Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { IoFilterSharp } from "react-icons/io5";
 import { TbBus } from "react-icons/tb";
@@ -10,6 +10,9 @@ import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { type Dayjs } from "dayjs";
 import { CollapsedContext } from "@/context/MenuContext";
 import { useContext } from "react";
+import { CgMoreO } from "react-icons/cg";
+import { CiMenuFries } from "react-icons/ci";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
@@ -143,8 +146,12 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ];
 
         return (
-          <Dropdown menu={{ items }}>
-            <TfiMoreAlt className="cursor-pointer" />
+          <Dropdown trigger={["click"]} menu={{ items }}>
+            <Button
+              className="rounded-full"
+              type="text"
+              icon={<HiOutlineMenuAlt3 />}
+            />
           </Dropdown>
         );
       },
@@ -187,10 +194,11 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       }}
       pagination={false}
       loading={isLoading}
+      rootClassName="min-w-[755px] duration-500"
       columns={columns}
       dataSource={viajes?.response}
       style={{
-        width: ` ${(isCollapsed && "860px") || "100%"}`,
+        width: ` ${(isCollapsed && "900px") || "100%"}`,
       }}
     />
   );
