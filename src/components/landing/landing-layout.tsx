@@ -2,7 +2,7 @@ import DarkGradient from "@/assets/images/dark-gradient.png";
 import LightGradient from "@/assets/images/light-gradient.png";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
-import { Tag } from "antd";
+import { Alert, Tag } from "antd";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +43,13 @@ export default function LandingLayout({
   const { data: session } = useSession();
   return (
     <AOSWrapper>
+      <Alert
+        message="Recomendamos usar la versión de escritorio"
+        type="warning"
+        className="fixed bottom-32 left-60 z-50 w-72  -rotate-90 text-center text-xs dark:bg-zinc-900  dark:text-white lg:hidden"
+        showIcon
+      />
+
       <div className={` ${inter.className}  dark:bg-zinc-900 dark:text-white`}>
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
@@ -83,7 +90,10 @@ export default function LandingLayout({
             Powered with AI
           </Tag>
           <DesktopNavBar navLinks={navLinks} />
-          <Link href={session ? "/dashboard" : "/login"}>
+          <Link
+            className="hidden lg:block"
+            href={session ? "/dashboard" : "/login"}
+          >
             {session ? (
               <button className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
                 Ir al Dashboard{" "}

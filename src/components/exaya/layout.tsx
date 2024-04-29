@@ -14,7 +14,6 @@ import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
 import { MdCalendarMonth } from "react-icons/md";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
 const { Header, Footer, Sider, Content } = Layout;
 interface LayoutProps {
   children: React.ReactNode;
@@ -54,7 +53,9 @@ export default function AppLayout({ children }: LayoutProps) {
   const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
-
+  const handleSignOut = async () => {
+    await signOut({ redirect: true, callbackUrl: "/" });
+  };
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -88,35 +89,25 @@ export default function AppLayout({ children }: LayoutProps) {
           />
           <div className=" px-2 pb-2">
             {isCollapsed ? (
-              <Link href="/login">
-                <Button
-                  type="text"
-                  danger
-                  className="rounded-b-xl rounded-t-md"
-                  icon={<CgLogOut />}
-                  onClick={() =>
-                    void signOut({
-                      callbackUrl: "/login",
-                    })
-                  }
-                />
-              </Link>
+              <Button
+                type="text"
+                danger
+                className="rounded-b-xl rounded-t-md"
+                icon={<CgLogOut />}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={handleSignOut}
+              />
             ) : (
-              <Link href="/login">
-                <Button
-                  type="text"
-                  className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
-                  danger
-                  onClick={() =>
-                    void signOut({
-                      callbackUrl: "/login",
-                    })
-                  }
-                >
-                  <CgLogOut />
-                  Salir
-                </Button>
-              </Link>
+              <Button
+                type="text"
+                className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
+                danger
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                onClick={handleSignOut}
+              >
+                <CgLogOut />
+                Salir
+              </Button>
             )}
           </div>
         </Sider>
@@ -134,7 +125,7 @@ export default function AppLayout({ children }: LayoutProps) {
           >
             <AIAssistantInput />
             <h3 className=" absolute right-5  text-center font-bold text-primary  ">
-              Nombre de la Empresa S.A
+              Expreso Ayacucho
             </h3>
           </Header>
 
