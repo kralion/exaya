@@ -1,9 +1,11 @@
 import { useMessageContext } from "@/context/MessageContext";
+import { viajeSchema } from "@/schemas";
 import { api } from "@/utils/api";
 import { Button, DatePicker, Form, Select, Space } from "antd";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import { z } from "zod";
 
 type TViaje = {
   ciudadOrigen: string;
@@ -18,7 +20,13 @@ type TViaje = {
 
 const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100];
 
-export function ViajesForm({ idToEdit }: { idToEdit: string }) {
+export function ViajesForm({
+  idToEdit,
+  setIdToEdit,
+}: {
+  idToEdit: string;
+  setIdToEdit: (id: string) => void;
+}) {
   const [form] = Form.useForm();
   const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
     api.conductores.getAllConductores.useQuery();
@@ -35,7 +43,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
   const { openMessage } = useMessageContext();
   const updateViajeMutation = api.viajes.updateViajeById.useMutation();
 
-  function handleEditViaje(values: TViaje) {
+  function handleEditViaje(values: z.infer<typeof viajeSchema>) {
     updateViajeMutation.mutate(
       {
         ...values,
@@ -65,7 +73,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
       }
     );
   }
-  const onFinish = (values: TViaje) => {
+  function handleCreateViaje(values: z.infer<typeof viajeSchema>) {
     createViajeMutation.mutate(
       {
         ...values,
@@ -94,6 +102,12 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
         },
       }
     );
+  }
+  const onFinish = (values: z.infer<typeof viajeSchema>) => {
+    if (idToEdit) {
+      handleEditViaje(values);
+    }
+    handleCreateViaje(values);
   };
   useEffect(() => {
     if (idToEdit && singleViaje?.response) {
@@ -101,8 +115,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
         salida: dayjs(singleViaje?.response?.salida),
-
-        conductores: singleViaje?.response?.conductores.map(
+        conductorId: singleViaje?.response?.conductores.map(
           (conductor: { id: string }) => conductor.id
         ),
         tarifas: singleViaje?.response?.tarifas,
@@ -111,11 +124,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
   }, [singleViaje, form, idToEdit]);
 
   return (
-    <Form
-      form={form}
-      name="viaje-form"
-      onFinish={idToEdit ? handleEditViaje : onFinish}
-    >
+    <Form form={form} name="viaje-form" onFinish={onFinish}>
       <Space className="w-full items-start justify-between">
         <Space direction="vertical" className="gap-0">
           <Space className="gap-4">
@@ -194,7 +203,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
               </Select>
             </Form.Item>
             <Form.Item
-              name="conductores"
+              name="conductorId"
               rules={[{ required: true, message: "Requerido" }]}
             >
               <Select
@@ -212,10 +221,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
                     apellidos: string;
                   }) => (
                     <Select.Option key={conductor.id} value={conductor.id}>
-                      {conductor.nombres}
-                      {conductor.apellidos.slice(
-                        conductor.apellidos.indexOf(" ")
-                      )}
+                      {conductor.nombres} {conductor.apellidos}
                     </Select.Option>
                   )
                 )}
@@ -242,7 +248,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
               htmlType="button"
               onClick={() => {
                 form.resetFields();
-                // setIdToEdit("");
+                setIdToEdit("");
               }}
             >
               Cancelar

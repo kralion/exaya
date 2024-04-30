@@ -14,12 +14,16 @@ import {
   Typography,
   type StatisticProps,
 } from "antd";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { FaRegFile, FaRegFileLines } from "react-icons/fa6";
 
 const { Title } = Typography;
 function ProgramacionComprobantes() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [current, setCurrent] = useState(0);
   const { data: pasajes } = api.boletos.getAllBoletos.useQuery();
   const { data: encomiendas } =
@@ -43,6 +47,11 @@ function ProgramacionComprobantes() {
     <CountUp delay={2000} duration={10} end={value as number} separator="," />
   );
 
+  useEffect(() => {
+    if (session?.token.rol !== "ADMIN") {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
   return (
     <AppLayout>
       <AppHead title="Programacion Comprobantes" />

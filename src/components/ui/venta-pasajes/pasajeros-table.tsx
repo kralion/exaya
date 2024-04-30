@@ -1,17 +1,27 @@
 import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+function capitalizeFirstLetter(string: string | undefined) {
+  if (string === undefined) {
+    return "";
+  }
+  const lowerCaseString = string.toLowerCase();
+  return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+}
 
 const columns: ColumnsType = [
   {
     title: "Nombres ",
     dataIndex: "pasajeroNombres",
     key: "nombres",
+    render: (pasajeroNombres: string) => capitalizeFirstLetter(pasajeroNombres),
   },
   {
     title: "Apellidos",
     dataIndex: "pasajeroApellidos",
     key: "apellidos",
+    render: (pasajeroApellidos: string) =>
+      capitalizeFirstLetter(pasajeroApellidos),
   },
   {
     title: "N° Asiento ",
@@ -30,11 +40,6 @@ const columns: ColumnsType = [
         })}
       </Tag>
     ),
-  },
-  {
-    title: "DNI / Pasaporte",
-    dataIndex: "pasajeroDni",
-    key: "dni",
   },
 ];
 

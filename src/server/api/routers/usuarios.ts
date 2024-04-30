@@ -113,7 +113,7 @@ export const usuariosRouter = createTRPCRouter({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message:
-            "No se puede eliminar un usuario con boletos registrados, contacte a soporte para proceder",
+            "No es posible borrar este usuario, tiene actividad registrada en el sistema",
         });
       }
 

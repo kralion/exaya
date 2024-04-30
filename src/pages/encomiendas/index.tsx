@@ -11,7 +11,10 @@ function Encomiendas() {
     <AppLayout>
       <AppHead title="Encomiendas" />
       <div className="space-y-3.5">
-        <EncomiendasForm encomiendaIdToEdit={encomiendaIdToEdit} />
+        <EncomiendasForm
+          setEncomiendaIdToEdit={setEncomiendaIdToEdit}
+          encomiendaIdToEdit={encomiendaIdToEdit}
+        />
         <EncomiendasTable setEncomiendaIdToEdit={setEncomiendaIdToEdit} />
       </div>
       <FloatButton.BackTop className="bottom-4 right-4" />

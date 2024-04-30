@@ -16,16 +16,26 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
   }
   const columns: ColumnsType = [
     {
-      title: "Nombres ",
-      dataIndex: "nombres",
-      key: "nombres",
-      render: (nombres: string) => capitalizeFirstLetter(nombres),
+      title: "Remitente",
+      children: [
+        {
+          title: "Nombres",
+          dataIndex: "remiteNombres",
+          key: "remitenombres",
+          render: (remiteNombres: string) =>
+            capitalizeFirstLetter(remiteNombres),
+        },
+        {
+          title: "DNI",
+          dataIndex: "remitenteDni",
+          key: "remitenteDni",
+        },
+      ],
     },
     {
-      title: "Apellidos",
-      dataIndex: "apellidos",
-      key: "apellidos",
-      render: (apellidos: string) => capitalizeFirstLetter(apellidos),
+      title: "Destinatario",
+      dataIndex: "destinatarioDni",
+      key: "destinatarionDni",
     },
     {
       title: "Descripcion",
@@ -44,11 +54,6 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
           })}
         </Tag>
       ),
-    },
-    {
-      title: "DNI / Pasaporte",
-      dataIndex: "dni",
-      key: "dni",
     },
   ];
   return (

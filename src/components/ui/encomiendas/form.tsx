@@ -22,8 +22,10 @@ const { Title } = Typography;
 
 export function EncomiendasForm({
   encomiendaIdToEdit,
+  setEncomiendaIdToEdit,
 }: {
   encomiendaIdToEdit: string;
+  setEncomiendaIdToEdit: (id: string) => void;
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
@@ -189,10 +191,10 @@ export function EncomiendasForm({
   useEffect(() => {
     if (encomiendaIdToEdit && singleEncomienda?.response) {
       form.setFieldsValue({
-        remitenteDNI: singleEncomienda.response.remitenteDni,
-        destinatarioDNI: singleEncomienda.response.destinatarioDni,
+        remitenteDni: singleEncomienda.response.remitenteDni,
+        destinatarioDni: singleEncomienda.response.destinatarioDni,
         fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
-        viaje: singleEncomienda.response.viaje,
+        viajeId: singleEncomienda.response.viajeId,
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
         empresa: singleEncomienda.response.empresa,
@@ -200,13 +202,22 @@ export function EncomiendasForm({
         precio: singleEncomienda.response.precio,
         descripcion: singleEncomienda.response.descripcion,
       });
+      if (singleEncomienda.response.factura === true) {
+        setFacturaUI(true);
+      }
     }
   }, [singleEncomienda, encomiendaIdToEdit, form]);
+
+  function handleCancel() {
+    setRemitenteDNI("");
+    setDestinatarioDNI("");
+    form.resetFields();
+    setEncomiendaIdToEdit("");
+  }
 
   return (
     <div className="space-y-7">
       <Title level={5}>Registrar Encomienda</Title>
-
       <Form
         form={form}
         layout="vertical"
@@ -454,16 +465,8 @@ export function EncomiendasForm({
         <div className="col-span-4 flex items-end justify-end gap-3">
           <Button htmlType="submit" type="primary">
             {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar Encomienda"}
-          </Button>
-
-          <Button
-            htmlType="reset"
-            onClick={() => {
-              setRemitenteDNI("");
-              setDestinatarioDNI("");
-              form.resetFields();
-            }}
-          >
+          </Button>{" "}
+          <Button htmlType="reset" onClick={handleCancel}>
             Cancelar
           </Button>
         </div>

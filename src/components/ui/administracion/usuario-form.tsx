@@ -373,7 +373,7 @@ export function UsuarioForm({
               "" ? null : reniecResponse?.status === "error" ? (
                 "El DNI no existe"
               ) : reniecResponse?.status === "success" ? (
-                <p className="text-green-500">
+                <p>
                   {reniecResponse.data?.nombres}{" "}
                   {reniecResponse.data?.apellidoPaterno}{" "}
                   {reniecResponse.data?.apellidoMaterno}

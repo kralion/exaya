@@ -116,7 +116,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
           <Title level={4}>Conductores</Title>
 
           <List
-            dataSource={conductores?.response || []}
+            dataSource={conductores?.response}
             bordered
             // TODO: Try this
             // header={<Title level={5}>Conductores</Title>}
@@ -143,7 +143,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
                     />
                   }
                   title={`${conductor.nombres} ${conductor.apellidos}`}
-                  description={`Conductor con licencia ${conductor.numeroLicencia}`}
+                  description={`N° Licencia : ${conductor.numeroLicencia}`}
                 />
               </List.Item>
             )}
