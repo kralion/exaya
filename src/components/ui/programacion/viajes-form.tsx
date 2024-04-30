@@ -179,6 +179,8 @@ export function ViajesForm({
               <DatePicker
                 style={{ width: 250 }}
                 showTime
+                use12Hours
+                minuteStep={15}
                 showNow={false}
                 placeholder="Fecha de Salida"
                 format="YYYY-MM-DD HH:mm"

@@ -46,7 +46,7 @@ export default function LandingLayout({
       <Alert
         message="Recomendamos usar la versión de escritorio"
         type="warning"
-        className="fixed bottom-32 left-60 z-50 w-72  -rotate-90 text-center text-xs dark:bg-zinc-900  dark:text-white lg:hidden"
+        className="fixed bottom-32 left-56 z-50 w-72  -rotate-90 text-center text-xs dark:bg-zinc-900  dark:text-white lg:hidden"
         showIcon
       />
 

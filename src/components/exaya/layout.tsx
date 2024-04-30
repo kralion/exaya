@@ -6,7 +6,6 @@ import { Button, Layout, Menu, theme } from "antd";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { CgLogOut } from "react-icons/cg";
 import {
   LuBaggageClaim,
   LuBarChart3,
@@ -15,6 +14,7 @@ import {
   LuHelpingHand,
   LuLayoutDashboard,
   LuTicket,
+  LuLogOut,
 } from "react-icons/lu";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
@@ -105,7 +105,7 @@ export default function AppLayout({ children }: LayoutProps) {
                 type="text"
                 danger
                 className="rounded-b-xl rounded-t-md"
-                icon={<CgLogOut />}
+                icon={<LuLogOut className="rotate-180" />}
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={handleSignOut}
               />
@@ -117,7 +117,7 @@ export default function AppLayout({ children }: LayoutProps) {
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={handleSignOut}
               >
-                <CgLogOut />
+                <LuLogOut className="rotate-180" />
                 Salir
               </Button>
             )}

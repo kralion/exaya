@@ -43,14 +43,14 @@ export const ContainerScroll = () => {
         <img
           src={ExayaHeroLight.src}
           alt="banner"
-          className="mx-auto drop-shadow-2xl "
+          className="mx-auto"
           data-aos="fade-up"
         />
         <div className="dark:absolute dark:inset-0">
           <img
             src={ExayaHeroDark.src}
             alt="banner"
-            className="mx-auto hidden drop-shadow-xl dark:block "
+            className="mx-auto hidden  dark:block "
             data-aos="fade-up"
           />
         </div>

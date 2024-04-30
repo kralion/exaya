@@ -67,7 +67,13 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
 
             return (
               <Space key={viajeDiario.id} direction="vertical" size={12}>
-                <Text>Horario {viajeDiario.salida.toLocaleTimeString()}</Text>
+                <Text>
+                  Turno :{" "}
+                  {viajeDiario.salida.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Text>
                 {isLoading ? (
                   <Skeleton.Button
                     active
@@ -79,6 +85,9 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
                   />
                 ) : (
                   <Progress
+                    style={{
+                      width: 300,
+                    }}
                     status={status}
                     strokeColor={{
                       "0%": "#4096FF",
@@ -92,16 +101,16 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
           }
         )}
       </Space>
-      {/* {viajesDiarios?.length === 0 ? (
+      {viajesDiarios?.length === 0 ? (
         <Alert
           className="mt-8"
           message="Para mostrar el gráfico de progreso, primero debes registrar un viaje"
           type="info"
           showIcon
         />
-      ) : ( */}
-      <ControlPanePieChart viajesDiarios={viajesDiarios} />
-      {/* )} */}
+      ) : (
+        <ControlPanePieChart viajesDiarios={viajesDiarios} />
+      )}
     </Card>
   );
 };
