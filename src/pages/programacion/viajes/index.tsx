@@ -3,19 +3,23 @@ import { ProgramacionTable } from "@/components/ui/programacion/programacion-via
 import { ViajesForm } from "@/components/ui/programacion/viajes-form";
 import AppLayout from "@/components/exaya/layout";
 import AppHead from "@/components/landing/head";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 const { Title } = Typography;
 function ProgramacionViajes() {
   const [idToEdit, setIdToEdit] = useState<string>("");
   return (
     <AppLayout>
       <AppHead title="Programacion de Viajes" />
-      <div className="space-y-3.5">
-        <Title level={5}>Programación de Viajes</Title>
-        <ViajesForm setIdToEdit={setIdToEdit} idToEdit={idToEdit} />
-        <Title level={5}>Historial de Salidas</Title>
-        <ProgramacionTable setIdToEdit={setIdToEdit} />
-      </div>
+      <Space className="gap-8" direction="vertical">
+        <Space direction="vertical" className="gap-4">
+          <Title level={5}>Programación de Viajes</Title>
+          <ViajesForm setIdToEdit={setIdToEdit} idToEdit={idToEdit} />
+        </Space>
+        <Space direction="vertical" className="w-full gap-4">
+          <Title level={5}>Historial de Salidas</Title>
+          <ProgramacionTable setIdToEdit={setIdToEdit} />
+        </Space>
+      </Space>
     </AppLayout>
   );
 }

@@ -50,8 +50,11 @@ export default function ConductorModal({
     if (string === undefined) {
       return "";
     }
-    const lowerCaseString = string.toLowerCase();
-    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+    return string
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
   return (
     <>

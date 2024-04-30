@@ -1,8 +1,8 @@
+import { CollapsedContext } from "@/context/MenuContext";
 import { Avatar, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
-import UserSkeleton from "../skeletons/user-info-skeleton";
 import { useContext } from "react";
-import { SelectedContext, CollapsedContext } from "@/context/MenuContext";
+import UserSkeleton from "../skeletons/user-info-skeleton";
 const { Text } = Typography;
 
 export default function SessionInfo() {
@@ -16,8 +16,11 @@ export default function SessionInfo() {
     if (string === undefined) {
       return "";
     }
-    const lowerCaseString = string.toLowerCase();
-    return lowerCaseString.charAt(0).toUpperCase() + lowerCaseString.slice(1);
+    return string
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   }
 
   return (
@@ -30,18 +33,8 @@ export default function SessionInfo() {
       {!isCollapsed && (
         <Space direction="vertical" className="items-center gap-1">
           <Text>
-            {capitalizeFirstLetter(
-              sessionData?.user.nombres.slice(
-                0,
-                sessionData?.user.nombres.indexOf(" ")
-              )
-            )}{" "}
-            {capitalizeFirstLetter(
-              sessionData?.user.apellidos.slice(
-                0,
-                sessionData?.user.apellidos.indexOf(" ")
-              )
-            )}
+            {capitalizeFirstLetter(sessionData?.user.nombres.split(" ")[0])}{" "}
+            {capitalizeFirstLetter(sessionData?.user.apellidos.split(" ")[0])}
           </Text>
           {sessionData?.user && (
             <Tag

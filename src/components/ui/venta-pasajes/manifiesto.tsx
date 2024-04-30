@@ -100,7 +100,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         open={open}
         size="large"
       >
-        <div className="flex flex-col gap-2">
+        <Space direction="vertical" className="gap-8">
           <Progress
             status={
               viajeStatus === "DISPONIBLE"
@@ -112,14 +112,10 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
             percent={percent}
             size={[680, 10]}
           />
-
-          <Title level={4}>Conductores</Title>
-
           <List
             dataSource={conductores?.response}
             bordered
-            // TODO: Try this
-            // header={<Title level={5}>Conductores</Title>}
+            header={<Title level={5}>Conductores</Title>}
             loading={isLoading}
             renderItem={(conductor: TConductor) => (
               <List.Item
@@ -148,15 +144,19 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
               </List.Item>
             )}
           />
-          <Title className="mt-7" level={4}>
-            Pasajeros
-          </Title>
-          <PasajerosManifiestoTable viajeId={viajeId} />
-          <Title className="mt-7" level={4}>
-            Encomiendas
-          </Title>
-          <EncomiendasManifiestoTable viajeId={viajeId} />
-        </div>
+          <Space direction="vertical" className="w-full gap-2">
+            <Title className="mt-7" level={5}>
+              Pasajeros
+            </Title>
+            <PasajerosManifiestoTable viajeId={viajeId} />
+          </Space>
+          <Space direction="vertical" className="w-full gap-2">
+            <Title className="mt-7" level={5}>
+              Encomiendas
+            </Title>
+            <EncomiendasManifiestoTable viajeId={viajeId} />
+          </Space>
+        </Space>
       </Drawer>
     </>
   );

@@ -154,6 +154,7 @@ export default function Login() {
             >
               <Input
                 type="text"
+                autoFocus
                 className={`rounded-lg px-3  py-2    ${literata.className}`}
               />
             </Form.Item>

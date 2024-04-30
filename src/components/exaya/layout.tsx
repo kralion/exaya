@@ -3,18 +3,22 @@ import { CollapsedContext, SelectedContext } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { AiOutlineSetting } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
-import { GrMoney } from "react-icons/gr";
-import { HiOutlineSupport } from "react-icons/hi";
-import { IoTicketOutline } from "react-icons/io5";
-import { LuLayoutDashboard, LuLuggage } from "react-icons/lu";
-import { MdCalendarMonth } from "react-icons/md";
+import {
+  LuBaggageClaim,
+  LuBarChart3,
+  LuCircleDollarSign,
+  LuFolderClock,
+  LuHelpingHand,
+  LuLayoutDashboard,
+  LuTicket,
+} from "react-icons/lu";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
-import { signOut, useSession } from "next-auth/react";
 const { Header, Footer, Sider, Content } = Layout;
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -37,16 +41,16 @@ function getItem(
 }
 const items: MenuItem[] = [
   getItem("Dashboard", "dashboard", <LuLayoutDashboard />),
-  getItem("Pasajes", "pasajes", <IoTicketOutline />),
-  getItem("Encomiendas", "encomiendas", <LuLuggage />),
-  getItem("Planner", "programacion", <MdCalendarMonth />, [
+  getItem("Pasajes", "pasajes", <LuTicket />),
+  getItem("Encomiendas", "encomiendas", <LuBaggageClaim />),
+  getItem("Planner", "programacion", <LuFolderClock />, [
     getItem("Bus Conductor", "programacion/bus-conductor"),
     getItem("Comprobantes", "programacion/comprobantes"),
     getItem("Viajes", "programacion/viajes"),
   ]),
-  getItem("Contable", "contable", <GrMoney />),
-  getItem("Administración", "administracion", <AiOutlineSetting />),
-  getItem("Soporte", "soporte", <HiOutlineSupport />),
+  getItem("Contable", "contable", <LuCircleDollarSign />),
+  getItem("Administración", "administracion", <LuBarChart3 />),
+  getItem("Soporte", "soporte", <LuHelpingHand />),
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
@@ -120,7 +124,7 @@ export default function AppLayout({ children }: LayoutProps) {
           </div>
         </Sider>
         <Layout
-          className={`space-y-3 duration-500 ${
+          className={`space-y-2 duration-500 ${
             isCollapsed ? "ml-14 " : "ml-52"
           }`}
         >
@@ -141,14 +145,14 @@ export default function AppLayout({ children }: LayoutProps) {
             style={{
               background: colorBgContainer,
               padding: 21,
-              borderRadius: 21,
+              borderRadius: 14,
             }}
             className="min-h-[620px] rounded-lg border-2 border-slate-100 border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
           >
             {children}
           </Content>
           <Footer className="my-5 text-center text-sm text-zinc-400">
-            © 2024 Expreso Ayacucho S.A.C. Todos los derechos reservados.
+            © 2024 Exaya Inc. Todos los derechos reservados.
           </Footer>
         </Layout>
       </Layout>

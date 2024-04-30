@@ -7,20 +7,12 @@ import {
   BusesInformacion,
 } from "@/components/ui/programacion";
 import { Typography } from "antd";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 const { Title } = Typography;
 export default function ProgramacionBusConductor() {
   const [conductorIdToEdit, setConductorIdToEdit] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: session } = useSession();
-  const router = useRouter();
-  useEffect(() => {
-    if (session?.token.rol !== "ADMIN") {
-      router.replace("/dashboard");
-    }
-  }, [session, router]);
+
   return (
     <AppLayout>
       <AppHead title="Programacion Bus Conductor" />

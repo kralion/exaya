@@ -13,6 +13,7 @@ import { ConfigProvider, theme } from "antd";
 import ThemeToggle from "@/components/theme-toggle";
 import { MenuProvider } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
+import EmptyCustomized from "@/components/ui/empty";
 dayjs.locale("es");
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -50,6 +51,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
       <ConfigProvider
         locale={locale}
+        renderEmpty={() => <EmptyCustomized />}
         theme={{
           components: {
             Slider: {

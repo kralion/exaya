@@ -335,11 +335,16 @@ export const viajesRouter = createTRPCRouter({
       }
       try {
         await ctx.prisma.viaje.create({
-          data: input,
+          data: {
+            ...input,
+            conductores: {
+              connect: input.conductores.map((id) => ({ id })),
+            },
+          },
         });
         return {
           status: "success",
-          message: "Viaje creado exitosamente",
+          message: "Viaje creado",
         };
       } catch (error) {
         return {
@@ -351,6 +356,13 @@ export const viajesRouter = createTRPCRouter({
   deleteViajeById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      const isNotAdmin = ctx.session.user.rol !== "ADMIN";
+      if (isNotAdmin) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "No tienes permisos para realizar esta acción",
+        });
+      }
       const viaje = await ctx.prisma.viaje.findUnique({
         where: { id: input.id },
         include: { boletos: true },
@@ -386,11 +398,16 @@ export const viajesRouter = createTRPCRouter({
       try {
         await ctx.prisma.viaje.update({
           where: { id: input.id },
-          data: input,
+          data: {
+            ...input,
+            conductores: {
+              set: input.conductores.map((id) => ({ id })),
+            },
+          },
         });
         return {
           status: "success",
-          message: "Viaje actualizado exitosamente",
+          message: "Viaje actualizado",
         };
       } catch (error) {
         return {

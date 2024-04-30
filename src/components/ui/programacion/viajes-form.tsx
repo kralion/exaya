@@ -106,8 +106,10 @@ export function ViajesForm({
   const onFinish = (values: z.infer<typeof viajeSchema>) => {
     if (idToEdit) {
       handleEditViaje(values);
+    } else {
+      handleCreateViaje(values);
     }
-    handleCreateViaje(values);
+    form.resetFields();
   };
   useEffect(() => {
     if (idToEdit && singleViaje?.response) {
@@ -115,8 +117,8 @@ export function ViajesForm({
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
         salida: dayjs(singleViaje?.response?.salida),
-        conductorId: singleViaje?.response?.conductores.map(
-          (conductor: { id: string }) => conductor.id
+        conductores: singleViaje?.response?.conductores.map(
+          (conductor) => conductor.id
         ),
         tarifas: singleViaje?.response?.tarifas,
       });
@@ -126,7 +128,7 @@ export function ViajesForm({
   return (
     <Form form={form} name="viaje-form" onFinish={onFinish}>
       <Space className="w-full items-start justify-between">
-        <Space direction="vertical" className="gap-0">
+        <div className="-space-y-2">
           <Space className="gap-4">
             <Form.Item
               name="rutaId"
@@ -175,7 +177,7 @@ export function ViajesForm({
               name="salida"
             >
               <DatePicker
-                style={{ width: 200 }}
+                style={{ width: 250 }}
                 showTime
                 showNow={false}
                 placeholder="Fecha de Salida"
@@ -203,13 +205,13 @@ export function ViajesForm({
               </Select>
             </Form.Item>
             <Form.Item
-              name="conductorId"
+              name="conductores"
               rules={[{ required: true, message: "Requerido" }]}
             >
               <Select
                 mode="multiple"
                 style={{
-                  width: 430,
+                  width: 480,
                 }}
                 loading={isLoadingConductores}
                 placeholder="Conductores"
@@ -228,7 +230,7 @@ export function ViajesForm({
               </Select>
             </Form.Item>
           </Space>
-        </Space>
+        </div>
         <Form.Item>
           <div className="flex justify-end gap-2">
             <Button
