@@ -17,13 +17,11 @@ export function MisBoletosVendidosTable({
           title: "Serie",
           dataIndex: "serie",
           key: "serie",
-          responsive: ["lg"],
         },
         {
           title: "Número",
           dataIndex: "codigo",
           key: "codigo",
-          responsive: ["lg"],
         },
       ],
     },
@@ -42,7 +40,6 @@ export function MisBoletosVendidosTable({
       title: "Equipaje",
       dataIndex: "equipaje",
       key: "equipaje",
-      responsive: ["lg"],
       render: (equipaje: string) => (
         <Tooltip title={equipaje}>
           {equipaje.slice(0, 10)}
@@ -54,7 +51,6 @@ export function MisBoletosVendidosTable({
       title: "Precio",
       key: "precio",
       dataIndex: "precio",
-      responsive: ["lg"],
 
       render: (precio: number) => (
         <Tag>

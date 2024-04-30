@@ -15,6 +15,7 @@ export default function TableContable() {
     {
       title: "Ruta",
       dataIndex: "ruta",
+      key: "ruta",
       filters: filterItems,
       filterOnClose: true,
       filterIcon: <IoFilterSharp size={16} />,
@@ -34,6 +35,7 @@ export default function TableContable() {
 
     {
       title: "Viaje",
+      key: "viaje",
       dataIndex: "salida",
       render: (salida: string) => {
         const currentSalida = new Date(salida);
@@ -53,22 +55,26 @@ export default function TableContable() {
     {
       title: "Bus",
       dataIndex: "bus",
+      key: "bus",
       render: (bus: { placa: string }) => bus.placa,
     },
     {
       title: "NB",
       dataIndex: "boletos",
+      key: "boletos",
       render: (boletos: { length: number }) => boletos.length,
     },
     {
       title: "NE",
       dataIndex: "encomiendas",
+      key: "encomiendas",
       render: (encomiendas: { length: number }) => encomiendas.length,
     },
 
     {
       title: "MB",
       dataIndex: "boletos",
+      key: "boletos",
       render: (boletos: { precio: number }[]) => {
         const total = boletos.reduce(
           (acc: number, boleto: { precio: number }) => acc + boleto.precio,
@@ -80,6 +86,7 @@ export default function TableContable() {
     {
       title: "ME",
       dataIndex: "encomiendas",
+      key: "encomiendas",
       render: (encomiendas: { precio: number }[]) => {
         const total = encomiendas.reduce(
           (acc: number, encomienda: { precio: number }) =>
@@ -92,6 +99,7 @@ export default function TableContable() {
     {
       // TODO: Add IGV in a kind of Tooltip
       title: "Total",
+      key: "total",
       render: (record: {
         boletos: { precio: number }[];
         encomiendas: { precio: number }[];

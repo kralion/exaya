@@ -12,19 +12,18 @@ const columns: ColumnsType = [
         title: "Serie",
         dataIndex: "serie",
         key: "serie",
-        responsive: ["lg"],
       },
       {
         title: "Número",
         dataIndex: "codigo",
         key: "codigo",
-        responsive: ["lg"],
       },
     ],
   },
   {
     title: "Empresa",
     dataIndex: "empresa",
+    key: "empresa",
     render: (empresa: string) => {
       return (
         <Tooltip title={empresa}>
@@ -36,6 +35,7 @@ const columns: ColumnsType = [
   {
     title: "Agencia",
     dataIndex: "viaje",
+    key: "usuario",
     render: (viaje: { usuario: { sedeDelegacion: string } }) => {
       return <Text>{viaje.usuario.sedeDelegacion}</Text>;
     },
@@ -59,6 +59,7 @@ const columns: ColumnsType = [
   {
     title: "Fecha Emisión",
     dataIndex: "fechaEnvío",
+    key: "fechaEnvío",
     render: (fechaEnvio: string) => {
       const date = dayjs(fechaEnvio);
       const formattedDate = date.format("DD-MM-YYYY");

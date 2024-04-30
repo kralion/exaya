@@ -101,6 +101,7 @@ export function ViajesForm({ idToEdit }: { idToEdit: string }) {
         rutaId: singleViaje?.response?.rutaId,
         busId: singleViaje?.response?.busId,
         salida: dayjs(singleViaje?.response?.salida),
+
         conductores: singleViaje?.response?.conductores.map(
           (conductor: { id: string }) => conductor.id
         ),

@@ -1,7 +1,8 @@
 import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
 
-const columns = [
+const columns: ColumnsType = [
   {
     title: "Nombres ",
     dataIndex: "pasajeroNombres",

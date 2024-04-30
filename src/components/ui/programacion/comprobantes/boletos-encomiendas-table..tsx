@@ -12,19 +12,18 @@ const columns: ColumnsType = [
         title: "Serie",
         dataIndex: "serie",
         key: "serie",
-        responsive: ["lg"],
       },
       {
         title: "Codigo",
         dataIndex: "codigo",
         key: "codigo",
-        responsive: ["lg"],
       },
     ],
   },
   {
     title: "Agencia",
     dataIndex: "viaje",
+    key: "agencia",
     render: (viaje: { usuario: { sedeDelegacion: string } }) => {
       return <Text>{viaje.usuario.sedeDelegacion}</Text>;
     },
@@ -48,6 +47,7 @@ const columns: ColumnsType = [
   {
     title: "Fecha Emisión",
     dataIndex: "fechaEnvío",
+    key: "fechaEnvío",
     render: (fechaEnvio: string) => {
       const date = dayjs(fechaEnvio);
       const formattedDate = date.format("DD-MM-YYYY");

@@ -1,6 +1,7 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import { TbBus } from "react-icons/tb";
@@ -41,7 +42,7 @@ export function ProgramacionTable({
     );
   };
 
-  const columns = [
+  const columns: ColumnsType = [
     {
       title: "Ruta",
       dataIndex: "ruta",
@@ -115,6 +116,7 @@ export function ProgramacionTable({
     {
       title: "Acciones",
       dataIndex: "id",
+      key: "action",
       render: (id: string) => (
         <Space className="items-baseline gap-2">
           <Button

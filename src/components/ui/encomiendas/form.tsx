@@ -16,24 +16,22 @@ import { useSession } from "next-auth/react";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 
 import { api } from "@/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { z } from "zod";
 const { Title } = Typography;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 30 },
-  },
-  wrapperCol: {
-    xs: { span: 30 },
-    sm: { span: 30 },
-  },
-};
-
-export function EncomiendasForm() {
+export function EncomiendasForm({
+  encomiendaIdToEdit,
+}: {
+  encomiendaIdToEdit: string;
+}) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const { data: singleEncomienda } = api.encomiendas.getEncomiendaById.useQuery(
+    {
+      id: encomiendaIdToEdit,
+    }
+  );
   const [pagado, setPagado] = useState<boolean>(false);
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
@@ -48,6 +46,8 @@ export function EncomiendasForm() {
   const [facturaUI, setFacturaUI] = useState(false);
   const createEncomiendaMutation =
     api.encomiendas.createEncomienda.useMutation();
+  const updateEncomiendaMutation =
+    api.encomiendas.updateEncomienda.useMutation();
 
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
@@ -66,22 +66,78 @@ export function EncomiendasForm() {
     }
   );
 
-  async function onFinish(values: z.infer<typeof encomiendaSchema>) {
-    if (remitenteInformacion?.status === "error") {
-      openMessage({
-        content: "Si el DNI del remitente es correcto, contacte a soporte",
-        type: "error",
+  async function handleUpdateEncomienda(
+    values: z.infer<typeof encomiendaSchema>
+  ) {
+    if (remitenteInformacion?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
         duration: 3,
+        type: "error",
       });
-      return;
     }
-    if (receptorInformacion?.status === "error") {
-      openMessage({
-        content: "Si el DNI del destinatario es correcto, contacte a soporte",
-        type: "error",
+    if (receptorInformacion?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
         duration: 3,
+        type: "error",
       });
-      return;
+    }
+    await updateEncomiendaMutation.mutateAsync(
+      {
+        ...values,
+        usuarioId: session?.user?.id as string,
+        pagado,
+        id: encomiendaIdToEdit,
+        serie: session?.user.serieEncomienda || "EAG001",
+        precio: parseFloat(values.precio.toString()),
+        fechaEnvio: new Date(values.fechaEnvio),
+        remitenteNombres: remitenteInformacion.data.nombres,
+        remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
+        destinatarioNombres: receptorInformacion.data.nombres,
+        destinatarioApellidos: `${receptorInformacion.data.apellidoPaterno} ${receptorInformacion.data.apellidoMaterno}`,
+      },
+
+      {
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
+            type: "success",
+            duration: 3,
+          });
+        },
+
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            type: "error",
+            duration: 3,
+          });
+        },
+        onSettled: () => {
+          form.resetFields();
+          setRemitenteDNI("");
+          setDestinatarioDNI("");
+        },
+      }
+    );
+  }
+  async function handleCreateEncomienda(
+    values: z.infer<typeof encomiendaSchema>
+  ) {
+    if (remitenteInformacion?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
+        duration: 3,
+        type: "error",
+      });
+    }
+    if (receptorInformacion?.data === undefined) {
+      return openMessage({
+        content: "El DNI no existe en la base de datos de la RENIEC",
+        duration: 3,
+        type: "error",
+      });
     }
     await createEncomiendaMutation.mutateAsync(
       {
@@ -91,14 +147,10 @@ export function EncomiendasForm() {
         serie: session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
         fechaEnvio: new Date(values.fechaEnvio),
-        remitenteNombres: remitenteInformacion?.data?.nombres ?? "",
-        remitenteApellidos: `${
-          remitenteInformacion?.data?.apellidoPaterno ?? ""
-        } ${remitenteInformacion?.data?.apellidoMaterno ?? ""}`,
-        destinatarioNombres: receptorInformacion?.data?.nombres ?? "",
-        destinatarioApellidos: `${
-          receptorInformacion?.data?.apellidoPaterno ?? ""
-        } ${receptorInformacion?.data?.apellidoMaterno ?? ""}`,
+        remitenteNombres: remitenteInformacion.data.nombres,
+        remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
+        destinatarioNombres: receptorInformacion.data.nombres,
+        destinatarioApellidos: `${receptorInformacion.data.apellidoPaterno} ${receptorInformacion.data.apellidoMaterno}`,
       },
 
       {
@@ -126,18 +178,41 @@ export function EncomiendasForm() {
     );
   }
 
+  async function onFinish(values: z.infer<typeof encomiendaSchema>) {
+    if (encomiendaIdToEdit) {
+      await handleUpdateEncomienda(values);
+    } else {
+      await handleCreateEncomienda(values);
+    }
+  }
+
+  useEffect(() => {
+    if (encomiendaIdToEdit && singleEncomienda?.response) {
+      form.setFieldsValue({
+        remitenteDNI: singleEncomienda.response.remitenteDni,
+        destinatarioDNI: singleEncomienda.response.destinatarioDni,
+        fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
+        viaje: singleEncomienda.response.viaje,
+        factura: singleEncomienda.response.factura,
+        ruc: singleEncomienda.response.ruc,
+        empresa: singleEncomienda.response.empresa,
+        pagado: singleEncomienda.response.pagado,
+        precio: singleEncomienda.response.precio,
+        descripcion: singleEncomienda.response.descripcion,
+      });
+    }
+  }, [singleEncomienda, encomiendaIdToEdit, form]);
+
   return (
     <div className="space-y-7">
       <Title level={5}>Registrar Encomienda</Title>
 
       <Form
-        {...formItemLayout}
         form={form}
         layout="vertical"
         name="register"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onFinish={onFinish}
-        initialValues={{ prefix: "+51" }}
         scrollToFirstError
         className="grid grid-flow-row grid-cols-4 gap-4"
       >
@@ -378,7 +453,7 @@ export function EncomiendasForm() {
 
         <div className="col-span-4 flex items-end justify-end gap-3">
           <Button htmlType="submit" type="primary">
-            Registrar Encomienda
+            {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar Encomienda"}
           </Button>
 
           <Button

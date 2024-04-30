@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
-
+import type { ColumnsType } from "antd/es/table";
 const { Text } = Typography;
 export default function UsuariosTable({
   setUsuarioIdToEdit,
@@ -64,10 +64,11 @@ export default function UsuariosTable({
     );
   };
 
-  const columns = [
+  const columns: ColumnsType = [
     {
       title: "Foto",
       dataIndex: "foto",
+      key: "foto",
       render: (foto: string) => {
         return <Avatar src={foto} size="large" shape="circle" />;
       },
@@ -75,6 +76,7 @@ export default function UsuariosTable({
     {
       title: "Nombres",
       dataIndex: "nombres",
+      key: "nombres",
       render: (nombres: string) => (
         <Text>{capitalizeFirstLetter(nombres)}</Text>
       ),
@@ -82,6 +84,7 @@ export default function UsuariosTable({
     {
       title: "Apellidos",
       dataIndex: "apellidos",
+      key: "apellidos",
       render: (apellidos: string) => (
         <Text>{capitalizeFirstLetter(apellidos)}</Text>
       ),
@@ -89,6 +92,7 @@ export default function UsuariosTable({
     {
       title: "DNI",
       dataIndex: "usuarioDni",
+      key: "usuarioDni",
       render: (usuarioDni: string) => (
         <Tag className="font-semibold">{usuarioDni}</Tag>
       ),
@@ -96,10 +100,12 @@ export default function UsuariosTable({
     {
       title: "Sede Asignada",
       dataIndex: "sedeDelegacion",
+      key: "sedeDelegacion",
     },
     {
       title: "Rol del Usuario",
       dataIndex: "rol",
+      key: "rol",
       render: (rol: string) => (
         <Tag
           color={
@@ -117,6 +123,7 @@ export default function UsuariosTable({
     },
     {
       title: "Acciones",
+      key: "acciones",
       render: (record: { id: string }) => {
         return (
           <Space className="items-baseline gap-2">

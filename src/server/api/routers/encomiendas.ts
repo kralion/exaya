@@ -144,11 +144,7 @@ export const encomiendasRouter = createTRPCRouter({
     }),
 
   updateEncomienda: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
+    .input(encomiendaSchema.extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
       try {
         await ctx.prisma.encomienda.update({

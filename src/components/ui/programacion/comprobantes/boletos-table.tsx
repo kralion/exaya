@@ -11,13 +11,11 @@ const columns: ColumnsType = [
         title: "Serie",
         dataIndex: "serie",
         key: "serie",
-        responsive: ["lg"],
       },
       {
         title: "Número",
         dataIndex: "codigo",
         key: "codigo",
-        responsive: ["lg"],
       },
     ],
   },
@@ -47,10 +45,12 @@ const columns: ColumnsType = [
   {
     title: "DNI Cliente",
     dataIndex: "pasajeroDni",
+    key: "pasajeroDni",
   },
   {
     title: "Fecha Emisión",
     dataIndex: "fechaRegistro",
+    key: "fechaRegistro",
     render: (fechaRegistro: Date) => {
       const date = dayjs(fechaRegistro);
       const formattedDate = date.format("DD-MM-YYYY");

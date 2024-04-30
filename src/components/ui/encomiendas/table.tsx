@@ -2,13 +2,17 @@ import React from "react";
 import { Table, Tag, Typography, Button, Popconfirm, Space } from "antd";
 import { api } from "@/utils/api";
 import EncomiendaDetails from "./detalles-encomienda";
-import type { TableColumnsType } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { useMessageContext } from "@/context/MessageContext";
-const { Title } = Typography;
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 
-export function EncomiendasTable() {
+const { Title } = Typography;
+export function EncomiendasTable({
+  setEncomiendaIdToEdit,
+}: {
+  setEncomiendaIdToEdit: (id: string) => void;
+}) {
   const {
     data: encomiendas,
     refetch,
@@ -18,16 +22,16 @@ export function EncomiendasTable() {
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
 
-  const columns: TableColumnsType = [
+  const columns: ColumnsType = [
     {
       title: "Remitente",
       dataIndex: "remitenteDni",
-      key: "nombres",
+      key: "remitenteDni",
     },
     {
       title: "Destinatario",
       dataIndex: "destinatarioDni",
-      key: "nombres",
+      key: "destinatarioDni",
     },
 
     {
@@ -62,7 +66,11 @@ export function EncomiendasTable() {
         return (
           <Space className="items-baseline gap-2">
             <EncomiendaDetails id={id} modalActivator="Ver Detalles" />
-            <Button disabled title="Editar" icon={<FiEdit3 />} />
+            <Button
+              onClick={() => setEncomiendaIdToEdit(id)}
+              title="Editar"
+              icon={<FiEdit3 />}
+            />
             <Popconfirm
               okButtonProps={{
                 danger: true,
