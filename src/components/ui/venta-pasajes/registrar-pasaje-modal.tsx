@@ -8,6 +8,7 @@ import {
   Modal,
   Select,
   Space,
+  Steps,
   Tag,
   Typography,
 } from "antd";
@@ -123,11 +124,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           <div>
             <Space className="items-center gap-4">
               <Title level={4}>Distribución de Asientos</Title>
-              <span>
-                <Tag color="blue" className="px-3">
-                  {viaje?.response?.bus.placa}
-                </Tag>
-              </span>
+              <Tag color="blue" className="mb-1.5 px-3">
+                {viaje?.response?.bus.placa}
+              </Tag>
             </Space>
             <Space direction="horizontal" className="flex gap-4">
               <Text
@@ -157,11 +156,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           setOpen(false);
         }}
         footer={null}
-        width={900}
+        width={710}
       >
         <div>
-          <div className="flex items-center gap-4 ">
-            <div className=" flex w-[330px] flex-wrap">
+          <Space className=" items-start gap-4">
+            <div className=" flex w-[300px] flex-wrap">
               {seats.map((seatNumber, index) => (
                 <div
                   key={seatNumber}
@@ -211,15 +210,66 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 </div>
               ))}
             </div>
-
-            <Image
-              src="https://img.freepik.com/free-vector/modern-city-bus-realistic-advertising-template-side-view-front-rear-white-background-isolated-vector-illustration_1284-19734.jpg?size=626&ext=jpg&ga=GA1.1.1405311743.1707842042&semt=sph"
-              width={500}
-              height={500}
-              alt="bus-preview"
-              className="rounded-xl dark:invert"
-            />
-          </div>
+            <Space direction="vertical" className="gap-4 py-2">
+              <Image
+                src={
+                  viaje?.response?.bus.foto ||
+                  "https://img.freepik.com/free-vector/bus-set-with-different-perspectives_23-2147827172.jpg?t=st=1714500327~exp=1714503927~hmac=2c85a5e40e27c8819faf7804163fcc4db500937c67909fa49ee3148a0a341a1c&w=740"
+                }
+                width={380}
+                height={380}
+                alt="bus-preview"
+                className="rounded-xl "
+              />
+              <Space className="w-full justify-center gap-4">
+                <Space className="gap-2">
+                  <Text type="secondary">Frontales </Text>
+                  <Text>12</Text>
+                </Space>
+                <Space className="gap-2">
+                  <Text type="secondary">Medios </Text>
+                  <Text>16</Text>
+                </Space>
+                <Space className="gap-2">
+                  <Text type="secondary">Posteriores </Text>
+                  <Text>{(viaje?.response?.bus.asientos ?? 30) - 28}</Text>
+                </Space>
+              </Space>
+              <Steps
+                direction="vertical"
+                className="mt-4"
+                size="small"
+                items={[
+                  {
+                    title: "Modelo del Bus",
+                    status: "finish",
+                    description: viaje?.response?.bus.modelo,
+                  },
+                  {
+                    title: "Bus Cama",
+                    status: `${
+                      (viaje?.response?.bus.asientos ?? 0) > 40
+                        ? "finish"
+                        : "error"
+                    }`,
+                    description: "Indicador para asercion de bus cama",
+                  },
+                  {
+                    title: "Experiencia en General",
+                    status: `${
+                      viaje?.response?.conductores.some(
+                        (conductor: { claseLicencia: string }) =>
+                          conductor.claseLicencia === "A-IIIB"
+                      )
+                        ? `finish`
+                        : `error`
+                    }`,
+                    description: "Conductores con licencia AIII-C",
+                  },
+                ]}
+              />
+            </Space>
+          </Space>
           <Divider className="my-4" />
           <Space direction="horizontal" className="flex gap-3">
             <Text type="secondary">

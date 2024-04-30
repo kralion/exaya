@@ -71,7 +71,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
     },
 
     {
-      title: "Hora Salida",
+      title: "Salida",
       dataIndex: "salida",
       key: "horaSalida",
       sorter: {
@@ -208,7 +208,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       columns={columns}
       dataSource={viajes?.response}
       style={{
-        width: ` ${(isCollapsed && "900px") || "100%"}`,
+        width: ` ${(isCollapsed && "870px") || "100%"}`,
       }}
     />
   );
