@@ -109,7 +109,7 @@ export default function Administracion() {
     return Array.from(uniqueRoutes.entries());
   };
   useEffect(() => {
-    if (session?.token.rol !== "ADMIN") {
+    if (session?.user?.rol !== "ADMIN") {
       router.replace("/dashboard");
     }
   }, [session, router]);
