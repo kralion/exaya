@@ -66,6 +66,15 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.username || !credentials.password) {
           return null;
         }
+        const userDisabled = await prisma.usuario.findUnique({
+          where: {
+            username: credentials.username,
+            isDeleted: true,
+          },
+        });
+        if (userDisabled) {
+          return null;
+        }
         const userFound = await prisma.usuario.findUnique({
           where: {
             username: credentials.username,

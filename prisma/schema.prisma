@@ -143,6 +143,7 @@ model Usuario {
     encomienda      Encomienda[]
     boleto          Boleto[]
     viaje           Viaje[]
+    isDeleted       Boolean         @default(false)
 }
 
 model Viaje {

@@ -9,6 +9,7 @@ import {
   type SelectProps,
   Space,
   Typography,
+  Switch,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
 import { HiOutlineUpload } from "react-icons/hi";
@@ -309,6 +310,7 @@ export function UsuarioForm({
         usuarioDni: usuarioSingle.response.usuarioDni,
         telefono: usuarioSingle.response.telefono,
         username: usuarioSingle.response.username,
+        isDeleted: usuarioSingle.response.isDeleted,
         rol: usuarioSingle.response.rol,
         serieBoleto: usuarioSingle.response.serieBoleto,
         serieEncomienda: usuarioSingle.response.serieEncomienda,
@@ -497,6 +499,21 @@ export function UsuarioForm({
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item
+            name="isDeleted"
+            tooltip="El usuario está habilitado ?"
+            label="Habilitado"
+          >
+            <Switch
+              checkedChildren="Sí"
+              unCheckedChildren="No"
+              style={{ width: 80 }}
+              className=" bg-red-500 shadow-lg"
+              onChange={(checked) => {
+                form.setFieldValue("isDeleted", checked);
+              }}
+            />
           </Form.Item>
           <Form.Item label="Foto del Usuario">
             <div>

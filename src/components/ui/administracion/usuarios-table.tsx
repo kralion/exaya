@@ -1,19 +1,20 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
+  Alert,
+  Avatar,
   Button,
   Popconfirm,
   Space,
   Table,
   Tag,
-  Alert,
-  Avatar,
   Typography,
 } from "antd";
 import Link from "next/link";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { FiEdit3 } from "react-icons/fi";
+import { TbLockX } from "react-icons/tb";
+
 import type { ColumnsType } from "antd/es/table";
+import { FiEdit3 } from "react-icons/fi";
 const { Text } = Typography;
 export default function UsuariosTable({
   setUsuarioIdToEdit,
@@ -28,7 +29,7 @@ export default function UsuariosTable({
     isError,
     refetch,
   } = api.usuarios.getAllUsuarios.useQuery();
-  const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
+  const usuarioDisableMutation = api.usuarios.disableUser.useMutation();
   const { openMessage } = useMessageContext();
   function capitalizeFirstLetter(string: string | undefined) {
     if (string === undefined) {
@@ -41,8 +42,8 @@ export default function UsuariosTable({
       .join(" ");
   }
 
-  const handleDeleteUser = (id: string) => {
-    usuarioDeleteMutation.mutate(
+  const handleDisableUser = (id: string) => {
+    usuarioDisableMutation.mutate(
       { id },
 
       {
@@ -142,14 +143,14 @@ export default function UsuariosTable({
               okButtonProps={{
                 danger: true,
               }}
-              title="Estás segur@ de eliminar este usuario?"
+              title="Estás segur@ de deshabilitar este usuario?"
               okText="Sí"
               cancelText="No"
-              onConfirm={() => handleDeleteUser(record.id)}
+              onConfirm={() => handleDisableUser(record.id)}
             >
               <Button
-                title="Eliminar"
-                icon={<FaRegTrashCan />}
+                title="Deshabilitar"
+                icon={<TbLockX />}
                 type="text"
                 danger
               />

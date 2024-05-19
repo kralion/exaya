@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const usuarioSchema = z.object({
   username: z.string(),
+  isDeleted: z.boolean().optional(),
   nombres: z.string(),
   serieBoleto: z.enum([
     "AG001",

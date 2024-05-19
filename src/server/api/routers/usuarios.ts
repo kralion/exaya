@@ -62,6 +62,57 @@ export const usuariosRouter = createTRPCRouter({
       }
     }),
 
+  disableUser: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const user = await ctx.prisma.usuario.findUnique({
+        where: { id: input.id },
+      });
+
+      const currentUser = await ctx.prisma.usuario.findUnique({
+        where: { id: ctx.session.user.id },
+      });
+      if (currentUser?.rol !== "ADMIN") {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Solo los administradores pueden deshabilitar usuarios",
+        });
+      }
+
+      if (!user)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "El usuario no existe",
+        });
+
+      if (user.rol === "ADMIN") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "No es posible deshabilitar a un usuario administrador",
+        });
+      }
+
+      const sessionUserId = ctx.session.user.id;
+      if (sessionUserId === user.id) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message:
+            "No es posible deshabilitar el usuario con el que se ha iniciado sesión",
+        });
+      }
+
+      await ctx.prisma.usuario.update({
+        where: { id: input.id },
+        data: {
+          isDeleted: false,
+        },
+      });
+      return {
+        status: "success",
+        message: "Usuario deshabilitado exitosamente",
+      };
+    }),
+
   deleteUser: protectedProcedure
     .input(
       z.object({
