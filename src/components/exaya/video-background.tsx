@@ -4,10 +4,10 @@ export default function VideoBackground() {
       autoPlay
       muted
       loop
-      className=" h-full w-full object-fill  brightness-75"
+      className=" h-full w-2/5  object-cover  brightness-75"
     >
       <source
-        src="https://cdn.pixabay.com/vimeo/887039127/road-189805.mp4?width=360&hash=0a9fb9b3a09bc21c617d2508d4eab36bc3744bdf"
+        src="https://cdn.pixabay.com/video/2023/04/30/161071-822582138_large.mp4"
         type="video/mp4"
       />
     </video>

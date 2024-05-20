@@ -49,6 +49,7 @@ export default function Dashboard() {
             />
           </Space>
         </ControlPaneCard>
+
         <ControlPaneCard
           href="/contable"
           cardDescription="Códigos de los últimos comprobantes nuevos generados en el sistema boletos de viaje y las encomiendas"
