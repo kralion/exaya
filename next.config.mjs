@@ -25,6 +25,7 @@ const config = {
       "images.pexels.com",
       "randomuser.me",
       "upload.wikimedia.org",
+      "videos.pexels.com",
       "image.shutterstock.com",
       "imgur.com",
       "media.istockphoto.com",
