@@ -1,3 +1,4 @@
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
   Button,
@@ -12,18 +13,17 @@ import {
   Tag,
   Typography,
 } from "antd";
+import { useSession } from "next-auth/react";
 import { Concert_One } from "next/font/google";
-import { useMessageContext } from "@/context/MessageContext";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { LegacyRef, useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
-import { useSession } from "next-auth/react";
+import TravelTicketPrint from "@/components/travel-ticket";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { useReactToPrint } from "react-to-print";
-import TravelTicketPrint from "@/components/travel-ticket";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -76,25 +76,29 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (boleto) => boleto.asiento === selectedSeat
   );
   const [isPrinting, setIsPrinting] = useState(false);
+  const [contentRef, setContentRef] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     if (showPrintComponent && ref.current) {
+      setContentRef(ref.current);
       setIsPrinting(true);
+    } else {
+      setContentRef(null);
+      setIsPrinting(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPrintComponent, ref.current]);
 
   const handlePrint = useReactToPrint({
-    content: () => ref.current as HTMLElement,
+    content: () => contentRef as HTMLElement,
     onAfterPrint: () => setShowPrintComponent(false),
   });
 
   useEffect(() => {
-    if (isPrinting) {
+    if (isPrinting && contentRef) {
       handlePrint();
       setIsPrinting(false);
     }
-  }, [isPrinting, handlePrint]);
+  }, [isPrinting, handlePrint, contentRef]);
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
