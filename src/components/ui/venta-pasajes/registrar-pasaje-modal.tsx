@@ -460,6 +460,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 backgroundColor: "#52c41a",
               }}
               className="duration-75 hover:opacity-80 active:opacity-100"
+              onClick={handlePrint}
             >
               Imprimir
             </Button>
