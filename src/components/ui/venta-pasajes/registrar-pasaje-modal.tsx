@@ -1,3 +1,4 @@
+import TravelTicketPrint from "@/components/travel-ticket";
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
@@ -16,11 +17,9 @@ import {
 import { useSession } from "next-auth/react";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import { useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
-import TravelTicketPrint from "@/components/travel-ticket";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { useReactToPrint } from "react-to-print";
@@ -71,20 +70,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
   const ref = useRef<HTMLDivElement | null>(null);
-  const [showPrintComponent, setShowPrintComponent] = useState(false);
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
 
   const handlePrint = useReactToPrint({
     content: () => ref.current,
-    onAfterPrint: () => setShowPrintComponent(false),
   });
-
-  const onPrint = () => {
-    setShowPrintComponent(true);
-    handlePrint();
-  };
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
@@ -349,6 +341,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         }
         centered
         open={openRegister}
+        className="flex items-center justify-center gap-4"
         onCancel={() => {
           setOpenRegister(false);
           form.resetFields();
@@ -460,16 +453,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 backgroundColor: "#52c41a",
               }}
               className="duration-75 hover:opacity-80 active:opacity-100"
-              onClick={onPrint}
+              onClick={handlePrint}
             >
               Imprimir
             </Button>
-
-            <TravelTicketPrint
-              id={selectedBoleto?.id as string}
-              ref={ref}
-              showPrintComponent={showPrintComponent}
-            />
 
             <Button
               htmlType="submit"
@@ -489,6 +476,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             </Button>
           </Space>
         </Form>
+        <TravelTicketPrint id={selectedBoleto?.id as string} ref={ref} />
       </Modal>
     </div>
   );
