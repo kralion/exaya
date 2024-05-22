@@ -466,9 +466,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             </Button>
             {showPrintComponent &&
               ReactDOM.createPortal(
-                <div ref={componentRef as LegacyRef<HTMLDivElement>}>
-                  <TravelTicketPrint id={selectedBoleto?.id as string} />
-                </div>,
+                <TravelTicketPrint
+                  id={selectedBoleto?.id as string}
+                  ref={componentRef as LegacyRef<HTMLDivElement>}
+                />,
                 document.body
               )}
 

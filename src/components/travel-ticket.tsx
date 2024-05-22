@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { LuLuggage } from "react-icons/lu";
 
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
