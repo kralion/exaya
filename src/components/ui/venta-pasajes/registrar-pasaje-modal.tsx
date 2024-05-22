@@ -70,7 +70,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const [showPrintComponent, setShowPrintComponent] = useState(false);
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
@@ -468,7 +468,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               ReactDOM.createPortal(
                 <TravelTicketPrint
                   id={selectedBoleto?.id as string}
-                  ref={ref as LegacyRef<HTMLDivElement>}
+                  ref={ref}
                 />,
                 document.body
               )}
