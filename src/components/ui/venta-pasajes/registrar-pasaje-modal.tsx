@@ -81,11 +81,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     onAfterPrint: () => setShowPrintComponent(false),
   });
 
-  useEffect(() => {
-    if (showPrintComponent) {
-      handlePrint();
-    }
-  }, [showPrintComponent, handlePrint]);
+  const onPrint = () => {
+    setShowPrintComponent(true);
+    handlePrint();
+  };
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
@@ -461,18 +460,16 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 backgroundColor: "#52c41a",
               }}
               className="duration-75 hover:opacity-80 active:opacity-100"
-              onClick={handlePrint}
+              onClick={onPrint}
             >
               Imprimir
             </Button>
-            {showPrintComponent &&
-              ReactDOM.createPortal(
-                <TravelTicketPrint
-                  id={selectedBoleto?.id as string}
-                  ref={ref}
-                />,
-                document.body
-              )}
+
+            <TravelTicketPrint
+              id={selectedBoleto?.id as string}
+              ref={ref}
+              showPrintComponent={showPrintComponent}
+            />
 
             <Button
               htmlType="submit"
