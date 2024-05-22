@@ -3,12 +3,12 @@ import React, { forwardRef } from "react";
 import { LuLuggage } from "react-icons/lu";
 
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
-  (props, ref) => {
+  function TravelTicketPrint(props, ref) {
     const { id } = props;
     const { data } = api.boletos.getBoletosById.useQuery({ id });
     if (data?.response === null) {
       return (
-        <div className="flex h-96 items-center justify-center">
+        <div ref={ref} className="flex h-96 items-center justify-center">
           <p className="text-2xl text-gray-500">Seleccione un boleto</p>
         </div>
       );
@@ -166,7 +166,5 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
     );
   }
 );
-
-TravelTicketPrint.displayName = "TravelTicketPrint"; // Add a display name to the component
 
 export default TravelTicketPrint;
