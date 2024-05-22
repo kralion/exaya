@@ -75,16 +75,26 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
+  const [isPrinting, setIsPrinting] = useState(false);
+
+  useEffect(() => {
+    if (showPrintComponent && ref.current) {
+      setIsPrinting(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showPrintComponent, ref.current]);
+
   const handlePrint = useReactToPrint({
     content: () => ref.current as HTMLElement,
     onAfterPrint: () => setShowPrintComponent(false),
   });
 
   useEffect(() => {
-    if (showPrintComponent) {
+    if (isPrinting) {
       handlePrint();
+      setIsPrinting(false);
     }
-  }, [showPrintComponent, handlePrint]);
+  }, [isPrinting, handlePrint]);
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
