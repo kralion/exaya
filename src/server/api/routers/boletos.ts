@@ -47,6 +47,13 @@ export const boletosRouter = createTRPCRouter({
       try {
         const boleto = await ctx.prisma.boleto.findUnique({
           where: { id: input.id },
+          include: {
+            viaje: {
+              include: {
+                ruta: true,
+              },
+            },
+          },
         });
         return {
           status: "success",

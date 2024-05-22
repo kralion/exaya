@@ -15,12 +15,15 @@ import {
 import { Concert_One } from "next/font/google";
 import { useMessageContext } from "@/context/MessageContext";
 import Image from "next/image";
-import { useState } from "react";
+import ReactDOM from "react-dom";
+import { useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
 import { useSession } from "next-auth/react";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
+import { useReactToPrint } from "react-to-print";
+import TravelTicketPrint from "@/components/travel-ticket";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -53,6 +56,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoleto.useMutation();
+
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
       {
@@ -66,6 +70,21 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
+  const componentRef = useRef<HTMLDivElement>(null);
+  const [showPrintComponent, setShowPrintComponent] = useState(false);
+  const selectedBoleto = viaje?.response?.boletos.find(
+    (boleto) => boleto.asiento === selectedSeat
+  );
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    onAfterPrint: () => setShowPrintComponent(false),
+  });
+
+  useEffect(() => {
+    if (showPrintComponent) {
+      handlePrint();
+    }
+  }, [showPrintComponent, handlePrint]);
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
@@ -444,6 +463,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             >
               Imprimir
             </Button>
+            {showPrintComponent &&
+              ReactDOM.createPortal(
+                <div ref={componentRef}>
+                  <TravelTicketPrint id={selectedBoleto?.id as string} />
+                </div>,
+                document.body
+              )}
 
             <Button
               htmlType="submit"
