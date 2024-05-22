@@ -1,32 +1,21 @@
 import { api } from "@/utils/api";
-import React, { forwardRef, useCallback } from "react";
+import { forwardRef } from "react";
 import { LuLuggage } from "react-icons/lu";
 
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
-  function TravelTicketPrint(props, ref) {
-    const { id } = props;
+  function TravelTicketPrint({ id }, ref) {
     const { data } = api.boletos.getBoletosById.useQuery({ id });
-    const divRef = useCallback(
-      (node: HTMLDivElement) => {
-        if (typeof ref === "object" && ref !== null && "current" in ref) {
-          ref.current = node;
-        }
-      },
-      [ref]
-    );
-
     if (data?.response === null) {
       return (
-        <div ref={divRef} className="flex h-96 items-center justify-center">
+        <div ref={ref} className="flex h-96 items-center justify-center">
           <p className="text-2xl text-gray-500">Seleccione un boleto</p>
         </div>
       );
     }
-
     return (
       <div
         className=" mx-auto  overflow-hidden rounded-lg shadow-md "
-        ref={divRef}
+        ref={ref}
       >
         <header className="bg-yellow-700  px-6 py-4 text-white">
           <div className="flex items-center  justify-between">

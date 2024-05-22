@@ -70,35 +70,22 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [showPrintComponent, setShowPrintComponent] = useState(false);
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
-  const [isPrinting, setIsPrinting] = useState(false);
-  const [contentRef, setContentRef] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (showPrintComponent && ref.current) {
-      setContentRef(ref.current);
-      setIsPrinting(true);
-    } else {
-      setContentRef(null);
-      setIsPrinting(false);
-    }
-  }, [showPrintComponent, ref.current]);
 
   const handlePrint = useReactToPrint({
-    content: () => contentRef as HTMLElement,
+    content: () => ref.current,
     onAfterPrint: () => setShowPrintComponent(false),
   });
 
   useEffect(() => {
-    if (isPrinting && contentRef) {
+    if (showPrintComponent) {
       handlePrint();
-      setIsPrinting(false);
     }
-  }, [isPrinting, handlePrint, contentRef]);
+  }, [showPrintComponent, handlePrint]);
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
