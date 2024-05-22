@@ -16,7 +16,7 @@ import { Concert_One } from "next/font/google";
 import { useMessageContext } from "@/context/MessageContext";
 import Image from "next/image";
 import ReactDOM from "react-dom";
-import { useEffect, useRef, useState } from "react";
+import { LegacyRef, useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
 import { useSession } from "next-auth/react";
@@ -70,13 +70,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
-  const componentRef = useRef<HTMLDivElement>(null);
+  const componentRef = useRef<HTMLDivElement>();
   const [showPrintComponent, setShowPrintComponent] = useState(false);
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    content: () => componentRef.current as HTMLElement,
     onAfterPrint: () => setShowPrintComponent(false),
   });
 
@@ -466,7 +466,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             </Button>
             {showPrintComponent &&
               ReactDOM.createPortal(
-                <div ref={componentRef}>
+                <div ref={componentRef as LegacyRef<HTMLDivElement>}>
                   <TravelTicketPrint id={selectedBoleto?.id as string} />
                 </div>,
                 document.body
