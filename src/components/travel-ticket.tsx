@@ -31,7 +31,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
     }
     return (
       <div ref={ref}>
-        <header className="bg-yellow-40 rounded-t-lg  p-6 text-white">
+        <header className="bg-yellow-40 rounded-t-lg  bg-yellow-400 p-6 text-white">
           <div className="flex items-center  justify-between">
             <div className="flex items-center gap-2  text-2xl font-bold text-black">
               <img
