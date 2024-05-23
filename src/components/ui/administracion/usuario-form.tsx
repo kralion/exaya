@@ -385,13 +385,13 @@ export function UsuarioForm({
               )
             }
           >
-            <InputNumber
+            <Input
               type="number"
               maxLength={8}
               addonBefore={<BsPassport />}
               placeholder="12345678"
-              onChange={(value: string | null) => {
-                const dni = JSON.stringify(value);
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const dni = event.target.value;
                 form.setFieldValue("usuarioDni", dni);
                 setQueryEnabled(dni.length === 8);
               }}

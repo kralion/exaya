@@ -469,22 +469,18 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 )
               }
             >
-              <InputNumber
-                onChange={(value: string | null) => {
-                  const dni = JSON.stringify(value);
-                  if (dni.length > 8) {
-                    return;
-                  }
+              <Input
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  const dni = event.target.value;
                   setQueryEnabled(dni.length === 8);
                   setPasajeroDNI(dni);
                 }}
                 style={{
-                  width: 500,
+                  width: 380,
                 }}
                 type="number"
                 maxLength={8}
                 className="w-full"
-                controls={false}
               />
             </Form.Item>
             <Space>
@@ -506,7 +502,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 label="Precio"
                 rules={[{ required: true, message: "Requerido" }]}
               >
-                <Select loading={isLoadingViaje} placeholder="40" allowClear>
+                <Select
+                  style={{ width: 80 }}
+                  loading={isLoadingViaje}
+                  allowClear
+                >
                   {viaje?.response?.tarifas.map(
                     (tarifa: number, index: number) => (
                       <Select.Option key={index} value={tarifa}>
@@ -527,7 +527,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   style={{ width: 80 }}
                   className=" bg-red-500 shadow-lg"
                   onChange={(checked) => {
-                    setBoletoStatus(checked ? "RESERVADO" : "PAGADO");
+                    setBoletoStatus(
+                      checked
+                        ? ("RESERVADO" as BoletoEstado)
+                        : ("PAGADO" as BoletoEstado)
+                    );
                   }}
                 />
               </Form.Item>
