@@ -96,7 +96,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
-    setBoletoStatus("PAGADO");
 
     if (!apellidosCliente) {
       return null;
@@ -109,7 +108,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        estado: boletoStatus,
+        estado: "PAGADO" as BoletoEstado,
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
