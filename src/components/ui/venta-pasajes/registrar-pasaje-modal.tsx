@@ -108,7 +108,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        estado: "PAGADO" as BoletoEstado,
+        estado: boletoStatus,
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
