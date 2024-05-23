@@ -346,7 +346,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           setOpenRegister(false);
           form.resetFields();
         }}
-        width={550}
+        width={850}
         footer={null}
       >
         <Form
