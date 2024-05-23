@@ -24,6 +24,7 @@ import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { useReactToPrint } from "react-to-print";
+import { devNull } from "os";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -369,71 +370,71 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex gap-2 pr-5">
-              <h3>Asiento</h3>
-              <div>
-                <svg
-                  key={selectedSeat}
-                  width="40"
-                  height="40"
-                  viewBox="0 2 24 22"
-                >
-                  <path
-                    className={
-                      boletosReservados?.response?.some(
-                        (boleto) => boleto.asiento === selectedSeat
-                      )
-                        ? "fill-yellow-300 stroke-yellow-600"
-                        : boletosVendidos?.response?.some(
-                            (boleto) => boleto.asiento === selectedSeat
-                          )
-                        ? "fill-green-300 stroke-green-600"
-                        : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
-                    }
-                    d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
-                  ></path>
-                  <path
-                    className="fill-amber-200 stroke-amber-600"
-                    d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
-                  ></path>
-                  <text
-                    x="50%"
-                    y="50%"
-                    textAnchor="middle"
-                    dy=".3em"
-                    className={`text-[8px] font-bold  ${concertOne.className}`}
+            <div className="flex justify-around">
+              <div className="flex gap-2 pr-5">
+                <h3>Asiento</h3>
+                <div>
+                  <svg
+                    key={selectedSeat}
+                    width="40"
+                    height="40"
+                    viewBox="0 2 24 22"
                   >
-                    {selectedSeat}
-                  </text>
-                </svg>
+                    <path
+                      className={
+                        boletosReservados?.response?.some(
+                          (boleto) => boleto.asiento === selectedSeat
+                        )
+                          ? "fill-yellow-300 stroke-yellow-600"
+                          : boletosVendidos?.response?.some(
+                              (boleto) => boleto.asiento === selectedSeat
+                            )
+                          ? "fill-green-300 stroke-green-600"
+                          : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
+                      }
+                      d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
+                    ></path>
+                    <path
+                      className="fill-amber-200 stroke-amber-600"
+                      d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
+                    ></path>
+                    <text
+                      x="50%"
+                      y="50%"
+                      textAnchor="middle"
+                      dy=".3em"
+                      className={`text-[8px] font-bold  ${concertOne.className}`}
+                    >
+                      {selectedSeat}
+                    </text>
+                  </svg>
+                </div>
               </div>
+              {selectedBoleto?.estado === "PAGADO" ? (
+                <Button
+                  type="primary"
+                  style={{
+                    backgroundColor: "#52c41a",
+                  }}
+                  className="duration-75 hover:opacity-80 active:opacity-100"
+                  onClick={handlePrint}
+                >
+                  Imprimir
+                </Button>
+              ) : null}
             </div>
             <hr className="mt-2 " />
           </Title>
         }
         centered
         open={openRegister}
-        className="flex items-center justify-center gap-4"
         onCancel={() => {
           setOpenRegister(false);
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={650}
-        footer={
-          selectedBoleto?.estado === "PAGADO" ? (
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#52c41a",
-              }}
-              className="duration-75 hover:opacity-80 active:opacity-100"
-              onClick={handlePrint}
-            >
-              Imprimir
-            </Button>
-          ) : null
-        }
+        width={600}
+        footer={null}
       >
         {selectedBoleto?.estado === "PAGADO" ? (
           <TravelTicketPrint id={selectedBoleto?.id} ref={ref} />
@@ -444,7 +445,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             name="registrar-pasaje"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}
-            style={{ width: 650 }}
+            style={{ width: 500 }}
           >
             <Form.Item
               name="pasajeroDni"
@@ -483,7 +484,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   setPasajeroDNI(dni);
                 }}
                 style={{
-                  width: 310,
+                  width: 500,
                 }}
                 type="number"
                 maxLength={8}
@@ -499,7 +500,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               >
                 <Input
                   style={{
-                    width: 110,
+                    width: 210,
                   }}
                   maxLength={9}
                   type="number"

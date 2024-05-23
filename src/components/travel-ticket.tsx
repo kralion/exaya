@@ -30,7 +30,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
       });
     }
     return (
-      <div className="rounded-lg  shadow-lg" ref={ref}>
+      <div className="rounded-lg  p-2 shadow-lg" ref={ref}>
         <header className="bg-yellow-400  p-6 text-white">
           <div className="flex items-center  justify-between">
             <div className="flex items-center gap-2  text-2xl font-bold text-black">
@@ -154,14 +154,14 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             />
           </div>
         </div>
-        <section className="rounded-b-lg bg-yellow-700 text-center font-mono">
+        <section className="rounded-b-lg bg-yellow-400 text-center font-mono">
           <span className="text-xs  text-black">
             Atención al Cliente: 91454845 - 94845845
           </span>
         </section>
-        <hr className="my-0.25 border-t border-dashed border-black " />
+        <hr className="my-0.25 border-t border-dashed border-white " />
         <footer className="flex justify-between rounded-t-lg bg-yellow-400 p-4  text-black">
-          <div className="flex flex-col justify-around rounded-l-lg  bg-primary">
+          <div className="flex flex-col justify-around rounded-l-lg">
             <p className="font-medium ">Boleto de Viaje</p>
             <h1 className="font-mono text-5xl font-bold">
               {data?.response?.serie.toUpperCase()}-{data?.response?.codigo}
