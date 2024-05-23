@@ -429,7 +429,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={selectedBoleto?.estado === "PAGADO" ? 700 : 500}
+        width={selectedBoleto?.estado === "PAGADO" ? 700 : 450}
         footer={null}
       >
         {selectedBoleto?.estado === "PAGADO" ? (
@@ -441,7 +441,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             name="registrar-pasaje"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}
-            style={{ width: 490 }}
+            style={{ width: 400 }}
           >
             <Form.Item
               name="pasajeroDni"
