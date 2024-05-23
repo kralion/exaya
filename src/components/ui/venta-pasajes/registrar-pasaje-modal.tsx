@@ -24,7 +24,6 @@ import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { useReactToPrint } from "react-to-print";
-import { devNull } from "os";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -192,9 +191,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         telefonoCliente: boletoSingle?.response?.telefonoCliente,
         precio: boletoSingle?.response?.precio,
         equipaje: boletoSingle?.response?.equipaje,
+        estado: boletoSingle?.response?.estado,
       });
     }
-  }, [selectedBoleto?.id, boletoSingle?.response]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBoleto?.id]);
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
