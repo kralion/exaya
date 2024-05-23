@@ -177,7 +177,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   }
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
-    if (selectedBoleto?.id !== "") {
+    if (selectedBoleto) {
       await updateBoleto(values);
     } else {
       await createBoleto(values);
