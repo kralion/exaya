@@ -30,8 +30,8 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
       });
     }
     return (
-      <div className="rounded-lg  p-2 shadow-lg" ref={ref}>
-        <header className="bg-yellow-400  p-6 text-white">
+      <div ref={ref}>
+        <header className="bg-yellow-40 rounded-t-lg  p-6 text-white">
           <div className="flex items-center  justify-between">
             <div className="flex items-center gap-2  text-2xl font-bold text-black">
               <img
@@ -160,7 +160,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           </span>
         </section>
         <hr className="my-0.25 border-t border-dashed border-white " />
-        <footer className="flex justify-between rounded-t-lg bg-yellow-400 p-4  text-black">
+        <footer className="flex justify-between rounded-lg bg-yellow-400 p-4  text-black">
           <div className="flex flex-col justify-around rounded-l-lg">
             <p className="font-medium ">Boleto de Viaje</p>
             <h1 className="font-mono text-5xl font-bold">

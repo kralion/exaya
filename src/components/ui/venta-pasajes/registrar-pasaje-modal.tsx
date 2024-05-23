@@ -371,8 +371,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex justify-around">
-              <div className="flex gap-2 pr-5">
+            <div className="flex justify-between pr-5">
+              <div className="flex gap-2">
                 <h3>Asiento</h3>
                 <div>
                   <svg
@@ -412,14 +412,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 </div>
               </div>
               {selectedBoleto?.estado === "PAGADO" ? (
-                <Button
-                  type="primary"
-                  style={{
-                    backgroundColor: "#52c41a",
-                  }}
-                  className="duration-75 hover:opacity-80 active:opacity-100"
-                  onClick={handlePrint}
-                >
+                <Button type="primary" onClick={handlePrint}>
                   Imprimir
                 </Button>
               ) : null}
