@@ -18,7 +18,7 @@ import {
 import { useSession } from "next-auth/react";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -60,6 +60,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoleto.useMutation();
+  const selectedBoleto = viaje?.response?.boletos.find(
+    (boleto) => boleto.asiento === selectedSeat
+  );
+
+  const { data: boletoSingle } = api.boletos.getBoletosById.useQuery({
+    id: selectedBoleto?.id as string,
+  });
 
   const {
     mutateAsync: updateBoletoMutation,
@@ -80,9 +87,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
   const ref = useRef<HTMLDivElement | null>(null);
-  const selectedBoleto = viaje?.response?.boletos.find(
-    (boleto) => boleto.asiento === selectedSeat
-  );
 
   const handlePrint = useReactToPrint({
     content: () => ref.current,
@@ -92,7 +96,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
-    setBoletoStatus("PAGADO");
 
     if (!apellidosCliente) {
       return null;
@@ -136,8 +139,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
-    setBoletoStatus("PAGADO");
-
     if (!apellidosCliente) {
       return null;
     }
@@ -176,23 +177,23 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   }
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
-    if (selectedBoleto) {
+    if (selectedBoleto?.id !== "") {
       await updateBoleto(values);
     } else {
       await createBoleto(values);
     }
   }
 
-  React.useEffect = () => {
-    if (selectedBoleto) {
+  useEffect(() => {
+    if (selectedBoleto?.id !== "") {
       form.setFieldsValue({
-        pasajeroDni: selectedBoleto.pasajeroDni,
-        telefonoCliente: selectedBoleto.telefonoCliente,
-        precio: selectedBoleto.precio,
-        equipaje: selectedBoleto.equipaje,
+        pasajeroDni: boletoSingle?.response?.pasajeroDni,
+        telefonoCliente: boletoSingle?.response?.telefonoCliente,
+        precio: boletoSingle?.response?.precio,
+        equipaje: boletoSingle?.response?.equipaje,
       });
     }
-  };
+  }, [selectedBoleto?.id, boletoSingle?.response]);
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
@@ -418,17 +419,32 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={950}
-        footer={null}
+        width={650}
+        footer={
+          selectedBoleto?.estado === "PAGADO" ? (
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+              className="duration-75 hover:opacity-80 active:opacity-100"
+              onClick={handlePrint}
+            >
+              Imprimir
+            </Button>
+          ) : null
+        }
       >
-        <Space className="flex gap-4">
+        {selectedBoleto?.estado === "PAGADO" ? (
+          <TravelTicketPrint id={selectedBoleto?.id} ref={ref} />
+        ) : (
           <Form
             layout="vertical"
             form={form}
             name="registrar-pasaje"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}
-            style={{ width: 400 }}
+            style={{ width: 650 }}
           >
             <Form.Item
               name="pasajeroDni"
@@ -532,18 +548,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               >
                 {selectedBoleto ? "Actualizar" : "Registrar"}
               </Button>
-              {selectedBoleto?.estado === "PAGADO" ? (
-                <Button
-                  type="primary"
-                  style={{
-                    backgroundColor: "#52c41a",
-                  }}
-                  className="duration-75 hover:opacity-80 active:opacity-100"
-                  onClick={handlePrint}
-                >
-                  Imprimir
-                </Button>
-              ) : null}
               <Button
                 onClick={() => {
                   setOpenRegister(false);
@@ -557,8 +561,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Button>
             </Space>
           </Form>
-          <TravelTicketPrint id={selectedBoleto?.id as string} ref={ref} />
-        </Space>
+        )}
       </Modal>
     </div>
   );
