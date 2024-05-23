@@ -418,34 +418,18 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={650}
-        footer={
-          selectedBoleto?.estado === "PAGADO" ? (
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#52c41a",
-              }}
-              className="duration-75 hover:opacity-80 active:opacity-100"
-              onClick={handlePrint}
-            >
-              Imprimir
-            </Button>
-          ) : null
-        }
+        width={950}
+        footer={null}
       >
-        {selectedBoleto?.estado === "PAGADO" ? (
-          <TravelTicketPrint id={selectedBoleto?.id} ref={ref} />
-        ) : (
+        <Space className="flex gap-4">
           <Form
             layout="vertical"
             form={form}
             name="registrar-pasaje"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}
-            style={{ width: 650 }}
+            style={{ width: 400 }}
           >
-            {" "}
             <Form.Item
               name="pasajeroDni"
               label="DNI"
@@ -548,6 +532,18 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               >
                 {selectedBoleto ? "Actualizar" : "Registrar"}
               </Button>
+              {selectedBoleto?.estado === "PAGADO" ? (
+                <Button
+                  type="primary"
+                  style={{
+                    backgroundColor: "#52c41a",
+                  }}
+                  className="duration-75 hover:opacity-80 active:opacity-100"
+                  onClick={handlePrint}
+                >
+                  Imprimir
+                </Button>
+              ) : null}
               <Button
                 onClick={() => {
                   setOpenRegister(false);
@@ -561,7 +557,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Button>
             </Space>
           </Form>
-        )}
+          <TravelTicketPrint id={selectedBoleto?.id as string} ref={ref} />
+        </Space>
       </Modal>
     </div>
   );
