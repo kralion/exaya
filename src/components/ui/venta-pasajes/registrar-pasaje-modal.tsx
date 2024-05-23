@@ -96,6 +96,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
+    setBoletoStatus("PAGADO");
 
     if (!apellidosCliente) {
       return null;
@@ -371,7 +372,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex justify-between pr-5">
+            <div className="flex items-center justify-between">
               <div className="flex gap-2">
                 <h3>Asiento</h3>
                 <div>
@@ -421,13 +422,14 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           </Title>
         }
         centered
+        closeIcon={null}
         open={openRegister}
         onCancel={() => {
           setOpenRegister(false);
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={600}
+        width={selectedBoleto?.estado === "PAGADO" ? 700 : 500}
         footer={null}
       >
         {selectedBoleto?.estado === "PAGADO" ? (
@@ -439,7 +441,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             name="registrar-pasaje"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}
-            style={{ width: 500 }}
+            style={{ width: 490 }}
           >
             <Form.Item
               name="pasajeroDni"

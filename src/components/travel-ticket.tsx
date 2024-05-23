@@ -139,7 +139,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </ul>
           </div>{" "}
         </div>
-        <div className="flex  justify-center  bg-gray-100 px-6 py-8">
+        <div className="flex justify-center  border  bg-gray-100 px-6 py-8">
           <div className="flex h-40 w-40  items-center justify-center rounded-lg bg-white shadow-md">
             <img
               alt="Código QR"
@@ -168,7 +168,10 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </h1>
           </div>
           <div>
-            <p className="font-bold ">{data?.response?.pasajeroNombres}</p>
+            <p className="font-bold ">
+              {data?.response?.pasajeroNombres}
+              {data?.response?.pasajeroApellidos}
+            </p>
             <p className="text-sm">
               Salida: {data?.response?.viaje.ruta.ciudadOrigen},{" "}
               {data?.response?.viaje.ruta.ciudadOrigen
