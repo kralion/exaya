@@ -11,13 +11,14 @@ import {
   Select,
   Space,
   Steps,
+  Switch,
   Tag,
   Typography,
 } from "antd";
 import { useSession } from "next-auth/react";
 import { Concert_One } from "next/font/google";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -29,6 +30,7 @@ const concertOne = Concert_One({
   preload: true,
 });
 const { Title, Text } = Typography;
+type BoletoEstado = "DISPONIBLE" | "RESERVADO" | "PAGADO";
 
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
@@ -41,6 +43,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     api.viajes.getViajeById.useQuery({
       id: viajeId,
     });
+
   const { data: session } = useSession();
   const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
@@ -48,6 +51,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       status: "PAGADO",
       viajeId,
     });
+
+  const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
   const { data: boletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "RESERVADO",
@@ -55,6 +60,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoleto.useMutation();
+
+  const {
+    mutateAsync: updateBoletoMutation,
+    isLoading: isLoadingUpdateBoleto,
+  } = api.boletos.updateBoletoById.useMutation();
 
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
@@ -78,10 +88,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     content: () => ref.current,
   });
 
-  async function onFinish(values: z.infer<typeof boletoSchema>) {
+  async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
+    setBoletoStatus("PAGADO");
 
     if (!apellidosCliente) {
       return null;
@@ -94,7 +105,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        estado: "PAGADO",
+        estado: boletoStatus,
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
@@ -121,7 +132,67 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
+  async function updateBoleto(values: z.infer<typeof boletoSchema>) {
+    const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
+      reniecResponse?.data?.apellidoMaterno ?? ""
+    }`;
+    setBoletoStatus("PAGADO");
 
+    if (!apellidosCliente) {
+      return null;
+    }
+    await updateBoletoMutation(
+      {
+        ...values,
+        id: selectedBoleto?.id as string,
+        usuarioId: session?.user?.id as string,
+        serie: session?.user.serieBoleto ?? "AG001",
+        telefonoCliente: values.telefonoCliente.toString(),
+        pasajeroDni: values.pasajeroDni.toString(),
+        asiento: selectedSeat,
+        estado: boletoStatus,
+        viajeId,
+        pasajeroNombres: reniecResponse?.data?.nombres,
+        pasajeroApellidos: apellidosCliente,
+      },
+      {
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
+            type: "success",
+            duration: 3,
+          });
+          void refetchBoletosVendidos();
+        },
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            type: "error",
+            duration: 3,
+          });
+        },
+      }
+    );
+  }
+
+  async function onFinish(values: z.infer<typeof boletoSchema>) {
+    if (selectedBoleto) {
+      await updateBoleto(values);
+    } else {
+      await createBoleto(values);
+    }
+  }
+
+  React.useEffect = () => {
+    if (selectedBoleto) {
+      form.setFieldsValue({
+        pasajeroDni: selectedBoleto.pasajeroDni,
+        telefonoCliente: selectedBoleto.telefonoCliente,
+        precio: selectedBoleto.precio,
+        equipaje: selectedBoleto.equipaje,
+      });
+    }
+  };
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
@@ -329,7 +400,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                     y="50%"
                     textAnchor="middle"
                     dy=".3em"
-                    className={`text-[10px] font-bold  ${concertOne.className}`}
+                    className={`text-[8px] font-bold  ${concertOne.className}`}
                   >
                     {selectedSeat}
                   </text>
@@ -345,19 +416,36 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         onCancel={() => {
           setOpenRegister(false);
           form.resetFields();
+          setPasajeroDNI("");
         }}
-        width={850}
-        footer={null}
+        width={650}
+        footer={
+          selectedBoleto?.estado === "PAGADO" ? (
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#52c41a",
+              }}
+              className="duration-75 hover:opacity-80 active:opacity-100"
+              onClick={handlePrint}
+            >
+              Imprimir
+            </Button>
+          ) : null
+        }
       >
-        <Form
-          layout="vertical"
-          form={form}
-          name="registrar-pasaje"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onFinish={onFinish}
-          style={{ width: 500 }}
-        >
-          <Space>
+        {selectedBoleto?.estado === "PAGADO" ? (
+          <TravelTicketPrint id={selectedBoleto?.id} ref={ref} />
+        ) : (
+          <Form
+            layout="vertical"
+            form={form}
+            name="registrar-pasaje"
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onFinish={onFinish}
+            style={{ width: 650 }}
+          >
+            {" "}
             <Form.Item
               name="pasajeroDni"
               label="DNI"
@@ -403,80 +491,77 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 controls={false}
               />
             </Form.Item>
-            <Form.Item
-              name="telefonoCliente"
-              label="Teléfono"
-              rules={[{ required: true, message: "Requerido" }]}
-            >
-              <Input
-                style={{
-                  width: 110,
+            <Space>
+              <Form.Item
+                name="telefonoCliente"
+                label="Teléfono"
+                rules={[{ required: true, message: "Requerido" }]}
+              >
+                <Input
+                  style={{
+                    width: 110,
+                  }}
+                  maxLength={9}
+                  type="number"
+                />
+              </Form.Item>
+              <Form.Item
+                name="precio"
+                label="Precio"
+                rules={[{ required: true, message: "Requerido" }]}
+              >
+                <Select loading={isLoadingViaje} placeholder="40" allowClear>
+                  {viaje?.response?.tarifas.map(
+                    (tarifa: number, index: number) => (
+                      <Select.Option key={index} value={tarifa}>
+                        {tarifa}
+                      </Select.Option>
+                    )
+                  )}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="estado"
+                tooltip="Reservar el boleto?"
+                label="Reservar"
+              >
+                <Switch
+                  checkedChildren="Sí"
+                  unCheckedChildren="No"
+                  style={{ width: 80 }}
+                  className=" bg-red-500 shadow-lg"
+                  onChange={(checked) => {
+                    setBoletoStatus(checked ? "RESERVADO" : "PAGADO");
+                  }}
+                />
+              </Form.Item>
+            </Space>
+            <Form.Item name="equipaje" label="Equipaje">
+              <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
+            </Form.Item>
+            <Space className="flex justify-end">
+              <Button
+                htmlType="submit"
+                type="primary"
+                loading={isLoading || isLoadingUpdateBoleto}
+                disabled={reniecResponse?.status === "error"}
+              >
+                {selectedBoleto ? "Actualizar" : "Registrar"}
+              </Button>
+              <Button
+                onClick={() => {
+                  setOpenRegister(false);
+                  setPasajeroDNI("");
+                  form.resetFields();
                 }}
-                maxLength={9}
-                type="number"
-              />
-            </Form.Item>
-            <Form.Item
-              name="precio"
-              label="Precio"
-              rules={[{ required: true, message: "Requerido" }]}
-            >
-              <Select loading={isLoadingViaje} placeholder="40" allowClear>
-                {viaje?.response?.tarifas.map(
-                  (tarifa: number, index: number) => (
-                    <Select.Option key={index} value={tarifa}>
-                      {tarifa}
-                    </Select.Option>
-                  )
-                )}
-              </Select>
-            </Form.Item>
-          </Space>
-          <Form.Item name="equipaje" label="Equipaje">
-            <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
-          </Form.Item>
-          <Space className="flex justify-end">
-            <Button
-              onClick={() => {
-                setOpenRegister(false);
-                form.resetFields();
-              }}
-              danger
-              type="text"
-            >
-              Cancelar
-            </Button>
-            <Button type="default">Reservar</Button>
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#52c41a",
-              }}
-              className="duration-75 hover:opacity-80 active:opacity-100"
-              onClick={handlePrint}
-            >
-              Imprimir
-            </Button>
-
-            <Button
-              htmlType="submit"
-              type="primary"
-              loading={isLoading}
-              disabled={
-                reniecResponse?.status === "error" ||
-                boletosReservados?.response?.some(
-                  (boleto) => boleto.asiento === selectedSeat
-                ) ||
-                boletosVendidos?.response?.some(
-                  (boleto) => boleto.asiento === selectedSeat
-                )
-              }
-            >
-              Registrar
-            </Button>
-          </Space>
-        </Form>
-        <TravelTicketPrint id={selectedBoleto?.id as string} ref={ref} />
+                danger
+                type="text"
+              >
+                Cancelar
+              </Button>
+            </Space>
+          </Form>
+        )}
       </Modal>
     </div>
   );

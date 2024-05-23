@@ -1,43 +1,52 @@
 import { api } from "@/utils/api";
 import { forwardRef } from "react";
 import { LuLuggage } from "react-icons/lu";
-
+import { Inter } from "next/font/google";
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
   function TravelTicketPrint({ id }, ref) {
     const { data } = api.boletos.getBoletosById.useQuery({ id });
     if (!id) {
-      return <div>Boleto Disponible</div>;
+      return null;
     }
     if (data?.response === null) {
-      return (
-        <div ref={ref} className="flex h-96 items-center justify-center">
-          <p className="text-2xl text-gray-500">
-            No se encontraron datos para este boleto
-          </p>
-        </div>
-      );
+      return null;
+    }
+    const salida = data?.response?.viaje.salida;
+    const duracionEstimada = data?.response?.viaje.ruta
+      .duracionEstimada as number;
+    let horaLlegada = "N/A";
+
+    if (salida && duracionEstimada) {
+      const salidaDate = new Date(salida);
+      salidaDate.setHours(salidaDate.getHours() + duracionEstimada);
+
+      horaLlegada = salidaDate.toLocaleTimeString("es-PE", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
     return (
-      <div
-        className=" mx-auto  overflow-hidden rounded-lg shadow-md "
-        ref={ref}
-      >
-        <header className="bg-yellow-500  px-6 py-4 text-white">
+      <div className="rounded-lg  shadow-lg" ref={ref}>
+        <header className="bg-yellow-400  p-6 text-white">
           <div className="flex items-center  justify-between">
-            <div className="flex items-center gap-2  text-black">
+            <div className="flex items-center gap-2  text-2xl font-bold text-black">
               <img
                 alt="Logo"
                 className="h-8 w-8"
                 src="https://img.icons8.com/?size=50&id=9351&format=png"
               />
-              <h2 className="text-2xl font-bold ">Expreso Ayacucho</h2>
+              <h2 className={inter.className}>Expreso Ayacucho</h2>
             </div>
           </div>
         </header>
         <div className="space-y-8 bg-white p-6">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-black">
+              <h2 className="font-mono text-2xl font-bold text-black">
                 Boleto {data?.response?.serie.toUpperCase()}-
                 {data?.response?.codigo}
               </h2>
@@ -46,7 +55,13 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
             <div className="rounded-full  bg-gray-100 px-4 py-2">
-              <p className="text-xs  font-medium text-gray-500"></p>
+              <p className="text-xs  font-medium text-gray-500">
+                {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </p>
             </div>
           </div>
           <section className="grid grid-cols-2 grid-rows-2  gap-6">
@@ -58,7 +73,12 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                   .slice(0, 3)
                   .toUpperCase()}
               </p>
-              <p className="text-gray-500 ">10:00 PM</p>
+              <p className="text-gray-500 ">
+                {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
             </div>
             <div className="text-right">
               <p className="font-medium text-gray-500">Llegada</p>
@@ -68,9 +88,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                   .slice(0, 3)
                   .toUpperCase()}
               </p>
-              <p className="text-gray-500 ">
-                {data?.response?.viaje.salida.toLocaleTimeString()}
-              </p>
+              <p className="text-gray-500 ">{horaLlegada}</p>
             </div>
 
             <div>
@@ -138,11 +156,11 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
         </div>
         <section className="rounded-b-lg bg-yellow-700 text-center font-mono">
           <span className="text-xs  text-black">
-            Teléfonos: 91454845 - 94845845
+            Atención al Cliente: 91454845 - 94845845
           </span>
         </section>
         <hr className="my-0.25 border-t border-dashed border-black " />
-        <footer className="flex justify-between rounded-t-lg bg-yellow-700 p-4  text-black">
+        <footer className="flex justify-between rounded-t-lg bg-yellow-400 p-4  text-black">
           <div className="flex flex-col justify-around rounded-l-lg  bg-primary">
             <p className="font-medium ">Boleto de Viaje</p>
             <h1 className="font-mono text-5xl font-bold">
