@@ -6,7 +6,6 @@ import {
   Divider,
   Form,
   Input,
-  InputNumber,
   Modal,
   Select,
   Space,
@@ -39,21 +38,24 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  const { data: viaje, isLoading: isLoadingViaje } =
-    api.viajes.getViajeById.useQuery({
-      id: viajeId,
-    });
+  const {
+    data: viaje,
+    isLoading: isLoadingViaje,
+    refetch,
+  } = api.viajes.getViajeById.useQuery({
+    id: viajeId,
+  });
 
   const { data: session } = useSession();
   const [queryEnabled, setQueryEnabled] = useState(false);
-  const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
+  const { data: boletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
       viajeId,
     });
 
   const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
-  const { data: boletosReservados, refetch: refetchBoletosReservados } =
+  const { data: boletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "RESERVADO",
       viajeId,
@@ -120,7 +122,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
-          void refetchBoletosReservados();
+          void refetch();
         },
         onError: (error) => {
           openMessage({
@@ -163,7 +165,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
-          void refetchBoletosVendidos();
+          void refetch();
         },
         onError: (error) => {
           openMessage({
