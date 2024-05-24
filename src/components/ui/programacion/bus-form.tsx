@@ -1,7 +1,15 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
-import { Button, Form, Input, Modal, Space, Typography } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Space,
+  Typography,
+} from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
@@ -29,9 +37,8 @@ export function BusForm({ activator }: Props) {
   function onFinish(values: z.infer<typeof busSchema>) {
     createBusMutation.mutate(
       {
-        asientos: values.asientos,
-        placa: values.placa,
-        modelo: values.modelo,
+        ...values,
+        asientos: Number(values.asientos),
         foto: source,
       },
       {
@@ -99,7 +106,7 @@ export function BusForm({ activator }: Props) {
               },
             ]}
           >
-            <Input type="number" placeholder="45" />
+            <InputNumber type="number" placeholder="45" />
           </Form.Item>
 
           <Form.Item

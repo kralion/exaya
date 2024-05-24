@@ -53,7 +53,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
 
   const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
-  const { data: boletosReservados } =
+  const { data: boletosReservados, refetch: refetchBoletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "RESERVADO",
       viajeId,
@@ -120,7 +120,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
-          void refetchBoletosVendidos();
+          void refetchBoletosReservados();
         },
         onError: (error) => {
           openMessage({
@@ -194,8 +194,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         estado: boletoSingle?.response?.estado,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBoleto?.id]);
+  }, [selectedBoleto?.id, form, boletoSingle?.response]);
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
     setOpenRegister(true);
@@ -301,8 +300,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   viaje?.response?.bus.foto ||
                   "https://img.freepik.com/free-vector/bus-set-with-different-perspectives_23-2147827172.jpg?t=st=1714500327~exp=1714503927~hmac=2c85a5e40e27c8819faf7804163fcc4db500937c67909fa49ee3148a0a341a1c&w=740"
                 }
-                width={380}
-                height={380}
+                width={280}
+                height={280}
                 alt="bus-preview"
                 className="rounded-xl "
               />
@@ -476,7 +475,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   setPasajeroDNI(dni);
                 }}
                 style={{
-                  width: 380,
+                  width: 390,
                 }}
                 type="number"
                 maxLength={8}

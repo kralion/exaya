@@ -183,18 +183,14 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
               </Typography.Text>
             </Space>
             <Space>
-              <Typography.Text type="secondary">
-                Total Asientos :{" "}
-              </Typography.Text>
+              <Typography.Text type="secondary">Asientos : </Typography.Text>
               <Typography.Text className=" font-mono font-semibold">
                 {record.bus.asientos}
               </Typography.Text>
             </Space>
 
             <Space>
-              <Typography.Text type="secondary">
-                Boletos Vendidos :{" "}
-              </Typography.Text>
+              <Typography.Text type="secondary">Ocupados : </Typography.Text>
               <Typography.Text className=" font-mono font-semibold">
                 {record.boletos.length}
               </Typography.Text>

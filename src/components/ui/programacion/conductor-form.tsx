@@ -1,23 +1,22 @@
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { conductorSchema } from "@/schemas";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
   Button,
   Form,
   Input,
-  InputNumber,
   Modal,
   Radio,
   Select,
   Space,
   Typography,
 } from "antd";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
-import { useMessageContext } from "@/context/MessageContext";
 
 const { Title } = Typography;
 type Props = {
@@ -215,9 +214,9 @@ export function ConductorForm({
               </p>
             }
           >
-            <InputNumber
-              onChange={(value: string | null) => {
-                const dni = JSON.stringify(value);
+            <Input
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const dni = event.target.value;
                 setConductorDNI(dni);
               }}
               type="text"

@@ -1,23 +1,22 @@
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
   Button,
   Form,
   Input,
-  InputNumber,
   Modal,
   Select,
-  type SelectProps,
   Space,
-  Typography,
   Switch,
+  Typography,
+  type SelectProps,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
-import { HiOutlineUpload } from "react-icons/hi";
-import { useMessageContext } from "@/context/MessageContext";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsPassport, BsTelephone } from "react-icons/bs";
+import { HiOutlineUpload } from "react-icons/hi";
 import type { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -249,7 +248,7 @@ export function UsuarioForm({
             });
           },
           onSettled: () => {
-            form.resetFields();
+            handleCancel();
           },
         }
       );
@@ -289,8 +288,7 @@ export function UsuarioForm({
           });
         },
         onSettled: () => {
-          form.resetFields();
-          setSource(undefined);
+          handleCancel();
         },
       }
     );
@@ -598,7 +596,7 @@ export function UsuarioForm({
             </div>
           </Form.Item>
 
-          <Space className="mt-36 flex justify-end">
+          <Space className="mt-10 flex items-center justify-end">
             <Button
               loading={
                 createUsuarioMutation.isLoading || updateUserMutation.isLoading
