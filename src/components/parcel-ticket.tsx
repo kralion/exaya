@@ -85,7 +85,8 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               {data?.response?.descripcion}
             </p>
           </div>
-          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
+          <Divider />
+          <section className="flex items-center justify-between ">
             <div className="flex flex-col gap-0.5">
               <span>OP.NO Gravada</span>
               <span>IGV</span>
@@ -97,17 +98,10 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <span className="font-semibold">S/. {total.toFixed(2)}</span>
             </div>
           </section>
-          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
-            <div className="space-y-0.5">
-              <span>Fecha Emisión</span>
-              <span>
-                Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
-              </span>
-              <span>Operacion</span>
-            </div>
-
+          <Divider />
+          <div className=" flex flex-col gap-0.5">
             <span>
-              Fecha y Hora Emisión:
+              Fecha y Hora Emisión:{" "}
               {new Date()
                 .toLocaleString("es-PE", {
                   day: "2-digit",
@@ -120,7 +114,11 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 })
                 .replace(/\//g, "-")}
             </span>
-          </section>
+            <span>
+              Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
+            </span>
+            <span>Operacion</span>
+          </div>
           <div className="space-y-4">
             <p className="font-medium  text-gray-500">Términos y Condiciones</p>
 

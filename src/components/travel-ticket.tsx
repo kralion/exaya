@@ -67,7 +67,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
           </div>
-          <section className="grid grid-cols-2 grid-rows-2  gap-4">
+          <section className="grid grid-cols-2 grid-rows-2 gap-2">
             <div>
               <p className=" text-gray-500">Origen</p>
               <p className="font-bold  uppercase text-gray-900">
@@ -102,7 +102,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
           </section>
-          <Divider className="page-break" />
+          <Divider />
           <section className="flex items-center justify-between ">
             <div className="flex flex-col gap-0.5">
               <span>OP.NO Gravada</span>
@@ -115,7 +115,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <span className="font-semibold">S/. {total.toFixed(2)}</span>
             </div>
           </section>
-          <Divider className="page-break" />
+          <Divider />
           <div className="space-y-0.5">
             <span>
               Fecha y Hora Emisión:
