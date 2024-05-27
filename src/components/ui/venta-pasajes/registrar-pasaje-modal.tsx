@@ -91,7 +91,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const handlePrint = useReactToPrint({
-    documentTitle: `Boleto de Viaje`,
+    documentTitle: `Boleto de Viaje - Asiento ${selectedBoleto?.asiento ?? ""}`,
     content: () => ref.current,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
   });

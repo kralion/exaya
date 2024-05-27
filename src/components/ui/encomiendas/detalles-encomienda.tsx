@@ -23,7 +23,11 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const handlePrint = useReactToPrint({
+    documentTitle: `Boleto de Encomienda - Remitente ${
+      encomienda?.response?.remitenteDni ?? ""
+    }`,
     content: () => ref.current,
+    pageStyle: "@media print { .page-break { page-break-before: always; } }",
   });
 
   const showModal = () => {
@@ -62,7 +66,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
         type="primary"
       />
       <Modal
-        width={700}
+        width={600}
         title={
           <div className="flex justify-between">
             <Title level={3}>Boleto de Encomienda</Title>

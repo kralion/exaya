@@ -65,6 +65,7 @@ export const encomiendasRouter = createTRPCRouter({
                 usuario: true,
               },
             },
+            usuario: true,
           },
         });
         return {
