@@ -53,6 +53,7 @@ export const boletosRouter = createTRPCRouter({
                 ruta: true,
               },
             },
+            usuario: true,
           },
         });
         return {

@@ -15,48 +15,44 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
     if (data?.response === null) {
       return null;
     }
-    const salida = data?.response?.viaje.salida;
-    const duracionEstimada = data?.response?.viaje.ruta
-      .duracionEstimada as number;
-    let horaLlegada = "N/A";
 
-    if (salida && duracionEstimada) {
-      const salidaDate = new Date(salida);
-      salidaDate.setHours(salidaDate.getHours() + duracionEstimada);
-
-      horaLlegada = salidaDate.toLocaleTimeString("es-PE", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    }
     return (
       <div ref={ref}>
-        <header className="bg-yellow-40 rounded-t-lg  bg-yellow-400 p-6 text-white">
-          <div className="flex items-center  justify-between">
-            <div className="flex items-center gap-2  text-2xl font-bold text-black">
-              <img
-                alt="Logo"
-                className="h-8 w-8"
-                src="https://img.icons8.com/?size=50&id=9351&format=png"
-              />
-              <h2 className={inter.className}>Expreso Ayacucho</h2>
+        <header className=" flex  items-end justify-between overflow-hidden rounded-t-lg bg-yellow-400 p-4 ">
+          <div className="flex items-center gap-2  text-black">
+            <img
+              alt="Logo"
+              src="https://img.icons8.com/?size=50&id=9351&format=png"
+            />
+            <div className={inter.className}>
+              <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
+              <h4 className="text-xs">RUC: 20605475427</h4>
+              <h4 className="font-mono text-xs">Agencia: Huancayo</h4>
             </div>
+          </div>
+          <div>
+            <h4 className="text-xs italic">RCEA N°: 20605475427</h4>
           </div>
         </header>
         <div className="space-y-8 bg-white p-6">
           <div className="mb-6 flex items-center justify-between">
-            <div>
+            <div className="space-y-2">
               <h2 className="font-mono text-2xl font-bold text-black">
-                Ticket {data?.response?.serie.toUpperCase()}-
+                BOLETA {data?.response?.serie.toUpperCase()}-
                 {data?.response?.codigo}
               </h2>
-              <p className="text-gray-500 ">
-                Salida a {data?.response?.viaje.ruta.ciudadDestino} - S/.{" "}
-                {data?.response?.precio}
-              </p>
+              <div>
+                <p className="text-gray-500 ">
+                  Salida a {data?.response?.viaje.ruta.ciudadDestino} - S/.{" "}
+                  {data?.response?.precio}
+                </p>
+                <p className="font-semibold">
+                  Asiento {data?.response?.asiento}
+                </p>
+              </div>
             </div>
             <div className="rounded-full  bg-gray-100 px-4 py-2">
-              <p className="text-xs  font-medium text-gray-500">
+              <p className="font-mono  text-xs font-medium text-gray-600">
                 {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
                   day: "2-digit",
                   month: "2-digit",
@@ -67,29 +63,16 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           </div>
           <section className="grid grid-cols-2 grid-rows-2  gap-6">
             <div>
-              <p className="font-medium  text-gray-500">Salida</p>
-              <p className="font-bold  capitalize text-gray-900">
-                {data?.response?.viaje.ruta.ciudadOrigen},{" "}
-                {data?.response?.viaje.ruta.ciudadOrigen
-                  .slice(0, 3)
-                  .toUpperCase()}
-              </p>
-              <p className="text-gray-500 ">
-                {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+              <p className=" text-gray-500">Origen</p>
+              <p className="font-bold  uppercase text-gray-900">
+                {data?.response?.viaje.ruta.ciudadOrigen}
               </p>
             </div>
             <div className="text-right">
-              <p className="font-medium text-gray-500">Llegada</p>
-              <p className="font-bold capitalize text-gray-900">
-                {data?.response?.viaje.ruta.ciudadDestino},{" "}
-                {data?.response?.viaje.ruta.ciudadDestino
-                  .slice(0, 3)
-                  .toUpperCase()}
+              <p className=" text-gray-500">Destino</p>
+              <p className="font-bold  uppercase text-gray-900">
+                {data?.response?.viaje.ruta.ciudadDestino}
               </p>
-              <p className="text-gray-500 ">{horaLlegada}</p>
             </div>
 
             <div>
@@ -116,6 +99,47 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </div>
             </div>
           </section>
+          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
+            <div className="space-y-0.5">
+              <span>OP.NO Gravada</span>
+              <span>IGV</span>
+              <span>Importe Total</span>
+            </div>
+            <div className="space-y-0.5 text-right">
+              <span>{data?.response?.precio}</span>
+              <span>{data?.response?.precio || 40 * 0.18}</span>
+              <span className="font-semibold">
+                {data?.response?.precio ||
+                  40 - (data?.response?.precio || 40 * 0.18)}
+              </span>
+            </div>
+          </section>
+          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
+            <div className="space-y-0.5">
+              <span>Fecha Emisión</span>
+              <span>Usuario</span>
+              <span>Operacion</span>
+            </div>
+            <div className="space-y-0.5 text-right">
+              <span>
+                {new Date()
+                  .toLocaleString("es-PE", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false,
+                  })
+                  .replace(/\//g, "-")}
+              </span>
+              <span className="uppercase">
+                {data?.response?.usuario?.nombres}
+              </span>
+              <span>Venta</span>
+            </div>
+          </section>
           <div className="space-y-4">
             <p className="font-medium  text-gray-500">Términos y Condiciones</p>
 
@@ -137,21 +161,25 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 El pasajero es responsable de todos los impuestos y tasas
                 aplicables.
               </li>
+              <li>
+                Para cualquier consulta, scanee el código QR para acceder al
+                libro de reclamaciones.
+              </li>
             </ul>
-          </div>{" "}
+          </div>
         </div>
-        <div className="flex justify-center  border  bg-gray-100 px-6 py-8">
+        <div className="flex justify-center  border  bg-gray-100 p-4">
           <div className="flex h-40 w-40  items-center justify-center rounded-lg bg-white shadow-md">
             <img
               alt="Código QR"
               className="h-full w-full object-contain"
-              height="160"
+              height="150"
               src="https://i.ibb.co/9NNjkF8/qr-code-exaya.png"
               style={{
-                aspectRatio: "160/160",
+                aspectRatio: "150/150",
                 objectFit: "cover",
               }}
-              width="160"
+              width="150"
             />
           </div>
         </div>
@@ -168,24 +196,24 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               {data?.response?.serie.toUpperCase()}-{data?.response?.codigo}
             </h1>
           </div>
-          <div>
-            <p className="font-bold ">
-              {data?.response?.pasajeroNombres}
-              {data?.response?.pasajeroApellidos}
+          <div className="text-sm">
+            <p className="font-semibold">{data?.response?.pasajeroDni}</p>
+            <p className="font-mono ">
+              Fecha Embarque:{" "}
+              {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
-            <p className="text-sm">
-              Salida: {data?.response?.viaje.ruta.ciudadOrigen},{" "}
-              {data?.response?.viaje.ruta.ciudadOrigen
-                .slice(0, 3)
-                .toUpperCase()}
+            <p>
+              Ruta: {data?.response?.viaje.ruta.ciudadOrigen}-
+              {data?.response?.viaje.ruta.ciudadDestino}
             </p>
-            <p className="text-sm">
-              Llegada: {data?.response?.viaje.ruta.ciudadDestino},{" "}
-              {data?.response?.viaje.ruta.ciudadDestino
-                .slice(0, 3)
-                .toUpperCase()}
+            <p className="font-mono font-semibold">
+              Asiento: {data?.response?.asiento}
             </p>
-            <p className="text-sm">S/. {data?.response?.precio}</p>
+            <p>Importe: S/. {data?.response?.precio}</p>
           </div>
         </footer>
       </div>

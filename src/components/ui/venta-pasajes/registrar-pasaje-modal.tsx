@@ -430,7 +430,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={selectedBoleto?.estado === "PAGADO" ? 700 : 450}
+        width={selectedBoleto?.estado === "PAGADO" ? 600 : 450}
         footer={null}
       >
         {selectedBoleto?.estado === "PAGADO" ? (
