@@ -4,20 +4,15 @@ import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-dayjs.extend(utc);
-dayjs.extend(timezone);
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const [dayQuery, setDayQuery] = useState<Dayjs>(() =>
-    dayjs().tz(currentTimezone)
-  );
+  const initialDate = dayjs().startOf("day").subtract(5, "hour");
+  const [dateQuery, setDateQuery] = useState(initialDate);
 
   const onSelect = (newValue: Dayjs) => {
-    setDayQuery(newValue.tz(currentTimezone));
+    const adjustedQueryValue = newValue.startOf("day").subtract(5, "hour");
+    setDateQuery(adjustedQueryValue);
   };
 
   const wrapperStyle: React.CSSProperties = {
@@ -31,7 +26,7 @@ function Pasajes() {
       <Space className="w-full items-start justify-between">
         <Space className="gap-2" direction="vertical">
           <Title level={4}>Tabla de Viajes</Title>
-          <PasajesTable dayQuery={dayQuery} />
+          <PasajesTable dayQuery={dateQuery} />
         </Space>
         <Space className="gap-2" direction="vertical">
           <Title level={4}>Tracker por Fechas</Title>
