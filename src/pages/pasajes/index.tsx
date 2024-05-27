@@ -4,14 +4,20 @@ import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const [dayQuery, setDayQuery] = useState(() => dayjs());
+  const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const [dayQuery, setDayQuery] = useState<Dayjs>(() =>
+    dayjs().tz(currentTimezone)
+  );
 
   const onSelect = (newValue: Dayjs) => {
-    setDayQuery(newValue);
+    setDayQuery(newValue.tz(currentTimezone));
   };
 
   const wrapperStyle: React.CSSProperties = {

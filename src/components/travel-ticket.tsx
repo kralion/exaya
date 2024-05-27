@@ -116,7 +116,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </div>
           </section>
           <Divider />
-          <div className="space-y-0.5">
+          <div className="flex flex-col gap-0.5">
             <span>
               Fecha y Hora Emisión:
               {new Date()

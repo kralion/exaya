@@ -73,7 +73,7 @@ export function ViajesForm({
       }
     );
   }
-  function handleCreateViaje(values: z.infer<typeof viajeSchema>) {
+  function createViaje(values: z.infer<typeof viajeSchema>) {
     createViajeMutation.mutate(
       {
         ...values,
@@ -107,7 +107,7 @@ export function ViajesForm({
     if (idToEdit) {
       handleEditViaje(values);
     } else {
-      handleCreateViaje(values);
+      createViaje(values);
     }
     form.resetFields();
   };

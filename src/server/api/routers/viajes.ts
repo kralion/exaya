@@ -17,6 +17,7 @@ export const viajesRouter = createTRPCRouter({
         boletos: true,
         encomiendas: true,
       },
+      orderBy: { salida: "asc" },
     });
     return {
       status: "success",
@@ -99,7 +100,7 @@ export const viajesRouter = createTRPCRouter({
 
   getViajesForToday: publicProcedure.query(async ({ ctx }) => {
     const today = moment.tz("America/Lima").startOf("day");
-    const tomorrow = moment.tz("America/Lima").startOf("day").add(1, "days");
+    const tomorrow = today.clone().add(1, "days");
     try {
       const viajesDiarios = await ctx.prisma.viaje.findMany({
         where: {
