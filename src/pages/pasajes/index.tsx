@@ -3,14 +3,23 @@ import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
 import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 import React, { useState } from "react";
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const [dateQuery, setDateQuery] = useState(dayjs(new Date()));
+  const initialDate = dayjs(new Date()).utc().subtract(5, "hours");
+  const [dateQuery, setDateQuery] = useState(initialDate);
 
   const onSelect = (newValue: Dayjs) => {
-    const adjusted = newValue.subtract(5, "hour");
+    const utcDate = newValue.utc();
+
+    const adjusted = utcDate.subtract(5, "hours");
+
     setDateQuery(adjusted);
   };
 
