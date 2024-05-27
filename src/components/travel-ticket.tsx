@@ -160,8 +160,8 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             Atención al Cliente: 91454845 - 94845845
           </span>
         </section>
-        <hr className="my-0.25 border-t border-dashed border-white " />
-        <footer className="flex justify-between rounded-lg bg-yellow-400 p-4  text-black">
+        <hr className="my-0.25 page-break border-t border-dashed border-white " />
+        <footer className="flex justify-between rounded-lg bg-yellow-400  p-4 text-black">
           <div className="flex flex-col justify-around rounded-l-lg">
             <p className="font-medium ">Boleto de Viaje</p>
             <h1 className="font-mono text-5xl font-bold">

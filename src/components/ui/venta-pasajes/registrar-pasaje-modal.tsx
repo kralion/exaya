@@ -91,9 +91,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const handlePrint = useReactToPrint({
+    documentTitle: `Boleto de Viaje`,
     content: () => ref.current,
+    pageStyle: "@media print { .page-break { page-break-before: always; } }",
   });
-
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
