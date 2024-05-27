@@ -7,12 +7,11 @@ import React, { useState } from "react";
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const initialDate = dayjs().startOf("day").subtract(5, "hour");
-  const [dateQuery, setDateQuery] = useState(initialDate);
+  const [dateQuery, setDateQuery] = useState(dayjs(new Date()));
 
   const onSelect = (newValue: Dayjs) => {
-    const adjustedQueryValue = newValue.startOf("day").subtract(5, "hour");
-    setDateQuery(adjustedQueryValue);
+    const adjusted = newValue.subtract(5, "hour");
+    setDateQuery(adjusted);
   };
 
   const wrapperStyle: React.CSSProperties = {

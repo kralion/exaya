@@ -1,19 +1,18 @@
-import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { api } from "@/utils/api";
-import { useState } from "react";
-import Head from "next/head";
+import ThemeToggle from "@/components/theme-toggle";
+import EmptyCustomized from "@/components/ui/empty";
+import { MenuProvider } from "@/context/MenuContext";
 import "@/styles/globals.css";
+import { api } from "@/utils/api";
+import { ConfigProvider, theme } from "antd";
 import locale from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
+import { type Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import { type AppType } from "next/app";
+import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
-import { ConfigProvider, theme } from "antd";
-import ThemeToggle from "@/components/theme-toggle";
-import { MenuProvider } from "@/context/MenuContext";
-import { MessageProvider } from "@/context/MessageContext";
-import EmptyCustomized from "@/components/ui/empty";
+import { useState } from "react";
 dayjs.locale("es");
 
 const MyApp: AppType<{ session: Session | null }> = ({

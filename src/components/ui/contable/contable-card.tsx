@@ -7,7 +7,6 @@ type Card = {
   cardValue: number | undefined;
   isLoading: boolean;
 };
-const { Paragraph } = Typography;
 export function ContableCard({
   cardTitle,
   cardIcon,
