@@ -68,8 +68,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
       <Modal
         width={600}
         title={
-          <div className="flex justify-between">
-            <Title level={3}>Boleto de Encomienda</Title>
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {encomienda?.response?.pagado === true ? "Pagado" : "Por pagar"}
               <Popconfirm

@@ -2,6 +2,7 @@ import { api } from "@/utils/api";
 import { forwardRef } from "react";
 import { LuLuggage } from "react-icons/lu";
 import { Inter } from "next/font/google";
+import { Divider } from "antd";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -16,11 +17,11 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
       return null;
     }
 
-    const pricewithIgv = data?.response?.precio ?? 0 * 0.18;
+    const pricewithIgv = 0;
     const total = data?.response?.precio ?? 0 + pricewithIgv;
 
     return (
-      <div ref={ref}>
+      <div ref={ref} className="text-black">
         <header className=" flex  items-end justify-between overflow-hidden rounded-t-lg bg-yellow-400 p-4 ">
           <div className="flex items-center gap-3  text-black">
             <img
@@ -43,7 +44,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           <div className="mb-6 flex items-center justify-between">
             <div className="space-y-1">
               <h2 className="font-mono text-2xl font-bold text-black">
-                BOLETA ELECTRONICA {data?.response?.serie.toUpperCase()}-
+                BOLETA {data?.response?.serie.toUpperCase()}-
                 {data?.response?.codigo}
               </h2>
               <div>
@@ -66,7 +67,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
           </div>
-          <section className="grid grid-cols-2 grid-rows-2  gap-6">
+          <section className="grid grid-cols-2 grid-rows-2  gap-4">
             <div>
               <p className=" text-gray-500">Origen</p>
               <p className="font-bold  uppercase text-gray-900">
@@ -96,35 +97,26 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </div>
             <div className="text-right">
               <p className="font-medium  text-gray-500">Equipaje</p>
-              <div className="flex items-center justify-end gap-2">
-                <LuLuggage className="h-5 w-5 text-gray-500 " />
-                <p className="text-right  font-bold capitalize text-gray-900">
-                  {data?.response?.equipaje}
-                </p>
-              </div>
+              <p className="text-right  font-bold capitalize text-gray-900">
+                {data?.response?.equipaje}
+              </p>
             </div>
           </section>
-          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
+          <Divider className="page-break" />
+          <section className="flex items-center justify-between ">
             <div className="flex flex-col gap-0.5">
               <span>OP.NO Gravada</span>
               <span>IGV</span>
               <span>Importe Total</span>
             </div>
             <div className="flex flex-col justify-end gap-0.5 text-right">
-              <span>S/. {data?.response?.precio}</span>
-              <span>S/. {pricewithIgv}</span>
-              <span className="font-semibold">S/. {total}</span>
+              <span>S/. {data?.response?.precio.toFixed(2)}</span>
+              <span>S/. {pricewithIgv.toFixed(2)}</span>
+              <span className="font-semibold">S/. {total.toFixed(2)}</span>
             </div>
           </section>
-          <section className="flex items-center justify-between border-y border-dashed border-white py-2">
-            <div className="space-y-0.5">
-              <span>Fecha Emisión</span>
-              <span>
-                Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
-              </span>
-              <span>Operacion</span>
-            </div>
-
+          <Divider className="page-break" />
+          <div className="space-y-0.5">
             <span>
               Fecha y Hora Emisión:
               {new Date()
@@ -139,7 +131,10 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 })
                 .replace(/\//g, "-")}
             </span>
-          </section>
+            <span>
+              Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
+            </span>
+          </div>
           <div className="space-y-4">
             <p className="font-medium  text-gray-500">Términos y Condiciones</p>
 
@@ -190,7 +185,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             Atención al Cliente: 91454845 - 94845845
           </span>
         </section>
-        <hr className="my-0.25 page-break border-t border-dashed border-white " />
+        <Divider className="page-break" dashed />
         <footer className="flex justify-between rounded-lg bg-yellow-400  p-4 text-black">
           <div className="flex flex-col justify-around rounded-l-lg">
             <p className="font-medium ">Boleto de Viaje</p>
@@ -199,7 +194,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </h1>
           </div>
           <div className="text-xs">
-            <p className="font-bold">{data?.response?.pasajeroDni}</p>
+            <p className="font-bold">DNI: {data?.response?.pasajeroDni}</p>
             <p className="font-mono ">
               Embarque:{" "}
               {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
@@ -215,7 +210,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             <p className="font-mono font-bold">
               Asiento: {data?.response?.asiento}
             </p>
-            <p>Importe: S/. {data?.response?.precio}</p>
+            <p>Importe: S/. {data?.response?.precio.toFixed(2)}</p>
           </div>
         </footer>
       </div>
