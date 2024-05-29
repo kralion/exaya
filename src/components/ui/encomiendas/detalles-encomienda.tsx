@@ -1,7 +1,7 @@
 import ParcelTicketPrint from "@/components/parcel-ticket";
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import { Button, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Button, Modal, Popconfirm, Tag } from "antd";
 import { useRef, useState } from "react";
 import { CgDetailsMore } from "react-icons/cg";
 import { useReactToPrint } from "react-to-print";
@@ -10,7 +10,6 @@ type Props = {
   id: string;
   modalActivator: string;
 };
-const { Title } = Typography;
 
 export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const [open, setOpen] = useState(false);

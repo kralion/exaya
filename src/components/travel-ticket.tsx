@@ -1,8 +1,7 @@
 import { api } from "@/utils/api";
-import { forwardRef } from "react";
-import { LuLuggage } from "react-icons/lu";
-import { Inter } from "next/font/google";
 import { Divider } from "antd";
+import { Inter } from "next/font/google";
+import { forwardRef } from "react";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "700"],

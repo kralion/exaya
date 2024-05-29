@@ -1,13 +1,11 @@
 import { useMessageContext } from "@/context/MessageContext";
-import { Button, Input, Space } from "antd";
+import { Button, Input, type InputRef, Space } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
 import { BsSendFill } from "react-icons/bs";
 import { IoMic, IoMicOutline } from "react-icons/io5";
-interface InputRef extends HTMLInputElement {
-  input: HTMLInputElement;
-}
+
 export const AIAssistantInput = () => {
   const inputRef = useRef<InputRef>(null);
   useHotkeys("ctrl+enter", () => {
