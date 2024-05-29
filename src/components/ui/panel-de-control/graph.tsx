@@ -72,12 +72,12 @@ export default function ControlPaneGraph() {
         />
         <defs>
           <linearGradient id="colorencomiendas" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#1CFF69" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#1CFF69" stopOpacity={0} />
+            <stop offset="5%" stopColor="#faad14" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#faad14" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorboletos" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#4096FF" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#4096FF" stopOpacity={0} />
+            <stop offset="5%" stopColor="#a0d911" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#a0d911" stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis dataKey="name" className={pt_sans.className} />
@@ -93,7 +93,7 @@ export default function ControlPaneGraph() {
         <Area
           type="monotone"
           dataKey="encomiendas"
-          stroke="#00E396"
+          stroke="#faad14"
           strokeWidth={4}
           fillOpacity={1}
           fill="url(#colorencomiendas)"
@@ -102,7 +102,7 @@ export default function ControlPaneGraph() {
           type="monotone"
           dataKey="boletos"
           strokeWidth={4}
-          stroke="#4096FF"
+          stroke="#a0d911"
           fillOpacity={1}
           fill="url(#colorboletos)"
         />

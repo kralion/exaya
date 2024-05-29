@@ -176,9 +176,9 @@ export const viajesRouter = createTRPCRouter({
     .input(z.object({ date: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
-        const date = moment(input.date, "YYYY-MM-DD");
+        const date = moment.tz(input.date, "YYYY-MM-DD", "America/Lima");
         const startOfTheDay = date.startOf("day").toDate();
-        const endOfTheDay = date.add(1, "day").startOf("day").toDate();
+        const endOfTheDay = date.clone().add(1, "day").startOf("day").toDate();
         try {
           const viajes = await ctx.prisma.viaje.findMany({
             where: {

@@ -1,26 +1,15 @@
 import AppLayout from "@/components/exaya/layout";
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
 import { Calendar, FloatButton, Space, theme, Typography } from "antd";
-import type { Dayjs } from "dayjs";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import dayjs, { type Dayjs } from "dayjs";
 import React, { useState } from "react";
 const { Title } = Typography;
 function Pasajes() {
   const { token } = theme.useToken();
-  const initialDate = dayjs(new Date()).utc().subtract(5, "hours");
-  const [dateQuery, setDateQuery] = useState(initialDate);
+  const [dateQuery, setDateQuery] = useState(dayjs().startOf("day"));
 
   const onSelect = (newValue: Dayjs) => {
-    const utcDate = newValue.utc();
-
-    const adjusted = utcDate.subtract(5, "hours");
-
-    setDateQuery(adjusted);
+    setDateQuery(newValue.startOf("day"));
   };
 
   const wrapperStyle: React.CSSProperties = {
