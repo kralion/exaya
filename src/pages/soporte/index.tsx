@@ -1,13 +1,12 @@
-import AppHead from "@/components/landing/head";
+import SoporteGradient from "@/assets/images/soporte-gradient.png";
 import AppLayout from "@/components/exaya/layout";
-import { BsWhatsapp } from "react-icons/bs";
-import { IoMdBook } from "react-icons/io";
+import AppHead from "@/components/landing/head";
 import { Space, Tag, Typography } from "antd";
 import { Literata } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
+import { BsWhatsapp } from "react-icons/bs";
+import { IoMdBook } from "react-icons/io";
 const { Text } = Typography;
-import SoporteGradient from "@/assets/images/soporte-gradient.png";
 
 const literata = Literata({
   weight: "400",
@@ -46,7 +45,7 @@ export default function Soporte() {
             </Text>
           </Space>
           <div className="flex gap-3">
-            <Link
+            <a
               href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
               target="_blank"
             >
@@ -57,8 +56,8 @@ export default function Soporte() {
                 <BsWhatsapp size={15} />
                 Chat en vivo
               </Tag>
-            </Link>
-            <Link
+            </a>
+            <a
               href="mailto:joan300501@gmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
             "
             >
@@ -69,7 +68,7 @@ export default function Soporte() {
                 <IoMdBook size={15} />
                 Agendar una cita
               </Tag>
-            </Link>
+            </a>
           </div>
           <Text>Nuestros medios de comuncación</Text>
           <Space className="flex gap-3">
