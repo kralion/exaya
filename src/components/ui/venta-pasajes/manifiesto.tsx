@@ -12,7 +12,7 @@ import {
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useEffect, useState } from "react";
-import { AiFillPrinter } from "react-icons/ai";
+import { RxDownload } from "react-icons/rx";
 import { EncomiendasManifiestoTable } from "./encomiendas-table";
 import { PasajerosManifiestoTable } from "./pasajeros-table";
 const { Title } = Typography;
@@ -41,7 +41,6 @@ type TPasajero = {
 export function Manifiesto({ viajeId }: { viajeId: string }) {
   const [open, setOpen] = useState(false);
   const { openMessage } = useMessageContext();
-  const [print, setPrint] = useState(false);
   const { data: conductores, isLoading } =
     api.viajes.getConductoresByViajeId.useQuery({
       id: viajeId,
@@ -70,18 +69,10 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
   }
   const viajeStatus = viajeCurrent?.response?.estado;
   function handlePrint() {
-    setPrint(true);
     openMessage({
-      key: "updatable",
-      content: "Cargando el manifiesto...",
-      type: "loading",
+      content: "Documento generado con éxito",
+      type: "success",
     });
-    setTimeout(() => {
-      openMessage({
-        content: "Impresión realizada con éxito",
-        type: "success",
-      });
-    }, 3000);
   }
   return (
     <>
@@ -97,28 +88,30 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
-            <Space>
-              <Title level={5}>
+            <Space direction="vertical">
+              <Title className=" uppercase" level={5}>
                 {viajeCurrent?.response?.ruta?.ciudadOrigen} -{" "}
                 {viajeCurrent?.response?.ruta?.ciudadDestino}
               </Title>
-              <Title level={5}>
-                {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
-                {viajeCurrent?.response?.salida.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </Title>
+              <Space>
+                <Title className="font-mono" level={5}>
+                  {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
+                  {viajeCurrent?.response?.salida.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Title>
+              </Space>
             </Space>
 
             <Button
               type="primary"
-              icon={<AiFillPrinter />}
+              title="Descargar PDF"
+              icon={<RxDownload />}
               onClick={handlePrint}
-            >
-              Imprimir
-            </Button>
-            {print && <TablesToPrint viajeId={viajeId} />}
+            />
+
+            <TablesToPrint viajeId={viajeId} />
           </div>
         }
         placement="right"
@@ -189,14 +182,19 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
 }
 
 const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  (jsPDF as any).autoTableSetDefaults({
+    headStyles: { fillColor: [250, 173, 20] },
+  });
   const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
   const viajeInfo = `Origen: ${
     viaje?.response?.ruta?.ciudadOrigen ?? ""
-  } - Destino: ${viaje?.response?.ruta?.ciudadDestino ?? ""} - Fecha: ${
+  }\nDestino: ${viaje?.response?.ruta?.ciudadDestino ?? ""}
+  \nFecha: ${
     viaje?.response?.salida
       ? new Date(viaje?.response?.salida).toLocaleDateString()
       : ""
-  } - Hora: ${
+  }\nHora: ${
     viaje?.response?.salida
       ? new Date(viaje?.response?.salida).toLocaleTimeString([], {
           hour: "2-digit",
@@ -207,10 +205,11 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
 
   useEffect(() => {
     const doc = new jsPDF();
-    doc.text("Manifiesto del viaje", 14, 20);
-    doc.text(viajeInfo, 14, 30);
-
+    doc.text("MANIFIESTO DEL VIAJE", 14, 20);
+    doc.text(viajeInfo, 10, 30);
+    doc.text("CONDUCTORES", 12, 50);
     autoTable(doc, {
+      startY: 55,
       columns: [
         { dataKey: "conductorDni", header: "DNI" },
         { dataKey: "nombres", header: "Nombres" },
@@ -223,11 +222,13 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         apellidos: conductor.apellidos,
         numeroLicencia: conductor.numeroLicencia,
       })),
-      startY: 240,
-      styles: { overflow: "hidden" },
-      margin: { right: 107 },
     });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const finalY1 = (doc as any).lastAutoTable.finalY as number;
+    doc.text("PASAJEROS", 12, finalY1 + 15);
+
     autoTable(doc, {
+      startY: finalY1 + 20,
       columns: [
         { dataKey: "pasajeroDni", header: "DNI" },
         { dataKey: "pasajeroNombres", header: "Nombres" },
@@ -240,11 +241,12 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         pasajeroApellidos: pasajero.pasajeroApellidos,
         asiento: pasajero.asiento,
       })),
-      startY: 240,
-      styles: { overflow: "hidden" },
-      margin: { left: 107 },
     });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const finalY2 = (doc as any).lastAutoTable.finalY as number;
+    doc.text("ENCOMIENDAS", 12, finalY2 + 15);
     autoTable(doc, {
+      startY: finalY2 + 20,
       columns: [
         { dataKey: "remitenteDni", header: "DNI Remitente" },
         { dataKey: "destinatarioDni", header: "DNI Destinatario" },
@@ -257,9 +259,6 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         descripcion: encomienda.descripcion,
         fechaEnvio: new Date(encomienda.fechaEnvio).toLocaleDateString(),
       })),
-      startY: 240,
-      styles: { overflow: "hidden" },
-      margin: { left: 107 },
     });
 
     doc.save("manifiesto.pdf");

@@ -1,9 +1,9 @@
 import { api } from "@/utils/api";
-import { Divider, Modal, Tag, Typography } from "antd";
+import { Divider, Modal, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { MisBoletosVendidosTable } from "./mis-pasajes-table";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export const MisBoletos = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
@@ -23,18 +23,23 @@ export const MisBoletos = ({ viajeId }: { viajeId: string }) => {
       <Typography onClick={() => setOpen(true)}>Mis Boletos</Typography>
       <Modal
         title={
-          <div>
-            <div className="flex gap-4">
+          <Space direction="vertical">
+            <Space>
               <Title level={4}>Mis Boletos Vendidos</Title>
-              <span>
-                <Tag color="blue" className="px-3">
-                  {viaje?.response?.bus.placa}
-                </Tag>
-              </span>
-            </div>
 
-            <Divider className="mb-4" />
-          </div>
+              <Tag color="blue">
+                {viaje?.response?.salida.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Tag>
+            </Space>
+            <Text className=" font-light ">
+              {viaje?.response?.ruta.ciudadOrigen} -{" "}
+              {viaje?.response?.ruta.ciudadDestino}
+            </Text>
+            <Divider />
+          </Space>
         }
         centered
         open={open}

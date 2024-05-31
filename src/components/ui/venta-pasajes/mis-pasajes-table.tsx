@@ -62,6 +62,15 @@ export function MisBoletosVendidosTable({
       ),
     },
   ];
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  const totalPrice = (data as any)?.reduce(
+    (acc: number, current: { precio: number }) => acc + current.precio,
+    0
+  );
+
+  const totalBoletos = data?.length;
+
   return (
     <Table
       className="w-full"
@@ -69,6 +78,16 @@ export function MisBoletosVendidosTable({
       loading={isLoading}
       columns={columns}
       dataSource={data}
+      footer={
+        data?.length
+          ? () => (
+              <div className="flex justify-between">
+                <Tag>Total de Boletos: {totalBoletos}</Tag>
+                <Tag>Total: {` S/.  ${String(totalPrice)}.00`}</Tag>
+              </div>
+            )
+          : undefined
+      }
     />
   );
 }

@@ -48,7 +48,6 @@ export const viajesRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-
         userId: z.string(),
       })
     )
@@ -58,13 +57,7 @@ export const viajesRouter = createTRPCRouter({
           where: {
             viajeId: input.id,
             usuarioId: input.userId,
-          },
-          include: {
-            viaje: {
-              include: {
-                bus: true,
-              },
-            },
+            estado: "PAGADO",
           },
         });
         return {
