@@ -14,8 +14,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { api } from "@/utils/api";
 
-const data = [
+const sampleData = [
   {
     name: "Junio",
     encomiendas: 4000,
@@ -54,6 +55,42 @@ const data = [
 ];
 
 export default function ControlPaneGraph() {
+  const { data: boletos } =
+    api.boletos.getCountOfBoletosInLatest6Months.useQuery();
+  const { data: encomiendas } =
+    api.encomiendas.getCountOfEncomiendasInLatest6Months.useQuery();
+
+  const latest6MonthsLabel = [];
+  const monthNames = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
+  for (let i = 5; i >= 0; i--) {
+    const date = new Date();
+    date.setMonth(date.getMonth() - i);
+    const monthIndex = (date.getMonth() + 12) % 12;
+    const monthName = monthNames[monthIndex]?.toString() || "";
+    latest6MonthsLabel.push(monthName);
+  }
+  const data = latest6MonthsLabel.map((month, index) => {
+    return {
+      name: month,
+      encomiendas: encomiendas?.response ? encomiendas.response[index] : 0,
+      boletos: boletos?.response ? boletos.response[index] : 0,
+    };
+  });
+
   return (
     <ResponsiveContainer
       className="col-span-2 row-span-2 rounded-xl border-1  duration-200  hover:shadow-xl dark:border-zinc-800  dark:hover:bg-black/50"

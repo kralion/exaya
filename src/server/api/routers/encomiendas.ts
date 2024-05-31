@@ -25,6 +25,40 @@ export const encomiendasRouter = createTRPCRouter({
     });
   }),
 
+  getCountOfEncomiendasInLatest6Months: publicProcedure.query(
+    async ({ ctx }) => {
+      try {
+        const counts = [];
+        for (let i = 5; i >= 0; i--) {
+          const date = new Date();
+          date.setMonth(date.getMonth() - i);
+          const year = date.getFullYear().toString();
+          const month = ("0" + (date.getMonth() + 1).toString()).slice(-2);
+          const nextMonth = ("0" + (date.getMonth() + 2).toString()).slice(-2);
+
+          const encomiendas = await ctx.prisma.encomienda.findMany({
+            where: {
+              fechaEnvio: {
+                gte: new Date(year + "-" + month + "-01"),
+                lt: new Date(Number(year), Number(nextMonth), 1),
+              },
+            },
+          });
+          counts.push(encomiendas.length);
+        }
+        return {
+          status: "success",
+          response: counts,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener el conteo de boletos",
+        };
+      }
+    }
+  ),
+
   getEncomiendasByViajeId: publicProcedure
     .input(
       encomiendaSchema.pick({
