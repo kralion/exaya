@@ -49,6 +49,8 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
     id: viajeId,
   });
 
+  const [print, setPrint] = useState(false);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -69,6 +71,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
   }
   const viajeStatus = viajeCurrent?.response?.estado;
   function handlePrint() {
+    setPrint(true);
     openMessage({
       content: "Documento generado con éxito",
       type: "success",
@@ -110,8 +113,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
               icon={<RxDownload />}
               onClick={handlePrint}
             />
-
-            <TablesToPrint viajeId={viajeId} />
+            {print && <TablesToPrint viajeId={viajeId} />}
           </div>
         }
         placement="right"
@@ -205,9 +207,14 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
 
   useEffect(() => {
     const doc = new jsPDF();
+    doc.setFontSize(16);
     doc.text("MANIFIESTO DEL VIAJE", 14, 20);
-    doc.text(viajeInfo, 10, 30);
-    doc.text("CONDUCTORES", 12, 50);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(viajeInfo, 14, 30);
+    doc.setFontSize(16);
+    doc.setTextColor(0);
+    doc.text("CONDUCTORES", 14, 50);
     autoTable(doc, {
       startY: 55,
       columns: [
@@ -225,7 +232,8 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const finalY1 = (doc as any).lastAutoTable.finalY as number;
-    doc.text("PASAJEROS", 12, finalY1 + 15);
+    doc.setFontSize(16);
+    doc.text("PASAJEROS", 14, finalY1 + 15);
 
     autoTable(doc, {
       startY: finalY1 + 20,
@@ -235,16 +243,19 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         { dataKey: "pasajeroApellidos", header: "Apellidos" },
         { dataKey: "asiento", header: "Asiento" },
       ],
-      body: viaje?.response?.boletos.map((pasajero: TPasajero) => ({
-        pasajeroDni: pasajero.pasajeroDni,
-        pasajeroNombres: pasajero.pasajeroNombres,
-        pasajeroApellidos: pasajero.pasajeroApellidos,
-        asiento: pasajero.asiento,
-      })),
+      body: viaje?.response?.boletos
+        .filter((b: { estado: string }) => b.estado === "PAGADO")
+        .map((pasajero: TPasajero) => ({
+          pasajeroDni: pasajero.pasajeroDni,
+          pasajeroNombres: pasajero.pasajeroNombres,
+          pasajeroApellidos: pasajero.pasajeroApellidos,
+          asiento: pasajero.asiento,
+        })),
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const finalY2 = (doc as any).lastAutoTable.finalY as number;
-    doc.text("ENCOMIENDAS", 12, finalY2 + 15);
+    doc.setFontSize(16);
+    doc.text("ENCOMIENDAS", 14, finalY2 + 15);
     autoTable(doc, {
       startY: finalY2 + 20,
       columns: [
@@ -260,6 +271,17 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         fechaEnvio: new Date(encomienda.fechaEnvio).toLocaleDateString(),
       })),
     });
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(
+      `Asientos ocupados: ${
+        viaje?.response?.boletos.filter(
+          (b: { estado: string }) => b.estado === "PAGADO"
+        ).length ?? 0
+      }`,
+      14,
+      finalY2 + 30
+    );
 
     doc.save("manifiesto.pdf");
   }, [viaje?.response, viajeInfo]);
