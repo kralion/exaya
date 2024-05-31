@@ -212,11 +212,11 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
     doc.setFontSize(11);
     doc.setTextColor(100);
     doc.text(viajeInfo, 14, 30);
-    doc.setFontSize(16);
+    doc.setFontSize(14);
     doc.setTextColor(0);
-    doc.text("CONDUCTORES", 14, 50);
+    doc.text("CONDUCTORES", 14, 60);
     autoTable(doc, {
-      startY: 55,
+      startY: 65,
       columns: [
         { dataKey: "conductorDni", header: "DNI" },
         { dataKey: "nombres", header: "Nombres" },
@@ -232,7 +232,7 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const finalY1 = (doc as any).lastAutoTable.finalY as number;
-    doc.setFontSize(16);
+    doc.setFontSize(14);
     doc.text("PASAJEROS", 14, finalY1 + 15);
 
     autoTable(doc, {
@@ -254,7 +254,7 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const finalY2 = (doc as any).lastAutoTable.finalY as number;
-    doc.setFontSize(16);
+    doc.setFontSize(14);
     doc.text("ENCOMIENDAS", 14, finalY2 + 15);
     autoTable(doc, {
       startY: finalY2 + 20,
@@ -271,6 +271,8 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         fechaEnvio: new Date(encomienda.fechaEnvio).toLocaleDateString(),
       })),
     });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const finalY3 = (doc as any).lastAutoTable.finalY as number;
     doc.setFontSize(11);
     doc.setTextColor(100);
     doc.text(
@@ -280,7 +282,7 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         ).length ?? 0
       }`,
       14,
-      finalY2 + 30
+      finalY3 + 30
     );
 
     doc.save("manifiesto.pdf");
