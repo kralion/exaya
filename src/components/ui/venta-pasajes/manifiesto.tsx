@@ -1,7 +1,17 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import { Avatar, Drawer, List, Progress, Space, Tag, Typography } from "antd";
-import { useState } from "react";
+import {
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  Progress,
+  Space,
+  Typography,
+} from "antd";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { useEffect, useState } from "react";
 import { AiFillPrinter } from "react-icons/ai";
 import { EncomiendasManifiestoTable } from "./encomiendas-table";
 import { PasajerosManifiestoTable } from "./pasajeros-table";
@@ -13,10 +23,25 @@ type TConductor = {
   foto: string;
   numeroLicencia: string;
 };
-
+type TEncomienda = {
+  id: string;
+  remitenteDni: string;
+  destinatarioDni: string;
+  descripcion: string;
+  fechaEnvio: Date;
+};
+type TPasajero = {
+  id: string;
+  pasajeroDni: string;
+  pasajeroNombres: string;
+  pasajeroApellidos: string;
+  asiento: number;
+  precio: number;
+};
 export function Manifiesto({ viajeId }: { viajeId: string }) {
   const [open, setOpen] = useState(false);
   const { openMessage } = useMessageContext();
+  const [print, setPrint] = useState(false);
   const { data: conductores, isLoading } =
     api.viajes.getConductoresByViajeId.useQuery({
       id: viajeId,
@@ -45,6 +70,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
   }
   const viajeStatus = viajeCurrent?.response?.estado;
   function handlePrint() {
+    setPrint(true);
     openMessage({
       key: "updatable",
       content: "Cargando el manifiesto...",
@@ -85,14 +111,14 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
               </Title>
             </Space>
 
-            <Tag
-              color="green"
+            <Button
+              type="primary"
               icon={<AiFillPrinter />}
-              className="flex cursor-pointer items-center justify-center gap-2 hover:opacity-80"
               onClick={handlePrint}
             >
               Imprimir
-            </Tag>
+            </Button>
+            {print && <TablesToPrint viajeId={viajeId} />}
           </div>
         }
         placement="right"
@@ -161,3 +187,85 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
     </>
   );
 }
+
+const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
+  const { data: viaje } = api.viajes.getViajeById.useQuery({ id: viajeId });
+  const viajeInfo = `Origen: ${
+    viaje?.response?.ruta?.ciudadOrigen ?? ""
+  } - Destino: ${viaje?.response?.ruta?.ciudadDestino ?? ""} - Fecha: ${
+    viaje?.response?.salida
+      ? new Date(viaje?.response?.salida).toLocaleDateString()
+      : ""
+  } - Hora: ${
+    viaje?.response?.salida
+      ? new Date(viaje?.response?.salida).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : ""
+  }`;
+
+  useEffect(() => {
+    const doc = new jsPDF();
+    doc.text("Manifiesto del viaje", 14, 20);
+    doc.text(viajeInfo, 14, 30);
+
+    autoTable(doc, {
+      columns: [
+        { dataKey: "conductorDni", header: "DNI" },
+        { dataKey: "nombres", header: "Nombres" },
+        { dataKey: "apellidos", header: "Apellidos" },
+        { dataKey: "numeroLicencia", header: "Numero de Licencia" },
+      ],
+      body: viaje?.response?.conductores.map((conductor: TConductor) => ({
+        conductorDni: conductor.id,
+        nombres: conductor.nombres,
+        apellidos: conductor.apellidos,
+        numeroLicencia: conductor.numeroLicencia,
+      })),
+      startY: 240,
+      styles: { overflow: "hidden" },
+      margin: { right: 107 },
+    });
+    autoTable(doc, {
+      columns: [
+        { dataKey: "pasajeroDni", header: "DNI" },
+        { dataKey: "pasajeroNombres", header: "Nombres" },
+        { dataKey: "pasajeroApellidos", header: "Apellidos" },
+        { dataKey: "asiento", header: "Asiento" },
+      ],
+      body: viaje?.response?.boletos.map((pasajero: TPasajero) => ({
+        pasajeroDni: pasajero.pasajeroDni,
+        pasajeroNombres: pasajero.pasajeroNombres,
+        pasajeroApellidos: pasajero.pasajeroApellidos,
+        asiento: pasajero.asiento,
+      })),
+      startY: 240,
+      styles: { overflow: "hidden" },
+      margin: { left: 107 },
+    });
+    autoTable(doc, {
+      columns: [
+        { dataKey: "remitenteDni", header: "DNI Remitente" },
+        { dataKey: "destinatarioDni", header: "DNI Destinatario" },
+        { dataKey: "descripcion", header: "Descripcion" },
+        { dataKey: "fechaEnvio", header: "Fecha Envio" },
+      ],
+      body: viaje?.response?.encomiendas.map((encomienda: TEncomienda) => ({
+        remitenteDni: encomienda.remitenteDni,
+        destinatarioDni: encomienda.destinatarioDni,
+        descripcion: encomienda.descripcion,
+        fechaEnvio: new Date(encomienda.fechaEnvio).toLocaleDateString(),
+      })),
+      startY: 240,
+      styles: { overflow: "hidden" },
+      margin: { left: 107 },
+    });
+
+    doc.save("manifiesto.pdf");
+  }, [viaje?.response, viajeInfo]);
+
+  return null;
+};
+
+export default TablesToPrint;

@@ -76,12 +76,13 @@ export default function ControlPaneGraph() {
     "Diciembre",
   ];
 
+  const date = new Date();
   for (let i = 5; i >= 0; i--) {
-    const date = new Date();
     date.setMonth(date.getMonth() - i);
     const monthIndex = (date.getMonth() + 12) % 12;
     const monthName = monthNames[monthIndex]?.toString() || "";
     latest6MonthsLabel.push(monthName);
+    date.setMonth(date.getMonth() + i);
   }
   const data = latest6MonthsLabel.map((month, index) => {
     return {

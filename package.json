@@ -27,6 +27,8 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "framer-motion": "^11.2.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "mini-svg-data-uri": "^1.4.4",
     "moment-timezone": "^0.5.45",
     "next": "^14.2.3",
