@@ -40,7 +40,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           </div>
         </header>
         <div className="space-y-4 bg-white p-4">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex items-start justify-between">
             <div className="space-y-1">
               <h2 className="font-mono text-2xl font-bold text-black">
                 BOLETA {data?.response?.serie.toUpperCase()}-
@@ -56,8 +56,8 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 </p>
               </div>
             </div>
-            <div className="rounded-full  bg-gray-100 px-4 py-2">
-              <p className="font-mono  text-xs font-medium text-gray-600">
+            <div className="mt-2  rounded-full bg-gray-100 px-4 py-2">
+              <p className="font-mono  text-xs font-bold">
                 {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
                   day: "2-digit",
                   month: "2-digit",
@@ -66,7 +66,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
           </div>
-          <section className="grid grid-cols-2 grid-rows-2 gap-1">
+          <section className="grid grid-cols-2 grid-rows-2">
             <div>
               <p className=" text-gray-500">Origen</p>
               <p className="font-bold  uppercase text-gray-900">
@@ -81,7 +81,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </div>
 
             <div>
-              <p className="font-medium  text-gray-500">Pasajero</p>
+              <p className=" text-gray-500">Pasajero</p>
               <div className="flex items-center gap-4">
                 <div>
                   <p className="font-bold capitalize  text-gray-900">
@@ -95,7 +95,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </div>
             </div>
             <div className="text-right">
-              <p className="font-medium  text-gray-500">Equipaje</p>
+              <p className=" text-gray-500">Equipaje</p>
               <p className="text-right  font-bold capitalize text-gray-900">
                 {data?.response?.equipaje}
               </p>
@@ -117,7 +117,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           <Divider />
           <div className="flex flex-col gap-0.5">
             <span>
-              Fecha y Hora Emisión:
+              Fecha y Hora Emisión:{" "}
               {new Date()
                 .toLocaleString("es-PE", {
                   day: "2-digit",

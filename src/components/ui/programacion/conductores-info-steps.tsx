@@ -39,7 +39,16 @@ export function ConductoresInformacion({
 }) {
   const { data: conductoresRegistrados, isLoading } =
     api.conductores.getAllConductores.useQuery();
-
+  function capitalizeFirstLetter(string: string | undefined) {
+    if (string === undefined) {
+      return "";
+    }
+    return string
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
   return (
     <List
       loading={isLoading}
@@ -63,7 +72,9 @@ export function ConductoresInformacion({
                   <ConductorModal
                     setIsModalOpen={setIsModalOpen}
                     setConductorIdToEdit={setConductorIdToEdit}
-                    activator={`${conductor.nombres} ${conductor.apellidos}`}
+                    activator={`${capitalizeFirstLetter(
+                      conductor.nombres
+                    )} ${capitalizeFirstLetter(conductor.apellidos)}`}
                     id={conductor.id}
                   />
 

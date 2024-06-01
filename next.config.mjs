@@ -41,6 +41,7 @@ const config = {
       "logowik.com",
       "cdn.worldvectorlogo.com",
       "logodix.com",
+      "res.cloudinary.com",
       "as1.ftcdn.net",
     ],
   },

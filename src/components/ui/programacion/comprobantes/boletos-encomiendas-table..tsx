@@ -1,7 +1,6 @@
 import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import dayjs from "dayjs";
 const { Title, Text } = Typography;
 
 const columns: ColumnsType = [
@@ -46,10 +45,10 @@ const columns: ColumnsType = [
 
   {
     title: "Fecha Emisión",
-    dataIndex: "fechaEnvío",
-    key: "fechaEnvío",
-    render: (fechaRegistro: string) => {
-      const date = new Date(fechaRegistro);
+    dataIndex: "fechaEnvio",
+    key: "fechaEnvio",
+    render: (fechaEnvio: string) => {
+      const date = new Date(fechaEnvio);
       return date.toLocaleDateString("es-PE", {
         year: "numeric",
         month: "2-digit",

@@ -143,7 +143,7 @@ export const boletosRouter = createTRPCRouter({
     }),
   deleteBoletosById: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const boleto = await ctx.prisma.boleto.delete({
         where: { id: input.id },
       });
@@ -155,7 +155,7 @@ export const boletosRouter = createTRPCRouter({
       }
       return {
         status: "sucess",
-        message: "Se lleva un registro de todos los boletos eliminados",
+        message: "Boleto Eliminado",
       };
     }),
   createBoleto: publicProcedure

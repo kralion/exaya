@@ -75,12 +75,14 @@ export function ConductorForm({
         apellidos: apellidosConductor,
       },
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openMessage({
             content: response.message,
             duration: 3,
             type: "success",
           });
+          await utils.conductores.getAllConductores.invalidate();
         },
         onError: (error) => {
           openMessage({
@@ -93,6 +95,7 @@ export function ConductorForm({
           form.resetFields();
           setConductorDNI("");
           setSource(undefined);
+          setIsModalOpen(false);
         },
       }
     );
@@ -116,12 +119,14 @@ export function ConductorForm({
         apellidos: apellidosConductor,
       },
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openMessage({
             content: response.message,
             duration: 3,
             type: "success",
           });
+          await utils.conductores.getAllConductores.invalidate();
         },
         onError: (error) => {
           openMessage({
@@ -139,27 +144,25 @@ export function ConductorForm({
     );
   }
 
-  async function onFinish(values: z.infer<typeof conductorSchema>) {
+  function onFinish(values: z.infer<typeof conductorSchema>) {
     if (conductorIdToEdit) {
       handleUpdateConductor(values);
     } else {
       handleCreateConductor(values);
     }
-    await utils.conductores.getAllConductores.invalidate();
   }
 
   useEffect(() => {
     if (conductorSingle && conductorIdToEdit) {
       form.setFieldsValue({
-        conductorDni: setConductorDNI(
-          conductorSingle?.response?.conductorDni as string
-        ),
+        conductorDni: conductorSingle?.response?.conductorDni,
         telefono: conductorSingle?.response?.telefono,
-        licencia_conducir: conductorSingle?.response?.numeroLicencia,
+        numeroLicencia: conductorSingle?.response?.numeroLicencia,
+        claseLicencia: conductorSingle?.response?.claseLicencia,
         nivel: conductorSingle?.response?.claseLicencia,
         disponibilidad: conductorSingle?.response?.disponibilidad,
+        foto: setSource(conductorSingle?.response?.foto as string),
       });
-      setSource(conductorSingle?.response?.foto);
     }
   }, [form, conductorIdToEdit, conductorSingle]);
 
@@ -190,7 +193,6 @@ export function ConductorForm({
           form={form}
           layout="vertical"
           name="register-driver"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "

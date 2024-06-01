@@ -8,6 +8,7 @@ import {
   Image,
   Input,
   Modal,
+  Popconfirm,
   Select,
   Space,
   Steps,
@@ -31,6 +32,7 @@ type BoletoEstado = "DISPONIBLE" | "RESERVADO" | "PAGADO";
 
 export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
+  const [print, setPrint] = useState(false);
   const { openMessage } = useMessageContext();
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
@@ -42,7 +44,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
 
   const { data: session } = useSession();
-  const utils = api.useUtils();
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
@@ -76,7 +77,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         dni: pasajeroDNI,
       },
       {
-        enabled: pasajeroDNI.length === 8,
+        enabled: pasajeroDNI?.length === 8,
       }
     );
   const seats = Array.from(
@@ -84,12 +85,48 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
   const ref = useRef<HTMLDivElement | null>(null);
+  const {
+    mutateAsync: deleteBoletoMutation,
+    isLoading: isLoadingDeleteBoleto,
+  } = api.boletos.deleteBoletosById.useMutation();
 
-  const handlePrint = useReactToPrint({
+  async function deleteBoleto(id: string) {
+    await deleteBoletoMutation(
+      { id },
+      {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
+          openMessage({
+            content: response.message,
+            type: "success",
+            duration: 3,
+          });
+
+          await refetchBoletosReservados();
+          await refetchBoletosVendidos();
+        },
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            type: "error",
+            duration: 3,
+          });
+        },
+      }
+    );
+  }
+
+  const printDocument = useReactToPrint({
     documentTitle: `Boleto de Viaje - Asiento ${selectedBoleto?.asiento ?? ""}`,
     content: () => ref.current,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
   });
+
+  const handlePrint = () => {
+    setPrint(true);
+    printDocument();
+  };
+
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
@@ -119,6 +156,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             duration: 3,
           });
         },
+
         onError: (error) => {
           openMessage({
             content: error.message,
@@ -148,7 +186,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         telefonoCliente: values.telefonoCliente.toString(),
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        estado: boletoStatus,
+        estado: "PAGADO",
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
@@ -178,21 +216,21 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     } else {
       await createBoleto(values);
     }
-    await utils.viajes.getViajeById.invalidate();
-    refetchBoletosVendidos;
-    refetchBoletosReservados;
+    await refetchBoletosReservados();
+    await refetchBoletosVendidos();
+    setOpenRegister(false);
+    form.resetFields();
+    setPasajeroDNI("");
   }
 
   useEffect(() => {
     if (selectedBoleto?.id !== "") {
       form.setFieldsValue({
-        pasajeroDni: setPasajeroDNI(
-          boletoSingle?.response?.pasajeroDni as string
-        ),
+        pasajeroDni: boletoSingle?.response?.pasajeroDni,
         telefonoCliente: boletoSingle?.response?.telefonoCliente,
         precio: boletoSingle?.response?.precio,
         equipaje: boletoSingle?.response?.equipaje,
-        estado: setBoletoStatus(boletoSingle?.response?.estado as BoletoEstado),
+        estado: boletoSingle?.response?.estado,
       });
     }
   }, [selectedBoleto?.id, form, boletoSingle?.response]);
@@ -207,28 +245,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <div>
-            <Space className="items-center gap-4">
-              <Title level={4}>Distribución de Asientos</Title>
-            </Space>
-            <Space direction="horizontal" className="flex gap-4">
-              <Text
-                className="font-normal"
-                rootClassName="flex gap-1 items-center"
-                type="success"
-              >
-                <FaSquare className="rounded-md text-green-500" size={15} />
-                Vendido
-              </Text>
-              <Text
-                className="font-normal"
-                rootClassName="flex gap-1 items-center"
-                type="warning"
-              >
-                <FaSquare className="rounded-md text-yellow-500" size={15} />
-                Reservado
-              </Text>
-            </Space>
-            <Divider className="mb-4" />
+            <Title level={4}>Distribución de Asientos</Title>
+            <Divider className="mt-0" />
           </div>
         }
         centered
@@ -238,7 +256,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           setOpen(false);
         }}
         footer={null}
-        width={710}
+        width={660}
       >
         <div>
           <Space className=" items-start gap-4">
@@ -270,7 +288,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                               (boleto) => boleto.asiento === seatNumber
                             )
                           ? "fill-green-300 stroke-green-600"
-                          : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
+                          : "fill-white stroke-slate-500 dark:fill-white/70 dark:stroke-zinc-400"
                       }
                       d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
                     ></path>
@@ -329,12 +347,23 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               />
             </Space>
           </Space>
-          <Divider className="my-4" />
-          <Space direction="horizontal" className="flex gap-3">
-            <Text type="secondary">
+          <Divider className="mb-2" />
+
+          <Space direction="horizontal" className="ml-3 flex gap-4">
+            <Text
+              className="font-normal"
+              rootClassName="flex gap-1 items-center"
+              type="success"
+            >
+              <FaSquare className="rounded-md text-green-500" size={15} />
               Vendidos: {boletosVendidos?.response?.length}
             </Text>
-            <Text type="secondary">
+            <Text
+              className="font-normal"
+              rootClassName="flex gap-1 items-center"
+              type="warning"
+            >
+              <FaSquare className="rounded-md text-yellow-500" size={15} />
               Reservados: {boletosReservados?.response?.length}
             </Text>
           </Space>
@@ -343,57 +372,46 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       <Modal
         title={
           <Title className="text-left" level={4}>
-            <div className="flex items-center justify-between">
-              <div className="flex gap-2">
-                <h3>Asiento</h3>
-                <div>
-                  <svg
-                    key={selectedSeat}
-                    width="40"
-                    height="40"
-                    viewBox="0 2 24 22"
-                  >
-                    <path
-                      className={
-                        boletosReservados?.response?.some(
-                          (boleto) => boleto.asiento === selectedSeat
-                        )
-                          ? "fill-yellow-300 stroke-yellow-600"
-                          : boletosVendidos?.response?.some(
-                              (boleto) => boleto.asiento === selectedSeat
-                            )
-                          ? "fill-green-300 stroke-green-600"
-                          : "fill-white stroke-slate-500 dark:fill-white/50 dark:stroke-zinc-500"
-                      }
-                      d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
-                    ></path>
-                    <path
-                      className="fill-amber-200 stroke-amber-600"
-                      d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
-                    ></path>
-                    <text
-                      x="50%"
-                      y="50%"
-                      textAnchor="middle"
-                      dy=".3em"
-                      className={`text-[8px] font-bold  ${concertOne.className}`}
-                    >
-                      {selectedSeat}
-                    </text>
-                  </svg>
-                </div>
-              </div>
+            <div className="flex items-start gap-20">
+              <h3>
+                Asiento <span className="ml-2 font-mono">{selectedSeat}</span>
+              </h3>
+
               {selectedBoleto?.estado === "PAGADO" ? (
-                <Button type="primary" onClick={handlePrint}>
-                  Imprimir
-                </Button>
+                <Space className="mr-8">
+                  <Button type="primary" onClick={handlePrint}>
+                    Imprimir
+                  </Button>
+                  <Popconfirm
+                    okButtonProps={{
+                      danger: true,
+                    }}
+                    title="Estás segur@ de eliminar este Boleto?"
+                    okText="Sí"
+                    cancelText="No"
+                    onConfirm={
+                      selectedBoleto
+                        ? async () => {
+                            await deleteBoleto(selectedBoleto?.id);
+                            setOpenRegister(false);
+                          }
+                        : () => setOpenRegister(false)
+                    }
+                  >
+                    <Button
+                      loading={isLoadingDeleteBoleto}
+                      danger
+                      type="primary"
+                    >
+                      Eliminar
+                    </Button>
+                  </Popconfirm>
+                </Space>
               ) : null}
             </div>
-            <hr className="mt-2 " />
           </Title>
         }
         centered
-        closeIcon={null}
         open={openRegister}
         onCancel={() => {
           setOpenRegister(false);
@@ -447,7 +465,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   setPasajeroDNI(dni);
                 }}
                 style={{
-                  width: 390,
+                  width: 400,
                 }}
                 value={pasajeroDNI}
                 type="number"
@@ -463,7 +481,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               >
                 <Input
                   style={{
-                    width: 210,
+                    width: 175,
                   }}
                   maxLength={9}
                   type="number"
@@ -475,7 +493,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 rules={[{ required: true, message: "Requerido" }]}
               >
                 <Select
-                  style={{ width: 80 }}
+                  style={{ width: 100 }}
                   loading={isLoadingViaje}
                   allowClear
                 >
@@ -488,13 +506,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   )}
                 </Select>
               </Form.Item>
-              <Form.Item
-                name="estado"
-                tooltip="Estado del boleto, si es una reserva o una compra"
-                label="Operación"
-              >
+              <Form.Item name="estado" label="Operación">
                 <Select
-                  style={{ width: 120 }}
+                  style={{ width: 110 }}
                   value={boletoStatus}
                   onChange={(value) => {
                     setBoletoStatus(value as BoletoEstado);
@@ -506,7 +520,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Form.Item>
             </Space>
             <Form.Item name="equipaje" label="Equipaje">
-              <Input.TextArea placeholder="Una bolsa roja, una mochila negra, 2 cajas de carton ..." />
+              <Input.TextArea placeholder="Breve descripción del equipaje ... " />
             </Form.Item>
             <Space className="flex justify-end">
               <Button
@@ -515,19 +529,25 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 loading={isLoading || isLoadingUpdateBoleto}
                 disabled={reniecResponse?.status === "error"}
               >
-                {selectedBoleto ? "Actualizar" : "Registrar"}
+                {selectedBoleto ? "Vender" : "Registrar"}
               </Button>
-              <Button
-                onClick={() => {
-                  setOpenRegister(false);
-                  setPasajeroDNI("");
-                  form.resetFields();
-                }}
-                danger
-                type="text"
-              >
-                Cancelar
-              </Button>
+              {selectedBoleto && (
+                <Button
+                  loading={isLoadingDeleteBoleto}
+                  onClick={
+                    selectedBoleto
+                      ? async () => {
+                          await deleteBoleto(selectedBoleto?.id);
+                          setOpenRegister(false);
+                        }
+                      : () => setOpenRegister(false)
+                  }
+                  danger
+                  type="primary"
+                >
+                  Eliminar
+                </Button>
+              )}
             </Space>
           </Form>
         )}

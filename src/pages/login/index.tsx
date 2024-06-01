@@ -53,6 +53,7 @@ export default function Login() {
     } else {
       router.push("/dashboard");
     }
+
     setLoading(false);
   }
   useEffect(() => {

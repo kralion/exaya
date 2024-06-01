@@ -69,7 +69,7 @@ export default function AppLayout({ children }: LayoutProps) {
     <MessageProvider>
       <Layout className="p-4">
         <Sider
-          className="h-fit rounded-lg border-2 border-slate-200 border-opacity-50  shadow-xl  dark:border-zinc-800"
+          className="h-fit rounded-lg border-2 border-transparent border-opacity-50  shadow-xl  dark:border-zinc-800"
           collapsed={isCollapsed}
           style={{
             position: "fixed",
@@ -84,7 +84,6 @@ export default function AppLayout({ children }: LayoutProps) {
           <Menu
             mode="inline"
             selectable={true}
-            inlineCollapsed={isCollapsed}
             selectedKeys={[selectedKey]}
             items={
               session?.user?.rol === "ADMIN"
@@ -129,7 +128,7 @@ export default function AppLayout({ children }: LayoutProps) {
           }`}
         >
           <Header
-            className="  relative flex rounded-lg border-2 border-slate-200 border-opacity-50 px-3  shadow-md dark:border-zinc-800"
+            className="  relative flex rounded-lg border-2 border-transparent border-opacity-50 px-3  shadow-md dark:border-zinc-800"
             style={{
               background: colorBgContainer,
               borderRadius: 14,
@@ -147,7 +146,7 @@ export default function AppLayout({ children }: LayoutProps) {
               padding: 21,
               borderRadius: 14,
             }}
-            className="min-h-[620px] rounded-lg border-2 border-slate-100 border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
+            className="min-h-[620px] rounded-lg border-2 border-transparent border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
           >
             {children}
           </Content>

@@ -18,6 +18,7 @@ import { PasajerosManifiestoTable } from "./pasajeros-table";
 const { Title } = Typography;
 type TConductor = {
   id: string;
+  conductorDni: string;
   nombres: string;
   apellidos: string;
   foto: string;
@@ -226,7 +227,7 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         { dataKey: "numeroLicencia", header: "Numero de Licencia" },
       ],
       body: viaje?.response?.conductores.map((conductor: TConductor) => ({
-        conductorDni: conductor.id,
+        conductorDni: conductor.conductorDni,
         nombres: conductor.nombres,
         apellidos: conductor.apellidos,
         numeroLicencia: conductor.numeroLicencia,
@@ -284,7 +285,12 @@ const TablesToPrint = ({ viajeId }: { viajeId: string }) => {
         ).length ?? 0
       }`,
       14,
-      finalY3 + 30
+      finalY3 + 20
+    );
+    doc.text(
+      `Encomiendas Registradas: ${viaje?.response?.encomiendas.length ?? 0}`,
+      14,
+      finalY3 + 25
     );
 
     doc.save("manifiesto.pdf");

@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Button, Modal, Space, Tag, Typography } from "antd";
+import { Button, Divider, Modal, Space, Tag, Typography } from "antd";
 import Image from "next/image";
 import { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
@@ -62,12 +62,7 @@ export default function ConductorModal({
         {activator}
       </Button>
       <Modal
-        title={
-          <p className="mb-7">
-            <Title level={3}>Información</Title>
-            <Text className=" font-light ">Datos generales del conductor</Text>
-          </p>
-        }
+        title={<Title level={3}>Información del Conductor</Title>}
         centered
         open={open}
         onCancel={() => {
@@ -99,6 +94,7 @@ export default function ConductorModal({
           </Space>
         }
       >
+        <Divider className="pt-0" />
         <div className="mt-8 flex justify-between">
           <div className=" space-y-3">
             <p>

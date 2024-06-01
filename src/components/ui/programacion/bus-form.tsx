@@ -20,7 +20,8 @@ export function BusForm({ activator }: Props) {
   const { openMessage } = useMessageContext();
   const utils = api.useUtils();
   const [source, setSource] = useState<string | undefined>();
-  const createBusMutation = api.buses.createBus.useMutation();
+  const { mutate: createBusMutation, isLoading } =
+    api.buses.createBus.useMutation();
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
@@ -28,7 +29,7 @@ export function BusForm({ activator }: Props) {
   };
 
   function onFinish(values: z.infer<typeof busSchema>) {
-    createBusMutation.mutate(
+    createBusMutation(
       {
         ...values,
         asientos: Number(values.asientos),
@@ -54,6 +55,7 @@ export function BusForm({ activator }: Props) {
         onSettled: () => {
           form.resetFields();
           setSource(undefined);
+          setIsModalOpen(false);
         },
       }
     );
@@ -64,6 +66,7 @@ export function BusForm({ activator }: Props) {
       <Button
         icon={<AiOutlinePlusCircle size={15} />}
         type="primary"
+        loading={isLoading}
         onClick={() => setIsModalOpen(true)}
       >
         {activator}
