@@ -396,6 +396,7 @@ export function UsuarioForm({
                 const dni = event.target.value;
                 setUsuarioDni(dni);
               }}
+              value={usuarioDni}
             />
           </Form.Item>
 

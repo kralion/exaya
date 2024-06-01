@@ -66,7 +66,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </p>
             </div>
           </div>
-          <section className="grid grid-cols-2 grid-rows-2 gap-2">
+          <section className="grid grid-cols-2 grid-rows-2 gap-1">
             <div>
               <p className=" text-gray-500">Origen</p>
               <p className="font-bold  uppercase text-gray-900">

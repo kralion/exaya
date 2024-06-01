@@ -225,6 +225,7 @@ export function ConductorForm({
                 setConductorDNI(dni);
               }}
               type="text"
+              value={conductorDNI}
               className="w-full"
             />
           </Form.Item>

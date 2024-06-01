@@ -43,7 +43,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
 
   const { data: session } = useSession();
   const utils = api.useUtils();
-  const [queryEnabled, setQueryEnabled] = useState(false);
   const { data: boletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
@@ -77,7 +76,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         dni: pasajeroDNI,
       },
       {
-        enabled: queryEnabled,
+        enabled: pasajeroDNI.length === 8,
       }
     );
   const seats = Array.from(
@@ -445,12 +444,12 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               <Input
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   const dni = event.target.value;
-                  setQueryEnabled(dni.length === 8);
                   setPasajeroDNI(dni);
                 }}
                 style={{
                   width: 390,
                 }}
+                value={pasajeroDNI}
                 type="number"
                 maxLength={8}
                 className="w-full"
