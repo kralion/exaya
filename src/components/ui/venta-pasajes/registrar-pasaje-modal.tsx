@@ -43,14 +43,14 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
 
   const { data: session } = useSession();
   const utils = api.useUtils();
-  const { data: boletosVendidos } =
+  const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
       viajeId,
     });
 
   const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
-  const { data: boletosReservados } =
+  const { data: boletosReservados, refetch: refetchBoletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "RESERVADO",
       viajeId,
@@ -178,9 +178,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     } else {
       await createBoleto(values);
     }
-    await utils.viajes.getViajeById.invalidate({
-      id: viajeId,
-    });
+    await utils.viajes.getViajeById.invalidate();
+    refetchBoletosVendidos;
+    refetchBoletosReservados;
   }
 
   useEffect(() => {

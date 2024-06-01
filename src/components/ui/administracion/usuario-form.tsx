@@ -373,10 +373,7 @@ export function UsuarioForm({
                 : "validating"
             }
             help={
-              form.getFieldValue("usuarioDni") ===
-              "" ? null : reniecResponse?.status === "error" ? (
-                "El DNI no existe"
-              ) : reniecResponse?.status === "success" ? (
+              reniecResponse?.status === "success" ? (
                 <p>
                   {reniecResponse.data?.nombres}{" "}
                   {reniecResponse.data?.apellidoPaterno}{" "}
