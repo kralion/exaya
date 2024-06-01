@@ -36,6 +36,7 @@ export function EncomiendasForm({
   );
   const [pagado, setPagado] = useState<boolean>(false);
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
+
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
   const {
@@ -196,8 +197,10 @@ export function EncomiendasForm({
   useEffect(() => {
     if (encomiendaIdToEdit && singleEncomienda?.response) {
       form.setFieldsValue({
-        remitenteDni: singleEncomienda.response.remitenteDni,
-        destinatarioDni: singleEncomienda.response.destinatarioDni,
+        remitenteDni: setRemitenteDNI(singleEncomienda.response.remitenteDni),
+        destinatarioDni: setDestinatarioDNI(
+          singleEncomienda.response.destinatarioDni
+        ),
         fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
         viajeId: singleEncomienda.response.viajeId,
         factura: singleEncomienda.response.factura,

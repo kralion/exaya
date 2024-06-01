@@ -27,7 +27,7 @@ export function BusForm({ activator }: Props) {
     setSource(undefined);
   };
 
-  async function onFinish(values: z.infer<typeof busSchema>) {
+  function onFinish(values: z.infer<typeof busSchema>) {
     createBusMutation.mutate(
       {
         ...values,
@@ -35,12 +35,14 @@ export function BusForm({ activator }: Props) {
         foto: source,
       },
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openMessage({
             content: response.message,
             type: "success",
             duration: 3,
           });
+          await utils.buses.getAllBuses.invalidate();
         },
         onError: (error) => {
           openMessage({
@@ -55,7 +57,6 @@ export function BusForm({ activator }: Props) {
         },
       }
     );
-    await utils.buses.getAllBuses.invalidate();
   }
 
   return (
@@ -86,7 +87,6 @@ export function BusForm({ activator }: Props) {
           form={form}
           layout="vertical"
           name="register"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
         >

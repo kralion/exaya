@@ -185,7 +185,7 @@ export function UsuarioForm({
   isModalOpen,
 }: Props) {
   const { openMessage } = useMessageContext();
-  const [queryEnabled, setQueryEnabled] = useState(false);
+  const [usuarioDni, setUsuarioDni] = useState<string>("");
   const [source, setSource] = useState<string | undefined>();
   const [form] = Form.useForm();
   const { data: reniecResponse, error: errorValidacionDNI } =
@@ -194,7 +194,7 @@ export function UsuarioForm({
         dni: form.getFieldValue("usuarioDni") as string,
       },
       {
-        enabled: queryEnabled,
+        enabled: usuarioDni?.length === 8,
       }
     );
   const utils = api.useUtils();
@@ -307,11 +307,12 @@ export function UsuarioForm({
   useEffect(() => {
     if (usuarioSingle?.response && usuarioIdToEdit) {
       form.setFieldsValue({
-        usuarioDni: usuarioSingle.response.usuarioDni,
+        usuarioDni: setUsuarioDni(usuarioSingle.response.usuarioDni),
         telefono: usuarioSingle.response.telefono,
         username: usuarioSingle.response.username,
         isDeleted: usuarioSingle.response.isDeleted,
         rol: usuarioSingle.response.rol,
+        foto: setSource(usuarioSingle.response.foto),
         serieBoleto: usuarioSingle.response.serieBoleto,
         serieEncomienda: usuarioSingle.response.serieEncomienda,
         sedeDelegacion: usuarioSingle.response.sedeDelegacion,
@@ -393,8 +394,7 @@ export function UsuarioForm({
               placeholder="12345678"
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 const dni = event.target.value;
-                form.setFieldValue("usuarioDni", dni);
-                setQueryEnabled(dni.length === 8);
+                setUsuarioDni(dni);
               }}
             />
           </Form.Item>

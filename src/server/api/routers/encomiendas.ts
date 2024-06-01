@@ -144,6 +144,11 @@ export const encomiendasRouter = createTRPCRouter({
         orderBy: {
           fechaEnvio: "desc",
         },
+        where: {
+          usuario: {
+            id: ctx.session?.user.id,
+          },
+        },
       });
       return {
         status: "success",

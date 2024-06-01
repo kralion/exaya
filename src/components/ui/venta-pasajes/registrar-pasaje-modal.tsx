@@ -5,15 +5,13 @@ import {
   Button,
   Divider,
   Form,
+  Image,
   Input,
   Modal,
   Select,
   Space,
   Steps,
-  Switch,
-  Tag,
   Typography,
-  Image,
 } from "antd";
 import { useSession } from "next-auth/react";
 import { Concert_One } from "next/font/google";
@@ -181,17 +179,21 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     } else {
       await createBoleto(values);
     }
-    await utils.boletos.getAllBoletos.invalidate();
+    await utils.viajes.getViajeById.invalidate({
+      id: viajeId,
+    });
   }
 
   useEffect(() => {
     if (selectedBoleto?.id !== "") {
       form.setFieldsValue({
-        pasajeroDni: boletoSingle?.response?.pasajeroDni,
+        pasajeroDni: setPasajeroDNI(
+          boletoSingle?.response?.pasajeroDni as string
+        ),
         telefonoCliente: boletoSingle?.response?.telefonoCliente,
         precio: boletoSingle?.response?.precio,
         equipaje: boletoSingle?.response?.equipaje,
-        estado: boletoSingle?.response?.estado,
+        estado: setBoletoStatus(boletoSingle?.response?.estado as BoletoEstado),
       });
     }
   }, [selectedBoleto?.id, form, boletoSingle?.response]);
@@ -489,23 +491,19 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Form.Item>
               <Form.Item
                 name="estado"
-                tooltip="Reservar el boleto?"
-                label="Reservar"
+                tooltip="Estado del boleto, si es una reserva o una compra"
+                label="Operación"
               >
-                <Switch
-                  checkedChildren="Sí"
-                  unCheckedChildren="No"
-                  style={{ width: 80 }}
-                  className=" bg-red-500 shadow-lg"
-                  defaultValue={boletoStatus === "PAGADO"}
-                  onChange={(checked) => {
-                    setBoletoStatus(
-                      checked
-                        ? ("RESERVADO" as BoletoEstado)
-                        : ("PAGADO" as BoletoEstado)
-                    );
+                <Select
+                  style={{ width: 120 }}
+                  value={boletoStatus}
+                  onChange={(value) => {
+                    setBoletoStatus(value as BoletoEstado);
                   }}
-                />
+                >
+                  <Select.Option value="PAGADO">Venta</Select.Option>
+                  <Select.Option value="RESERVADO">Reserva</Select.Option>
+                </Select>
               </Form.Item>
             </Space>
             <Form.Item name="equipaje" label="Equipaje">

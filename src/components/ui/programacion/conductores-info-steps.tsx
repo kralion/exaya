@@ -2,7 +2,6 @@ import { api } from "@/utils/api";
 import { Avatar, Empty, List, Steps } from "antd";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import ConductorModal from "./conductores/conductor-modal";
-import { useState } from "react";
 
 const items = [
   {

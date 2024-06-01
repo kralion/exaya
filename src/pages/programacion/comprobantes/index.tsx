@@ -65,8 +65,8 @@ function ProgramacionComprobantes() {
             />
             <QRCode
               style={{
-                width: 150,
-                height: 150,
+                width: 100,
+                height: 100,
               }}
               value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar"
             />
@@ -89,8 +89,8 @@ function ProgramacionComprobantes() {
             />
             <QRCode
               style={{
-                width: 150,
-                height: 150,
+                width: 100,
+                height: 100,
               }}
               value="https://ww1.sunat.gob.pe/ol-at-ittramitedoc/registro/iniciar"
             />

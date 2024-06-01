@@ -151,7 +151,9 @@ export function ConductorForm({
   useEffect(() => {
     if (conductorSingle && conductorIdToEdit) {
       form.setFieldsValue({
-        conductorDni: conductorSingle?.response?.conductorDni,
+        conductorDni: setConductorDNI(
+          conductorSingle?.response?.conductorDni as string
+        ),
         telefono: conductorSingle?.response?.telefono,
         licencia_conducir: conductorSingle?.response?.numeroLicencia,
         nivel: conductorSingle?.response?.claseLicencia,

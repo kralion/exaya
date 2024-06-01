@@ -48,10 +48,13 @@ const columns: ColumnsType = [
     title: "Fecha Emisión",
     dataIndex: "fechaEnvío",
     key: "fechaEnvío",
-    render: (fechaEnvio: string) => {
-      const date = dayjs(fechaEnvio);
-      const formattedDate = date.format("DD-MM-YYYY");
-      return <Text>{formattedDate}</Text>;
+    render: (fechaRegistro: string) => {
+      const date = new Date(fechaRegistro);
+      return date.toLocaleDateString("es-PE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric",
+      });
     },
   },
   {

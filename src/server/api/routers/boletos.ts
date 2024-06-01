@@ -23,45 +23,6 @@ export const boletosRouter = createTRPCRouter({
       orderBy: { fechaRegistro: "desc" },
     });
   }),
-  getCountOfBoletosByMonth: publicProcedure.query(async ({ ctx }) => {
-    try {
-      const counts = [];
-      const today = new Date();
-
-      for (let i = 0; i < 6; i++) {
-        const month = today.getMonth() - i;
-        const year = today.getFullYear() + (month < 0 ? -1 : 0);
-        const monthStr = `${year}-${((month % 12) + 1)
-          .toString()
-          .padStart(2, "0")}`;
-
-        const boletos = await ctx.prisma.boleto.findMany({
-          where: {
-            fechaRegistro: {
-              gte: new Date(monthStr + "-01"),
-              lt: new Date(
-                new Date(monthStr + "-01").setMonth(
-                  new Date(monthStr + "-01").getMonth() + 1
-                )
-              ),
-            },
-          },
-        });
-
-        counts.unshift(boletos.length);
-      }
-
-      return {
-        status: "success",
-        response: counts,
-      };
-    } catch (error) {
-      return {
-        status: "error",
-        message: "Error al obtener el conteo de boletos",
-      };
-    }
-  }),
 
   getCountOfBoletosInLatest6Months: publicProcedure.query(async ({ ctx }) => {
     try {
@@ -97,6 +58,11 @@ export const boletosRouter = createTRPCRouter({
     try {
       const boleto = await ctx.prisma.boleto.findFirst({
         orderBy: { id: "desc" },
+        where: {
+          usuario: {
+            id: ctx.session?.user.id,
+          },
+        },
       });
       return {
         status: "success",

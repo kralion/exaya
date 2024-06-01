@@ -1,11 +1,11 @@
 import { api } from "@/utils/api";
-import { Button, Divider, Modal, Space, Tag, Typography } from "antd";
+import { Button, Modal, Space, Tag, Typography } from "antd";
 import Image from "next/image";
 import { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
 const { confirm } = Modal;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 type TProps = {
   id: string;
@@ -62,7 +62,12 @@ export default function ConductorModal({
         {activator}
       </Button>
       <Modal
-        title={<Title level={3}>Información del Conductor</Title>}
+        title={
+          <p className="mb-7">
+            <Title level={3}>Información</Title>
+            <Text className=" font-light ">Datos generales del conductor</Text>
+          </p>
+        }
         centered
         open={open}
         onCancel={() => {
@@ -97,12 +102,12 @@ export default function ConductorModal({
         <div className="mt-8 flex justify-between">
           <div className=" space-y-3">
             <p>
-              <Typography.Text strong>Cod Licencia : </Typography.Text>
+              <Typography.Text strong>Licencia : </Typography.Text>
               <Tag> {conductorSingle?.response?.numeroLicencia}</Tag>
             </p>
 
             <p>
-              <Typography.Text strong>Nombre : </Typography.Text>
+              <Typography.Text strong>Nombres : </Typography.Text>
               <Typography.Text>
                 {capitalizeFirstLetter(conductorSingle?.response?.nombres)}
               </Typography.Text>
@@ -134,12 +139,6 @@ export default function ConductorModal({
                   ? "Disponible"
                   : "No Disponible"}
               </Tag>
-            </p>
-            <p>
-              <Typography.Text strong>Télefono : </Typography.Text>
-              <Typography.Text>
-                {conductorSingle?.response?.telefono}
-              </Typography.Text>
             </p>
           </div>
           <Image

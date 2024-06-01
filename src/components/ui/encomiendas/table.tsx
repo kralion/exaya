@@ -55,7 +55,11 @@ export function EncomiendasTable({
       key: "fechaEnvio",
       render: (fechaEnvio: string) => {
         const date = new Date(fechaEnvio);
-        return date.toLocaleDateString();
+        return date.toLocaleDateString("es-PE", {
+          year: "numeric",
+          month: "2-digit",
+          day: "numeric",
+        });
       },
     },
     {

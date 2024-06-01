@@ -51,10 +51,13 @@ const columns: ColumnsType = [
     title: "Fecha Emisión",
     dataIndex: "fechaRegistro",
     key: "fechaRegistro",
-    render: (fechaRegistro: Date) => {
-      const date = dayjs(fechaRegistro);
-      const formattedDate = date.format("DD-MM-YYYY");
-      return <Text>{formattedDate}</Text>;
+    render: (fechaRegistro: string) => {
+      const date = new Date(fechaRegistro);
+      return date.toLocaleDateString("es-PE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "numeric",
+      });
     },
   },
   {

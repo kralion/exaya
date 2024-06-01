@@ -6,7 +6,7 @@ const conductorSchema = z.object({
   numeroLicencia: z.string(),
   nombres: z.string(),
   apellidos: z.string(),
-  viajeId: z.string(),
+  viajeId: z.string().optional(),
   claseLicencia: z.string(),
   telefono: z.string().min(9).max(9),
   disponibilidad: z.boolean(),
