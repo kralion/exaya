@@ -197,6 +197,7 @@ export function UsuarioForm({
         enabled: queryEnabled,
       }
     );
+  const utils = api.useUtils();
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
   const updateUserMutation = api.usuarios.updateUser.useMutation();
   const { data: rutas, isLoading } = api.rutas.getAllRutas.useQuery();
@@ -294,12 +295,13 @@ export function UsuarioForm({
     );
   }
 
-  function onFinish(values: z.infer<typeof usuarioSchema>) {
+  async function onFinish(values: z.infer<typeof usuarioSchema>) {
     if (usuarioIdToEdit) {
       handleUpdateUser(values);
     } else {
       handleCreateUser(values);
     }
+    await utils.usuarios.getAllUsuarios.invalidate();
   }
 
   useEffect(() => {
@@ -347,6 +349,7 @@ export function UsuarioForm({
           form={form}
           layout="vertical"
           name="register"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "

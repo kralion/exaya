@@ -23,10 +23,13 @@ export const MisBoletos = ({ viajeId }: { viajeId: string }) => {
       <Typography onClick={() => setOpen(true)}>Mis Boletos</Typography>
       <Modal
         title={
-          <Space direction="vertical">
-            <Space>
-              <Title level={4}>Mis Boletos Vendidos</Title>
-
+          <Space direction="vertical" className="mb-2 gap-1">
+            <Title level={4}>Mis Boletos Vendidos</Title>
+            <Space className="flex items-center gap-2">
+              <Text className=" font-light ">
+                {viaje?.response?.ruta.ciudadOrigen} -{" "}
+                {viaje?.response?.ruta.ciudadDestino}
+              </Text>{" "}
               <Tag color="blue">
                 {viaje?.response?.salida.toLocaleTimeString([], {
                   hour: "2-digit",
@@ -34,11 +37,6 @@ export const MisBoletos = ({ viajeId }: { viajeId: string }) => {
                 })}
               </Tag>
             </Space>
-            <Text className=" font-light ">
-              {viaje?.response?.ruta.ciudadOrigen} -{" "}
-              {viaje?.response?.ruta.ciudadDestino}
-            </Text>
-            <Divider />
           </Space>
         }
         centered

@@ -1,4 +1,4 @@
-import { Table, Tag, Tooltip } from "antd";
+import { Descriptions, Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableProps } from "antd/lib/table";
 
@@ -81,10 +81,14 @@ export function MisBoletosVendidosTable({
       footer={
         data?.length
           ? () => (
-              <div className="flex justify-between">
-                <Tag>Total de Boletos: {totalBoletos}</Tag>
-                <Tag>Total: {` S/.  ${String(totalPrice)}.00`}</Tag>
-              </div>
+              <Descriptions title={null}>
+                <Descriptions.Item label="# Boletos">
+                  {totalBoletos}
+                </Descriptions.Item>
+                <Descriptions.Item label="Total">
+                  {` S/.  ${String(totalPrice)}.00`}
+                </Descriptions.Item>
+              </Descriptions>
             )
           : undefined
       }

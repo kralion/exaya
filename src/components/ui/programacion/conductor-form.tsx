@@ -33,6 +33,7 @@ export function ConductorForm({
 }: Props) {
   const [source, setSource] = useState<string | undefined>();
   const { openMessage } = useMessageContext();
+  const utils = api.useUtils();
   const handleCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
@@ -138,13 +139,14 @@ export function ConductorForm({
     );
   }
 
-  const onFinish = (values: z.infer<typeof conductorSchema>) => {
+  async function onFinish(values: z.infer<typeof conductorSchema>) {
     if (conductorIdToEdit) {
       handleUpdateConductor(values);
     } else {
       handleCreateConductor(values);
     }
-  };
+    await utils.conductores.getAllConductores.invalidate();
+  }
 
   useEffect(() => {
     if (conductorSingle && conductorIdToEdit) {
@@ -186,6 +188,7 @@ export function ConductorForm({
           form={form}
           layout="vertical"
           name="register-driver"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "
@@ -238,7 +241,7 @@ export function ConductorForm({
             />
           </Form.Item>
           <Form.Item
-            name="licencia_conducir"
+            name="numeroLicencia"
             label="Numero Licencia"
             rules={[
               {
@@ -252,7 +255,7 @@ export function ConductorForm({
           </Form.Item>
 
           <Form.Item
-            name="nivel"
+            name="claseLicencia"
             label="Clase Licencia"
             rules={[
               {

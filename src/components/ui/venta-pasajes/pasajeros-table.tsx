@@ -2,6 +2,8 @@ import { api } from "@/utils/api";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
+type BoletoEstado = "DISPONIBLE" | "RESERVADO" | "PAGADO";
+
 function capitalizeFirstLetter(string: string | undefined) {
   if (string === undefined) {
     return "";
@@ -62,7 +64,9 @@ export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
       }}
       loading={isLoading}
       columns={columns}
-      dataSource={pasajeros?.response}
+      dataSource={pasajeros?.response?.filter(
+        (pasajero) => pasajero.estado === ("PAGADO" as BoletoEstado)
+      )}
     />
   );
 }

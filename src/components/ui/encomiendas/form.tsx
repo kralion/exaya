@@ -14,7 +14,6 @@ import { encomiendaSchema } from "@/schemas";
 import dayjs, { type Dayjs } from "dayjs";
 import { useSession } from "next-auth/react";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
-
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
@@ -29,6 +28,7 @@ export function EncomiendasForm({
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const utils = api.useUtils();
   const { data: singleEncomienda } = api.encomiendas.getEncomiendaById.useQuery(
     {
       id: encomiendaIdToEdit,
@@ -46,10 +46,14 @@ export function EncomiendasForm({
   });
   const { openMessage } = useMessageContext();
   const [facturaUI, setFacturaUI] = useState(false);
-  const createEncomiendaMutation =
-    api.encomiendas.createEncomienda.useMutation();
-  const updateEncomiendaMutation =
-    api.encomiendas.updateEncomienda.useMutation();
+  const {
+    mutateAsync: createEncomiendaMutation,
+    isLoading: isLoadingCreateEncomienda,
+  } = api.encomiendas.createEncomienda.useMutation();
+  const {
+    mutateAsync: updateEncomiendaMutation,
+    isLoading: isLoadingUpdateEncomienda,
+  } = api.encomiendas.updateEncomienda.useMutation();
 
   const { data: receptorInformacion } = api.clientes.validateDni.useQuery(
     {
@@ -186,6 +190,7 @@ export function EncomiendasForm({
     } else {
       await handleCreateEncomienda(values);
     }
+    await utils.encomiendas.getAllEncomiendas.invalidate();
   }
 
   useEffect(() => {
@@ -463,7 +468,11 @@ export function EncomiendasForm({
         ) : null}
 
         <div className="col-span-4 flex items-end justify-end gap-3">
-          <Button htmlType="submit" type="primary">
+          <Button
+            htmlType="submit"
+            type="primary"
+            loading={isLoadingCreateEncomienda || isLoadingUpdateEncomienda}
+          >
             {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar Encomienda"}
           </Button>{" "}
           <Button htmlType="reset" onClick={handleCancel}>

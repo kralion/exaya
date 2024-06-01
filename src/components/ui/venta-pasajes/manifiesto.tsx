@@ -91,8 +91,8 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
-            <Space direction="vertical">
-              <Title className=" uppercase" level={5}>
+            <Space direction="vertical" className="gap-1">
+              <Title level={5}>
                 {viajeCurrent?.response?.ruta?.ciudadOrigen} -{" "}
                 {viajeCurrent?.response?.ruta?.ciudadDestino}
               </Title>
@@ -112,7 +112,9 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
               title="Descargar PDF"
               icon={<RxDownload />}
               onClick={handlePrint}
-            />
+            >
+              Descargar
+            </Button>
             {print && <TablesToPrint viajeId={viajeId} />}
           </div>
         }

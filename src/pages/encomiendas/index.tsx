@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function Encomiendas() {
   const [encomiendaIdToEdit, setEncomiendaIdToEdit] = useState<string>("");
+
   return (
     <AppLayout>
       <AppHead title="Encomiendas" />

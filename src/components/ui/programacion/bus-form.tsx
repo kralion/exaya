@@ -1,15 +1,7 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Space,
-  Typography,
-} from "antd";
+import { Button, Form, Input, Modal, Space, Typography } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
@@ -26,6 +18,7 @@ export function BusForm({ activator }: Props) {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openMessage } = useMessageContext();
+  const utils = api.useUtils();
   const [source, setSource] = useState<string | undefined>();
   const createBusMutation = api.buses.createBus.useMutation();
   const handleCancel = () => {
@@ -34,7 +27,7 @@ export function BusForm({ activator }: Props) {
     setSource(undefined);
   };
 
-  function onFinish(values: z.infer<typeof busSchema>) {
+  async function onFinish(values: z.infer<typeof busSchema>) {
     createBusMutation.mutate(
       {
         ...values,
@@ -62,6 +55,7 @@ export function BusForm({ activator }: Props) {
         },
       }
     );
+    await utils.buses.getAllBuses.invalidate();
   }
 
   return (
@@ -92,6 +86,7 @@ export function BusForm({ activator }: Props) {
           form={form}
           layout="vertical"
           name="register"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
         >
@@ -102,11 +97,10 @@ export function BusForm({ activator }: Props) {
               {
                 required: true,
                 message: "Ingresa la cantidad de asientos",
-                whitespace: true,
               },
             ]}
           >
-            <InputNumber type="number" placeholder="45" />
+            <Input type="number" placeholder="45" maxLength={2} />
           </Form.Item>
 
           <Form.Item
@@ -119,8 +113,6 @@ export function BusForm({ activator }: Props) {
                 whitespace: true,
               },
             ]}
-            validateStatus="validating"
-            help="Este campo será validado ..."
           >
             <Input
               addonBefore={<TbLicense title="Placa" />}
@@ -139,7 +131,7 @@ export function BusForm({ activator }: Props) {
           >
             <Input placeholder="Scania Turismo Grant" />
           </Form.Item>
-          <Form.Item label="Foto del Bus" name="foto">
+          <Form.Item label="Foto del Bus">
             <div>
               <CldUploadWidget
                 uploadPreset="ml_default"
