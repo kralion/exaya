@@ -216,11 +216,7 @@ export function BusForm({ activator }: Props) {
             </div>
           </Form.Item>
           <Space className="flex justify-end">
-            <Button
-              disabled={createBusMutation.isLoading}
-              htmlType="submit"
-              type="primary"
-            >
+            <Button disabled={isLoading} htmlType="submit" type="primary">
               Registrar
             </Button>
 
