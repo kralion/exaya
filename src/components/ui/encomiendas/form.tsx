@@ -89,7 +89,7 @@ export function EncomiendasForm({
         type: "error",
       });
     }
-    await updateEncomiendaMutation.mutateAsync(
+    await updateEncomiendaMutation(
       {
         ...values,
         usuarioId: session?.user?.id as string,
@@ -145,7 +145,7 @@ export function EncomiendasForm({
         type: "error",
       });
     }
-    await createEncomiendaMutation.mutateAsync(
+    await createEncomiendaMutation(
       {
         ...values,
         usuarioId: session?.user?.id as string,
