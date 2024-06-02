@@ -1,24 +1,12 @@
 import { useMessageContext } from "@/context/MessageContext";
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { viajeSchema } from "@/schemas";
 import { api } from "@/utils/api";
-import { Button, DatePicker, Form, Select, Space } from "antd";
+import { Button, DatePicker, Form, Input, Select, Space } from "antd";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { z } from "zod";
-
-type TViaje = {
-  ciudadOrigen: string;
-  ciudadDestino: string;
-  placaBus: string;
-  salida: Date;
-  busId: string;
-  rutaId: string;
-  tarifas: number[];
-  estado: "DISPONIBLE" | "CANCELADO" | "LLENO";
-};
-
-const tarifasGenerales = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90, 100];
+import type { z } from "zod";
 
 export function ViajesForm({
   idToEdit,
@@ -51,6 +39,11 @@ export function ViajesForm({
         salida: new Date(dayjs(values.salida).format("YYYY-MM-DD HH:mm:ss")),
         usuarioId: session?.user?.id as string,
         estado: "DISPONIBLE",
+        tarifas: [
+          values.tarifaGeneral,
+          values.tarifaGeneral - 5,
+          values.tarifaGeneral - 8,
+        ],
       },
       {
         onSuccess: (response) => {
@@ -80,6 +73,12 @@ export function ViajesForm({
         usuarioId: session?.user?.id as string,
         salida: new Date(dayjs(values.salida).format("YYYY-MM-DD HH:mm:ss")),
         estado: "DISPONIBLE",
+
+        tarifas: [
+          values.tarifaGeneral,
+          values.tarifaGeneral - 5,
+          values.tarifaGeneral - 8,
+        ],
       },
       {
         onSuccess: (response) => {
@@ -135,7 +134,7 @@ export function ViajesForm({
               rules={[{ required: true, message: "Requerido" }]}
             >
               <Select
-                style={{ width: 300 }}
+                style={{ width: 200 }}
                 placeholder="Ruta"
                 allowClear
                 loading={isLoadingRutas}
@@ -160,7 +159,7 @@ export function ViajesForm({
             >
               <Select
                 loading={isLoadingBus}
-                style={{ width: 140 }}
+                style={{ width: 100 }}
                 placeholder="Bus"
                 allowClear
               >
@@ -177,43 +176,49 @@ export function ViajesForm({
               name="salida"
             >
               <DatePicker
-                style={{ width: 250 }}
+                style={{ width: 170 }}
                 showTime
                 use12Hours
                 minuteStep={15}
                 showNow={false}
-                placeholder="Fecha de Salida"
+                placeholder="Embarque"
                 format="YYYY-MM-DD HH:mm"
               />
             </Form.Item>
           </Space>
           <Space className="gap-4">
             <Form.Item
-              name="tarifas"
-              rules={[{ required: true, message: "Requerido" }]}
+              name="tarifaGeneral"
+              rules={[
+                {
+                  required: true,
+                  message: "Requerido",
+                },
+              ]}
             >
-              <Select
-                style={{
-                  width: 225,
+              <Input
+                style={{ width: 120 }}
+                addonBefore="S/."
+                type="number"
+                placeholder="Tarifa"
+                maxLength={2}
+                onChange={(e) => {
+                  form.setFieldsValue({
+                    tarifaGeneral: parseInt(e.target.value),
+                  });
                 }}
-                mode="multiple"
-                placeholder="Tarifas"
-              >
-                {tarifasGenerales.map((tarifa) => (
-                  <Select.Option key={tarifa} value={tarifa}>
-                    {tarifa}
-                  </Select.Option>
-                ))}
-              </Select>
+              />
             </Form.Item>
             <Form.Item
               name="conductores"
-              rules={[{ required: true, message: "Requerido" }]}
+              rules={[
+                { required: true, message: "Requerido para el manifiesto" },
+              ]}
             >
               <Select
                 mode="multiple"
                 style={{
-                  width: 480,
+                  width: 367,
                 }}
                 loading={isLoadingConductores}
                 placeholder="Conductores"
@@ -225,7 +230,8 @@ export function ViajesForm({
                     apellidos: string;
                   }) => (
                     <Select.Option key={conductor.id} value={conductor.id}>
-                      {conductor.nombres} {conductor.apellidos}
+                      {conductor.nombres.split(" ")[0]}{" "}
+                      {conductor.apellidos.split(" ")[0]}
                     </Select.Option>
                   )
                 )}

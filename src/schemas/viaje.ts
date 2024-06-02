@@ -7,6 +7,7 @@ const viajeSchema = z.object({
   rutaId: z.string(),
   conductores: z.array(z.string()),
   salida: z.date(),
+  tarifaGeneral: z.number().int().nonnegative(),
   tarifas: z.array(z.number().int().nonnegative()),
 });
 

@@ -41,6 +41,7 @@ enum SerieEncomienda {
 
 model Boleto {
     asiento           Int
+    metodoPago        String
     pasajeroDni       String
     estado            BoletoEstado @default(DISPONIBLE)
     pasajeroNombres   String
@@ -49,11 +50,10 @@ model Boleto {
     usuarioId         String
     serie             SerieBoleto  @default(AG001)
     codigo            Int          @default(autoincrement())
+    destino           String       @default("Sin Destino")
     fechaRegistro     DateTime     @default(now())
-    equipaje          String       @default("Sin Equipaje")
     id                String       @id @default(uuid())
     precio            Int
-    telefonoCliente   String
     viaje             Viaje        @relation(fields: [viajeId], references: [id])
     viajeId           String
 }
@@ -147,17 +147,18 @@ model Usuario {
 }
 
 model Viaje {
-    boletos     Boleto[]
-    bus         Bus          @relation(fields: [busId], references: [id])
-    busId       String
-    conductores Conductor[]
-    usuario     Usuario      @relation(fields: [usuarioId], references: [id])
-    usuarioId   String
-    encomiendas Encomienda[]
-    estado      ViajeEstado  @default(DISPONIBLE)
-    salida      DateTime
-    id          String       @id @default(uuid())
-    ruta        Ruta         @relation(fields: [rutaId], references: [id])
-    rutaId      String
-    tarifas     Int[]
+    boletos       Boleto[]
+    bus           Bus          @relation(fields: [busId], references: [id])
+    busId         String
+    conductores   Conductor[]
+    usuario       Usuario      @relation(fields: [usuarioId], references: [id])
+    usuarioId     String
+    encomiendas   Encomienda[]
+    estado        ViajeEstado  @default(DISPONIBLE)
+    salida        DateTime
+    id            String       @id @default(uuid())
+    ruta          Ruta         @relation(fields: [rutaId], references: [id])
+    rutaId        String
+    tarifas       Int[]
+    tarifaGeneral Int
 }

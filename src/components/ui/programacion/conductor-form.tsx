@@ -228,7 +228,6 @@ export function ConductorForm({
               }}
               type="text"
               value={conductorDNI}
-              className="w-full"
             />
           </Form.Item>
 
@@ -242,7 +241,6 @@ export function ConductorForm({
               maxLength={9}
               placeholder="987654321"
               addonBefore={<BsTelephone title="N° celular" />}
-              style={{ width: "100%" }}
             />
           </Form.Item>
           <Form.Item
@@ -368,8 +366,8 @@ export function ConductorForm({
             ]}
           >
             <Radio.Group>
-              <Radio value={false}>No</Radio>
               <Radio value={true}>Sí</Radio>
+              <Radio value={false}>No</Radio>
             </Radio.Group>
           </Form.Item>
           <Space className="col-span-2 mt-10 justify-end">
