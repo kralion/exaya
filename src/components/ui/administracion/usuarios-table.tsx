@@ -1,5 +1,7 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
+import { CiTrash } from "react-icons/ci";
+
 import {
   Alert,
   Avatar,
@@ -30,6 +32,7 @@ export default function UsuariosTable({
     refetch,
   } = api.usuarios.getAllUsuarios.useQuery();
   const usuarioDisableMutation = api.usuarios.disableUser.useMutation();
+  const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openMessage } = useMessageContext();
   function capitalizeFirstLetter(string: string | undefined) {
     if (string === undefined) {
@@ -41,6 +44,31 @@ export default function UsuariosTable({
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   }
+
+  const handleDeleteUser = (id: string) => {
+    usuarioDeleteMutation.mutate(
+      { id },
+      {
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
+            type: "success",
+            duration: 3,
+          });
+        },
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            type: "error",
+            duration: 3,
+          });
+        },
+        onSettled: () => {
+          void refetch();
+        },
+      }
+    );
+  };
 
   const handleDisableUser = (id: string) => {
     usuarioDisableMutation.mutate(
@@ -153,6 +181,22 @@ export default function UsuariosTable({
                 icon={<TbLockX />}
                 type="text"
                 danger
+              />
+            </Popconfirm>
+            <Popconfirm
+              okButtonProps={{
+                danger: true,
+              }}
+              title="Estás segur@ de eliminar este usuario?"
+              okText="Sí"
+              cancelText="No"
+              onConfirm={() => handleDeleteUser(record.id)}
+            >
+              <Button
+                type="primary"
+                danger
+                title="Eliminar"
+                icon={<CiTrash />}
               />
             </Popconfirm>
           </Space>

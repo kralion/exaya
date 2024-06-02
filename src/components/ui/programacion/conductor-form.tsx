@@ -53,7 +53,7 @@ export function ConductorForm({
         dni: conductorDNI,
       },
       {
-        enabled: conductorDNI.length === 8,
+        enabled: conductorDNI?.length === 8,
       }
     );
   function handleUpdateConductor(values: z.infer<typeof conductorSchema>) {
@@ -226,7 +226,8 @@ export function ConductorForm({
                 const dni = event.target.value;
                 setConductorDNI(dni);
               }}
-              type="text"
+              type="number"
+              maxLength={8}
               value={conductorDNI}
             />
           </Form.Item>

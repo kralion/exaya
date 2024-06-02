@@ -16,12 +16,24 @@ export default withAuth({
   },
 });
 export const config = {
-  matcher: [
-    "/dashboard",
-    "/contable",
-    "/programacion/:path*",
-    "/encomiendas",
-    "/pasajes",
-    "/soporte",
-  ],
+  matcher: (path: string, isUser: boolean) => {
+    const isRestrictedPage = [
+      "/dashboard",
+      "/contable",
+      "/programacion/:path*",
+      "/encomiendas",
+      "/pasajes",
+      "/soporte",
+    ].includes(path);
+
+    if (path === "/encomiendas/rastreo") {
+      return true;
+    }
+
+    if (isRestrictedPage && isUser) {
+      return false;
+    }
+
+    return true;
+  },
 };

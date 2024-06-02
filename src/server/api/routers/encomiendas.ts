@@ -162,6 +162,38 @@ export const encomiendasRouter = createTRPCRouter({
     }
   }),
 
+  getEncomiendaByTrackingCode: publicProcedure
+    .input(
+      z.object({
+        codigoRastreo: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      try {
+        const encomienda = await ctx.prisma.encomienda.findFirst({
+          where: {
+            codigoRastreo: input.codigoRastreo,
+          },
+          include: {
+            viaje: {
+              include: {
+                ruta: true,
+              },
+            },
+          },
+        });
+        return {
+          status: "success",
+          response: encomienda,
+        };
+      } catch (error) {
+        return {
+          status: "error",
+          message: "Error al obtener la encomienda",
+        };
+      }
+    }),
+
   createEncomienda: publicProcedure
     .input(encomiendaSchema)
     .mutation(async ({ input, ctx }) => {

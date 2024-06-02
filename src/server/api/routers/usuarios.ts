@@ -37,10 +37,10 @@ export const usuariosRouter = createTRPCRouter({
           where: { username: input.username },
         });
         if (existingUsername) {
-          return {
-            status: "error",
+          throw new TRPCError({
+            code: "BAD_REQUEST",
             message: "El nombre de usuario ya existe",
-          };
+          });
         }
         await ctx.prisma.usuario.create({
           data: {
@@ -50,15 +50,13 @@ export const usuariosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Todos los detalles del usuario creado se pueden visualizar haciendo click sobre el nombre de usuario",
+          message: "Usuario Creado",
         };
       } catch (error) {
-        return {
-          status: "error",
-          message:
-            "Ocurrió un error al crear el usuario, por favor recargue la página e intente nuevamente",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error al crear el usuario",
+        });
       }
     }),
 
@@ -184,10 +182,10 @@ export const usuariosRouter = createTRPCRouter({
         where: { username: input.username },
       });
       if (existingUsername) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "BAD_REQUEST",
           message: "El nombre de usuario ya existe",
-        };
+        });
       }
       const hashedPassword = await hash(input.password, 10);
       try {
@@ -203,10 +201,10 @@ export const usuariosRouter = createTRPCRouter({
           message: "Usuario actualizado exitosamente",
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al actualizar el usuario",
-        };
+        });
       }
     }),
 });

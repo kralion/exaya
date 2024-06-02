@@ -17,7 +17,7 @@ import {
   Typography,
 } from "antd";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 const { Title, Text } = Typography;
@@ -25,7 +25,7 @@ type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
 export default function Administracion() {
   const [dateQuery, setDateQuery] = useState(new Date());
   const { data: session } = useSession();
-  const router = useRouter();
+  // const router = useRouter();
   const [usuarioIdToEdit, setUsuarioIdToEdit] = useState<string>("");
   const [currentViajeId, setCurrentViajeId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,11 +108,11 @@ export default function Administracion() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  useEffect(() => {
-    if (session?.user?.rol !== "ADMIN") {
-      router.replace("/dashboard");
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session?.user?.rol !== "ADMIN") {
+  //     router.replace("/dashboard");
+  //   }
+  // }, [session, router]);
   return (
     <AppLayout>
       <AppHead title="Administracion" />

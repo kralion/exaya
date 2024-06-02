@@ -88,6 +88,7 @@ model Encomienda {
     descripcion           String
     usuario               Usuario         @relation(fields: [usuarioId], references: [id])
     usuarioId             String
+    codigoRastreo         String          @default("Sin Codigo")
     destinatarioDni       String
     destinatarioNombres   String
     destinatarioApellidos String

@@ -234,12 +234,14 @@ export function UsuarioForm({
           apellidos: apellidosConductor,
         },
         {
-          onSuccess: (response) => {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSuccess: async (response) => {
             openMessage({
               content: response.message,
               duration: 3,
               type: "success",
             });
+            await utils.usuarios.getAllUsuarios.invalidate();
           },
           onError: (error) => {
             openMessage({
@@ -274,12 +276,14 @@ export function UsuarioForm({
       },
 
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openMessage({
             content: response.message,
             duration: 3,
             type: "success",
           });
+          await utils.usuarios.getAllUsuarios.invalidate();
         },
         onError: (error) => {
           openMessage({
@@ -295,19 +299,18 @@ export function UsuarioForm({
     );
   }
 
-  async function onFinish(values: z.infer<typeof usuarioSchema>) {
+  function onFinish(values: z.infer<typeof usuarioSchema>) {
     if (usuarioIdToEdit) {
       handleUpdateUser(values);
     } else {
       handleCreateUser(values);
     }
-    await utils.usuarios.getAllUsuarios.invalidate();
   }
 
   useEffect(() => {
     if (usuarioSingle?.response && usuarioIdToEdit) {
       form.setFieldsValue({
-        usuarioDni: setUsuarioDni(usuarioSingle.response.usuarioDni),
+        usuarioDni: usuarioSingle.response.usuarioDni,
         telefono: usuarioSingle.response.telefono,
         username: usuarioSingle.response.username,
         isDeleted: usuarioSingle.response.isDeleted,
@@ -350,7 +353,6 @@ export function UsuarioForm({
           form={form}
           layout="vertical"
           name="register"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onFinish={onFinish}
           scrollToFirstError
           className="grid grid-flow-row grid-cols-2 gap-x-3.5 "
@@ -373,15 +375,11 @@ export function UsuarioForm({
                 : "validating"
             }
             help={
-              reniecResponse?.status === "success" ? (
-                <p>
-                  {reniecResponse.data?.nombres}{" "}
-                  {reniecResponse.data?.apellidoPaterno}{" "}
-                  {reniecResponse.data?.apellidoMaterno}
-                </p>
-              ) : (
-                "Ingrese los 8 dígitos del DNI"
-              )
+              <p>
+                {reniecResponse?.data?.nombres}{" "}
+                {reniecResponse?.data?.apellidoPaterno}{" "}
+                {reniecResponse?.data?.apellidoMaterno}
+              </p>
             }
           >
             <Input

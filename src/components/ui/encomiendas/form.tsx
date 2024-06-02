@@ -17,6 +17,7 @@ import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
+import { customAlphabet } from "nanoid";
 const { Title } = Typography;
 
 export function EncomiendasForm({
@@ -28,6 +29,10 @@ export function EncomiendasForm({
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const nanoid = customAlphabet("0123456789abcdef", 6);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
+  const [trackingCode, setTrackingCode] = useState<string>(nanoid());
   const utils = api.useUtils();
   const { data: singleEncomienda } = api.encomiendas.getEncomiendaById.useQuery(
     {
@@ -95,6 +100,7 @@ export function EncomiendasForm({
         ...values,
         usuarioId: session?.user?.id as string,
         pagado,
+        codigoRastreo: trackingCode,
         id: encomiendaIdToEdit,
         serie: session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
@@ -153,6 +159,7 @@ export function EncomiendasForm({
         pagado,
         serie: session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
+        codigoRastreo: trackingCode,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
@@ -203,6 +210,9 @@ export function EncomiendasForm({
         ),
         fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
         viajeId: singleEncomienda.response.viajeId,
+        codigoRastreo: setTrackingCode(
+          singleEncomienda.response.codigoRastreo as string
+        ),
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
         empresa: singleEncomienda.response.empresa,
