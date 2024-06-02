@@ -211,7 +211,7 @@ export function EncomiendasForm({
         fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
         viajeId: singleEncomienda.response.viajeId,
         codigoRastreo: setTrackingCode(
-          singleEncomienda.response.codigoRastreo as string
+          singleEncomienda.response.codigoRastreo 
         ),
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
