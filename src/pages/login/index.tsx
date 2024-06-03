@@ -46,7 +46,7 @@ export default function Login() {
     if (result?.error) {
       openNotification({
         message: "Error de Autenticación",
-        description: "Verifica que las credenciales  sean las correctas",
+        description: result.error,
         type: "error",
         placement: "topRight",
       });

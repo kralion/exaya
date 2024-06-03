@@ -11,6 +11,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { compare } from "bcrypt";
 import type { SerieBoleto, SerieEncomienda, Rol } from "@/types/auth";
+import { TRPCError } from "@trpc/server";
 
 declare module "next-auth" {
   interface User {
@@ -64,7 +65,10 @@ export const authOptions: NextAuthOptions = {
       },
       authorize: async (credentials) => {
         if (!credentials?.username || !credentials.password) {
-          return null;
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Debes ingresar un usuario y una contraseña",
+          });
         }
 
         const userFound = await prisma.usuario.findUnique({
@@ -73,7 +77,11 @@ export const authOptions: NextAuthOptions = {
           },
         });
         if (!userFound) {
-          return null;
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "Usuario no encontrado, verifica las credenciales ingresadas",
+          });
         }
         const userDisabled = await prisma.usuario.findUnique({
           where: {
@@ -82,15 +90,22 @@ export const authOptions: NextAuthOptions = {
           },
         });
         if (userDisabled) {
-          return null;
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "Estas credenciales han sido deshabilitadas para acceder al sistema",
+          });
         }
         const matchPassword = await compare(
           credentials.password,
           userFound.password
         );
-
         if (!matchPassword) {
-          return null;
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "Verifica las credenciales ingresadas, recuerda que son precreadas",
+          });
         }
 
         return {

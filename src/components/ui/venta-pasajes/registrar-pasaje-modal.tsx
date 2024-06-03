@@ -62,6 +62,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
+  const { data: boletosViaje, refetch: refetchBoletosViaje } =
+    api.boletos.getBoletosByViaje.useQuery({
+      viajeId,
+    });
 
   const { data: boletoSingle } = api.boletos.getBoletosById.useQuery({
     id: selectedBoleto?.id as string,
@@ -103,6 +107,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             duration: 3,
           });
 
+          await refetchBoletosViaje();
           await refetchBoletosReservados();
           await refetchBoletosVendidos();
         },
@@ -170,6 +175,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
+
   async function updateBoleto(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
@@ -215,6 +221,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     } else {
       await createBoleto(values);
     }
+    await refetchBoletosViaje();
     await refetchBoletosReservados();
     await refetchBoletosVendidos();
     setOpenRegister(false);
@@ -289,8 +296,29 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                       }
                       d="M7.38,15a1,1,0,0,1,.9.55A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45,1,1,0,0,1,.9-.55h1.62L19,8.68a1,1,0,0,0-.55-1L17.06,7l-.81-3.24a1,1,0,0,0-1-.76H8.72a1,1,0,0,0-1,.76L6.94,7l-1.39.69a1,1,0,0,0-.55,1L5.58,15Z"
                     ></path>
+
                     <path
-                      className="fill-amber-200 stroke-amber-600"
+                      className={
+                        boletosViaje?.response?.some(
+                          (boleto) =>
+                            boleto.asiento === seatNumber &&
+                            boleto.usuario.sedeDelegacion === "Huanta"
+                        )
+                          ? "fill-purple-200 stroke-purple-600"
+                          : boletosViaje?.response?.some(
+                              (boleto) =>
+                                boleto.asiento === seatNumber &&
+                                boleto.usuario.sedeDelegacion === "Ayacucho"
+                            )
+                          ? "fill-cyan-200 stroke-cyan-600"
+                          : boletosViaje?.response?.some(
+                              (boleto) =>
+                                boleto.asiento === seatNumber &&
+                                boleto.usuario.sedeDelegacion === "Huancayo"
+                            )
+                          ? "fill-rose-200 stroke-rose-600"
+                          : "fill-zinc-200 stroke-zinc-600"
+                      }
                       d="M16.8,15H19a1,1,0,0,1,1,1.16l-.53,3.17a2,2,0,0,1-2,1.67h-11a2,2,0,0,1-2-1.67L4,16.16A1,1,0,0,1,5,15H7.38a1,1,0,0,1,.9.55h0A2.61,2.61,0,0,0,10.62,17h2.94a2.61,2.61,0,0,0,2.34-1.45h0A1,1,0,0,1,16.8,15Z"
                     ></path>
                     <text
@@ -349,6 +377,29 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 >
                   <FaSquare className="rounded-md text-yellow-500" size={15} />
                   Reservados: {boletosReservados?.response?.length}
+                </Text>
+              </Space>
+              <Space direction="vertical" className="ml-3 mt-10">
+                <Text
+                  className="font-normal"
+                  rootClassName="flex gap-1 items-center"
+                >
+                  <FaSquare className="rounded-md text-purple-500" size={15} />
+                  Agencia Huanta
+                </Text>
+                <Text
+                  className="font-normal"
+                  rootClassName="flex gap-1 items-center"
+                >
+                  <FaSquare className="rounded-md text-cyan-500" size={15} />
+                  Agencia Ayacucho
+                </Text>
+                <Text
+                  className="font-normal"
+                  rootClassName="flex gap-1 items-center"
+                >
+                  <FaSquare className="rounded-md text-rose-500" size={15} />
+                  Agencia Huancayo
                 </Text>
               </Space>
             </Space>

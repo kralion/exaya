@@ -497,16 +497,11 @@ export function UsuarioForm({
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="isDeleted"
-            tooltip="El usuario está habilitado ?"
-            label="Habilitado"
-          >
+          <Form.Item name="isDeleted" label="Deshabilitar Usuario">
             <Switch
               checkedChildren="Sí"
               unCheckedChildren="No"
               style={{ width: 80 }}
-              className=" bg-red-500 shadow-lg"
               onChange={(checked) => {
                 form.setFieldValue("isDeleted", checked);
               }}
@@ -574,7 +569,7 @@ export function UsuarioForm({
                   return (
                     <Button
                       icon={<HiOutlineUpload />}
-                      disabled={source !== undefined}
+                      // disabled={source !== undefined}
                       onClick={handleOnClick}
                     >
                       Cargar Imagen
@@ -595,7 +590,7 @@ export function UsuarioForm({
             </div>
           </Form.Item>
 
-          <Space className="mt-10 flex items-center justify-end">
+          <Space className="mt-10 flex items-center ">
             <Button
               loading={
                 createUsuarioMutation.isLoading || updateUserMutation.isLoading
@@ -603,7 +598,7 @@ export function UsuarioForm({
               htmlType="submit"
               type="primary"
             >
-              {usuarioIdToEdit ? "Guardar Cambios" : "Registrar"}
+              {usuarioIdToEdit ? "Guardar" : "Registrar"}
             </Button>
 
             <Button danger htmlType="reset" onClick={handleCancel}>

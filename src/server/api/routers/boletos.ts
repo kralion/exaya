@@ -114,6 +114,9 @@ export const boletosRouter = createTRPCRouter({
       try {
         const boletos = await ctx.prisma.boleto.findMany({
           where: { estado: input.status, viajeId: input.viajeId },
+          include: {
+            usuario: true,
+          },
         });
         return {
           status: "success",
@@ -131,9 +134,21 @@ export const boletosRouter = createTRPCRouter({
     .input(z.object({ viajeId: z.string() }))
     .query(async ({ input, ctx }) => {
       try {
-        return ctx.prisma.boleto.findMany({
+        const boletos = await ctx.prisma.boleto.findMany({
           where: { viajeId: input.viajeId },
+          include: {
+            viaje: {
+              include: {
+                ruta: true,
+              },
+            },
+            usuario: true,
+          },
         });
+        return {
+          status: "success",
+          response: boletos,
+        };
       } catch (error) {
         return {
           status: "error",

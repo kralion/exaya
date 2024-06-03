@@ -200,7 +200,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       }}
       pagination={false}
       loading={isLoading}
-      // rootClassName="min-w-[755px] duration-500"
+      rootClassName="min-w-[700px] duration-300"
       columns={columns}
       dataSource={viajes?.response}
       style={{
