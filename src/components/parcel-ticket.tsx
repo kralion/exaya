@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { forwardRef } from "react";
 import { Inter } from "next/font/google";
-import { Divider } from "antd";
+import { Divider, Tag } from "antd";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -35,58 +35,53 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </h4>
             </div>
           </div>
-          <div>
-            <h4 className="text-xs italic  ">RCEA N°: 20605475427</h4>
+          <div className="flex flex-col items-end text-xs">
+            <span>RCEA N°: 20605475427 </span>
+            <span>91454845 - 94845845</span>
           </div>
         </header>
-        <div className="space-y-4 bg-white p-4">
-          <div className="mb-6 flex items-center justify-between">
+        <div className=" bg-white p-4">
+          <div className="mb-2 flex items-center justify-between">
             <div>
               <h2 className="font-mono text-2xl font-bold text-black">
                 Encomienda {data?.response?.serie.toUpperCase()}-
                 {data?.response?.codigo}
               </h2>
-              <p className="text-gray-500 ">
-                Envío a {data?.response?.viaje.ruta.ciudadDestino} - S/.{" "}
-                {data?.response?.precio.toFixed(2)}
-              </p>
             </div>
           </div>
-          <section className="flex w-full justify-between ">
-            <div>
-              <p className="  text-gray-500">Remitente</p>
-              <div>
-                <p className="font-bold capitalize  text-gray-900">
-                  {data?.response?.remitenteNombres}{" "}
-                  {data?.response?.remitenteApellidos}
-                </p>
-                <p className="text-gray-500 ">
-                  DNI: {data?.response?.remitenteDni}
-                </p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="  text-gray-500">Destinatario</p>
-              <div>
-                <p className="font-bold capitalize  text-gray-900">
-                  {data?.response?.destinatarioNombres}{" "}
-                  {data?.response?.destinatarioApellidos}
-                </p>
-                <p className="text-gray-500 ">
-                  DNI: {data?.response?.destinatarioDni}
-                </p>
-              </div>
-            </div>
-          </section>
+          <p>
+            <span className="  text-gray-500">Remitente : </span>
+            <span className="font-bold capitalize  text-gray-900">
+              {data?.response?.remitenteNombres}{" "}
+              {data?.response?.remitenteApellidos}
+            </span>
+            <div></div>
+          </p>
+          <p>
+            <span className="  text-gray-500">Destinatario : </span>
 
-          <div>
-            <p className="  text-gray-500">Descripción</p>
-            <p className=" font-bold capitalize text-gray-900">
-              {data?.response?.descripcion}
-            </p>
-          </div>
+            <span className="font-bold capitalize  text-gray-900">
+              {data?.response?.destinatarioNombres}{" "}
+              {data?.response?.destinatarioApellidos}
+            </span>
+          </p>
+          <p className="">
+            <span className="  text-gray-500">Destino : </span>
+            <span className=" font-bold uppercase">
+              {data?.response?.viaje.ruta.ciudadDestino}
+            </span>
+          </p>
+          <p>
+            <span className="  text-gray-500">Descripción : </span>
+            <span className="  ">{data?.response?.descripcion}</span>
+          </p>
+          <p>
+            <span className="  text-gray-500">Codigo de Rastreo : </span>
+            <span className="font-mono">{data?.response?.codigoRastreo}</span>
+          </p>
+
           <Divider />
-          <section className="flex items-center justify-between ">
+          <section className="flex items-center justify-between  text-xs">
             <div className="flex flex-col gap-0.5">
               <span>OP.NO Gravada</span>
               <span>IGV</span>
@@ -99,27 +94,8 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </div>
           </section>
           <Divider />
-          <div className=" flex flex-col gap-0.5">
-            <span>
-              Fecha y Hora Emisión:{" "}
-              {new Date()
-                .toLocaleString("es-PE", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "2-digit",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                  hour12: false,
-                })
-                .replace(/\//g, "-")}
-            </span>
-            <span>
-              Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
-            </span>
-            <span>Operacion</span>
-          </div>
-          <div className="space-y-4">
+
+          <div className="space-y-4 text-xs">
             <p className="font-medium  text-gray-500">Términos y Condiciones</p>
 
             <p className="text-black">
@@ -144,20 +120,20 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 La encomienda puede permanecer en la agencia un máximo de 10
                 días calendario.
               </li>
-              <li>
-                Para cualquier consulta, scanee el código QR para acceder al
-                libro de reclamaciones.
-              </li>
             </ul>
+            <p className="pt-1">
+              Para rastrear su encomienda, scanee el código QR e ingrese su
+              codigo de rastreo
+            </p>
           </div>
         </div>
-        <div className="flex justify-center  border  bg-gray-100 p-4">
+        <div className="flex justify-center ">
           <div className="flex h-40 w-40  items-center justify-center rounded-lg bg-white shadow-md">
             <img
               alt="Código QR"
               className="h-full w-full object-contain"
               height="150"
-              src="https://i.ibb.co/9NNjkF8/qr-code-exaya.png"
+              src="https://i.ibb.co/cY401Fy/frame.png"
               style={{
                 aspectRatio: "150/150",
                 objectFit: "cover",
@@ -166,26 +142,51 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             />
           </div>
         </div>
-        <section className="rounded-b-lg bg-yellow-400 text-center font-mono">
-          <span className="text-xs  text-black">
-            Atención al Cliente: 91454845 - 94845845
-          </span>
-        </section>
+
         <Divider dashed className="page-break" />
-        <footer className="flex justify-between rounded-lg bg-yellow-400 p-4  text-black">
+        <footer className="flex flex-col justify-center rounded-lg bg-yellow-400 p-4  text-black">
           <div className="flex flex-col justify-around rounded-l-lg">
-            <p className="font-medium ">Ticket</p>
-            <h1 className="font-mono text-5xl font-bold">
-              {data?.response?.serie.toUpperCase()}-{data?.response?.codigo}
-            </h1>
-          </div>
-          <div className="text-xs">
-            <p className="font-bold ">Remite: {data?.response?.remitenteDni}</p>
-            <p className="font-bold ">
-              Para: {data?.response?.destinatarioDni}
+            <div className="flex items-start justify-between ">
+              <div>
+                <p className="font-medium ">Ticket de Seguimiento</p>
+                <h1 className="font-mono text-5xl font-bold">
+                  {data?.response?.serie.toUpperCase()}-{data?.response?.codigo}
+                </h1>
+              </div>
+              <Tag className="rounded-full px-2 pb-0.5 text-lg font-bold lowercase">
+                {data?.response?.pagado ? "Pagado" : "Por Pagar"}
+              </Tag>
+            </div>
+            <Divider />
+            <p>
+              <span className=" ">Remitente : </span>
+              <span className="font-bold capitalize  ">
+                {data?.response?.remitenteNombres}{" "}
+                {data?.response?.remitenteApellidos}
+              </span>
+              <div></div>
             </p>
-            <p>Destino: {data?.response?.viaje.ruta.ciudadDestino}</p>
-            <p> Importe : S/. {data?.response?.precio.toFixed(2)}</p>
+            <p>
+              <span className="">Destinatario : </span>
+
+              <span className="font-bold capitalize  ">
+                {data?.response?.destinatarioNombres}{" "}
+                {data?.response?.destinatarioApellidos}
+              </span>
+            </p>
+            <p>
+              <span>Descripción : </span>
+              <span className="font-bold  ">{data?.response?.descripcion}</span>
+            </p>
+          </div>
+          <Divider />
+          <div>
+            <section className="flex items-center justify-between ">
+              <span>Importe Total</span>
+              <span className="font-mono text-3xl font-bold">
+                S/. {total.toFixed(2)}
+              </span>
+            </section>
           </div>
         </footer>
       </div>
