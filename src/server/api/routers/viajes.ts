@@ -17,7 +17,7 @@ export const viajesRouter = createTRPCRouter({
         boletos: true,
         encomiendas: true,
       },
-      orderBy: { salida: "asc" },
+      orderBy: { salida: "desc" },
     });
     return {
       status: "success",

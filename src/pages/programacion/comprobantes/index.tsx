@@ -24,15 +24,16 @@ import { useMessageContext } from "@/context/MessageContext";
 
 const { Title } = Typography;
 function ProgramacionComprobantes() {
-  const { data: pasajes } = api.boletos.getCountOfMonthlyBoletos.useQuery();
-  const { data: encomiendas } =
+  const { data: pasajesCount } =
+    api.boletos.getCountOfMonthlyBoletos.useQuery();
+  const { data: encomiendasCount } =
     api.encomiendas.getCountOfMonthlyBoletosEncomiendas.useQuery();
-  const { data: facturas } =
+  const { data: facturasCount } =
     api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery();
   const [date, setDate] = useState("");
   const { openMessage } = useMessageContext();
   const [print, setPrint] = useState(false);
-  const totalBoletos = (pasajes || 0) + (encomiendas || 0);
+  const totalBoletos = (pasajesCount || 0) + (encomiendasCount || 0);
   const formatter: StatisticProps["formatter"] = (value) => (
     <CountUp delay={2000} duration={10} end={value as number} separator="," />
   );
@@ -91,7 +92,7 @@ function ProgramacionComprobantes() {
           >
             <Statistic
               title="Total de Facturas Mensuales (TFM)"
-              value={facturas || 0}
+              value={facturasCount || 0}
               precision={2}
               formatter={formatter}
               prefix={<FaRegFileLines className="pt-1" />}
@@ -135,7 +136,7 @@ function ProgramacionComprobantes() {
           {print && (
             <TablesToPrint
               boletosCount={totalBoletos}
-              facturasCount={facturas ?? 0}
+              facturasCount={facturasCount ?? 0}
             />
           )}
           <QRCode size={100} value="https://www.google.com" />
@@ -178,15 +179,15 @@ export const TablesToPrint = ({
   boletosCount: number;
   facturasCount: number;
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  (jsPDF as any).autoTableSetDefaults({
-    headStyles: { fillColor: [250, 173, 20] },
-  });
   const { data: pasajes } = api.boletos.getMonthlyBoletos.useQuery();
   const { data: encomiendas } =
     api.encomiendas.getMonthlyBoletosEncomiendas.useQuery();
   const { data: facturas } =
     api.encomiendas.getMonthlyFacturasEncomiendas.useQuery();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  (jsPDF as any).autoTableSetDefaults({
+    headStyles: { fillColor: [250, 173, 20] },
+  });
   const currentDate = new Date();
   const startOfMonth = new Date(
     currentDate.getFullYear(),
@@ -218,6 +219,7 @@ export const TablesToPrint = ({
     doc.setFontSize(16);
     doc.text("REPORTE CONTABLE MENSUAL", 14, 20);
     doc.setFontSize(11);
+
     doc.setTextColor(100);
     doc.text(reporteInfo, 14, 30);
     doc.setFontSize(14);
@@ -231,7 +233,8 @@ export const TablesToPrint = ({
         { dataKey: "fechaRegistro", header: "Fecha de Registro" },
         { dataKey: "precio", header: "Precio" },
       ],
-      body: pasajes?.map((b: TBoleto) => ({
+
+      body: pasajes?.response?.map((b: TBoleto) => ({
         codigo: b.codigo,
         serie: b.serie,
         fechaRegistro: new Date(b.fechaRegistro).toLocaleDateString(),
@@ -251,7 +254,7 @@ export const TablesToPrint = ({
         { dataKey: "fechaEnvio", header: "Fecha de Registro" },
         { dataKey: "precio", header: "Precio" },
       ],
-      body: encomiendas?.map((e: TEncomienda) => ({
+      body: encomiendas?.response?.map((e: TEncomienda) => ({
         codigo: e.codigo,
         serie: e.serie,
         fechaEnvio: new Date(e.fechaEnvio).toLocaleDateString(),
@@ -271,7 +274,7 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
         { dataKey: "ruc", header: "RUC" },
       ],
-      body: facturas?.map((f: TFactura) => ({
+      body: facturas?.response?.map((f: TFactura) => ({
         codigo: f.codigo,
         serie: f.serie,
         fechaEnvio: new Date(f.fechaEnvio).toLocaleDateString(),
