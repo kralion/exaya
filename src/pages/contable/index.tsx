@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 const { Title, Text } = Typography;
 export default function Contable() {
   const { data: session } = useSession();
-  const router = useRouter();
+  // const router = useRouter();
   const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
@@ -114,11 +114,11 @@ export default function Contable() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  useEffect(() => {
-    if (session?.user?.rol !== "ADMIN") {
-      router.replace("/dashboard");
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session?.user?.rol !== "ADMIN") {
+  //     router.replace("/dashboard");
+  //   }
+  // }, [session, router]);
 
   return (
     <AppLayout>

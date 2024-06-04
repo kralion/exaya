@@ -23,6 +23,36 @@ export const boletosRouter = createTRPCRouter({
       orderBy: { fechaRegistro: "desc" },
     });
   }),
+  getCountOfMonthlyBoletos: publicProcedure.query(async ({ ctx }) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const result = await ctx.prisma.boleto.count({
+      where: {
+        fechaRegistro: {
+          gte: new Date(currentYear, currentMonth, 1),
+          lt: new Date(currentYear, currentMonth + 1, 1),
+        },
+      },
+    });
+
+    return result;
+  }),
+  getMonthlyBoletos: publicProcedure.query(async ({ ctx }) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const result = await ctx.prisma.boleto.findMany({
+      where: {
+        fechaRegistro: {
+          gte: new Date(currentYear, currentMonth, 1),
+          lt: new Date(currentYear, currentMonth + 1, 1),
+        },
+      },
+    });
+
+    return result;
+  }),
 
   getCountOfBoletosInLatest6Months: publicProcedure.query(async ({ ctx }) => {
     try {

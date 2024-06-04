@@ -17,6 +17,74 @@ export const encomiendasRouter = createTRPCRouter({
       orderBy: { fechaEnvio: "desc" },
     });
   }),
+  getCountOfMonthlyBoletosEncomiendas: publicProcedure.query(
+    async ({ ctx }) => {
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+
+      const result = await ctx.prisma.encomienda.count({
+        where: {
+          factura: false,
+          fechaEnvio: {
+            gte: new Date(currentYear, currentMonth, 1),
+            lt: new Date(currentYear, currentMonth + 1, 1),
+          },
+        },
+      });
+
+      return result;
+    }
+  ),
+  getMonthlyBoletosEncomiendas: publicProcedure.query(async ({ ctx }) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const result = await ctx.prisma.encomienda.findMany({
+      where: {
+        factura: false,
+        fechaEnvio: {
+          gte: new Date(currentYear, currentMonth, 1),
+          lt: new Date(currentYear, currentMonth + 1, 1),
+        },
+      },
+    });
+
+    return result;
+  }),
+  getCountOfMonthlyFacturasEncomiendas: publicProcedure.query(
+    async ({ ctx }) => {
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+
+      const result = await ctx.prisma.encomienda.count({
+        where: {
+          factura: true,
+          fechaEnvio: {
+            gte: new Date(currentYear, currentMonth, 1),
+            lt: new Date(currentYear, currentMonth + 1, 1),
+          },
+        },
+      });
+
+      return result;
+    }
+  ),
+  getMonthlyFacturasEncomiendas: publicProcedure.query(async ({ ctx }) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const result = await ctx.prisma.encomienda.findMany({
+      where: {
+        factura: true,
+        fechaEnvio: {
+          gte: new Date(currentYear, currentMonth, 1),
+          lt: new Date(currentYear, currentMonth + 1, 1),
+        },
+      },
+    });
+
+    return result;
+  }),
   getAllFacturasEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({
       where: { factura: true },
