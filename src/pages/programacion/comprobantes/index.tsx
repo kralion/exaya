@@ -24,6 +24,7 @@ import { useMessageContext } from "@/context/MessageContext";
 
 const { Title } = Typography;
 function ProgramacionComprobantes() {
+  const { openMessage } = useMessageContext();
   const { data: pasajesCount } =
     api.boletos.getCountOfMonthlyBoletos.useQuery();
   const { data: encomiendasCount } =
@@ -31,18 +32,27 @@ function ProgramacionComprobantes() {
   const { data: facturasCount } =
     api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery();
   const [date, setDate] = useState("");
-  const { openMessage } = useMessageContext();
   const [print, setPrint] = useState(false);
   const totalBoletos = (pasajesCount || 0) + (encomiendasCount || 0);
   const formatter: StatisticProps["formatter"] = (value) => (
     <CountUp delay={2000} duration={10} end={value as number} separator="," />
   );
+  function isLastDayOfMonth() {
+    const date = new Date();
+    const tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.getDate() === 1;
+  }
+
   function handlePrint() {
-    setPrint(true);
-    openMessage({
-      content: "Documento generado con éxito",
-      type: "success",
-    });
+    if (isLastDayOfMonth()) {
+      setPrint(true);
+    } else {
+      openMessage({
+        content: "Solo se puede generar el último día del mes",
+        type: "error",
+      });
+    }
   }
 
   useEffect(() => {
@@ -67,12 +77,17 @@ function ProgramacionComprobantes() {
         <div className="flex w-1/2 gap-3.5">
           <Card
             className=" rounded-xl shadow-lg duration-200 dark:hover:bg-black/50"
+            size="small"
             style={{
-              width: 300,
+              width: 350,
               height: 150,
             }}
             type="inner"
-            title={<Title level={4}>Boletos </Title>}
+            title={
+              <Title level={4} className="pt-2">
+                Boletos
+              </Title>
+            }
           >
             <Statistic
               title="Total de Boletos Mensuales (TBM)"
@@ -82,13 +97,18 @@ function ProgramacionComprobantes() {
             />
           </Card>
           <Card
+            size="small"
             style={{
-              width: 300,
+              width: 350,
               height: 150,
             }}
             type="inner"
             className="rounded-xl shadow-lg duration-200 dark:hover:bg-black/50"
-            title={<Title level={4}>Facturas </Title>}
+            title={
+              <Title level={4} className="pt-2">
+                Facturas
+              </Title>
+            }
           >
             <Statistic
               title="Total de Facturas Mensuales (TFM)"
@@ -130,7 +150,13 @@ function ProgramacionComprobantes() {
           ]}
         />
         <Flex vertical gap="small" align="center">
-          <Button onClick={handlePrint} type="primary" block>
+          <Button
+            // disabled={!isLastDayOfMonth()}
+            title="Solo se puede generar el último día del mes"
+            onClick={handlePrint}
+            type="primary"
+            block
+          >
             Descargar PDF
           </Button>
           {print && (
@@ -220,14 +246,13 @@ export const TablesToPrint = ({
     doc.setFontSize(16);
     doc.text("REPORTE CONTABLE MENSUAL", 14, 20);
     doc.setFontSize(11);
-
     doc.setTextColor(100);
     doc.text(reporteInfo, 14, 30);
     doc.setFontSize(14);
     doc.setTextColor(0);
-    doc.text("BOLETOS DE VIAJE", 14, 60);
+    doc.text("BOLETOS DE VIAJE", 14, 50);
     autoTable(doc, {
-      startY: 65,
+      startY: 55,
       columns: [
         { dataKey: "codigo", header: "Código" },
         { dataKey: "serie", header: "Serie" },
@@ -239,7 +264,10 @@ export const TablesToPrint = ({
         codigo: b.codigo,
         serie: b.serie,
         fechaRegistro: new Date(b.fechaRegistro).toLocaleDateString(),
-        precio: b.precio,
+        precio: b.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
       })),
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -257,9 +285,12 @@ export const TablesToPrint = ({
       ],
       body: encomiendas?.map((e: TEncomienda) => ({
         codigo: e.codigo,
-        serie: e.serie,
+        serie: e.serie.toUpperCase(),
         fechaEnvio: new Date(e.fechaEnvio).toLocaleDateString(),
-        precio: e.precio,
+        precio: e.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
       })),
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -272,24 +303,31 @@ export const TablesToPrint = ({
         { dataKey: "codigo", header: "Código" },
         { dataKey: "serie", header: "Serie" },
         { dataKey: "fechaEnvio", header: "Fecha de Registro" },
-        { dataKey: "precio", header: "Precio" },
         { dataKey: "ruc", header: "RUC" },
+        { dataKey: "precio", header: "Precio" },
       ],
       body: facturas?.map((f: TFactura) => ({
         codigo: f.codigo,
-        serie: f.serie,
+        serie: f.serie.toUpperCase(),
         fechaEnvio: new Date(f.fechaEnvio).toLocaleDateString(),
-        precio: f.precio,
         ruc: f.ruc,
+        precio: f.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
       })),
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const finalY3 = (doc as any).lastAutoTable.finalY as number;
     doc.setFontSize(11);
     doc.setTextColor(100);
-    doc.text(`Boletos totales para el mes: ${boletosCount}`, 14, finalY3 + 20);
     doc.text(
-      `Facturas Totales para el mess: ${facturasCount}`,
+      `# Boletos totales para el mes: ${boletosCount}`,
+      14,
+      finalY3 + 20
+    );
+    doc.text(
+      `# Facturas totales para el mess: ${facturasCount}`,
       14,
       finalY3 + 25
     );

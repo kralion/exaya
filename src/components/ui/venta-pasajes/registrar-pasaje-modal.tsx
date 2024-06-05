@@ -191,7 +191,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         serie: session?.user.serieBoleto ?? "AG001",
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        estado: "PAGADO",
+        estado: boletoStatus,
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
@@ -235,6 +235,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         pasajeroDni: boletoSingle?.response?.pasajeroDni,
         precio: boletoSingle?.response?.precio,
         estado: boletoSingle?.response?.estado,
+        destino: boletoSingle?.response?.destino,
       });
     }
   }, [selectedBoleto?.id, form, boletoSingle?.response]);
@@ -516,12 +517,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 label="Destino"
                 rules={[{ required: true, message: "Requerido" }]}
               >
-                <Select style={{ width: 120 }} allowClear>
+                <Select style={{ width: 120 }}>
                   <Select.Option value="Huanta">Huanta</Select.Option>
                   <Select.Option value="Ayacucho">Ayacucho</Select.Option>
                   <Select.Option value="Izquchaca">Izquchaca</Select.Option>
                   <Select.Option value="Mayocc">Mayocc</Select.Option>
                   <Select.Option value="Anco">Anco</Select.Option>
+                  <Select.Option value="Huancayo">Huancayo</Select.Option>
                 </Select>
               </Form.Item>
               <Form.Item

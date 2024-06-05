@@ -133,7 +133,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
                 ? "exception"
                 : "success"
             }
-            percent={percent}
+            percent={parseFloat(percent.toFixed(2))}
             size={[680, 10]}
           />
           <List

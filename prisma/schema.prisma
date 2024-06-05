@@ -37,6 +37,7 @@ enum SerieEncomienda {
     EAG008
     EAG009
     EAG010
+    FAC001
 }
 
 model Boleto {
@@ -85,6 +86,7 @@ model Conductor {
 model Encomienda {
     codigo                Int             @default(autoincrement())
     serie                 SerieEncomienda @default(EAG001)
+    destino               String
     descripcion           String
     usuario               Usuario         @relation(fields: [usuarioId], references: [id])
     usuarioId             String

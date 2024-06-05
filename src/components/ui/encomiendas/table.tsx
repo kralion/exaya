@@ -44,10 +44,8 @@ export function EncomiendasTable({
     },
     {
       title: "Destino",
-      dataIndex: "viaje",
+      dataIndex: "destino",
       key: "destino",
-      render: (viaje: { ruta: { ciudadDestino: string } }) =>
-        viaje.ruta.ciudadDestino,
     },
     {
       title: "Fecha de Envío",

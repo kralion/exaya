@@ -131,7 +131,11 @@ export default function Page() {
                     {ubicacion === "Origen"
                       ? `${data?.response?.viaje.ruta.ciudadOrigen} - ${data?.response?.viaje.ruta.terminalOrigen}`
                       : ubicacion === "Destino"
-                      ? `${data?.response?.viaje.ruta.ciudadDestino} - ${data?.response?.viaje.ruta.terminalDestino}`
+                      ? data?.response?.destino === "Huanta"
+                        ? "Huanta - Agencia Jr. Gervacio Santillana"
+                        : data?.response?.destino === "Ayacucho"
+                        ? "Ayacucho - Counter Terminal Terrestre"
+                        : "Huancayo - Agencia Jr. Angaraes"
                       : null}
                   </div>
                 </div>

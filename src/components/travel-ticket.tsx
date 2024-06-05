@@ -1,14 +1,21 @@
 import { api } from "@/utils/api";
 import { Divider } from "antd";
 import { Inter } from "next/font/google";
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "700"],
 });
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
   function TravelTicketPrint({ id }, ref) {
-    const { data } = api.boletos.getBoletosById.useQuery({ id });
+    const { data, refetch } = api.boletos.getBoletosById.useQuery({ id });
+    useEffect(() => {
+      const fetchData = async () => {
+        await refetch();
+      };
+
+      void fetchData();
+    }, [id, refetch]);
     if (!id) {
       return null;
     }
@@ -177,10 +184,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               {data?.response?.codigo}
             </p>
             <p>DNI: {data?.response?.pasajeroDni}</p>
-            <p>
-              Ruta: {data?.response?.viaje.ruta.ciudadOrigen}-
-              {data?.response?.viaje.ruta.ciudadDestino}
-            </p>
+            <p>Destino: {data?.response?.destino}</p>
             <p className="font-mono font-bold">
               Asiento: {data?.response?.asiento}
             </p>

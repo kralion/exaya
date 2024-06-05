@@ -65,16 +65,32 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               {data?.response?.destinatarioApellidos}
             </span>
           </p>
-          <p className="">
+          <p>
             <span className="  text-gray-500">Destino : </span>
-            <span className=" font-bold uppercase">
-              {data?.response?.viaje.ruta.ciudadDestino}
+            <span>
+              {data?.response?.destino === "Huanta"
+                ? "Huanta - Agencia Jr. Gervacio Santillana"
+                : data?.response?.destino === "Ayacucho"
+                ? "Ayacucho - Counter Terminal Terrestre"
+                : "Huancayo - Agencia Jr. Angaraes"}
             </span>
           </p>
           <p>
             <span className="  text-gray-500">Descripción : </span>
             <span className="  ">{data?.response?.descripcion}</span>
           </p>
+          {data?.response?.factura && (
+            <p>
+              <span className="  text-gray-500">Razón Social : </span>
+              <span className="  ">{data?.response?.empresa}</span>
+            </p>
+          )}
+          {data?.response?.factura && (
+            <p>
+              <span className="  text-gray-500">RUC : </span>
+              <span className="  ">{data?.response?.ruc}</span>
+            </p>
+          )}
           <p>
             <span className="  text-gray-500">Codigo de Rastreo : </span>
             <span className="font-mono">{data?.response?.codigoRastreo}</span>
@@ -127,7 +143,7 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </p>
           </div>
         </div>
-        <div className="flex justify-center ">
+        <div className="flex justify-center bg-white">
           <div className="flex h-40 w-40  items-center justify-center rounded-lg bg-white shadow-md">
             <img
               alt="Código QR"
@@ -178,6 +194,15 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <span>Descripción : </span>
               <span className="font-bold  ">{data?.response?.descripcion}</span>
             </p>
+            {
+              data?.response?.factura && (
+                <p>
+                  <span>Razón Social : </span>
+                  <span className="  ">{data?.response?.empresa}</span>
+                </p>
+              )
+             
+            }
           </div>
           <Divider />
           <div>

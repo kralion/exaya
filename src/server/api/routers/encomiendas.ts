@@ -2,6 +2,7 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
 import { encomiendaSchema } from "@/schemas";
+import { TRPCError } from "@trpc/server";
 
 export const encomiendasRouter = createTRPCRouter({
   getAllEncomiendas: publicProcedure.query(({ ctx }) => {
@@ -189,14 +190,12 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Todos los datos relacionados con la encomienda han sido eliminados de la base de datos",
+          message: "Encomienda eliminada",
         };
       } catch (error) {
         return {
           status: "error",
-          message:
-            "Ocurrió un error al eliminar la encomienda, por favor recargue la página e intente nuevamente",
+          message: "Ocurrió un error ",
         };
       }
     }),
@@ -266,15 +265,13 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Puedes ver los detalles de la encomien en la tabla de encomiendas",
+          message: "Encomienda Registrada",
         };
       } catch (error) {
-        return {
-          status: "error",
-          message:
-            "Ocurrió un error inesperado al crear la encomienda, por favor recarge la página e intente nuevamente",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: error as string,
+        });
       }
     }),
 
@@ -288,15 +285,13 @@ export const encomiendasRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Los detalles de la encomienda fueron actualizados con los nuevos valores",
+          message: "Cambios Guardados",
         };
       } catch (error) {
-        return {
-          status: "error",
-          message:
-            "Ocurrió un error inesperado al actualizar la encomienda, por favor recarge la página e intente nuevamente",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error al actualizar la encomienda",
+        });
       }
     }),
 

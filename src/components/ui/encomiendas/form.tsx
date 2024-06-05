@@ -39,7 +39,6 @@ export function EncomiendasForm({
       id: encomiendaIdToEdit,
     }
   );
-  const [pagado, setPagado] = useState<boolean>(false);
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
 
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
@@ -99,12 +98,12 @@ export function EncomiendasForm({
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        pagado,
         codigoRastreo: trackingCode,
-        id: encomiendaIdToEdit,
-        serie: session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
+        id: encomiendaIdToEdit,
+        serie: facturaUI ? "FAC001" : session?.user.serieEncomienda || "EAG001",
         fechaEnvio: new Date(values.fechaEnvio),
+
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
         destinatarioNombres: receptorInformacion.data.nombres,
@@ -156,8 +155,7 @@ export function EncomiendasForm({
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        pagado,
-        serie: session?.user.serieEncomienda || "EAG001",
+        serie: facturaUI ? "FAC001" : session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
         codigoRastreo: trackingCode,
         fechaEnvio: new Date(values.fechaEnvio),
@@ -204,17 +202,14 @@ export function EncomiendasForm({
   useEffect(() => {
     if (encomiendaIdToEdit && singleEncomienda?.response) {
       form.setFieldsValue({
-        remitenteDni: setRemitenteDNI(singleEncomienda.response.remitenteDni),
-        destinatarioDni: setDestinatarioDNI(
-          singleEncomienda.response.destinatarioDni
-        ),
+        remitenteDni: singleEncomienda.response.remitenteDni,
+        destinatarioDni: singleEncomienda.response.destinatarioDni,
         fechaEnvio: dayjs(singleEncomienda.response.fechaEnvio),
         viajeId: singleEncomienda.response.viajeId,
-        codigoRastreo: setTrackingCode(
-          singleEncomienda.response.codigoRastreo 
-        ),
+        codigoRastreo: setTrackingCode(singleEncomienda.response.codigoRastreo),
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
+        destino: singleEncomienda.response.destino as string,
         empresa: singleEncomienda.response.empresa,
         pagado: singleEncomienda.response.pagado,
         precio: singleEncomienda.response.precio,
@@ -281,7 +276,6 @@ export function EncomiendasForm({
           }
         >
           <Input
-            placeholder="23354545"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setRemitenteDNI(event.target.value);
             }}
@@ -327,7 +321,6 @@ export function EncomiendasForm({
           }
         >
           <Input
-            placeholder="54774145"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setDestinatarioDNI(event.target.value);
             }}
@@ -345,13 +338,14 @@ export function EncomiendasForm({
             <DatePicker
               style={{ width: 150 }}
               onChange={(date) => setDateQuery(date)}
+              placeholder=""
               className="w-full min-w-[150px]"
-              placeholder="18/05/2024"
             />
           </Form.Item>
           <Form.Item
             name="viajeId"
-            tooltip="Qué viaje llevará la encomienda"
+            tooltip="En qué viaje llevará la encomienda"
+            help="Sé cuidadoso, este valor es importante"
             label="Viaje"
             rules={[
               {
@@ -361,9 +355,9 @@ export function EncomiendasForm({
             ]}
           >
             <Select
+              status="warning"
               loading={isLoadingViajesDiariosDisponibles}
               style={{ width: 340 }}
-              placeholder="Selva Central - Huancayo - 08:30 PM"
             >
               {viajesDiariosDisponibles?.response?.map(
                 (viaje: {
@@ -384,19 +378,32 @@ export function EncomiendasForm({
             </Select>
           </Form.Item>
         </div>
-        <Form.Item
-          name="precio"
-          label="Precio"
-          rules={[
-            {
-              min: 1,
-              required: true,
-              message: "Requerido",
-            },
-          ]}
-        >
-          <Input addonBefore="S/." type="number" placeholder="25" />
-        </Form.Item>
+        <div className="flex gap-4">
+          <Form.Item
+            name="precio"
+            label="Precio"
+            rules={[
+              {
+                min: 1,
+                required: true,
+                message: "Requerido",
+              },
+            ]}
+          >
+            <Input addonBefore="S/." type="number" />
+          </Form.Item>
+          <Form.Item
+            name="destino"
+            label="Destino"
+            rules={[{ required: true, message: "Requerido" }]}
+          >
+            <Select className="min-w-[140px]">
+              <Select.Option value="Huanta">Huanta</Select.Option>
+              <Select.Option value="Ayacucho">Ayacucho</Select.Option>
+              <Select.Option value="Huancayo">Huancayo</Select.Option>
+            </Select>
+          </Form.Item>
+        </div>
         <div className="flex justify-between">
           <Form.Item
             name="factura"
@@ -411,7 +418,6 @@ export function EncomiendasForm({
             <Select
               onChange={(value) => setFacturaUI(value as boolean)}
               style={{ width: 150 }}
-              placeholder="Boleto"
             >
               <Select.Option value={false}>Boleto</Select.Option>
               <Select.Option value={true}>Factura</Select.Option>
@@ -419,7 +425,8 @@ export function EncomiendasForm({
           </Form.Item>
           <Form.Item
             name="pagado"
-            tooltip="¿Ya se pagó por la encomienda?"
+            tooltip="¿La encomienda va ir pagada
+            ?"
             label="Pagado"
           >
             <Switch
@@ -427,27 +434,21 @@ export function EncomiendasForm({
               unCheckedChildren="No"
               style={{ width: 80 }}
               className=" bg-red-500 shadow-lg"
-              onChange={(checked) => {
-                setPagado(checked);
-              }}
             />
           </Form.Item>
         </div>
         <Form.Item
           className="col-span-2"
           name="descripcion"
-          label="Descripción"
+          label="Descripción de la Encomienda"
         >
-          <Input.TextArea
-            placeholder="Qué contiene y como se vé la encomienda ?"
-            autoSize={{ minRows: 1, maxRows: 2 }}
-          />
+          <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} />
         </Form.Item>
         {facturaUI === true ? (
           <Space className="col-span-2 flex gap-4">
             <Form.Item
               name="empresa"
-              label="Nombre de la Empresa"
+              label="Razón Social"
               rules={[
                 {
                   required: true,
@@ -461,7 +462,6 @@ export function EncomiendasForm({
                   width: 505,
                 }}
                 addonBefore={<FaBuilding />}
-                placeholder="Empresa de Transportes SAC"
               />
             </Form.Item>
             <Form.Item
@@ -474,7 +474,6 @@ export function EncomiendasForm({
                 addonBefore={<FaBuildingShield />}
                 maxLength={11}
                 style={{ width: 505 }}
-                placeholder="12345678901"
               />
             </Form.Item>
           </Space>
@@ -487,7 +486,7 @@ export function EncomiendasForm({
             loading={isLoadingCreateEncomienda || isLoadingUpdateEncomienda}
           >
             {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar Encomienda"}
-          </Button>{" "}
+          </Button>
           <Button htmlType="reset" onClick={handleCancel}>
             Cancelar
           </Button>

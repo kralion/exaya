@@ -1,8 +1,25 @@
 import { z } from "zod";
 
+const serie = z.union([
+  z.enum([
+    "EAG001",
+    "EAG002",
+    "EAG003",
+    "EAG004",
+    "EAG005",
+    "EAG006",
+    "EAG007",
+    "EAG008",
+    "EAG009",
+    "EAG010",
+  ]),
+  z.literal("FAC001"),
+]);
+
 const encomiendaSchema = z.object({
   remitenteDni: z.string(),
   usuarioId: z.string(),
+  destino: z.string(),
   destinatarioDni: z.string(),
   codigoRastreo: z.string(),
   destinatarioNombres: z.string(),
@@ -17,18 +34,7 @@ const encomiendaSchema = z.object({
   factura: z.boolean(),
   pagado: z.boolean(),
   descripcion: z.string(),
-  serie: z.enum([
-    "EAG001",
-    "EAG002",
-    "EAG003",
-    "EAG004",
-    "EAG005",
-    "EAG006",
-    "EAG007",
-    "EAG008",
-    "EAG009",
-    "EAG010",
-  ]),
+  serie: serie,
 });
 
 export default encomiendaSchema;
