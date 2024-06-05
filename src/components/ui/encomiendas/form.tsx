@@ -209,7 +209,7 @@ export function EncomiendasForm({
         codigoRastreo: setTrackingCode(singleEncomienda.response.codigoRastreo),
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
-        destino: singleEncomienda.response.destino as string,
+        destino: singleEncomienda.response.destino,
         empresa: singleEncomienda.response.empresa,
         pagado: singleEncomienda.response.pagado,
         precio: singleEncomienda.response.precio,
