@@ -194,6 +194,7 @@ export const TablesToPrint = ({
     currentDate.getMonth(),
     1
   );
+
   const endOfMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
@@ -234,7 +235,7 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
       ],
 
-      body: pasajes?.response?.map((b: TBoleto) => ({
+      body: pasajes?.map((b: TBoleto) => ({
         codigo: b.codigo,
         serie: b.serie,
         fechaRegistro: new Date(b.fechaRegistro).toLocaleDateString(),
@@ -254,7 +255,7 @@ export const TablesToPrint = ({
         { dataKey: "fechaEnvio", header: "Fecha de Registro" },
         { dataKey: "precio", header: "Precio" },
       ],
-      body: encomiendas?.response?.map((e: TEncomienda) => ({
+      body: encomiendas?.map((e: TEncomienda) => ({
         codigo: e.codigo,
         serie: e.serie,
         fechaEnvio: new Date(e.fechaEnvio).toLocaleDateString(),
@@ -274,7 +275,7 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
         { dataKey: "ruc", header: "RUC" },
       ],
-      body: facturas?.response?.map((f: TFactura) => ({
+      body: facturas?.map((f: TFactura) => ({
         codigo: f.codigo,
         serie: f.serie,
         fechaEnvio: new Date(f.fechaEnvio).toLocaleDateString(),

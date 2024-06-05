@@ -38,7 +38,7 @@ export const encomiendasRouter = createTRPCRouter({
   getMonthlyBoletosEncomiendas: publicProcedure.query(async ({ ctx }) => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
-    await ctx.prisma.encomienda.findMany({
+    const encomiendas = await ctx.prisma.encomienda.findMany({
       where: {
         factura: false,
         fechaEnvio: {
@@ -47,7 +47,9 @@ export const encomiendasRouter = createTRPCRouter({
         },
       },
     });
+    return encomiendas;
   }),
+
   getCountOfMonthlyFacturasEncomiendas: publicProcedure.query(
     async ({ ctx }) => {
       const currentMonth = new Date().getMonth();
@@ -67,8 +69,7 @@ export const encomiendasRouter = createTRPCRouter({
   getMonthlyFacturasEncomiendas: publicProcedure.query(async ({ ctx }) => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
-
-    await ctx.prisma.encomienda.findMany({
+    const data = await ctx.prisma.encomienda.findMany({
       where: {
         factura: true,
         fechaEnvio: {
@@ -77,6 +78,7 @@ export const encomiendasRouter = createTRPCRouter({
         },
       },
     });
+    return data;
   }),
   getAllFacturasEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({

@@ -41,8 +41,7 @@ export const boletosRouter = createTRPCRouter({
   getMonthlyBoletos: publicProcedure.query(async ({ ctx }) => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
-
-    await ctx.prisma.boleto.findMany({
+    const data = await ctx.prisma.boleto.findMany({
       where: {
         fechaRegistro: {
           gte: new Date(currentYear, currentMonth, 1),
@@ -50,6 +49,7 @@ export const boletosRouter = createTRPCRouter({
         },
       },
     });
+    return data;
   }),
 
   getCountOfBoletosInLatest6Months: publicProcedure.query(async ({ ctx }) => {
