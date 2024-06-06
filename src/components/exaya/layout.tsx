@@ -111,7 +111,7 @@ export default function AppLayout({ children }: LayoutProps) {
             ) : (
               <Button
                 type="text"
-                className=" flex h-10 w-full items-center gap-2 rounded-b-xl rounded-t-lg pl-5 text-left"
+                className=" flex h-10 w-full items-center justify-start gap-2 rounded-b-xl rounded-t-lg pl-5   text-left"
                 danger
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onClick={handleSignOut}

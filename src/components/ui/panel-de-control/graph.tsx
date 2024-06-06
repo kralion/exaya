@@ -103,7 +103,7 @@ export default function ControlPaneGraph() {
         data={data}
       >
         <Legend
-          align="right"
+          align="left"
           iconType="circle"
           verticalAlign="top"
           height={10}
