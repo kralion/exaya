@@ -17,15 +17,18 @@ import {
   Typography,
 } from "antd";
 import { useSession } from "next-auth/react";
-// import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { LuMoveLeft } from "react-icons/lu";
+import { TbInfoTriangleFilled } from "react-icons/tb";
 
 const { Title, Text } = Typography;
 type Estado = "PAGADO" | "RESERVADO" | "DISPONIBLE";
 export default function Administracion() {
   const [dateQuery, setDateQuery] = useState(new Date());
   const { data: session } = useSession();
-  // const router = useRouter();
+  const router = useRouter();
   const [usuarioIdToEdit, setUsuarioIdToEdit] = useState<string>("");
   const [currentViajeId, setCurrentViajeId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +45,7 @@ export default function Administracion() {
       id: currentViajeId,
     });
   const [horarios, setHorarios] = useState<Date[]>([]);
+  const [isNotAdmin, setIsNotAdmin] = useState(false);
 
   const onChangeRuta = (rutaId: string) => {
     if (!salidasDiarias?.response) {
@@ -108,11 +112,35 @@ export default function Administracion() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  // useEffect(() => {
-  //   if (session?.user?.rol !== "ADMIN") {
-  //     router.replace("/dashboard");
-  //   }
-  // }, [session, router]);
+  useEffect(() => {
+    if (session?.user?.rol !== "ADMIN") {
+      setIsNotAdmin(true);
+    }
+  }, [session, router]);
+
+  if (isNotAdmin) {
+    return (
+      <AppLayout>
+        <AppHead title="Administracion" />
+        <Space
+          direction="vertical"
+          className="h-full w-full items-center justify-center gap-2 text-center"
+        >
+          <TbInfoTriangleFilled className="h-24 w-24 text-red-500 drop-shadow-md" />
+
+          <Title level={5}>Página restringida para Administradores</Title>
+
+          <Link
+            className="flex items-center gap-1 text-red-500 underline hover:text-red-400 hover:underline hover:opacity-80"
+            href="/dashboard"
+          >
+            <LuMoveLeft />
+            Volver a la página principal
+          </Link>
+        </Space>
+      </AppLayout>
+    );
+  }
   return (
     <AppLayout>
       <AppHead title="Administracion" />

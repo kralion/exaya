@@ -1,26 +1,33 @@
+"use client";
 import AppLayout from "@/components/exaya/layout";
 import AppHead from "@/components/landing/head";
 import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
 import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
+import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import {
   Button,
   Card,
   Flex,
   FloatButton,
   QRCode,
+  Space,
   Statistic,
   Timeline,
   Typography,
   type StatisticProps,
 } from "antd";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { FaRegFile, FaRegFileLines } from "react-icons/fa6";
-import { useMessageContext } from "@/context/MessageContext";
+import { LuMoveLeft } from "react-icons/lu";
+import { TbInfoTriangleFilled } from "react-icons/tb";
 
 const { Title } = Typography;
 function ProgramacionComprobantes() {
@@ -33,6 +40,9 @@ function ProgramacionComprobantes() {
     api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery();
   const [date, setDate] = useState("");
   const [print, setPrint] = useState(false);
+  const [isNotAdmin, setIsNotAdmin] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
   const totalBoletos = (pasajesCount || 0) + (encomiendasCount || 0);
   const formatter: StatisticProps["formatter"] = (value) => (
     <CountUp delay={2000} duration={10} end={value as number} separator="," />
@@ -66,6 +76,36 @@ function ProgramacionComprobantes() {
         .replace(/\//g, "-")
     );
   }, []);
+
+  useEffect(() => {
+    if (session?.user?.rol !== "ADMIN") {
+      setIsNotAdmin(true);
+    }
+  }, [session, router]);
+
+  if (isNotAdmin) {
+    return (
+      <AppLayout>
+        <AppHead title="Administracion" />
+        <Space
+          direction="vertical"
+          className="h-full w-full items-center justify-center gap-2 text-center"
+        >
+          <TbInfoTriangleFilled className="h-24 w-24 text-red-500 drop-shadow-md" />
+
+          <Title level={5}>Página restringida para Administradores</Title>
+
+          <Link
+            className="flex items-center gap-1 text-red-500 underline hover:text-red-400 hover:underline hover:opacity-80"
+            href="/dashboard"
+          >
+            <LuMoveLeft />
+            Volver a la página principal
+          </Link>
+        </Space>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
