@@ -194,14 +194,14 @@ export default function Login() {
           </Form>
           <div className="z-10 flex gap-4 p-4 text-xs  text-zinc-600 dark:text-zinc-400">
             <p className="flex items-center gap-1 font-mono ">
-              <HiOutlineUser /> <span>tomas</span>
+              <HiOutlineUser /> <span>juan</span>
             </p>
             <p className="flex items-center gap-1 font-mono">
-              <GoKey /> <span>exaya</span>
+              <GoKey /> <span>3xay4</span>
             </p>
           </div>
           <div className="fixed bottom-0 right-0 z-10 p-2  text-xs">
-            <h1 className="font-mono dark:text-white">v3.1.12</h1>
+            <h1 className="font-mono dark:text-white">v3.1.7</h1>
           </div>
         </AOSWrapper>
       </div>

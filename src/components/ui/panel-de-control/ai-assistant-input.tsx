@@ -1,9 +1,9 @@
 import { useMessageContext } from "@/context/MessageContext";
-import { Button, Input, type InputRef, Space } from "antd";
+import { Button, Flex, Input, Space, type InputRef } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
-import { BsSendFill } from "react-icons/bs";
+import { BsStars } from "react-icons/bs";
 import { IoMic, IoMicOutline } from "react-icons/io5";
 
 export const AIAssistantInput = () => {
@@ -23,8 +23,7 @@ export const AIAssistantInput = () => {
     setTimeout(() => {
       setGenerating(false);
       openMessage({
-        content:
-          "Operación realizada con éxito, dirígete al panel correspondiente para revisar",
+        content: "Operación exitosa",
         type: "success",
         duration: 3,
       });
@@ -43,8 +42,8 @@ export const AIAssistantInput = () => {
   };
 
   return (
-    <Space>
-      <Space.Compact style={{ width: "100%" }}>
+    <Flex align="center" gap={8}>
+      <Space.Compact>
         <Input
           title="También puedes usar Ctrl + Enter para enfocar el input"
           onPressEnter={handleGenerate}
@@ -72,18 +71,13 @@ export const AIAssistantInput = () => {
       </Space.Compact>
       <Button
         type="primary"
-        className="relative px-5"
-        icon={
-          <BsSendFill
-            size={13}
-            className="absolute left-2 top-2 rotate-45  text-white"
-          />
-        }
+        iconPosition="end"
+        icon={<BsStars size={20} />}
         onClick={handleGenerate}
         loading={generating}
       >
         Generar
       </Button>
-    </Space>
+    </Flex>
   );
 };

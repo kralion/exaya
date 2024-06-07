@@ -5,7 +5,7 @@ import { Space, Tag, Typography } from "antd";
 import { Literata } from "next/font/google";
 import Image from "next/image";
 import { BsWhatsapp } from "react-icons/bs";
-import { IoMdBook } from "react-icons/io";
+import { IoVideocamOutline } from "react-icons/io5";
 const { Text } = Typography;
 
 const literata = Literata({
@@ -39,9 +39,8 @@ export default function Soporte() {
               Estás teniendo algún problema ?
             </h1>
             <Text>
-              Si tienes algún problema con la software, puedes contactarnos
-              instantáneamente por medio de nuestro chat en vivo o agendar una
-              cita con nosotros.
+              Puedes contactarnos instantáneamente por medio de nuestro chat en
+              vivo o agendar una cita con nosotros.
             </Text>
           </Space>
           <div className="flex gap-3">
@@ -58,33 +57,18 @@ export default function Soporte() {
               </Tag>
             </a>
             <a
-              href="mailto:joan300501@gmail.com?subject=Soporte,%20Exaya!&body=Hola,%20Tengo un problema!
-            "
+              href="https://cal.com/brayanpaucar/soporte-exaya"
+              target="_blank"
             >
               <Tag
                 color="volcano-inverse"
                 className="flex cursor-pointer items-center gap-2 rounded-full px-7 py-2 shadow-md hover:bg-orange-500"
               >
-                <IoMdBook size={15} />
-                Agendar una cita
+                <IoVideocamOutline size={15} />
+                Reservar una cita
               </Tag>
             </a>
           </div>
-          <Text>Nuestros medios de comuncación</Text>
-          <Space className="flex gap-3">
-            <Tag className="flex border-none ">
-              E-mail :
-              <Text className="flex items-center gap-2 pl-1  text-blue-600">
-                joan300501@gmail.com
-              </Text>
-            </Tag>
-            <Tag className="flex border-none">
-              Teléfono :
-              <Text className="flex items-center gap-2 pl-1 text-blue-600">
-                914 019 629
-              </Text>
-            </Tag>
-          </Space>
         </div>
       </Space>
     </AppLayout>

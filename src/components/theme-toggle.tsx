@@ -1,9 +1,8 @@
-import React from "react";
 import { FloatButton } from "antd";
-import { TiWeatherSunny } from "react-icons/ti";
-import { FaRegEye } from "react-icons/fa";
-import { IoMdMoon } from "react-icons/io";
 import { useEffect } from "react";
+import { BsPaintBucket } from "react-icons/bs";
+import { IoMdMoon } from "react-icons/io";
+import { TiWeatherSunny } from "react-icons/ti";
 
 export default function ThemeToggle({
   setTheme,
@@ -20,8 +19,8 @@ export default function ThemeToggle({
   return (
     <FloatButton.Group
       trigger="hover"
-      style={{ left: 5, bottom: 5 }}
-      icon={<FaRegEye />}
+      style={{ left: 7, bottom: 7 }}
+      icon={<BsPaintBucket />}
     >
       <FloatButton
         onClick={() => {

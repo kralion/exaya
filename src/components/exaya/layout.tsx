@@ -13,8 +13,8 @@ import {
   LuFolderClock,
   LuHelpingHand,
   LuLayoutDashboard,
-  LuTicket,
   LuLogOut,
+  LuTicket,
 } from "react-icons/lu";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 const { Header, Footer, Sider, Content } = Layout;
@@ -67,7 +67,7 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <MessageProvider>
-      <Layout className="p-4">
+      <Layout className="min-h-screen p-4">
         <Sider
           className="h-fit rounded-lg border-2 border-transparent border-opacity-50  shadow-xl  dark:border-zinc-800"
           collapsed={isCollapsed}
@@ -123,21 +123,19 @@ export default function AppLayout({ children }: LayoutProps) {
           </div>
         </Sider>
         <Layout
-          className={`space-y-2 duration-500 ${
+          className={`space-y-2 duration-300 ${
             isCollapsed ? "ml-14 " : "ml-52"
           }`}
         >
           <Header
-            className="  relative flex rounded-lg border-2 border-transparent border-opacity-50 px-3  shadow-md dark:border-zinc-800"
+            className="flex w-full items-center justify-between rounded-lg border-2 border-transparent  border-opacity-50   px-3 shadow-md dark:border-zinc-800"
             style={{
               background: colorBgContainer,
               borderRadius: 14,
             }}
           >
             <AIAssistantInput />
-            <h3 className=" absolute right-5  text-center font-bold text-primary  ">
-              Expreso Ayacucho
-            </h3>
+            <h3 className="font-bold text-primary  ">Expreso Ayacucho</h3>
           </Header>
 
           <Content
@@ -146,11 +144,11 @@ export default function AppLayout({ children }: LayoutProps) {
               padding: 21,
               borderRadius: 14,
             }}
-            className="min-h-[620px] rounded-lg border-2 border-transparent border-opacity-50  bg-purple-100  shadow-lg  dark:border-zinc-800"
+            className="min-h-[620px] rounded-lg border-2 border-transparent border-opacity-50  bg-purple-100 shadow-lg  dark:border-zinc-800  dark:bg-zinc-700"
           >
             {children}
           </Content>
-          <Footer className="my-5 text-center text-sm text-zinc-400">
+          <Footer className="my-5 bg-transparent text-center text-sm text-zinc-400">
             © 2024 Exaya Inc. Todos los derechos reservados.
           </Footer>
         </Layout>
