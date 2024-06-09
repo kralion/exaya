@@ -120,14 +120,10 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       const response = await fetch("/api/webook");
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const paymentResponse = await response.json();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (paymentResponse.status === 200) {
+      if (!response.ok && response.status !== 200) {
         await createBoleto(values);
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.log(error);

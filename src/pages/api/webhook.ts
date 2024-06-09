@@ -35,17 +35,11 @@ export async function POST(req: Request) {
 
     console.log(body);
 
-    // Logic according to event
     if (eventType === "order_created") {
-      const userId = body.meta.custom_data.user_id;
       const isSuccessful = body.data.attributes.status === "paid";
-
-      return Response.json({
-        message: `Order ${userId} ${isSuccessful ? "paid" : "failed"}`,
-      });
     }
 
-    return Response.json({ message: "Webhook received" });
+    return Response.json({ message: "Webhook received" }, { status: 200 });
   } catch (err) {
     console.error(err);
     return Response.json({ message: "Server error" }, { status: 500 });
