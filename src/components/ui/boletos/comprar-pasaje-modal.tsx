@@ -30,6 +30,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const lemonUrl =
     "https://exaya.lemonsqueezy.com/buy/46e29f4d-b3ce-4014-a09b-523a9589e6ae";
   const [messageApi, contextHolder] = message.useMessage();
+
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
@@ -118,7 +119,13 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   }
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
-      const paymentResponse = await fetch(lemonUrl);
+      const response = await fetch("/api/webook");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const paymentResponse = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (paymentResponse.status === 200) {
         await createBoleto(values);
       }

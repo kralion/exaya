@@ -1,5 +1,5 @@
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
-import { Button, Calendar, FloatButton, Space, theme, Typography } from "antd";
+import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
 import React, { useState } from "react";
 const { Title, Text } = Typography;
