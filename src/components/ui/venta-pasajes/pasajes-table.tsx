@@ -10,11 +10,14 @@ import { TbBus } from "react-icons/tb";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
+import { useSession } from "next-auth/react";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
+  const { data: session } = useSession();
   const { isCollapsed } = useContext(CollapsedContext);
   const origenFilterItems = viajes?.response
     ?.map((viaje) => ({
@@ -115,7 +118,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       ),
     },
     {
-      title: "Tarifas",
+      title: session ? "Tarifas" : "Precio",
       key: "tarifas",
       dataIndex: "tarifas",
       render: (tarifas: number[]) => {
@@ -125,14 +128,24 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
           if (tarifa <= 60) return "green-inverse";
           return "red";
         });
-        return tarifas.map((tarifa, index) => (
-          <Tag key={index} color={tarifaClassified[index]} className="mb-1.5">
-            {tarifa.toLocaleString("es-PE", {
+        const tarifaGeneral = tarifas[0];
+        return session ? (
+          tarifas.map((tarifa, index) => (
+            <Tag key={index} color={tarifaClassified[index]} className="mb-1.5">
+              {tarifa.toLocaleString("es-PE", {
+                style: "currency",
+                currency: "PEN",
+              })}
+            </Tag>
+          ))
+        ) : (
+          <Tag key="precio" color="green-inverse" className="mb-1.5">
+            {tarifaGeneral?.toLocaleString("es-PE", {
               style: "currency",
               currency: "PEN",
             })}
           </Tag>
-        ));
+        );
       },
     },
     {
@@ -155,7 +168,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
           },
         ];
 
-        return (
+        return session ? (
           <Dropdown trigger={["click"]} menu={{ items }}>
             <Button
               className="rounded-full"
@@ -163,6 +176,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
               icon={<HiOutlineMenuAlt3 />}
             />
           </Dropdown>
+        ) : (
+          <ComprarPasajeModal viajeId={id} />
         );
       },
     },
@@ -200,7 +215,9 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       }}
       pagination={false}
       loading={isLoading}
-      rootClassName="min-w-[700px] duration-300"
+      rootClassName={
+        session ? "min-w-[700px] duration-300" : "min-w-[950px] duration-300"
+      }
       columns={columns}
       dataSource={viajes?.response}
       style={{
