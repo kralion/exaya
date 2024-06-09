@@ -82,7 +82,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         precio: viaje?.response?.tarifas[0] ?? 20,
         metodoPago: "Tarjeta",
         destino: viaje?.response?.ruta.ciudadDestino ?? "",
-        usuarioId: "online",
+        usuarioId: "12341234",
         serie: "AG007",
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,

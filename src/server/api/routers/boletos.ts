@@ -225,10 +225,10 @@ export const boletosRouter = createTRPCRouter({
           message: `Asiento : ${input.asiento} registrado exitosamente`,
         };
       } catch (error) {
-        return {
-          status: "error",
-          message: "Ocurrió un error al registrar el boleto",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: JSON.stringify(error),
+        });
       }
     }),
 

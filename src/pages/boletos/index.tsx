@@ -1,10 +1,8 @@
-import AppLayout from "@/components/exaya/layout";
-import { AIAssistantInput } from "@/components/ui/panel-de-control/ai-assistant-input";
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
 import { Calendar, FloatButton, Space, theme, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
 import React, { useState } from "react";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 export default function Boletos() {
   const { token } = theme.useToken();
   const [dateQuery, setDateQuery] = useState(dayjs().startOf("day"));
@@ -24,8 +22,11 @@ export default function Boletos() {
       direction="vertical"
       className="h-screen w-screen space-y-16 p-8 dark:bg-zinc-900"
     >
-      <Space className="flex w-full items-center  justify-between rounded-lg border-2 border-transparent  border-opacity-50   ">
+      <Space direction="vertical">
         <h3 className="text-3xl font-bold  text-primary">Expreso Ayacucho</h3>
+        <Text type="secondary">
+          Servicio de transporte de pasajeros a nivel interprovincial.
+        </Text>
       </Space>
       <Space className=" items-start justify-between ">
         <Space className="gap-2" direction="vertical">
