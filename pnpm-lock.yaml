@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lemonsqueezy/lemonsqueezy.js':
+    specifier: ^3.0.0
+    version: 3.0.0
   '@next-auth/prisma-adapter':
     specifier: ^1.0.7
     version: 1.0.7(@prisma/client@5.15.0)(next-auth@4.24.7)
@@ -813,6 +816,11 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /@lemonsqueezy/lemonsqueezy.js@3.0.0:
+    resolution: {integrity: sha512-EomAGkJLisI0/ptpe6a0plB++1Pqoe+FgMip4etfg2de05y58dkI+OA+HSdaFyXxpn1g0OtB50ofNVVoYQJX5A==}
+    engines: {node: '>=20'}
+    dev: false
 
   /@mapbox/node-pre-gyp@1.0.11:
     resolution: {integrity: sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==}

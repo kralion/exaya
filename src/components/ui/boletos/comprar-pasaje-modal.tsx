@@ -27,6 +27,8 @@ const { Title, Text } = Typography;
 
 export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
+  const lemonUrl =
+    "https://exaya.lemonsqueezy.com/buy/46e29f4d-b3ce-4014-a09b-523a9589e6ae";
   const [messageApi, contextHolder] = message.useMessage();
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
@@ -67,7 +69,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
 
-  async function onFinish(values: z.infer<typeof boletoSchema>) {
+  async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
@@ -110,6 +112,19 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         },
       }
     );
+    form.resetFields();
+    setPasajeroDNI("");
+    setOpenRegister(false);
+  }
+  async function onFinish(values: z.infer<typeof boletoSchema>) {
+    try {
+      const paymentResponse = await fetch(lemonUrl);
+      if (paymentResponse.status === 200) {
+        await createBoleto(values);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     form.resetFields();
     setPasajeroDNI("");
     setOpenRegister(false);
@@ -323,13 +338,13 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 className="w-full"
               />
             </Form.Item>
-
+            ˝
             <Space className="flex justify-end">
               <Button
-                htmlType="submit"
                 type="primary"
                 loading={isLoading}
                 disabled={reniecResponse?.status === "error"}
+                href={lemonUrl}
               >
                 Comprar
               </Button>
