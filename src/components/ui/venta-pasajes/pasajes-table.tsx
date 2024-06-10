@@ -131,7 +131,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         const tarifaGeneral = tarifas[0];
         return session ? (
           tarifas.map((tarifa, index) => (
-            <Tag key={index} color={tarifaClassified[index]} className="mb-1.5">
+            <Tag key={index} color={tarifaClassified[index]}>
               {tarifa.toLocaleString("es-PE", {
                 style: "currency",
                 currency: "PEN",
@@ -139,7 +139,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
             </Tag>
           ))
         ) : (
-          <Tag key="precio" color="green-inverse" className="mb-1.5">
+          <Tag key="precio" color="green-inverse">
             {tarifaGeneral?.toLocaleString("es-PE", {
               style: "currency",
               currency: "PEN",
@@ -214,14 +214,20 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ),
       }}
       pagination={false}
-      loading={isLoading}
-      rootClassName={
-        session ? "min-w-[700px] duration-300" : "min-w-[950px] duration-300"
+      className={
+        !session ? "rounded-xl border shadow duration-300 hover:shadow-lg" : ""
       }
+      loading={isLoading}
+      // rootClassName={
+      //   session ? "min-w-[50vw] duration-300" : "min-w-[60vw] duration-300"
+      // }
       columns={columns}
       dataSource={viajes?.response}
+      // style={{
+      //   width: ` ${(isCollapsed && "870px") || "100%"}`,
+      // }}
       style={{
-        width: ` ${(isCollapsed && "870px") || "100%"}`,
+        width: isCollapsed ? "80vw" : "67vw",
       }}
     />
   );

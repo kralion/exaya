@@ -119,17 +119,38 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setOpenRegister(false);
   }
   async function onFinish(values: z.infer<typeof boletoSchema>) {
-    router.push(lemonUrl);
     try {
-      const response = await fetch("/api/webook");
-      if (!response.ok && response.status !== 200) {
-        await createBoleto(values);
-      } else {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      router.push(lemonUrl);
+
+      const maxAttempts = 10;
+      const baseDelay = 1000; // 1 second
+
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        // Exponential backoff: 1s, 2s, 4s, 8s, 16s, etc.
+        await new Promise((r) =>
+          setTimeout(r, baseDelay * Math.pow(2, attempt))
+        );
+
+        const response = await fetch("/api/webhook");
+
+        if (response.ok && response.status === 200) {
+          // Payment successful, create boleto
+          await createBoleto(values);
+          break; // Exit the loop
+        } else if (response.status !== 404) {
+          // If it's not a 404 (assuming 404 means "payment not found yet")
+          // then it's some other error, so we should stop polling
+          throw new Error(
+            `Payment failed. HTTP error! status: ${response.status}`
+          );
+        }
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error in onFinish:", error);
+      // Handle error (show message to user, etc.)
     }
+
+    // Clean up and refresh data
     form.resetFields();
     setPasajeroDNI("");
     setOpenRegister(false);
@@ -146,7 +167,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     <>
       {contextHolder}
       <Button type="primary" onClick={() => setOpen(true)}>
-        Comprar Boleto
+        Ver Asientos
       </Button>
       <Modal
         title={
@@ -276,9 +297,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         title={
           <Title className="text-left" level={4}>
             <div className="flex items-start gap-20">
-              <h3>
-                Asiento <span className="ml-2 font-mono">{selectedSeat}</span>
-              </h3>
+              <h3>Asiento {` ${selectedSeat}`}</h3>
             </div>
           </Title>
         }
@@ -305,7 +324,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           >
             <Form.Item
               name="pasajeroDni"
-              label="DNI"
+              label="DNI Pasajero"
               rules={[{ required: true }]}
               validateStatus={
                 errorValidacionDNI
