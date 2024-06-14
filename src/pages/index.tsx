@@ -1,12 +1,11 @@
 import Asset3D5 from "@/assets/images/3d-asset-5.png";
 import HeroStepImage from "@/assets/svg/responsive-hero.svg";
-import LandingLayout from "@/components/landing/landing-layout";
 import { ContainerScroll } from "@/components/landing/container-scroll-animation";
+import LandingLayout from "@/components/landing/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import { Dancing_Script } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { BsArrowRight } from "react-icons/bs";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 
 const dancing_Script = Dancing_Script({
@@ -34,7 +33,7 @@ export default function Index() {
           </div>
           <div className="relative">
             <Link
-              href="/dashboard"
+              href="/login"
               className="hover:purple-900 group z-50 mt-10 hidden w-64 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500  py-1.5 font-semibold text-white  duration-500 hover:shadow-2xl   hover:shadow-orange-700 active:opacity-70 dark:shadow-orange-500   lg:inline-flex  lg:py-3 lg:text-xl "
             >
               <span className="duration-300 group-hover:-translate-x-1 ">

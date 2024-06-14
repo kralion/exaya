@@ -46,7 +46,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           property="og:image"
           content="https://i.ibb.co/MftqMm5/Exaya-OG-Image.jpg"
         />
-        <meta property="og:url" content="https://exaya.netlify.app" />
+        <meta property="og:url" content="https://exaya.vercel.app" />
       </Head>
       <ConfigProvider
         locale={locale}

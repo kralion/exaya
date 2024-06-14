@@ -83,7 +83,7 @@ export default function Page() {
             </Form.Item>
             <Form.Item>
               <Button
-                loading={isFetching}
+                disabled={isFetching}
                 type="primary"
                 htmlType="submit"
                 className="w-full"

@@ -15,14 +15,18 @@ import {
   Space,
   Typography,
 } from "antd";
-import { useCallback, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { LuMoveLeft } from "react-icons/lu";
+import { TbInfoTriangleFilled } from "react-icons/tb";
 
 const { Title, Text } = Typography;
 export default function Contable() {
   const { data: session } = useSession();
   const router = useRouter();
+  const [isNotAdmin, setIsNotAdmin] = useState(false);
   const [dateQuery, setDateQuery] = useState(new Date());
   const [currentViajeId, setCurrentViajeId] = useState("");
   const {
@@ -116,9 +120,33 @@ export default function Contable() {
   };
   useEffect(() => {
     if (session?.user?.rol !== "ADMIN") {
-      router.replace("/dashboard");
+      setIsNotAdmin(true);
     }
   }, [session, router]);
+
+  if (isNotAdmin) {
+    return (
+      <AppLayout>
+        <AppHead title="Administracion" />
+        <Space
+          direction="vertical"
+          className="h-full w-full items-center justify-center gap-2 text-center"
+        >
+          <TbInfoTriangleFilled className="h-24 w-24 text-red-500 drop-shadow-md" />
+
+          <Title level={5}>Página restringida para Administradores</Title>
+
+          <Link
+            className="flex items-center gap-1 text-red-500 underline hover:text-red-400 hover:underline hover:opacity-80"
+            href="/dashboard"
+          >
+            <LuMoveLeft />
+            Volver a la página principal
+          </Link>
+        </Space>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
