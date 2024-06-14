@@ -31,7 +31,7 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
               <h4 className="text-xs">RUC: 20605475427</h4>
               <h4 className="font-mono text-xs">
-                Agencia: {data?.response?.usuario.sedeDelegacion}
+                Agencia: {data?.response?.usuario.sede.agenciaUbicacion}
               </h4>
             </div>
           </div>
@@ -44,8 +44,7 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           <div className="mb-2 flex items-center justify-between">
             <div>
               <h2 className="font-mono text-2xl font-bold text-black">
-                Encomienda {data?.response?.serie.toUpperCase()}-
-                {data?.response?.codigo}
+                Encomienda {data?.response?.codigo}-{data?.response?.codigo}
               </h2>
             </div>
           </div>
@@ -82,7 +81,7 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           {data?.response?.factura && (
             <p>
               <span className="  text-gray-500">Razón Social : </span>
-              <span className="  ">{data?.response?.empresa}</span>
+              <span className="  ">{data?.response?.razonSocial}</span>
             </p>
           )}
           {data?.response?.factura && (
@@ -166,7 +165,7 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <div>
                 <p className="font-medium ">Ticket de Seguimiento</p>
                 <h1 className="font-mono text-5xl font-bold">
-                  {data?.response?.serie.toUpperCase()}-{data?.response?.codigo}
+                  {data?.response?.codigo}
                 </h1>
               </div>
               <Tag className="rounded-full px-2 pb-0.5 text-lg font-bold lowercase">
@@ -194,15 +193,12 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <span>Descripción : </span>
               <span className="font-bold  ">{data?.response?.descripcion}</span>
             </p>
-            {
-              data?.response?.factura && (
-                <p>
-                  <span>Razón Social : </span>
-                  <span className="  ">{data?.response?.empresa}</span>
-                </p>
-              )
-             
-            }
+            {data?.response?.factura && (
+              <p>
+                <span>Razón Social : </span>
+                <span className="  ">{data?.response?.razonSocial}</span>
+              </p>
+            )}
           </div>
           <Divider />
           <div>

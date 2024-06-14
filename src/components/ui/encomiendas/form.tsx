@@ -29,6 +29,9 @@ export function EncomiendasForm({
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
+  const { data: sede } = api.sedes.getSedeById.useQuery({
+    id: session?.user.sedeId ?? "",
+  });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const nanoid = customAlphabet("0123456789abcdef", 6);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
@@ -40,6 +43,7 @@ export function EncomiendasForm({
     }
   );
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
+  const [codigoOperacion, setCodigoOperacion] = useState<string>("");
 
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
@@ -80,6 +84,18 @@ export function EncomiendasForm({
   async function handleUpdateEncomienda(
     values: z.infer<typeof encomiendaSchema>
   ) {
+    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-${
+      sede?.response?.contadorBoletos || 0
+    }`;
+    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-${
+      sede?.response?.contadorFacturas || 0
+    }`;
+
+    if (values.factura === true) {
+      setCodigoOperacion(codigoFactura);
+    } else {
+      setCodigoOperacion(codigoBoleta);
+    }
     if (remitenteInformacion?.data === undefined) {
       return openMessage({
         content: "El DNI no existe en la base de datos de la RENIEC",
@@ -101,9 +117,8 @@ export function EncomiendasForm({
         codigoRastreo: trackingCode,
         precio: parseFloat(values.precio.toString()),
         id: encomiendaIdToEdit,
-        serie: facturaUI ? "FAC001" : session?.user.serieEncomienda || "EAG001",
+        codigo: codigoOperacion,
         fechaEnvio: new Date(values.fechaEnvio),
-
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
         destinatarioNombres: receptorInformacion.data.nombres,
@@ -155,8 +170,8 @@ export function EncomiendasForm({
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        serie: facturaUI ? "FAC001" : session?.user.serieEncomienda || "EAG001",
         precio: parseFloat(values.precio.toString()),
+        codigo: codigoOperacion,
         codigoRastreo: trackingCode,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
@@ -209,8 +224,8 @@ export function EncomiendasForm({
         codigoRastreo: setTrackingCode(singleEncomienda.response.codigoRastreo),
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
-        destino: singleEncomienda.response.destino as string,
-        empresa: singleEncomienda.response.empresa,
+        destino: singleEncomienda.response.destino,
+        empresa: singleEncomienda.response.razonSocial,
         pagado: singleEncomienda.response.pagado,
         precio: singleEncomienda.response.precio,
         descripcion: singleEncomienda.response.descripcion,

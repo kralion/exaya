@@ -45,6 +45,9 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
 
   const { data: session } = useSession();
+  const { data: sede } = api.sedes.getSedeById.useQuery({
+    id: session?.user.sedeId ?? "",
+  });
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "PAGADO",
@@ -145,7 +148,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        serie: session?.user.serieBoleto ?? "AG001",
+
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         estado: boletoStatus,
@@ -177,6 +180,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   }
 
   async function updateBoleto(values: z.infer<typeof boletoSchema>) {
+    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-${
+      sede?.response?.contadorBoletos || 0
+    }`;
+
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
@@ -188,7 +195,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         ...values,
         id: selectedBoleto?.id as string,
         usuarioId: session?.user?.id as string,
-        serie: session?.user.serieBoleto ?? "AG001",
+        codigo: codigoOperacion,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         estado: boletoStatus,
@@ -303,19 +310,19 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                         boletosViaje?.response?.some(
                           (boleto) =>
                             boleto.asiento === seatNumber &&
-                            boleto.usuario.sedeDelegacion === "Huanta"
+                            sede.response?.agencia === "Huanta"
                         )
                           ? "fill-purple-200 stroke-purple-600"
                           : boletosViaje?.response?.some(
                               (boleto) =>
                                 boleto.asiento === seatNumber &&
-                                boleto.usuario.sedeDelegacion === "Ayacucho"
+                                sede.response?.agencia === "Ayacucho"
                             )
                           ? "fill-cyan-200 stroke-cyan-600"
                           : boletosViaje?.response?.some(
                               (boleto) =>
                                 boleto.asiento === seatNumber &&
-                                boleto.usuario.sedeDelegacion === "Huancayo"
+                                sede.response?.agencia === "Huancayo"
                             )
                           ? "fill-rose-200 stroke-rose-600"
                           : "fill-zinc-200 stroke-zinc-600"

@@ -7,14 +7,36 @@ import { TRPCError } from "@trpc/server";
 export const encomiendasRouter = createTRPCRouter({
   getAllEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({
-      include: { viaje: { include: { ruta: true } } },
+      include: {
+        viaje: {
+          include: {
+            ruta: true,
+            usuario: {
+              include: {
+                sede: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: { fechaEnvio: "desc" },
     });
   }),
   getAllBoletosEncomiendas: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.encomienda.findMany({
       where: { factura: false },
-      include: { viaje: { include: { ruta: true, usuario: true } } },
+      include: {
+        viaje: {
+          include: {
+            ruta: true,
+            usuario: {
+              include: {
+                sede: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: { fechaEnvio: "desc" },
     });
   }),
@@ -163,7 +185,11 @@ export const encomiendasRouter = createTRPCRouter({
                 usuario: true,
               },
             },
-            usuario: true,
+            usuario: {
+              include: {
+                sede: true,
+              },
+            },
           },
         });
         return {

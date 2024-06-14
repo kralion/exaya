@@ -10,7 +10,7 @@ import { prisma } from "@/server/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "@/env.mjs";
 import { compare } from "bcrypt";
-import type { SerieBoleto, SerieEncomienda, Rol } from "@/types/auth";
+import type { Rol } from "@/types/auth";
 import { TRPCError } from "@trpc/server";
 
 declare module "next-auth" {
@@ -19,8 +19,7 @@ declare module "next-auth" {
     apellidos: string;
     id: string;
     rol: Rol;
-    serieBoleto: SerieBoleto;
-    serieEncomienda: SerieEncomienda;
+    sedeId: string;
     foto: string;
   }
   interface JWT {
@@ -28,8 +27,7 @@ declare module "next-auth" {
     nombres: string;
     apellidos: string;
     rol: Rol;
-    serieBoleto: SerieBoleto;
-    serieEncomienda: SerieEncomienda;
+    sedeId: string;
     foto: string;
   }
   interface Session {
@@ -41,8 +39,7 @@ declare module "next-auth" {
       apellidos: string;
       foto: string;
       rol: Rol;
-      serieBoleto: SerieBoleto;
-      serieEncomienda: SerieEncomienda;
+      sedeId: string;
     };
   }
 }
@@ -113,8 +110,7 @@ export const authOptions: NextAuthOptions = {
           nombres: userFound.nombres,
           apellidos: userFound.apellidos,
           rol: userFound.rol as Rol,
-          serieEncomienda: userFound.serieEncomienda as SerieEncomienda,
-          serieBoleto: userFound.serieBoleto as SerieBoleto,
+          sedeId: userFound.sedeId,
           foto: userFound.foto,
         };
       },
@@ -129,8 +125,7 @@ export const authOptions: NextAuthOptions = {
           nombres: token.nombres,
           apellidos: token.apellidos,
           foto: token.foto,
-          serieBoleto: token.serieBoleto,
-          serieEncomienda: token.serieEncomienda,
+          sedeId: token.sedeId,
           id: token.id,
           rol: token.rol,
         },
@@ -144,8 +139,7 @@ export const authOptions: NextAuthOptions = {
           nombres: user.nombres,
           apellidos: user.apellidos,
           rol: user.rol,
-          serieBoleto: user.serieBoleto,
-          serieEncomienda: user.serieEncomienda,
+          sedeId: user.sedeId,
           foto: user.foto,
         };
       return token;

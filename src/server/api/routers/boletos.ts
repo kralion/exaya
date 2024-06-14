@@ -116,7 +116,11 @@ export const boletosRouter = createTRPCRouter({
                 ruta: true,
               },
             },
-            usuario: true,
+            usuario: {
+              include: {
+                sede: true,
+              },
+            },
           },
         });
         return {

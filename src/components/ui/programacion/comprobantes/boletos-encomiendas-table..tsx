@@ -6,25 +6,15 @@ const { Title, Text } = Typography;
 const columns: ColumnsType = [
   {
     title: "Código",
-    children: [
-      {
-        title: "Serie",
-        dataIndex: "serie",
-        key: "serie",
-      },
-      {
-        title: "Codigo",
-        dataIndex: "codigo",
-        key: "codigo",
-      },
-    ],
+    dataIndex: "codigo",
+    key: "codigo",
   },
   {
     title: "Agencia",
     dataIndex: "viaje",
     key: "agencia",
-    render: (viaje: { usuario: { sedeDelegacion: string } }) => {
-      return <Text>{viaje.usuario.sedeDelegacion}</Text>;
+    render: (viaje: { usuario: { sede: { agencia: string } } }) => {
+      return <Text>{viaje.usuario.sede.agencia}</Text>;
     },
   },
 

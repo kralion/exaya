@@ -56,7 +56,7 @@ const items: MenuItem[] = [
 export default function AppLayout({ children }: LayoutProps) {
   const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
-  const router = useRouter();
+  // const router = useRouter();
   const { data: session } = useSession();
   const handleSignOut = async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
@@ -95,7 +95,7 @@ export default function AppLayout({ children }: LayoutProps) {
             }
             onSelect={(item) => {
               setSelectedKey(item.key);
-              router.push(`/${item.key}`);
+              // router.push(`/${item.key}`);
             }}
           />
           <div className=" px-2 pb-2">

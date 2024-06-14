@@ -12,13 +12,14 @@ type TViajeEstado = {
 };
 
 export default function Dashboard() {
+  const { data: session } = useSession();
   const { data: viajesDiarios, isLoading: isLoadingViajesDiarios } =
     api.viajes.getViajesForToday.useQuery();
-  const { data: lastestCodeBoleto, isLoading: isLoadingBoletoCode } =
-    api.boletos.getLatestCodeOfBoleto.useQuery();
-  const { data: lastestCodeEncomienda, isLoading: isLoadingEncomiendaCode } =
-    api.encomiendas.getLatestCodeOfEncomienda.useQuery();
-  const { data: session } = useSession();
+  const { data: sede, isLoading: isLoadingSede } =
+    api.sedes.getSedeById.useQuery({
+      id: session?.user.sedeId ?? "",
+    });
+  api.encomiendas.getLatestCodeOfEncomienda.useQuery();
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(
     (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
@@ -61,26 +62,27 @@ export default function Dashboard() {
                 Boleto
               </Typography.Text>
 
-              {isLoadingBoletoCode ? (
+              {isLoadingSede ? (
                 <Skeleton.Button active size="small" style={{ width: 100 }} />
               ) : (
                 <Typography.Text className="text-xl">
-                  {session?.user.serieBoleto}-00{lastestCodeBoleto?.response}
+                  {sede?.response?.serieBoleto}-00
+                  {sede?.response?.contadorBoletos}
                 </Typography.Text>
               )}
             </Space>
 
             <Space direction="vertical" className="mt-8 gap-2 text-right">
               <Typography.Text type="secondary" className="font-light">
-                Encomienda
+                Factura
               </Typography.Text>
 
-              {isLoadingEncomiendaCode ? (
+              {isLoadingSede ? (
                 <Skeleton.Button active size="small" style={{ width: 100 }} />
               ) : (
                 <Typography.Text className="text-xl">
-                  {session?.user.serieEncomienda}- 00
-                  {lastestCodeEncomienda?.response}
+                  {sede?.response?.serieFactura}- 00
+                  {sede?.response?.contadorFacturas}
                 </Typography.Text>
               )}
             </Space>

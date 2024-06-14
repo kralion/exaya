@@ -6,3 +6,4 @@ export { busesRouter } from "./buses";
 export { conductoresRouter } from "./conductores";
 export { usuariosRouter } from "./usuarios";
 export { encomiendasRouter } from "./encomiendas";
+export { sedesRouter } from "./sedes";

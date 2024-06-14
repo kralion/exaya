@@ -21,7 +21,7 @@ export function EncomiendasTable({
   const { openMessage } = useMessageContext();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
-
+  //TODO: Agregar columna para ver quien lo registro
   const columns: ColumnsType = [
     {
       title: "Remitente",
