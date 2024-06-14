@@ -1,6 +1,5 @@
 import { api } from "@/utils/api";
 import { Card, Image, Space, Tag } from "antd";
-import { BiCheckCircle, BiInfoCircle } from "react-icons/bi";
 
 const { Meta } = Card;
 
@@ -10,7 +9,7 @@ export function BusesInformacion() {
     <Space className="grid grid-flow-row grid-cols-2 gap-4">
       {buses?.map((bus) => (
         <Card
-          className="shadow-lg dark:hover:bg-black/50"
+          className="h-24 w-44 shadow-lg dark:hover:bg-black/50"
           loading={isLoading}
           cover={<Image src={bus.foto} alt="bus" />}
           key={bus.placa}

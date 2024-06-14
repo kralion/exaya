@@ -112,11 +112,11 @@ export default function Administracion() {
 
     return Array.from(uniqueRoutes.entries());
   };
-  useEffect(() => {
-    if (session?.user?.rol !== "ADMIN") {
-      setIsNotAdmin(true);
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session?.user?.rol !== "ADMIN") {
+  //     setIsNotAdmin(true);
+  //   }
+  // }, [session, router]);
 
   if (isNotAdmin) {
     return (

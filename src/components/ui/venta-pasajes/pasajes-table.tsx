@@ -214,20 +214,12 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ),
       }}
       pagination={false}
-      className={
-        !session ? "rounded-xl border shadow duration-300 hover:shadow-lg" : ""
-      }
+      className="rounded-xl border shadow duration-300 hover:shadow-lg dark:border-zinc-800"
       loading={isLoading}
-      // rootClassName={
-      //   session ? "min-w-[50vw] duration-300" : "min-w-[60vw] duration-300"
-      // }
       columns={columns}
       dataSource={viajes?.response}
-      // style={{
-      //   width: ` ${(isCollapsed && "870px") || "100%"}`,
-      // }}
       style={{
-        width: isCollapsed ? "80vw" : "67vw",
+        width: isCollapsed ? "65vw" : session ? "55vw" : "67vw",
       }}
     />
   );

@@ -15,7 +15,7 @@ export const boletosRouter = createTRPCRouter({
           include: {
             ruta: true,
             usuario: {
-              select: { sedeDelegacion: true },
+              select: { sede: true },
             },
           },
         },
@@ -191,9 +191,25 @@ export const boletosRouter = createTRPCRouter({
   deleteBoletosById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
+      const boletoInfo = await ctx.prisma.boleto.findUnique({
+        where: { id: input.id },
+      });
+      if (!boletoInfo) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Boleto no encontrado",
+        });
+      }
+      if (boletoInfo.usuarioId !== ctx.session?.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "No tiene permiso para eliminar este boleto",
+        });
+      }
       const boleto = await ctx.prisma.boleto.delete({
         where: { id: input.id },
       });
+
       if (!boleto) {
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -220,6 +236,7 @@ export const boletosRouter = createTRPCRouter({
           message: "El asiento ya ha sido registrado",
         });
       }
+
       try {
         await ctx.prisma.boleto.create({
           data: input,

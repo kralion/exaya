@@ -38,6 +38,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
+  const [codigoCounter, setCodigoCounter] = useState<number>(0);
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
   const { data: viaje, isLoading: isLoadingViaje } =
     api.viajes.getViajeById.useQuery({
@@ -45,7 +46,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
 
   const { data: session } = useSession();
-  const { data: sede } = api.sedes.getSedeById.useQuery({
+  const { data: sede, refetch: refetchSede } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
   });
   const { data: boletosVendidos, refetch: refetchBoletosVendidos } =
@@ -62,6 +63,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   const { mutateAsync: createBoletoMutation, isLoading } =
     api.boletos.createBoleto.useMutation();
+  const { mutateAsync: incrementBoletoCounter } =
+    api.sedes.incrementBoletosCounterBySedeId.useMutation();
+  const { mutateAsync: decreaseBoletoCounter } =
+    api.sedes.decreaseContadorBoletosBySedeId.useMutation();
   const selectedBoleto = viaje?.response?.boletos.find(
     (boleto) => boleto.asiento === selectedSeat
   );
@@ -123,6 +128,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         },
       }
     );
+    await decreaseBoletoCounter({ id: sede?.response?.id ?? "" });
   }
 
   const printDocument = useReactToPrint({
@@ -137,6 +143,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   };
 
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
+    await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
+    await refetchSede();
+    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-${
+      sede?.response?.contadorBoletos || 0
+    }`;
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
@@ -148,7 +159,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
-
+        codigo: codigoOperacion,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         estado: boletoStatus,
@@ -310,19 +321,19 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                         boletosViaje?.response?.some(
                           (boleto) =>
                             boleto.asiento === seatNumber &&
-                            sede.response?.agencia === "Huanta"
+                            sede?.response?.agencia === "Huanta"
                         )
                           ? "fill-purple-200 stroke-purple-600"
                           : boletosViaje?.response?.some(
                               (boleto) =>
                                 boleto.asiento === seatNumber &&
-                                sede.response?.agencia === "Ayacucho"
+                                sede?.response?.agencia === "Ayacucho"
                             )
                           ? "fill-cyan-200 stroke-cyan-600"
                           : boletosViaje?.response?.some(
                               (boleto) =>
                                 boleto.asiento === seatNumber &&
-                                sede.response?.agencia === "Huancayo"
+                                sede?.response?.agencia === "Huancayo"
                             )
                           ? "fill-rose-200 stroke-rose-600"
                           : "fill-zinc-200 stroke-zinc-600"

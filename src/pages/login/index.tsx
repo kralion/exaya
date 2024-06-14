@@ -34,7 +34,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const formRef = useRef<FormInstance>(null);
-  // const router = useRouter();
+  const router = useRouter();
   const { openNotification } = useNotification();
   async function onFinish(values: TLogin) {
     setLoading(true);
@@ -51,16 +51,16 @@ export default function Login() {
         placement: "topRight",
       });
     } else {
-      // router.push("/dashboard");
+      router.push("/dashboard");
     }
 
     setLoading(false);
   }
-  // useEffect(() => {
-  //   if (session) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [session, router]);
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
   return (
     <div

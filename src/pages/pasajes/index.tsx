@@ -1,21 +1,14 @@
 import AppLayout from "@/components/exaya/layout";
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
-import { Calendar, FloatButton, Space, theme, Typography } from "antd";
+import { Calendar, FloatButton, Space, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 const { Title } = Typography;
 function Pasajes() {
-  const { token } = theme.useToken();
   const [dateQuery, setDateQuery] = useState(dayjs().startOf("day"));
 
   const onSelect = (newValue: Dayjs) => {
     setDateQuery(newValue.startOf("day"));
-  };
-
-  const wrapperStyle: React.CSSProperties = {
-    width: 300,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
   };
 
   return (
@@ -28,8 +21,7 @@ function Pasajes() {
         <Space className="gap-2" direction="vertical">
           <Title level={4}>Tracker por Fechas</Title>
           <Calendar
-            className="shadow-lg duration-300 hover:shadow-xl"
-            style={wrapperStyle}
+            className="w-[350px] rounded-lg border shadow duration-300 hover:shadow-lg dark:border-zinc-800"
             fullscreen={false}
             onSelect={onSelect}
           />

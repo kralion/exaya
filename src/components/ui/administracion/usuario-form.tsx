@@ -9,7 +9,6 @@ import {
   Space,
   Switch,
   Typography,
-  type SelectProps,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
@@ -35,122 +34,6 @@ interface RolNodeType {
   label: string;
   children?: RolNodeType[];
 }
-
-interface SerieBoletoType {
-  value:
-    | "AG001"
-    | "AG002"
-    | "AG003"
-    | "AG004"
-    | "AG005"
-    | "AG006"
-    | "AG007"
-    | "AG008"
-    | "AG009"
-    | "AG010";
-  label: string;
-}
-
-interface SerieEncomiendaType {
-  value:
-    | "EAG001"
-    | "EAG002"
-    | "EAG003"
-    | "EAG004"
-    | "EAG005"
-    | "EAG006"
-    | "EAG007"
-    | "EAG008"
-    | "EAG009"
-    | "EAG010";
-  label: string;
-}
-
-const seriesEncomienda: SelectProps<SerieEncomiendaType>["options"] = [
-  {
-    value: "EAG001",
-    label: "EAG001",
-  },
-  {
-    value: "EAG002",
-    label: "EAG002",
-  },
-  {
-    value: "EAG003",
-    label: "EAG003",
-  },
-  {
-    value: "EAG004",
-    label: "EAG004",
-  },
-  {
-    value: "EAG005",
-    label: "EAG005",
-  },
-  {
-    value: "EAG006",
-    label: "EAG006",
-  },
-  {
-    value: "EAG007",
-    label: "EAG007",
-  },
-  {
-    value: "EAG008",
-    label: "EAG008",
-  },
-  {
-    value: "EAG009",
-    label: "EAG009",
-  },
-  {
-    value: "EAG010",
-    label: "EAG010",
-  },
-];
-
-const seriesBoleto: SelectProps<SerieBoletoType>["options"] = [
-  {
-    value: "AG001",
-    label: "AG001",
-  },
-  {
-    value: "AG002",
-    label: "AG002",
-  },
-  {
-    value: "AG003",
-    label: "AG003",
-  },
-  {
-    value: "AG004",
-    label: "AG004",
-  },
-  {
-    value: "AG005",
-    label: "AG005",
-  },
-  {
-    value: "AG006",
-    label: "AG006",
-  },
-  {
-    value: "AG007",
-    label: "AG007",
-  },
-  {
-    value: "AG008",
-    label: "AG008",
-  },
-  {
-    value: "AG009",
-    label: "AG009",
-  },
-  {
-    value: "AG010",
-    label: "AG010",
-  },
-];
 
 const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   {
@@ -200,15 +83,12 @@ export function UsuarioForm({
   const utils = api.useUtils();
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
   const updateUserMutation = api.usuarios.updateUser.useMutation();
-  const { data: rutas, isLoading } = api.rutas.getAllRutas.useQuery();
+  const { data: sedes, isLoading: isLoadingSedes } =
+    api.sedes.getAllSedes.useQuery();
   const { data: usuarioSingle } = api.usuarios.getUsuarioById.useQuery({
     id: usuarioIdToEdit,
   });
-  const uniqueCiudadOrigen = rutas
-    ? rutas
-        .map((ruta) => ruta.ciudadOrigen)
-        .filter((value, index, self) => self.indexOf(value) === index)
-    : [];
+
   const handleCancel = () => {
     setIsModalOpen(false);
     setSource(undefined);
@@ -316,9 +196,7 @@ export function UsuarioForm({
         isDeleted: usuarioSingle.response.isDeleted,
         rol: usuarioSingle.response.rol,
         foto: setSource(usuarioSingle.response.foto),
-        serieBoleto: usuarioSingle.response.serieBoleto,
-        serieEncomienda: usuarioSingle.response.serieEncomienda,
-        sedeDelegacion: usuarioSingle.response.sedeDelegacion,
+        sedeId: usuarioSingle.response.sedeId,
       });
       setSource(usuarioSingle.response.foto);
     }
@@ -453,33 +331,9 @@ export function UsuarioForm({
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="serieBoleto"
-            label="Serie de Boletos"
-            rules={[
-              {
-                required: true,
-                message: "Requerido",
-              },
-            ]}
-          >
-            <Select options={seriesBoleto} />
-          </Form.Item>
-          <Form.Item
-            name="serieEncomienda"
-            label="Serie de Encomiendas"
-            rules={[
-              {
-                required: true,
-                message: "Requerido",
-              },
-            ]}
-          >
-            <Select options={seriesEncomienda} />
-          </Form.Item>
 
           <Form.Item
-            name="sedeDelegacion"
+            name="sedeId"
             tooltip="Sede donde va a trabajar el usuario"
             label="Agencia"
             rules={[
@@ -489,10 +343,10 @@ export function UsuarioForm({
               },
             ]}
           >
-            <Select loading={isLoading} placeholder="Huancayo">
-              {uniqueCiudadOrigen?.map((ciudad: string) => (
-                <Select.Option key={ciudad} value={ciudad}>
-                  {ciudad}
+            <Select loading={isLoadingSedes} placeholder="Huancayo">
+              {sedes?.map((sede) => (
+                <Select.Option key={sede.id} value={sede.id}>
+                  {sede.agencia}
                 </Select.Option>
               ))}
             </Select>

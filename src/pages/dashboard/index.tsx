@@ -6,6 +6,7 @@ import { api } from "@/utils/api";
 import { Skeleton, Space, Statistic, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import AppLayout from "../../components/exaya/layout";
+import { useEffect } from "react";
 
 type TViajeEstado = {
   estado: "DISPONIBLE" | "LLENO" | "CANCELADO";
@@ -15,15 +16,25 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const { data: viajesDiarios, isLoading: isLoadingViajesDiarios } =
     api.viajes.getViajesForToday.useQuery();
-  const { data: sede, isLoading: isLoadingSede } =
-    api.sedes.getSedeById.useQuery({
-      id: session?.user.sedeId ?? "",
-    });
+  const {
+    data: sede,
+    isLoading: isLoadingSede,
+    refetch: refetchSede,
+  } = api.sedes.getSedeById.useQuery({
+    id: session?.user.sedeId ?? "",
+  });
   api.encomiendas.getLatestCodeOfEncomienda.useQuery();
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(
     (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
   ).length;
+  console.log(sede?.response?.contadorBoletos);
+
+  useEffect(() => {
+    if (session?.user.sedeId) {
+      void refetchSede();
+    }
+  }, [session?.user.sedeId, refetchSede]);
   return (
     <AppLayout>
       <AppHead title="Panel de Control" />

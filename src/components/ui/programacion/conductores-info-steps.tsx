@@ -66,7 +66,7 @@ export function ConductoresInformacion({
             }}
           >
             <List.Item.Meta
-              avatar={<Avatar src={conductor.foto} />}
+              avatar={<Avatar src={conductor.foto} size="large" />}
               title={
                 <div className="flex items-center gap-2">
                   <ConductorModal

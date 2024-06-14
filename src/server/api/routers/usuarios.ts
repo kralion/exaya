@@ -6,7 +6,9 @@ import { TRPCError } from "@trpc/server";
 
 export const usuariosRouter = createTRPCRouter({
   getAllUsuarios: publicProcedure.query(({ ctx }) => {
-    const usuarios = ctx.prisma.usuario.findMany();
+    const usuarios = ctx.prisma.usuario.findMany({
+      include: { sede: true },
+    });
     return usuarios;
   }),
   getUsuarioById: publicProcedure
@@ -15,6 +17,7 @@ export const usuariosRouter = createTRPCRouter({
       try {
         const usuario = await ctx.prisma.usuario.findUnique({
           where: { id: input.id },
+          include: { sede: true },
         });
         return {
           status: "success",

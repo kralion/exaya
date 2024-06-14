@@ -131,8 +131,9 @@ export default function UsuariosTable({
     },
     {
       title: "Sede Asignada",
-      dataIndex: "sedeDelegacion",
+      dataIndex: "sede",
       key: "sedeDelegacion",
+      render: (sede: { agencia: string }) => <Text>{sede?.agencia}</Text>,
     },
     {
       title: "Rol del Usuario",
@@ -164,6 +165,7 @@ export default function UsuariosTable({
                 setUsuarioIdToEdit(record.id);
                 setIsModalOpen(true);
               }}
+              loading={usuarioDisableMutation.isLoading}
               title="Editar"
               icon={<FiEdit3 />}
             />
@@ -194,6 +196,7 @@ export default function UsuariosTable({
             >
               <Button
                 type="primary"
+                loading={usuarioDeleteMutation.isLoading}
                 danger
                 title="Eliminar"
                 icon={<CiTrash />}
