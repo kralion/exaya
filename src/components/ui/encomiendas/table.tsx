@@ -6,6 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 import { useMessageContext } from "@/context/MessageContext";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
+import { useSession } from "next-auth/react";
 
 const { Title } = Typography;
 export function EncomiendasTable({
@@ -19,6 +20,9 @@ export function EncomiendasTable({
     isLoading,
   } = api.encomiendas.getAllEncomiendas.useQuery();
   const { openMessage } = useMessageContext();
+  const { data: session } = useSession();
+  const { mutateAsync: decreaseBoletoCounter } =
+    api.sedes.decreaseContadorBoletosBySedeId.useMutation();
   const deleteEncomiendaMutation =
     api.encomiendas.deleteEncomiendaById.useMutation();
   //TODO: Agregar columna para ver quien lo registro
@@ -80,7 +84,7 @@ export function EncomiendasTable({
               title="Estás segur@ de eliminar esta encomienda?"
               okText="Sí"
               cancelText="No"
-              onConfirm={() => handleDeleteEncomienda(id)}
+              onConfirm={() => void handleDeleteEncomienda(id)}
             >
               <Button
                 title="Eliminar"
@@ -94,7 +98,7 @@ export function EncomiendasTable({
       },
     },
   ];
-  function handleDeleteEncomienda(id: string) {
+  async function handleDeleteEncomienda(id: string) {
     deleteEncomiendaMutation.mutate(
       { id },
       {
@@ -115,6 +119,7 @@ export function EncomiendasTable({
         },
       }
     );
+    await decreaseBoletoCounter({ id: session?.user.sedeId ?? "" });
   }
 
   return (

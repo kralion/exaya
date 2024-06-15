@@ -2,7 +2,7 @@ import { useMessageContext } from "@/context/MessageContext";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { viajeSchema } from "@/schemas";
 import { api } from "@/utils/api";
-import { Button, DatePicker, Form, Input, Select, Space } from "antd";
+import { Button, DatePicker, Flex, Form, Input, Select, Space } from "antd";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
@@ -126,15 +126,15 @@ export function ViajesForm({
 
   return (
     <Form form={form} name="viaje-form" onFinish={onFinish}>
-      <Space className="w-full items-start justify-between">
-        <div className="-space-y-2">
-          <Space className="gap-4">
+      <Space className=" grid w-full grid-cols-2 items-start justify-between gap-4">
+        <div>
+          <Space>
             <Form.Item
               name="rutaId"
               rules={[{ required: true, message: "Requerido" }]}
             >
               <Select
-                style={{ width: 200 }}
+                style={{ width: 205 }}
                 placeholder="Ruta"
                 allowClear
                 loading={isLoadingRutas}
@@ -159,7 +159,7 @@ export function ViajesForm({
             >
               <Select
                 loading={isLoadingBus}
-                style={{ width: 100 }}
+                style={{ width: 105 }}
                 placeholder="Bus"
                 allowClear
               >
@@ -176,7 +176,7 @@ export function ViajesForm({
               name="salida"
             >
               <DatePicker
-                style={{ width: 170 }}
+                style={{ width: 175 }}
                 showTime
                 use12Hours
                 minuteStep={15}
@@ -186,7 +186,7 @@ export function ViajesForm({
               />
             </Form.Item>
           </Space>
-          <Space className="gap-4">
+          <Space>
             <Form.Item
               name="tarifaGeneral"
               rules={[
@@ -197,7 +197,7 @@ export function ViajesForm({
               ]}
             >
               <Input
-                style={{ width: 120 }}
+                style={{ width: 125 }}
                 addonBefore="S/."
                 type="number"
                 placeholder="Tarifa"
@@ -218,7 +218,7 @@ export function ViajesForm({
               <Select
                 mode="multiple"
                 style={{
-                  width: 367,
+                  width: 370,
                 }}
                 loading={isLoadingConductores}
                 placeholder="Conductores"
@@ -240,7 +240,7 @@ export function ViajesForm({
           </Space>
         </div>
         <Form.Item>
-          <div className="flex justify-end gap-2">
+          <Flex gap={8} justify="end">
             <Button
               disabled={
                 createViajeMutation.isLoading || updateViajeMutation.isLoading
@@ -256,6 +256,7 @@ export function ViajesForm({
 
             <Button
               htmlType="button"
+              danger
               onClick={() => {
                 form.resetFields();
                 setIdToEdit("");
@@ -263,7 +264,7 @@ export function ViajesForm({
             >
               Cancelar
             </Button>
-          </div>
+          </Flex>
         </Form.Item>
       </Space>
     </Form>

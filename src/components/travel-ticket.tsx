@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Divider } from "antd";
+import { Divider, Tag } from "antd";
 import { Inter } from "next/font/google";
 import { forwardRef, useEffect } from "react";
 const inter = Inter({
@@ -28,83 +28,94 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
 
     return (
       <div ref={ref} className="text-black">
-        <header className=" flex flex-col  items-center justify-center overflow-hidden rounded-t-lg bg-yellow-400 p-4 text-center ">
+        <header className=" flex flex-col items-center  justify-center overflow-hidden rounded-t-lg bg-yellow-400 px-4 pt-2 text-center ">
           <div className="flex flex-col items-center justify-center gap-3   text-black">
             <img
               alt="Logo"
               src="https://img.icons8.com/?size=50&id=9351&format=png"
             />
-            <div className={inter.className}>
+            <div className="flex flex-col items-center justify-center  text-black">
               <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
-              <div className=" flex gap-2 text-xs">
-                <h4 className="text-xs">RUC: 20605475427</h4>
-                <h4 className="font-mono text-xs">
-                  Agencia: {data?.response?.usuario.sede.agencia}
-                </h4>
-              </div>
+
+              <h4 className="text-xs">RUC: 20605475427</h4>
+              <h4 className=" text-center text-xs">
+                Jr. Angaraes Nro. 223 Int 002 Sec. Huancayo Sec 15(Esquina de
+                Ancash y Angaraes) Junín - Huancayo - Huancayo
+              </h4>
             </div>
-          </div>
-          <div className=" flex gap-2 text-xs">
-            <span>RCEA N°: 20605475427 </span>
-            <span>91454845 - 94845845</span>
+            <span className="font-mono text-lg font-semibold uppercase">
+              Boleta de Venta Electrónica {data?.response?.codigo}
+            </span>
           </div>
         </header>
-        <div className="space-y-2 bg-white p-4 text-sm">
+        <Divider className="my-2" />
+        <section className="space-y-1 bg-white px-4 text-xs">
+          <span className="font-mono  font-bold">
+            SERVICIO DE TRANSPORTE DE PASAJEROS{" "}
+          </span>
+          <p className="pr-24">
+            Agencia : {data?.response?.usuario.sede.agenciaUbicacion}
+          </p>
+          <p>Telefonos : 91454845 - 94845845</p>
+          <p>
+            Pasajero : {data?.response?.pasajeroNombres}{" "}
+            {data?.response?.pasajeroApellidos}
+          </p>
+          <p> DNI : {data?.response?.pasajeroDni}</p>
+          <div className=" flex gap-2 text-xs">
+            <span>RCEA N°: 20605475427 </span>
+          </div>
+        </section>
+        <Divider className="my-2" />
+
+        <div className="space-y-2 bg-white px-4 text-sm">
           <section>
-            <p className="flex items-center justify-between">
-              <span className="font-mono text-xl font-bold text-black">
-                EMBARQUE{" "}
+            <p>
+              Fecha Salida:{" "}
+              <span className="font-mono  font-bold">
                 {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
                   day: "2-digit",
                   month: "2-digit",
                   year: "numeric",
                 })}
               </span>
-              <span className="font-mono text-2xl font-bold text-black">
+            </p>
+            <p>
+              Hora Salida :{" "}
+              <span className="font-mono  font-bold">
                 {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
                   hour: "2-digit",
                   minute: "2-digit",
-                  hour12: false,
+                  hour12: true,
                 })}
               </span>
             </p>
-            <p className="text-sm text-gray-500 ">{data?.response?.codigo}</p>
-          </section>
-          <section className="grid grid-cols-3 gap-2">
-            <div>
-              <p className=" text-gray-500">Origen</p>
-              <p className="font-bold  uppercase text-gray-900">
+            <p>
+              Origen :{" "}
+              <span className=" font-mono font-bold">
                 {data?.response?.viaje.ruta.ciudadOrigen}
-              </p>
-            </div>
-            <div />
-            <div className="text-right">
-              <p className=" text-gray-500">Destino</p>
-              <p className="font-bold  uppercase text-gray-900">
+              </span>
+            </p>
+            <p>
+              Destino :{" "}
+              <span className="font-mono font-bold">
                 {data?.response?.destino}
-              </p>
-            </div>
-            <div className="col-span-2">
-              <p className=" text-gray-500">Pasajero</p>
-              <p className="font-bold  uppercase text-gray-900">
-                {data?.response?.pasajeroNombres}{" "}
-                {data?.response?.pasajeroApellidos}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className=" text-gray-500">Asiento</p>
-              <p className="font-bold  uppercase text-gray-900">
+              </span>
+            </p>
+            <p>
+              Asiento :{" "}
+              <span className="font-mono  font-bold">
                 {data?.response?.asiento}
-              </p>
-            </div>
+              </span>
+            </p>
           </section>
-
-          <Divider />
+          <Divider className="my-2" />
           <section className="flex items-center justify-between  text-xs">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-0.5 uppercase">
               <span>OP.NO Gravada</span>
               <span>IGV</span>
               <span>Importe Total</span>
+              <span>Metodo Pago : {data?.response?.metodoPago}</span>
             </div>
             <div className="flex flex-col justify-end gap-0.5 text-right">
               <span>S/. {data?.response?.precio.toFixed(2)}</span>
@@ -112,7 +123,13 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <span className="font-semibold">S/. {total.toFixed(2)}</span>
             </div>
           </section>
-          <Divider />
+          <Divider className="my-2" />
+          <section className="flex flex-col justify-center gap-0.5 text-center text-xs">
+            <span>Representacion del Comprobante Electrónico</span>
+            <span>Autorizacion Nro. 0340050004781/SUNAT</span>
+            <span>Consulta en sfe.bizlinks.com.pe</span>
+          </section>
+          <Divider className="my-2" />
           <div className="flex flex-col gap-0.5 text-xs">
             <span>
               Fecha y Hora Emisión:{" "}
@@ -120,12 +137,17 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
               })}
             </span>
             <span>
               Usuario: {data?.response?.usuario?.nombres} | Operacion: Venta
             </span>
           </div>
+          <Divider className="my-2" />
           <div className="space-y-4 text-xs">
             <p className="  text-sm text-gray-500">Términos y Condiciones</p>
 
@@ -152,33 +174,57 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </ul>
           </div>
         </div>
-        <hr className="page-break border-0" />
-        <footer className="flex justify-between rounded-lg bg-yellow-400  p-4 text-black">
+        <Divider dashed className="page-break my-2" />
+        <footer className="flex flex-col justify-center rounded-lg p-4  text-black">
           <div className="flex flex-col justify-around rounded-l-lg">
-            <p>Embarque</p>
-            <h1 className="font-mono text-4xl font-bold">
-              {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
-            </h1>
-            <h4 className="font-mono text-xl font-bold">
-              {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false,
-              })}
-            </h4>
-          </div>
-          <div className="text-xs">
-            <p className="font-bold ">Codigo : {data?.response?.codigo}</p>
-            <p>DNI: {data?.response?.pasajeroDni}</p>
-            <p>Destino: {data?.response?.destino}</p>
-            <p className="font-mono font-bold">
-              Asiento: {data?.response?.asiento}
+            <div className="flex items-start justify-between ">
+              <div>
+                <p className="font-medium ">Fecha de Embarque</p>
+                <h1 className="font-mono text-4xl font-bold">
+                  {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </h1>
+              </div>
+            </div>
+            <Divider className="my-2" />
+            <p>
+              <span className=" ">Pasajero : </span>
+              <span className="font-bold capitalize  ">
+                {data?.response?.pasajeroNombres}{" "}
+                {data?.response?.pasajeroApellidos}
+              </span>
             </p>
-            <p>Importe: S/. {data?.response?.precio.toFixed(2)}</p>
+            <p>
+              <span className=" ">Destino : </span>
+              <span className="font-bold capitalize  ">
+                {data?.response?.destino}
+              </span>
+            </p>
+            <p>
+              <span className="">Asiento : </span>
+
+              <span className="font-bold capitalize  ">
+                {data?.response?.asiento}
+              </span>
+            </p>
+          </div>
+          <p>
+            <span className=" ">Codigo : </span>
+            <span className="font-bold capitalize  ">
+              {data?.response?.codigo}
+            </span>
+          </p>
+          <Divider className="my-2" />
+          <div>
+            <section className="flex items-center justify-between ">
+              <span>Importe Total</span>
+              <span className="font-mono text-3xl font-bold">
+                S/. {total.toFixed(2)}
+              </span>
+            </section>
           </div>
         </footer>
       </div>

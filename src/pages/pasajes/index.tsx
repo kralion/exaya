@@ -15,13 +15,13 @@ function Pasajes() {
     <AppLayout>
       <Space className="w-full items-start justify-between">
         <Space className="gap-2" direction="vertical">
-          <Title level={4}>Tabla de Viajes</Title>
+          <Title level={5}>Tabla de Viajes</Title>
           <PasajesTable dayQuery={dateQuery} />
         </Space>
         <Space className="gap-2" direction="vertical">
-          <Title level={4}>Tracker por Fechas</Title>
+          <Title level={5}>Tracker por Fechas</Title>
           <Calendar
-            className="w-[350px] rounded-lg border shadow duration-300 hover:shadow-lg dark:border-zinc-800"
+            className="w-[350px] rounded-lg border shadow duration-300  dark:border-zinc-800"
             fullscreen={false}
             onSelect={onSelect}
           />

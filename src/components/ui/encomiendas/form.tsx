@@ -29,7 +29,7 @@ export function EncomiendasForm({
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
-  const { data: sede } = api.sedes.getSedeById.useQuery({
+  const { data: sede, refetch: refetchSede } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
   });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
@@ -43,7 +43,6 @@ export function EncomiendasForm({
     }
   );
   const [remitenteDNI, setRemitenteDNI] = useState<string>("");
-  const [codigoOperacion, setCodigoOperacion] = useState<string>("");
 
   const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
   const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
@@ -55,6 +54,8 @@ export function EncomiendasForm({
   });
   const { openMessage } = useMessageContext();
   const [facturaUI, setFacturaUI] = useState(false);
+  const { mutateAsync: incrementBoletoCounter } =
+    api.sedes.incrementBoletosCounterBySedeId.useMutation();
   const {
     mutateAsync: createEncomiendaMutation,
     isLoading: isLoadingCreateEncomienda,
@@ -84,18 +85,13 @@ export function EncomiendasForm({
   async function handleUpdateEncomienda(
     values: z.infer<typeof encomiendaSchema>
   ) {
-    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-${
+    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-000${
       sede?.response?.contadorBoletos || 0
     }`;
-    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-${
+    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-000${
       sede?.response?.contadorFacturas || 0
     }`;
 
-    if (values.factura === true) {
-      setCodigoOperacion(codigoFactura);
-    } else {
-      setCodigoOperacion(codigoBoleta);
-    }
     if (remitenteInformacion?.data === undefined) {
       return openMessage({
         content: "El DNI no existe en la base de datos de la RENIEC",
@@ -117,7 +113,7 @@ export function EncomiendasForm({
         codigoRastreo: trackingCode,
         precio: parseFloat(values.precio.toString()),
         id: encomiendaIdToEdit,
-        codigo: codigoOperacion,
+        codigo: values.factura ? codigoFactura : codigoBoleta,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
@@ -152,6 +148,15 @@ export function EncomiendasForm({
   async function handleCreateEncomienda(
     values: z.infer<typeof encomiendaSchema>
   ) {
+    await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
+    await refetchSede();
+    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-000${
+      sede?.response?.contadorBoletos || 0
+    }`;
+    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-000${
+      sede?.response?.contadorFacturas || 0
+    }`;
+
     if (remitenteInformacion?.data === undefined) {
       return openMessage({
         content: "El DNI no existe en la base de datos de la RENIEC",
@@ -171,7 +176,7 @@ export function EncomiendasForm({
         ...values,
         usuarioId: session?.user?.id as string,
         precio: parseFloat(values.precio.toString()),
-        codigo: codigoOperacion,
+        codigo: values.factura ? codigoFactura : codigoBoleta,
         codigoRastreo: trackingCode,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
@@ -225,7 +230,7 @@ export function EncomiendasForm({
         factura: singleEncomienda.response.factura,
         ruc: singleEncomienda.response.ruc,
         destino: singleEncomienda.response.destino,
-        empresa: singleEncomienda.response.razonSocial,
+        razonSocial: singleEncomienda.response.razonSocial,
         pagado: singleEncomienda.response.pagado,
         precio: singleEncomienda.response.precio,
         descripcion: singleEncomienda.response.descripcion,
@@ -462,7 +467,7 @@ export function EncomiendasForm({
         {facturaUI === true ? (
           <Space className="col-span-2 flex gap-4">
             <Form.Item
-              name="empresa"
+              name="razonSocial"
               label="Razón Social"
               rules={[
                 {

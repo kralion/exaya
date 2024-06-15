@@ -50,7 +50,7 @@ export default function AdministracionSteps({
                 Este indicador representa la tasa de conversión de recursos en
                 el viaje actual. Actualmente se tiene un{" "}
                 <Text type="warning" className="font-bold">
-                  {seatUtilizationRate}%
+                  {seatUtilizationRate.toFixed(2)}%
                 </Text>
                 , a medida que se acerque al 100% se marcará con un check de
                 conformidad.

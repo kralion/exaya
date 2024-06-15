@@ -13,7 +13,7 @@ const encomiendaSchema = z.object({
   remitenteApellidos: z.string(),
   precio: z.number().nonnegative().min(1),
   viajeId: z.string(),
-  empresa: z.string().optional(),
+  razonSocial: z.string().optional(),
   ruc: z.string().optional(),
   fechaEnvio: z.date(),
   factura: z.boolean(),

@@ -13,6 +13,7 @@ export function BusesInformacion() {
           loading={isLoading}
           cover={<Image src={bus.foto} alt="bus" />}
           key={bus.placa}
+          bordered
         >
           <Meta
             title={

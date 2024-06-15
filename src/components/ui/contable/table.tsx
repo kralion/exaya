@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Table, Tag } from "antd";
+import { Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { IoFilterSharp } from "react-icons/io5";
 const IGV_RATE = 0.18;
@@ -97,8 +97,7 @@ export default function TableContable() {
       },
     },
     {
-      // TODO: Add IGV in a kind of Tooltip
-      title: "Total",
+      title: "Total - IGV",
       key: "total",
       render: (record: {
         boletos: { precio: number }[];
@@ -115,24 +114,28 @@ export default function TableContable() {
         );
         const totalIncome = totalBoletos + totalEncomiendas;
         const igv = totalIncome * IGV_RATE;
-        const totalIncomeWithIGV = totalIncome + igv;
+        const totalIncomeWithIGV = totalIncome - igv;
 
         return (
-          <Tag
+          <Tooltip
+            placement="top"
             title="Estará de rojo hasta alcanzar la meta"
-            color={
-              totalIncomeWithIGV > 1000
-                ? "green"
-                : totalIncomeWithIGV > 800
-                ? "blue"
-                : "red"
-            }
           >
-            {totalIncomeWithIGV.toLocaleString("es-PE", {
-              style: "currency",
-              currency: "PEN",
-            })}
-          </Tag>
+            <Tag
+              color={
+                totalIncomeWithIGV > 1000
+                  ? "green"
+                  : totalIncomeWithIGV > 800
+                  ? "blue"
+                  : "red"
+              }
+            >
+              {totalIncomeWithIGV.toLocaleString("es-PE", {
+                style: "currency",
+                currency: "PEN",
+              })}
+            </Tag>
+          </Tooltip>
         );
       },
     },

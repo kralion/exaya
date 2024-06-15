@@ -59,11 +59,7 @@ export function ConductoresInformacion({
         (conductoresRegistrados?.length ?? 0) > 0 ? (
           <List.Item
             key={index}
-            className="rounded-lg shadow-lg  dark:shadow-black/30"
-            style={{
-              paddingLeft: 14,
-              paddingRight: 14,
-            }}
+            className="rounded px-14 shadow dark:shadow-black/30"
           >
             <List.Item.Meta
               avatar={<Avatar src={conductor.foto} size="large" />}

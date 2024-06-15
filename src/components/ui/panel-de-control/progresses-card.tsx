@@ -1,5 +1,13 @@
 import React from "react";
-import { Alert, Card, Progress, Skeleton, Space, Typography } from "antd";
+import {
+  Alert,
+  Button,
+  Card,
+  Progress,
+  Skeleton,
+  Space,
+  Typography,
+} from "antd";
 import { RxOpenInNewWindow } from "react-icons/rx";
 const { Title, Text } = Typography;
 import Link from "next/link";
@@ -40,7 +48,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
           className="group flex items-center justify-between duration-100"
         >
           <Title level={4} className="pt-2 group-hover:opacity-70 ">
-            Indice de Progreso
+            Índice de Progreso
           </Title>
           <RxOpenInNewWindow
             className="text-black group-hover:opacity-70 dark:text-white"
@@ -93,7 +101,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
                       "0%": "#4096FF",
                       "100%": "#87d068",
                     }}
-                    percent={percent}
+                    percent={parseFloat(percent.toFixed(2))}
                   />
                 )}
               </Space>
@@ -104,8 +112,17 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
       {viajesDiarios?.length === 0 ? (
         <Alert
           className="mt-8"
-          message="Para mostrar el gráfico de progreso, primero debes registrar un viaje"
+          message="Progreso de los viajes programados para hoy"
           type="info"
+          action={
+            <Button
+              type="link"
+              href="/programacion/viajes"
+              className="hover:underline"
+            >
+              Ver Más
+            </Button>
+          }
           showIcon
         />
       ) : (

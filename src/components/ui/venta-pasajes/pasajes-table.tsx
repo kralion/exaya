@@ -214,7 +214,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ),
       }}
       pagination={false}
-      className="rounded-xl border shadow duration-300 hover:shadow-lg dark:border-zinc-800"
+      className="rounded-xl border shadow duration-300  dark:border-zinc-800"
       loading={isLoading}
       columns={columns}
       dataSource={viajes?.response}

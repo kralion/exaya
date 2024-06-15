@@ -156,7 +156,7 @@ export default function KpiGraphs({
 
           <div className="flex flex-col items-center justify-center gap-3 ">
             <Tag className="ml-5 mt-1 w-fit font-bold ">
-              {margenUtilizacionRecursos}%
+              {margenUtilizacionRecursos.toFixed(2)}%
             </Tag>
             <Tag className="ml-5 mt-1 w-fit">
               <strong>KPI</strong> : Eficiencia Operativa
@@ -201,7 +201,7 @@ export default function KpiGraphs({
           </PieChart>
           <div className="mx-auto flex flex-col items-center gap-3 ">
             <Tag className="ml-5 mt-1 w-fit font-bold ">
-              {margenGananciaNeta}%
+              {margenGananciaNeta.toFixed(2)}%
             </Tag>
             <Tag className="ml-5 mt-1">
               <strong>KPI</strong> : Utilidad Empresarial

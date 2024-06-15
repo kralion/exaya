@@ -145,7 +145,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
     await refetchSede();
-    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-${
+    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-000${
       sede?.response?.contadorBoletos || 0
     }`;
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
