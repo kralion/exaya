@@ -130,13 +130,11 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     try {
       router.push(lemonUrl);
       const response = await fetch("/api/webhook");
-      if (response.ok && response.status === 200) {
+      if (response.status === 405) {
         await createBoleto(values);
         return;
       } else {
-        throw new Error(
-          `Payment failed. HTTP error! status: ${response.status}`
-        );
+        throw new Error(`Payment failed. HTTP error! `);
       }
     } catch (error) {
       await messageApi.open({
