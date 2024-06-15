@@ -15,6 +15,7 @@ import { Concert_One } from "next/font/google";
 import React, { useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
+import { customAlphabet } from "nanoid";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { OnlineTravelTicket } from "./travel-ticket";
@@ -72,6 +73,13 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   );
 
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
+    const n = 1000;
+    const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
+
+    let num;
+    do {
+      num = parseInt(nanoid(), 10);
+    } while (num > n);
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
@@ -86,8 +94,8 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         precio: viaje?.response?.tarifas[0] ?? 20,
         metodoPago: "Tarjeta",
         destino: viaje?.response?.ruta.ciudadDestino ?? "",
-        usuarioId: "12341234",
-        serie: "AG007",
+        usuarioId: "clxf8bopx000214fwy2fszlyx",
+        codigo: `B001-${num.toString().padStart(3, "0")}`,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         viajeId,
