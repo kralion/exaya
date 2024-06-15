@@ -129,13 +129,9 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      const response = await fetch("/api/webhook");
-      if (response.status === 405) {
+    
         await createBoleto(values);
-        return;
-      } else {
-        throw new Error(`Payment failed. HTTP error! `);
-      }
+      
     } catch (error) {
       await messageApi.open({
         content: "Error en la operación",
