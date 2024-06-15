@@ -95,7 +95,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         metodoPago: "Tarjeta",
         destino: viaje?.response?.ruta.ciudadDestino ?? "",
         usuarioId: "clxf8bopx000214fwy2fszlyx",
-        codigo: `B001-${num.toString().padStart(3, "0")}`,
+        codigo: `B005-000${num.toString().padStart(3, "0")}`,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         viajeId,
@@ -129,36 +129,22 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-
-      const maxAttempts = 10;
-      const baseDelay = 1000; // 1 second
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        // Exponential backoff: 1s, 2s, 4s, 8s, 16s, etc.
-        await new Promise((r) =>
-          setTimeout(r, baseDelay * Math.pow(2, attempt))
+      const response = await fetch("/api/webhook");
+      if (response.ok && response.status === 200) {
+        await createBoleto(values);
+        return;
+      } else {
+        throw new Error(
+          `Payment failed. HTTP error! status: ${response.status}`
         );
-
-        const response = await fetch("/api/webhook");
-
-        if (response.ok && response.status === 200) {
-          // Payment successful, create boleto
-          await createBoleto(values);
-          break; // Exit the loop
-        } else if (response.status !== 404) {
-          // If it's not a 404 (assuming 404 means "payment not found yet")
-          // then it's some other error, so we should stop polling
-          throw new Error(
-            `Payment failed. HTTP error! status: ${response.status}`
-          );
-        }
       }
     } catch (error) {
-      console.error("Error in onFinish:", error);
-      // Handle error (show message to user, etc.)
+      await messageApi.open({
+        content: "Error en la operación",
+        type: "error",
+        duration: 3,
+      });
     }
-
-    // Clean up and refresh data
     form.resetFields();
     setPasajeroDNI("");
     setOpenRegister(false);
