@@ -217,22 +217,19 @@ function ProgramacionComprobantes() {
 export default ProgramacionComprobantes;
 
 type TBoleto = {
-  codigo: number;
-  serie: string;
+  codigo: string;
   fechaRegistro: Date;
   precio: number;
 };
 
 type TEncomienda = {
-  codigo: number;
-  serie: string;
-  fechaEnvio: Date;
+  codigo: string;
+  fechaRecepcion: Date;
   precio: number;
 };
 
 type TFactura = {
-  codigo: number;
-  serie: string;
+  codigo: string;
   fechaEnvio: Date;
   precio: number;
   ruc: string | null;
@@ -295,14 +292,12 @@ export const TablesToPrint = ({
       startY: 55,
       columns: [
         { dataKey: "codigo", header: "Código" },
-        { dataKey: "serie", header: "Serie" },
         { dataKey: "fechaRegistro", header: "Fecha de Registro" },
         { dataKey: "precio", header: "Precio" },
       ],
 
       body: pasajes?.map((b: TBoleto) => ({
         codigo: b.codigo,
-        serie: b.serie,
         fechaRegistro: new Date(b.fechaRegistro).toLocaleDateString(),
         precio: b.precio.toLocaleString("es-PE", {
           style: "currency",
@@ -319,14 +314,12 @@ export const TablesToPrint = ({
       startY: finalY1 + 20,
       columns: [
         { dataKey: "codigo", header: "Código" },
-        { dataKey: "serie ", header: "Serie" },
-        { dataKey: "fechaEnvio", header: "Fecha de Registro" },
+        { dataKey: "fechaRecepcion", header: "Fecha de Emisión" },
         { dataKey: "precio", header: "Precio" },
       ],
       body: encomiendas?.map((e: TEncomienda) => ({
         codigo: e.codigo,
-        serie: e.serie.toUpperCase(),
-        fechaEnvio: new Date(e.fechaEnvio).toLocaleDateString(),
+        fechaRecepcion: new Date(e.fechaRecepcion).toLocaleDateString(),
         precio: e.precio.toLocaleString("es-PE", {
           style: "currency",
           currency: "PEN",
@@ -341,14 +334,12 @@ export const TablesToPrint = ({
       startY: finalY2 + 20,
       columns: [
         { dataKey: "codigo", header: "Código" },
-        { dataKey: "serie", header: "Serie" },
-        { dataKey: "fechaEnvio", header: "Fecha de Registro" },
+        { dataKey: "fechaEnvio", header: "Fecha Emisión" },
         { dataKey: "ruc", header: "RUC" },
         { dataKey: "precio", header: "Precio" },
       ],
       body: facturas?.map((f: TFactura) => ({
         codigo: f.codigo,
-        serie: f.serie.toUpperCase(),
         fechaEnvio: new Date(f.fechaEnvio).toLocaleDateString(),
         ruc: f.ruc,
         precio: f.precio.toLocaleString("es-PE", {
