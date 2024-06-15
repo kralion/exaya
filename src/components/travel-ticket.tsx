@@ -28,21 +28,23 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
 
     return (
       <div ref={ref} className="text-black">
-        <header className=" flex  items-end justify-between overflow-hidden rounded-t-lg bg-yellow-400 p-4 ">
-          <div className="flex items-center gap-3  text-black">
+        <header className=" flex flex-col  items-center justify-center overflow-hidden rounded-t-lg bg-yellow-400 p-4 text-center ">
+          <div className="flex flex-col items-center justify-center gap-3   text-black">
             <img
               alt="Logo"
               src="https://img.icons8.com/?size=50&id=9351&format=png"
             />
             <div className={inter.className}>
               <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
-              <h4 className="text-xs">RUC: 20605475427</h4>
-              <h4 className="font-mono text-xs">
-                Agencia: {data?.response?.usuario.sede.agencia}
-              </h4>
+              <div className=" flex gap-2 text-xs">
+                <h4 className="text-xs">RUC: 20605475427</h4>
+                <h4 className="font-mono text-xs">
+                  Agencia: {data?.response?.usuario.sede.agencia}
+                </h4>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-end text-xs">
+          <div className=" flex gap-2 text-xs">
             <span>RCEA N°: 20605475427 </span>
             <span>91454845 - 94845845</span>
           </div>
@@ -50,7 +52,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
         <div className="space-y-2 bg-white p-4 text-sm">
           <section>
             <p className="flex items-center justify-between">
-              <span className="font-mono text-2xl font-bold text-black">
+              <span className="font-mono text-xl font-bold text-black">
                 EMBARQUE{" "}
                 {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
                   day: "2-digit",
@@ -66,9 +68,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
                 })}
               </span>
             </p>
-            <p className="text-sm text-gray-500 ">
-              Codigo {data?.response?.codigo}
-            </p>
+            <p className="text-sm text-gray-500 ">{data?.response?.codigo}</p>
           </section>
           <section className="grid grid-cols-3 gap-2">
             <div>
