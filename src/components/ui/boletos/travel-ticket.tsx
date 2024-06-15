@@ -37,7 +37,7 @@ export function OnlineTravelTicket({ id }: { id: string }) {
             <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
             <h4 className="text-xs">RUC: 20605475427</h4>
             <h4 className="font-mono text-xs">
-              Agencia: {data?.response?.usuario.sedeDelegacion}
+              Agencia: {data?.response?.usuario.sede.agencia}
             </h4>
           </div>
         </div>
@@ -66,7 +66,7 @@ export function OnlineTravelTicket({ id }: { id: string }) {
             </span>
           </p>
           <p className="text-sm text-gray-500 ">
-            Codigo {data?.response?.serie.toUpperCase()}-
+            Codigo {data?.response?.codigo.toUpperCase()}-
             {data?.response?.codigo}
           </p>
         </section>
@@ -177,7 +177,7 @@ export function OnlineTravelTicket({ id }: { id: string }) {
         </div>
         <div className="text-xs">
           <p className="font-bold ">
-            Codigo : {data?.response?.serie.toUpperCase()}-
+            Codigo : {data?.response?.codigo.toUpperCase()}-
             {data?.response?.codigo}
           </p>
           <p>DNI: {data?.response?.pasajeroDni}</p>
