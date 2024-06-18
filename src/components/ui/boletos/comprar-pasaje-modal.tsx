@@ -129,9 +129,8 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-    
-        await createBoleto(values);
-      
+
+      await createBoleto(values);
     } catch (error) {
       await messageApi.open({
         content: "Error en la operación",
