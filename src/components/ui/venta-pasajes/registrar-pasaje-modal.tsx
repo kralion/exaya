@@ -38,7 +38,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
-  const [codigoCounter, setCodigoCounter] = useState<number>(0);
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
   const { data: viaje, isLoading: isLoadingViaje } =
     api.viajes.getViajeById.useQuery({

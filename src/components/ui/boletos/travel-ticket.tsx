@@ -27,23 +27,24 @@ export function OnlineTravelTicket({ id }: { id: string }) {
 
   return (
     <div className="text-black">
-      <header className=" flex  items-end justify-between overflow-hidden rounded-t-lg bg-yellow-400 p-4 ">
-        <div className="flex items-center gap-3  text-black">
+      <header className=" flex flex-col items-center  justify-center overflow-hidden rounded-t-lg bg-yellow-400 px-4 pt-2 text-center ">
+        <div className="flex flex-col items-center justify-center gap-3   text-black">
           <img
             alt="Logo"
             src="https://img.icons8.com/?size=50&id=9351&format=png"
           />
-          <div className={inter.className}>
+          <div className="flex flex-col items-center justify-center  text-black">
             <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
+
             <h4 className="text-xs">RUC: 20605475427</h4>
-            <h4 className="font-mono text-xs">
-              Agencia: {data?.response?.usuario.sede.agencia}
+            <h4 className=" text-center text-xs">
+              Jr. Angaraes Nro. 223 Int 002 Sec. Huancayo Sec 15(Esquina de
+              Ancash y Angaraes) Junín - Huancayo - Huancayo
             </h4>
           </div>
-        </div>
-        <div className="flex flex-col items-end text-xs">
-          <span>RCEA N°: 20605475427 </span>
-          <span>91454845 - 94845845</span>
+          <span className="font-mono text-lg font-semibold uppercase">
+            Boleta de Venta Electrónica {data?.response?.codigo}
+          </span>
         </div>
       </header>
       <div className="space-y-2 bg-white p-4 text-sm">
@@ -66,8 +67,7 @@ export function OnlineTravelTicket({ id }: { id: string }) {
             </span>
           </p>
           <p className="text-sm text-gray-500 ">
-            Codigo {data?.response?.codigo.toUpperCase()}-
-            {data?.response?.codigo}
+            Codigo {data?.response?.codigo.toUpperCase()}
           </p>
         </section>
         <section className="grid grid-cols-3 gap-2">
@@ -156,38 +156,6 @@ export function OnlineTravelTicket({ id }: { id: string }) {
           </ul>
         </div>
       </div>
-      <hr className="page-break border-0" />
-      <footer className="flex justify-between rounded-lg bg-yellow-400  p-4 text-black">
-        <div className="flex flex-col justify-around rounded-l-lg">
-          <p>Embarque</p>
-          <h1 className="font-mono text-4xl font-bold">
-            {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
-          </h1>
-          <h4 className="font-mono text-xl font-bold">
-            {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            })}
-          </h4>
-        </div>
-        <div className="text-xs">
-          <p className="font-bold ">
-            Codigo : {data?.response?.codigo.toUpperCase()}-
-            {data?.response?.codigo}
-          </p>
-          <p>DNI: {data?.response?.pasajeroDni}</p>
-          <p>Destino: {data?.response?.destino}</p>
-          <p className="font-mono font-bold">
-            Asiento: {data?.response?.asiento}
-          </p>
-          <p>Importe: S/. {data?.response?.precio.toFixed(2)}</p>
-        </div>
-      </footer>
     </div>
   );
 }

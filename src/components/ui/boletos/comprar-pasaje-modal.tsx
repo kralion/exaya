@@ -129,7 +129,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({
@@ -295,7 +295,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           form.resetFields();
           setPasajeroDNI("");
         }}
-        width={selectedBoleto?.estado === "PAGADO" ? 600 : 370}
+        width={selectedBoleto?.estado === "PAGADO" ? 500 : 370}
         footer={null}
       >
         {selectedBoleto?.estado === "PAGADO" ? (

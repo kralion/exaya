@@ -357,6 +357,28 @@ export const viajesRouter = createTRPCRouter({
           message: "No tienes permisos para realizar esta acción",
         });
       }
+      const encomiendasExists = await ctx.prisma.encomienda.findFirst({
+        where: {
+          viajeId: input.id,
+        },
+      });
+      if (encomiendasExists) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Error, este viaje contiene encomiendas",
+        });
+      }
+      const boletosExists = await ctx.prisma.boleto.findFirst({
+        where: {
+          viajeId: input.id,
+        },
+      });
+      if (boletosExists) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Error, este viaje contiene boletos",
+        });
+      }
       const viaje = await ctx.prisma.viaje.findUnique({
         where: { id: input.id },
         include: { boletos: true },
@@ -366,14 +388,6 @@ export const viajesRouter = createTRPCRouter({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "El viaje no existe, actualice la página",
-        });
-      }
-
-      if (viaje.boletos.length > 0) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message:
-            "El viaje tiene boletos vendidos, elimine los boletos primero",
         });
       }
 

@@ -33,6 +33,14 @@ export const navLinks = [
     label: "Membresías",
     href: "/planes",
   },
+  {
+    label: "Comprar Pasaje",
+    href: "/boletos",
+  },
+  {
+    label: "Rastreo",
+    href: "/encomiendas/rastreo",
+  },
 ];
 
 export default function LandingLayout({

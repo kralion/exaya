@@ -15,7 +15,7 @@ export function ProgramacionTable({
     refetch,
     isLoading,
   } = api.viajes.getAllViajes.useQuery();
-  const { mutate: deleteViajeMutation, isLoading: isDeleting } =
+  const { mutate: deleteViajeMutation } =
     api.viajes.deleteViajeById.useMutation();
   const { openMessage } = useMessageContext();
 
@@ -135,7 +135,6 @@ export function ProgramacionTable({
           >
             <Button
               title="Eliminar"
-              loading={isDeleting}
               icon={<FaRegTrashCan />}
               type="text"
               danger

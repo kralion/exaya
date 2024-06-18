@@ -219,7 +219,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       columns={columns}
       dataSource={viajes?.response}
       style={{
-        width: isCollapsed ? "65vw" : session ? "55vw" : "67vw",
+        width: isCollapsed ? "65vw" : session ? "55vw" : "68vw",
       }}
     />
   );

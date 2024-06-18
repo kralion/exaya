@@ -143,10 +143,10 @@ export default function Page() {
                         ? `${data?.response?.viaje.ruta.ciudadOrigen} - ${data?.response?.viaje.ruta.terminalOrigen}`
                         : ubicacion === "Destino"
                         ? data?.response?.destino === "Huanta"
-                          ? "Huanta - Agencia Jr. Gervacio Santillana"
+                          ? "Huanta - Agencia Av. Gervacio Santillana Nro. 712"
                           : data?.response?.destino === "Ayacucho"
-                          ? "Ayacucho - Counter Terminal Terrestre"
-                          : "Huancayo - Agencia Jr. Angaraes"
+                          ? "Ayacucho - Cauter Nro. 27 TERRAPUERTO LIBERTADORES DE AMERICA"
+                          : "Huancayo - Agencia Jr. Angaraes Nro. 223"
                         : null}
                     </div>
                   </div>

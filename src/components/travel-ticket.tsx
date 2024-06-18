@@ -1,11 +1,7 @@
 import { api } from "@/utils/api";
-import { Divider, Tag } from "antd";
-import { Inter } from "next/font/google";
+import { Divider } from "antd";
 import { forwardRef, useEffect } from "react";
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+
 const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
   function TravelTicketPrint({ id }, ref) {
     const { data, refetch } = api.boletos.getBoletosById.useQuery({ id });
@@ -72,7 +68,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
           <section>
             <p>
               Fecha Salida:{" "}
-              <span className="font-mono  font-bold">
+              <span className="font-mono   font-bold">
                 {data?.response?.viaje.salida.toLocaleDateString("es-PE", {
                   day: "2-digit",
                   month: "2-digit",
@@ -82,7 +78,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </p>
             <p>
               Hora Salida :{" "}
-              <span className="font-mono  font-bold">
+              <span className="font-mono font-bold uppercase">
                 {data?.response?.viaje.salida.toLocaleTimeString("es-PE", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -92,13 +88,13 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
             </p>
             <p>
               Origen :{" "}
-              <span className=" font-mono font-bold">
+              <span className=" font-mono font-bold uppercase">
                 {data?.response?.viaje.ruta.ciudadOrigen}
               </span>
             </p>
             <p>
               Destino :{" "}
-              <span className="font-mono font-bold">
+              <span className="font-mono font-bold uppercase">
                 {data?.response?.destino}
               </span>
             </p>
