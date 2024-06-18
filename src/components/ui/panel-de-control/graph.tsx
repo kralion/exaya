@@ -16,44 +16,6 @@ import {
 } from "recharts";
 import { api } from "@/utils/api";
 
-const sampleData = [
-  {
-    name: "Junio",
-    encomiendas: 4000,
-    boletos: 2400,
-  },
-  {
-    name: "Julio",
-    encomiendas: 3000,
-    boletos: 1398,
-  },
-  {
-    name: "Agosto",
-    encomiendas: 2000,
-    boletos: 4800,
-  },
-  {
-    name: "Septiembre",
-    encomiendas: 2780,
-    boletos: 3908,
-  },
-  {
-    name: "Octubre",
-    encomiendas: 1890,
-    boletos: 4800,
-  },
-  {
-    name: "Noviembre",
-    encomiendas: 2390,
-    boletos: 4800,
-  },
-  {
-    name: "Diciembre",
-    encomiendas: 2490,
-    boletos: 5300,
-  },
-];
-
 export default function ControlPaneGraph() {
   const { data: boletos } =
     api.boletos.getCountOfBoletosInLatest6Months.useQuery();
@@ -84,22 +46,30 @@ export default function ControlPaneGraph() {
     latest6MonthsLabel.push(monthName);
     date.setMonth(date.getMonth() + i);
   }
+  console.log(encomiendas?.response);
+  console.log(boletos?.response);
   const data = latest6MonthsLabel.map((month, index) => {
     return {
       name: month,
-      encomiendas: encomiendas?.response ? encomiendas.response[index] : 0,
-      boletos: boletos?.response ? boletos.response[index] : 0,
+      encomiendas: encomiendas?.response?.[index],
+      boletos: boletos?.response?.[index],
     };
   });
 
   return (
     <ResponsiveContainer
-      className="col-span-2 row-span-2 rounded-xl border-1  duration-200  hover:shadow-xl dark:border-zinc-800  dark:hover:bg-black/50"
+      className="col-span-2 row-span-2 rounded-xl   duration-200   "
       width="100%"
       height="100%"
     >
       <AreaChart
-        className="rounded-xl border-1  duration-200 hover:bg-orange-100/10 hover:shadow-md dark:border-zinc-800  dark:hover:bg-black/50 "
+        className="rounded-xl   duration-200     "
+        margin={{
+          top: 0,
+          right: 0,
+          left: 25,
+          bottom: 0,
+        }}
         data={data}
       >
         <Legend

@@ -58,14 +58,16 @@ export const boletosRouter = createTRPCRouter({
       for (let i = 5; i >= 0; i--) {
         const date = new Date();
         date.setMonth(date.getMonth() - i);
-        const year = date.getFullYear().toString();
-        const month = ("0" + (date.getMonth() + 1).toString()).slice(-2);
-        const nextMonth = ("0" + (date.getMonth() + 2).toString()).slice(-2);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const startDate = new Date(year, month - 1, 1);
+        const endDate = new Date(year, month, 0);
+
         const boletos = await ctx.prisma.boleto.findMany({
           where: {
             fechaRegistro: {
-              gte: new Date(year + "-" + month + "-01"),
-              lt: new Date(Number(year), Number(nextMonth), 1),
+              gte: startDate,
+              lt: endDate,
             },
           },
         });

@@ -39,7 +39,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
   return (
     <Card
       loading={isLoading}
-      className="row-span-3 mx-auto border-1 backdrop-blur-3xl duration-200    hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
+      className=" row-span-3 mx-auto border-1 backdrop-blur-3xl duration-200    hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
       type="inner"
       bordered={false}
       title={
