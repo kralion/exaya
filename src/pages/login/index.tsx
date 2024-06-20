@@ -70,7 +70,7 @@ export default function Login() {
       <div
         data-aos="fade-in"
         data-aos-duration="1000"
-        className=" absolute z-10 m-5 flex items-center gap-1"
+        className=" absolute z-10 m-5 flex hidden items-center gap-1 lg:block"
       >
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
@@ -90,7 +90,7 @@ export default function Login() {
           Operativa
         </h5>
       </div>
-      <h5 className=" absolute bottom-5 left-16 z-10 text-sm font-extralight  text-zinc-300 ">
+      <h5 className="absolute bottom-5 left-16 z-10 hidden text-sm font-extralight text-zinc-300  lg:block ">
         Desarrollado por{" "}
         <Link
           href="https://twitter.com/brayanpaucar_"
@@ -115,8 +115,23 @@ export default function Login() {
         style={{
           backgroundImage: `url(${LoginGradientLight.src})`,
         }}
-        className={` ${literata.className} flex  w-full min-w-[60%] flex-col items-center     justify-center bg-cover pl-5 backdrop-blur-2xl`}
+        className={` ${literata.className} flex h-screen  w-full flex-col items-center justify-center    pl-5 backdrop-blur-2xl lg:min-w-[60%] lg:bg-cover`}
       >
+        <div className="fixed left-5 top-5 z-10 flex items-center justify-center gap-1  lg:hidden  ">
+          <Image
+            src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
+            width={50}
+            height={50}
+            title="Exaya"
+            alt="logo"
+            priority
+          />
+          <h2
+            className={`bg-black bg-clip-text text-left text-3xl text-transparent ${blackOpsOne.className}`}
+          >
+            Exaya
+          </h2>
+        </div>
         <div
           className="dark:absolute dark:inset-0 dark:bg-cover"
           style={{
@@ -124,12 +139,12 @@ export default function Login() {
           }}
         />
         <h3
-          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-5xl font-bold text-transparent drop-shadow-xl  dark:from-orange-600 dark:to-orange-300   `}
+          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-2xl font-bold text-transparent drop-shadow-xl dark:from-orange-600  dark:to-orange-300 lg:text-5xl   `}
         >
           Inicio de Sesión
         </h3>
         <div className="z-50 mb-10 text-center">
-          <h4 className="mt-2 text-sm dark:text-white">
+          <h4 className="mt-2 px-14 text-xs dark:text-white lg:px-0 lg:text-sm">
             Las credenciales son precreadas, solicítalas en el área de TI
           </h4>
         </div>
@@ -137,7 +152,7 @@ export default function Login() {
           <Form
             ref={formRef}
             autoComplete="on"
-            className={`${literata.className} w-[400px] drop-shadow-md `}
+            className={`${literata.className} w-[300px] drop-shadow-md lg:w-[400px] `}
             name="control-ref"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onFinish={onFinish}

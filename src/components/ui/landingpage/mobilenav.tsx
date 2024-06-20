@@ -14,7 +14,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
   const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
   return (
-    <div className="fixed bottom-3 left-16 z-10 flex  items-center  justify-center gap-2 rounded-full border border-orange-400/50 bg-gradient-to-b from-orange-400 to-orange-600 p-1 backdrop-blur-lg lg:hidden  ">
+    <div className="fixed bottom-3 left-10 z-10 flex  items-center  justify-center gap-2 rounded-full border border-orange-400/50 bg-gradient-to-b from-orange-400 to-orange-600 p-1 backdrop-blur-lg lg:hidden  ">
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className=" flex items-center justify-center rounded-full border border-white/40 bg-white p-1 shadow-lg  hover:opacity-90 active:opacity-80 "
@@ -22,7 +22,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         <GoArrowUp className=" text-black" />
       </button>
       <nav ref={navRef} className="group flex">
-        {navLinks.slice(0, 3).map((link, index) => (
+        {navLinks.slice(1, 5).map((link, index) => (
           <Link
             onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
               const target = e.target as HTMLElement;

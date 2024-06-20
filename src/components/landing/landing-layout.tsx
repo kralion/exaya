@@ -22,24 +22,24 @@ const blackOpsOne = Black_Ops_One({
 });
 export const navLinks = [
   {
-    label: "Features",
-    href: "/features",
+    label: "Boletos",
+    href: "/boletos",
   },
   {
-    label: "Contacto",
-    href: "/contacto",
+    label: "Rastreo",
+    href: "/encomiendas/rastreo",
+  },
+  {
+    label: "Features",
+    href: "/features",
   },
   {
     label: "Membresías",
     href: "/planes",
   },
   {
-    label: "Comprar Pasaje",
-    href: "/boletos",
-  },
-  {
-    label: "Rastreo",
-    href: "/encomiendas/rastreo",
+    label: "Contacto",
+    href: "/contacto",
   },
 ];
 
@@ -51,13 +51,6 @@ export default function LandingLayout({
   const { data: session } = useSession();
   return (
     <AOSWrapper>
-      <Alert
-        message="Recomendamos usar la versión de escritorio"
-        type="warning"
-        className="fixed bottom-32 left-56 z-50 w-72  -rotate-90 text-center text-xs dark:bg-zinc-900  dark:text-white lg:hidden"
-        showIcon
-      />
-
       <div className={` ${inter.className}  dark:bg-zinc-900 dark:text-white`}>
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
@@ -94,9 +87,24 @@ export default function LandingLayout({
               </span>
             </div>
           </Link>
-          <Tag className="m-2 rounded-full border-orange-300 bg-gradient-to-r  from-red-500 via-orange-400 to-yellow-400 font-semibold text-white shadow-xl dark:text-zinc-900 lg:hidden  ">
-            Powered with AI
-          </Tag>
+          <Link
+            className=" text-sm lg:hidden"
+            href={session ? "/dashboard" : "/login"}
+          >
+            {session ? (
+              <button className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
+                Ir al Dashboard{" "}
+                <BsArrowRight
+                  className="duration-300 group-hover:translate-x-2"
+                  size={15}
+                />
+              </button>
+            ) : (
+              <button className="flex items-center gap-1  font-semibold underline active:opacity-80 dark:no-underline dark:hover:underline">
+                Iniciar Sesión
+              </button>
+            )}
+          </Link>
           <DesktopNavBar navLinks={navLinks} />
           <Link
             className="hidden lg:block"

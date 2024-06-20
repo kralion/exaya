@@ -4,7 +4,7 @@ export default function VideoBackground() {
       autoPlay
       muted
       loop
-      className=" h-full w-2/5  object-cover  brightness-75"
+      className=" hidden h-full  w-2/5  object-cover brightness-75 lg:block"
     >
       <source
         src="https://cdn.pixabay.com/video/2023/04/30/161071-822582138_large.mp4"
