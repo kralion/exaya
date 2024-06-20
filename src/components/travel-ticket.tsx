@@ -24,25 +24,28 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
 
     return (
       <div ref={ref} className="text-black">
-        <header className=" flex flex-col items-center  justify-center overflow-hidden rounded-t-lg bg-yellow-400 px-4 pt-2 text-center ">
-          <div className="flex flex-col items-center justify-center gap-3   text-black">
+        <header className="rounded-t-lg bg-gray-100 pt-3">
+          <div className="flex flex-col items-center justify-center gap-2 text-center">
+            <h2 className="text-xl font-bold text-gray-800">
+              Expreso Ayacucho
+            </h2>
             <img
               alt="Logo"
               src="https://img.icons8.com/?size=50&id=9351&format=png"
+              className="h-12 w-12 text-center"
             />
-            <div className="flex flex-col items-center justify-center  text-black">
-              <h2 className="text-lg font-bold">Expreso Ayacucho</h2>
-
-              <h4 className="text-xs">RUC: 20605475427</h4>
-              <h4 className=" text-center text-xs">
-                Jr. Angaraes Nro. 223 Int 002 Sec. Huancayo Sec 15(Esquina de
-                Ancash y Angaraes) Junín - Huancayo - Huancayo
-              </h4>
-            </div>
-            <span className="font-mono text-lg font-semibold uppercase">
-              Boleta de Venta Electrónica {data?.response?.codigo}
-            </span>
+            <p className="text-xs text-gray-600">RUC: 20605475427</p>
           </div>
+          <div className="mb-3 text-center text-xs text-gray-700">
+            <p>939966539-938863193</p>
+            <p>Jr. Angaraes Nro. 223 Int 002</p>
+            <p>Junín - Huancayo - Huancayo</p>
+          </div>
+          <Divider className="my-1" />
+          <h3 className="text-center font-semibold text-gray-800">
+            Boleta de Venta Electrónica {data?.response?.codigo}
+          </h3>
+          <Divider className="my-1" />
         </header>
         <Divider className="my-2" />
         <section className="space-y-1 bg-white px-4 text-xs">

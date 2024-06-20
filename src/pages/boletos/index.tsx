@@ -24,7 +24,7 @@ export default function Boletos() {
       <Flex justify="space-between">
         <PasajesTable dayQuery={dateQuery} />
         <Calendar
-          className="w-1/4 rounded-lg border  shadow duration-300 hover:shadow-lg"
+          className="w-1/4 rounded-lg border  shadow duration-300 "
           fullscreen={false}
           onSelect={onSelect}
         />
