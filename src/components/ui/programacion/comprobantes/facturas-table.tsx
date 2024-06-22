@@ -1,17 +1,27 @@
 import { api } from "@/utils/api";
 import { Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import dayjs from "dayjs";
 const { Title, Text } = Typography;
 
 const columns: ColumnsType = [
   {
     title: "Código",
-    dataIndex: "codigo",
-    key: "codigo",
+    children: [
+      {
+        title: "Serie",
+        dataIndex: "serie",
+        key: "serie",
+      },
+      {
+        title: "Número",
+        dataIndex: "numero",
+        key: "numero",
+        render: (numero: number) => <Text>000{numero}</Text>,
+      },
+    ],
   },
   {
-    title: "Empresa",
+    title: "Razon Social",
     dataIndex: "razonSocial",
     key: "razonSocial",
     render: (razonSocial: string) => {

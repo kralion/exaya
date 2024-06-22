@@ -33,7 +33,8 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               </h4>
             </div>
             <span className="font-mono text-lg font-semibold uppercase">
-              Boleta de Venta Electrónica {data?.response?.codigo}
+              Identificador {data?.response?.serie} - 000
+              {data?.response?.numero}
             </span>
           </div>
         </header>

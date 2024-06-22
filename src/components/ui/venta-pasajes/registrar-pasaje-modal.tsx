@@ -77,6 +77,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const { data: boletoSingle } = api.boletos.getBoletosById.useQuery({
     id: selectedBoleto?.id as string,
   });
+  const utils = api.useUtils();
 
   const {
     mutateAsync: updateBoletoMutation,
@@ -241,6 +242,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     await refetchBoletosViaje();
     await refetchBoletosReservados();
     await refetchBoletosVendidos();
+    window.location.reload();
     setOpenRegister(false);
     form.resetFields();
     setPasajeroDNI("");
@@ -263,7 +265,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
 
   return (
     <div>
-      <Typography onClick={() => setOpen(true)}>Registrar</Typography>
+      <Typography onClick={() => setOpen(true)}>Asientos</Typography>
       <Modal
         title={
           <div>

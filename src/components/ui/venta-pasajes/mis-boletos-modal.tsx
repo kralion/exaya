@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Divider, Modal, Space, Tag, Typography } from "antd";
+import { Modal, Space, Tag, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { MisBoletosVendidosTable } from "./mis-pasajes-table";

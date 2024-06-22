@@ -29,6 +29,7 @@ export const boletosRouter = createTRPCRouter({
 
     const result = await ctx.prisma.boleto.count({
       where: {
+        estado: "PAGADO",
         fechaRegistro: {
           gte: new Date(currentYear, currentMonth, 1),
           lt: new Date(currentYear, currentMonth + 1, 1),

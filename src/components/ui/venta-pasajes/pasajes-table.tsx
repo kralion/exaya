@@ -170,11 +170,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
 
         return session ? (
           <Dropdown trigger={["click"]} menu={{ items }}>
-            <Button
-              className="rounded-full"
-              type="text"
-              icon={<HiOutlineMenuAlt3 />}
-            />
+            <Button type="primary">Ver</Button>
           </Dropdown>
         ) : (
           <ComprarPasajeModal viajeId={id} />

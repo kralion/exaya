@@ -29,6 +29,12 @@ import { FaRegFile, FaRegFileLines } from "react-icons/fa6";
 import { LuMoveLeft } from "react-icons/lu";
 import { TbInfoTriangleFilled } from "react-icons/tb";
 
+enum Role {
+  ADMIN = "ADMIN",
+  USER = "USER",
+  GUEST = "GUEST",
+}
+
 const { Title } = Typography;
 function ProgramacionComprobantes() {
   const { openMessage } = useMessageContext();
@@ -111,8 +117,8 @@ function ProgramacionComprobantes() {
     <AppLayout>
       <AppHead title="Programacion Comprobantes" />
       <BoletosTable />
-      <BoletosEncomiendasTable />
       <FacturasTable />
+      <BoletosEncomiendasTable />
       <div className="item-center flex gap-3.5">
         <div className="flex w-1/2 gap-3.5">
           <Card
@@ -152,8 +158,7 @@ function ProgramacionComprobantes() {
           >
             <Statistic
               title="Total de Facturas Mensuales (TFM)"
-              value={facturasCount || 0}
-              precision={2}
+              value={facturasCount ?? 0}
               formatter={formatter}
               prefix={<FaRegFileLines className="pt-1" />}
             />

@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { RxDownload } from "react-icons/rx";
 import { EncomiendasManifiestoTable } from "./encomiendas-table";
 import { PasajerosManifiestoTable } from "./pasajeros-table";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 type TConductor = {
   id: string;
   conductorDni: string;
@@ -80,32 +80,25 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
   }
   return (
     <>
-      <Typography
-        title="Ver Manifiesto"
-        onClick={showDrawer}
-        className="flex items-center justify-center"
-      >
-        Ver Manifiesto
-      </Typography>
+      <Typography onClick={showDrawer}>Manifiesto</Typography>
 
       <Drawer
         closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
-            <Space direction="vertical" className="gap-1">
-              <Title level={5}>
+            <Space className="gap-3">
+              <Text type="secondary">
                 {viajeCurrent?.response?.ruta?.ciudadOrigen} -{" "}
                 {viajeCurrent?.response?.ruta?.ciudadDestino}
-              </Title>
-              <Space>
-                <Title className="font-mono" level={5}>
-                  {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
-                  {viajeCurrent?.response?.salida.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Title>
-              </Space>
+              </Text>
+
+              <Text className="font-bold">
+                {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
+                {viajeCurrent?.response?.salida.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
             </Space>
 
             <Button

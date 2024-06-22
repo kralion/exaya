@@ -89,7 +89,7 @@ export function EncomiendasTable({
               <Button
                 title="Eliminar"
                 icon={<FaRegTrashCan />}
-                type="text"
+                type="primary"
                 danger
               />
             </Popconfirm>

@@ -1,6 +1,7 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { CiTrash } from "react-icons/ci";
+import { LuTrash2 } from "react-icons/lu";
 
 import {
   Alert,
@@ -160,15 +161,6 @@ export default function UsuariosTable({
       render: (record: { id: string }) => {
         return (
           <Space className="items-baseline gap-2">
-            <Button
-              onClick={() => {
-                setUsuarioIdToEdit(record.id);
-                setIsModalOpen(true);
-              }}
-              loading={usuarioDisableMutation.isLoading}
-              title="Editar"
-              icon={<FiEdit3 />}
-            />
             <Popconfirm
               okButtonProps={{
                 danger: true,
@@ -185,6 +177,15 @@ export default function UsuariosTable({
                 danger
               />
             </Popconfirm>
+            <Button
+              onClick={() => {
+                setUsuarioIdToEdit(record.id);
+                setIsModalOpen(true);
+              }}
+              loading={usuarioDisableMutation.isLoading}
+              title="Editar"
+              icon={<FiEdit3 />}
+            />
             <Popconfirm
               okButtonProps={{
                 danger: true,
@@ -196,10 +197,9 @@ export default function UsuariosTable({
             >
               <Button
                 type="primary"
-                loading={usuarioDeleteMutation.isLoading}
                 danger
                 title="Eliminar"
-                icon={<CiTrash />}
+                icon={<LuTrash2 />}
               />
             </Popconfirm>
           </Space>

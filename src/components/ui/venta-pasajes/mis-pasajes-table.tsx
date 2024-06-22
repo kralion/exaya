@@ -1,4 +1,4 @@
-import { Descriptions, Table, Tag, Tooltip } from "antd";
+import { Descriptions, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { TableProps } from "antd/lib/table";
 
@@ -12,18 +12,7 @@ export function MisBoletosVendidosTable({
   const columns: ColumnsType = [
     {
       title: "Código",
-      children: [
-        {
-          title: "Serie",
-          dataIndex: "serie",
-          key: "serie",
-        },
-        {
-          title: "Número",
-          dataIndex: "codigo",
-          key: "codigo",
-        },
-      ],
+      dataIndex: "codigo",
     },
 
     {
@@ -35,17 +24,6 @@ export function MisBoletosVendidosTable({
       title: "Pasajero",
       dataIndex: "pasajeroDni",
       key: "pasajeroDni",
-    },
-    {
-      title: "Equipaje",
-      dataIndex: "equipaje",
-      key: "equipaje",
-      render: (equipaje: string) => (
-        <Tooltip title={equipaje}>
-          {equipaje.slice(0, 10)}
-          {equipaje.length > 10 && "..."}
-        </Tooltip>
-      ),
     },
     {
       title: "Precio",
@@ -64,12 +42,13 @@ export function MisBoletosVendidosTable({
   ];
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  const totalPrice = (data as any)?.reduce(
+  const totalPrice: number = (data as any)?.reduce(
     (acc: number, current: { precio: number }) => acc + current.precio,
     0
   );
 
   const totalBoletos = data?.length;
+  const comission = totalPrice * 0.15;
 
   return (
     <Table
@@ -82,11 +61,14 @@ export function MisBoletosVendidosTable({
         data?.length
           ? () => (
               <Descriptions title={null}>
-                <Descriptions.Item label="# Boletos">
+                <Descriptions.Item label="Boletos Vendidos">
                   {totalBoletos}
                 </Descriptions.Item>
                 <Descriptions.Item label="Total">
-                  {` S/.  ${String(totalPrice)}.00`}
+                  S/. {totalPrice.toFixed(2)}
+                </Descriptions.Item>
+                <Descriptions.Item label="Comision">
+                  S/. {comission.toFixed(2)}
                 </Descriptions.Item>
               </Descriptions>
             )

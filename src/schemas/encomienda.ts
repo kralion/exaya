@@ -3,7 +3,7 @@ import { z } from "zod";
 const encomiendaSchema = z.object({
   remitenteDni: z.string(),
   usuarioId: z.string(),
-  codigo: z.string(),
+  serie: z.enum(["B001", "F001"]),
   destino: z.string(),
   destinatarioDni: z.string(),
   codigoRastreo: z.string(),

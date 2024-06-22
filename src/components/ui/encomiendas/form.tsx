@@ -20,6 +20,11 @@ import type { z } from "zod";
 import { customAlphabet } from "nanoid";
 const { Title } = Typography;
 
+enum SerieEncomienda {
+  B001 = "B001",
+  F001 = "F001",
+}
+
 export function EncomiendasForm({
   encomiendaIdToEdit,
   setEncomiendaIdToEdit,
@@ -29,9 +34,6 @@ export function EncomiendasForm({
 }) {
   const [form] = Form.useForm();
   const { data: session } = useSession();
-  const { data: sede, refetch: refetchSede } = api.sedes.getSedeById.useQuery({
-    id: session?.user.sedeId ?? "",
-  });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const nanoid = customAlphabet("0123456789abcdef", 6);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
@@ -54,8 +56,7 @@ export function EncomiendasForm({
   });
   const { openMessage } = useMessageContext();
   const [facturaUI, setFacturaUI] = useState(false);
-  const { mutateAsync: incrementBoletoCounter } =
-    api.sedes.incrementBoletosCounterBySedeId.useMutation();
+
   const {
     mutateAsync: createEncomiendaMutation,
     isLoading: isLoadingCreateEncomienda,
@@ -85,13 +86,9 @@ export function EncomiendasForm({
   async function handleUpdateEncomienda(
     values: z.infer<typeof encomiendaSchema>
   ) {
-    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-000${
-      sede?.response?.contadorBoletos || 0
-    }`;
-    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-000${
-      sede?.response?.contadorFacturas || 0
-    }`;
-
+    const serie: SerieEncomienda = values.factura
+      ? SerieEncomienda.F001
+      : SerieEncomienda.B001;
     if (remitenteInformacion?.data === undefined) {
       return openMessage({
         content: "El DNI no existe en la base de datos de la RENIEC",
@@ -113,7 +110,7 @@ export function EncomiendasForm({
         codigoRastreo: trackingCode,
         precio: parseFloat(values.precio.toString()),
         id: encomiendaIdToEdit,
-        codigo: values.factura ? codigoFactura : codigoBoleta,
+        serie,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
@@ -148,14 +145,9 @@ export function EncomiendasForm({
   async function handleCreateEncomienda(
     values: z.infer<typeof encomiendaSchema>
   ) {
-    await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
-    await refetchSede();
-    const codigoBoleta = `${sede?.response?.serieBoleto || "B001"}-000${
-      sede?.response?.contadorBoletos || 0
-    }`;
-    const codigoFactura = `${sede?.response?.serieFactura || "F001"}-000${
-      sede?.response?.contadorFacturas || 0
-    }`;
+    const serie: SerieEncomienda = values.factura
+      ? SerieEncomienda.F001
+      : SerieEncomienda.B001;
 
     if (remitenteInformacion?.data === undefined) {
       return openMessage({
@@ -176,8 +168,8 @@ export function EncomiendasForm({
         ...values,
         usuarioId: session?.user?.id as string,
         precio: parseFloat(values.precio.toString()),
-        codigo: values.factura ? codigoFactura : codigoBoleta,
         codigoRastreo: trackingCode,
+        serie,
         fechaEnvio: new Date(values.fechaEnvio),
         remitenteNombres: remitenteInformacion.data.nombres,
         remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,

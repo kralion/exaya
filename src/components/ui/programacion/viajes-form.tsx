@@ -16,6 +16,7 @@ export function ViajesForm({
   setIdToEdit: (id: string) => void;
 }) {
   const [form] = Form.useForm();
+  const utils = api.useUtils();
   const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
     api.conductores.getAllConductores.useQuery();
   const createViajeMutation = api.viajes.createViaje.useMutation();
@@ -24,7 +25,6 @@ export function ViajesForm({
     api.rutas.getAllRutas.useQuery();
   const { data: bus, isLoading: isLoadingBus } =
     api.buses.getAllBuses.useQuery();
-  const { refetch } = api.viajes.getAllViajes.useQuery();
   const { data: singleViaje } = api.viajes.getViajeById.useQuery({
     id: idToEdit,
   });
@@ -81,13 +81,14 @@ export function ViajesForm({
         ],
       },
       {
-        onSuccess: (response) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
           openMessage({
             content: response.message,
             duration: 3,
             type: "success",
           });
-          void refetch();
+          await utils.viajes.getAllViajes.invalidate();
         },
         onError: (error) => {
           openMessage({

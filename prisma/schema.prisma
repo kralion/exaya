@@ -27,6 +27,11 @@ enum SerieBoleto {
     B004
 }
 
+enum SerieEncomienda {
+    B001
+    F001
+}
+
 model Sede {
     id               String       @id @default(cuid())
     agenciaUbicacion String
@@ -82,27 +87,28 @@ model Conductor {
 }
 
 model Encomienda {
-    codigo                String   @unique
     destino               String
+    numero                Int             @default(autoincrement())
+    serie                 SerieEncomienda
     descripcion           String
-    usuario               Usuario  @relation(fields: [usuarioId], references: [id])
+    usuario               Usuario         @relation(fields: [usuarioId], references: [id])
     usuarioId             String
-    codigoRastreo         String   @default("Sin Codigo")
+    codigoRastreo         String          @default("Sin Codigo")
     destinatarioDni       String
     destinatarioNombres   String
     destinatarioApellidos String
     remitenteNombres      String
     remitenteDni          String
     remitenteApellidos    String
-    factura               Boolean  @default(false)
+    factura               Boolean         @default(false)
     razonSocial           String?
     ruc                   String?
     fechaEnvio            DateTime
-    fechaRecepcion        DateTime @default(now())
-    id                    String   @id @default(uuid())
-    pagado                Boolean  @default(false)
+    fechaRecepcion        DateTime        @default(now())
+    id                    String          @id @default(uuid())
+    pagado                Boolean         @default(false)
     precio                Int
-    viaje                 Viaje    @relation(fields: [viajeId], references: [id])
+    viaje                 Viaje           @relation(fields: [viajeId], references: [id])
     viajeId               String
 }
 

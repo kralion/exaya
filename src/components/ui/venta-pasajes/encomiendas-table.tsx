@@ -7,16 +7,7 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
     api.encomiendas.getEncomiendasByViajeId.useQuery({
       viajeId,
     });
-  function capitalizeFirstLetter(string: string | undefined) {
-    if (string === undefined) {
-      return "";
-    }
-    return string
-      .toLowerCase()
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
+
   const columns: ColumnsType = [
     {
       title: "Remitente",

@@ -6,8 +6,19 @@ const { Title, Text } = Typography;
 const columns: ColumnsType = [
   {
     title: "Código",
-    dataIndex: "codigo",
-    key: "codigo",
+    children: [
+      {
+        title: "Serie",
+        dataIndex: "serie",
+        key: "serie",
+      },
+      {
+        title: "Número",
+        dataIndex: "numero",
+        key: "numero",
+        render: (numero: number) => <Text>000{numero}</Text>,
+      },
+    ],
   },
   {
     title: "Agencia",

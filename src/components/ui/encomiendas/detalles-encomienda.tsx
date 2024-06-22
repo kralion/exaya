@@ -3,7 +3,7 @@ import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Modal, Popconfirm, Tag } from "antd";
 import { useRef, useState } from "react";
-import { CgDetailsMore } from "react-icons/cg";
+import { FaInfo } from "react-icons/fa6";
 import { useReactToPrint } from "react-to-print";
 
 type Props = {
@@ -58,12 +58,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
 
   return (
     <>
-      <Button
-        icon={<CgDetailsMore />}
-        title={modalActivator}
-        onClick={showModal}
-        type="primary"
-      />
+      <Button icon={<FaInfo />} title={modalActivator} onClick={showModal} />
       <Modal
         width={600}
         title={
@@ -97,6 +92,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
         }
         closeIcon={null}
         open={open}
+        centered
         onCancel={() => setOpen(false)}
         footer={null}
       >
