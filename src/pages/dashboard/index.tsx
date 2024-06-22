@@ -23,7 +23,6 @@ export default function Dashboard() {
   } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
   });
-  api.encomiendas.getLatestCodeOfEncomienda.useQuery();
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(
     (viaje: TViajeEstado) => viaje.estado === "DISPONIBLE"
