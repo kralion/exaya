@@ -117,7 +117,8 @@ export default function Page() {
                   <div className="font-medium">
                     Encomienda{" "}
                     <span className="font-mono font-bold">
-                      # {data?.response?.codigo}
+                      # {data?.response?.serie} - 000
+              {data?.response?.numero}
                     </span>
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
