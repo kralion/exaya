@@ -19,7 +19,7 @@ export const ControlPaneCard = ({
 }: Card) => {
   return (
     <Card
-      className="cursor-pointer border-1  backdrop-blur-3xl duration-200 hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
+      className="h-fit cursor-pointer border-1 backdrop-blur-3xl  duration-200 hover:shadow-xl dark:border-zinc-800   dark:hover:bg-black/50 lg:h-auto"
       type="inner"
       bordered={false}
       title={

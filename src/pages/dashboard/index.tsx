@@ -37,7 +37,7 @@ export default function Dashboard() {
   return (
     <AppLayout>
       <AppHead title="Panel de Control" />
-      <div className="grid  grid-flow-row grid-cols-3 grid-rows-3 gap-4 ">
+      <div className="flex  flex-col gap-4 lg:grid lg:grid-flow-row lg:grid-cols-3 lg:grid-rows-3">
         <ControlPaneCard
           href="/pasajes"
           cardTitle="Viajes"

@@ -39,7 +39,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
   return (
     <Card
       loading={isLoading}
-      className=" row-span-3 mx-auto border-1 backdrop-blur-3xl duration-200    hover:shadow-xl   dark:border-zinc-800 dark:hover:bg-black/50"
+      className=" mx-auto border-1 backdrop-blur-3xl duration-200 hover:shadow-xl    dark:border-zinc-800   dark:hover:bg-black/50 lg:row-span-3"
       type="inner"
       bordered={false}
       title={
@@ -93,9 +93,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
                   />
                 ) : (
                   <Progress
-                    style={{
-                      width: 300,
-                    }}
+                    className="w-72 lg:w-[300px]"
                     status={status}
                     strokeColor={{
                       "0%": "#4096FF",

@@ -1,5 +1,5 @@
 import AppHeader from "@/components/exaya/appheader";
-import { CollapsedContext, SelectedContext } from "@/context/MenuContext";
+import { SelectedContext } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme } from "antd";
@@ -54,7 +54,6 @@ const items: MenuItem[] = [
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
-  const { isCollapsed } = useContext(CollapsedContext);
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
   const { data: session } = useSession();
@@ -67,18 +66,19 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <MessageProvider>
-      <Layout className="min-h-screen p-4">
+      <Layout className="h-100dvh p-4 lg:min-h-screen">
         <Sider
-          className="h-fit rounded-lg border-2 border-transparent border-opacity-50  shadow-xl  dark:border-zinc-800"
-          collapsed={isCollapsed}
+          className=" h-fit rounded-lg border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
+          breakpoint="lg"
           style={{
-            position: "fixed",
+            position: "sticky",
             top: 14,
+            zIndex: 100,
             left: 14,
             background: colorBgContainer,
             borderRadius: 21,
           }}
-          collapsedWidth={50}
+          collapsedWidth="0"
         >
           <AppHeader />
           <Menu
@@ -99,55 +99,39 @@ export default function AppLayout({ children }: LayoutProps) {
             }}
           />
           <div className=" px-2 pb-2">
-            {isCollapsed ? (
-              <Button
-                type="text"
-                danger
-                className="rounded-b-xl rounded-t-md"
-                icon={<LuLogOut className="rotate-180" />}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                onClick={handleSignOut}
-              />
-            ) : (
-              <Button
-                type="text"
-                className=" flex h-10 w-full items-center justify-start gap-2 rounded-b-xl rounded-t-lg pl-5   text-left"
-                danger
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                onClick={handleSignOut}
-              >
-                <LuLogOut className="rotate-180" />
-                Salir
-              </Button>
-            )}
+            <Button
+              type="text"
+              className=" flex h-10 w-full items-center justify-start gap-2 rounded-b-xl rounded-t-lg pl-5   text-left"
+              danger
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={handleSignOut}
+            >
+              <LuLogOut className="rotate-180" />
+              Salir
+            </Button>
           </div>
         </Sider>
-        <Layout
-          className={`space-y-2 duration-300 ${
-            isCollapsed ? "ml-14 " : "ml-52"
-          }`}
-        >
+        <Layout className=" space-y-2 duration-300 lg:ml-4  ">
           <Header
-            className="flex w-full items-center justify-between rounded-lg border-2 border-transparent  border-opacity-50   px-3 shadow-md dark:border-zinc-800"
+            className="hidden w-full items-center justify-between rounded-lg border-2 border-transparent border-opacity-50 px-3  shadow-md   dark:border-zinc-800 lg:flex "
             style={{
               background: colorBgContainer,
               borderRadius: 14,
             }}
           >
             <AIAssistantInput />
-            <h3 className="font-bold text-primary  ">Expreso Ayacucho</h3>
+            <h3 className="font-bold  text-primary">Expreso Ayacucho</h3>
           </Header>
 
           <Content
             style={{
               background: colorBgContainer,
-              padding: 21,
-              borderRadius: 14,
             }}
-            className="min-h-[620px] rounded-lg border-2 border-transparent border-opacity-50  bg-purple-100 shadow-lg  dark:border-zinc-800  dark:bg-zinc-700"
+            className="overflow-hidden rounded-lg border-transparent border-opacity-50 bg-purple-100  p-4 shadow-lg dark:border-zinc-800  dark:bg-zinc-700 lg:min-h-[620px]  lg:border-2  lg:p-6"
           >
             {children}
           </Content>
+
           <Footer className="my-5 bg-transparent text-center text-sm text-zinc-400">
             © 2024 Exaya Inc. Todos los derechos reservados.
           </Footer>

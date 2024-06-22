@@ -58,7 +58,7 @@ export default function ControlPaneGraph() {
 
   return (
     <ResponsiveContainer
-      className="col-span-2 row-span-2 rounded-xl   duration-200   "
+      className="col-span-2 row-span-2 hidden   rounded-xl   duration-200 lg:block"
       width="100%"
       height="100%"
     >
