@@ -159,7 +159,8 @@ const ParcelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
               <div>
                 <p className="font-medium ">Ticket de Seguimiento</p>
                 <h1 className="font-mono text-5xl font-bold">
-                  {data?.response?.codigo}
+                 {data?.response?.serie} - 000
+              {data?.response?.numero}
                 </h1>
               </div>
               <Tag className="rounded-full px-2.5 pb-0.5 text-lg font-semibold lowercase">
