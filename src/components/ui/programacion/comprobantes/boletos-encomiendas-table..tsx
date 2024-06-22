@@ -22,6 +22,8 @@ const columns: ColumnsType = [
   },
   {
     title: "Agencia",
+    responsive: ["lg"],
+
     dataIndex: "viaje",
     key: "agencia",
     render: (viaje: { usuario: { sede: { agencia: string } } }) => {
@@ -31,6 +33,8 @@ const columns: ColumnsType = [
 
   {
     title: "Viaje",
+    responsive: ["lg"],
+
     key: "viaje",
     dataIndex: "viaje",
     render: (viaje: {
@@ -46,6 +50,7 @@ const columns: ColumnsType = [
 
   {
     title: "Fecha Emisión",
+
     dataIndex: "fechaEnvio",
     key: "fechaEnvio",
     render: (fechaEnvio: string) => {

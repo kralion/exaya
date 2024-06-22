@@ -1,24 +1,20 @@
-import { CollapsedContext } from "@/context/MenuContext";
 import { api } from "@/utils/api";
 import { Button, Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { type Dayjs } from "dayjs";
-import { useContext } from "react";
-import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { useSession } from "next-auth/react";
 import { IoFilterSharp } from "react-icons/io5";
 import { TbBus } from "react-icons/tb";
+import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
-import { useSession } from "next-auth/react";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
   const { data: session } = useSession();
-  const { isCollapsed } = useContext(CollapsedContext);
   const origenFilterItems = viajes?.response
     ?.map((viaje) => ({
       text: viaje.ruta.ciudadOrigen,
@@ -44,6 +40,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
     {
       title: "Origen",
       dataIndex: "ruta",
+      responsive: ["lg"],
       key: "origen",
       render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
       filterOnClose: true,
@@ -106,6 +103,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
     {
       title: "Placa",
       dataIndex: "bus",
+      responsive: ["lg"],
+
       key: "placaBus",
       render: (bus: { placa: string }) => (
         <Tooltip className="cursor-pointer" title={bus.placa}>
@@ -121,6 +120,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       title: session ? "Tarifas" : "Precio",
       key: "tarifas",
       dataIndex: "tarifas",
+      responsive: ["lg"],
       render: (tarifas: number[]) => {
         const tarifaClassified = tarifas.map((tarifa) => {
           if (tarifa <= 20) return "orange-inverse";
@@ -170,7 +170,9 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
 
         return session ? (
           <Dropdown trigger={["click"]} menu={{ items }}>
-            <Button type="primary">Ver</Button>
+            <Button type="primary" className="lg:px-auto px-6">
+              Ver
+            </Button>
           </Dropdown>
         ) : (
           <ComprarPasajeModal viajeId={id} />
@@ -186,23 +188,29 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
           bus: { asientos: number };
           boletos: any[];
         }) => (
-          <Space className="w-full justify-between">
+          <Space className=" w-full justify-between ">
             <Space>
-              <Typography.Text type="secondary">Salida : </Typography.Text>
-              <Typography.Text className=" font-mono font-semibold">
+              <Typography.Text type="secondary" className="lg:text-xs">
+                Salida
+              </Typography.Text>
+              <Typography.Text className=" font-mono text-xs font-semibold lg:text-sm">
                 {new Date(record.salida).toLocaleDateString()}
               </Typography.Text>
             </Space>
             <Space>
-              <Typography.Text type="secondary">Asientos : </Typography.Text>
-              <Typography.Text className=" font-mono font-semibold">
+              <Typography.Text type="secondary" className="lg:text-xs">
+                Asientos
+              </Typography.Text>
+              <Typography.Text className=" font-mono text-xs font-semibold lg:text-sm">
                 {record.bus.asientos}
               </Typography.Text>
             </Space>
 
             <Space>
-              <Typography.Text type="secondary">Ocupados : </Typography.Text>
-              <Typography.Text className=" font-mono font-semibold">
+              <Typography.Text type="secondary" className="text-xs lg:text-sm">
+                Ocupados
+              </Typography.Text>
+              <Typography.Text className=" font-mono text-xs font-semibold lg:text-sm">
                 {record.boletos.length}
               </Typography.Text>
             </Space>
@@ -210,13 +218,10 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ),
       }}
       pagination={false}
-      className="rounded-xl border shadow duration-300  dark:border-zinc-800"
+      className=" rounded-xl border shadow  duration-300 dark:border-zinc-800"
       loading={isLoading}
       columns={columns}
       dataSource={viajes?.response}
-      style={{
-        width: isCollapsed ? "65vw" : session ? "55vw" : "68vw",
-      }}
     />
   );
 }

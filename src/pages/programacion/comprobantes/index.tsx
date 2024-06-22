@@ -119,8 +119,8 @@ function ProgramacionComprobantes() {
       <BoletosTable />
       <FacturasTable />
       <BoletosEncomiendasTable />
-      <div className="item-center flex gap-3.5">
-        <div className="flex w-1/2 gap-3.5">
+      <div className="item-center flex flex-col gap-3.5 lg:flex-row">
+        <div className="flex gap-3.5 lg:w-1/2">
           <Card
             className=" rounded-xl shadow-lg duration-200 dark:hover:bg-black/50"
             size="small"
@@ -166,7 +166,7 @@ function ProgramacionComprobantes() {
         </div>
 
         <Timeline
-          className=" -ml-36 w-full items-start"
+          className=" -ml-5 mt-10 w-full items-start lg:-ml-36 lg:mt-0"
           pendingDot
           mode="left"
           items={[
@@ -200,6 +200,7 @@ function ProgramacionComprobantes() {
             title="Solo se puede generar el último día del mes"
             onClick={handlePrint}
             type="primary"
+            className="px-10 py-5 text-lg lg:px-6 lg:py-3 lg:text-sm"
             block
           >
             Descargar PDF
@@ -210,7 +211,10 @@ function ProgramacionComprobantes() {
               facturasCount={facturasCount ?? 0}
             />
           )}
-          <QRCode size={100} value="https://www.google.com" />
+          <QRCode
+            className="w-[300px] lg:w-[100px]"
+            value="https://www.google.com"
+          />
         </Flex>
       </div>
 
@@ -229,14 +233,14 @@ type TBoleto = {
 
 type TEncomienda = {
   serie: string;
-  numero : number;
+  numero: number;
   fechaRecepcion: Date;
   precio: number;
 };
 
 type TFactura = {
-  serie : string;
-  numero : number;
+  serie: string;
+  numero: number;
   fechaRecepcion: Date;
   precio: number;
   ruc: string | null;

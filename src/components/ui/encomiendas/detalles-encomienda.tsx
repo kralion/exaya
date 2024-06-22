@@ -62,7 +62,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
       <Modal
         width={600}
         title={
-          <div className="flex items-center justify-between">
+          <div className="mr-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
               {encomienda?.response?.pagado === true ? "Pagado" : "Por pagar"}
               <Popconfirm
@@ -85,12 +85,15 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
                 </Tag>
               </Popconfirm>
             </div>
-            <Button type="primary" onClick={handlePrint}>
+            <Button
+              type="primary"
+              className="hidden lg:block"
+              onClick={handlePrint}
+            >
               Imprimir
             </Button>
           </div>
         }
-        closeIcon={null}
         open={open}
         centered
         onCancel={() => setOpen(false)}

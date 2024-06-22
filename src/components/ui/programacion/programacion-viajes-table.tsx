@@ -57,6 +57,7 @@ export function ProgramacionTable({
       title: "Bus",
       dataIndex: "bus",
       key: "bus",
+      responsive: ["lg"],
 
       render: (bus: { placa: string; id: string }) => (
         <Tooltip className="cursor-pointer" key={bus.id} title={bus.placa}>
@@ -82,6 +83,7 @@ export function ProgramacionTable({
     },
     {
       title: "Hora Salida",
+      responsive: ["lg"],
       dataIndex: "salida",
       key: "hora",
       render: (salida: string) => {
@@ -94,6 +96,7 @@ export function ProgramacionTable({
     },
     {
       title: "Estado",
+      responsive: ["lg"],
       key: "estado",
       dataIndex: "estado",
 

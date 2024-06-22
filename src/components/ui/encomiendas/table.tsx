@@ -31,11 +31,13 @@ export function EncomiendasTable({
       title: "Remitente",
       dataIndex: "remitenteDni",
       key: "remitenteDni",
+      responsive: ["lg"],
     },
     {
       title: "Destinatario",
       dataIndex: "destinatarioDni",
       key: "destinatarioDni",
+      responsive: ["lg"],
     },
 
     {
@@ -53,6 +55,7 @@ export function EncomiendasTable({
     },
     {
       title: "Fecha de Envío",
+      responsive: ["lg"],
       dataIndex: "fechaEnvio",
       key: "fechaEnvio",
       render: (fechaEnvio: string) => {

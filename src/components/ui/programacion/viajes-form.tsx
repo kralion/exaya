@@ -127,15 +127,15 @@ export function ViajesForm({
 
   return (
     <Form form={form} name="viaje-form" onFinish={onFinish}>
-      <Space className=" grid w-full grid-cols-2 items-start justify-between gap-4">
-        <div>
-          <Space>
+      <div className=" flex flex-col items-start gap-4 lg:grid lg:w-full lg:grid-cols-2 lg:justify-between">
+        <div className="flex flex-col lg:flex-row lg:gap-4">
+          <div className="flex flex-col lg:flex-row lg:gap-4 ">
             <Form.Item
               name="rutaId"
               rules={[{ required: true, message: "Requerido" }]}
             >
               <Select
-                style={{ width: 205 }}
+                className="w-full lg:w-[205px]"
                 placeholder="Ruta"
                 allowClear
                 loading={isLoadingRutas}
@@ -160,7 +160,7 @@ export function ViajesForm({
             >
               <Select
                 loading={isLoadingBus}
-                style={{ width: 105 }}
+                className="w-full lg:w-[105px]"
                 placeholder="Bus"
                 allowClear
               >
@@ -177,7 +177,7 @@ export function ViajesForm({
               name="salida"
             >
               <DatePicker
-                style={{ width: 175 }}
+                className="w-full lg:w-[175px]"
                 showTime
                 use12Hours
                 minuteStep={15}
@@ -186,8 +186,8 @@ export function ViajesForm({
                 format="YYYY-MM-DD HH:mm"
               />
             </Form.Item>
-          </Space>
-          <Space>
+          </div>
+          <div className="flex  flex-col lg:flex-row lg:gap-4">
             <Form.Item
               name="tarifaGeneral"
               rules={[
@@ -198,7 +198,6 @@ export function ViajesForm({
               ]}
             >
               <Input
-                style={{ width: 125 }}
                 addonBefore="S/."
                 type="number"
                 placeholder="Tarifa"
@@ -219,7 +218,7 @@ export function ViajesForm({
               <Select
                 mode="multiple"
                 style={{
-                  width: 370,
+                  width: 350,
                 }}
                 loading={isLoadingConductores}
                 placeholder="Conductores"
@@ -238,7 +237,7 @@ export function ViajesForm({
                 )}
               </Select>
             </Form.Item>
-          </Space>
+          </div>
         </div>
         <Form.Item>
           <Flex gap={8} justify="end">
@@ -267,7 +266,7 @@ export function ViajesForm({
             </Button>
           </Flex>
         </Form.Item>
-      </Space>
+      </div>
     </Form>
   );
 }

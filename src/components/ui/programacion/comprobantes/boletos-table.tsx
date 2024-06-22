@@ -13,6 +13,7 @@ const columns: ColumnsType = [
   {
     title: "Viaje",
     key: "viaje",
+    responsive: ["lg"],
     dataIndex: "viaje",
     render: (viaje: {
       ruta: { ciudadOrigen: string; ciudadDestino: string };
@@ -27,6 +28,7 @@ const columns: ColumnsType = [
   {
     title: "Agencia",
     dataIndex: "viaje",
+    responsive: ["lg"],
     key: "agencia",
     render: (viaje: { usuario: { sede: { agencia: string } } }) => {
       return <Text>{viaje.usuario.sede.agencia}</Text>;
@@ -52,6 +54,7 @@ const columns: ColumnsType = [
   },
   {
     title: "Precio",
+    responsive: ["lg"],
     key: "precio",
     dataIndex: "precio",
     render: (precio: number) => {

@@ -153,7 +153,7 @@ export default function Contable() {
       <AppHead title="Contable" />
       <Space className="w-full gap-14" direction="vertical">
         <Space direction="vertical" className="w-full gap-3.5">
-          <Space className="flex items-start justify-between">
+          <Space className="flex flex-col items-start justify-between lg:flex-row">
             <Space direction="vertical">
               <Title level={5}>Analíticas por Horarios</Title>
               <div className="flex items-center">
@@ -238,7 +238,7 @@ export default function Contable() {
               <Space direction="vertical">
                 <Title level={5}>Fecha</Title>
                 <DatePicker
-                  style={{ width: 120 }}
+                  className="w-full lg:w-[120px]"
                   placeholder="24-04-2024"
                   onChange={onDateChange}
                   // TODO: Fix this
@@ -253,7 +253,7 @@ export default function Contable() {
                     onChangeRuta(rutaId);
                   }}
                   loading={isLoading}
-                  style={{ width: 215 }}
+                  style={{ width: 210 }}
                   disabled={
                     !salidasDiarias?.response ||
                     salidasDiarias.response.length === 0
@@ -274,7 +274,7 @@ export default function Contable() {
               </Space>
             </Space>
           </Space>
-          <div className="flex gap-3.5">
+          <div className="flex flex-col gap-3.5 lg:flex-row">
             <ContableCard
               isLoading={isLoadingCurrentViaje}
               cardTitle="Total Bruto"

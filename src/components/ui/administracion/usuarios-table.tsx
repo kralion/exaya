@@ -101,6 +101,8 @@ export default function UsuariosTable({
     {
       title: "Foto",
       dataIndex: "foto",
+      responsive: ["lg"],
+
       key: "foto",
       render: (foto: string) => {
         return <Avatar src={foto} size="large" shape="circle" />;
@@ -116,6 +118,7 @@ export default function UsuariosTable({
     },
     {
       title: "Apellidos",
+      responsive: ["lg"],
       dataIndex: "apellidos",
       key: "apellidos",
       render: (apellidos: string) => (
@@ -125,6 +128,8 @@ export default function UsuariosTable({
     {
       title: "DNI",
       dataIndex: "usuarioDni",
+      responsive: ["lg"],
+
       key: "usuarioDni",
       render: (usuarioDni: string) => (
         <Tag className="font-semibold">{usuarioDni}</Tag>
@@ -132,12 +137,15 @@ export default function UsuariosTable({
     },
     {
       title: "Sede Asignada",
+
       dataIndex: "sede",
       key: "sedeDelegacion",
       render: (sede: { agencia: string }) => <Text>{sede?.agencia}</Text>,
     },
     {
       title: "Rol del Usuario",
+      responsive: ["lg"],
+
       dataIndex: "rol",
       key: "rol",
       render: (rol: string) => (

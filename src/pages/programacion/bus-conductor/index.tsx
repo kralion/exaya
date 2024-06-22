@@ -21,11 +21,11 @@ export default function ProgramacionBusConductor() {
   const [isNotAdmin, setIsNotAdmin] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
-  useEffect(() => {
-    if (session?.user?.rol !== "ADMIN") {
-      setIsNotAdmin(true);
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (session?.user?.rol !== "ADMIN") {
+  //     setIsNotAdmin(true);
+  //   }
+  // }, [session, router]);
 
   if (isNotAdmin) {
     return (
@@ -54,8 +54,8 @@ export default function ProgramacionBusConductor() {
   return (
     <AppLayout>
       <AppHead title="Programacion Bus Conductor" />
-      <div className="flex gap-7">
-        <div className="space-y-7">
+      <div className="flex flex-col gap-20 lg:flex-row lg:gap-7">
+        <div className="space-y-2 lg:space-y-7">
           <Title level={4}>Conductores</Title>
           <ConductorForm
             isModalOpen={isModalOpen}
@@ -68,7 +68,7 @@ export default function ProgramacionBusConductor() {
             setConductorIdToEdit={setConductorIdToEdit}
           />
         </div>
-        <div className="space-y-7">
+        <div className="space-y-2 lg:space-y-7">
           <Title level={4}>Buses</Title>
           <BusForm activator="Agregar Bus" />
           <BusesInformacion />

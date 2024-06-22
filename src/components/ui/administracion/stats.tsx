@@ -35,7 +35,6 @@ export function StatsSegments({
           </Paragraph>
         </Space>
       }
-      className="shadow duration-200 dark:hover:bg-black/50"
     >
       <div>
         <Text>Vendidos</Text>

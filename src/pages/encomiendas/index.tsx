@@ -11,7 +11,7 @@ function Encomiendas() {
   return (
     <AppLayout>
       <AppHead title="Encomiendas" />
-      <div className="space-y-3.5">
+      <div className="space-y-20 lg:space-y-3.5">
         <EncomiendasForm
           setEncomiendaIdToEdit={setEncomiendaIdToEdit}
           encomiendaIdToEdit={encomiendaIdToEdit}

@@ -59,9 +59,10 @@ export function ConductoresInformacion({
         (conductoresRegistrados?.length ?? 0) > 0 ? (
           <List.Item
             key={index}
-            className="rounded px-14 shadow dark:shadow-black/30"
+            className="w-[350px] rounded shadow dark:shadow-black/30 lg:w-full lg:px-14"
           >
             <List.Item.Meta
+              className="w-full px-4"
               avatar={<Avatar src={conductor.foto} size="large" />}
               title={
                 <div className="flex items-center gap-2">
@@ -87,18 +88,20 @@ export function ConductoresInformacion({
                 </div>
               }
             />
-            <Steps
-              style={{ marginTop: 8 }}
-              type="inline"
-              current={
-                conductor.claseLicencia === "A-IIIC"
-                  ? 2
-                  : conductor.claseLicencia === "A-IIIB"
-                  ? 1
-                  : 0
-              }
-              items={items}
-            />
+            <div className="hidden lg:block">
+              <Steps
+                style={{ marginTop: 8 }}
+                type="inline"
+                current={
+                  conductor.claseLicencia === "A-IIIC"
+                    ? 2
+                    : conductor.claseLicencia === "A-IIIB"
+                    ? 1
+                    : 0
+                }
+                items={items}
+              />
+            </div>
           </List.Item>
         ) : (
           <Empty

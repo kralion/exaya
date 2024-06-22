@@ -34,8 +34,8 @@ export default function Soporte() {
           className="drop-shadow-xl"
         />
         <div className="my-7 flex flex-col items-center justify-center gap-7 text-center">
-          <Space direction="vertical" className="mx-auto w-2/3">
-            <h1 className={` ${literata.className} text-3xl `}>
+          <Space direction="vertical" className="mx-auto w-full lg:w-2/3">
+            <h1 className={` ${literata.className} text-2xl lg:text-3xl `}>
               Estás teniendo algún problema ?
             </h1>
             <Text>
@@ -43,7 +43,7 @@ export default function Soporte() {
               vivo o agendar una cita con nosotros.
             </Text>
           </Space>
-          <div className="flex gap-3">
+          <div className="flex gap-2 lg:gap-3">
             <a
               href=" https://wa.me/+51914019629?text=Estoy%20teniendo el%20siguiente %20problema"
               target="_blank"

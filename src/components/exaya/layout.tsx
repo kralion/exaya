@@ -66,17 +66,12 @@ export default function AppLayout({ children }: LayoutProps) {
 
   return (
     <MessageProvider>
-      <Layout className="h-100dvh p-4 lg:min-h-screen">
+      <Layout className="h-100dvh lg:min-h-screen lg:p-4">
         <Sider
-          className=" h-fit rounded-lg border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
+          className=" z-2  h-fit rounded-lg rounded-xl border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
           breakpoint="lg"
           style={{
-            position: "sticky",
-            top: 14,
-            zIndex: 100,
-            left: 14,
             background: colorBgContainer,
-            borderRadius: 21,
           }}
           collapsedWidth="0"
         >
@@ -127,12 +122,12 @@ export default function AppLayout({ children }: LayoutProps) {
             style={{
               background: colorBgContainer,
             }}
-            className="overflow-hidden rounded-lg border-transparent border-opacity-50 bg-purple-100  p-4 shadow-lg dark:border-zinc-800  dark:bg-zinc-700 lg:min-h-[620px]  lg:border-2  lg:p-6"
+            className="overflow-x-hidden rounded-lg border-transparent border-opacity-50  bg-purple-100 p-4 shadow-lg dark:border-zinc-800 dark:bg-zinc-700 lg:min-h-[620px]  lg:border-2  lg:p-6"
           >
             {children}
           </Content>
 
-          <Footer className="my-5 bg-transparent text-center text-sm text-zinc-400">
+          <Footer className="my-2 bg-transparent text-center text-sm text-zinc-400">
             © 2024 Exaya Inc. Todos los derechos reservados.
           </Footer>
         </Layout>

@@ -23,6 +23,8 @@ const columns: ColumnsType = [
   {
     title: "Razon Social",
     dataIndex: "razonSocial",
+    responsive: ["lg"],
+
     key: "razonSocial",
     render: (razonSocial: string) => {
       return (
@@ -35,6 +37,8 @@ const columns: ColumnsType = [
   {
     title: "Agencia",
     dataIndex: "viaje",
+    responsive: ["lg"],
+
     key: "agencia",
     render: (viaje: { usuario: { sede: { agencia: string } } }) => {
       return <Text>{viaje.usuario.sede.agencia}</Text>;
@@ -45,6 +49,8 @@ const columns: ColumnsType = [
     title: "Viaje",
     key: "viaje",
     dataIndex: "viaje",
+    responsive: ["lg"],
+
     render: (viaje: {
       ruta: { ciudadOrigen: string; ciudadDestino: string };
     }) => {

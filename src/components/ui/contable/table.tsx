@@ -15,6 +15,8 @@ export default function TableContable() {
     {
       title: "Ruta",
       dataIndex: "ruta",
+      responsive: ["lg"],
+
       key: "ruta",
       filters: filterItems,
       filterOnClose: true,
@@ -55,18 +57,23 @@ export default function TableContable() {
     {
       title: "Bus",
       dataIndex: "bus",
+      responsive: ["lg"],
       key: "bus",
       render: (bus: { placa: string }) => bus.placa,
     },
     {
       title: "NB",
       dataIndex: "boletos",
+      responsive: ["lg"],
+
       key: "boletos",
       render: (boletos: { length: number }) => boletos.length,
     },
     {
       title: "NE",
       dataIndex: "encomiendas",
+      responsive: ["lg"],
+
       key: "encomiendas",
       render: (encomiendas: { length: number }) => encomiendas.length,
     },

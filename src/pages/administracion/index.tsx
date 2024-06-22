@@ -144,8 +144,8 @@ export default function Administracion() {
   return (
     <AppLayout>
       <AppHead title="Administracion" />
-      <Space direction="vertical" className="gap-4">
-        <Space className="flex items-start justify-between">
+      <Space direction="vertical" className="w-full gap-4">
+        <Space className="flex flex-col items-start justify-between lg:flex-row">
           <Space direction="vertical">
             <Title level={5}>Analíticas por Horarios</Title>
             <div className="flex items-center">
@@ -228,7 +228,7 @@ export default function Administracion() {
             <Space direction="vertical">
               <Title level={5}>Fecha</Title>
               <DatePicker
-                style={{ width: 120 }}
+                className="w-full lg:w-[200px]"
                 placeholder="24-04-2024"
                 onChange={onDateChange}
                 // TODO: Fix this
@@ -264,7 +264,7 @@ export default function Administracion() {
             </Space>
           </Space>
         </Space>
-        <Space className="items-start gap-4">
+        <div className="flex  flex-col gap-4 lg:flex-row">
           <div className="flex flex-col gap-4">
             <StatsSegments
               isLoading={isLoadingCurrentViaje}
@@ -285,7 +285,7 @@ export default function Administracion() {
             totalVendidos={totalBoletosVendidos}
             totalIncome={totalIncome}
           />
-        </Space>
+        </div>
         <Space className="mt-10 flex justify-between">
           <Title level={4}>Tabla de Usuarios</Title>
           <UsuarioForm

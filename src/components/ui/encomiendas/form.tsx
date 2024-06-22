@@ -250,7 +250,7 @@ export function EncomiendasForm({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onFinish={onFinish}
         scrollToFirstError
-        className="grid grid-flow-row grid-cols-4 gap-4"
+        className="flex flex-col lg:grid lg:grid-flow-row lg:grid-cols-4 lg:gap-4"
       >
         <Form.Item
           name="remitenteDni"
@@ -341,17 +341,16 @@ export function EncomiendasForm({
             className="w-full"
           />
         </Form.Item>
-        <div className="col-span-2 flex gap-4">
+        <div className="lg:col-span-2 lg:flex lg:gap-4">
           <Form.Item
             name="fechaEnvio"
             label="Fecha de Envío"
             rules={[{ required: true, message: "Selecciona" }]}
           >
             <DatePicker
-              style={{ width: 150 }}
               onChange={(date) => setDateQuery(date)}
               placeholder=""
-              className="w-full min-w-[150px]"
+              className="w-full lg:w-[150px]"
             />
           </Form.Item>
           <Form.Item
@@ -369,7 +368,7 @@ export function EncomiendasForm({
             <Select
               status="warning"
               loading={isLoadingViajesDiariosDisponibles}
-              style={{ width: 340 }}
+              className="w-full lg:w-[340px]"
             >
               {viajesDiariosDisponibles?.response?.map(
                 (viaje: {
@@ -444,8 +443,7 @@ export function EncomiendasForm({
             <Switch
               checkedChildren="Sí"
               unCheckedChildren="No"
-              style={{ width: 80 }}
-              className=" bg-red-500 shadow-lg"
+              className=" w-[130px] bg-red-500 shadow-lg lg:w-[80px]"
             />
           </Form.Item>
         </div>
@@ -457,7 +455,7 @@ export function EncomiendasForm({
           <Input.TextArea autoSize={{ minRows: 1, maxRows: 2 }} />
         </Form.Item>
         {facturaUI === true ? (
-          <Space className="col-span-2 flex gap-4">
+          <div className="flex w-full flex-col lg:col-span-2 lg:gap-4">
             <Form.Item
               name="razonSocial"
               label="Razón Social"
@@ -470,9 +468,7 @@ export function EncomiendasForm({
               ]}
             >
               <Input
-                style={{
-                  width: 505,
-                }}
+                className="w-full lg:w-[505px]"
                 addonBefore={<FaBuilding />}
               />
             </Form.Item>
@@ -485,10 +481,10 @@ export function EncomiendasForm({
                 type="number"
                 addonBefore={<FaBuildingShield />}
                 maxLength={11}
-                style={{ width: 505 }}
+                className="w-full lg:w-[505px]"
               />
             </Form.Item>
-          </Space>
+          </div>
         ) : null}
 
         <div className="col-span-4 flex items-end justify-end gap-3">
