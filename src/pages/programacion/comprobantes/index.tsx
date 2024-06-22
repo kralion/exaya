@@ -228,14 +228,16 @@ type TBoleto = {
 };
 
 type TEncomienda = {
-  codigo: string;
+  serie: string;
+  numero : number;
   fechaRecepcion: Date;
   precio: number;
 };
 
 type TFactura = {
-  codigo: string;
-  fechaEnvio: Date;
+  serie : string;
+  numero : number;
+  fechaRecepcion: Date;
   precio: number;
   ruc: string | null;
 };
@@ -297,7 +299,7 @@ export const TablesToPrint = ({
       startY: 55,
       columns: [
         { dataKey: "codigo", header: "Código" },
-        { dataKey: "fechaRegistro", header: "Fecha de Registro" },
+        { dataKey: "fechaRegistro", header: "Fecha Emisión" },
         { dataKey: "precio", header: "Precio" },
       ],
 
@@ -323,7 +325,7 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
       ],
       body: encomiendas?.map((e: TEncomienda) => ({
-        codigo: e.codigo,
+        codigo: `${e.serie}-${e.numero}`,
         fechaRecepcion: new Date(e.fechaRecepcion).toLocaleDateString(),
         precio: e.precio.toLocaleString("es-PE", {
           style: "currency",
@@ -344,8 +346,8 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
       ],
       body: facturas?.map((f: TFactura) => ({
-        codigo: f.codigo,
-        fechaEnvio: new Date(f.fechaEnvio).toLocaleDateString(),
+        codigo: `${e.serie}-${e.numero}`,
+        fechaRecepcion: new Date(f.fechaRecepcion).toLocaleDateString(),
         ruc: f.ruc,
         precio: f.precio.toLocaleString("es-PE", {
           style: "currency",
