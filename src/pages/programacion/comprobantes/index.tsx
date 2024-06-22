@@ -346,7 +346,7 @@ export const TablesToPrint = ({
         { dataKey: "precio", header: "Precio" },
       ],
       body: facturas?.map((f: TFactura) => ({
-        codigo: `${e.serie}-${e.numero}`,
+        codigo: `${f.serie}-${f.numero}`,
         fechaRecepcion: new Date(f.fechaRecepcion).toLocaleDateString(),
         ruc: f.ruc,
         precio: f.precio.toLocaleString("es-PE", {
