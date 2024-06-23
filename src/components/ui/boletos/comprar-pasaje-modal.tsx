@@ -151,7 +151,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   };
 
   return (
-    <>
+    <div className="hidden lg:block">
       {contextHolder}
       <Button type="primary" onClick={() => setOpen(true)}>
         Ver Asientos
@@ -235,22 +235,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 alt="bus"
                 width={300}
               />
-              <Steps
-                direction="vertical"
-                className="mt-4"
-                size="small"
-                items={[
-                  {
-                    title: "Bus Cama",
-                    status: `${
-                      (viaje?.response?.bus.asientos ?? 0) > 40
-                        ? "finish"
-                        : "error"
-                    }`,
-                    description: "Indicador para asercion de bus cama",
-                  },
-                ]}
-              />
+
               <Space direction="horizontal" className="ml-3 flex gap-4">
                 <Text
                   className="font-normal"
@@ -362,6 +347,6 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
           </Form>
         )}
       </Modal>
-    </>
+    </div>
   );
 };

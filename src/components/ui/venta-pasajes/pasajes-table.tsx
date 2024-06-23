@@ -187,7 +187,16 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
             </Button>
           </Dropdown>
         ) : (
-          <ComprarPasajeModal viajeId={id} />
+          <div>
+            <Button
+              type="primary"
+              className="px-6 lg:hidden"
+              onClick={() => router.push(`/boletos/viaje/${id}`)}
+            >
+              Ver
+            </Button>
+            <ComprarPasajeModal viajeId={id} />
+          </div>
         );
       },
     },
@@ -230,7 +239,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         ),
       }}
       pagination={false}
-      className=" rounded-xl border shadow  duration-300 dark:border-zinc-800"
+      className=" rounded-xl border shadow duration-300  dark:border-zinc-800 lg:min-w-[55vw]"
       loading={isLoading}
       columns={columns}
       dataSource={viajes?.response}

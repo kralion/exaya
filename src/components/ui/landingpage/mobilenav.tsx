@@ -22,7 +22,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         <GoArrowUp className=" text-black" />
       </button>
       <nav ref={navRef} className="group flex">
-        {navLinks.slice(1, 5).map((link, index) => (
+        {navLinks.slice(0, 4).map((link, index) => (
           <Link
             onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
               const target = e.target as HTMLElement;
