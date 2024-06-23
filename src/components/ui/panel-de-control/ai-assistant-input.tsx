@@ -42,7 +42,7 @@ export const AIAssistantInput = () => {
   };
 
   return (
-    <Flex align="center" gap={8}>
+    <Flex align="center" className="hidden lg:flex" gap={8}>
       <Space.Compact>
         <Input
           title="También puedes usar Ctrl + Enter para enfocar el input"

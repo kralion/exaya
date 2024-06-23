@@ -2,7 +2,7 @@ import AppHeader from "@/components/exaya/appheader";
 import { SelectedContext } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme, Typography } from "antd";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
@@ -17,7 +17,9 @@ import {
   LuTicket,
 } from "react-icons/lu";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
+import { api } from "@/utils/api";
 const { Header, Footer, Sider, Content } = Layout;
+const { Text } = Typography;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -57,6 +59,9 @@ export default function AppLayout({ children }: LayoutProps) {
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const router = useRouter();
   const { data: session } = useSession();
+  const { data } = api.sedes.getSedeById.useQuery({
+    id: session?.user.sedeId ?? "",
+  });
   const handleSignOut = async () => {
     await signOut({ redirect: true, callbackUrl: "/" });
   };
@@ -108,21 +113,28 @@ export default function AppLayout({ children }: LayoutProps) {
         </Sider>
         <Layout className=" space-y-2 duration-300 lg:ml-4  ">
           <Header
-            className="hidden w-full items-center justify-between rounded-lg border-2 border-transparent border-opacity-50 px-3  shadow-md   dark:border-zinc-800 lg:flex "
+            className=" flex w-full items-center justify-between rounded border-2 border-transparent border-opacity-50 px-3  shadow-md dark:border-zinc-800    lg:rounded-xl  "
             style={{
               background: colorBgContainer,
-              borderRadius: 14,
             }}
           >
             <AIAssistantInput />
-            <h3 className="font-bold  text-primary">Expreso Ayacucho</h3>
+            <h3 className="hidden  font-bold text-primary lg:block">
+              Expreso Ayacucho
+            </h3>
+            <div className="flex w-full items-center  justify-between lg:hidden">
+              <h3 className="font-bold  text-primary">Expreso Ayacucho</h3>
+              <Text type="secondary" className="text-sm">
+                Agencia, {data?.response?.agencia}
+              </Text>
+            </div>
           </Header>
 
           <Content
             style={{
               background: colorBgContainer,
             }}
-            className="overflow-x-hidden rounded-lg border-transparent border-opacity-50  bg-purple-100 p-4 shadow-lg dark:border-zinc-800 dark:bg-zinc-700 lg:min-h-[620px]  lg:border-2  lg:p-6"
+            className="overflow-x-hidden rounded-lg border-transparent border-opacity-50 bg-purple-100 p-4  pt-10 shadow-lg dark:border-zinc-800 dark:bg-zinc-700 lg:min-h-[620px] lg:border-2  lg:p-6  lg:pt-6"
           >
             {children}
           </Content>
