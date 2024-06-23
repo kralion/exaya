@@ -23,7 +23,7 @@ const TravelTicketPrint = forwardRef<HTMLDivElement, { id: string }>(
     const total = data?.response?.precio ?? 0 + pricewithIgv;
 
     return (
-      <div ref={ref} className="text-black">
+      <div ref={ref} className="rounded-lg bg-white text-black">
         <header className="rounded-t-lg bg-gray-100 pt-3">
           <div className="flex flex-col items-center justify-center gap-2 text-center">
             <h2 className="text-xl font-bold text-gray-800">

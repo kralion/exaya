@@ -9,11 +9,13 @@ import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
+import { useRouter } from "next/navigation";
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
+  const router = useRouter();
   const { data: session } = useSession();
   const origenFilterItems = viajes?.response
     ?.map((viaje) => ({
@@ -156,7 +158,17 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         const items = [
           {
             key: "1",
-            label: <RegistrarPasajeModal viajeId={id} />,
+            label: (
+              <div>
+                <RegistrarPasajeModal viajeId={id} />
+                <Typography
+                  className="lg:hidden"
+                  onClick={() => router.push(`/viaje/${id}`)}
+                >
+                  Ver
+                </Typography>
+              </div>
+            ),
           },
           {
             key: "2",

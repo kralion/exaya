@@ -264,7 +264,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   };
 
   return (
-    <div>
+    <div className="hidden lg:block">
       <Typography onClick={() => setOpen(true)}>Asientos</Typography>
       <Modal
         title={
