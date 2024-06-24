@@ -2,6 +2,7 @@ import { api } from "@/utils/api";
 import {
   Button,
   Divider,
+  Drawer,
   Flex,
   Form,
   Image,
@@ -74,7 +75,12 @@ export default function ComprarPasaje() {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
-
+  const warning = async () => {
+    await messageApi.open({
+      type: "warning",
+      content: "Este asiento está reservado",
+    });
+  };
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
@@ -150,6 +156,13 @@ export default function ComprarPasaje() {
 
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
+    if (
+      boletosReservados?.response?.some(
+        (boleto) => boleto.asiento === seatNumber
+      )
+    ) {
+      return warning();
+    }
     setOpenRegister(true);
   };
 
@@ -254,6 +267,90 @@ export default function ComprarPasaje() {
           />
         </Space>
 
+        <Drawer
+          className="rounded-t-2xl lg:hidden"
+          placement="bottom"
+          closeIcon={null}
+          title={null}
+          height={selectedBoleto?.estado === "PAGADO" ? "90vh" : "30vh"}
+          onClose={() => {
+            setOpenRegister(false);
+            form.resetFields();
+            setPasajeroDNI("");
+          }}
+          open={openRegister}
+        >
+          <div className="absolute left-40 right-40 top-2 z-10 h-2 w-16 rounded-full bg-gray-300" />
+          <Title level={4} className="font-Inter">
+            Asiento {` ${selectedSeat}`}
+          </Title>
+
+          {selectedBoleto?.estado === "PAGADO" ? (
+            <OnlineTravelTicket id={selectedBoleto?.id} />
+          ) : (
+            <Form
+              layout="vertical"
+              form={form}
+              name="registrar-pasaje"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onFinish={onFinish}
+              style={{ width: 320 }}
+            >
+              <Form.Item
+                name="pasajeroDni"
+                label="DNI Pasajero"
+                rules={[{ required: true }]}
+                validateStatus={
+                  errorValidacionDNI
+                    ? "error"
+                    : reniecResponse
+                    ? "success"
+                    : "validating"
+                }
+                help={
+                  form.getFieldValue("pasajeroDni") ===
+                  "" ? null : reniecResponse?.status === "error" ? (
+                    "El DNI no existe"
+                  ) : reniecResponse?.status === "success" ? (
+                    <p>
+                      {reniecResponse.data?.nombres}{" "}
+                      {reniecResponse.data?.apellidoPaterno}{" "}
+                      {reniecResponse.data?.apellidoMaterno}
+                    </p>
+                  ) : (
+                    ""
+                  )
+                }
+              >
+                <Input
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    const dni = event.target.value;
+                    setPasajeroDNI(dni);
+                  }}
+                  style={{
+                    width: 320,
+                  }}
+                  value={pasajeroDNI}
+                  type="number"
+                  maxLength={8}
+                  className="w-full"
+                />
+              </Form.Item>
+              <Space className="flex justify-end">
+                <Button
+                  type="primary"
+                  size="large"
+                  loading={isLoading}
+                  disabled={reniecResponse?.status === "error"}
+                  htmlType="submit"
+                >
+                  Comprar
+                </Button>
+              </Space>
+            </Form>
+          )}
+        </Drawer>
+
         <Modal
           title={
             <Title className="text-left" level={4}>
@@ -263,6 +360,7 @@ export default function ComprarPasaje() {
             </Title>
           }
           centered
+          rootClassName="hidden lg:block"
           open={openRegister}
           onCancel={() => {
             setOpenRegister(false);

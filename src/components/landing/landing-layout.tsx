@@ -68,10 +68,9 @@ export default function LandingLayout({
           />
         </div>
 
-        <MobileNav navLinks={navLinks} />
-        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-5 pt-7 backdrop-blur-sm  lg:fixed lg:mb-20 lg:px-10">
+        <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-4 pt-7 backdrop-blur-sm  lg:fixed lg:mb-20 lg:px-10">
           <Link href="/">
-            <div className=" flex items-center justify-start duration-300  hover:opacity-70 ">
+            <div className=" flex items-center justify-between duration-300  hover:opacity-70 ">
               <Image
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 width={40}
@@ -87,24 +86,8 @@ export default function LandingLayout({
               </span>
             </div>
           </Link>
-          <Link
-            className=" text-sm lg:hidden"
-            href={session ? "/dashboard" : "/login"}
-          >
-            {session ? (
-              <button className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
-                Ir al Dashboard{" "}
-                <BsArrowRight
-                  className="duration-300 group-hover:translate-x-2"
-                  size={15}
-                />
-              </button>
-            ) : (
-              <button className="flex items-center gap-1  font-semibold underline active:opacity-80 dark:no-underline dark:hover:underline">
-                Iniciar Sesión
-              </button>
-            )}
-          </Link>
+
+          <MobileNav navLinks={navLinks} />
           <DesktopNavBar navLinks={navLinks} />
           <Link
             className="hidden lg:block"

@@ -1,7 +1,12 @@
 "use client";
+import { Divider, Drawer, Flex, Space, Typography } from "antd";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { GoArrowUp } from "react-icons/go";
+import { useState } from "react";
+import { BsArrowRight } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
+import { TbMenu } from "react-icons/tb";
+const { Text, Title } = Typography;
 
 type NavigationProps = {
   navLinks: {
@@ -11,49 +16,72 @@ type NavigationProps = {
 };
 
 export default function MobileNavBar({ navLinks }: NavigationProps) {
-  const [bubbleStyle, setBubbleStyle] = useState({});
-  const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+
   return (
-    <div className="fixed bottom-3 left-10 z-10 flex  items-center  justify-center gap-2 rounded-full border border-orange-400/50 bg-gradient-to-b from-orange-400 to-orange-600 p-1 backdrop-blur-lg lg:hidden  ">
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className=" flex items-center justify-center rounded-full border border-white/40 bg-white p-1 shadow-lg  hover:opacity-90 active:opacity-80 "
-      >
-        <GoArrowUp className=" text-black" />
+    <>
+      <button className="active:opacity-70" onClick={() => setOpen(true)}>
+        {open ? (
+          <IoClose className="duration-500 " size={30} />
+        ) : (
+          <TbMenu className="duration-500" size={30} />
+        )}
       </button>
-      <nav ref={navRef} className="group flex">
-        {navLinks.slice(0, 4).map((link, index) => (
+
+      <Drawer
+        title={
+          <Flex justify="space-between" align="center">
+            <Space direction="vertical">
+              <h3 className="text-4xl font-bold  text-amber-500 ">Exaya</h3>
+              <Text type="secondary" className="text-sm font-light">
+                Sistema de Gestión de Viajes y Encomiendas.
+              </Text>
+            </Space>
+            <IoClose
+              className="active:opacity-70"
+              size={30}
+              onClick={() => setOpen(false)}
+            />
+          </Flex>
+        }
+        placement="right"
+        className="overflow-hidden "
+        closeIcon={null}
+        onClose={() => setOpen(false)}
+        open={open}
+        size="large"
+      >
+        <Space direction="vertical" className="w-full justify-start gap-8">
           <Link
-            onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
-              const target = e.target as HTMLElement;
-              const linkRect = target.getBoundingClientRect();
-              if (navRef.current) {
-                const navRect = navRef.current.getBoundingClientRect();
-                const bubbleStyle = {
-                  left: linkRect.left - navRect.left + 38,
-                  top: linkRect.top - navRect.top + 3.5,
-                  width: linkRect.width,
-                  height: linkRect.height,
-                  transition: "left 0.3s, top 0.3s, width 0.3s, height 0.3s",
-                };
-                setBubbleStyle(bubbleStyle);
-              }
-            }}
-            onMouseLeave={() => {
-              setBubbleStyle({});
-            }}
-            className="z-10 flex items-center justify-center rounded-full p-2 text-xs text-white duration-300   active:text-black active:opacity-70"
-            href={link.href}
-            key={index}
+            className=" text-sm lg:hidden"
+            href={session ? "/dashboard" : "/login"}
           >
-            {link.label}
+            {session ? (
+              <button className=" text-lg active:opacity-70">
+                Ir al Dashboard
+              </button>
+            ) : (
+              <button className=" text-lg active:opacity-70">
+                Iniciar Sesión
+              </button>
+            )}
           </Link>
-        ))}
-        <div
-          style={bubbleStyle}
-          className="absolute rounded-full bg-gradient-to-bl from-black/90 to-black/70 opacity-0 transition-all group-hover:opacity-100 "
-        ></div>
-      </nav>
-    </div>
+          <Divider className="my-0" />
+          {navLinks.map((link, index) => (
+            <>
+              <Link
+                href={link.href}
+                key={index}
+                className="text-lg active:opacity-70"
+              >
+                {link.label}
+              </Link>
+              <Divider className="my-0" />
+            </>
+          ))}
+        </Space>
+      </Drawer>
+    </>
   );
 }

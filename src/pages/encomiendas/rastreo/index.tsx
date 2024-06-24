@@ -74,7 +74,7 @@ export default function Page() {
         <AiOutlineLeft size={25} />
         Atrás
       </button>
-      <div className="space-y-14 px-4 py-16 dark:bg-zinc-900 lg:px-10">
+      <div className="space-y-14 px-4 py-16 dark:bg-zinc-900 ">
         <Space
           direction="vertical"
           className="flex items-center justify-center lg:items-start "
