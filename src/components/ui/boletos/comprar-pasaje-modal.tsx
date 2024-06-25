@@ -200,7 +200,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 >
                   <svg
                     key={seatNumber}
-                    onClick={() => handleSeatClick(seatNumber)}
+                    onClick={() => void handleSeatClick(seatNumber)}
                     width="50"
                     height="50"
                     viewBox="0 0 24 22"
