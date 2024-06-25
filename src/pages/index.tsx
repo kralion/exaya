@@ -19,10 +19,6 @@ const images = [
     href: "https://i.ibb.co/Sx4gWLm/dashboard.png",
   },
   {
-    name: "Pasajes",
-    href: "https://i.ibb.co/xJFxYgg/pasajes.png",
-  },
-  {
     name: "Encomiendas",
     href: "https://i.ibb.co/pjYssDD/encomiendas.png",
   },
@@ -40,7 +36,7 @@ export default function Index() {
   return (
     <LandingLayout>
       <div className=" px-3 dark:bg-zinc-900">
-        <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.15] lg:h-[67rem]">
+        <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-grid-small-black/[0.15] lg:h-[67rem]">
           <div className="relative " data-aos="fade-down">
             <div className="text-3xl font-bold tracking-tight lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
