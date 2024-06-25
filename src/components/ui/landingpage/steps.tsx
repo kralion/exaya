@@ -55,7 +55,8 @@ export default function DevicesVersionSteps() {
           <p className="mb-2 font-bold lg:text-lg">Vista Mobile</p>
           <p className="lg:text-md text-sm">
             En movimiento con Exaya: Accede a tu gestión de transporte desde
-            cualquier lugar, en cualquier momento, con nuestra aplicación móvil
+            cualquier dispositivo móvil, en cualquier momento, con la vista
+            responsiva.
           </p>
         </div>
       </div>

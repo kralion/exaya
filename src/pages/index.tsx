@@ -1,6 +1,7 @@
 import Asset3D5 from "@/assets/images/3d-asset-5.png";
 import HeroStepImage from "@/assets/svg/responsive-hero.svg";
 import { ContainerScroll } from "@/components/landing/container-scroll-animation";
+import { InfiniteMovingCards } from "@/components/landing/infinite-moving-cards";
 import LandingLayout from "@/components/landing/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
 import { Dancing_Script } from "next/font/google";
@@ -14,18 +15,42 @@ const dancing_Script = Dancing_Script({
   preload: true,
 });
 
+const images = [
+  {
+    name: "Dashboard",
+    href: "https://i.ibb.co/Sx4gWLm/dashboard.png",
+  },
+  {
+    name: "Pasajes",
+    href: "https://i.ibb.co/xJFxYgg/pasajes.png",
+  },
+  {
+    name: "Encomiendas",
+    href: "https://i.ibb.co/pjYssDD/encomiendas.png",
+  },
+  {
+    name: "Administracion",
+    href: "https://i.ibb.co/5Fdfn3S/administracion.png",
+  },
+  {
+    name: "Contable",
+    href: "https://i.ibb.co/wrbrkV8/contable-2.png",
+  },
+];
+
 export default function Index() {
   return (
     <LandingLayout>
-      <div className="px-3 dark:bg-zinc-900">
+      <div className=" px-3 dark:bg-zinc-900">
         <div className="relative h-[37rem] w-full items-center justify-center  bg-transparent py-5 bg-dot-black/[0.15] lg:h-[67rem]">
           <div className="relative " data-aos="fade-down">
-            <div className="flex bg-gradient-to-r from-zinc-800 to-zinc-950 bg-clip-text text-3xl font-bold tracking-tight text-transparent dark:from-white dark:to-zinc-300  lg:mx-48 lg:text-6xl">
+            <div className="text-3xl font-bold tracking-tight lg:mx-48 lg:text-6xl">
               Conduce tu empresa hacia la excelencia operativa
             </div>
             <p className="mt-5 px-10 tracking-tight text-zinc-700 dark:text-zinc-200 lg:px-80 lg:text-xl">
-              El socio tecnológico que acelera las operaciones de tu empresa en
-              la industria del transporte impulsado con —{" "}
+              Sistema web de gestión integral de procesos que acelera las
+              operaciones de tu empresa en la industria del transporte impulsado
+              con —{" "}
               <span className="bg-gradient-to-r from-red-700 to-black bg-clip-text  font-semibold   text-transparent dark:from-red-100 dark:to-white lg:bg-gradient-to-tr">
                 inteligencia artificial.
               </span>
@@ -45,19 +70,18 @@ export default function Index() {
                 className="duration-500 group-hover:translate-x-2"
               />
             </Link>
-            <Image
-              src={Asset3D5}
-              // width = {80 mobile}
-              data-aos="fade-down"
-              data-aos-duration="1500"
-              className="absolute -top-10 left-28 hidden h-64 w-64 drop-shadow-2xl lg:flex "
-              alt="asset"
+          </div>
+          <div className="relative my-24 flex flex-col items-center justify-center overflow-hidden rounded-md bg-transparent antialiased dark:bg-transparent dark:bg-grid-white/[0.05]">
+            <InfiniteMovingCards
+              items={images}
+              direction="right"
+              speed="slow"
             />
           </div>
 
-          <div className="flex flex-col overflow-hidden  lg:min-h-[670px]">
+          {/* <div className="flex flex-col overflow-hidden  lg:min-h-[670px]">
             <ContainerScroll />
-          </div>
+          </div> */}
           <blockquote className="hidden justify-end px-10 text-right lg:flex lg:text-3xl">
             <p className={`${dancing_Script.className}  `}>
               La elección
@@ -74,8 +98,8 @@ export default function Index() {
           </blockquote>
         </div>
       </div>
-      <div className=" space-y-3 px-4  py-24  dark:bg-zinc-900 lg:px-0">
-        <h1 className="mx-10 text-2xl font-bold tracking-tight  lg:text-4xl">
+      <div className=" my-24 space-y-3  px-4  dark:bg-zinc-900 lg:px-0">
+        <h1 className="mx-10 pt-20 text-2xl font-bold tracking-tight lg:mt-0  lg:text-4xl">
           Versionamiento para Control Total
         </h1>
         <div className="lg:font-semibold ">
@@ -86,13 +110,13 @@ export default function Index() {
           </p>
         </div>
       </div>
-      <div className=" flex flex-col items-center justify-center gap-2 px-4 text-left dark:bg-zinc-900  lg:flex-row lg:items-start lg:pr-44">
+      <div className=" mx-auto flex flex-col items-center justify-center gap-8 px-4 pb-12 text-left dark:bg-zinc-900  lg:w-3/4 lg:flex-row lg:items-start lg:pb-36">
         <Image
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           src={HeroStepImage}
           alt="banner"
           data-aos="fade-left"
-          className="  h-1/2 w-1/2 rounded-2xl  drop-shadow-xl  lg:h-[900px] lg:w-[1500px] "
+          className=" rounded-2xl "
         />
 
         <DevicesVersionSteps />

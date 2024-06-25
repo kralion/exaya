@@ -54,17 +54,17 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         open={open}
         size="large"
       >
-        <Space direction="vertical" className="w-full justify-start gap-8">
+        <Space direction="vertical" className="w-full justify-start">
           <Link
             className=" text-sm lg:hidden"
             href={session ? "/dashboard" : "/login"}
           >
             {session ? (
-              <button className=" text-lg active:opacity-70">
+              <button className=" py-4 text-lg active:opacity-70">
                 Ir al Dashboard
               </button>
             ) : (
-              <button className=" text-lg active:opacity-70">
+              <button className=" py-4 text-lg active:opacity-70">
                 Iniciar Sesión
               </button>
             )}
@@ -75,9 +75,9 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
               <Link
                 href={link.href}
                 key={index}
-                className="text-lg active:opacity-70"
+                className="group text-lg active:text-black active:opacity-50"
               >
-                {link.label}
+                <div className=" flex-1 py-4">{link.label}</div>
               </Link>
               <Divider className="my-0" />
             </>

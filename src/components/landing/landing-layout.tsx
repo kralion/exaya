@@ -51,7 +51,9 @@ export default function LandingLayout({
   const { data: session } = useSession();
   return (
     <AOSWrapper>
-      <div className={` ${inter.className}  dark:bg-zinc-900 dark:text-white`}>
+      <div
+        className={` ${inter.className}  overflow-x-hidden dark:bg-zinc-900 dark:text-white`}
+      >
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
           style={{
