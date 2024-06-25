@@ -1,6 +1,4 @@
-import Asset3D5 from "@/assets/images/3d-asset-5.png";
 import HeroStepImage from "@/assets/svg/responsive-hero.svg";
-import { ContainerScroll } from "@/components/landing/container-scroll-animation";
 import { InfiniteMovingCards } from "@/components/landing/infinite-moving-cards";
 import LandingLayout from "@/components/landing/landing-layout";
 import DevicesVersionSteps from "@/components/ui/landingpage/steps";
