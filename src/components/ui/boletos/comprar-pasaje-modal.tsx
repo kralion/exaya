@@ -100,7 +100,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         precio: viaje?.response?.tarifas[0] ?? 20,
         metodoPago: "Tarjeta",
         destino: viaje?.response?.ruta.ciudadDestino ?? "",
-        usuarioId: "clxf8bopx000214fwy2fszlyx",
+        usuarioId: "clxq3f0i70001fn9x87gx9wj3",
         codigo: `B005-000${num.toString().padStart(3, "0")}`,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
