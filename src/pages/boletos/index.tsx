@@ -1,5 +1,5 @@
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
-import { Button, Calendar, FloatButton, Space, Typography } from "antd";
+import { Calendar, FloatButton, Space, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,7 +23,10 @@ export default function Boletos() {
         <AiOutlineLeft size={25} />
         Atrás
       </button>
-      <Space direction="vertical" className=" w-full gap-10 px-4  py-16">
+      <Space
+        direction="vertical"
+        className=" w-full gap-10 px-4  py-16 dark:bg-zinc-900 lg:h-screen"
+      >
         <Space
           direction="vertical"
           className="flex items-center justify-center lg:items-start"

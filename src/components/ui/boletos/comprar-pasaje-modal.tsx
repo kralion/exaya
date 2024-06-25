@@ -72,6 +72,12 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     (_, i) => i + 1
   );
 
+  const warning = async () => {
+    await messageApi.open({
+      type: "warning",
+      content: "Este asiento está reservado",
+    });
+  };
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
@@ -147,6 +153,13 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
 
   const handleSeatClick = (seatNumber: number) => {
     setSelectedSeat(seatNumber);
+    if (
+      boletosReservados?.response?.some(
+        (boleto) => boleto.asiento === seatNumber
+      )
+    ) {
+      return warning();
+    }
     setOpenRegister(true);
   };
 

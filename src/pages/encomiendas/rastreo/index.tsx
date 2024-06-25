@@ -98,21 +98,12 @@ export default function Page() {
             <p className="text-sm text-gray-500 dark:text-gray-400 lg:hidden ">
               Ingresa el código de rastreo para ubicarlo.
             </p>
-            <Form
-              className="flex w-full flex-col items-center justify-center lg:w-auto"
-              onFinish={handleFinish}
-              form={form}
-            >
+            <Form onFinish={handleFinish} form={form}>
               <Form.Item name="codigoRastreo">
-                <InputOTP rootClassName=" flex justify-center items-center gap-2 w-full h-12 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white" />
+                <InputOTP size="large" />
               </Form.Item>
               <Form.Item>
-                <Button
-                  disabled={isFetching}
-                  type="primary"
-                  htmlType="submit"
-                  className="w-full"
-                >
+                <Button disabled={isFetching} type="primary" htmlType="submit">
                   Rastrear
                 </Button>
               </Form.Item>
@@ -188,12 +179,7 @@ export default function Page() {
               </div>
             </Card>
           ) : (
-            <Card className="mx-10 lg:mx-64">
-              <EmptyCustomized />
-              <Text type="secondary">
-                Verifique su código de rastreo con el de la boleta generada
-              </Text>
-            </Card>
+            <EmptyCustomized />
           )}
         </div>
       </div>

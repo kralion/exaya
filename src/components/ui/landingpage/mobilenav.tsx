@@ -3,10 +3,9 @@ import { Divider, Drawer, Flex, Space, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { BsArrowRight } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { TbMenu } from "react-icons/tb";
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 type NavigationProps = {
   navLinks: {
@@ -21,7 +20,10 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
 
   return (
     <>
-      <button className="active:opacity-70" onClick={() => setOpen(true)}>
+      <button
+        className="active:opacity-70 lg:hidden"
+        onClick={() => setOpen(true)}
+      >
         {open ? (
           <IoClose className="duration-500 " size={30} />
         ) : (

@@ -2,11 +2,22 @@ import { useMessageContext } from "@/context/MessageContext";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { viajeSchema } from "@/schemas";
 import { api } from "@/utils/api";
-import { Button, DatePicker, Flex, Form, Input, Select, Space } from "antd";
+import {
+  Button,
+  DatePicker,
+  Drawer,
+  Flex,
+  Form,
+  Input,
+  Select,
+  Space,
+  Typography,
+} from "antd";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { z } from "zod";
+const { Title, Text } = Typography;
 
 export function ViajesForm({
   idToEdit,
@@ -17,6 +28,7 @@ export function ViajesForm({
 }) {
   const [form] = Form.useForm();
   const utils = api.useUtils();
+  const [openRegister, setOpenRegister] = useState(false);
   const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
     api.conductores.getAllConductores.useQuery();
   const createViajeMutation = api.viajes.createViaje.useMutation();
@@ -126,147 +138,320 @@ export function ViajesForm({
   }, [singleViaje, form, idToEdit]);
 
   return (
-    <Form form={form} name="viaje-form" onFinish={onFinish}>
-      <div className=" flex flex-col items-start gap-4 lg:grid lg:w-full lg:grid-cols-2 lg:justify-between">
-        <div className="flex flex-col lg:flex-row lg:gap-4">
-          <div className="flex flex-col lg:flex-row lg:gap-4 ">
-            <Form.Item
-              name="rutaId"
-              rules={[{ required: true, message: "Requerido" }]}
-            >
-              <Select
-                className="w-full lg:w-[205px]"
-                placeholder="Ruta"
-                allowClear
-                loading={isLoadingRutas}
-              >
-                {rutas?.map(
-                  (ruta: {
-                    id: string;
-                    ciudadOrigen: string;
-                    ciudadDestino: string;
-                  }) => (
-                    <Select.Option key={ruta.id} value={ruta.id}>
-                      {ruta.ciudadOrigen} - {ruta.ciudadDestino}
-                    </Select.Option>
-                  )
-                )}
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              name="busId"
-              rules={[{ required: true, message: "Requerido" }]}
-            >
-              <Select
-                loading={isLoadingBus}
-                className="w-full lg:w-[105px]"
-                placeholder="Bus"
-                allowClear
-              >
-                {bus?.map((bus: { id: string; placa: string }) => (
-                  <Select.Option key={bus.id} value={bus.id}>
-                    {bus.placa}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              rules={[{ required: true, message: "Requerido" }]}
-              name="salida"
-            >
-              <DatePicker
-                className="w-full lg:w-[175px]"
-                showTime
-                use12Hours
-                minuteStep={15}
-                showNow={false}
-                placeholder="Embarque"
-                format="YYYY-MM-DD HH:mm"
-              />
-            </Form.Item>
-          </div>
-          <div className="flex  flex-col lg:flex-row lg:gap-4">
-            <Form.Item
-              name="tarifaGeneral"
-              rules={[
-                {
-                  required: true,
-                  message: "Requerido",
-                },
-              ]}
-            >
-              <Input
-                addonBefore="S/."
-                type="number"
-                placeholder="Tarifa"
-                maxLength={2}
-                onChange={(e) => {
-                  form.setFieldsValue({
-                    tarifaGeneral: parseInt(e.target.value),
-                  });
-                }}
-              />
-            </Form.Item>
-            <Form.Item
-              name="conductores"
-              rules={[
-                { required: true, message: "Requerido para el manifiesto" },
-              ]}
-            >
-              <Select
-                mode="multiple"
-                style={{
-                  width: 350,
-                }}
-                loading={isLoadingConductores}
-                placeholder="Conductores"
-              >
-                {conductoresRegistrados?.map(
-                  (conductor: {
-                    id: string;
-                    nombres: string;
-                    apellidos: string;
-                  }) => (
-                    <Select.Option key={conductor.id} value={conductor.id}>
-                      {conductor.nombres.split(" ")[0]}{" "}
-                      {conductor.apellidos.split(" ")[0]}
-                    </Select.Option>
-                  )
-                )}
-              </Select>
-            </Form.Item>
-          </div>
+    <>
+      <Button
+        type="primary"
+        onClick={() => setOpenRegister(true)}
+        className="lg:hidden"
+      >
+        Crear Viaje
+      </Button>
+      <Drawer
+        className=" rounded-t-3xl lg:hidden"
+        placement="bottom"
+        closeIcon={null}
+        title={null}
+        height="75vh"
+        onClose={() => {
+          setOpenRegister(false);
+          form.resetFields();
+        }}
+        open={openRegister}
+      >
+        <div className="absolute left-40 right-40 top-2 z-10 h-2 w-16 rounded-full bg-gray-300" />
+        <div className=" mb-6 mt-2 flex flex-col">
+          <Title level={2}>Nuevo Viaje</Title>
+          <Text className=" font-light ">
+            Ingrese los datos del viaje a crear
+          </Text>
         </div>
-        <Form.Item>
-          <Flex gap={8} justify="end">
-            <Button
-              disabled={
-                createViajeMutation.isLoading || updateViajeMutation.isLoading
-              }
-              loading={
-                createViajeMutation.isLoading || updateViajeMutation.isLoading
-              }
-              htmlType="submit"
-              type="primary"
-            >
-              {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
-            </Button>
 
-            <Button
-              htmlType="button"
-              danger
-              onClick={() => {
-                form.resetFields();
-                setIdToEdit("");
-              }}
+        <Form form={form} name="viaje-form-mobile" onFinish={onFinish}>
+          <Form.Item
+            name="rutaId"
+            rules={[{ required: true, message: "Requerido" }]}
+          >
+            <Select
+              size="large"
+              placeholder="Ruta"
+              allowClear
+              loading={isLoadingRutas}
             >
-              Cancelar
-            </Button>
-          </Flex>
-        </Form.Item>
-      </div>
-    </Form>
+              {rutas?.map(
+                (ruta: {
+                  id: string;
+                  ciudadOrigen: string;
+                  ciudadDestino: string;
+                }) => (
+                  <Select.Option key={ruta.id} value={ruta.id}>
+                    {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                  </Select.Option>
+                )
+              )}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="busId"
+            rules={[{ required: true, message: "Requerido" }]}
+          >
+            <Select
+              size="large"
+              loading={isLoadingBus}
+              placeholder="Bus"
+              allowClear
+            >
+              {bus?.map((bus: { id: string; placa: string }) => (
+                <Select.Option key={bus.id} value={bus.id}>
+                  {bus.placa}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            rules={[{ required: true, message: "Requerido" }]}
+            name="salida"
+          >
+            <DatePicker
+              size="large"
+              showTime
+              use12Hours
+              className="w-full"
+              minuteStep={15}
+              showNow={false}
+              placeholder="Embarque"
+              format="YYYY-MM-DD HH:mm"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="tarifaGeneral"
+            rules={[
+              {
+                required: true,
+                message: "Requerido",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              addonBefore="S/."
+              type="number"
+              placeholder="Tarifa"
+              maxLength={2}
+              onChange={(e) => {
+                form.setFieldsValue({
+                  tarifaGeneral: parseInt(e.target.value),
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="conductores"
+            rules={[
+              { required: true, message: "Requerido para el manifiesto" },
+            ]}
+          >
+            <Select
+              size="large"
+              mode="multiple"
+              loading={isLoadingConductores}
+              placeholder="Conductores"
+            >
+              {conductoresRegistrados?.map(
+                (conductor: {
+                  id: string;
+                  nombres: string;
+                  apellidos: string;
+                }) => (
+                  <Select.Option key={conductor.id} value={conductor.id}>
+                    {conductor.nombres.split(" ")[0]}{" "}
+                    {conductor.apellidos.split(" ")[0]}
+                  </Select.Option>
+                )
+              )}
+            </Select>
+          </Form.Item>
+
+          <Form.Item>
+            <Flex gap={8} justify="end">
+              <Button
+                disabled={
+                  createViajeMutation.isLoading || updateViajeMutation.isLoading
+                }
+                loading={
+                  createViajeMutation.isLoading || updateViajeMutation.isLoading
+                }
+                htmlType="submit"
+                type="primary"
+              >
+                {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
+              </Button>
+
+              <Button
+                htmlType="button"
+                danger
+                onClick={() => {
+                  form.resetFields();
+                  setIdToEdit("");
+                  setOpenRegister(false);
+                }}
+              >
+                Cancelar
+              </Button>
+            </Flex>
+          </Form.Item>
+        </Form>
+      </Drawer>
+      <Form
+        form={form}
+        name="viaje-form"
+        className="hidden w-full lg:block"
+        onFinish={onFinish}
+      >
+        <Space className="flex  justify-between">
+          <div>
+            <div className="flex gap-4">
+              <Form.Item
+                name="rutaId"
+                rules={[{ required: true, message: "Requerido" }]}
+              >
+                <Select
+                  placeholder="Ruta"
+                  style={{ width: 220 }}
+                  allowClear
+                  loading={isLoadingRutas}
+                >
+                  {rutas?.map(
+                    (ruta: {
+                      id: string;
+                      ciudadOrigen: string;
+                      ciudadDestino: string;
+                    }) => (
+                      <Select.Option key={ruta.id} value={ruta.id}>
+                        {ruta.ciudadOrigen} - {ruta.ciudadDestino}
+                      </Select.Option>
+                    )
+                  )}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                name="busId"
+                rules={[{ required: true, message: "Requerido" }]}
+              >
+                <Select
+                  loading={isLoadingBus}
+                  style={{ width: 120 }}
+                  placeholder="Bus"
+                  allowClear
+                >
+                  {bus?.map((bus: { id: string; placa: string }) => (
+                    <Select.Option key={bus.id} value={bus.id}>
+                      {bus.placa}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                rules={[{ required: true, message: "Requerido" }]}
+                name="salida"
+              >
+                <DatePicker
+                  className="w-full lg:w-[175px]"
+                  showTime
+                  use12Hours
+                  style={{ width: 210 }}
+                  minuteStep={15}
+                  showNow={false}
+                  placeholder="Embarque"
+                  format="YYYY-MM-DD HH:mm"
+                />
+              </Form.Item>
+            </div>
+            <div className="flex gap-4">
+              <Form.Item
+                name="tarifaGeneral"
+                rules={[
+                  {
+                    required: true,
+                    message: "Requerido",
+                  },
+                ]}
+              >
+                <Input
+                  addonBefore="S/."
+                  type="number"
+                  placeholder="Tarifa"
+                  maxLength={2}
+                  onChange={(e) => {
+                    form.setFieldsValue({
+                      tarifaGeneral: parseInt(e.target.value),
+                    });
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                name="conductores"
+                rules={[
+                  { required: true, message: "Requerido para el manifiesto" },
+                ]}
+              >
+                <Select
+                  mode="multiple"
+                  style={{
+                    width: 350,
+                  }}
+                  loading={isLoadingConductores}
+                  placeholder="Conductores"
+                >
+                  {conductoresRegistrados?.map(
+                    (conductor: {
+                      id: string;
+                      nombres: string;
+                      apellidos: string;
+                    }) => (
+                      <Select.Option key={conductor.id} value={conductor.id}>
+                        {conductor.nombres.split(" ")[0]}{" "}
+                        {conductor.apellidos.split(" ")[0]}
+                      </Select.Option>
+                    )
+                  )}
+                </Select>
+              </Form.Item>
+            </div>
+          </div>
+          <Form.Item>
+            <Flex gap={8} justify="end">
+              <Button
+                disabled={
+                  createViajeMutation.isLoading || updateViajeMutation.isLoading
+                }
+                loading={
+                  createViajeMutation.isLoading || updateViajeMutation.isLoading
+                }
+                htmlType="submit"
+                type="primary"
+              >
+                {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
+              </Button>
+
+              <Button
+                htmlType="button"
+                danger
+                onClick={() => {
+                  form.resetFields();
+                  setIdToEdit("");
+                }}
+              >
+                Cancelar
+              </Button>
+            </Flex>
+          </Form.Item>
+        </Space>
+      </Form>
+    </>
   );
 }

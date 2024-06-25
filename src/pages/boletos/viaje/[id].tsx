@@ -216,7 +216,7 @@ export default function ComprarPasaje() {
             >
               <svg
                 key={seatNumber}
-                onClick={() => handleSeatClick(seatNumber)}
+                onClick={() => void handleSeatClick(seatNumber)}
                 width="60"
                 height="60"
                 viewBox="0 0 24 22"
