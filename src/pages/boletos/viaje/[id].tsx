@@ -33,9 +33,6 @@ const { Title, Text } = Typography;
 
 export default function ComprarPasaje() {
   const params = useParams<{ id: string }>();
-  if (!params) {
-    return null;
-  }
   const lemonUrl =
     "https://exaya.lemonsqueezy.com/buy/46e29f4d-b3ce-4014-a09b-523a9589e6ae";
   const [messageApi, contextHolder] = message.useMessage();
@@ -44,6 +41,9 @@ export default function ComprarPasaje() {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
+  if (!params) {
+    return null;
+  }
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: params?.id,
   });
