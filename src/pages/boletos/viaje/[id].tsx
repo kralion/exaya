@@ -33,6 +33,9 @@ const { Title, Text } = Typography;
 
 export default function ComprarPasaje() {
   const params = useParams<{ id: string }>();
+  if (!params) {
+    return null;
+  }
   const lemonUrl =
     "https://exaya.lemonsqueezy.com/buy/46e29f4d-b3ce-4014-a09b-523a9589e6ae";
   const [messageApi, contextHolder] = message.useMessage();
@@ -81,6 +84,7 @@ export default function ComprarPasaje() {
       content: "Este asiento está reservado",
     });
   };
+
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
@@ -103,11 +107,11 @@ export default function ComprarPasaje() {
         precio: viaje?.response?.tarifas[0] ?? 20,
         metodoPago: "Tarjeta",
         destino: viaje?.response?.ruta.ciudadDestino ?? "",
-        usuarioId: "clxf8bopx000214fwy2fszlyx",
+        usuarioId: "clxq3f0i70001fn9x87gx9wj3",
         codigo: `B005-000${num.toString().padStart(3, "0")}`,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        viajeId: params?.id,
+        viajeId: params.id,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
       },
@@ -138,7 +142,7 @@ export default function ComprarPasaje() {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({
@@ -171,7 +175,7 @@ export default function ComprarPasaje() {
       {contextHolder}
       <button
         className="absolute left-1 top-4 flex cursor-pointer rounded-full  px-2 py-2 text-amber-500 active:opacity-70"
-        onClick={() => router.back()}
+        onClick={() => router.replace("/boletos")}
       >
         <AiOutlineLeft size={25} />
         Atrás

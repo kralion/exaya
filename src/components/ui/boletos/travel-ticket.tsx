@@ -1,11 +1,7 @@
 import { api } from "@/utils/api";
 import { Divider } from "antd";
-import { Inter } from "next/font/google";
 import { useEffect } from "react";
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-});
+
 export function OnlineTravelTicket({ id }: { id: string }) {
   const { data, refetch } = api.boletos.getBoletosById.useQuery({ id });
   useEffect(() => {

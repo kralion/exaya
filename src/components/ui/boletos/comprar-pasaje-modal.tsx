@@ -7,19 +7,18 @@ import {
   Input,
   Modal,
   Space,
-  Steps,
   Typography,
   message,
 } from "antd";
+import { customAlphabet } from "nanoid";
 import { Concert_One } from "next/font/google";
 import React, { useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
-import { customAlphabet } from "nanoid";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
-import { OnlineTravelTicket } from "./travel-ticket";
 import { useRouter } from "next/navigation";
+import { OnlineTravelTicket } from "./travel-ticket";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -93,6 +92,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     if (!apellidosCliente) {
       return null;
     }
+
     await createBoletoMutation(
       {
         ...values,
@@ -135,7 +135,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({

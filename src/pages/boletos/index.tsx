@@ -18,7 +18,7 @@ export default function Boletos() {
     <>
       <button
         className="absolute left-1 top-4 flex cursor-pointer rounded-full  px-2 py-2 text-amber-500 active:opacity-70"
-        onClick={() => router.back()}
+        onClick={() => router.push("/")}
       >
         <AiOutlineLeft size={25} />
         Atrás
