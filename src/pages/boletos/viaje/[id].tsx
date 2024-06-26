@@ -41,9 +41,6 @@ export default function ComprarPasaje() {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-  if (!params) {
-    return null;
-  }
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: params?.id,
   });
@@ -111,7 +108,7 @@ export default function ComprarPasaje() {
         codigo: `B005-000${num.toString().padStart(3, "0")}`,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
-        viajeId: params.id,
+        viajeId: params?.id,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
       },
@@ -142,7 +139,7 @@ export default function ComprarPasaje() {
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({
