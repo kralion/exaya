@@ -41,6 +41,19 @@ export default function ComprarPasaje() {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
+
+  const error = async () => {
+    await messageApi.open({
+      type: "warning",
+      content: "No hay viaje con ese id",
+    });
+  };
+
+  if (!params?.id) {
+    void error();
+    return null;
+  }
+
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: params?.id,
   });
@@ -136,10 +149,13 @@ export default function ComprarPasaje() {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
+  async function delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
+      await delay(3000);
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({

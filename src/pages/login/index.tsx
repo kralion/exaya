@@ -70,7 +70,7 @@ export default function Login() {
       <div
         data-aos="fade-in"
         data-aos-duration="1000"
-        className=" absolute z-10 m-5 flex hidden items-center gap-1 lg:block"
+        className=" absolute z-10 m-5 hidden items-center gap-1 lg:flex  "
       >
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
@@ -106,7 +106,7 @@ export default function Login() {
 
       <Link
         href="/"
-        className="fixed right-3 top-3 z-10 flex items-center justify-center gap-1 text-sm underline hover:opacity-60  "
+        className="fixed right-3 top-8 z-10 flex items-center justify-center gap-1 text-sm underline hover:opacity-60 lg:top-3  "
       >
         <HiOutlineArrowLeft />
         Ir al inicio
@@ -141,7 +141,7 @@ export default function Login() {
           }}
         />
         <h3
-          className={`  bg-gradient-to-l from-black to-orange-500 bg-clip-text  text-left text-2xl font-bold text-transparent drop-shadow-xl dark:from-orange-600  dark:to-orange-300 lg:text-5xl   `}
+          className={`   bg-gradient-to-l from-black to-orange-500 bg-clip-text text-left  text-2xl font-bold text-transparent drop-shadow-xl dark:from-orange-600 dark:to-orange-300  lg:text-5xl   `}
         >
           Inicio de Sesión
         </h3>

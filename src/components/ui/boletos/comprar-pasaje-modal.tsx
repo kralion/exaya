@@ -77,6 +77,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       content: "Este asiento está reservado",
     });
   };
+
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
@@ -132,10 +133,14 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
+  async function delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
+      await delay(3000);
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({
