@@ -94,32 +94,20 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       return null;
     }
 
-    await createBoletoMutation(
-      {
-        ...values,
-        estado: "PAGADO",
-        precio: viaje?.response?.tarifas[0] ?? 20,
-        metodoPago: "Tarjeta",
-        destino: viaje?.response?.ruta.ciudadDestino ?? "",
-        usuarioId: "clxq3f0i70001fn9x87gx9wj3",
-        codigo: `B005-000${num.toString().padStart(3, "0")}`,
-        pasajeroDni: values.pasajeroDni.toString(),
-        asiento: selectedSeat,
-        viajeId,
-        pasajeroNombres: reniecResponse?.data?.nombres,
-        pasajeroApellidos: apellidosCliente,
-      },
-      {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onError: async (error) => {
-          await messageApi.open({
-            content: error.message,
-            type: "error",
-            duration: 3,
-          });
-        },
-      }
-    );
+    await createBoletoMutation({
+      ...values,
+      estado: "PAGADO",
+      precio: viaje?.response?.tarifas[0] ?? 20,
+      metodoPago: "Tarjeta",
+      destino: viaje?.response?.ruta.ciudadDestino ?? "",
+      usuarioId: "clxq3f0i70001fn9x87gx9wj3",
+      codigo: `B005-000${num.toString().padStart(3, "0")}`,
+      pasajeroDni: values.pasajeroDni.toString(),
+      asiento: selectedSeat,
+      viajeId,
+      pasajeroNombres: reniecResponse?.data?.nombres,
+      pasajeroApellidos: apellidosCliente,
+    });
     form.resetFields();
     setPasajeroDNI("");
     setOpenRegister(false);
@@ -130,11 +118,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       router.push(lemonUrl);
       await createBoleto(values);
     } catch (error) {
-      await messageApi.open({
-        content: "Error en la operación",
-        type: "error",
-        duration: 3,
-      });
+      console.log("INTERNAL CUSTOM ERROR");
     }
     form.resetFields();
     setPasajeroDNI("");
