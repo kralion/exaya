@@ -119,11 +119,7 @@ export default function ComprarPasaje() {
       router.push(lemonUrl);
       await createBoleto(values);
     } catch (error) {
-      await messageApi.open({
-        content: "Error en la operación",
-        type: "error",
-        duration: 3,
-      });
+      console.log("INTERNAL ERROR",error);
     }
     form.resetFields();
     setPasajeroDNI("");

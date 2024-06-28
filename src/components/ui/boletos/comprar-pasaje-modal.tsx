@@ -118,7 +118,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       router.push(lemonUrl);
       await createBoleto(values);
     } catch (error) {
-      console.log("INTERNAL CUSTOM ERROR");
+      console.log("INTERNAL ERROR", error);
     }
     form.resetFields();
     setPasajeroDNI("");
