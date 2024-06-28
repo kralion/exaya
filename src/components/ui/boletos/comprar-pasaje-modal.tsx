@@ -111,15 +111,6 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
-          await messageApi.open({
-            content: response.message,
-            type: "success",
-            duration: 3,
-          });
-        },
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onError: async (error) => {
           await messageApi.open({
             content: error.message,
@@ -133,14 +124,10 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
-  async function delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      await delay(3000);
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({

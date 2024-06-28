@@ -3,22 +3,20 @@ import {
   Button,
   Divider,
   Drawer,
-  Flex,
   Form,
   Image,
   Input,
   Modal,
   Space,
-  Steps,
   Typography,
   message,
 } from "antd";
+import { customAlphabet } from "nanoid";
 import { Concert_One } from "next/font/google";
 import React, { useState } from "react";
-import { FaAngleLeft, FaSquare } from "react-icons/fa";
-import type { z } from "zod";
-import { customAlphabet } from "nanoid";
 import { AiOutlineLeft } from "react-icons/ai";
+import { FaSquare } from "react-icons/fa";
+import type { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
@@ -41,19 +39,6 @@ export default function ComprarPasaje() {
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
-
-  const error = async () => {
-    await messageApi.open({
-      type: "warning",
-      content: "No hay viaje con ese id",
-    });
-  };
-
-  if (!params?.id) {
-    void error();
-    return null;
-  }
-
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: params?.id,
   });
@@ -127,15 +112,6 @@ export default function ComprarPasaje() {
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
-          await messageApi.open({
-            content: response.message,
-            type: "success",
-            duration: 3,
-          });
-        },
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onError: async (error) => {
           await messageApi.open({
             content: error.message,
@@ -149,13 +125,10 @@ export default function ComprarPasaje() {
     setPasajeroDNI("");
     setOpenRegister(false);
   }
-  async function delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
       router.push(lemonUrl);
-      await delay(3000);
       await createBoleto(values);
     } catch (error) {
       await messageApi.open({
