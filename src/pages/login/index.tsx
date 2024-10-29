@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
-import { useNotification } from "@/context/notification";
 
 const literata = Literata({
   weight: "400",
@@ -33,9 +32,9 @@ type TLogin = {
 export default function Login() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
+  const [authError, setAuthError] = useState<boolean>(false);
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
-  const { openNotification } = useNotification();
   async function onFinish(values: TLogin) {
     setLoading(true);
     const result = await signIn("credentials", {
@@ -44,18 +43,17 @@ export default function Login() {
       redirect: false,
     });
     if (result?.error) {
-      openNotification({
-        message: "Error de Autenticación",
-        description: result.error,
-        type: "error",
-        placement: "topRight",
-      });
+      setAuthError(true);
+      setTimeout(() => {
+        setAuthError(false);
+      }, 3000);
     } else {
       router.push("/dashboard");
     }
 
     setLoading(false);
   }
+
   useEffect(() => {
     if (session) {
       router.push("/dashboard");
@@ -140,6 +138,7 @@ export default function Login() {
             backgroundImage: `url(${LoginGradientDark.src})`,
           }}
         />
+        {authError && <CustomNotification />}
         <h3
           className={`   bg-gradient-to-l from-black to-orange-500 bg-clip-text text-left  text-2xl font-bold text-transparent drop-shadow-xl dark:from-orange-600 dark:to-orange-300  lg:text-5xl   `}
         >
@@ -221,6 +220,37 @@ export default function Login() {
             <h1 className="font-mono dark:text-white">v3.2.1</h1>
           </div>
         </AOSWrapper>
+      </div>
+    </div>
+  );
+}
+
+export function CustomNotification() {
+  return (
+    <div className="absolute  right-6 top-12 flex items-center rounded-xl border border-rose-200 bg-rose-100 p-4 font-sans text-rose-800 shadow-md">
+      <div className="mr-4 flex-none text-rose-500">
+        <svg
+          className="hi-outline hi-x-circle inline-block h-6 w-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <div>
+        <h3 className="mb-1 font-bold">Credenciales incorrectas</h3>
+        <p className="text-sm font-medium">
+          Verifica tus credenciales, recuerdad que son precreada en el área de
+          TI
+        </p>
       </div>
     </div>
   );
