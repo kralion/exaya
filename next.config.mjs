@@ -18,6 +18,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  compiler : {
+   removeConsole: process.env.NODE_ENV === "production" 
+  },
   images: {
     domains: [
       "img.icons8.com",
