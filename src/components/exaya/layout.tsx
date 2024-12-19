@@ -1,23 +1,21 @@
 import AppHeader from "@/components/exaya/appheader";
 import { SelectedContext } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
+import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme, Typography } from "antd";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import {
-  LuBaggageClaim,
-  LuBarChart3,
-  LuCircleDollarSign,
-  LuFolderClock,
-  LuHelpingHand,
-  LuLayoutDashboard,
-  LuLogOut,
-  LuTicket,
-} from "react-icons/lu";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
-import { api } from "@/utils/api";
+import { AccountingIcon } from "./icons/accounting-icons";
+import { ChartIcon } from "./icons/chart-icon";
+import { HomeIcon } from "./icons/home-icon";
+import { LogoutIcon } from "./icons/log-out";
+import { LuggageIcon } from "./icons/luggage-icon";
+import { PlannerIcon } from "./icons/planner-icon";
+import { SupportIcon } from "./icons/support-icon";
+import { TicketIcon } from "./icons/ticker-icon";
 const { Header, Footer, Sider, Content } = Layout;
 const { Text } = Typography;
 
@@ -42,17 +40,17 @@ function getItem(
   } as MenuItem;
 }
 const items: MenuItem[] = [
-  getItem("Dashboard", "dashboard", <LuLayoutDashboard />),
-  getItem("Pasajes", "pasajes", <LuTicket />),
-  getItem("Encomiendas", "encomiendas", <LuBaggageClaim />),
-  getItem("Planner", "programacion", <LuFolderClock />, [
+  getItem("Dashboard", "dashboard", <HomeIcon />),
+  getItem("Pasajes", "pasajes", <TicketIcon />),
+  getItem("Encomiendas", "encomiendas", <LuggageIcon />),
+  getItem("Planner", "programacion", <PlannerIcon />, [
     getItem("Bus Conductor", "programacion/bus-conductor"),
     getItem("Comprobantes", "programacion/comprobantes"),
     getItem("Viajes", "programacion/viajes"),
   ]),
-  getItem("Contable", "contable", <LuCircleDollarSign />),
-  getItem("Administración", "administracion", <LuBarChart3 />),
-  getItem("Soporte", "soporte", <LuHelpingHand />),
+  getItem("Contable", "contable", <AccountingIcon />),
+  getItem("Administración", "administracion", <ChartIcon />),
+  getItem("Soporte", "soporte", <SupportIcon />),
 ];
 
 export default function AppLayout({ children }: LayoutProps) {
@@ -73,7 +71,7 @@ export default function AppLayout({ children }: LayoutProps) {
     <MessageProvider>
       <Layout className="h-100dvh lg:min-h-screen lg:p-4">
         <Sider
-          className=" z-2  h-fit rounded-lg rounded-xl border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
+          className=" z-2  h-fit rounded-xl border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
           breakpoint="lg"
           style={{
             background: colorBgContainer,
@@ -106,7 +104,7 @@ export default function AppLayout({ children }: LayoutProps) {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleSignOut}
             >
-              <LuLogOut className="rotate-180" />
+              <LogoutIcon />
               Salir
             </Button>
           </div>
