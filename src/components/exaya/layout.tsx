@@ -117,9 +117,7 @@ export default function AppLayout({ children }: LayoutProps) {
             }}
           >
             <AIAssistantInput />
-            <h3 className="hidden  font-bold text-primary lg:block">
-              Expreso Ayacucho
-            </h3>
+
             <div className="flex w-full items-center  justify-between lg:hidden">
               <h3 className="font-bold  text-primary">Expreso Ayacucho</h3>
               <Text type="secondary" className="text-sm">

@@ -1,3 +1,4 @@
+import { TextLoop } from "@/components/exaya/text-loop";
 import { useMessageContext } from "@/context/MessageContext";
 import { Button, Flex, Input, Space, type InputRef } from "antd";
 import { useRef, useState } from "react";
@@ -29,6 +30,10 @@ export const AIAssistantInput = () => {
       });
     }, 3000);
   };
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
   const handleStopRecording = () => {
     stopRecording();
@@ -42,22 +47,51 @@ export const AIAssistantInput = () => {
   };
 
   return (
-    <Flex align="center" className="hidden lg:flex" gap={8}>
-      <Space.Compact>
+    <Flex
+      align="center"
+      justify="space-between"
+      className=" hidden w-full lg:flex "
+      gap={8}
+    >
+      {!isFocused ? (
+        <TextLoop
+          onClick={() => {
+            setIsFocused(true);
+            inputRef.current?.focus();
+          }}
+          className={`w-full cursor-pointer rounded-lg border ${
+            isFocused
+              ? "border-yellow-500"
+              : "border-zinc-200 dark:border-zinc-800"
+          } bg-transparent px-4 py-2 text-sm hover:border-yellow-500 dark:border-zinc-700 dark:hover:border-yellow-500`}
+        >
+          <span>
+            Generar boleto para el asiento 7 para 74845147 el día 15/10/2023 a
+            50 soles en el turno de las 20:30
+          </span>
+          <span>
+            Registrar el asiento 23 para 74845147 el día 15/10/2023 a 50 soles
+            en el turno de las 20:30
+          </span>
+        </TextLoop>
+      ) : (
         <Input
           title="También puedes usar Ctrl + Enter para enfocar el input"
           onPressEnter={handleGenerate}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder="Escribe tu solicitud"
           allowClear
           ref={inputRef}
-          style={{ width: 700 }}
-          defaultValue="Boleto para el asiento 7 para 74845147 el día 15/10/2023 a 50 soles en el turno de las 20:30"
         />
+      )}
+      <Flex gap={8}>
         <Button
           onClick={isRecording ? handleStopRecording : handleStartRecording}
           icon={
             isRecording ? (
               <IoMic
-                className="animate-pulse text-zinc-500 dark:text-zinc-400"
+                className="animate-pulse text-zinc-500 dark:text-zinc-400 "
                 size={20}
               />
             ) : (
@@ -68,16 +102,23 @@ export const AIAssistantInput = () => {
             )
           }
         />
-      </Space.Compact>
-      <Button
-        type="primary"
-        iconPosition="end"
-        icon={<BsStars size={20} />}
-        onClick={handleGenerate}
-        loading={generating}
-      >
-        Generar
-      </Button>
+
+        <Button
+          type="primary"
+          className="motion-preset-pop   "
+          iconPosition="end"
+          icon={<BsStars size={20} />}
+          onClick={handleGenerate}
+          loading={generating}
+        >
+          Generar
+        </Button>
+      </Flex>
+      <div className="ml-10">
+        <h3 className="hidden w-36  font-bold text-primary lg:block">
+          Expreso Ayacucho
+        </h3>
+      </div>
     </Flex>
   );
 };

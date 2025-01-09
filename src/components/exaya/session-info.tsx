@@ -26,7 +26,7 @@ export default function SessionInfo() {
   return (
     <Space wrap size={1} className="my-14 flex flex-col">
       <Avatar
-        className="rounded-full border-4 border-yellow-400"
+        className="motion-preset-shrink rounded-full border-4 border-yellow-400 "
         size={isCollapsed ? 35 : 80}
         src={sessionData?.user.foto}
       />

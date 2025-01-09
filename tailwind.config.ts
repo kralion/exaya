@@ -40,6 +40,7 @@ const config = {
     },
   },
   plugins: [
+    require("tailwindcss-motion"),
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
       matchUtilities(

@@ -17,13 +17,14 @@ export default function AppHeader() {
         Powered with AI
       </Tag>
 
-      <div className=" flex cursor-pointer items-center justify-center   drop-shadow-md	">
+      <div className=" flex cursor-pointer items-center justify-center drop-shadow-md   	">
         <Image
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={40}
           height={40}
           alt="logo"
           priority
+          className=" hover:motion-rotate-in-[-0.5turn]  "
         />
 
         <Title level={3} className={` pt-3    ${blackOpsOne.className} `}>

@@ -31,6 +31,7 @@ export const ChartIcon = () => {
   return (
     <div
       className="hover:bg-accent flex cursor-pointer select-none items-center justify-center rounded-md p-2 transition-colors duration-200"
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onMouseEnter={handleHoverStart}
       onMouseLeave={() => {
         void controls.start("visible");
