@@ -34,12 +34,12 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
       <Drawer
         title={
           <Flex justify="space-between" align="center">
-            <Space direction="vertical">
+            <div className="flex-1 text-center">
               <h3 className="text-4xl font-bold  text-amber-500 ">Exaya</h3>
               <Text type="secondary" className="text-sm font-light">
                 Sistema de Gestión de Viajes y Encomiendas.
               </Text>
-            </Space>
+            </div>
             <IoClose
               className="active:opacity-70"
               size={30}
@@ -54,7 +54,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         open={open}
         size="large"
       >
-        <Space direction="vertical" className="w-full justify-start">
+        <div className="flex flex-col w-full justify-start">
           <Link
             className=" text-sm lg:hidden"
             href={session ? "/dashboard" : "/login"}
@@ -71,18 +71,17 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
           </Link>
           <Divider className="my-0" />
           {navLinks.map((link, index) => (
-            <>
+            <div key={index}>
               <Link
                 href={link.href}
-                key={index}
                 className="group text-lg active:text-black active:opacity-50"
               >
                 <div className=" flex-1 py-4">{link.label}</div>
               </Link>
               <Divider className="my-0" />
-            </>
+            </div>
           ))}
-        </Space>
+        </div>
       </Drawer>
     </>
   );
