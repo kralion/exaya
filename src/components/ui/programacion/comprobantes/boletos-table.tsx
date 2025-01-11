@@ -1,7 +1,6 @@
 import { api } from "@/utils/api";
 import { Table, Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import dayjs from "dayjs";
 const { Title, Text } = Typography;
 const columns: ColumnsType = [
   {

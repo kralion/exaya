@@ -54,6 +54,21 @@ export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
     api.viajes.getBoletosByViajeId.useQuery({
       id: viajeId,
     });
+  interface Pasajero {
+    pasajeroNombres: string;
+    pasajeroApellidos: string;
+    asiento: number;
+    precio: number;
+    estado: BoletoEstado;
+  }
+
+  interface PasajerosResponse {
+    response: Pasajero[];
+  }
+
+  const filteredPasajeros = (pasajeros as PasajerosResponse)?.response?.filter(
+    (pasajero: Pasajero) => pasajero.estado === ("PAGADO" as BoletoEstado)
+  );
   return (
     <Table
       pagination={{
@@ -64,9 +79,7 @@ export function PasajerosManifiestoTable({ viajeId }: { viajeId: string }) {
       }}
       loading={isLoading}
       columns={columns}
-      dataSource={pasajeros?.response?.filter(
-        (pasajero) => pasajero.estado === ("PAGADO" as BoletoEstado)
-      )}
+      dataSource={filteredPasajeros}
     />
   );
 }

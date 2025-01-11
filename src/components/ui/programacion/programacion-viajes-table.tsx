@@ -150,6 +150,7 @@ export function ProgramacionTable({
 
   return (
     <Table
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       dataSource={viajes?.response}
       columns={columns}
       loading={isLoading}

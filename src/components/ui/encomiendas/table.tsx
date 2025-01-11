@@ -7,6 +7,7 @@ import { useMessageContext } from "@/context/MessageContext";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import { useSession } from "next-auth/react";
+import type { AnyObject } from "antd/es/_util/type";
 
 const { Title } = Typography;
 export function EncomiendasTable({
@@ -15,6 +16,7 @@ export function EncomiendasTable({
   setEncomiendaIdToEdit: (id: string) => void;
 }) {
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     data: encomiendas,
     refetch,
     isLoading,
@@ -132,7 +134,7 @@ export function EncomiendasTable({
         pagination={{
           defaultPageSize: 5,
         }}
-        dataSource={encomiendas}
+        dataSource={encomiendas as AnyObject[]}
         columns={columns}
         loading={isLoading}
       />

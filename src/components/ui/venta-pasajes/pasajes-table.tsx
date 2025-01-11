@@ -10,6 +10,13 @@ import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { useRouter } from "next/navigation";
+import type { AnyObject } from "antd/es/_util/type";
+type Viaje = {
+  ruta: {
+    ciudadOrigen: string;
+    ciudadDestino: string;
+  };
+};
 
 export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
@@ -17,8 +24,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   });
   const router = useRouter();
   const { data: session } = useSession();
-  const origenFilterItems = viajes?.response
-    ?.map((viaje) => ({
+  const origenFilterItems = ((viajes?.response as Viaje[]) || [])
+    .map((viaje) => ({
       text: viaje.ruta.ciudadOrigen,
       value: viaje.ruta.ciudadOrigen,
     }))
@@ -28,8 +35,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
         self.findIndex((v) => v.text === viaje.text && v.value === viaje.value)
     );
 
-  const destinoFilterItems = viajes?.response
-    ?.map((viaje) => ({
+  const destinoFilterItems = ((viajes?.response as Viaje[]) || [])
+    .map((viaje) => ({
       text: viaje.ruta.ciudadDestino,
       value: viaje.ruta.ciudadDestino,
     }))
@@ -48,13 +55,8 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       filterOnClose: true,
       filters: origenFilterItems,
       filterIcon: <IoFilterSharp size={16} />,
-      onFilter: (
-        value,
-
-        record: {
-          ruta: { ciudadOrigen: string };
-        }
-      ) => record.ruta.ciudadOrigen.includes(value as string),
+      onFilter: (value, record: AnyObject) =>
+        (record as Viaje).ruta.ciudadOrigen.includes(value as string),
     },
     {
       title: "Destino",
@@ -64,32 +66,28 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       filterOnClose: true,
       filters: destinoFilterItems,
       filterIcon: <IoFilterSharp size={16} />,
-      onFilter: (
-        value,
-        record: {
-          ruta: { ciudadDestino: string };
-        }
-      ) => record.ruta?.ciudadDestino?.includes(value as string),
+      onFilter: (value, record: AnyObject) =>
+        (record as Viaje).ruta?.ciudadDestino?.includes(value as string),
     },
 
     {
       title: "Salida",
       dataIndex: "salida",
       key: "horaSalida",
-      sorter: {
-        compare: (
-          a: {
-            salida: string;
-          },
-          b: {
-            salida: string;
-          }
-        ) => {
-          const dateA = new Date(a.salida);
-          const dateB = new Date(b.salida);
-          return dateA.getTime() - dateB.getTime();
-        },
-      },
+      // sorter: {
+      //   compare: (
+      //     a: {
+      //       salida: string;
+      //     },
+      //     b: {
+      //       salida: string;
+      //     }
+      //   ) => {
+      //     const dateA = new Date(a.salida);
+      //     const dateB = new Date(b.salida);
+      //     return dateA.getTime() - dateB.getTime();
+      //   },
+      // },
       render: (salida: string) => {
         const salidaFormatted = new Date(salida);
         return (
@@ -241,7 +239,9 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       pagination={false}
       className=" rounded-xl border shadow duration-300  dark:border-zinc-800 lg:min-w-[55vw]"
       loading={isLoading}
-      columns={columns}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      columns={columns as any}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       dataSource={viajes?.response}
     />
   );

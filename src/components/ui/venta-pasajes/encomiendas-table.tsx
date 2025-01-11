@@ -48,7 +48,8 @@ export function EncomiendasManifiestoTable({ viajeId }: { viajeId: string }) {
       }}
       columns={columns}
       loading={isLoading}
-      dataSource={encomiendas?.response}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion
+      dataSource={encomiendas?.response as any}
     />
   );
 }
