@@ -74,17 +74,27 @@ function clasificarAsientos(
       const totalAsientos = viaje.bus.asientos;
 
       if (asiento <= totalAsientos * 0.2) {
-        clasificacion["A. Frontales"]++;
+        if (clasificacion["A. Frontales"] !== undefined) {
+          clasificacion["A. Frontales"]++;
+        }
       } else if (asiento <= totalAsientos * 0.4) {
-        clasificacion["A. Medio"]++;
+        if (clasificacion["A. Medio"] !== undefined) {
+          clasificacion["A. Medio"]++;
+        }
       } else {
-        clasificacion["A. Finales"]++;
+        if (clasificacion["A. Finales"] !== undefined) {
+          clasificacion["A. Finales"]++;
+        }
       }
 
       if (asiento % 2 === 0) {
-        clasificacion.Ventana++;
+        if (clasificacion.Ventana !== undefined) {
+          clasificacion.Ventana++;
+        }
       } else {
-        clasificacion.Pasillo++;
+        if (clasificacion.Pasillo !== undefined) {
+          clasificacion.Pasillo++;
+        }
       }
     }
   }
@@ -120,7 +130,9 @@ function clasificarPasajeros(
   for (const viaje of viajesDiarios) {
     for (const boleto of viaje.boletos) {
       const categoria = clasificarPersona(boleto.pasajeroDni);
-      clasificacion[categoria]++;
+      if (categoria && clasificacion[categoria] !== undefined) {
+        clasificacion[categoria]++;
+      }
     }
   }
 
