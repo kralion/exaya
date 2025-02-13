@@ -114,9 +114,9 @@ export default function ComprarPasaje() {
     try {
       await createBoleto(values);
       const url = createWhatsappMessage({
-        origin: viaje?.response?.ruta.ciudadOrigen,
-        destination: viaje?.response?.ruta.ciudadDestino,
-        date: viaje?.response?.salida,
+        origin: viaje?.response?.ruta.ciudadOrigen ?? "",
+        destination: viaje?.response?.ruta.ciudadDestino ?? "",
+        date: viaje?.response?.salida ? new Date(viaje.response.salida) : new Date(),
         dni: values.pasajeroDni.toString(),
         seatNumber: selectedSeat,
       });
