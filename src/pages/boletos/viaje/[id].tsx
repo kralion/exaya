@@ -22,6 +22,7 @@ import type { z } from "zod";
 import { boletoSchema } from "@/schemas";
 import { OnlineTravelTicket } from "@/components/ui/boletos/travel-ticket";
 import { useParams, useRouter } from "next/navigation";
+import { createWhatsappMessage } from "@/utils/whatsapp";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -31,8 +32,6 @@ const { Title, Text } = Typography;
 
 export default function ComprarPasaje() {
   const params = useParams<{ id: string }>();
-  const lemonUrl =
-    "https://exaya.lemonsqueezy.com/buy/46e29f4d-b3ce-4014-a09b-523a9589e6ae";
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
@@ -97,9 +96,9 @@ export default function ComprarPasaje() {
     }
     await createBoletoMutation({
       ...values,
-      estado: "PAGADO",
+      estado: "RESERVADO",
       precio: viaje?.response?.tarifas[0] ?? 20,
-      metodoPago: "Tarjeta",
+      metodoPago: "Yape",
       destino: viaje?.response?.ruta.ciudadDestino ?? "",
       usuarioId: "clxq3f0i70001fn9x87gx9wj3",
       codigo: `B005-000${num.toString().padStart(3, "0")}`,
@@ -109,17 +108,21 @@ export default function ComprarPasaje() {
       pasajeroNombres: reniecResponse?.data?.nombres,
       pasajeroApellidos: apellidosCliente,
     });
-    form.resetFields();
-    setPasajeroDNI("");
-    setOpenRegister(false);
   }
 
   async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
-      router.push(lemonUrl);
       await createBoleto(values);
+      const url = createWhatsappMessage({
+        origin: viaje?.response?.ruta.ciudadOrigen,
+        destination: viaje?.response?.ruta.ciudadDestino,
+        date: viaje?.response?.salida,
+        dni: values.pasajeroDni.toString(),
+        seatNumber: selectedSeat,
+      });
+      window.open(url, "_blank");
     } catch (error) {
-      console.log("INTERNAL ERROR",error);
+      console.log("INTERNAL ERROR", error);
     }
     form.resetFields();
     setPasajeroDNI("");

@@ -41,7 +41,6 @@ model Sede {
     contadorBoletos  Int
     contadorFacturas Int
     usuarios         Usuario[]
-    usuarioId        String
 }
 
 model Boleto {

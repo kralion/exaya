@@ -68,6 +68,15 @@ export const authOptions: NextAuthOptions = {
           });
         }
 
+        // const userFound = {
+        //   id: "1225",
+        //   nombres: "Brayan",
+        //   apellidos: "Santos",
+        //   rol: "ADMIN",
+        //   sedeId: "1234",
+        //   foto: "",
+        // };
+
         const userFound = await prisma.usuario.findUnique({
           where: {
             username: credentials.username,
