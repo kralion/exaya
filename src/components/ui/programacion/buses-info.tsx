@@ -9,11 +9,10 @@ export function BusesInformacion() {
     <Space className="grid grid-flow-row grid-cols-2 gap-4">
       {buses?.map((bus) => (
         <Card
-          className="h-24 w-44 shadow-lg dark:hover:bg-black/50"
+          className=" shadow-lg dark:hover:bg-black/50"
           loading={isLoading}
           cover={<Image src={bus.foto} alt="bus" />}
           key={bus.placa}
-          bordered
         >
           <Meta
             title={
