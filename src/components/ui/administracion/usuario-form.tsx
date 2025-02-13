@@ -96,46 +96,38 @@ export function UsuarioForm({
   };
 
   function handleUpdateUser(values: z.infer<typeof usuarioSchema>) {
-    if (reniecResponse?.data === undefined) {
-      return openMessage({
-        content: "El DNI no existe en la base de datos de la RENIEC",
-        duration: 3,
-        type: "error",
-      });
-    }
-    const apellidosConductor = `${reniecResponse.data.apellidoPaterno} ${reniecResponse.data.apellidoMaterno}`;
-    if (usuarioSingle?.response) {
-      updateUserMutation.mutate(
-        {
-          ...values,
-          foto: source,
-          id: usuarioSingle.response.id,
-          nombres: reniecResponse.data.nombres,
-          apellidos: apellidosConductor,
+    if (!usuarioSingle?.response) return;
+
+    updateUserMutation.mutate(
+      {
+        ...usuarioSingle.response,
+        ...values,
+        password: values.password || usuarioSingle.response.password,
+        foto: source ?? usuarioSingle.response.foto,
+        id: usuarioSingle.response.id,
+      },
+      {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSuccess: async (response) => {
+          openMessage({
+            content: response.message,
+            duration: 3,
+            type: "success",
+          });
+          await utils.usuarios.getAllUsuarios.invalidate();
         },
-        {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSuccess: async (response) => {
-            openMessage({
-              content: response.message,
-              duration: 3,
-              type: "success",
-            });
-            await utils.usuarios.getAllUsuarios.invalidate();
-          },
-          onError: (error) => {
-            openMessage({
-              content: error.message,
-              duration: 3,
-              type: "error",
-            });
-          },
-          onSettled: () => {
-            handleCancel();
-          },
-        }
-      );
-    }
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            duration: 3,
+            type: "error",
+          });
+        },
+        onSettled: () => {
+          handleCancel();
+        },
+      }
+    );
   }
 
   function handleCreateUser(values: z.infer<typeof usuarioSchema>) {
@@ -195,10 +187,12 @@ export function UsuarioForm({
         username: usuarioSingle.response.username,
         isDeleted: usuarioSingle.response.isDeleted,
         rol: usuarioSingle.response.rol,
-        foto: setSource(usuarioSingle.response.foto),
         sedeId: usuarioSingle.response.sedeId,
+        nombres: usuarioSingle.response.nombres,
+        apellidos: usuarioSingle.response.apellidos,
       });
       setSource(usuarioSingle.response.foto);
+      setUsuarioDni(usuarioSingle.response.usuarioDni);
     }
   }, [usuarioSingle, usuarioIdToEdit, form]);
 
@@ -305,12 +299,19 @@ export function UsuarioForm({
             label="Contraseña"
             rules={[
               {
-                required: true,
+                required: !usuarioIdToEdit,
                 message: "Requerido",
               },
             ]}
           >
-            <Input.Password placeholder="*********" type="password" />
+            <Input.Password
+              placeholder={
+                usuarioIdToEdit
+                  ? "Dejar vacío para mantener la contraseña actual"
+                  : "*********"
+              }
+              type="password"
+            />
           </Form.Item>
 
           <Form.Item
