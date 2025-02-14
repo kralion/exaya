@@ -1,5 +1,5 @@
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
-import { Calendar, FloatButton, Space, Typography } from "antd";
+import { Calendar, Space, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -52,8 +52,6 @@ export default function Boletos() {
             />
           </Space>
         </div>
-
-        <FloatButton.BackTop className="bottom-4 right-4" />
       </Space>
     </>
   );

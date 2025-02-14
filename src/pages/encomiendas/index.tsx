@@ -1,8 +1,7 @@
-import { EncomiendasForm } from "@/components/ui/encomiendas/form";
-import { EncomiendasTable } from "@/components/ui/encomiendas/table";
-import { FloatButton } from "antd";
 import AppLayout from "@/components/exaya/layout";
 import AppHead from "@/components/landing/head";
+import { EncomiendasForm } from "@/components/ui/encomiendas/form";
+import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 import { useState } from "react";
 
 function Encomiendas() {
@@ -18,7 +17,6 @@ function Encomiendas() {
         />
         <EncomiendasTable setEncomiendaIdToEdit={setEncomiendaIdToEdit} />
       </div>
-      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

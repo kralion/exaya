@@ -493,7 +493,7 @@ export function EncomiendasForm({
             type="primary"
             loading={isLoadingCreateEncomienda || isLoadingUpdateEncomienda}
           >
-            {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar Encomienda"}
+            {encomiendaIdToEdit ? "Guardar Cambios" : "Registrar"}
           </Button>
           <Button htmlType="reset" onClick={handleCancel}>
             Cancelar

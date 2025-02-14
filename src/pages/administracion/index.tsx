@@ -7,15 +7,7 @@ import AdministracionSteps from "@/components/ui/administracion/steps";
 import { UsuarioForm } from "@/components/ui/administracion/usuario-form";
 import UsuariosTable from "@/components/ui/administracion/usuarios-table";
 import { api } from "@/utils/api";
-import {
-  Alert,
-  Button,
-  DatePicker,
-  FloatButton,
-  Select,
-  Space,
-  Typography,
-} from "antd";
+import { Alert, Button, DatePicker, Select, Space, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -300,7 +292,6 @@ export default function Administracion() {
           setUsuarioIdToEdit={setUsuarioIdToEdit}
         />
       </Space>
-      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

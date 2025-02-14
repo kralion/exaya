@@ -2,15 +2,13 @@ import DarkGradient from "@/assets/images/dark-gradient.png";
 import LightGradient from "@/assets/images/light-gradient.png";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
-import { Alert, Tag } from "antd";
+import { useSession } from "next-auth/react";
 import { Black_Ops_One, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { FiLogIn } from "react-icons/fi";
+import { BsArrowRight } from "react-icons/bs";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
 import Footer from "./footer";
-import { useSession } from "next-auth/react";
-import { BsArrowRight } from "react-icons/bs";
 
 const inter = Inter({
   weight: ["800", "600", "300"],

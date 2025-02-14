@@ -1,6 +1,6 @@
 import AppLayout from "@/components/exaya/layout";
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
-import { Calendar, FloatButton, Space, Typography } from "antd";
+import { Calendar, Space, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";
 import { useState } from "react";
 const { Title } = Typography;
@@ -19,7 +19,7 @@ function Pasajes() {
           <PasajesTable dayQuery={dateQuery} />
         </Space>
         <Space className="gap-2 " direction="vertical">
-          <Title level={5}>Tracker por Fechas</Title>
+          <Title level={5}>Buscar por Fechas</Title>
           <Calendar
             className=" max-w-[400px] overflow-auto rounded-lg border shadow duration-300  dark:border-zinc-800"
             fullscreen={false}
@@ -27,7 +27,6 @@ function Pasajes() {
           />
         </Space>
       </Space>
-      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

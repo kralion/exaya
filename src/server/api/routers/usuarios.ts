@@ -24,10 +24,10 @@ export const usuariosRouter = createTRPCRouter({
           response: usuario,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener el usuario",
-        };
+        });
       }
     }),
 
@@ -97,8 +97,7 @@ export const usuariosRouter = createTRPCRouter({
       if (sessionUserId === user.id) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message:
-            "No es posible deshabilitar el usuario con el que se ha iniciado sesión",
+          message: "Error, no se puede deshabilitar a si mismo",
         });
       }
 
@@ -110,7 +109,7 @@ export const usuariosRouter = createTRPCRouter({
       });
       return {
         status: "success",
-        message: "Usuario deshabilitado exitosamente",
+        message: "Usuario deshabilitado",
       };
     }),
 
@@ -144,7 +143,7 @@ export const usuariosRouter = createTRPCRouter({
       if (user.rol === "ADMIN") {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "No es posible borrar a un usuario administrador",
+          message: "No es posible borrar a un administrador",
         });
       }
 
@@ -181,7 +180,6 @@ export const usuariosRouter = createTRPCRouter({
   updateUser: protectedProcedure
     .input(usuarioSchema.extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      
       const hashedPassword = await hash(input.password, 10);
       try {
         await ctx.prisma.usuario.update({

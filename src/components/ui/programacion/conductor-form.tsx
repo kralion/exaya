@@ -371,7 +371,7 @@ export function ConductorForm({
               <Radio value={false}>No</Radio>
             </Radio.Group>
           </Form.Item>
-          <Space className="col-span-2 mt-10 justify-end">
+          <Space className="col-span-2 mt-10 flex justify-end">
             <Button
               htmlType="submit"
               loading={
@@ -381,10 +381,6 @@ export function ConductorForm({
               type="primary"
             >
               {conductorIdToEdit ? "Guardar Cambios" : "Registrar"}
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
             </Button>
           </Space>
         </Form>

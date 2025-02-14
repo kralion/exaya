@@ -1,6 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { busSchema } from "@/schemas";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const busesRouter = createTRPCRouter({
   getAllBuses: publicProcedure.query(({ ctx }) => {
@@ -24,10 +25,10 @@ export const busesRouter = createTRPCRouter({
           response: bus,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener el bus",
-        };
+        });
       }
     }),
 
@@ -40,15 +41,13 @@ export const busesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message:
-            "Los detalles del bus se pueden ver en la lista de buses disponibles",
+          message: "Bus creado",
         };
       } catch (error) {
-        return {
-          status: "error",
-          message:
-            "Ocurrió un error al registrar el bus , por favor recarge la página e intente de nuevo",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error al crear bus",
+        });
       }
     }),
 
@@ -66,13 +65,13 @@ export const busesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Bus updated successfully",
+          message: "Bus actualizado",
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al actualizar el bus",
-        };
+        });
       }
     }),
 
@@ -85,13 +84,13 @@ export const busesRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Bus deleted successfully",
+          message: "Bus eliminado",
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al eliminar el bus",
-        };
+        });
       }
     }),
 });

@@ -310,7 +310,7 @@ export function ViajesForm({
         className="hidden w-full lg:block"
         onFinish={onFinish}
       >
-        <Space className="flex  justify-between">
+        <Space className="flex gap-16">
           <div>
             <div className="flex gap-4">
               <Form.Item
@@ -423,33 +423,31 @@ export function ViajesForm({
               </Form.Item>
             </div>
           </div>
-          <Form.Item>
-            <Flex gap={8} justify="end">
-              <Button
-                disabled={
-                  createViajeMutation.isLoading || updateViajeMutation.isLoading
-                }
-                loading={
-                  createViajeMutation.isLoading || updateViajeMutation.isLoading
-                }
-                htmlType="submit"
-                type="primary"
-              >
-                {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
-              </Button>
+          <Space>
+            <Button
+              disabled={
+                createViajeMutation.isLoading || updateViajeMutation.isLoading
+              }
+              loading={
+                createViajeMutation.isLoading || updateViajeMutation.isLoading
+              }
+              htmlType="submit"
+              type="primary"
+            >
+              {idToEdit ? "Guardar Cambios" : "Crear Viaje"}
+            </Button>
 
-              <Button
-                htmlType="button"
-                danger
-                onClick={() => {
-                  form.resetFields();
-                  setIdToEdit("");
-                }}
-              >
-                Cancelar
-              </Button>
-            </Flex>
-          </Form.Item>
+            <Button
+              htmlType="button"
+              danger
+              onClick={() => {
+                form.resetFields();
+                setIdToEdit("");
+              }}
+            >
+              Cancelar
+            </Button>
+          </Space>
         </Space>
       </Form>
     </>

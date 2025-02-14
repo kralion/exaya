@@ -3,7 +3,7 @@ import { SelectedContext } from "@/context/MenuContext";
 import { MessageProvider } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, theme, Typography } from "antd";
+import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
@@ -16,6 +16,7 @@ import { LuggageIcon } from "./icons/luggage-icon";
 import { PlannerIcon } from "./icons/planner-icon";
 import { SupportIcon } from "./icons/support-icon";
 import { TicketIcon } from "./icons/ticker-icon";
+import { GoArrowUp } from "react-icons/go";
 const { Header, Footer, Sider, Content } = Layout;
 const { Text } = Typography;
 
@@ -119,7 +120,9 @@ export default function AppLayout({ children }: LayoutProps) {
             <AIAssistantInput />
 
             <div className="flex w-full items-center  justify-between lg:hidden">
-              <h3 className="font-bold  text-primary">Expreso Ayacucho</h3>
+              <h3 className="text-xl font-bold text-primary">
+                Expreso Ayacucho
+              </h3>
               <Text type="secondary" className="text-sm">
                 Agencia, {data?.response?.agencia}
               </Text>
@@ -134,6 +137,10 @@ export default function AppLayout({ children }: LayoutProps) {
           >
             {children}
           </Content>
+          <FloatButton.BackTop
+            className="bottom-4 right-4"
+            icon={<GoArrowUp size={20} />}
+          />
 
           <Footer className="my-2 bg-transparent text-center text-sm text-zinc-400">
             © 2024 Exaya Inc. Todos los derechos reservados.

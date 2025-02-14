@@ -10,7 +10,6 @@ import {
   Button,
   Card,
   Flex,
-  FloatButton,
   QRCode,
   Space,
   Statistic,
@@ -217,8 +216,6 @@ function ProgramacionComprobantes() {
           />
         </Flex>
       </div>
-
-      <FloatButton.BackTop className="bottom-4 right-4" />
     </AppLayout>
   );
 }

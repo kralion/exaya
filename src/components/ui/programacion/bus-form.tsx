@@ -215,13 +215,9 @@ export function BusForm({ activator }: Props) {
               )}
             </div>
           </Form.Item>
-          <Space className="flex justify-end">
+          <Space className="mt-10 flex justify-end">
             <Button loading={isLoading} htmlType="submit" type="primary">
               Registrar
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
             </Button>
           </Space>
         </Form>

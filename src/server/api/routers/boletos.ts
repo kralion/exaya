@@ -79,10 +79,10 @@ export const boletosRouter = createTRPCRouter({
         response: counts,
       };
     } catch (error) {
-      return {
-        status: "error",
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
         message: "Error al obtener el conteo de boletos",
-      };
+      });
     }
   }),
   getLatestCodeOfBoleto: publicProcedure.query(async ({ ctx }) => {
@@ -100,10 +100,10 @@ export const boletosRouter = createTRPCRouter({
         response: boleto?.codigo,
       };
     } catch (error) {
-      return {
-        status: "error",
-        message: "Error al obtener el codigo del último boleto generado",
-      };
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Error al obtener el código del último boleto generado",
+      });
     }
   }),
 
@@ -131,10 +131,10 @@ export const boletosRouter = createTRPCRouter({
           response: boleto,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener el boleto",
-        };
+        });
       }
     }),
 
@@ -158,10 +158,10 @@ export const boletosRouter = createTRPCRouter({
           response: boletos,
         };
       } catch (error) {
-        return {
-          status: "error",
-          message: "Error al obtener el boleto",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error al obtener los boletos",
+        });
       }
     }),
 
@@ -185,10 +185,10 @@ export const boletosRouter = createTRPCRouter({
           response: boletos,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los boletos",
-        };
+        });
       }
     }),
   deleteBoletosById: protectedProcedure
@@ -221,7 +221,7 @@ export const boletosRouter = createTRPCRouter({
       }
       return {
         status: "sucess",
-        message: "Boleto Eliminado",
+        message: "Boleto eliminado",
       };
     }),
   createBoleto: publicProcedure
@@ -246,7 +246,7 @@ export const boletosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: `Asiento : ${input.asiento} registrado exitosamente`,
+          message: `Asiento : ${input.asiento} registrado `,
         };
       } catch (error) {
         throw new TRPCError({
@@ -266,13 +266,13 @@ export const boletosRouter = createTRPCRouter({
         });
         return {
           status: "success",
-          message: "Boleto actualizado exitosamente",
+          message: "Boleto actualizado ",
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al actualizar el boleto",
-        };
+        });
       }
     }),
 });

@@ -37,10 +37,10 @@ export const viajesRouter = createTRPCRouter({
           response: conductores,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los conductores",
-        };
+        });
       }
     }),
 
@@ -65,10 +65,10 @@ export const viajesRouter = createTRPCRouter({
           response: boletos,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los boletos",
-        };
+        });
       }
     }),
 
@@ -84,10 +84,10 @@ export const viajesRouter = createTRPCRouter({
           response: boletos,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los boletos",
-        };
+        });
       }
     }),
 
@@ -113,10 +113,10 @@ export const viajesRouter = createTRPCRouter({
         response: viajesDiarios,
       };
     } catch (error) {
-      return {
-        status: "error",
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
         message: "Error al obtener los viajes",
-      };
+      });
     }
   }),
 
@@ -158,10 +158,10 @@ export const viajesRouter = createTRPCRouter({
           response: viajes,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los viajes",
-        };
+        });
       }
     }),
 
@@ -192,16 +192,16 @@ export const viajesRouter = createTRPCRouter({
             response: viajes,
           };
         } catch (error) {
-          return {
-            status: "error",
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
             message: "Error al obtener los viajes",
-          };
+          });
         }
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los viajes",
-        };
+        });
       }
     }),
   getViajesByDateAndRutaId: publicProcedure
@@ -253,10 +253,10 @@ export const viajesRouter = createTRPCRouter({
           response: viajes,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los viajes",
-        };
+        });
       }
     }),
   getViajeById: publicProcedure
@@ -278,10 +278,10 @@ export const viajesRouter = createTRPCRouter({
           response: viaje,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener el viaje",
-        };
+        });
       }
     }),
 
@@ -305,10 +305,10 @@ export const viajesRouter = createTRPCRouter({
           response: viajes,
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al obtener los viajes",
-        };
+        });
       }
     }),
   createViaje: publicProcedure
@@ -341,10 +341,10 @@ export const viajesRouter = createTRPCRouter({
           message: "Viaje creado",
         };
       } catch (error) {
-        return {
-          status: "error",
-          message: "Error al crear el viaje",
-        };
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error al crear viaje",
+        });
       }
     }),
   deleteViajeById: protectedProcedure
@@ -397,7 +397,7 @@ export const viajesRouter = createTRPCRouter({
 
       return {
         status: "success",
-        message: "Viaje Eliminado correctamente",
+        message: "Viaje eliminado",
       };
     }),
   updateViajeById: publicProcedure
@@ -418,10 +418,10 @@ export const viajesRouter = createTRPCRouter({
           message: "Viaje actualizado",
         };
       } catch (error) {
-        return {
-          status: "error",
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
           message: "Error al actualizar el viaje",
-        };
+        });
       }
     }),
 });

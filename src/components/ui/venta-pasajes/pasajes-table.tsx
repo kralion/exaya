@@ -11,6 +11,7 @@ import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { useRouter } from "next/navigation";
 import type { AnyObject } from "antd/es/_util/type";
+import { GoChevronDown } from "react-icons/go";
 type Viaje = {
   ruta: {
     ciudadOrigen: string;
@@ -163,7 +164,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
                   className="lg:hidden"
                   onClick={() => router.push(`/viaje/${id}`)}
                 >
-                  Ver
+                  Asientos
                 </Typography>
               </div>
             ),
@@ -180,7 +181,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
 
         return session ? (
           <Dropdown trigger={["click"]} menu={{ items }}>
-            <Button type="primary" className="lg:px-auto px-6">
+            <Button type="primary" icon={<GoChevronDown size={15} />}>
               Ver
             </Button>
           </Dropdown>
@@ -188,7 +189,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
           <div>
             <Button
               type="primary"
-              className="px-6 lg:hidden"
+              className="lg:hidden"
               onClick={() => router.push(`/boletos/viaje/${id}`)}
             >
               Ver

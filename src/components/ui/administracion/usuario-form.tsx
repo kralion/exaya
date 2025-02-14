@@ -82,17 +82,48 @@ export function UsuarioForm({
     );
   const utils = api.useUtils();
   const createUsuarioMutation = api.usuarios.createUser.useMutation();
+  const usuarioDisableMutation = api.usuarios.disableUser.useMutation();
+
   const updateUserMutation = api.usuarios.updateUser.useMutation();
   const { data: sedes, isLoading: isLoadingSedes } =
     api.sedes.getAllSedes.useQuery();
-  const { data: usuarioSingle } = api.usuarios.getUsuarioById.useQuery({
-    id: usuarioIdToEdit,
-  });
+  const { data: usuarioSingle, refetch } = api.usuarios.getUsuarioById.useQuery(
+    {
+      id: usuarioIdToEdit,
+    }
+  );
 
   const handleCancel = () => {
     setIsModalOpen(false);
     setSource(undefined);
+    setUsuarioDni("");
     form.resetFields();
+  };
+
+  const handleDisableUser = (id: string) => {
+    usuarioDisableMutation.mutate(
+      { id },
+
+      {
+        onSuccess: (response) => {
+          openMessage({
+            content: response.message,
+            type: "success",
+            duration: 3,
+          });
+        },
+        onError: (error) => {
+          openMessage({
+            content: error.message,
+            type: "error",
+            duration: 3,
+          });
+        },
+        onSettled: () => {
+          void refetch();
+        },
+      }
+    );
   };
 
   function handleUpdateUser(values: z.infer<typeof usuarioSchema>) {
@@ -445,7 +476,10 @@ export function UsuarioForm({
             </div>
           </Form.Item>
 
-          <Space className="mt-10 flex items-center ">
+          <Space className="col-span-2 mt-10 flex  justify-end">
+            <Button danger onClick={() => handleDisableUser(usuarioIdToEdit)}>
+              Deshabilitar
+            </Button>
             <Button
               loading={
                 createUsuarioMutation.isLoading || updateUserMutation.isLoading
@@ -454,10 +488,6 @@ export function UsuarioForm({
               type="primary"
             >
               {usuarioIdToEdit ? "Guardar" : "Registrar"}
-            </Button>
-
-            <Button danger htmlType="reset" onClick={handleCancel}>
-              Cancelar
             </Button>
           </Space>
         </Form>

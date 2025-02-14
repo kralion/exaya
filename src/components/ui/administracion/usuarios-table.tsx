@@ -1,6 +1,5 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import { CiTrash } from "react-icons/ci";
 import { LuTrash2 } from "react-icons/lu";
 
 import {
@@ -14,7 +13,6 @@ import {
   Typography,
 } from "antd";
 import Link from "next/link";
-import { TbLockX } from "react-icons/tb";
 
 import type { ColumnsType } from "antd/es/table";
 import { FiEdit3 } from "react-icons/fi";
@@ -32,7 +30,6 @@ export default function UsuariosTable({
     isError,
     refetch,
   } = api.usuarios.getAllUsuarios.useQuery();
-  const usuarioDisableMutation = api.usuarios.disableUser.useMutation();
   const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openMessage } = useMessageContext();
   function capitalizeFirstLetter(string: string | undefined) {
@@ -49,32 +46,6 @@ export default function UsuariosTable({
   const handleDeleteUser = (id: string) => {
     usuarioDeleteMutation.mutate(
       { id },
-      {
-        onSuccess: (response) => {
-          openMessage({
-            content: response.message,
-            type: "success",
-            duration: 3,
-          });
-        },
-        onError: (error) => {
-          openMessage({
-            content: error.message,
-            type: "error",
-            duration: 3,
-          });
-        },
-        onSettled: () => {
-          void refetch();
-        },
-      }
-    );
-  };
-
-  const handleDisableUser = (id: string) => {
-    usuarioDisableMutation.mutate(
-      { id },
-
       {
         onSuccess: (response) => {
           openMessage({
@@ -169,28 +140,11 @@ export default function UsuariosTable({
       render: (record: { id: string }) => {
         return (
           <Space className="items-baseline gap-2">
-            <Popconfirm
-              okButtonProps={{
-                danger: true,
-              }}
-              title="Estás segur@ de deshabilitar este usuario?"
-              okText="Sí"
-              cancelText="No"
-              onConfirm={() => handleDisableUser(record.id)}
-            >
-              <Button
-                title="Deshabilitar"
-                icon={<TbLockX />}
-                type="text"
-                danger
-              />
-            </Popconfirm>
             <Button
               onClick={() => {
                 setUsuarioIdToEdit(record.id);
                 setIsModalOpen(true);
               }}
-              loading={usuarioDisableMutation.isLoading}
               title="Editar"
               icon={<FiEdit3 />}
             />
