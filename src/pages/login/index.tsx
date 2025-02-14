@@ -1,10 +1,10 @@
-import LoginGradientLight from "@/assets/images/login-gradient-light.png";
 import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
+import LoginGradientLight from "@/assets/images/login-gradient-light.png";
 import VideoBackground from "@/components/exaya/video-background";
 import AppHead from "@/components/landing/head";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
-import { Checkbox, Form, Input, Spin } from "antd";
+import { Checkbox, Form, Input, notification, Spin } from "antd";
 import type { FormInstance } from "antd/es/form";
 import { signIn, useSession } from "next-auth/react";
 import { Black_Ops_One, Literata } from "next/font/google";
@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
-import { MessageProvider, useMessageContext } from "@/context/MessageContext";
+type NotificationType = "success" | "info" | "warning" | "error";
 
 const literata = Literata({
   weight: "400",
@@ -32,6 +32,14 @@ type TLogin = {
 };
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type: NotificationType) => {
+    api[type]({
+      message: "Credenciales Incorrectas",
+      description: "Recueda que las credenciales son precreadas",
+    });
+  };
+
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const handleResize = () => {
@@ -57,7 +65,6 @@ export default function Login() {
   }, []);
   const { data: session } = useSession();
 
-  const { openMessage } = useMessageContext();
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
   async function onFinish(values: TLogin) {
@@ -68,11 +75,7 @@ export default function Login() {
       redirect: false,
     });
     if (result?.error) {
-      openMessage({
-        content: "Credenciales incorrectas",
-        duration: 3,
-        type: "error",
-      });
+      openNotificationWithIcon("error");
     } else {
       router.push("/dashboard");
     }
@@ -87,7 +90,8 @@ export default function Login() {
   }, [session, router]);
 
   return (
-    <MessageProvider>
+    <>
+      {contextHolder}
       <div
         className={` ${literata.className} relative flex  h-screen bg-zinc-100/50 dark:bg-black`}
       >
@@ -249,6 +253,6 @@ export default function Login() {
           </AOSWrapper>
         </div>
       </div>
-    </MessageProvider>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import {
   Image,
   Input,
   Modal,
+  Result,
   Space,
   Typography,
   message,
@@ -20,9 +21,8 @@ import type { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
-import { OnlineTravelTicket } from "@/components/ui/boletos/travel-ticket";
-import { useParams, useRouter } from "next/navigation";
 import { createWhatsappMessage } from "@/utils/whatsapp";
+import { useParams, useRouter } from "next/navigation";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -116,7 +116,9 @@ export default function ComprarPasaje() {
       const url = createWhatsappMessage({
         origin: viaje?.response?.ruta.ciudadOrigen ?? "",
         destination: viaje?.response?.ruta.ciudadDestino ?? "",
-        date: viaje?.response?.salida ? new Date(viaje.response.salida) : new Date(),
+        date: viaje?.response?.salida
+          ? new Date(viaje.response.salida)
+          : new Date(),
         dni: values.pasajeroDni.toString(),
         seatNumber: selectedSeat,
       });
@@ -263,7 +265,11 @@ export default function ComprarPasaje() {
           </Title>
 
           {selectedBoleto?.estado === "PAGADO" ? (
-            <OnlineTravelTicket id={selectedBoleto?.id} />
+            <Result
+              status="error"
+              title="Asiento Ocupado"
+              subTitle="El asiento seleccionado está ocupado, por favor elija otro."
+            />
           ) : (
             <Form
               layout="vertical"
@@ -348,7 +354,11 @@ export default function ComprarPasaje() {
           footer={null}
         >
           {selectedBoleto?.estado === "PAGADO" ? (
-            <OnlineTravelTicket id={selectedBoleto?.id} />
+            <Result
+              status="error"
+              title="Asiento Ocupado"
+              subTitle="El asiento seleccionado está ocupado, por favor elija otro."
+            />
           ) : (
             <Form
               layout="vertical"

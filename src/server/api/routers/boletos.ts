@@ -227,19 +227,6 @@ export const boletosRouter = createTRPCRouter({
   createBoleto: publicProcedure
     .input(boletoSchema)
     .mutation(async ({ input, ctx }) => {
-      const existingBoleto = await ctx.prisma.boleto.findFirst({
-        where: {
-          asiento: input.asiento,
-          viajeId: input.viajeId,
-        },
-      });
-      if (existingBoleto) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "El asiento ya ha sido registrado",
-        });
-      }
-
       try {
         await ctx.prisma.boleto.create({
           data: input,
@@ -251,7 +238,7 @@ export const boletosRouter = createTRPCRouter({
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: JSON.stringify(error),
+          message: "Error al registrar boleto",
         });
       }
     }),

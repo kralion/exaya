@@ -19,7 +19,7 @@ export default function Footer() {
           <span className="font-montserrat text-xl font-bold">Exaya</span>
         </a>
         <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 sm:ml-4 sm:mt-0 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:pl-4">
-          © 2024 Exaya —
+          © {new Date().getFullYear()} Exaya —
           <Link
             href="https://twitter.com/brayanpaucar_"
             className="ml-1 text-gray-600 hover:opacity-70 dark:text-zinc-400"

@@ -19,7 +19,7 @@ export default function ThemeToggle({
   return (
     <FloatButton.Group
       trigger="hover"
-      className="hidden lg:block"
+      className="hidden w-fit lg:block"
       style={{ left: 7, bottom: 7 }}
       icon={<BsPaintBucket />}
     >

@@ -310,7 +310,7 @@ export function ViajesForm({
         className="hidden w-full lg:block"
         onFinish={onFinish}
       >
-        <Space className="flex gap-16">
+        <Space className="flex items-start gap-16">
           <div>
             <div className="flex gap-4">
               <Form.Item

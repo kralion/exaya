@@ -477,9 +477,12 @@ export function UsuarioForm({
           </Form.Item>
 
           <Space className="col-span-2 mt-10 flex  justify-end">
-            <Button danger onClick={() => handleDisableUser(usuarioIdToEdit)}>
-              Deshabilitar
-            </Button>
+            {usuarioIdToEdit && (
+              <Button danger onClick={() => handleDisableUser(usuarioIdToEdit)}>
+                Deshabilitar
+              </Button>
+            )}
+
             <Button
               loading={
                 createUsuarioMutation.isLoading || updateUserMutation.isLoading
