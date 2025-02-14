@@ -32,8 +32,31 @@ type TLogin = {
 };
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      // Initial check
+      handleResize();
+
+      // Add event listener
+      window.addEventListener("resize", handleResize);
+    }
+
+    // Clean up the event listener
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
   const { data: session } = useSession();
-  const isMobile = window.innerWidth < 768;
+
   const { openMessage } = useMessageContext();
   const formRef = useRef<FormInstance>(null);
   const router = useRouter();
