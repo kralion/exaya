@@ -181,15 +181,7 @@ export const usuariosRouter = createTRPCRouter({
   updateUser: protectedProcedure
     .input(usuarioSchema.extend({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const existingUsername = await ctx.prisma.usuario.findUnique({
-        where: { username: input.username },
-      });
-      if (existingUsername) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "El nombre de usuario ya existe",
-        });
-      }
+      
       const hashedPassword = await hash(input.password, 10);
       try {
         await ctx.prisma.usuario.update({
