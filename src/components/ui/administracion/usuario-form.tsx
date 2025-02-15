@@ -145,6 +145,7 @@ export function UsuarioForm({
             duration: 3,
             type: "success",
           });
+          handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
         onError: (error) => {
@@ -153,9 +154,6 @@ export function UsuarioForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          handleCancel();
         },
       }
     );
@@ -186,6 +184,7 @@ export function UsuarioForm({
             duration: 3,
             type: "success",
           });
+          handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
         onError: (error) => {
@@ -194,9 +193,6 @@ export function UsuarioForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          handleCancel();
         },
       }
     );
@@ -269,6 +265,10 @@ export function UsuarioForm({
                 message: "Ingresa el DNI del conductor",
                 whitespace: true,
               },
+              {
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+                message: "Solo valores numéricos",
+              },
             ]}
             validateStatus={
               errorValidacionDNI
@@ -301,7 +301,13 @@ export function UsuarioForm({
           <Form.Item
             name="telefono"
             label="N° Celular"
-            rules={[{ required: true, message: "Verifica" }]}
+            rules={[
+              { required: true, message: "Ingresa el N° Celular" },
+              {
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+                message: "Solo valores numéricos",
+              },
+            ]}
           >
             <Input
               type="number"

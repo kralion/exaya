@@ -83,6 +83,10 @@ export function ConductorForm({
             type: "success",
           });
           await utils.conductores.getAllConductores.invalidate();
+          form.resetFields();
+          setConductorDNI("");
+          setSource(undefined);
+          setIsModalOpen(false);
         },
         onError: (error) => {
           openMessage({
@@ -90,12 +94,6 @@ export function ConductorForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          form.resetFields();
-          setConductorDNI("");
-          setSource(undefined);
-          setIsModalOpen(false);
         },
       }
     );
@@ -126,7 +124,11 @@ export function ConductorForm({
             duration: 3,
             type: "success",
           });
+
           await utils.conductores.getAllConductores.invalidate();
+          form.resetFields();
+          setConductorDNI("");
+          setSource(undefined);
         },
         onError: (error) => {
           openMessage({
@@ -134,11 +136,6 @@ export function ConductorForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          form.resetFields();
-          setConductorDNI("");
-          setSource(undefined);
         },
       }
     );
@@ -205,6 +202,10 @@ export function ConductorForm({
               { required: true },
               { min: 8, message: "El DNI debe tener 8 dígitos" },
               { max: 8, message: "El DNI debe tener 8 dígitos" },
+              {
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+                message: "Solo valores numéricos",
+              },
             ]}
             validateStatus={
               errorValidacionDNI

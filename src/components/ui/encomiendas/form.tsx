@@ -125,6 +125,9 @@ export function EncomiendasForm({
             type: "success",
             duration: 3,
           });
+          form.resetFields();
+          setRemitenteDNI("");
+          setDestinatarioDNI("");
         },
 
         onError: (error) => {
@@ -133,11 +136,6 @@ export function EncomiendasForm({
             type: "error",
             duration: 3,
           });
-        },
-        onSettled: () => {
-          form.resetFields();
-          setRemitenteDNI("");
-          setDestinatarioDNI("");
         },
       }
     );
@@ -179,6 +177,9 @@ export function EncomiendasForm({
 
       {
         onSuccess: (response) => {
+          form.resetFields();
+          setRemitenteDNI("");
+          setDestinatarioDNI("");
           openMessage({
             content: response.message,
             type: "success",
@@ -192,11 +193,6 @@ export function EncomiendasForm({
             type: "error",
             duration: 3,
           });
-        },
-        onSettled: () => {
-          form.resetFields();
-          setRemitenteDNI("");
-          setDestinatarioDNI("");
         },
       }
     );
@@ -261,6 +257,10 @@ export function EncomiendasForm({
               message: "Ingresa el DNI",
               whitespace: true,
             },
+            {
+              pattern: /^[0-9]+(\.[0-9]+)?$/,
+              message: "Solo valores numéricos",
+            },
           ]}
           validateStatus={
             remitenteDNI === ""
@@ -305,6 +305,10 @@ export function EncomiendasForm({
               required: true,
               message: "Ingresa el DNI",
               whitespace: true,
+            },
+            {
+              pattern: /^[0-9]+(\.[0-9]+)?$/,
+              message: "Solo valores numéricos",
             },
           ]}
           validateStatus={
@@ -398,6 +402,10 @@ export function EncomiendasForm({
                 min: 1,
                 required: true,
                 message: "Requerido",
+              },
+              {
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+                message: "Solo valores numéricos",
               },
             ]}
           >

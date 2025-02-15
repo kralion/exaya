@@ -43,6 +43,9 @@ export function BusForm({ activator }: Props) {
             type: "success",
             duration: 3,
           });
+          form.resetFields();
+          setSource(undefined);
+          setIsModalOpen(false);
           await utils.buses.getAllBuses.invalidate();
         },
         onError: (error) => {
@@ -51,11 +54,6 @@ export function BusForm({ activator }: Props) {
             type: "error",
             duration: 3,
           });
-        },
-        onSettled: () => {
-          form.resetFields();
-          setSource(undefined);
-          setIsModalOpen(false);
         },
       }
     );
@@ -100,6 +98,10 @@ export function BusForm({ activator }: Props) {
               {
                 required: true,
                 message: "Ingresa la cantidad de asientos",
+              },
+              {
+                pattern: /^[0-9]+(\.[0-9]+)?$/,
+                message: "Solo valores numéricos",
               },
             ]}
           >

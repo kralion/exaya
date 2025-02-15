@@ -174,6 +174,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
+          window.location.reload();
+          setOpenRegister(false);
+          form.resetFields();
+          setPasajeroDNI("");
         },
 
         onError: (error) => {
@@ -221,6 +225,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
+          window.location.reload();
+          setOpenRegister(false);
+          form.resetFields();
+          setPasajeroDNI("");
         },
         onError: (error) => {
           openMessage({
@@ -242,10 +250,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     await refetchBoletosViaje();
     await refetchBoletosReservados();
     await refetchBoletosVendidos();
-    window.location.reload();
-    setOpenRegister(false);
-    form.resetFields();
-    setPasajeroDNI("");
   }
 
   useEffect(() => {
@@ -492,7 +496,16 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             <Form.Item
               name="pasajeroDni"
               label="DNI"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor ingrese el DNI del pasajero",
+                },
+                {
+                  pattern: /^[0-9]+(\.[0-9]+)?$/,
+                  message: "Solo valores numéricos",
+                },
+              ]}
               validateStatus={
                 errorValidacionDNI
                   ? "error"

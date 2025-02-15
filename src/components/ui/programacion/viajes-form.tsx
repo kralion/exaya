@@ -64,6 +64,7 @@ export function ViajesForm({
             duration: 3,
             type: "success",
           });
+          form.resetFields();
         },
         onError: (error) => {
           openMessage({
@@ -71,9 +72,6 @@ export function ViajesForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          form.resetFields();
         },
       }
     );
@@ -101,6 +99,7 @@ export function ViajesForm({
             type: "success",
           });
           await utils.viajes.getAllViajes.invalidate();
+          form.resetFields();
         },
         onError: (error) => {
           openMessage({
@@ -108,9 +107,6 @@ export function ViajesForm({
             duration: 3,
             type: "error",
           });
-        },
-        onSettled: () => {
-          form.resetFields();
         },
       }
     );
@@ -121,7 +117,6 @@ export function ViajesForm({
     } else {
       createViaje(values);
     }
-    form.resetFields();
   };
   useEffect(() => {
     if (idToEdit && singleViaje?.response) {
@@ -378,6 +373,10 @@ export function ViajesForm({
                   {
                     required: true,
                     message: "Requerido",
+                  },
+                  {
+                    pattern: /^[0-9]+(\.[0-9]+)?$/,
+                    message: "Solo valores numéricos",
                   },
                 ]}
               >

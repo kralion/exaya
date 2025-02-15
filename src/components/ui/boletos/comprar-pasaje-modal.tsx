@@ -19,6 +19,7 @@ import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { createWhatsappMessage } from "@/utils/whatsapp";
+import { useMessageContext } from "@/context/MessageContext";
 const concertOne = Concert_One({
   subsets: ["latin"],
   weight: "400",
@@ -31,6 +32,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
   const [openRegister, setOpenRegister] = useState(false);
+  const { openMessage } = useMessageContext();
   const [form] = Form.useForm();
   const [selectedSeat, setSelectedSeat] = useState<number>(1);
   const { data: viaje } = api.viajes.getViajeById.useQuery({
@@ -75,7 +77,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   };
 
-  async function createBoleto(values: z.infer<typeof boletoSchema>) {
+  async function onFinish(values: z.infer<typeof boletoSchema>) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
 
@@ -90,29 +92,42 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     if (!apellidosCliente) {
       return null;
     }
-
-    await createBoletoMutation({
-      ...values,
-      estado: "RESERVADO",
-      precio: viaje?.response?.tarifas[0] ?? 20,
-      metodoPago: "Tarjeta",
-      destino: viaje?.response?.ruta.ciudadDestino ?? "",
-      usuarioId: "clxq3f0i70001fn9x87gx9wj3",
-      codigo: `B005-000${num.toString().padStart(3, "0")}`,
-      pasajeroDni: values.pasajeroDni.toString(),
-      asiento: selectedSeat,
-      viajeId,
-      pasajeroNombres: reniecResponse?.data?.nombres,
-      pasajeroApellidos: apellidosCliente,
-    });
-    form.resetFields();
-    setPasajeroDNI("");
-    setOpenRegister(false);
-  }
-
-  async function onFinish(values: z.infer<typeof boletoSchema>) {
     try {
-      await createBoleto(values);
+      await createBoletoMutation(
+        {
+          ...values,
+          estado: "RESERVADO",
+          precio: viaje?.response?.tarifas[0] ?? 20,
+          metodoPago: "Tarjeta",
+          destino: viaje?.response?.ruta.ciudadDestino ?? "",
+          usuarioId: "clxq3f0i70001fn9x87gx9wj3",
+          codigo: `B005-000${num.toString().padStart(3, "0")}`,
+          pasajeroDni: values.pasajeroDni.toString(),
+          asiento: selectedSeat,
+          viajeId,
+          pasajeroNombres: reniecResponse?.data?.nombres,
+          pasajeroApellidos: apellidosCliente,
+        },
+        {
+          onSuccess: (response) => {
+            openMessage({
+              content: response.message,
+              type: "success",
+              duration: 3,
+            });
+            form.resetFields();
+            setPasajeroDNI("");
+            setOpenRegister(false);
+          },
+          onError: (error) => {
+            openMessage({
+              content: error.message,
+              type: "error",
+              duration: 3,
+            });
+          },
+        }
+      );
       const url = createWhatsappMessage({
         origin: viaje?.response?.ruta.ciudadOrigen ?? "",
         destination: viaje?.response?.ruta.ciudadDestino ?? "",
@@ -126,9 +141,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     } catch (error) {
       console.log("INTERNAL ERROR", error);
     }
-    form.resetFields();
-    setPasajeroDNI("");
-    setOpenRegister(false);
+
     await refetchBoletosReservados();
     await refetchBoletosVendidos();
   }
@@ -296,7 +309,16 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             <Form.Item
               name="pasajeroDni"
               label="DNI Pasajero"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor ingrese el DNI del pasajero",
+                },
+                {
+                  pattern: /^[0-9]+(\.[0-9]+)?$/,
+                  message: "Solo valores numéricos",
+                },
+              ]}
               validateStatus={
                 errorValidacionDNI
                   ? "error"
