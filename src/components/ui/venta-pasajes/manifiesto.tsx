@@ -77,6 +77,9 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
       content: "Documento generado con éxito",
       type: "success",
     });
+    setTimeout(() => {
+      setPrint(false);
+    }, 2000);
   }
   return (
     <>
@@ -86,14 +89,12 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
         closeIcon={false}
         title={
           <div className="flex items-center justify-between ">
-            <Space className="gap-3">
-              <Text type="secondary">
+            <Space className="flex-col gap-3 ">
+              <Text className="font-bold">
                 {viajeCurrent?.response?.ruta?.ciudadOrigen} -{" "}
                 {viajeCurrent?.response?.ruta?.ciudadDestino}
               </Text>
-
-              <Text className="font-bold">
-                {viajeCurrent?.response?.salida.toLocaleDateString()} -{" "}
+              <Text type="secondary">
                 {viajeCurrent?.response?.salida.toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",

@@ -53,7 +53,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       status: "PAGADO",
       viajeId,
     });
-
+  const [codigoOperacion, setCodigoOperacion] = useState<string>("");
   const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
   const { data: boletosReservados, refetch: refetchBoletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
@@ -77,7 +77,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const { data: boletoSingle } = api.boletos.getBoletosById.useQuery({
     id: selectedBoleto?.id as string,
   });
-  const utils = api.useUtils();
 
   const {
     mutateAsync: updateBoletoMutation,
@@ -143,11 +142,17 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   };
 
   async function createBoleto(values: z.infer<typeof boletoSchema>) {
-    await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
-    await refetchSede();
-    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-000${
-      sede?.response?.contadorBoletos || 0
-    }`;
+    if (boletoStatus === "PAGADO") {
+      await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
+      await refetchSede();
+      setCodigoOperacion(
+        `${sede?.response?.serieBoleto || "B001"}-000${
+          sede?.response?.contadorBoletos || 0
+        }`
+      );
+    } else {
+      setCodigoOperacion("");
+    }
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
     }`;
@@ -159,10 +164,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       {
         ...values,
         usuarioId: session?.user?.id as string,
-        codigo: codigoOperacion,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         estado: boletoStatus,
+        codigo: codigoOperacion,
         viajeId,
         pasajeroNombres: reniecResponse?.data?.nombres,
         pasajeroApellidos: apellidosCliente,
@@ -174,7 +179,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
-          window.location.reload();
           setOpenRegister(false);
           form.resetFields();
           setPasajeroDNI("");
@@ -189,15 +193,20 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         },
       }
     );
-    form.resetFields();
-    setPasajeroDNI("");
-    setOpenRegister(false);
   }
 
   async function updateBoleto(values: z.infer<typeof boletoSchema>) {
-    const codigoOperacion = `${sede?.response?.serieBoleto || "B001"}-${
-      sede?.response?.contadorBoletos || 0
-    }`;
+    if (boletoStatus === "PAGADO") {
+      await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
+      await refetchSede();
+      setCodigoOperacion(
+        `${sede?.response?.serieBoleto || "B001"}-000${
+          sede?.response?.contadorBoletos || 0
+        }`
+      );
+    } else {
+      setCodigoOperacion("");
+    }
 
     const apellidosCliente = `${reniecResponse?.data?.apellidoPaterno ?? ""} ${
       reniecResponse?.data?.apellidoMaterno ?? ""
@@ -210,7 +219,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         ...values,
         id: selectedBoleto?.id as string,
         usuarioId: session?.user?.id as string,
-        codigo: codigoOperacion,
+        codigo: selectedBoleto?.codigo || codigoOperacion,
         pasajeroDni: values.pasajeroDni.toString(),
         asiento: selectedSeat,
         estado: boletoStatus,
@@ -225,7 +234,6 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
             type: "success",
             duration: 3,
           });
-          window.location.reload();
           setOpenRegister(false);
           form.resetFields();
           setPasajeroDNI("");
@@ -260,6 +268,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
         estado: boletoSingle?.response?.estado,
         destino: boletoSingle?.response?.destino,
       });
+      setBoletoStatus(boletoSingle?.response?.estado as BoletoEstado);
     }
   }, [selectedBoleto?.id, form, boletoSingle?.response]);
   const handleSeatClick = (seatNumber: number) => {
@@ -550,12 +559,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 rules={[{ required: true, message: "Requerido" }]}
               >
                 <Select style={{ width: 120 }}>
+                  <Select.Option value={viaje?.response?.ruta?.ciudadDestino}>
+                    {viaje?.response?.ruta?.ciudadDestino}
+                  </Select.Option>
                   <Select.Option value="Huanta">Huanta</Select.Option>
-                  <Select.Option value="Ayacucho">Ayacucho</Select.Option>
                   <Select.Option value="Izquchaca">Izquchaca</Select.Option>
                   <Select.Option value="Mayocc">Mayocc</Select.Option>
                   <Select.Option value="Anco">Anco</Select.Option>
-                  <Select.Option value="Huancayo">Huancayo</Select.Option>
                 </Select>
               </Form.Item>
               <Form.Item
@@ -579,6 +589,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Form.Item>
               <Form.Item name="estado" label="Operación">
                 <Select
+                  status={
+                    boletoSingle?.response?.estado === "RESERVADO"
+                      ? "error"
+                      : undefined
+                  }
                   style={{ width: 100 }}
                   value={boletoStatus}
                   onChange={(value) => {
@@ -591,7 +606,13 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               </Form.Item>
             </Space>
             <Form.Item name="metodoPago">
-              <Radio.Group>
+              <Radio.Group
+                defaultValue={
+                  selectedBoleto?.metodoPago
+                    ? selectedBoleto?.metodoPago
+                    : "Efectivo"
+                }
+              >
                 <Radio value="Efectivo">Efectivo</Radio>
                 <Radio value="Yape">Yape</Radio>
                 <Radio value="IzyPay">IzyPay</Radio>
@@ -605,7 +626,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                 loading={isLoading || isLoadingUpdateBoleto}
                 disabled={reniecResponse?.status === "error"}
               >
-                {selectedBoleto ? "Vender" : "Registrar"}
+                {selectedBoleto ? "Guardar Cambios" : "Registrar"}
               </Button>
               {selectedBoleto && (
                 <Button

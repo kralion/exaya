@@ -21,7 +21,7 @@ export default function Dashboard() {
     isLoading: isLoadingSede,
     refetch: refetchSede,
   } = api.sedes.getSedeById.useQuery({
-    id: session?.user.sedeId ?? "",
+    id: session?.user.sedeId as string,
   });
   const totalViajesProgramados = viajesDiarios?.response?.length;
   const viajesActivos = viajesDiarios?.response?.filter(

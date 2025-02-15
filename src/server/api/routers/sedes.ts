@@ -19,7 +19,7 @@ export const sedesRouter = createTRPCRouter({
       } catch (error) {
         return {
           status: "error",
-          message: "Error al obtener el bus",
+          message: "Error al obtener la sede",
         };
       }
     }),
