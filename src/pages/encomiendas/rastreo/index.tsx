@@ -35,8 +35,8 @@ export default function Page() {
     );
   const handleFinish = (values: FormValues) => {
     const otpString = Array.isArray(values.codigoRastreo)
-      ? values.codigoRastreo.join("")
-      : values.codigoRastreo;
+      ? values.codigoRastreo.join("").toLowerCase()
+      : values.codigoRastreo.toLowerCase();
     setTrackingCode(otpString);
     setIsInitialRender(false);
   };
@@ -52,13 +52,13 @@ export default function Page() {
       );
 
       if (diffDays >= 1) {
-        setUbicacion("Destino");
+        setUbicacion("En destino");
       } else if (
         data.response.fechaEnvio.getTime() <
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         data.response.viaje.salida.getTime()
       ) {
-        setUbicacion("Origen");
+        setUbicacion("En origen");
       } else {
         setUbicacion("En camino");
       }

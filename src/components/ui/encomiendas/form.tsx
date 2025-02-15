@@ -71,7 +71,9 @@ export function EncomiendasForm({
       dni: destinatarioDNI,
     },
     {
-      enabled: destinatarioDNI.length === 8,
+      enabled:
+        destinatarioDNI.length === 8 &&
+        destinatarioDNI !== singleEncomienda?.response?.destinatarioDni,
     }
   );
   const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
@@ -79,7 +81,9 @@ export function EncomiendasForm({
       dni: form.getFieldValue("remitenteDni") as string,
     },
     {
-      enabled: remitenteDNI.length === 8,
+      enabled:
+        remitenteDNI.length === 8 &&
+        remitenteDNI !== singleEncomienda?.response?.remitenteDni,
     }
   );
 
@@ -89,20 +93,7 @@ export function EncomiendasForm({
     const serie: SerieEncomienda = values.factura
       ? SerieEncomienda.F001
       : SerieEncomienda.B001;
-    if (remitenteInformacion?.data === undefined) {
-      return openMessage({
-        content: "El DNI no existe en la base de datos de la RENIEC",
-        duration: 3,
-        type: "error",
-      });
-    }
-    if (receptorInformacion?.data === undefined) {
-      return openMessage({
-        content: "El DNI no existe en la base de datos de la RENIEC",
-        duration: 3,
-        type: "error",
-      });
-    }
+
     await updateEncomiendaMutation(
       {
         ...values,
@@ -112,10 +103,25 @@ export function EncomiendasForm({
         id: encomiendaIdToEdit,
         serie,
         fechaEnvio: new Date(values.fechaEnvio),
-        remitenteNombres: remitenteInformacion.data.nombres,
-        remitenteApellidos: `${remitenteInformacion.data.apellidoPaterno} ${remitenteInformacion.data.apellidoMaterno}`,
-        destinatarioNombres: receptorInformacion.data.nombres,
-        destinatarioApellidos: `${receptorInformacion.data.apellidoPaterno} ${receptorInformacion.data.apellidoMaterno}`,
+        remitenteNombres: remitenteInformacion?.data?.nombres
+          ? remitenteInformacion?.data?.nombres
+          : singleEncomienda?.response?.remitenteNombres || "",
+        remitenteApellidos:
+          `${remitenteInformacion?.data?.apellidoPaterno ?? ""} ${
+            remitenteInformacion?.data?.apellidoMaterno ?? ""
+          }` ||
+          singleEncomienda?.response?.remitenteApellidos ||
+          "",
+        destinatarioNombres:
+          receptorInformacion?.data?.nombres ||
+          singleEncomienda?.response?.destinatarioNombres ||
+          "",
+        destinatarioApellidos:
+          `${receptorInformacion?.data?.apellidoPaterno ?? ""} ${
+            receptorInformacion?.data?.apellidoMaterno ?? ""
+          }` ||
+          singleEncomienda?.response?.destinatarioApellidos ||
+          "",
       },
 
       {
