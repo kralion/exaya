@@ -56,7 +56,7 @@ export default function Index() {
               className="hover:purple-900 group z-50 mt-10 hidden w-64 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-orange-400 bg-gradient-to-r from-orange-400 to-orange-500  py-1.5 font-semibold text-white  shadow-2xl shadow-orange-700   duration-500 active:opacity-70 dark:shadow-orange-500   lg:inline-flex  lg:py-3 lg:text-xl "
             >
               <span className="duration-300 group-hover:-translate-x-1 ">
-                Pruébalo gratis
+                Demo gratuita
               </span>
 
               <HiOutlineArrowNarrowRight
