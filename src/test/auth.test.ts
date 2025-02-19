@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { authOptions } from "@/server/auth";
 import { prisma } from "@/server/db";
 import { TRPCError } from "@trpc/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { Rol } from "@/types/auth";
 
 describe("Auth System", () => {
   beforeEach(() => {
@@ -54,9 +56,11 @@ describe("Auth System", () => {
         password: "$2b$10$", // Example hash start for bcrypt
         nombres: "Test",
         apellidos: "User",
-        rol: "USER",
+        rol: "USER" as Rol,
         sedeId: "1",
         foto: "",
+        usuarioDni: "12345678",
+        telefono: "123456789",
       };
 
       vi.mocked(
@@ -74,9 +78,11 @@ describe("Auth System", () => {
         password: "$2b$10$",
         nombres: "Brayan",
         apellidos: "Test",
-        rol: "USER",
+        rol: "USER" as Rol,
         sedeId: "1",
         foto: "",
+        usuarioDni: "87654321",
+        telefono: "987654321",
       };
 
       vi.mocked(
