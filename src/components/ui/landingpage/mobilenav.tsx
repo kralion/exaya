@@ -36,7 +36,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
       <Drawer
         title={
           <Flex justify="space-between" align="center">
-            <div className="flex-1 text-center">
+            <div className="flex-1 ">
               <h3 className="text-4xl font-bold  text-amber-500 ">Exaya</h3>
               <Text type="secondary" className="text-sm font-light">
                 Sistema de Gestión de Viajes y Encomiendas.
@@ -45,6 +45,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
             <IoClose
               className="active:opacity-70"
               size={30}
+              strokeWidth={2}
               onClick={() => setOpen(false)}
             />
           </Flex>
@@ -59,7 +60,6 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         <div className="flex w-full flex-col justify-start">
           <Button
             className=" w-full flex-1 py-4 text-lg"
-            color="default"
             size="large"
             onClick={() =>
               session ? router.push("/dashboard") : router.push("/login")
@@ -72,8 +72,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
           {navLinks.map((link, index) => (
             <div key={index}>
               <Button
-                className=" w-full flex-1 py-4 text-lg"
-                color="default"
+                className=" my-4 w-full flex-1 py-4 text-left text-lg"
                 size="large"
                 onClick={() => router.push(link.href)}
                 variant="link"
