@@ -40,29 +40,6 @@ export default function Login() {
     });
   };
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const handleResize = () => {
-      if (typeof window !== "undefined") {
-        setIsMobile(window.innerWidth < 768);
-      }
-    };
-
-    if (typeof window !== "undefined") {
-      // Initial check
-      handleResize();
-
-      // Add event listener
-      window.addEventListener("resize", handleResize);
-    }
-
-    // Clean up the event listener
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("resize", handleResize);
-      }
-    };
-  }, []);
   const { data: session } = useSession();
 
   const formRef = useRef<FormInstance>(null);
@@ -140,7 +117,7 @@ export default function Login() {
           <HiOutlineArrowLeft />
           Ir al inicio
         </Link>
-        {!isMobile && <VideoBackground />}
+        <VideoBackground />
 
         <div
           style={{
