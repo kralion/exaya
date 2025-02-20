@@ -1,4 +1,4 @@
-import AppHead from "@/components/landing/head";
+import AppHead from "@/components/common/head";
 import LandingLayout from "@/components/landing/landing-layout";
 import PlanesCard from "@/components/ui/planes/card";
 import React from "react";

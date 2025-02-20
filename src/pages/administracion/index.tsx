@@ -1,5 +1,5 @@
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import KpiGraphs from "@/components/ui/administracion/kpi-graphs";
 import { StatsSegments } from "@/components/ui/administracion/stats";

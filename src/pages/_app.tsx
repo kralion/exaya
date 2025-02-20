@@ -1,5 +1,5 @@
-import ThemeToggle from "@/components/theme-toggle";
-import EmptyCustomized from "@/components/ui/empty";
+import ThemeToggle from "@/components/common/theme-toggle";
+import EmptyCustomized from "@/components/common/empty";
 import { MenuProvider } from "@/context/MenuContext";
 import "@/styles/globals.css";
 import { api } from "@/utils/api";

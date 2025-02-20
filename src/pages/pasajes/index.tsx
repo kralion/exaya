@@ -1,4 +1,4 @@
-import AppLayout from "@/components/exaya/layout";
+import AppLayout from "@/components/common/layout";
 import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
 import { Calendar, Space, Typography } from "antd";
 import dayjs, { type Dayjs } from "dayjs";

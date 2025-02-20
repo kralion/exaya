@@ -1,4 +1,4 @@
-import { TextLoop } from "@/components/exaya/text-loop";
+import { TextLoop } from "@/components/common/text-loop";
 import { useMessageContext } from "@/context/MessageContext";
 import { Button, Flex, Input, Space, type InputRef } from "antd";
 import { useRef, useState } from "react";

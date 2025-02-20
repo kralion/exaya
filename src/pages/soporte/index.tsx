@@ -1,6 +1,6 @@
 import SoporteGradient from "@/assets/images/soporte-gradient.png";
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import { Space, Tag, Typography } from "antd";
 import { Literata } from "next/font/google";
 import Image from "next/image";

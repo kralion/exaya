@@ -1,11 +1,11 @@
-import AppHead from "@/components/landing/head";
+import AppHead from "@/components/common/head";
 import { ControlPaneCard } from "@/components/ui/panel-de-control/control-pane-card";
 import ControlPaneGraph from "@/components/ui/panel-de-control/graph";
 import { ProgressesCard } from "@/components/ui/panel-de-control/progresses-card";
 import { api } from "@/utils/api";
 import { Skeleton, Space, Statistic, Typography } from "antd";
 import { useSession } from "next-auth/react";
-import AppLayout from "../../components/exaya/layout";
+import AppLayout from "../../components/common/layout";
 import { useEffect } from "react";
 
 type TViajeEstado = {

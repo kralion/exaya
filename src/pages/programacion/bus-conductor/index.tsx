@@ -1,6 +1,6 @@
 "use client";
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import {
   BusForm,
   BusesInformacion,

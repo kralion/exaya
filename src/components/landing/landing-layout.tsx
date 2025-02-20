@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
-import Footer from "./footer";
+import Footer from "../common/footer";
 
 const inter = Inter({
   weight: ["800", "600", "300"],

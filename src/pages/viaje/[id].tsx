@@ -1,4 +1,4 @@
-import TravelTicketPrint from "@/components/travel-ticket";
+import TravelTicketPrint from "@/components/ui/venta-pasajes/travel-ticket";
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {
@@ -24,7 +24,7 @@ import { useReactToPrint } from "react-to-print";
 import { IoPrintOutline } from "react-icons/io5";
 
 import { FaSquare } from "react-icons/fa";
-import AppLayout from "@/components/exaya/layout";
+import AppLayout from "@/components/common/layout";
 import { FaRegTrashCan } from "react-icons/fa6";
 const concertOne = Concert_One({
   subsets: ["latin"],

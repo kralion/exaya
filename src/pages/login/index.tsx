@@ -1,7 +1,7 @@
 import LoginGradientDark from "@/assets/images/login-gradient-dark.png";
 import LoginGradientLight from "@/assets/images/login-gradient-light.png";
-import VideoBackground from "@/components/exaya/video-background";
-import AppHead from "@/components/landing/head";
+import VideoBackground from "@/components/common/video-background";
+import AppHead from "@/components/common/head";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { Checkbox, Form, Input, notification, Spin } from "antd";

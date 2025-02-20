@@ -1,5 +1,5 @@
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import { EncomiendasForm } from "@/components/ui/encomiendas/form";
 import { EncomiendasTable } from "@/components/ui/encomiendas/table";
 import { useState } from "react";

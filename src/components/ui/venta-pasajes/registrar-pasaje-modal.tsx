@@ -1,4 +1,4 @@
-import TravelTicketPrint from "@/components/travel-ticket";
+import TravelTicketPrint from "@/components/ui/venta-pasajes/travel-ticket";
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import {

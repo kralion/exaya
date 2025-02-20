@@ -1,4 +1,4 @@
-import ParcelTicketPrint from "@/components/parcel-ticket";
+import ParcelTicketPrint from "@/components/ui/encomiendas/parcel-ticket";
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Modal, Popconfirm, Tag } from "antd";

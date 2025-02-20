@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import ParcelSkeleton from "@/components/skeletons/parcel-skeleton";
-import EmptyCustomized from "@/components/ui/empty";
+import EmptyCustomized from "@/components/common/empty";
 import { api } from "@/utils/api";
 import { Button, Card, Form, Space, Typography } from "antd";
 import { InputOTP } from "antd-input-otp";

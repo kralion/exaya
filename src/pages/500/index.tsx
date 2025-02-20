@@ -1,4 +1,4 @@
-import AppHead from "@/components/landing/head";
+import AppHead from "@/components/common/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

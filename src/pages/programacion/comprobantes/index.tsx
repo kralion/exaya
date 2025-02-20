@@ -1,6 +1,6 @@
 "use client";
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
 import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
 import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";

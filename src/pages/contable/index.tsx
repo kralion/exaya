@@ -1,6 +1,6 @@
 "use client";
-import AppLayout from "@/components/exaya/layout";
-import AppHead from "@/components/landing/head";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
 import ScheduleSkeleton from "@/components/skeletons/horarios-button";
 import { ContableCard } from "@/components/ui/contable/contable-card";
 import { EstadisticasNumericas } from "@/components/ui/contable/steps-statistics";
