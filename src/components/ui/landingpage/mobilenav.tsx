@@ -1,7 +1,8 @@
 "use client";
-import { Divider, Drawer, Flex, Space, Typography } from "antd";
+import { Button, Divider, Drawer, Flex, Space, Typography } from "antd";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { TbMenu } from "react-icons/tb";
@@ -17,6 +18,7 @@ type NavigationProps = {
 export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -48,36 +50,36 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
           </Flex>
         }
         placement="right"
-        className="overflow-hidden "
+        className="overflow-hidden lg:hidden"
         closeIcon={null}
         onClose={() => setOpen(false)}
         open={open}
         size="large"
       >
-        <div className="flex flex-col w-full justify-start">
-          <Link
-            className=" text-sm lg:hidden"
-            href={session ? "/dashboard" : "/login"}
+        <div className="flex w-full flex-col justify-start">
+          <Button
+            className=" w-full flex-1 py-4 text-lg"
+            color="default"
+            size="large"
+            onClick={() =>
+              session ? router.push("/dashboard") : router.push("/login")
+            }
+            variant="link"
           >
-            {session ? (
-              <button className=" py-4 text-lg active:opacity-70">
-                Ir al Dashboard
-              </button>
-            ) : (
-              <button className=" py-4 text-lg active:opacity-70">
-                Iniciar Sesión
-              </button>
-            )}
-          </Link>
+            {session ? "Dashboard" : "Iniciar Sesión"}
+          </Button>
           <Divider className="my-0" />
           {navLinks.map((link, index) => (
             <div key={index}>
-              <Link
-                href={link.href}
-                className="group text-lg active:text-black active:opacity-50"
+              <Button
+                className=" w-full flex-1 py-4 text-lg"
+                color="default"
+                size="large"
+                onClick={() => router.push(link.href)}
+                variant="link"
               >
-                <div className=" flex-1 py-4">{link.label}</div>
-              </Link>
+                {link.label}
+              </Button>
               <Divider className="my-0" />
             </div>
           ))}
