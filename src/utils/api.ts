@@ -12,7 +12,7 @@ import superjson from "superjson";
 import { type AppRouter } from "@/server/api/root";
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
-  return process.env.NEXT_PUBLIC_APP_URL;
+  return process.env.NEXT_PUBLIC_APP_URL!;
 };
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const api = createTRPCNext<AppRouter>({
