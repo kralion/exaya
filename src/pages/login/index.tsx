@@ -218,7 +218,7 @@ export default function Login() {
             </Form>
             <div className="z-10 flex gap-4 p-4 text-xs  text-zinc-600 dark:text-zinc-400">
               <p className="flex items-center gap-1 font-mono ">
-                <HiOutlineUser /> <span>brayan</span>
+                <HiOutlineUser /> <span>exaya</span>
               </p>
               <p className="flex items-center gap-1 font-mono">
                 <GoKey /> <span>Exay4</span>
