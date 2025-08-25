@@ -21,7 +21,7 @@ export default function Footer() {
         <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 sm:ml-4 sm:mt-0 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:pl-4">
           © {new Date().getFullYear()} Exaya —
           <Link
-            href="https://twitter.com/brayanpaucar_"
+            href="https://brayan-paucar.framer.website"
             className="ml-1 text-gray-600 hover:opacity-70 dark:text-zinc-400"
             rel="noopener noreferrer"
             target="_blank"
@@ -37,15 +37,7 @@ export default function Footer() {
             className="cursor-pointer hover:opacity-60"
           >
             <BsTwitterX width={30} height={30} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/brayanpaucar"
-            rel="noopener noreferrer"
-            target="_blank"
-            className="cursor-pointer hover:opacity-60"
-          >
-            <BsLinkedin width={30} height={30} />
-          </a>
+          </a>         
           <a
             href="https://github.com/kralion"
             rel="noopener noreferrer"
