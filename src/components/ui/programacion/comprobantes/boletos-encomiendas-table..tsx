@@ -81,7 +81,7 @@ const columns: ColumnsType = [
 
 export default function BoletosEncomiendasTable() {
   const { data: boletas, isLoading } =
-    api.encomiendas.getAllBoletosEncomiendas.useQuery();
+    api.encomiendas.getAllBoletosEncomiendas.useQuery({});
   return (
     <div className="my-7 space-y-3.5">
       <div className="flex justify-between">

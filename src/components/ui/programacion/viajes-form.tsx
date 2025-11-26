@@ -30,13 +30,13 @@ export function ViajesForm({
   const utils = api.useUtils();
   const [openRegister, setOpenRegister] = useState(false);
   const { data: conductoresRegistrados, isLoading: isLoadingConductores } =
-    api.conductores.getAllConductores.useQuery();
+    api.conductores.getAllConductores.useQuery({});
   const createViajeMutation = api.viajes.createViaje.useMutation();
   const { data: session } = useSession();
   const { data: rutas, isLoading: isLoadingRutas } =
-    api.rutas.getAllRutas.useQuery();
+    api.rutas.getAllRutas.useQuery({});
   const { data: bus, isLoading: isLoadingBus } =
-    api.buses.getAllBuses.useQuery();
+    api.buses.getAllBuses.useQuery({});
   const { data: singleViaje } = api.viajes.getViajeById.useQuery({
     id: idToEdit,
   });

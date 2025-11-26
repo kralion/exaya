@@ -38,11 +38,11 @@ const { Title } = Typography;
 function ProgramacionComprobantes() {
   const { openMessage } = useMessageContext();
   const { data: pasajesCount } =
-    api.boletos.getCountOfMonthlyBoletos.useQuery();
+    api.boletos.getCountOfMonthlyBoletos.useQuery({});
   const { data: encomiendasCount } =
-    api.encomiendas.getCountOfMonthlyBoletosEncomiendas.useQuery();
+    api.encomiendas.getCountOfMonthlyBoletosEncomiendas.useQuery({});
   const { data: facturasCount } =
-    api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery();
+    api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery({});
   const [date, setDate] = useState("");
   const [print, setPrint] = useState(false);
   const [isNotAdmin, setIsNotAdmin] = useState(false);
@@ -250,11 +250,11 @@ export const TablesToPrint = ({
   boletosCount: number;
   facturasCount: number;
 }) => {
-  const { data: pasajes } = api.boletos.getMonthlyBoletos.useQuery();
+  const { data: pasajes } = api.boletos.getMonthlyBoletos.useQuery({});
   const { data: encomiendas } =
-    api.encomiendas.getMonthlyBoletosEncomiendas.useQuery();
+    api.encomiendas.getMonthlyBoletosEncomiendas.useQuery({});
   const { data: facturas } =
-    api.encomiendas.getMonthlyFacturasEncomiendas.useQuery();
+    api.encomiendas.getMonthlyFacturasEncomiendas.useQuery({});
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   (jsPDF as any).autoTableSetDefaults({
     headStyles: { fillColor: [250, 173, 20] },

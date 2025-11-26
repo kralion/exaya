@@ -4,7 +4,7 @@ import { Card, Image, Space, Tag } from "antd";
 const { Meta } = Card;
 
 export function BusesInformacion() {
-  const { data: buses, isLoading } = api.buses.getAllBuses.useQuery();
+  const { data: buses, isLoading } = api.buses.getAllBuses.useQuery({});
   return (
     <Space className="grid grid-flow-row grid-cols-2 gap-4">
       {buses?.map((bus) => (

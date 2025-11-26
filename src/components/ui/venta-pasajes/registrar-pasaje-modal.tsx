@@ -129,12 +129,11 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     );
     await decreaseBoletoCounter({ id: sede?.response?.id ?? "" });
   }
-
   const printDocument = useReactToPrint({
     documentTitle: `Boleto de Viaje - Asiento ${selectedBoleto?.asiento ?? ""}`,
     content: () => ref.current,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
-  });
+  } as Parameters<typeof useReactToPrint>[0]);
 
   const handlePrint = () => {
     setPrint(true);

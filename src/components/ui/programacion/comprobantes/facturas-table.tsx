@@ -94,7 +94,7 @@ const columns: ColumnsType = [
 
 export default function FacturasTable() {
   const { data: facturas, isLoading } =
-    api.encomiendas.getAllFacturasEncomiendas.useQuery();
+    api.encomiendas.getAllFacturasEncomiendas.useQuery({});
   return (
     <div className="my-7 space-y-3.5">
       <div className="flex justify-between">

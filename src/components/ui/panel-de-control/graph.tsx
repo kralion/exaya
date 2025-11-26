@@ -1,26 +1,25 @@
-import React from "react";
+import { api } from "@/utils/api";
 import { PT_Sans } from "next/font/google";
+import {
+  Area,
+  AreaChart,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+} from "recharts";
 
 const pt_sans = PT_Sans({
   weight: "400",
   subsets: ["latin-ext"],
   preload: true,
 });
-import {
-  AreaChart,
-  XAxis,
-  Area,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { api } from "@/utils/api";
 
 export default function ControlPaneGraph() {
   const { data: boletos } =
-    api.boletos.getCountOfBoletosInLatest6Months.useQuery();
+    api.boletos.getCountOfBoletosInLatest6Months.useQuery({});
   const { data: encomiendas } =
-    api.encomiendas.getCountOfEncomiendasInLatest6Months.useQuery();
+    api.encomiendas.getCountOfEncomiendasInLatest6Months.useQuery({});
 
   const latest6MonthsLabel = [];
   const monthNames = [

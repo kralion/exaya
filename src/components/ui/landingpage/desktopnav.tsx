@@ -11,7 +11,7 @@ type NavigationProps = {
 
 export default function DesktopNavBar({ navLinks }: NavigationProps) {
   const [bubbleStyle, setBubbleStyle] = useState({});
-  const navRef: React.RefObject<HTMLElement> = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   return (
     <div className="  my-3 hidden   items-center justify-center gap-2 rounded-full border border-orange-400/50 bg-gradient-to-b from-orange-400  to-orange-600 p-1 shadow-md backdrop-blur-sm lg:inline-flex  ">
       <nav ref={navRef} className="position-relative group flex">

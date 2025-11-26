@@ -14,7 +14,7 @@ interface IContable {
 }
 
 export default function TableContable() {
-  const { data: contables, isLoading } = api.viajes.getAllViajes.useQuery();
+  const { data: contables, isLoading } = api.viajes.getAllViajes.useQuery({});
 
   const filterItems = ((contables?.response as IContable[]) || []).map(
     (contable) => ({

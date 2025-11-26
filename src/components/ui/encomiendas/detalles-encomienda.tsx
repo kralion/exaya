@@ -27,7 +27,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
     }`,
     content: () => ref.current,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
-  });
+  } as Parameters<typeof useReactToPrint>[0]);
 
   const showModal = () => {
     setOpen(true);

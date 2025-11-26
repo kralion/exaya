@@ -35,7 +35,7 @@ export default function Login() {
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type: NotificationType) => {
     api[type]({
-      message: "Credenciales Incorrectas",
+      title: "Credenciales Incorrectas",
       description: "Recueda que las credenciales son precreadas",
     });
   };

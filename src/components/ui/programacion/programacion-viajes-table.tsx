@@ -14,7 +14,7 @@ export function ProgramacionTable({
     data: viajes,
     refetch,
     isLoading,
-  } = api.viajes.getAllViajes.useQuery();
+  } = api.viajes.getAllViajes.useQuery({});
   const { mutate: deleteViajeMutation } =
     api.viajes.deleteViajeById.useMutation();
   const { openMessage } = useMessageContext();

@@ -15,7 +15,7 @@ type TViajeEstado = {
 export default function Dashboard() {
   const { data: session } = useSession();
   const { data: viajesDiarios, isLoading: isLoadingViajesDiarios } =
-    api.viajes.getViajesForToday.useQuery();
+    api.viajes.getViajesForToday.useQuery({});
   const {
     data: sede,
     isLoading: isLoadingSede,

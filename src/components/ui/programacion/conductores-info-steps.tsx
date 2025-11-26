@@ -38,7 +38,7 @@ export function ConductoresInformacion({
   setIsModalOpen: (value: boolean) => void;
 }) {
   const { data: conductoresRegistrados, isLoading } =
-    api.conductores.getAllConductores.useQuery();
+    api.conductores.getAllConductores.useQuery({});
   function capitalizeFirstLetter(string: string | undefined) {
     if (string === undefined) {
       return "";

@@ -29,7 +29,7 @@ export default function UsuariosTable({
     isLoading,
     isError,
     refetch,
-  } = api.usuarios.getAllUsuarios.useQuery();
+  } = api.usuarios.getAllUsuarios.useQuery({});
   const usuarioDeleteMutation = api.usuarios.deleteUser.useMutation();
   const { openMessage } = useMessageContext();
   function capitalizeFirstLetter(string: string | undefined) {

@@ -20,7 +20,7 @@ export function EncomiendasTable({
     data: encomiendas,
     refetch,
     isLoading,
-  } = api.encomiendas.getAllEncomiendas.useQuery();
+  } = api.encomiendas.getAllEncomiendas.useQuery({});
   const { openMessage } = useMessageContext();
   const { data: session } = useSession();
   const { mutateAsync: decreaseBoletoCounter } =

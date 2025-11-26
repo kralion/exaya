@@ -86,10 +86,13 @@ export function UsuarioForm({
 
   const updateUserMutation = api.usuarios.updateUser.useMutation();
   const { data: sedes, isLoading: isLoadingSedes } =
-    api.sedes.getAllSedes.useQuery();
+    api.sedes.getAllSedes.useQuery({});
   const { data: usuarioSingle, refetch } = api.usuarios.getUsuarioById.useQuery(
     {
       id: usuarioIdToEdit,
+    },
+    {
+      enabled: !!usuarioIdToEdit,
     }
   );
 

@@ -1,10 +1,12 @@
 import { notification } from "antd";
-import type { NotificationPlacement } from "antd/es/notification/interface";
+import type { NotificationArgsProps } from "antd";
 import React, { useMemo } from "react";
+
+type NotificationPlacement = NotificationArgsProps["placement"];
 
 type NotificationProps = {
   placement: NotificationPlacement;
-  message: string;
+  title: string;
   description?: string;
   type: "success" | "info" | "warning" | "error";
   icon?: React.ReactNode;
@@ -13,16 +15,13 @@ type NotificationProps = {
 const Context = React.createContext({
   openNotification: ({
     placement,
-    message,
+    title,
     description,
     type,
   }: NotificationProps) => {
-    notification.open({
-      message: message,
-      description: description,
-      placement: placement,
-      type: type,
-    });
+    // No-op: real implementation provided by Notification component
+    // This is just a placeholder for the context default value
+    void { placement, title, description, type };
   },
 });
 
@@ -32,17 +31,15 @@ export default function Notification() {
   const contextValue = useMemo(() => {
     const openNotification = ({
       placement,
-      message,
+      title,
       description,
       type,
     }: NotificationProps) => {
-      api.open({
-        message: message,
+      api[type]({
+        title: title,
         description: description,
         placement: placement,
-        type: type,
-        role: "alert",
-      });
+      } as unknown as NotificationArgsProps);
     };
     return {
       openNotification,

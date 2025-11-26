@@ -137,7 +137,7 @@ export default function RegistrarPasaje() {
     documentTitle: `Boleto de Viaje - Asiento ${selectedBoleto?.asiento ?? ""}`,
     content: () => ref.current,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
-  });
+  } as Parameters<typeof useReactToPrint>[0]);
 
   const handlePrint = () => {
     setPrint(true);
