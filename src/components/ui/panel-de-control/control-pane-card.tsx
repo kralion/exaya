@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Typography } from "antd";
 import { RxOpenInNewWindow } from "react-icons/rx";
 const { Title } = Typography;
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 type Card = {
   cardTitle: string;
   children?: React.ReactNode;
@@ -24,7 +24,7 @@ export const ControlPaneCard = ({
       bordered={false}
       title={
         <Link
-          href={href}
+          to={href}
           className="group flex items-center justify-between duration-100"
         >
           <Title level={4} className="pt-2 group-hover:opacity-70 ">

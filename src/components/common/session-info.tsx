@@ -1,6 +1,6 @@
 import { CollapsedContext } from "@/context/MenuContext";
 import { Avatar, Space, Tag, Typography } from "antd";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/context/SessionContext";
 import { useContext } from "react";
 import UserSkeleton from "../skeletons/user-info-skeleton";
 const { Text } = Typography;
@@ -33,8 +33,8 @@ export default function SessionInfo() {
       {!isCollapsed && (
         <Space direction="vertical" className="items-center gap-1">
           <Text>
-            {capitalizeFirstLetter(sessionData?.user.nombres.split(" ")[0])}{" "}
-            {capitalizeFirstLetter(sessionData?.user.apellidos.split(" ")[0])}
+            {capitalizeFirstLetter(sessionData?.user?.nombres?.split(" ")[0])}{" "}
+            {capitalizeFirstLetter(sessionData?.user?.apellidos?.split(" ")[0])}
           </Text>
           {sessionData?.user && (
             <Tag

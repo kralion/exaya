@@ -9,13 +9,94 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SoporteRouteImport } from './routes/soporte'
+import { Route as PlanesRouteImport } from './routes/planes'
+import { Route as PasajesRouteImport } from './routes/pasajes'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as EncomiendasRouteImport } from './routes/encomiendas'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as ContableRouteImport } from './routes/contable'
+import { Route as BoletosRouteImport } from './routes/boletos'
+import { Route as AdministracionRouteImport } from './routes/administracion'
+import { Route as R500RouteImport } from './routes/500'
+import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ViajeIdRouteImport } from './routes/viaje.$id'
+import { Route as ProgramacionViajesRouteImport } from './routes/programacion/viajes'
+import { Route as ProgramacionComprobantesRouteImport } from './routes/programacion/comprobantes'
+import { Route as ProgramacionBusConductorRouteImport } from './routes/programacion/bus-conductor'
+import { Route as EncomiendasRastreoRouteImport } from './routes/encomiendas/rastreo'
+import { Route as BoletosViajeIdRouteImport } from './routes/boletos/viaje.$id'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api/trpc/$'
+import { Route as ApiAuthSessionRouteImport } from './routes/api/auth/session'
+import { Route as ApiAuthLogoutRouteImport } from './routes/api/auth/logout'
+import { Route as ApiAuthLoginRouteImport } from './routes/api/auth/login'
 
+const SoporteRoute = SoporteRouteImport.update({
+  id: '/soporte',
+  path: '/soporte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanesRoute = PlanesRouteImport.update({
+  id: '/planes',
+  path: '/planes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasajesRoute = PasajesRouteImport.update({
+  id: '/pasajes',
+  path: '/pasajes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesRoute = FeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EncomiendasRoute = EncomiendasRouteImport.update({
+  id: '/encomiendas',
+  path: '/encomiendas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContableRoute = ContableRouteImport.update({
+  id: '/contable',
+  path: '/contable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BoletosRoute = BoletosRouteImport.update({
+  id: '/boletos',
+  path: '/boletos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdministracionRoute = AdministracionRouteImport.update({
+  id: '/administracion',
+  path: '/administracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R500Route = R500RouteImport.update({
+  id: '/500',
+  path: '/500',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -23,49 +104,335 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ViajeIdRoute = ViajeIdRouteImport.update({
+  id: '/viaje/$id',
+  path: '/viaje/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramacionViajesRoute = ProgramacionViajesRouteImport.update({
+  id: '/programacion/viajes',
+  path: '/programacion/viajes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramacionComprobantesRoute =
+  ProgramacionComprobantesRouteImport.update({
+    id: '/programacion/comprobantes',
+    path: '/programacion/comprobantes',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProgramacionBusConductorRoute =
+  ProgramacionBusConductorRouteImport.update({
+    id: '/programacion/bus-conductor',
+    path: '/programacion/bus-conductor',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const EncomiendasRastreoRoute = EncomiendasRastreoRouteImport.update({
+  id: '/rastreo',
+  path: '/rastreo',
+  getParentRoute: () => EncomiendasRoute,
+} as any)
+const BoletosViajeIdRoute = BoletosViajeIdRouteImport.update({
+  id: '/viaje/$id',
+  path: '/viaje/$id',
+  getParentRoute: () => BoletosRoute,
+} as any)
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
   id: '/api/trpc/$',
   path: '/api/trpc/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSessionRoute = ApiAuthSessionRouteImport.update({
+  id: '/api/auth/session',
+  path: '/api/auth/session',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthLogoutRoute = ApiAuthLogoutRouteImport.update({
+  id: '/api/auth/logout',
+  path: '/api/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthLoginRoute = ApiAuthLoginRouteImport.update({
+  id: '/api/auth/login',
+  path: '/api/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/500': typeof R500Route
+  '/administracion': typeof AdministracionRoute
+  '/boletos': typeof BoletosRouteWithChildren
+  '/contable': typeof ContableRoute
+  '/contacto': typeof ContactoRoute
+  '/dashboard': typeof DashboardRoute
+  '/encomiendas': typeof EncomiendasRouteWithChildren
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pasajes': typeof PasajesRoute
+  '/planes': typeof PlanesRoute
+  '/soporte': typeof SoporteRoute
+  '/encomiendas/rastreo': typeof EncomiendasRastreoRoute
+  '/programacion/bus-conductor': typeof ProgramacionBusConductorRoute
+  '/programacion/comprobantes': typeof ProgramacionComprobantesRoute
+  '/programacion/viajes': typeof ProgramacionViajesRoute
+  '/viaje/$id': typeof ViajeIdRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/session': typeof ApiAuthSessionRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/boletos/viaje/$id': typeof BoletosViajeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/500': typeof R500Route
+  '/administracion': typeof AdministracionRoute
+  '/boletos': typeof BoletosRouteWithChildren
+  '/contable': typeof ContableRoute
+  '/contacto': typeof ContactoRoute
+  '/dashboard': typeof DashboardRoute
+  '/encomiendas': typeof EncomiendasRouteWithChildren
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pasajes': typeof PasajesRoute
+  '/planes': typeof PlanesRoute
+  '/soporte': typeof SoporteRoute
+  '/encomiendas/rastreo': typeof EncomiendasRastreoRoute
+  '/programacion/bus-conductor': typeof ProgramacionBusConductorRoute
+  '/programacion/comprobantes': typeof ProgramacionComprobantesRoute
+  '/programacion/viajes': typeof ProgramacionViajesRoute
+  '/viaje/$id': typeof ViajeIdRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/session': typeof ApiAuthSessionRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/boletos/viaje/$id': typeof BoletosViajeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/500': typeof R500Route
+  '/administracion': typeof AdministracionRoute
+  '/boletos': typeof BoletosRouteWithChildren
+  '/contable': typeof ContableRoute
+  '/contacto': typeof ContactoRoute
+  '/dashboard': typeof DashboardRoute
+  '/encomiendas': typeof EncomiendasRouteWithChildren
+  '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
+  '/pasajes': typeof PasajesRoute
+  '/planes': typeof PlanesRoute
+  '/soporte': typeof SoporteRoute
+  '/encomiendas/rastreo': typeof EncomiendasRastreoRoute
+  '/programacion/bus-conductor': typeof ProgramacionBusConductorRoute
+  '/programacion/comprobantes': typeof ProgramacionComprobantesRoute
+  '/programacion/viajes': typeof ProgramacionViajesRoute
+  '/viaje/$id': typeof ViajeIdRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/session': typeof ApiAuthSessionRoute
   '/api/trpc/$': typeof ApiTrpcSplatRoute
+  '/boletos/viaje/$id': typeof BoletosViajeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/api/trpc/$'
+  fullPaths:
+    | '/'
+    | '/404'
+    | '/500'
+    | '/administracion'
+    | '/boletos'
+    | '/contable'
+    | '/contacto'
+    | '/dashboard'
+    | '/encomiendas'
+    | '/features'
+    | '/login'
+    | '/pasajes'
+    | '/planes'
+    | '/soporte'
+    | '/encomiendas/rastreo'
+    | '/programacion/bus-conductor'
+    | '/programacion/comprobantes'
+    | '/programacion/viajes'
+    | '/viaje/$id'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/session'
+    | '/api/trpc/$'
+    | '/boletos/viaje/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/api/trpc/$'
-  id: '__root__' | '/' | '/login' | '/api/trpc/$'
+  to:
+    | '/'
+    | '/404'
+    | '/500'
+    | '/administracion'
+    | '/boletos'
+    | '/contable'
+    | '/contacto'
+    | '/dashboard'
+    | '/encomiendas'
+    | '/features'
+    | '/login'
+    | '/pasajes'
+    | '/planes'
+    | '/soporte'
+    | '/encomiendas/rastreo'
+    | '/programacion/bus-conductor'
+    | '/programacion/comprobantes'
+    | '/programacion/viajes'
+    | '/viaje/$id'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/session'
+    | '/api/trpc/$'
+    | '/boletos/viaje/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/404'
+    | '/500'
+    | '/administracion'
+    | '/boletos'
+    | '/contable'
+    | '/contacto'
+    | '/dashboard'
+    | '/encomiendas'
+    | '/features'
+    | '/login'
+    | '/pasajes'
+    | '/planes'
+    | '/soporte'
+    | '/encomiendas/rastreo'
+    | '/programacion/bus-conductor'
+    | '/programacion/comprobantes'
+    | '/programacion/viajes'
+    | '/viaje/$id'
+    | '/api/auth/login'
+    | '/api/auth/logout'
+    | '/api/auth/session'
+    | '/api/trpc/$'
+    | '/boletos/viaje/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R404Route: typeof R404Route
+  R500Route: typeof R500Route
+  AdministracionRoute: typeof AdministracionRoute
+  BoletosRoute: typeof BoletosRouteWithChildren
+  ContableRoute: typeof ContableRoute
+  ContactoRoute: typeof ContactoRoute
+  DashboardRoute: typeof DashboardRoute
+  EncomiendasRoute: typeof EncomiendasRouteWithChildren
+  FeaturesRoute: typeof FeaturesRoute
   LoginRoute: typeof LoginRoute
+  PasajesRoute: typeof PasajesRoute
+  PlanesRoute: typeof PlanesRoute
+  SoporteRoute: typeof SoporteRoute
+  ProgramacionBusConductorRoute: typeof ProgramacionBusConductorRoute
+  ProgramacionComprobantesRoute: typeof ProgramacionComprobantesRoute
+  ProgramacionViajesRoute: typeof ProgramacionViajesRoute
+  ViajeIdRoute: typeof ViajeIdRoute
+  ApiAuthLoginRoute: typeof ApiAuthLoginRoute
+  ApiAuthLogoutRoute: typeof ApiAuthLogoutRoute
+  ApiAuthSessionRoute: typeof ApiAuthSessionRoute
   ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/soporte': {
+      id: '/soporte'
+      path: '/soporte'
+      fullPath: '/soporte'
+      preLoaderRoute: typeof SoporteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planes': {
+      id: '/planes'
+      path: '/planes'
+      fullPath: '/planes'
+      preLoaderRoute: typeof PlanesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pasajes': {
+      id: '/pasajes'
+      path: '/pasajes'
+      fullPath: '/pasajes'
+      preLoaderRoute: typeof PasajesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features': {
+      id: '/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof FeaturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/encomiendas': {
+      id: '/encomiendas'
+      path: '/encomiendas'
+      fullPath: '/encomiendas'
+      preLoaderRoute: typeof EncomiendasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contable': {
+      id: '/contable'
+      path: '/contable'
+      fullPath: '/contable'
+      preLoaderRoute: typeof ContableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boletos': {
+      id: '/boletos'
+      path: '/boletos'
+      fullPath: '/boletos'
+      preLoaderRoute: typeof BoletosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/administracion': {
+      id: '/administracion'
+      path: '/administracion'
+      fullPath: '/administracion'
+      preLoaderRoute: typeof AdministracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/500': {
+      id: '/500'
+      path: '/500'
+      fullPath: '/500'
+      preLoaderRoute: typeof R500RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -75,6 +442,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/viaje/$id': {
+      id: '/viaje/$id'
+      path: '/viaje/$id'
+      fullPath: '/viaje/$id'
+      preLoaderRoute: typeof ViajeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programacion/viajes': {
+      id: '/programacion/viajes'
+      path: '/programacion/viajes'
+      fullPath: '/programacion/viajes'
+      preLoaderRoute: typeof ProgramacionViajesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programacion/comprobantes': {
+      id: '/programacion/comprobantes'
+      path: '/programacion/comprobantes'
+      fullPath: '/programacion/comprobantes'
+      preLoaderRoute: typeof ProgramacionComprobantesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programacion/bus-conductor': {
+      id: '/programacion/bus-conductor'
+      path: '/programacion/bus-conductor'
+      fullPath: '/programacion/bus-conductor'
+      preLoaderRoute: typeof ProgramacionBusConductorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/encomiendas/rastreo': {
+      id: '/encomiendas/rastreo'
+      path: '/rastreo'
+      fullPath: '/encomiendas/rastreo'
+      preLoaderRoute: typeof EncomiendasRastreoRouteImport
+      parentRoute: typeof EncomiendasRoute
+    }
+    '/boletos/viaje/$id': {
+      id: '/boletos/viaje/$id'
+      path: '/viaje/$id'
+      fullPath: '/boletos/viaje/$id'
+      preLoaderRoute: typeof BoletosViajeIdRouteImport
+      parentRoute: typeof BoletosRoute
+    }
     '/api/trpc/$': {
       id: '/api/trpc/$'
       path: '/api/trpc/$'
@@ -82,12 +491,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTrpcSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/session': {
+      id: '/api/auth/session'
+      path: '/api/auth/session'
+      fullPath: '/api/auth/session'
+      preLoaderRoute: typeof ApiAuthSessionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/logout': {
+      id: '/api/auth/logout'
+      path: '/api/auth/logout'
+      fullPath: '/api/auth/logout'
+      preLoaderRoute: typeof ApiAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/login': {
+      id: '/api/auth/login'
+      path: '/api/auth/login'
+      fullPath: '/api/auth/login'
+      preLoaderRoute: typeof ApiAuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface BoletosRouteChildren {
+  BoletosViajeIdRoute: typeof BoletosViajeIdRoute
+}
+
+const BoletosRouteChildren: BoletosRouteChildren = {
+  BoletosViajeIdRoute: BoletosViajeIdRoute,
+}
+
+const BoletosRouteWithChildren =
+  BoletosRoute._addFileChildren(BoletosRouteChildren)
+
+interface EncomiendasRouteChildren {
+  EncomiendasRastreoRoute: typeof EncomiendasRastreoRoute
+}
+
+const EncomiendasRouteChildren: EncomiendasRouteChildren = {
+  EncomiendasRastreoRoute: EncomiendasRastreoRoute,
+}
+
+const EncomiendasRouteWithChildren = EncomiendasRoute._addFileChildren(
+  EncomiendasRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R404Route: R404Route,
+  R500Route: R500Route,
+  AdministracionRoute: AdministracionRoute,
+  BoletosRoute: BoletosRouteWithChildren,
+  ContableRoute: ContableRoute,
+  ContactoRoute: ContactoRoute,
+  DashboardRoute: DashboardRoute,
+  EncomiendasRoute: EncomiendasRouteWithChildren,
+  FeaturesRoute: FeaturesRoute,
   LoginRoute: LoginRoute,
+  PasajesRoute: PasajesRoute,
+  PlanesRoute: PlanesRoute,
+  SoporteRoute: SoporteRoute,
+  ProgramacionBusConductorRoute: ProgramacionBusConductorRoute,
+  ProgramacionComprobantesRoute: ProgramacionComprobantesRoute,
+  ProgramacionViajesRoute: ProgramacionViajesRoute,
+  ViajeIdRoute: ViajeIdRoute,
+  ApiAuthLoginRoute: ApiAuthLoginRoute,
+  ApiAuthLogoutRoute: ApiAuthLogoutRoute,
+  ApiAuthSessionRoute: ApiAuthSessionRoute,
   ApiTrpcSplatRoute: ApiTrpcSplatRoute,
 }
 export const routeTree = rootRouteImport

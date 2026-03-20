@@ -1,6 +1,5 @@
 import { api } from "@/utils/api";
 import { Button, Divider, Modal, Space, Tag, Typography } from "antd";
-import Image from "next/image";
 import { useState } from "react";
 import { PiWarningCircleBold } from "react-icons/pi";
 
@@ -137,7 +136,7 @@ export default function ConductorModal({
               </Tag>
             </p>
           </div>
-          <Image
+          <img
             src={conductorSingle?.response?.foto as string}
             width={200}
             height={200}

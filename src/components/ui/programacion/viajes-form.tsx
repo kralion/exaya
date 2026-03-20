@@ -14,7 +14,7 @@ import {
   Typography,
 } from "antd";
 import dayjs from "dayjs";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/context/SessionContext";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
 const { Title, Text } = Typography;

@@ -1,14 +1,7 @@
 import { Tag, Typography } from "antd";
-import { Black_Ops_One } from "next/font/google";
-import Image from "next/image";
 import React from "react";
 import SessionInfo from "./session-info";
 const { Title } = Typography;
-
-const blackOpsOne = Black_Ops_One({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 export default function AppHeader() {
   return (
@@ -18,16 +11,15 @@ export default function AppHeader() {
       </Tag>
 
       <div className=" flex cursor-pointer items-center justify-center drop-shadow-md   	">
-        <Image
+        <img
           src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
           width={40}
           height={40}
           alt="logo"
-          priority
           className=" hover:motion-rotate-in-[-0.5turn]  "
         />
 
-        <Title level={3} className={` pt-3    ${blackOpsOne.className} `}>
+        <Title level={3} className="pt-3 font-['Black_Ops_One']">
           Exaya
         </Title>
       </div>

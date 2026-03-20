@@ -1,8 +1,6 @@
-"use client";
-import { Button, Divider, Drawer, Flex, Space, Typography } from "antd";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Button, Divider, Drawer, Flex, Typography } from "antd";
+import { useSession } from "@/context/SessionContext";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { TbMenu } from "react-icons/tb";
@@ -18,7 +16,7 @@ type NavigationProps = {
 export default function MobileNavBar({ navLinks }: NavigationProps) {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -62,7 +60,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
             className=" w-full flex-1 py-4 text-lg"
             size="large"
             onClick={() =>
-              session ? router.push("/dashboard") : router.push("/login")
+              navigate({ to: session ? "/dashboard" : "/login" })
             }
             variant="link"
           >
@@ -74,7 +72,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
               <Button
                 className=" my-4 w-full flex-1 py-4 text-left text-lg"
                 size="large"
-                onClick={() => router.push(link.href)}
+                onClick={() => navigate({ to: link.href })}
                 variant="link"
               >
                 {link.label}

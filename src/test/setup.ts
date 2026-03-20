@@ -1,11 +1,6 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
-// Mock next/auth
-vi.mock("next-auth", () => ({
-  getServerSession: vi.fn(),
-}));
-
 // Mock environment variables
 vi.mock("@/env.mjs", () => ({
   env: {
@@ -20,4 +15,9 @@ vi.mock("@/server/db", () => ({
       findUnique: vi.fn(),
     },
   },
+}));
+
+// Mock bcrypt
+vi.mock("bcrypt", () => ({
+  compare: vi.fn().mockResolvedValue(true),
 }));

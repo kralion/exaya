@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import { Modal, Space, Tag, Typography } from "antd";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/context/SessionContext";
 import { useState } from "react";
 import { MisBoletosVendidosTable } from "./mis-pasajes-table";
 const { Title, Text } = Typography;

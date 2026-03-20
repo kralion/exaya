@@ -15,19 +15,13 @@ import {
   Steps,
   Typography,
 } from "antd";
-import { useSession } from "next-auth/react";
-import { Concert_One } from "next/font/google";
+import { useSession } from "@/context/SessionContext";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
 import { useReactToPrint } from "react-to-print";
-const concertOne = Concert_One({
-  subsets: ["latin"],
-  weight: "400",
-  preload: true,
-});
 const { Title, Text } = Typography;
 type BoletoEstado = "DISPONIBLE" | "RESERVADO" | "PAGADO";
 
@@ -360,7 +354,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                       textAnchor="middle"
                       dy=".3em"
                       fontSize="6"
-                      className={`text-[7px] font-bold  ${concertOne.className}`}
+                      className="text-[7px] font-bold font-['Concert_One']"
                     >
                       {seatNumber}
                     </text>

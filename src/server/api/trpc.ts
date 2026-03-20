@@ -10,50 +10,27 @@
 /**
  * 1. CONTEXT
  *
- * This section defines the "contexts" that are available in the backend API.
- *
- * These allow you to access things when processing a request, like the database, the session, etc.
+ * Context is created in trpc-fetch.ts for TanStack Start (Fetch API).
+ * This file defines the tRPC router and procedures.
  */
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { prisma } from "@/server/db";
-
-// Session type for tRPC context (Phase 2: replace with new auth)
-type Session = {
-  user: { id: string; nombres: string; apellidos: string; rol: string; sedeId: string; foto: string };
-} | null;
+import type { Session } from "@/types/session";
 
 type CreateContextOptions = {
-  session: Session;
+  session: Session | null;
 };
 
-/**
- * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
- * it from here.
- *
- * Examples of things you may need it for:
- * - testing, so we don't have to mock Next.js' req/res
- * - tRPC's `createSSGHelpers`, where we don't have req/res
- *
- * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
- */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
-  return {
-    session: opts.session,
-    prisma,
-  };
-};
+const createInnerTRPCContext = (opts: CreateContextOptions) => ({
+  session: opts.session,
+  prisma,
+});
 
 /**
- * This is the actual context you will use in your router. It will be used to process every request
- * that goes through your tRPC endpoint.
- *
- * @see https://trpc.io/docs/context
+ * Context type for tRPC - actual creation happens in trpc-fetch.ts
  */
-export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  // Next.js adapter - kept for type compatibility. TanStack Start uses trpc-fetch.ts
-  const session: Session = null;
-  return createInnerTRPCContext({ session });
-};
+export type TRPCContext = Awaited<
+  ReturnType<typeof createInnerTRPCContext>
+>;
 
 /**
  * 2. INITIALIZATION
@@ -66,7 +43,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-const t = initTRPC.context<typeof createTRPCContext>().create({
+const t = initTRPC.context<ReturnType<typeof createInnerTRPCContext>>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {

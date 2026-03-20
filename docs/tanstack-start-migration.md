@@ -1,6 +1,8 @@
 # TanStack Start migration plan
 
-This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **Pages Router**) to **TanStack Start**. It reflects the repository as of the migration planning pass: tRPC v10, NextAuth v4 (Credentials + JWT), Prisma 6, Ant Design + Tailwind, and no `getServerSideProps` / `getStaticProps` (tRPC client `ssr: false`).
+This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **Pages Router**) to **TanStack Start**. The migration has been **completed**.
+
+**Current stack:** TanStack Start (Vite), tRPC v10 with `fetchRequestHandler`, custom JWT session (replacing NextAuth), Prisma 6, Ant Design + Tailwind.
 
 ---
 

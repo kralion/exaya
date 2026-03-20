@@ -1,0 +1,359 @@
+import { createFileRoute } from "@tanstack/react-router";
+import AppLayout from "@/components/common/layout";
+import AppHead from "@/components/common/head";
+import BoletosEncomiendasTable from "@/components/ui/programacion/comprobantes/boletos-encomiendas-table.";
+import BoletosTable from "@/components/ui/programacion/comprobantes/boletos-table";
+import FacturasTable from "@/components/ui/programacion/comprobantes/facturas-table";
+import { useMessageContext } from "@/context/MessageContext";
+import { api } from "@/utils/api";
+import {
+  Button,
+  Card,
+  Flex,
+  QRCode,
+  Space,
+  Statistic,
+  Timeline,
+  Typography,
+  type StatisticProps,
+} from "antd";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import CountUp from "react-countup";
+import { FaRegFile, FaRegFileLines } from "react-icons/fa6";
+import { LuMoveLeft } from "react-icons/lu";
+import { TbInfoTriangleFilled } from "react-icons/tb";
+import { useSession } from "@/context/SessionContext";
+
+const { Title } = Typography;
+
+export const Route = createFileRoute("/programacion/comprobantes")({
+  component: ProgramacionComprobantesPage,
+});
+
+function ProgramacionComprobantesPage() {
+  const { openMessage } = useMessageContext();
+  const { data: session, status } = useSession();
+  const { data: pasajesCount } =
+    api.boletos.getCountOfMonthlyBoletos.useQuery();
+  const { data: encomiendasCount } =
+    api.encomiendas.getCountOfMonthlyBoletosEncomiendas.useQuery();
+  const { data: facturasCount } =
+    api.encomiendas.getCountOfMonthlyFacturasEncomiendas.useQuery();
+  const [date, setDate] = useState("");
+  const [print, setPrint] = useState(false);
+  const [isNotAdmin, setIsNotAdmin] = useState(false);
+
+  const totalBoletos = (pasajesCount || 0) + (encomiendasCount || 0);
+  const formatter: StatisticProps["formatter"] = (value) => (
+    <CountUp delay={2000} duration={10} end={value as number} separator="," />
+  );
+
+  function isLastDayOfMonth() {
+    const d = new Date();
+    const tomorrow = new Date(d);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.getDate() === 1;
+  }
+
+  function handlePrint() {
+    if (isLastDayOfMonth()) {
+      setPrint(true);
+    } else {
+      openMessage({
+        content: "Solo se puede generar el último día del mes",
+        type: "error",
+      });
+    }
+  }
+
+  useEffect(() => {
+    setDate(
+      new Date()
+        .toLocaleDateString("es-PE", {
+          year: "numeric",
+          month: "2-digit",
+          day: "numeric",
+        })
+        .replace(/\//g, "-")
+    );
+  }, []);
+
+  useEffect(() => {
+    if (session?.user?.rol !== "ADMIN") {
+      setIsNotAdmin(true);
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      window.location.href = "/login";
+    }
+  }, [status]);
+
+  if (status === "loading") return null;
+
+  if (isNotAdmin) {
+    return (
+      <AppLayout>
+        <AppHead title="Programacion Comprobantes" />
+        <Space
+          direction="vertical"
+          className="h-full w-full items-center justify-center gap-2 text-center"
+        >
+          <TbInfoTriangleFilled className="h-24 w-24 text-red-500 drop-shadow-md" />
+          <Title level={5}>Página restringida para Administradores</Title>
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-1 text-red-500 underline hover:text-red-400 hover:opacity-80"
+          >
+            <LuMoveLeft />
+            Volver a la página principal
+          </Link>
+        </Space>
+      </AppLayout>
+    );
+  }
+
+  return (
+    <AppLayout>
+      <AppHead title="Programacion Comprobantes" />
+      <BoletosTable />
+      <FacturasTable />
+      <BoletosEncomiendasTable />
+      <div className="item-center flex flex-col gap-3.5 lg:flex-row">
+        <div className="flex gap-3.5 lg:w-1/2">
+          <Card
+            className="rounded-xl shadow-lg duration-200 dark:hover:bg-black/50"
+            size="small"
+            style={{ width: 350, height: 150 }}
+            type="inner"
+            title={
+              <Title level={4} className="pt-2">
+                Boletos
+              </Title>
+            }
+          >
+            <Statistic
+              title="Total de Boletos Mensuales (TBM)"
+              value={totalBoletos}
+              formatter={formatter}
+              prefix={<FaRegFile className="pt-1" />}
+            />
+          </Card>
+          <Card
+            size="small"
+            style={{ width: 350, height: 150 }}
+            type="inner"
+            className="rounded-xl shadow-lg duration-200 dark:hover:bg-black/50"
+            title={
+              <Title level={4} className="pt-2">
+                Facturas
+              </Title>
+            }
+          >
+            <Statistic
+              title="Total de Facturas Mensuales (TFM)"
+              value={facturasCount ?? 0}
+              formatter={formatter}
+              prefix={<FaRegFileLines className="pt-1" />}
+            />
+          </Card>
+        </div>
+        <Timeline
+          className="-ml-5 mt-10 w-full items-start lg:-ml-36 lg:mt-0"
+          pendingDot
+          mode="left"
+          items={[
+            {
+              label: ` ${date}`,
+              children: "Total de TBM y TFM registrados",
+              color: "green",
+            },
+            {
+              label: ` ${new Date().toLocaleDateString("es-PE", {
+                month: "long",
+              })}`,
+              children: "Listo para contabilizar",
+            },
+            {
+              label: "Mensual",
+              children: "Listo para Impresión",
+              color: "red",
+            },
+            {
+              label: "Formato PDF",
+              children: "Listo para descargar",
+              color: "green",
+            },
+          ]}
+        />
+        <Flex vertical gap="small" align="center">
+          <Button
+            title="Solo se puede generar el último día del mes"
+            onClick={handlePrint}
+            type="primary"
+            className="px-10 py-5 text-lg lg:px-6 lg:py-3 lg:text-sm"
+            block
+          >
+            Descargar PDF
+          </Button>
+          {print && (
+            <TablesToPrint
+              boletosCount={totalBoletos}
+              facturasCount={facturasCount ?? 0}
+            />
+          )}
+          <QRCode
+            className="w-[300px] lg:w-[100px]"
+            value="https://www.google.com"
+          />
+        </Flex>
+      </div>
+    </AppLayout>
+  );
+}
+
+type TBoleto = {
+  codigo: string;
+  fechaRegistro: Date;
+  precio: number;
+};
+type TEncomienda = {
+  serie: string;
+  numero: number;
+  fechaRecepcion: Date;
+  precio: number;
+};
+type TFactura = {
+  serie: string;
+  numero: number;
+  fechaRecepcion: Date;
+  precio: number;
+  ruc: string | null;
+};
+
+function TablesToPrint({
+  boletosCount,
+  facturasCount,
+}: {
+  boletosCount: number;
+  facturasCount: number;
+}) {
+  const { data: pasajes } = api.boletos.getMonthlyBoletos.useQuery();
+  const { data: encomiendas } =
+    api.encomiendas.getMonthlyBoletosEncomiendas.useQuery();
+  const { data: facturas } =
+    api.encomiendas.getMonthlyFacturasEncomiendas.useQuery();
+
+  (jsPDF as unknown as { autoTableSetDefaults: (opts: object) => void })
+    .autoTableSetDefaults({
+      headStyles: { fillColor: [250, 173, 20] },
+    });
+
+  const currentDate = new Date();
+  const startOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  );
+  const endOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
+  );
+  const reporteInfo = `Reporte Fecha Inicio : ${
+    startOfMonth.toLocaleDateString("es-PE", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }) ?? ""
+  }\nReporte Fecha Fin : ${
+    endOfMonth.toLocaleDateString("es-PE", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }) ?? ""
+  }`;
+
+  useEffect(() => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text("REPORTE CONTABLE MENSUAL", 14, 20);
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(reporteInfo, 14, 30);
+    doc.setFontSize(14);
+    doc.setTextColor(0);
+    doc.text("BOLETOS DE VIAJE", 14, 50);
+    autoTable(doc, {
+      startY: 55,
+      columns: [
+        { dataKey: "codigo", header: "Código" },
+        { dataKey: "fechaRegistro", header: "Fecha Emisión" },
+        { dataKey: "precio", header: "Precio" },
+      ],
+      body: pasajes?.map((b: TBoleto) => ({
+        codigo: b.codigo,
+        fechaRegistro: new Date(b.fechaRegistro).toLocaleDateString(),
+        precio: b.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
+      })),
+    });
+    const finalY1 = (doc as unknown as { lastAutoTable: { finalY: number } })
+      .lastAutoTable.finalY;
+    doc.setFontSize(14);
+    doc.text("BOLETOS DE ENCOMIENDAS", 14, finalY1 + 15);
+    autoTable(doc, {
+      startY: finalY1 + 20,
+      columns: [
+        { dataKey: "codigo", header: "Código" },
+        { dataKey: "fechaRecepcion", header: "Fecha de Emisión" },
+        { dataKey: "precio", header: "Precio" },
+      ],
+      body: encomiendas?.map((e: TEncomienda) => ({
+        codigo: `${e.serie}-${e.numero}`,
+        fechaRecepcion: new Date(e.fechaRecepcion).toLocaleDateString(),
+        precio: e.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
+      })),
+    });
+    const finalY2 = (doc as unknown as { lastAutoTable: { finalY: number } })
+      .lastAutoTable.finalY;
+    doc.setFontSize(14);
+    doc.text("FACTURAS", 14, finalY2 + 15);
+    autoTable(doc, {
+      startY: finalY2 + 20,
+      columns: [
+        { dataKey: "codigo", header: "Código" },
+        { dataKey: "fechaEnvio", header: "Fecha Emisión" },
+        { dataKey: "ruc", header: "RUC" },
+        { dataKey: "precio", header: "Precio" },
+      ],
+      body: facturas?.map((f: TFactura) => ({
+        codigo: `${f.serie}-${f.numero}`,
+        fechaRecepcion: new Date(f.fechaRecepcion).toLocaleDateString(),
+        ruc: f.ruc,
+        precio: f.precio.toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        }),
+      })),
+    });
+    const finalY3 = (doc as unknown as { lastAutoTable: { finalY: number } })
+      .lastAutoTable.finalY;
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`# Boletos totales para el mes: ${boletosCount}`, 14, finalY3 + 20);
+    doc.text(`# Facturas totales para el mes: ${facturasCount}`, 14, finalY3 + 25);
+    doc.save("reporte-contable-mensual.pdf");
+  }, [pasajes, encomiendas, facturas, boletosCount, facturasCount]);
+
+  return null;
+}

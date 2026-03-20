@@ -1,13 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import VideoBackground from "@/components/common/video-background";
 import AppHead from "@/components/common/head";
 import styles from "@/styles/login.module.css";
 import AOSWrapper from "@/utils/AOS";
 import { Checkbox, Form, Input, notification, Spin } from "antd";
 import type { FormInstance } from "antd/es/form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GoKey } from "react-icons/go";
 import { HiOutlineArrowLeft, HiOutlineUser } from "react-icons/hi";
+import { useSession } from "@/context/SessionContext";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
@@ -23,6 +24,8 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  const { data: session, status, signIn } = useSession();
+  const navigate = useNavigate();
 
   const openNotificationWithIcon = (type: NotificationType) => {
     api[type]({
@@ -33,11 +36,20 @@ function LoginPage() {
 
   const formRef = useRef<FormInstance>(null);
 
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      navigate({ to: "/dashboard" });
+    }
+  }, [status, session, navigate]);
+
   async function onFinish(values: TLogin) {
     setLoading(true);
-    // TODO: Replace with TanStack Start auth (Phase 2)
-    // For now, show placeholder - auth will be migrated in Phase 2
-    openNotificationWithIcon("error");
+    const result = await signIn(values.username, values.password);
+    if (result.ok) {
+      navigate({ to: "/dashboard" });
+    } else {
+      openNotificationWithIcon("error");
+    }
     setLoading(false);
   }
 

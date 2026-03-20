@@ -1,11 +1,4 @@
 import React from "react";
-import { PT_Sans } from "next/font/google";
-
-const pt_sans = PT_Sans({
-  weight: "400",
-  subsets: ["latin-ext"],
-  preload: true,
-});
 import {
   AreaChart,
   XAxis,
@@ -88,7 +81,7 @@ export default function ControlPaneGraph() {
             <stop offset="95%" stopColor="#a0d911" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis dataKey="name" className={pt_sans.className} />
+        <XAxis dataKey="name" className="font-['PT_Sans']" />
         <Tooltip
           cursor={{ strokeDasharray: "3 3" }}
           contentStyle={{
