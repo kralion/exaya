@@ -3,23 +3,20 @@
 @tailwind utilities;
 
 body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 11 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   overflow-x: hidden;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   background: #f77810;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f18a2a;
 }

@@ -1,29 +1,29 @@
+import { MenuProvider } from "@/contexts/MenuContext";
+import { MessageProvider } from "@/contexts/MessageContext";
+import Notification from "@/contexts/notification";
 import ThemeToggle from "@/components/common/theme-toggle";
 import EmptyCustomized from "@/components/common/empty";
-import { MenuProvider } from "@/context/MenuContext";
-import "@/styles/globals.css";
-import { api } from "@/utils/api";
+import "../styles/globals.css";
+import {
+  Outlet,
+  createRootRoute,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
 import { ConfigProvider, theme } from "antd";
 import locale from "antd/locale/es_ES";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
-import Head from "next/head";
-import NextTopLoader from "nextjs-toploader";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 dayjs.locale("es");
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+function RootLayout({ children }: { children: ReactNode }) {
   const { defaultAlgorithm, darkAlgorithm } = theme;
   const [theming, setTheming] = useState("defaultAlgorithm");
+
   return (
     <>
-      <Head>
+      <HeadContent>
         <title>Exaya - Tu Solución Integral de Gestión de Transportes</title>
         <meta
           name="description"
@@ -47,7 +47,17 @@ const MyApp: AppType<{ session: Session | null }> = ({
           content="https://i.ibb.co/MftqMm5/Exaya-OG-Image.jpg"
         />
         <meta property="og:url" content="https://exaya.vercel.app" />
-      </Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Dancing+Script:wght@700&family=Inter:wght@300;600;800&display=swap"
+          rel="stylesheet"
+        />
+      </HeadContent>
       <ConfigProvider
         locale={locale}
         renderEmpty={() => <EmptyCustomized />}
@@ -66,15 +76,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
         }}
       >
         <MenuProvider>
-          <ThemeToggle setTheme={setTheming} />
-          <SessionProvider session={session}>
-            <NextTopLoader showSpinner={false} color="#f97316" />
-            <Component {...pageProps} />
-          </SessionProvider>
+          <MessageProvider>
+            <Notification />
+            <ThemeToggle setTheme={setTheming} />
+            {children}
+          </MessageProvider>
         </MenuProvider>
       </ConfigProvider>
+      <Scripts />
     </>
   );
-};
+}
 
-export default api.withTRPC(MyApp);
+export const Route = createRootRoute({
+  component: () => (
+    <RootLayout>
+      <Outlet />
+    </RootLayout>
+  ),
+});

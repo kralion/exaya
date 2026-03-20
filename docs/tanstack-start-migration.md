@@ -2,31 +2,38 @@
 
 This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **Pages Router**) to **TanStack Start**. It reflects the repository as of the migration planning pass: tRPC v10, NextAuth v4 (Credentials + JWT), Prisma 6, Ant Design + Tailwind, and no `getServerSideProps` / `getStaticProps` (tRPC client `ssr: false`).
 
+> **Status:** Phase 0 and Phase 1 complete. Last updated: 2026-03-20.
+
 ---
 
 ## Current stack (source of truth)
 
-| Area | Implementation |
-|------|----------------|
-| Framework | Next.js 14 (`src/pages/**`) |
-| API | `src/pages/api/trpc/[trpc].ts`, `src/pages/api/auth/[...nextauth].ts` only |
-| Data | tRPC → `src/server/api/**`, Prisma (`src/server/db.ts`) |
-| Auth | NextAuth + `getServerSession` in tRPC context (`src/server/api/trpc.ts`) |
-| UI globals | `_app.tsx`: Ant Design `ConfigProvider`, `MenuProvider`, `SessionProvider`, top loader |
+> As of Phase 1 completion, the framework is **TanStack Start**. The following describes the migration target state.
+
+| Area            | Implementation                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| Framework       | **TanStack Start v1.167.1** (SSR, Vite 8, Nitro)                                                       |
+| Bundler         | Vite 8 (no vinxi)                                                                                      |
+| Routing         | TanStack Router file routes (`src/routes/`)                                                            |
+| Data            | tRPC → `src/server/api/**`, Prisma (`src/server/db.ts`)                                                |
+| Auth            | NextAuth removed (Phase 2 pending)                                                                     |
+| UI globals      | `src/routes/__root.tsx`: Ant Design `ConfigProvider`, `MenuProvider`, `MessageProvider`, `ThemeToggle` |
+| Styles          | Tailwind v3 + PostCSS                                                                                  |
+| Package manager | Bun                                                                                                    |
 
 ---
 
 ## What changes conceptually
 
-| Layer | Today | TanStack Start |
-|-------|--------|----------------|
-| Runtime / bundler | Next | Vite-based Start |
-| Routing | `src/pages/**` | TanStack Router file routes (e.g. `routes/`) |
-| HTTP API | Next API routes | Start server handlers + same logical endpoints |
-| Auth | NextAuth catch-all + `req`/`res` session | Session derived from **Web `Request`** (cookie/JWT)—not Next’s handler |
-| tRPC client | `@trpc/next` (`createTRPCNext`, `api.withTRPC`) | `@trpc/react-query` + `httpBatchLink` |
-| tRPC server | `createNextApiHandler` | `fetchRequestHandler` (or equivalent) on a Start route |
-| Images / Cloudinary | `next/image`, `next-cloudinary` | Plain `<img>` or Vite-friendly helpers; `@cloudinary/react` or upload widget without Next package |
+| Layer               | Today                                           | TanStack Start                                                                                    |
+| ------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Runtime / bundler   | Next                                            | Vite-based Start                                                                                  |
+| Routing             | `src/pages/**`                                  | TanStack Router file routes (e.g. `routes/`)                                                      |
+| HTTP API            | Next API routes                                 | Start server handlers + same logical endpoints                                                    |
+| Auth                | NextAuth catch-all + `req`/`res` session        | Session derived from **Web `Request`** (cookie/JWT)—not Next’s handler                            |
+| tRPC client         | `@trpc/next` (`createTRPCNext`, `api.withTRPC`) | `@trpc/react-query` + `httpBatchLink`                                                             |
+| tRPC server         | `createNextApiHandler`                          | `fetchRequestHandler` (or equivalent) on a Start route                                            |
+| Images / Cloudinary | `next/image`, `next-cloudinary`                 | Plain `<img>` or Vite-friendly helpers; `@cloudinary/react` or upload widget without Next package |
 
 ---
 
@@ -34,27 +41,27 @@ This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **
 
 Use this as a checklist when creating file routes. Adjust file naming to your chosen TanStack Router convention (`$param` for dynamics, etc.).
 
-| Next path | Notes |
-|-----------|--------|
-| `/` | `index.tsx` |
-| `/login` | Auth-critical |
-| `/contacto` | |
-| `/features` | |
-| `/planes` | |
-| `/pasajes` | |
-| `/soporte` | |
-| `/dashboard` | Likely protected |
-| `/administracion` | Likely protected |
-| `/contable` | Likely protected |
-| `/boletos` | |
-| `/boletos/viaje/[id]` | Dynamic |
-| `/viaje/[id]` | Dynamic (distinct from boletos subtree) |
-| `/encomiendas` | |
-| `/encomiendas/rastreo` | |
-| `/programacion/viajes` | |
-| `/programacion/comprobantes` | |
-| `/programacion/bus-conductor` | |
-| `/404`, `/500` | Error / not-found handling in Start |
+| Next path                     | Notes                                   |
+| ----------------------------- | --------------------------------------- |
+| `/`                           | `index.tsx`                             |
+| `/login`                      | Auth-critical                           |
+| `/contacto`                   |                                         |
+| `/features`                   |                                         |
+| `/planes`                     |                                         |
+| `/pasajes`                    |                                         |
+| `/soporte`                    |                                         |
+| `/dashboard`                  | Likely protected                        |
+| `/administracion`             | Likely protected                        |
+| `/contable`                   | Likely protected                        |
+| `/boletos`                    |                                         |
+| `/boletos/viaje/[id]`         | Dynamic                                 |
+| `/viaje/[id]`                 | Dynamic (distinct from boletos subtree) |
+| `/encomiendas`                |                                         |
+| `/encomiendas/rastreo`        |                                         |
+| `/programacion/viajes`        |                                         |
+| `/programacion/comprobantes`  |                                         |
+| `/programacion/bus-conductor` |                                         |
+| `/404`, `/500`                | Error / not-found handling in Start     |
 
 **API-only (not user-facing pages):** migrate behavior, not paths—e.g. tRPC mount point and auth session resolution.
 
@@ -62,20 +69,54 @@ Use this as a checklist when creating file routes. Adjust file naming to your ch
 
 ## Phased plan
 
-### Phase 0 — Inventory
+### Phase 0 — Inventory ✅
 
-- [ ] Confirm all external URLs and redirects (production vs staging).
-- [ ] List every `useSession` / `signIn` / `signOut` and every `protectedProcedure` consumer.
-- [ ] Grep for `next/link`, `next/image`, `next/head`, `next/router` and track refactors.
-- [ ] Document env vars (`src/env.mjs`, `NEXT_PUBLIC_*`, `NEXTAUTH_*`, DB, Cloudinary).
+- [x] Confirm all external URLs and redirects (production vs staging).
+  - No Next.js redirects in `next.config.mjs`.
+  - 20 `next/image` domains allowlisted (icons8, pexels, cloudinary, etc.).
+  - Auth redirect: `signIn: "/login"` in `src/server/auth.ts:49`.
+- [x] List every `useSession` / `signIn` / `signOut` and every `protectedProcedure` consumer.
+  - `useSession`: 15 files (pages + components).
+  - `signIn`: 1 file (`src/pages/login/index.tsx`).
+  - `signOut`: 1 file (`src/components/common/layout.tsx`).
+  - `protectedProcedure`: 17 occurrences across 5 routers (`usuarios.ts`, `viajes.ts`, `rutas.ts`, `conductores.ts`, `boletos.ts`).
+- [x] Grep for `next/link`, `next/image`, `next/head`, `next/router` and track refactors.
+  - `next/link`: 14 files.
+  - `next/image`: 11 files.
+  - `next/head`: 2 files (`_app.tsx`, `head.tsx`).
+  - `next/router`: 0 files.
+- [x] Document env vars (`src/env.mjs`, `NEXT_PUBLIC_*`, `NEXTAUTH_*`, DB, Cloudinary).
+  - Server: `NODE_ENV`, `NEXTAUTH_SECRET`, `DATABASE_URL`, `API_RENIEC_TOKEN`, `API_RENIEC_URL`, `CLOUDINARY_API_SECRET`.
+  - Client: `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `NEXT_PUBLIC_CLOUDINARY_API_KEY`.
 
-### Phase 1 — Start skeleton (strangler)
+### Phase 1 — Start skeleton ✅
 
-- [ ] Scaffold TanStack Start alongside Next (monorepo package or folder) until parity.
-- [ ] Port global providers from `_app.tsx` to the Start root layout / `__root` pattern.
-- [ ] Port Tailwind + `globals.css` and align PostCSS with Vite.
+- [x] Rewrite `package.json` — removed Next.js deps, added TanStack Start + Vite + Nitro.
+- [x] Rewrite `tsconfig.json` — removed Next.js plugin, set `jsx: "react-jsx"`, `moduleResolution: "Bundler"`.
+- [x] Create `vite.config.ts` — `@tanstack/react-start/plugin/vite` + `@vitejs/plugin-react` + `nitro/vite`, Tailwind via PostCSS.
+- [x] Create `src/router.tsx` — TanStack Router instance with `getRouter()`.
+- [x] Create `src/routes/__root.tsx` — root route with all providers ported from `_app.tsx`.
+- [x] Create `src/routes/index.tsx` — minimal landing shell (full page in Phase 4).
+- [x] Create `src/contexts/` — moved `MenuContext`, `MessageContext`, `notification`.
+- [x] Update `src/styles/globals.css` — Tailwind v3 `@tailwind` directives.
+- [x] Delete Next.js files: `next.config.mjs`, `next-env.d.ts`, `src/pages/`, `src/pages/api/`, `src/middleware.ts`, `src/utils/AOS.tsx`, `src/context/`.
+- [x] Delete `src/client.tsx` and `src/server.ts` — TanStack Start handles entries automatically.
 
-**Exit:** Start dev server runs; shell matches baseline (theme, Ant locale, layout).
+**Tech decisions made:**
+
+- Package manager: **Bun** (no pnpm).
+- Bundler: **Vite 8** (no vinxi).
+- Tailwind: **v3** with PostCSS (existing `tailwind.config.ts` compatible).
+- SSR: **Nitro** via `nitro/vite` plugin.
+- Client entry: **Automatic** via `@tanstack/react-start` plugin.
+
+**Exit criteria met:**
+
+- [x] `bun run dev` starts TanStack Start dev server on port 3000.
+- [x] `bun run build` + `bun run start` produces working SSR output.
+- [x] Landing shell renders with Ant Design CSS + Tailwind.
+- [x] Zero `next/` imports anywhere in `src/`.
+- [x] Phase 2 (Auth) can start immediately.
 
 ### Phase 2 — Auth (critical path)
 
@@ -131,12 +172,12 @@ Prisma is **not** tied to Next.js. Moving to TanStack Start mostly affects **whe
 
 ### Setup (today → Start)
 
-| Topic | Notes |
-|-------|--------|
-| Singleton | Keep the `globalThis` pattern in dev (`src/server/db.ts`) for hot reload—valid on a Node server. |
-| `DATABASE_URL` | Wire to Start/Vite env (`import.meta.env` or server-only `process.env`, per Start docs). |
+| Topic             | Notes                                                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Singleton         | Keep the `globalThis` pattern in dev (`src/server/db.ts`) for hot reload—valid on a Node server.                                   |
+| `DATABASE_URL`    | Wire to Start/Vite env (`import.meta.env` or server-only `process.env`, per Start docs).                                           |
 | Engine / adapters | Optional: driver adapters, Accelerate, or poolers for serverless/edge. A **normal Node** Start server can keep the default client. |
-| Multi-file schema | Optional (`prismaSchemaFolder`); not required for migration. |
+| Multi-file schema | Optional (`prismaSchemaFolder`); not required for migration.                                                                       |
 
 ### Usage (API evolution, optional cleanups)
 
@@ -154,11 +195,11 @@ On **Prisma major upgrades**, follow release notes for schema attributes, CLI ch
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| Auth is the longest pole | Implement session + one protected tRPC path before bulk route porting. |
-| Ant Design + SSR/hydration | Test root layout and any `window`-only code early on Start. |
-| Cloudinary uploads | Regression-test the three form flows after swapping off `next-cloudinary`. |
+| Risk                           | Mitigation                                                                    |
+| ------------------------------ | ----------------------------------------------------------------------------- |
+| Auth is the longest pole       | Implement session + one protected tRPC path before bulk route porting.        |
+| Ant Design + SSR/hydration     | Test root layout and any `window`-only code early on Start.                   |
+| Cloudinary uploads             | Regression-test the three form flows after swapping off `next-cloudinary`.    |
 | Connection limits (serverless) | If deployment is per-request isolate, plan pooler or Accelerate before scale. |
 
 ---
@@ -171,21 +212,42 @@ On **Prisma major upgrades**, follow release notes for schema attributes, CLI ch
 
 ---
 
-## Reference paths in this repo
+## Decisions to lock early
 
-| Purpose | Path |
-|---------|------|
-| App entry / providers | `src/pages/_app.tsx` |
-| tRPC API route | `src/pages/api/trpc/[trpc].ts` |
-| NextAuth route | `src/pages/api/auth/[...nextauth].ts` |
-| tRPC context & procedures | `src/server/api/trpc.ts` |
-| Router root | `src/server/api/root.ts` |
-| Auth config | `src/server/auth.ts` |
-| Prisma client | `src/server/db.ts` |
-| tRPC React client | `src/utils/api.ts` |
-| Env validation | `src/env.mjs` |
-| Schema | `prisma/schema.prisma` |
+1. ~~**Hosting**~~ — Drivs cookies, TLS, and whether Prisma runs in a long-lived Node process or per-invocation isolate.
+2. ~~**Auth approach**~~ — Auth.js vs custom JWT/cookies vs a small session library.
+3. ~~**Repo layout**~~ — Single package replacing Next vs `apps/web-start` strangler until parity.
+
+> **Locked decisions (Phase 1):**
+>
+> - Bundler: **Vite 8** (no vinxi).
+> - SSR: **Nitro** (via `nitro/vite` plugin).
+> - Package manager: **Bun**.
+> - Tailwind: **v3** (existing config compatible).
+> - Repo layout: **Single package**, Next.js fully replaced.
 
 ---
 
-*Last updated: migration planning / doc creation.*
+## Reference paths in this repo
+
+| Purpose                   | Path                                  |
+| ------------------------- | ------------------------------------- |
+| Vite config               | `vite.config.ts`                      |
+| Router instance           | `src/router.tsx`                      |
+| Root route (providers)    | `src/routes/__root.tsx`               |
+| Routes directory          | `src/routes/`                         |
+| Contexts                  | `src/contexts/`                       |
+| Global styles             | `src/styles/globals.css`              |
+| tRPC API route            | `src/pages/api/trpc/[trpc].ts`        |
+| NextAuth route            | `src/pages/api/auth/[...nextauth].ts` |
+| tRPC context & procedures | `src/server/api/trpc.ts`              |
+| Router root               | `src/server/api/root.ts`              |
+| Auth config               | `src/server/auth.ts`                  |
+| Prisma client             | `src/server/db.ts`                    |
+| tRPC React client         | `src/utils/api.ts`                    |
+| Env validation            | `src/env.ts`                          |
+| Schema                    | `prisma/schema.prisma`                |
+
+---
+
+_Last updated: 2026-03-20 — Phase 0 ✅ + Phase 1 ✅ complete._
