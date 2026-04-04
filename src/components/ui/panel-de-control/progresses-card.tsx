@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Alert,
-  Button,
   Card,
   Progress,
   Skeleton,
@@ -10,7 +9,7 @@ import {
 } from "antd";
 import { RxOpenInNewWindow } from "react-icons/rx";
 const { Title, Text } = Typography;
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import ControlPanePieChart from "./piechart";
 type Card = {
   cardTitle: string;
@@ -44,7 +43,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
       bordered={false}
       title={
         <Link
-          href="/administracion"
+          to="/administracion"
           className="group flex items-center justify-between duration-100"
         >
           <Title level={4} className="pt-2 group-hover:opacity-70 ">
@@ -113,13 +112,9 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
           message="Progreso de los viajes programados para hoy"
           type="info"
           action={
-            <Button
-              type="link"
-              href="/programacion/viajes"
-              className="hover:underline"
-            >
+            <Link to="/programacion/viajes" className="hover:underline">
               Ver Más
-            </Button>
+            </Link>
           }
           showIcon
         />

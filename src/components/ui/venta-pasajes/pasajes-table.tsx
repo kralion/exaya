@@ -9,7 +9,7 @@ import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import type { AnyObject } from "antd/es/_util/type";
 import { GoChevronDown } from "react-icons/go";
 type Viaje = {
@@ -23,7 +23,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
   const { data: viajes, isLoading } = api.viajes.getViajesByDate.useQuery({
     date: dayQuery.format("YYYY-MM-DD"),
   });
-  const router = useRouter();
+  const navigate = useNavigate();
   const { data: session } = useSession();
   const origenFilterItems = ((viajes?.response as Viaje[]) || [])
     .map((viaje) => ({
@@ -162,7 +162,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
                 <RegistrarPasajeModal viajeId={id} />
                 <Typography
                   className="lg:hidden"
-                  onClick={() => router.push(`/viaje/${id}`)}
+                  onClick={() => void navigate({ to: "/viaje/$viajeId", params: { viajeId: id } })}
                 >
                   Asientos
                 </Typography>
@@ -190,7 +190,12 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
             <Button
               type="primary"
               className="lg:hidden"
-              onClick={() => router.push(`/boletos/viaje/${id}`)}
+              onClick={() =>
+                void navigate({
+                  to: "/boletos/viaje/$viajeId",
+                  params: { viajeId: id },
+                })
+              }
             >
               Ver
             </Button>

@@ -22,12 +22,14 @@
     }
   },
   "include": [
-    ".eslintrc.cjs",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.cjs",
     "src/**/*.mjs",
     "vite.config.ts",
+    "tailwind.config.ts",
+    "prisma.config.ts",
+    "prisma/seed.ts",
     "src/vite-env.d.ts"
   ],
   "exclude": ["node_modules"]

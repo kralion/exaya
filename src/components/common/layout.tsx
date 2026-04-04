@@ -4,8 +4,8 @@ import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
 import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
 import { useSignOut, useSession } from "@/hooks/use-session";
-import { useNavigate } from "@tanstack/react-router";
-import React, { useContext } from "react";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
+import React, { useContext, useEffect } from "react";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 import { AccountingIcon } from "../ui/icons/accounting-icons";
 import { ChartIcon } from "../ui/icons/chart-icon";
@@ -56,7 +56,19 @@ const items: MenuItem[] = [
 export default function AppLayout({ children }: LayoutProps) {
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: session } = useSession();
+
+  useEffect(() => {
+    if (pathname.startsWith("/viaje/")) {
+      setSelectedKey("pasajes");
+      return;
+    }
+    const seg = pathname.replace(/^\//, "");
+    if (seg) {
+      setSelectedKey(seg);
+    }
+  }, [pathname, setSelectedKey]);
   const signOut = useSignOut();
   const { data } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",

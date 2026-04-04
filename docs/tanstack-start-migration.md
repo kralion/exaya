@@ -2,7 +2,7 @@
 
 This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **Pages Router**) to **TanStack Start**. Historical context: tRPC v10, Prisma 6, Ant Design + Tailwind. Next.js data APIs (`getServerSideProps` / `getStaticProps`) were not used.
 
-> **Status:** Phase 0, 1, 1b, **Phase 2 (auth)**, and **Phase 3 (tRPC on Start)** for the auth/tRPC path are **done**. Full route parity (Phase 4) and Next-import cleanup (Phase 5) remain. **Last updated: 2026-04-04.**
+> **Status:** Phase 0–1b, **Phase 2 (auth)**, **Phase 3 (tRPC on Start)**, **Phase 4 (route migration)**, and **Phase 5 (Next-import cleanup in `src/`)** are **done**. Optional: replace **`next-cloudinary`** (Phase 5). **Last updated: 2026-04-04.**
 
 ---
 
@@ -66,27 +66,27 @@ This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **
 
 Use this as a checklist when creating file routes. Adjust file naming to your TanStack Router convention (`$param` for dynamics, etc.).
 
-| Next path                     | Notes                                   |
-| ----------------------------- | --------------------------------------- |
-| `/`                           | `index.tsx`                             |
-| `/login`                      | **Implemented** (`src/routes/login.tsx`) |
-| `/dashboard`                  | **Stub** (`src/routes/dashboard.tsx`)   |
-| `/contacto`                   |                                         |
-| `/features`                   |                                         |
-| `/planes`                     |                                         |
-| `/pasajes`                    |                                         |
-| `/soporte`                    |                                         |
-| `/administracion`             | Likely protected                        |
-| `/contable`                   | Likely protected                        |
-| `/boletos`                    |                                         |
-| `/boletos/viaje/[id]`         | Dynamic                                 |
-| `/viaje/[id]`                 | Dynamic (distinct from boletos subtree) |
-| `/encomiendas`                |                                         |
-| `/encomiendas/rastreo`        |                                         |
-| `/programacion/viajes`        |                                         |
-| `/programacion/comprobantes`  |                                         |
-| `/programacion/bus-conductor` |                                         |
-| `/404`, `/500`                | Error / not-found handling in Start     |
+| Next path                     | Notes                                                                 |
+| ----------------------------- | --------------------------------------------------------------------- |
+| `/`                           | **Implemented** — `LandingLayout` (`src/routes/index.tsx`)              |
+| `/login`                      | **Implemented** (`src/routes/login.tsx`)                              |
+| `/dashboard`                  | **Implemented** — `src/routes/_app/dashboard.tsx` (pathless `_app`)   |
+| `/contacto`                   | **Implemented** (`src/routes/contacto.tsx`)                           |
+| `/features`                   | **Implemented** (`src/routes/features.tsx`)                         |
+| `/planes`                     | **Implemented** (`src/routes/planes.tsx`)                             |
+| `/pasajes`                    | **Implemented** — `src/routes/_app/pasajes.tsx` (app shell)           |
+| `/soporte`                    | **Implemented** — `src/routes/_app/soporte.tsx`                       |
+| `/administracion`             | **Implemented** — `src/routes/_app/administracion.tsx` (protected)    |
+| `/contable`                   | **Implemented** — `src/routes/_app/contable.tsx` (protected)        |
+| `/boletos`                    | **Implemented** — public (`src/routes/boletos/index.tsx`)             |
+| `/boletos/viaje/[id]`         | **Implemented** — `src/routes/boletos/viaje/$viajeId.tsx`             |
+| `/viaje/[id]`                 | **Implemented** — `src/routes/_app/viaje/$viajeId.tsx`                |
+| `/encomiendas`                | **Implemented** — `src/routes/_app/encomiendas.tsx`                   |
+| `/encomiendas/rastreo`        | **Implemented** (`src/routes/encomiendas/rastreo.tsx`)                |
+| `/programacion/viajes`        | **Implemented** — `src/routes/_app/programacion/viajes.tsx`           |
+| `/programacion/comprobantes`  | **Implemented** — `src/routes/_app/programacion/comprobantes.tsx`      |
+| `/programacion/bus-conductor` | **Implemented** — `src/routes/_app/programacion/bus-conductor.tsx`     |
+| `/404`, `/500`                | Optional — not-found / error routes (deferred)                        |
 
 **API:** tRPC **`/api/trpc`** (`src/routes/api/trpc.tsx`).
 
@@ -141,23 +141,23 @@ Follow-up work so **`tsc --noEmit`** passes and the app matches TanStack Router 
 
 **Exit:** tRPC + Supabase session end-to-end on the Start server.
 
-### Phase 4 — Route migration
+### Phase 4 — Route migration ✅
 
-- [ ] Implement remaining routes from the route map; TanStack `Link` / `useNavigate` everywhere types allow.
-- [ ] Port layouts (landing vs app shell); protect routes as needed.
+- [x] Implement remaining routes from the route map; TanStack `Link` / `useNavigate` where used.
+- [x] Port layouts: **`LandingLayout`** for public/marketing routes; pathless **`src/routes/_app.tsx`** wraps **`AppLayout`** + **`RequireAuth`** (`src/shared/auth/require-auth.tsx`) for authenticated app routes.
 
-**Exit:** Public and protected URLs behave like the old app.
+**Exit:** Public and protected URLs wired; app shell routes require session (client-side gate).
 
 ### Phase 5 — Next-specific cleanup
 
 - [x] Replace **`next/head`**-style usage with Router **`head`** + **`HeadContent`** (root).
-- [ ] Replace remaining **`next/link`**, **`next/image`**, **`next/font`** across components.
+- [x] Replace **`next/link`**, **`next/image`**, **`next/font`** across `src/` (completed with Phase 4 route work + **`AppHead`** update).
 - [ ] Optionally replace **`next-cloudinary`** with a non-Next package if bundle/runtime issues appear (currently still **`next-cloudinary`** with Vite).
 
 ### Phase 6 — Prisma, tests, lint
 
 - [ ] Restore **Vitest** (or chosen runner) and TS path aliases for the new layout.
-- [ ] ESLint: ensure `eslint` is installed / config updated for Vite + React (script may fail if CLI missing).
+- [x] **ESLint** — flat config **`eslint.config.js`**: `@eslint/js`, **`typescript-eslint`** (type-aware via `projectService`), **`eslint-plugin-react`** (JSX runtime preset), **`eslint-plugin-react-hooks`**, **`eslint-plugin-react-refresh`**, **`globals`**. Scripts: **`bun run lint`**, **`bun run lint:fix`**. Legacy **`.eslintrc.cjs`** (Next `core-web-vitals`) removed. Tooling files (`tailwind.config.ts`, `postcss.config.cjs`, Prisma config/seed) are **ignored** by ESLint where CommonJS/`any` are intentional.
 
 ### Phase 7 — Cutover
 
@@ -203,10 +203,11 @@ Prisma is **not** tied to Next.js. On TanStack Start, keep **`PrismaClient` serv
 | Purpose | Path |
 | ------- | ---- |
 | Vite config | `vite.config.ts` |
+| ESLint (flat) | `eslint.config.js` |
 | Router instance | `src/router.tsx` |
 | Root route (providers, `head`) | `src/routes/__root.tsx` |
 | Routes directory | `src/routes/` |
-| Login / dashboard stubs | `src/routes/login.tsx`, `src/routes/dashboard.tsx` |
+| Login; app shell (dashboard, etc.) | `src/routes/login.tsx`, `src/routes/_app.tsx`, `src/routes/_app/**` |
 | tRPC HTTP route | `src/routes/api/trpc.tsx` |
 | Supabase browser provider | `src/contexts/SupabaseAuthContext.tsx` |
 | Session hooks (replaces next-auth) | `src/hooks/use-session.ts` |

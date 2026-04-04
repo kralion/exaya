@@ -12,7 +12,7 @@ import {
   Tag,
   Typography,
 } from "antd";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 import type { ColumnsType } from "antd/es/table";
 import { FiEdit3 } from "react-icons/fi";
@@ -181,7 +181,7 @@ export default function UsuariosTable({
                 recarge la página
               </a>{" "}
               . Si el error persiste contacte con el área de
-              <Link href="/soporte">
+              <Link to="/soporte">
                 <code className="ml-2 underline">Soporte</code>
               </Link>
             </p>

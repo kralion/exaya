@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 type CardProps = {
   cardTitle: string;
   cardDescription: string;
@@ -19,7 +18,7 @@ export default function Card({
       data-aos-duration="500"
       className="w-80  space-y-14 rounded-xl border-2 border-transparent bg-white bg-opacity-20 p-7 shadow-md backdrop-blur-2xl      duration-300   hover:scale-105 hover:border-2    hover:shadow-xl  "
     >
-      <Image
+      <img
         src={cardImage}
         className="ml-24 rounded-full border-4 border-white shadow-lg lg:ml-0"
         width={70}

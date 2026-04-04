@@ -1,8 +1,13 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Navigate,
+  useNavigate,
+} from "@tanstack/react-router";
 import { Button, Form, Input, message, Typography } from "antd";
 import { useState } from "react";
 
 import { useSupabaseBrowser } from "@/contexts/SupabaseAuthContext";
+import { useSession } from "@/hooks/use-session";
 import { usernameToAuthEmail } from "@/shared/auth/auth-email";
 import { api } from "@/utils/api";
 
@@ -14,7 +19,15 @@ function LoginPage() {
   const navigate = useNavigate();
   const supabase = useSupabaseBrowser();
   const utils = api.useUtils();
+  const { status } = useSession();
   const [loading, setLoading] = useState(false);
+
+  if (status === "loading") {
+    return null;
+  }
+  if (status === "authenticated") {
+    return <Navigate to="/dashboard" />;
+  }
 
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true);

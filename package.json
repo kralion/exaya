@@ -9,7 +9,8 @@
     "build": "vite build",
     "start": "node .output/server/index.mjs",
     "postinstall": "prisma generate",
-    "lint": "eslint --ext .ts,.tsx src",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "db-seed": "prisma db seed"
   },
   "dependencies": {
@@ -47,6 +48,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/bcrypt": "^5.0.2",
     "@types/cookie": "^1.0.0",
     "@types/node": "^22.19.17",
@@ -55,6 +57,11 @@
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.27",
     "dotenv": "^17.4.0",
+    "eslint": "^10.2.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
     "nitro": "^3.0.260311-beta",
     "postcss": "^8.5.8",
     "prettier": "^2.8.8",
@@ -63,6 +70,7 @@
     "tailwindcss": "^3.4.19",
     "tailwindcss-motion": "^1.1.1",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.0",
     "vite": "^8.0.3"
   }
 }

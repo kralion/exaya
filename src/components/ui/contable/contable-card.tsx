@@ -1,5 +1,4 @@
 import { Card, Skeleton, Space, Typography } from "antd";
-import Image from "next/image";
 type Card = {
   cardTitle: string;
   cardIcon: string;
@@ -38,7 +37,7 @@ export function ContableCard({
       <Card.Meta
         description={
           <Space className="mt-2 flex items-center gap-1">
-            <Image src={cardIcon} alt="icon" width={20} height={20} />
+            <img src={cardIcon} alt="icon" width={20} height={20} />
             {cardConcept}
           </Space>
         }

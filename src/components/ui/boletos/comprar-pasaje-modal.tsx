@@ -12,7 +12,6 @@ import {
   message,
 } from "antd";
 import { customAlphabet } from "nanoid";
-import { Concert_One } from "next/font/google";
 import React, { useState } from "react";
 import { FaSquare } from "react-icons/fa";
 import type { z } from "zod";
@@ -20,11 +19,6 @@ import type { z } from "zod";
 import { boletoSchema } from "@/schemas";
 import { createWhatsappMessage } from "@/utils/whatsapp";
 import { useMessageContext } from "@/context/MessageContext";
-const concertOne = Concert_One({
-  subsets: ["latin"],
-  weight: "400",
-  preload: true,
-});
 const { Title, Text } = Typography;
 
 export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
@@ -225,7 +219,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                       textAnchor="middle"
                       dy=".3em"
                       fontSize="6"
-                      className={`text-[7px] font-bold  ${concertOne.className}`}
+                      className="text-[7px] font-bold"
                     >
                       {seatNumber}
                     </text>
