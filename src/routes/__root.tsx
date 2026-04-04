@@ -3,6 +3,7 @@ import { MessageProvider } from "@/contexts/MessageContext";
 import Notification from "@/contexts/notification";
 import ThemeToggle from "@/components/common/theme-toggle";
 import EmptyCustomized from "@/components/common/empty";
+import { TrpcProvider } from "@/utils/trpc-provider";
 import "../styles/globals.css";
 import {
   Outlet,
@@ -23,41 +24,7 @@ function RootLayout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <HeadContent>
-        <title>Exaya - Tu Solución Integral de Gestión de Transportes</title>
-        <meta
-          name="description"
-          content="Optimiza la gestión de transporte de tu empresa con Exaya. Analíticas en tiempo real, seguridad, actualizaciones, soporte de primera e integrado con Inteligencia Artificial"
-        />
-        <link
-          rel="icon"
-          href="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
-        />
-        <meta
-          property="og:title"
-          content="Exaya - Solución de Gestión Empresarial a Medida"
-        />
-        <meta
-          property="og:description"
-          content="Optimiza la gestión de transporte de pasajeros con Exaya. Analíticas en tiempo real, seguridad, actualizaciones y soporte de primera."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://i.ibb.co/MftqMm5/Exaya-OG-Image.jpg"
-        />
-        <meta property="og:url" content="https://exaya.vercel.app" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Dancing+Script:wght@700&family=Inter:wght@300;600;800&display=swap"
-          rel="stylesheet"
-        />
-      </HeadContent>
+      <HeadContent />
       <ConfigProvider
         locale={locale}
         renderEmpty={() => <EmptyCustomized />}
@@ -75,13 +42,15 @@ function RootLayout({ children }: { children: ReactNode }) {
           algorithm: theming === "dark" ? darkAlgorithm : defaultAlgorithm,
         }}
       >
-        <MenuProvider>
-          <MessageProvider>
-            <Notification />
-            <ThemeToggle setTheme={setTheming} />
-            {children}
-          </MessageProvider>
-        </MenuProvider>
+        <TrpcProvider>
+          <MenuProvider>
+            <MessageProvider>
+              <Notification />
+              <ThemeToggle setTheme={setTheming} />
+              {children}
+            </MessageProvider>
+          </MenuProvider>
+        </TrpcProvider>
       </ConfigProvider>
       <Scripts />
     </>
@@ -89,6 +58,50 @@ function RootLayout({ children }: { children: ReactNode }) {
 }
 
 export const Route = createRootRoute({
+  head: () => ({
+    meta: [
+      {
+        title:
+          "Exaya - Tu Solución Integral de Gestión de Transportes",
+      },
+      {
+        name: "description",
+        content:
+          "Optimiza la gestión de transporte de tu empresa con Exaya. Analíticas en tiempo real, seguridad, actualizaciones, soporte de primera e integrado con Inteligencia Artificial",
+      },
+      {
+        property: "og:title",
+        content: "Exaya - Solución de Gestión Empresarial a Medida",
+      },
+      {
+        property: "og:description",
+        content:
+          "Optimiza la gestión de transporte de pasajeros con Exaya. Analíticas en tiempo real, seguridad, actualizaciones y soporte de primera.",
+      },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content: "https://i.ibb.co/MftqMm5/Exaya-OG-Image.jpg",
+      },
+      { property: "og:url", content: "https://exaya.vercel.app" },
+    ],
+    links: [
+      {
+        rel: "icon",
+        href: "https://cdn-icons-png.flaticon.com/128/10351/10351661.png",
+      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Dancing+Script:wght@700&family=Inter:wght@300;600;800&display=swap",
+      },
+    ],
+  }),
   component: () => (
     <RootLayout>
       <Outlet />

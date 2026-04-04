@@ -1,6 +1,11 @@
 import { useMessageContext } from "@/context/MessageContext";
-import { api } from "@/utils/api";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
+import {
+  CldImage,
+  CldUploadWidget,
+  type CloudinaryUploadWidgetResults,
+  type CldUploadWidgetPropsChildren,
+} from "next-cloudinary";
 import { Button, Form, Input, Modal, Space, Typography } from "antd";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -37,7 +42,7 @@ export function BusForm({ activator }: Props) {
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (response: RouterOutputs["buses"]["createBus"]) => {
           openMessage({
             content: response.message,
             type: "success",
@@ -48,7 +53,7 @@ export function BusForm({ activator }: Props) {
           setIsModalOpen(false);
           await utils.buses.getAllBuses.invalidate();
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             type: "error",
@@ -139,6 +144,11 @@ export function BusForm({ activator }: Props) {
           <Form.Item label="Foto del Bus">
             <div>
               <CldUploadWidget
+                config={{
+                  cloud: {
+                    cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+                  },
+                }}
                 uploadPreset="ml_default"
                 options={{
                   folder: "exaya",
@@ -181,16 +191,17 @@ export function BusForm({ activator }: Props) {
 
                   autoMinimize: true,
                 }}
-                onSuccess={(result) => {
+                onSuccess={(result: CloudinaryUploadWidgetResults) => {
                   if (
                     typeof result?.info === "object" &&
+                    result.info &&
                     "secure_url" in result.info
                   ) {
-                    setSource(result.info.secure_url);
+                    setSource(result.info.secure_url as string);
                   }
                 }}
               >
-                {({ open }) => {
+                {({ open }: CldUploadWidgetPropsChildren) => {
                   function handleOnClick() {
                     setSource(undefined);
                     open();

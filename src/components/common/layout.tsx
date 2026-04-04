@@ -1,11 +1,10 @@
 import AppHeader from "@/components/common/appheader";
 import { SelectedContext } from "@/context/MenuContext";
-import { MessageProvider } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
 import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
+import { useNavigate } from "@tanstack/react-router";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 import { AccountingIcon } from "../ui/icons/accounting-icons";
@@ -56,7 +55,7 @@ const items: MenuItem[] = [
 
 export default function AppLayout({ children }: LayoutProps) {
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
-  const router = useRouter();
+  const navigate = useNavigate();
   const { data: session } = useSession();
   const { data } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
@@ -69,7 +68,6 @@ export default function AppLayout({ children }: LayoutProps) {
   } = theme.useToken();
 
   return (
-    <MessageProvider>
       <Layout className="h-100dvh lg:min-h-screen lg:p-4">
         <Sider
           className=" z-2  h-fit rounded-xl border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
@@ -93,8 +91,8 @@ export default function AppLayout({ children }: LayoutProps) {
                   )
             }
             onSelect={(item) => {
-              setSelectedKey(item.key);
-              router.push(`/${item.key}`);
+              setSelectedKey(String(item.key));
+              void navigate({ to: `/${String(item.key)}` });
             }}
           />
           <div className=" px-2 pb-2">
@@ -147,6 +145,5 @@ export default function AppLayout({ children }: LayoutProps) {
           </Footer>
         </Layout>
       </Layout>
-    </MessageProvider>
   );
 }

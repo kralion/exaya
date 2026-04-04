@@ -1,5 +1,5 @@
 import { useMessageContext } from "@/context/MessageContext";
-import { api } from "@/utils/api";
+import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
 import {
   Button,
   Form,
@@ -11,7 +11,12 @@ import {
   Typography,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import {
+  CldImage,
+  CldUploadWidget,
+  type CloudinaryUploadWidgetResults,
+  type CldUploadWidgetPropsChildren,
+} from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsPassport, BsTelephone } from "react-icons/bs";
@@ -49,6 +54,8 @@ const rolesSistema: CascaderProps<RolNodeType>["options"] = [
     label: "Usuario",
   },
 ];
+
+type SedeRow = RouterOutputs["sedes"]["getAllSedes"][number];
 
 const formItemLayout = {
   labelCol: {
@@ -105,14 +112,16 @@ export function UsuarioForm({
       { id },
 
       {
-        onSuccess: (response) => {
+        onSuccess: (
+          response: RouterOutputs["usuarios"]["disableUser"]
+        ) => {
           openMessage({
             content: response.message,
             type: "success",
             duration: 3,
           });
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             type: "error",
@@ -139,7 +148,9 @@ export function UsuarioForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["usuarios"]["updateUser"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -148,7 +159,7 @@ export function UsuarioForm({
           handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -178,7 +189,9 @@ export function UsuarioForm({
 
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["usuarios"]["createUser"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -187,7 +200,7 @@ export function UsuarioForm({
           handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -382,7 +395,7 @@ export function UsuarioForm({
             ]}
           >
             <Select loading={isLoadingSedes} placeholder="Huancayo">
-              {sedes?.map((sede) => (
+              {sedes?.map((sede: SedeRow) => (
                 <Select.Option key={sede.id} value={sede.id}>
                   {sede.agencia}
                 </Select.Option>
@@ -402,6 +415,11 @@ export function UsuarioForm({
           <Form.Item label="Foto del Usuario">
             <div>
               <CldUploadWidget
+                config={{
+                  cloud: {
+                    cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+                  },
+                }}
                 uploadPreset="ml_default"
                 options={{
                   folder: "exaya",
@@ -444,16 +462,17 @@ export function UsuarioForm({
 
                   autoMinimize: true,
                 }}
-                onSuccess={(result) => {
+                onSuccess={(result: CloudinaryUploadWidgetResults) => {
                   if (
                     typeof result?.info === "object" &&
+                    result.info &&
                     "secure_url" in result.info
                   ) {
-                    setSource(result.info.secure_url);
+                    setSource(result.info.secure_url as string);
                   }
                 }}
               >
-                {({ open }) => {
+                {({ open }: CldUploadWidgetPropsChildren) => {
                   function handleOnClick() {
                     setSource(undefined);
                     open();

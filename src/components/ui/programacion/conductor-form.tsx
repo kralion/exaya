@@ -2,7 +2,7 @@ import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { conductorSchema } from "@/schemas";
 import { useMessageContext } from "@/context/MessageContext";
-import { api } from "@/utils/api";
+import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
 import {
   Button,
   Form,
@@ -13,7 +13,12 @@ import {
   Space,
   Typography,
 } from "antd";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import {
+  CldImage,
+  CldUploadWidget,
+  type CloudinaryUploadWidgetResults,
+  type CldUploadWidgetPropsChildren,
+} from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
@@ -76,7 +81,9 @@ export function ConductorForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["conductores"]["updateConductor"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -88,7 +95,7 @@ export function ConductorForm({
           setSource(undefined);
           setIsModalOpen(false);
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -118,7 +125,9 @@ export function ConductorForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["conductores"]["createConductor"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -130,7 +139,7 @@ export function ConductorForm({
           setConductorDNI("");
           setSource(undefined);
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -280,6 +289,11 @@ export function ConductorForm({
           <Form.Item label="Foto del Conductor">
             <div>
               <CldUploadWidget
+                config={{
+                  cloud: {
+                    cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
+                  },
+                }}
                 uploadPreset="ml_default"
                 options={{
                   folder: "exaya",
@@ -322,16 +336,17 @@ export function ConductorForm({
 
                   autoMinimize: true,
                 }}
-                onSuccess={(result) => {
+                onSuccess={(result: CloudinaryUploadWidgetResults) => {
                   if (
                     typeof result?.info === "object" &&
+                    result.info &&
                     "secure_url" in result.info
                   ) {
-                    setSource(result.info.secure_url);
+                    setSource(result.info.secure_url as string);
                   }
                 }}
               >
-                {({ open }) => {
+                {({ open }: CldUploadWidgetPropsChildren) => {
                   function handleOnClick() {
                     setSource(undefined);
                     open();

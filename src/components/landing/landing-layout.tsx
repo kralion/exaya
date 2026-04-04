@@ -2,22 +2,12 @@ import DarkGradient from "@/assets/images/dark-gradient.png";
 import LightGradient from "@/assets/images/light-gradient.png";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
+import { Link } from "@tanstack/react-router";
 import { useSession } from "next-auth/react";
-import { Black_Ops_One, Inter } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
 import Footer from "../common/footer";
 
-const inter = Inter({
-  weight: ["800", "600", "300"],
-  subsets: ["latin-ext"],
-});
-const blackOpsOne = Black_Ops_One({
-  weight: "400",
-  subsets: ["latin"],
-});
 export const navLinks = [
   {
     label: "Boletos",
@@ -50,37 +40,36 @@ export default function LandingLayout({
   return (
     <AOSWrapper>
       <div
-        className={` ${inter.className}  overflow-x-hidden dark:bg-zinc-900 dark:text-white`}
+        className="overflow-x-hidden font-['Inter',sans-serif] dark:bg-zinc-900 dark:text-white"
       >
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
           style={{
-            backgroundImage: `url(${LightGradient.src})`,
+            backgroundImage: `url(${LightGradient})`,
             width: "100%",
           }}
         >
           <div
             className="dark:absolute dark:inset-0  dark:bg-cover dark:bg-center dark:bg-no-repeat "
             style={{
-              backgroundImage: `url(${DarkGradient.src})`,
+              backgroundImage: `url(${DarkGradient})`,
               width: "100%",
             }}
           />
         </div>
 
         <div className="top-0  z-10 flex w-full items-center justify-between bg-transparent px-4 pt-7 backdrop-blur-sm  lg:fixed lg:mb-20 lg:px-10">
-          <Link href="/">
+          <Link to="/">
             <div className=" flex items-center justify-between duration-300  hover:opacity-70 ">
-              <Image
+              <img
                 src="https://cdn-icons-png.flaticon.com/128/10351/10351661.png"
                 width={40}
                 height={40}
                 className=" drop-shadow-xl"
                 alt="logo"
-                priority
               />
               <span
-                className={` text-2xl text-zinc-900 dark:text-zinc-200  lg:text-3xl ${blackOpsOne.className}`}
+                className="font-['Black_Ops_One',sans-serif] text-2xl text-zinc-900 dark:text-zinc-200  lg:text-3xl"
               >
                 Exaya
               </span>
@@ -89,26 +78,28 @@ export default function LandingLayout({
 
           <MobileNav navLinks={navLinks} />
           <DesktopNavBar navLinks={navLinks} />
-          <Link
-            className="hidden lg:block"
-            href={session ? "/dashboard" : "/login"}
-          >
-            {session ? (
-              <button className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
+          {session ? (
+            <a
+              className="hidden lg:block"
+              href="/dashboard"
+            >
+              <span className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
                 Ir al Dashboard{" "}
                 <BsArrowRight
                   className="duration-300 group-hover:translate-x-2"
                   size={15}
                 />
-              </button>
-            ) : (
-              <button className="flex items-center gap-1 text-sm font-semibold underline active:opacity-80 dark:no-underline dark:hover:underline">
+              </span>
+            </a>
+          ) : (
+            <a className="hidden lg:block" href="/login">
+              <span className="flex items-center gap-1 text-sm font-semibold underline active:opacity-80 dark:no-underline dark:hover:underline">
                 Iniciar Sesión
-              </button>
-            )}
-          </Link>
+              </span>
+            </a>
+          )}
         </div>
-        <div className={`${inter.className} pt-10 text-center   lg:pt-36`}>
+        <div className="pt-10 text-center font-['Inter',sans-serif]   lg:pt-36">
           {children}
         </div>
         <Footer />
