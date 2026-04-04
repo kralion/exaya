@@ -3,6 +3,7 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import superjson from "superjson";
 import { useState, type ReactNode } from "react";
 
+import { AuthStateSync } from "@/utils/auth-state-sync";
 import { api } from "./api";
 
 const getBaseUrl = () => {
@@ -30,6 +31,9 @@ export function TrpcProvider({ children }: { children: ReactNode }) {
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          fetch(url, options) {
+            return fetch(url, { ...options, credentials: "include" });
+          },
         }),
       ],
     })
@@ -37,7 +41,10 @@ export function TrpcProvider({ children }: { children: ReactNode }) {
 
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthStateSync />
+        {children}
+      </QueryClientProvider>
     </api.Provider>
   );
 }

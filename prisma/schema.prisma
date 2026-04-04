@@ -134,6 +134,7 @@ enum ViajeEstado {
 }
 
 model Usuario {
+    supabaseUserId String? @unique
     username   String       @unique
     sede       Sede         @relation(fields: [sedeId], references: [id])
     sedeId     String

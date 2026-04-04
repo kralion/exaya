@@ -3,7 +3,7 @@ import LightGradient from "@/assets/images/light-gradient.png";
 import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
 import { Link } from "@tanstack/react-router";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { BsArrowRight } from "react-icons/bs";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
 import Footer from "../common/footer";

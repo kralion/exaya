@@ -6,15 +6,11 @@ import { z } from "zod";
  */
 const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
-  NEXTAUTH_SECRET:
-    process.env.NODE_ENV === "production"
-      ? z.string().min(1)
-      : z.string().min(1).optional(),
-
   DATABASE_URL: z.string().min(1),
   API_RENIEC_TOKEN: z.string().min(1),
   API_RENIEC_URL: z.string().min(1),
   CLOUDINARY_API_SECRET: z.string().min(1),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
 });
 
 /**
@@ -24,6 +20,8 @@ const client = z.object({
   VITE_APP_URL: z.string().min(1),
   VITE_CLOUDINARY_CLOUD_NAME: z.string().min(1),
   VITE_CLOUDINARY_API_KEY: z.string().min(1),
+  VITE_SUPABASE_URL: z.string().url(),
+  VITE_SUPABASE_ANON_KEY: z.string().min(1),
 });
 
 /**
@@ -33,14 +31,16 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
-  NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   DATABASE_URL: process.env.DATABASE_URL,
   API_RENIEC_TOKEN: process.env.API_RENIEC_TOKEN,
   API_RENIEC_URL: process.env.API_RENIEC_URL,
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   VITE_APP_URL: import.meta.env.VITE_APP_URL,
   VITE_CLOUDINARY_CLOUD_NAME: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
   VITE_CLOUDINARY_API_KEY: import.meta.env.VITE_CLOUDINARY_API_KEY,
+  VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+  VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
 };
 
 // Don't touch the part below

@@ -6,7 +6,7 @@ import type { ColumnsType } from "antd/es/table";
 import { useMessageContext } from "@/context/MessageContext";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import type { AnyObject } from "antd/es/_util/type";
 
 const { Title } = Typography;

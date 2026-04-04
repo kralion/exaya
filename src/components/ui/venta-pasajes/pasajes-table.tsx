@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { Button, Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { type Dayjs } from "dayjs";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { IoFilterSharp } from "react-icons/io5";
 import { TbBus } from "react-icons/tb";
 import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";

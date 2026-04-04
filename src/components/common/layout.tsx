@@ -3,8 +3,8 @@ import { SelectedContext } from "@/context/MenuContext";
 import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
 import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
+import { useSignOut, useSession } from "@/hooks/use-session";
 import { useNavigate } from "@tanstack/react-router";
-import { signOut, useSession } from "next-auth/react";
 import React, { useContext } from "react";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 import { AccountingIcon } from "../ui/icons/accounting-icons";
@@ -57,11 +57,12 @@ export default function AppLayout({ children }: LayoutProps) {
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
   const navigate = useNavigate();
   const { data: session } = useSession();
+  const signOut = useSignOut();
   const { data } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
   });
-  const handleSignOut = async () => {
-    await signOut({ redirect: true, callbackUrl: "/" });
+  const handleSignOut = () => {
+    void signOut();
   };
   const {
     token: { colorBgContainer },

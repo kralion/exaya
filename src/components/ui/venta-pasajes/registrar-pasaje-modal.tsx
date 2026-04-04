@@ -15,7 +15,7 @@ import {
   Steps,
   Typography,
 } from "antd";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { Concert_One } from "next/font/google";
 import React, { useEffect, useRef, useState } from "react";
 import { FaSquare } from "react-icons/fa";

@@ -1,3 +1,4 @@
+import { SupabaseAuthProvider } from "@/contexts/SupabaseAuthContext";
 import { MenuProvider } from "@/contexts/MenuContext";
 import { MessageProvider } from "@/contexts/MessageContext";
 import Notification from "@/contexts/notification";
@@ -42,15 +43,17 @@ function RootLayout({ children }: { children: ReactNode }) {
           algorithm: theming === "dark" ? darkAlgorithm : defaultAlgorithm,
         }}
       >
-        <TrpcProvider>
-          <MenuProvider>
-            <MessageProvider>
-              <Notification />
-              <ThemeToggle setTheme={setTheming} />
-              {children}
-            </MessageProvider>
-          </MenuProvider>
-        </TrpcProvider>
+        <SupabaseAuthProvider>
+          <TrpcProvider>
+            <MenuProvider>
+              <MessageProvider>
+                <Notification />
+                <ThemeToggle setTheme={setTheming} />
+                {children}
+              </MessageProvider>
+            </MenuProvider>
+          </TrpcProvider>
+        </SupabaseAuthProvider>
       </ConfigProvider>
       <Scripts />
     </>
