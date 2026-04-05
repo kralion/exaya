@@ -1,13 +1,9 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
-import {
-  CldImage,
-  CldUploadWidget,
-  type CloudinaryUploadWidgetResults,
-  type CldUploadWidgetPropsChildren,
-} from "next-cloudinary";
-import { Button, Form, Input, Modal, Space, Typography } from "antd";
+import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
+import type { UploadProps } from "antd";
 import { useState } from "react";
+import { uploadFileToCloudinary } from "@/utils/cloudinary";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { TbLicense } from "react-icons/tb";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -25,6 +21,7 @@ export function BusForm({ activator }: Props) {
   const { openMessage } = useMessageContext();
   const utils = api.useUtils();
   const [source, setSource] = useState<string | undefined>();
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const { mutate: createBusMutation, isLoading } =
     api.buses.createBus.useMutation();
   const handleCancel = () => {
@@ -63,6 +60,25 @@ export function BusForm({ activator }: Props) {
       }
     );
   }
+
+  const handleBeforeUpload: UploadProps["beforeUpload"] = async (file) => {
+    try {
+      setUploadingPhoto(true);
+      const url = await uploadFileToCloudinary(file);
+      setSource(url);
+    } catch (error) {
+      console.error(error);
+      openMessage({
+        content:
+          error instanceof Error ? error.message : "Error al subir la imagen",
+        type: "error",
+        duration: 3,
+      });
+    } finally {
+      setUploadingPhoto(false);
+    }
+    return false;
+  };
 
   return (
     <>
@@ -143,89 +159,27 @@ export function BusForm({ activator }: Props) {
           </Form.Item>
           <Form.Item label="Foto del Bus">
             <div>
-              <CldUploadWidget
-                config={{
-                  cloud: {
-                    cloudName: import.meta.env.VITE_CLOUDINARY_CLOUD_NAME,
-                  },
-                }}
-                uploadPreset="ml_default"
-                options={{
-                  folder: "exaya",
-                  maxImageFileSize: 5000000,
-                  sources: ["local", "url", "camera"],
-                  language: "es",
-                  text: {
-                    es: {
-                      or: "o",
-                      menu: {
-                        files: "Mis Archivos",
-                        web: "Desde una URL",
-                        camera: "Cámara",
-                      },
-                      selection_counter: {
-                        selected: "Seleccionado",
-                      },
-                      queue: {
-                        mini_title_processing: "Procesando...",
-                        mini_upload_count: "{{num}} archivo(s) subido(s)",
-                        done: "Listo",
-                        statuses: {
-                          uploading: "Subiendo...",
-                          error: "Error",
-                          timeout: "Tiempo de espera agotado",
-                          uploaded: "Subido",
-                          aborted: "Abortado",
-                          processing: "Procesando...",
-                        },
-                      },
-                      local: {
-                        browse: "Buscar",
-                        dd_title_single: "Arrastra y suelta un archivo aquí",
-                        dd_title_multi: "Arrastra y suelta archivos aquí",
-                        drop_title_single: "Arrastra y suelta un archivo aquí",
-                        drop_title_multiple: "Arrastra y suelta archivos aquí",
-                      },
-                    },
-                  },
-
-                  autoMinimize: true,
-                }}
-                onSuccess={(result: CloudinaryUploadWidgetResults) => {
-                  if (
-                    typeof result?.info === "object" &&
-                    result.info &&
-                    "secure_url" in result.info
-                  ) {
-                    setSource(result.info.secure_url as string);
-                  }
-                }}
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={handleBeforeUpload}
               >
-                {({ open }: CldUploadWidgetPropsChildren) => {
-                  function handleOnClick() {
-                    setSource(undefined);
-                    open();
-                  }
-                  return (
-                    <Button
-                      disabled={source !== undefined}
-                      onClick={handleOnClick}
-                    >
-                      Cargar Imagen
-                    </Button>
-                  );
-                }}
-              </CldUploadWidget>
-              {source && (
-                <CldImage
-                  width="100"
-                  className="border-rounded mt-2 rounded-lg border border-dashed"
-                  height="100"
+                <Button
+                  disabled={source !== undefined}
+                  loading={uploadingPhoto}
+                >
+                  Cargar Imagen
+                </Button>
+              </Upload>
+              {source ? (
+                <img
+                  width={100}
+                  height={100}
                   src={source}
-                  sizes="50vw"
                   alt="Imagen"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                 />
-              )}
+              ) : null}
             </div>
           </Form.Item>
           <Space className="mt-10 flex justify-end">

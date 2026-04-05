@@ -2,7 +2,7 @@
 
 This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **Pages Router**) to **TanStack Start**. Historical context: tRPC v10, Prisma 6, Ant Design + Tailwind. Next.js data APIs (`getServerSideProps` / `getStaticProps`) were not used.
 
-> **Status:** Phase 0–1b, **Phase 2 (auth)**, **Phase 3 (tRPC on Start)**, **Phase 4 (route migration)**, and **Phase 5 (Next-import cleanup in `src/`)** are **done**. Optional: replace **`next-cloudinary`** (Phase 5). **Last updated: 2026-04-04.**
+> **Status:** Phase 0–1b, **Phase 2 (auth)**, **Phase 3 (tRPC on Start)**, **Phase 4 (route migration)**, and **Phase 5 (Next-import cleanup + Cloudinary without `next-cloudinary`)** are **done**. **Last updated: 2026-04-05.**
 
 ---
 
@@ -20,6 +20,7 @@ This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **
 | UI globals      | `src/routes/__root.tsx`: `SupabaseAuthProvider`, `ConfigProvider`, **`TrpcProvider`**, `MenuProvider`, `MessageProvider`, `Notification`, `ThemeToggle` |
 | Styles          | Tailwind v3 + PostCSS                                                                                                                           |
 | Package manager | Bun                                                                                                                                             |
+| Cloudinary      | Client upload via **`src/utils/cloudinary.ts`** (unsigned REST upload) + Ant Design **`Upload`**; preset **`ml_default`**, folder **`exaya`**; env **`VITE_CLOUDINARY_CLOUD_NAME`**. |
 
 ---
 
@@ -58,7 +59,7 @@ This document describes migrating **Exaya** from the **T3 Stack** (Next.js 14 **
 | Auth                | NextAuth + `req`/`res`                          | Supabase session cookies + **`Request`**-scoped server client                                     |
 | tRPC client         | `@trpc/next` (`createTRPCNext`)                 | **`createTRPCReact`** (`@trpc/react-query`) + `httpBatchLink` — **done** (`src/utils/api.ts`)       |
 | tRPC server         | `createNextApiHandler`                          | **`fetchRequestHandler`** — **done** (`src/routes/api/trpc.tsx`)                                  |
-| Images / Cloudinary | `next/image`, `next-cloudinary`                 | **`next-cloudinary` kept** for `CldImage` / `CldUploadWidget`; plain `<img>` / `<a>` where needed |
+| Images / Cloudinary | `next/image`, `next-cloudinary`                 | **`src/utils/cloudinary.ts`** + Ant **`Upload`** + `<img>` previews; **`next-cloudinary`** removed |
 
 ---
 
@@ -122,8 +123,8 @@ Follow-up work so **`tsc --noEmit`** passes and the app matches TanStack Router 
 | **Static assets** | PNG imports typed as **`string`** in `vite-env.d.ts`; backgrounds use `url(${import})` without Next’s **`.src`**. |
 | **Landing layout** | Prefer TanStack **`Link`** where routes exist; **`<a href>`** for routes not yet in the route tree. |
 | **App shell layout** | **`useNavigate`** from `@tanstack/react-router` instead of `next/navigation`. |
-| **Cloudinary (next-cloudinary v6)** | **`CldUploadWidget`**: **`config={{ cloud: { cloudName: VITE_... } }}`**. |
-| **Dependencies added** | `@tanstack/react-query@4.36.1` (tRPC v10 peer), `aos`, `next-cloudinary`, `react-audio-voice-recorder`, `@supabase/supabase-js`, `@supabase/ssr`, `cookie`. |
+| **Cloudinary (Phase 1b)** | Initially **`next-cloudinary`** / widget; **superseded** — see **Phase 5** and **`src/utils/cloudinary.ts`**. |
+| **Dependencies added** | `@tanstack/react-query@4.36.1` (tRPC v10 peer), `aos`, `react-audio-voice-recorder`, `@supabase/supabase-js`, `@supabase/ssr`, `cookie`. |
 
 **Exit:** `bunx tsc --noEmit` succeeds; dev/build per project scripts.
 
@@ -152,7 +153,9 @@ Follow-up work so **`tsc --noEmit`** passes and the app matches TanStack Router 
 
 - [x] Replace **`next/head`**-style usage with Router **`head`** + **`HeadContent`** (root).
 - [x] Replace **`next/link`**, **`next/image`**, **`next/font`** across `src/` (completed with Phase 4 route work + **`AppHead`** update).
-- [ ] Optionally replace **`next-cloudinary`** with a non-Next package if bundle/runtime issues appear (currently still **`next-cloudinary`** with Vite).
+- [x] Remove **`next-cloudinary`**: client uploads via **`src/utils/cloudinary.ts`** (Cloudinary **`/v1_1/{cloud_name}/image/upload`**, unsigned **`FormData`**) and Ant Design **`Upload`** on **`bus-form`**, **`conductor-form`**, **`usuario-form`**; previews use plain **`<img>`**.
+
+**Cloudinary dashboard (deploy / env checklist):** Create or keep an **unsigned** upload preset named **`ml_default`** whose settings allow uploads into the **`exaya`** folder (the app sends **`upload_preset=ml_default`** and **`folder=exaya`**). Without this, uploads fail at runtime. **`VITE_CLOUDINARY_CLOUD_NAME`** must match the cloud; max image size **5 MB** is enforced in **`uploadFileToCloudinary`**.
 
 ### Phase 6 — Prisma, tests, lint
 
@@ -180,7 +183,7 @@ Prisma is **not** tied to Next.js. On TanStack Start, keep **`PrismaClient` serv
 | ---- | ---------- |
 | Supabase + Prisma drift | Link users on first login; admin mutations set **`supabaseUserId`**. |
 | Ant Design + SSR/hydration | Test root layout and `window`-only code on Start. |
-| Cloudinary + `next/image` inside **next-cloudinary** | Regression-test uploads; consider migrating off if Vite/SSR issues appear. |
+| Cloudinary unsigned preset misconfigured | Confirm preset **`ml_default`** + folder **`exaya`** in the Cloudinary console; test uploads from **`administracion`** / **`programacion`** forms after deploy. |
 | Typed `Link` only knows registered routes | Use `<a href>` for not-yet-migrated paths or add stub routes. |
 
 ---
@@ -221,6 +224,7 @@ Prisma is **not** tied to Next.js. On TanStack Start, keep **`PrismaClient` serv
 | tRPC + React Query provider | `src/utils/trpc-provider.tsx` |
 | Auth state → tRPC invalidation | `src/utils/auth-state-sync.tsx` |
 | AOS wrapper | `src/utils/AOS.tsx` |
+| Cloudinary client upload | `src/utils/cloudinary.ts` |
 | Global styles | `src/styles/globals.css` |
 | Vite env / module declarations | `src/vite-env.d.ts` |
 | tRPC context & procedures | `src/server/api/trpc.ts` |
@@ -246,4 +250,4 @@ Also: `DATABASE_URL`, Reniec, Cloudinary, `VITE_APP_URL`, etc. — see **`src/en
 
 ---
 
-_Last updated: 2026-04-04 — Phases 0–1b ✅, Phase 2 (Supabase Auth) ✅, Phase 3 (tRPC fetch + context) ✅._
+_Last updated: 2026-04-05 — Phases 0–1b ✅, Phase 2 (Supabase Auth) ✅, Phase 3 (tRPC fetch + context) ✅, Phase 5 Cloudinary (`ml_default` / `exaya`) ✅._
