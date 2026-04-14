@@ -1,6 +1,6 @@
 import { CollapsedContext } from "@/context/MenuContext";
 import { Avatar, Space, Tag, Typography } from "antd";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { useContext } from "react";
 import UserSkeleton from "../skeletons/user-info-skeleton";
 const { Text } = Typography;

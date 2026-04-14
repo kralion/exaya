@@ -1,3 +1,4 @@
+export { authRouter } from "./auth";
 export { boletosRouter } from "./boletos";
 export { clientesRouter } from "./clientes";
 export { viajesRouter } from "./viajes";

@@ -1,12 +1,11 @@
 import AppHeader from "@/components/common/appheader";
 import { SelectedContext } from "@/context/MenuContext";
-import { MessageProvider } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import type { MenuProps } from "antd";
 import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import { useSignOut, useSession } from "@/hooks/use-session";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
+import React, { useContext, useEffect } from "react";
 import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
 import { AccountingIcon } from "../ui/icons/accounting-icons";
 import { ChartIcon } from "../ui/icons/chart-icon";
@@ -56,20 +55,32 @@ const items: MenuItem[] = [
 
 export default function AppLayout({ children }: LayoutProps) {
   const { selectedKey, setSelectedKey } = useContext(SelectedContext);
-  const router = useRouter();
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { data: session } = useSession();
+
+  useEffect(() => {
+    if (pathname.startsWith("/viaje/")) {
+      setSelectedKey("pasajes");
+      return;
+    }
+    const seg = pathname.replace(/^\//, "");
+    if (seg) {
+      setSelectedKey(seg);
+    }
+  }, [pathname, setSelectedKey]);
+  const signOut = useSignOut();
   const { data } = api.sedes.getSedeById.useQuery({
     id: session?.user.sedeId ?? "",
   });
-  const handleSignOut = async () => {
-    await signOut({ redirect: true, callbackUrl: "/" });
+  const handleSignOut = () => {
+    void signOut();
   };
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   return (
-    <MessageProvider>
       <Layout className="h-100dvh lg:min-h-screen lg:p-4">
         <Sider
           className=" z-2  h-fit rounded-xl border-transparent border-opacity-50 shadow-xl dark:border-zinc-800    lg:border-2"
@@ -93,8 +104,8 @@ export default function AppLayout({ children }: LayoutProps) {
                   )
             }
             onSelect={(item) => {
-              setSelectedKey(item.key);
-              router.push(`/${item.key}`);
+              setSelectedKey(String(item.key));
+              void navigate({ to: `/${String(item.key)}` });
             }}
           />
           <div className=" px-2 pb-2">
@@ -147,6 +158,5 @@ export default function AppLayout({ children }: LayoutProps) {
           </Footer>
         </Layout>
       </Layout>
-    </MessageProvider>
   );
 }

@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function DevicesVersionSteps() {
   return (
     <div data-aos="zoom-in ">
@@ -68,7 +66,7 @@ export default function DevicesVersionSteps() {
             data-aos-duration="200"
             className="flex items-center justify-center rounded-lg bg-white p-2 shadow-md "
           >
-            <Image
+            <img
               src="https://logowik.com/content/uploads/images/iso-27001-information-security5133.logowik.com.webp"
               alt="Certification 1"
               width={70}
@@ -82,7 +80,7 @@ export default function DevicesVersionSteps() {
             data-aos-duration="200"
             className="flex items-center justify-center rounded-lg bg-white p-4 shadow-md"
           >
-            <Image
+            <img
               src="https://logodix.com/logo/2033050.png"
               alt="Certification 1"
               width={60}
@@ -96,7 +94,7 @@ export default function DevicesVersionSteps() {
             data-aos-duration="200"
             className="flex items-center justify-center rounded-lg bg-white p-4 shadow-md"
           >
-            <Image
+            <img
               src="https://logowik.com/content/uploads/images/aicpa-soc-2-type-ii-certified2471.jpg"
               alt="Certification 1"
               width={60}
@@ -109,7 +107,7 @@ export default function DevicesVersionSteps() {
             data-aos-duration="200"
             className="flex items-center justify-center rounded-lg bg-white p-4 shadow-md"
           >
-            <Image
+            <img
               src="https://cdn.worldvectorlogo.com/logos/iso-9001-certified.svg"
               alt="Certification 1"
               width={60}
@@ -123,7 +121,7 @@ export default function DevicesVersionSteps() {
             data-aos-duration="200"
             className="flex items-center justify-center rounded-lg bg-white p-4 shadow-md"
           >
-            <Image
+            <img
               src="https://logodix.com/logo/1673521.png"
               alt="Certification 1"
               width={60}

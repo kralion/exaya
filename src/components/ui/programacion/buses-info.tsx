@@ -1,4 +1,6 @@
-import { api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
+
+type BusRow = RouterOutputs["buses"]["getAllBuses"][number];
 import { Card, Image, Space, Tag } from "antd";
 
 const { Meta } = Card;
@@ -7,7 +9,7 @@ export function BusesInformacion() {
   const { data: buses, isLoading } = api.buses.getAllBuses.useQuery();
   return (
     <Space className="grid grid-flow-row grid-cols-2 gap-4">
-      {buses?.map((bus) => (
+      {buses?.map((bus: BusRow) => (
         <Card
           className=" shadow-lg dark:hover:bg-black/50"
           loading={isLoading}

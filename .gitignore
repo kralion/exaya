@@ -19,6 +19,8 @@ next-env.d.ts
 
 # production
 /build
+.output/
+.eslintcache
 
 # misc
 .DS_Store

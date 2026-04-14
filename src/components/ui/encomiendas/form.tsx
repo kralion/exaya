@@ -12,7 +12,7 @@ import { useMessageContext } from "@/context/MessageContext";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { encomiendaSchema } from "@/schemas";
 import dayjs, { type Dayjs } from "dayjs";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/hooks/use-session";
 import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";

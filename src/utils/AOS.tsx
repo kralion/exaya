@@ -1,24 +1,10 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
-import React from "react";
+import { useEffect, type ReactNode } from "react";
 
-type ChildrenP = {
-  children: React.ReactNode;
-};
-
-function AOSWrapper({ children }: ChildrenP) {
-  React.useEffect(() => {
-    AOS.init({
-      duration: 2000,
-    });
-
-    // window.addEventListener("scroll", AOS.refresh())
-    return () => {
-      // window.removeEventListener("scroll", AOS.refresh());
-    };
+export default function AOSWrapper({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    AOS.init({ duration: 800, once: true });
   }, []);
-
-  return <>{children}</>;
+  return children;
 }
-
-export default AOSWrapper;

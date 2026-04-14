@@ -1,5 +1,5 @@
 import { useMessageContext } from "@/context/MessageContext";
-import { api } from "@/utils/api";
+import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
 import {
   Button,
   Form,
@@ -9,10 +9,12 @@ import {
   Space,
   Switch,
   Typography,
+  Upload,
 } from "antd";
 import type { CascaderProps } from "antd/lib/cascader";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import type { UploadProps } from "antd";
 import { useEffect, useState } from "react";
+import { uploadFileToCloudinary } from "@/utils/cloudinary";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsPassport, BsTelephone } from "react-icons/bs";
 import { HiOutlineUpload } from "react-icons/hi";
@@ -50,6 +52,8 @@ const rolesSistema: CascaderProps<RolNodeType>["options"] = [
   },
 ];
 
+type SedeRow = RouterOutputs["sedes"]["getAllSedes"][number];
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -70,6 +74,7 @@ export function UsuarioForm({
   const { openMessage } = useMessageContext();
   const [usuarioDni, setUsuarioDni] = useState<string>("");
   const [source, setSource] = useState<string | undefined>();
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [form] = Form.useForm();
   const { data: reniecResponse, error: errorValidacionDNI } =
     api.clientes.validateDni.useQuery(
@@ -105,14 +110,16 @@ export function UsuarioForm({
       { id },
 
       {
-        onSuccess: (response) => {
+        onSuccess: (
+          response: RouterOutputs["usuarios"]["disableUser"]
+        ) => {
           openMessage({
             content: response.message,
             type: "success",
             duration: 3,
           });
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             type: "error",
@@ -139,7 +146,9 @@ export function UsuarioForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["usuarios"]["updateUser"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -148,7 +157,7 @@ export function UsuarioForm({
           handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -178,7 +187,9 @@ export function UsuarioForm({
 
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["usuarios"]["createUser"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -187,7 +198,7 @@ export function UsuarioForm({
           handleCancel();
           await utils.usuarios.getAllUsuarios.invalidate();
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -222,6 +233,25 @@ export function UsuarioForm({
       setUsuarioDni(usuarioSingle.response.usuarioDni);
     }
   }, [usuarioSingle, usuarioIdToEdit, form]);
+
+  const handleBeforeUpload: UploadProps["beforeUpload"] = async (file) => {
+    try {
+      setUploadingPhoto(true);
+      const url = await uploadFileToCloudinary(file);
+      setSource(url);
+    } catch (error) {
+      console.error(error);
+      openMessage({
+        content:
+          error instanceof Error ? error.message : "Error al subir la imagen",
+        type: "error",
+        duration: 3,
+      });
+    } finally {
+      setUploadingPhoto(false);
+    }
+    return false;
+  };
 
   return (
     <>
@@ -382,7 +412,7 @@ export function UsuarioForm({
             ]}
           >
             <Select loading={isLoadingSedes} placeholder="Huancayo">
-              {sedes?.map((sede) => (
+              {sedes?.map((sede: SedeRow) => (
                 <Select.Option key={sede.id} value={sede.id}>
                   {sede.agencia}
                 </Select.Option>
@@ -401,84 +431,24 @@ export function UsuarioForm({
           </Form.Item>
           <Form.Item label="Foto del Usuario">
             <div>
-              <CldUploadWidget
-                uploadPreset="ml_default"
-                options={{
-                  folder: "exaya",
-                  maxImageFileSize: 5000000,
-                  sources: ["local", "url", "camera"],
-                  language: "es",
-                  text: {
-                    es: {
-                      or: "o",
-                      menu: {
-                        files: "Mis Archivos",
-                        web: "Desde una URL",
-                        camera: "Cámara",
-                      },
-                      selection_counter: {
-                        selected: "Seleccionado",
-                      },
-                      queue: {
-                        done: "Listo",
-                        mini_upload_count: "{{num}} archivo(s) subido(s)",
-                        mini_title_processing: "Procesando...",
-                        statuses: {
-                          uploading: "Subiendo...",
-                          error: "Error",
-                          timeout: "Tiempo de espera agotado",
-                          uploaded: "Subido",
-                          aborted: "Abortado",
-                          processing: "Procesando...",
-                        },
-                      },
-                      local: {
-                        browse: "Buscar",
-                        dd_title_single: "Arrastra y suelta un archivo aquí",
-                        dd_title_multi: "Arrastra y suelta archivos aquí",
-                        drop_title_single: "Arrastra y suelta un archivo aquí",
-                        drop_title_multiple: "Arrastra y suelta archivos aquí",
-                      },
-                    },
-                  },
-
-                  autoMinimize: true,
-                }}
-                onSuccess={(result) => {
-                  if (
-                    typeof result?.info === "object" &&
-                    "secure_url" in result.info
-                  ) {
-                    setSource(result.info.secure_url);
-                  }
-                }}
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={handleBeforeUpload}
               >
-                {({ open }) => {
-                  function handleOnClick() {
-                    setSource(undefined);
-                    open();
-                  }
-                  return (
-                    <Button
-                      icon={<HiOutlineUpload />}
-                      // disabled={source !== undefined}
-                      onClick={handleOnClick}
-                    >
-                      Cargar Imagen
-                    </Button>
-                  );
-                }}
-              </CldUploadWidget>
-              {source && (
-                <CldImage
-                  width="100"
-                  className="border-rounded mt-2 rounded-lg border border-dashed"
-                  height="100"
+                <Button icon={<HiOutlineUpload />} loading={uploadingPhoto}>
+                  Cargar Imagen
+                </Button>
+              </Upload>
+              {source ? (
+                <img
+                  width={100}
+                  height={100}
                   src={source}
-                  sizes="50vw"
                   alt="Imagen"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                 />
-              )}
+              ) : null}
             </div>
           </Form.Item>
 

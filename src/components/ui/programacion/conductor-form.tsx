@@ -2,7 +2,7 @@ import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { conductorSchema } from "@/schemas";
 import { useMessageContext } from "@/context/MessageContext";
-import { api } from "@/utils/api";
+import { api, type AppTRPCClientError, type RouterOutputs } from "@/utils/api";
 import {
   Button,
   Form,
@@ -12,9 +12,11 @@ import {
   Select,
   Space,
   Typography,
+  Upload,
 } from "antd";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
+import type { UploadProps } from "antd";
 import { useEffect, useState } from "react";
+import { uploadFileToCloudinary } from "@/utils/cloudinary";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTelephone } from "react-icons/bs";
 
@@ -32,6 +34,7 @@ export function ConductorForm({
   isModalOpen,
 }: Props) {
   const [source, setSource] = useState<string | undefined>();
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const { openMessage } = useMessageContext();
   const utils = api.useUtils();
   const handleCancel = () => {
@@ -76,7 +79,9 @@ export function ConductorForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["conductores"]["updateConductor"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -88,7 +93,7 @@ export function ConductorForm({
           setSource(undefined);
           setIsModalOpen(false);
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -118,7 +123,9 @@ export function ConductorForm({
       },
       {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSuccess: async (response) => {
+        onSuccess: async (
+          response: RouterOutputs["conductores"]["createConductor"]
+        ) => {
           openMessage({
             content: response.message,
             duration: 3,
@@ -130,7 +137,7 @@ export function ConductorForm({
           setConductorDNI("");
           setSource(undefined);
         },
-        onError: (error) => {
+        onError: (error: AppTRPCClientError) => {
           openMessage({
             content: error.message,
             duration: 3,
@@ -158,10 +165,29 @@ export function ConductorForm({
         claseLicencia: conductorSingle?.response?.claseLicencia,
         nivel: conductorSingle?.response?.claseLicencia,
         disponibilidad: conductorSingle?.response?.disponibilidad,
-        foto: setSource(conductorSingle?.response?.foto as string),
       });
+      setSource(conductorSingle.response?.foto ?? undefined);
     }
   }, [form, conductorIdToEdit, conductorSingle]);
+
+  const handleBeforeUpload: UploadProps["beforeUpload"] = async (file) => {
+    try {
+      setUploadingPhoto(true);
+      const url = await uploadFileToCloudinary(file);
+      setSource(url);
+    } catch (error) {
+      console.error(error);
+      openMessage({
+        content:
+          error instanceof Error ? error.message : "Error al subir la imagen",
+        type: "error",
+        duration: 3,
+      });
+    } finally {
+      setUploadingPhoto(false);
+    }
+    return false;
+  };
 
   return (
     <>
@@ -279,83 +305,27 @@ export function ConductorForm({
 
           <Form.Item label="Foto del Conductor">
             <div>
-              <CldUploadWidget
-                uploadPreset="ml_default"
-                options={{
-                  folder: "exaya",
-                  maxImageFileSize: 5000000,
-                  sources: ["local", "url", "camera"],
-                  language: "es",
-                  text: {
-                    es: {
-                      or: "o",
-                      menu: {
-                        files: "Mis Archivos",
-                        web: "Desde una URL",
-                        camera: "Cámara",
-                      },
-                      selection_counter: {
-                        selected: "Seleccionado",
-                      },
-                      queue: {
-                        done: "Listo",
-                        mini_title_processing: "Procesando...",
-                        mini_upload_count: "{{num}} archivo(s) subido(s)",
-                        statuses: {
-                          uploading: "Subiendo...",
-                          error: "Error",
-                          timeout: "Tiempo de espera agotado",
-                          uploaded: "Subido",
-                          aborted: "Abortado",
-                          processing: "Procesando...",
-                        },
-                      },
-                      local: {
-                        browse: "Buscar",
-                        dd_title_single: "Arrastra y suelta un archivo aquí",
-                        dd_title_multi: "Arrastra y suelta archivos aquí",
-                        drop_title_single: "Arrastra y suelta un archivo aquí",
-                        drop_title_multiple: "Arrastra y suelta archivos aquí",
-                      },
-                    },
-                  },
-
-                  autoMinimize: true,
-                }}
-                onSuccess={(result) => {
-                  if (
-                    typeof result?.info === "object" &&
-                    "secure_url" in result.info
-                  ) {
-                    setSource(result.info.secure_url);
-                  }
-                }}
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={handleBeforeUpload}
               >
-                {({ open }) => {
-                  function handleOnClick() {
-                    setSource(undefined);
-                    open();
-                  }
-                  return (
-                    <Button
-                      disabled={source !== undefined}
-                      onClick={handleOnClick}
-                    >
-                      Cargar Imagen
-                    </Button>
-                  );
-                }}
-              </CldUploadWidget>
-              {source && (
-                <CldImage
-                  width="100"
-                  className="border-rounded mt-2 rounded-lg border border-dashed"
-                  height="100"
+                <Button
+                  disabled={source !== undefined}
+                  loading={uploadingPhoto}
+                >
+                  Cargar Imagen
+                </Button>
+              </Upload>
+              {source ? (
+                <img
+                  width={100}
+                  height={100}
                   src={source}
-                  sizes="50vw"
                   alt="Imagen"
+                  className="border-rounded mt-2 rounded-lg border border-dashed"
                 />
-              )}
+              ) : null}
             </div>
           </Form.Item>
 

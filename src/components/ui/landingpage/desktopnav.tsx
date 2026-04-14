@@ -1,5 +1,4 @@
-"use client";
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 
 type NavigationProps = {
@@ -36,7 +35,7 @@ export default function DesktopNavBar({ navLinks }: NavigationProps) {
               setBubbleStyle({});
             }}
             className="z-10 flex items-center justify-center rounded-full p-2 text-xs   text-white duration-300   active:opacity-70"
-            href={link.href}
+            to={link.href}
             key={index}
           >
             {link.label}
