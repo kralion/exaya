@@ -1,4 +1,4 @@
-import { Twitter, Github } from "lucide-react";
+import { GlobeIcon } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -32,7 +32,7 @@ export default function Footer() {
             target="_blank"
             className="cursor-pointer hover:opacity-60"
           >
-            <Twitter width={30} height={30} />
+            <GlobeIcon width={30} height={30} />
           </a>
           <a
             href="https://github.com/kralion"
@@ -40,7 +40,7 @@ export default function Footer() {
             target="_blank"
             className="cursor-pointer hover:opacity-60"
           >
-            <Github width={30} height={30} />
+            <GlobeIcon width={30} height={30} />
           </a>
         </span>
       </div>
