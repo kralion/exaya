@@ -25,7 +25,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
     documentTitle: `Boleto de Encomienda - Remitente ${
       encomienda?.response?.remitenteDni ?? ""
     }`,
-    content: () => ref.current,
+    contentRef: ref,
     pageStyle: "@media print { .page-break { page-break-before: always; } }",
   });
 
