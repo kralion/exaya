@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Alert,
-  Card,
-  Progress,
-  Skeleton,
-  Space,
-  Typography,
-} from "antd";
-import { RxOpenInNewWindow } from "react-icons/rx";
+import { Alert, Card, Progress, Skeleton, Space, Typography } from "antd";
+import { ExternalLink } from "lucide-react";
 const { Title, Text } = Typography;
 import { Link } from "@tanstack/react-router";
 import ControlPanePieChart from "./piechart";
@@ -49,7 +42,7 @@ export const ProgressesCard = ({ viajesDiarios, isLoading }: Props) => {
           <Title level={4} className="pt-2 group-hover:opacity-70 ">
             Índice de Progreso
           </Title>
-          <RxOpenInNewWindow
+          <ExternalLink
             className="text-black group-hover:opacity-70 dark:text-white"
             title="Ver más"
           />

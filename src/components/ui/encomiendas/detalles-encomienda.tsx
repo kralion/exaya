@@ -3,7 +3,7 @@ import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Modal, Popconfirm, Tag } from "antd";
 import { useRef, useState } from "react";
-import { FaInfo } from "react-icons/fa6";
+import { Info } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 
 type Props = {
@@ -19,7 +19,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
   const { data: encomienda } = api.encomiendas.getEncomiendaById.useQuery({
     id,
   });
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef(null);
 
   const handlePrint = useReactToPrint({
     documentTitle: `Boleto de Encomienda - Remitente ${
@@ -58,7 +58,7 @@ export default function EncomiendaDetails({ id, modalActivator }: Props) {
 
   return (
     <>
-      <Button icon={<FaInfo />} title={modalActivator} onClick={showModal} />
+      <Button icon={<Info />} title={modalActivator} onClick={showModal} />
       <Modal
         width={600}
         title={

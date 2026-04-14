@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Typography } from "antd";
 import { Link } from "@tanstack/react-router";
-import { RxOpenInNewWindow } from "react-icons/rx";
+import { ExternalLink } from "lucide-react";
 const { Title } = Typography;
 type Card = {
   cardTitle: string;
@@ -30,7 +30,7 @@ export const ControlPaneCard = ({
           <Title level={4} className="pt-2 group-hover:opacity-70 ">
             {cardTitle}
           </Title>
-          <RxOpenInNewWindow
+          <ExternalLink
             className="text-black group-hover:opacity-70 dark:text-white"
             title="Ver más"
           />

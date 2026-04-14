@@ -1,6 +1,6 @@
 import { Modal, Typography } from "antd";
 import React, { useState } from "react";
-import { BsWhatsapp } from "react-icons/bs";
+import { MessageCircle } from "lucide-react";
 
 export function PricingModal({ trigger }: { trigger: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -37,7 +37,7 @@ export function PricingModal({ trigger }: { trigger: React.ReactNode }) {
               data-aos-duration="500"
               className="flex items-center gap-2 rounded-full bg-green-500 px-4 py-1 text-white hover:text-white hover:opacity-80"
             >
-              <BsWhatsapp size={15} /> Negociar
+              <MessageCircle size={15} /> Negociar
             </button>
           </a>
         )}

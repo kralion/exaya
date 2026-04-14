@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { Button, Divider, Modal, Space, Tag, Typography } from "antd";
 import { useState } from "react";
-import { PiWarningCircleBold } from "react-icons/pi";
+import { AlertTriangle } from "lucide-react";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -27,7 +27,7 @@ export default function ConductorModal({
   const showDeleteConfirm = (id: string) => {
     confirm({
       title: "Estas segur@ de eliminar a este conductor ?",
-      icon: <PiWarningCircleBold size={30} className="mr-4" color="red" />,
+      icon: <AlertTriangle size={30} className="mr-4" color="red" />,
       content: "Todos los datos serán eliminados",
       okText: "Sí",
       okType: "danger",

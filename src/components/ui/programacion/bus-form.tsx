@@ -4,8 +4,7 @@ import { Button, Form, Input, Modal, Space, Typography, Upload } from "antd";
 import type { UploadProps } from "antd";
 import { useState } from "react";
 import { uploadFileToCloudinary } from "@/utils/cloudinary";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { TbLicense } from "react-icons/tb";
+import { PlusCircle, CreditCard } from "lucide-react";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { busSchema } from "@/schemas";
 import type { z } from "zod";
@@ -20,7 +19,7 @@ export function BusForm({ activator }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { openMessage } = useMessageContext();
   const utils = api.useUtils();
-  const [source, setSource] = useState<string | undefined>();
+  const [source, setSource] = useState();
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const { mutate: createBusMutation, isLoading } =
     api.buses.createBus.useMutation();
@@ -30,7 +29,7 @@ export function BusForm({ activator }: Props) {
     setSource(undefined);
   };
 
-  function onFinish(values: z.infer<typeof busSchema>) {
+  function onFinish(values: z.infer) {
     createBusMutation(
       {
         ...values,
@@ -83,7 +82,7 @@ export function BusForm({ activator }: Props) {
   return (
     <>
       <Button
-        icon={<AiOutlinePlusCircle size={15} />}
+        icon={<PlusCircle size={15} />}
         type="primary"
         loading={isLoading}
         onClick={() => setIsModalOpen(true)}
@@ -141,7 +140,7 @@ export function BusForm({ activator }: Props) {
             ]}
           >
             <Input
-              addonBefore={<TbLicense title="Placa" />}
+              addonBefore={<CreditCard title="Placa" />}
               placeholder="LXC-48C"
             />
           </Form.Item>

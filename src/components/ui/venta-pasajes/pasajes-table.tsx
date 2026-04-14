@@ -3,15 +3,13 @@ import { Button, Dropdown, Space, Table, Tag, Tooltip, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { type Dayjs } from "dayjs";
 import { useSession } from "@/hooks/use-session";
-import { IoFilterSharp } from "react-icons/io5";
-import { TbBus } from "react-icons/tb";
+import { Filter, Bus, ChevronDown } from "lucide-react";
 import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";
 import { useNavigate } from "@tanstack/react-router";
 import type { AnyObject } from "antd/es/_util/type";
-import { GoChevronDown } from "react-icons/go";
 type Viaje = {
   ruta: {
     ciudadOrigen: string;
@@ -55,7 +53,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       render: (ruta: { ciudadOrigen: string }) => ruta.ciudadOrigen,
       filterOnClose: true,
       filters: origenFilterItems,
-      filterIcon: <IoFilterSharp size={16} />,
+      filterIcon: <Filter size={16} />,
       onFilter: (value, record: AnyObject) =>
         (record as Viaje).ruta.ciudadOrigen.includes(value as string),
     },
@@ -66,7 +64,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       render: (ruta: { ciudadDestino: string }) => ruta.ciudadDestino,
       filterOnClose: true,
       filters: destinoFilterItems,
-      filterIcon: <IoFilterSharp size={16} />,
+      filterIcon: <Filter size={16} />,
       onFilter: (value, record: AnyObject) =>
         (record as Viaje).ruta?.ciudadDestino?.includes(value as string),
     },
@@ -109,7 +107,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
       key: "placaBus",
       render: (bus: { placa: string }) => (
         <Tooltip className="cursor-pointer" title={bus.placa}>
-          <TbBus
+          <Bus
             strokeWidth={1}
             size={25}
             className="text-zinc-600 dark:text-zinc-400"
@@ -162,7 +160,12 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
                 <RegistrarPasajeModal viajeId={id} />
                 <Typography
                   className="lg:hidden"
-                  onClick={() => void navigate({ to: "/viaje/$viajeId", params: { viajeId: id } })}
+                  onClick={() =>
+                    void navigate({
+                      to: "/viaje/$viajeId",
+                      params: { viajeId: id },
+                    })
+                  }
                 >
                   Asientos
                 </Typography>
@@ -181,7 +184,7 @@ export function PasajesTable({ dayQuery }: { dayQuery: Dayjs }) {
 
         return session ? (
           <Dropdown trigger={["click"]} menu={{ items }}>
-            <Button type="primary" icon={<GoChevronDown size={15} />}>
+            <Button type="primary" icon={<ChevronDown size={15} />}>
               Ver
             </Button>
           </Dropdown>

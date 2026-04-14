@@ -15,9 +15,7 @@ import type { CascaderProps } from "antd/lib/cascader";
 import type { UploadProps } from "antd";
 import { useEffect, useState } from "react";
 import { uploadFileToCloudinary } from "@/utils/cloudinary";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { BsPassport, BsTelephone } from "react-icons/bs";
-import { HiOutlineUpload } from "react-icons/hi";
+import { PlusCircle, Phone, FileText, Upload } from "lucide-react";
 import type { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -37,7 +35,7 @@ interface RolNodeType {
   children?: RolNodeType[];
 }
 
-const rolesSistema: CascaderProps<RolNodeType>["options"] = [
+const rolesSistema: CascaderProps["options"] = [
   {
     value: "ADMIN",
     label: "Administrador",
@@ -72,8 +70,8 @@ export function UsuarioForm({
   isModalOpen,
 }: Props) {
   const { openMessage } = useMessageContext();
-  const [usuarioDni, setUsuarioDni] = useState<string>("");
-  const [source, setSource] = useState<string | undefined>();
+  const [usuarioDni, setUsuarioDni] = useState("");
+  const [source, setSource] = useState();
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [form] = Form.useForm();
   const { data: reniecResponse, error: errorValidacionDNI } =
@@ -110,9 +108,7 @@ export function UsuarioForm({
       { id },
 
       {
-        onSuccess: (
-          response: RouterOutputs["usuarios"]["disableUser"]
-        ) => {
+        onSuccess: (response: RouterOutputs["usuarios"]["disableUser"]) => {
           openMessage({
             content: response.message,
             type: "success",
@@ -133,7 +129,7 @@ export function UsuarioForm({
     );
   };
 
-  function handleUpdateUser(values: z.infer<typeof usuarioSchema>) {
+  function handleUpdateUser(values: z.infer) {
     if (!usuarioSingle?.response) return;
 
     updateUserMutation.mutate(
@@ -168,7 +164,7 @@ export function UsuarioForm({
     );
   }
 
-  function handleCreateUser(values: z.infer<typeof usuarioSchema>) {
+  function handleCreateUser(values: z.infer) {
     if (reniecResponse?.data === undefined) {
       return openMessage({
         content: "El DNI no existe en la base de datos de la RENIEC",
@@ -209,7 +205,7 @@ export function UsuarioForm({
     );
   }
 
-  function onFinish(values: z.infer<typeof usuarioSchema>) {
+  function onFinish(values: z.infer) {
     if (usuarioIdToEdit) {
       handleUpdateUser(values);
     } else {
@@ -257,7 +253,7 @@ export function UsuarioForm({
     <>
       <Button
         type="primary"
-        icon={<AiOutlinePlusCircle size={15} />}
+        icon={<PlusCircle size={15} />}
         onClick={() => setIsModalOpen(true)}
       >
         {activator}
@@ -318,9 +314,9 @@ export function UsuarioForm({
             <Input
               type="number"
               maxLength={8}
-              addonBefore={<BsPassport />}
+              addonBefore={<FileText />}
               placeholder="12345678"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              onChange={(event: React.ChangeEvent) => {
                 const dni = event.target.value;
                 setUsuarioDni(dni);
               }}
@@ -343,7 +339,7 @@ export function UsuarioForm({
               type="number"
               placeholder="987654321"
               maxLength={9}
-              addonBefore={<BsTelephone />}
+              addonBefore={<Phone />}
               style={{ width: "100%" }}
             />
           </Form.Item>
@@ -436,7 +432,7 @@ export function UsuarioForm({
                 showUploadList={false}
                 beforeUpload={handleBeforeUpload}
               >
-                <Button icon={<HiOutlineUpload />} loading={uploadingPhoto}>
+                <Button icon={<Upload />} loading={uploadingPhoto}>
                   Cargar Imagen
                 </Button>
               </Upload>

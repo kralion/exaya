@@ -1,8 +1,6 @@
 import { Steps } from "antd";
 import { useCallback, useEffect, useState } from "react";
-import { FaFileInvoiceDollar, FaLuggageCart } from "react-icons/fa";
-import { MdEventSeat } from "react-icons/md";
-import { RxUpdate } from "react-icons/rx";
+import { FileText, Luggage, Armchair, RefreshCw } from "lucide-react";
 
 export function EstadisticasNumericas({
   totalBoletosVendidos,
@@ -33,7 +31,7 @@ export function EstadisticasNumericas({
       items={[
         {
           title: "Monto Total",
-          icon: <RxUpdate className="mx-2 my-5 animate-spin" />,
+          icon: <RefreshCw className="mx-2 my-5 animate-spin" />,
           description: (
             <span>
               Incluido el % de <strong>IGV</strong>
@@ -42,7 +40,7 @@ export function EstadisticasNumericas({
         },
         {
           title: "Asientos",
-          icon: <MdEventSeat className="mx-2 my-5" />,
+          icon: <Armchair className="mx-2 my-5" />,
           description: (
             <span>
               <strong>{totalBoletosVendidos}</strong> vendido(s)
@@ -51,7 +49,7 @@ export function EstadisticasNumericas({
         },
         {
           title: "Registradas",
-          icon: <FaLuggageCart className="mx-2 my-5" />,
+          icon: <Luggage className="mx-2 my-5" />,
           description: (
             <span>
               <strong>{totalEncomiendasRegistradas}</strong> encomiendas
@@ -60,7 +58,7 @@ export function EstadisticasNumericas({
         },
         {
           title: "Sumatoria",
-          icon: <FaFileInvoiceDollar className="mx-2 my-5" />,
+          icon: <FileText className="mx-2 my-5" />,
           description: "Contabilizado al total",
         },
       ]}

@@ -1,6 +1,6 @@
 import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
-import { LuTrash2 } from "react-icons/lu";
+import { Trash2 } from "lucide-react";
 
 import {
   Alert,
@@ -15,7 +15,7 @@ import {
 import { Link } from "@tanstack/react-router";
 
 import type { ColumnsType } from "antd/es/table";
-import { FiEdit3 } from "react-icons/fi";
+import { Edit } from "lucide-react";
 const { Text } = Typography;
 export default function UsuariosTable({
   setUsuarioIdToEdit,
@@ -146,7 +146,7 @@ export default function UsuariosTable({
                 setIsModalOpen(true);
               }}
               title="Editar"
-              icon={<FiEdit3 />}
+              icon={<Edit />}
             />
             <Popconfirm
               okButtonProps={{
@@ -161,7 +161,7 @@ export default function UsuariosTable({
                 type="primary"
                 danger
                 title="Eliminar"
-                icon={<LuTrash2 />}
+                icon={<Trash2 />}
               />
             </Popconfirm>
           </Space>

@@ -1,5 +1,5 @@
 import React from "react";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { CheckCircle } from "lucide-react";
 import styles from "./planes.module.css";
 import { PricingModal } from "@/components/landing/pricing-modal";
 type PlanesCardProps = {
@@ -35,7 +35,7 @@ export default function PlanesCard({
           {planFeatures.map((feature) => (
             <div key={feature.length}>
               <li className="  flex items-center gap-2">
-                <AiFillCheckCircle className=" w-7 text-orange-500" />
+                <CheckCircle className=" w-7 text-orange-500" />
                 {feature}
               </li>
               <hr className="my-3 border-orange-400/50" />

@@ -2,7 +2,7 @@ import { api } from "@/utils/api";
 import { Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type { AnyObject } from "antd/lib/_util/type";
-import { IoFilterSharp } from "react-icons/io5";
+import { Filter } from "lucide-react";
 const IGV_RATE = 0.18;
 interface Ruta {
   ciudadOrigen: string;
@@ -32,7 +32,7 @@ export default function TableContable() {
       key: "ruta",
       filters: filterItems,
       filterOnClose: true,
-      filterIcon: <IoFilterSharp size={16} />,
+      filterIcon: <Filter size={16} />,
       width: "25%",
       render: (ruta: { ciudadOrigen: string; ciudadDestino: string }) =>
         `${ruta.ciudadOrigen} - ${ruta.ciudadDestino}`,

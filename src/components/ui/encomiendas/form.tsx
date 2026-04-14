@@ -13,17 +13,14 @@ import { useMessageContext } from "@/context/MessageContext";
 import { encomiendaSchema } from "@/schemas";
 import dayjs, { type Dayjs } from "dayjs";
 import { useSession } from "@/hooks/use-session";
-import { FaBuilding, FaBuildingShield } from "react-icons/fa6";
+import { Building, Building2 } from "lucide-react";
 import { api } from "@/utils/api";
 import { useEffect, useState } from "react";
 import type { z } from "zod";
 import { customAlphabet } from "nanoid";
 const { Title } = Typography;
 
-enum SerieEncomienda {
-  B001 = "B001",
-  F001 = "F001",
-}
+enum SerieEncomienda
 
 export function EncomiendasForm({
   encomiendaIdToEdit,
@@ -37,17 +34,17 @@ export function EncomiendasForm({
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const nanoid = customAlphabet("0123456789abcdef", 6);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
-  const [trackingCode, setTrackingCode] = useState<string>(nanoid());
+  const [trackingCode, setTrackingCode] = useState(nanoid());
   const utils = api.useUtils();
   const { data: singleEncomienda } = api.encomiendas.getEncomiendaById.useQuery(
     {
       id: encomiendaIdToEdit,
-    }
+    },
   );
-  const [remitenteDNI, setRemitenteDNI] = useState<string>("");
+  const [remitenteDNI, setRemitenteDNI] = useState("");
 
-  const [destinatarioDNI, setDestinatarioDNI] = useState<string>("");
-  const [dateQuery, setDateQuery] = useState<Dayjs>(dayjs().startOf("day"));
+  const [destinatarioDNI, setDestinatarioDNI] = useState("");
+  const [dateQuery, setDateQuery] = useState(dayjs().startOf("day"));
   const {
     data: viajesDiariosDisponibles,
     isLoading: isLoadingViajesDiariosDisponibles,
@@ -74,7 +71,7 @@ export function EncomiendasForm({
       enabled:
         destinatarioDNI.length === 8 &&
         destinatarioDNI !== singleEncomienda?.response?.destinatarioDni,
-    }
+    },
   );
   const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
     {
@@ -84,12 +81,10 @@ export function EncomiendasForm({
       enabled:
         remitenteDNI.length === 8 &&
         remitenteDNI !== singleEncomienda?.response?.remitenteDni,
-    }
+    },
   );
 
-  async function handleUpdateEncomienda(
-    values: z.infer<typeof encomiendaSchema>
-  ) {
+  async function handleUpdateEncomienda(values: z.infer) {
     const serie: SerieEncomienda = values.factura
       ? SerieEncomienda.F001
       : SerieEncomienda.B001;
@@ -143,12 +138,10 @@ export function EncomiendasForm({
             duration: 3,
           });
         },
-      }
+      },
     );
   }
-  async function handleCreateEncomienda(
-    values: z.infer<typeof encomiendaSchema>
-  ) {
+  async function handleCreateEncomienda(values: z.infer) {
     const serie: SerieEncomienda = values.factura
       ? SerieEncomienda.F001
       : SerieEncomienda.B001;
@@ -200,11 +193,11 @@ export function EncomiendasForm({
             duration: 3,
           });
         },
-      }
+      },
     );
   }
 
-  async function onFinish(values: z.infer<typeof encomiendaSchema>) {
+  async function onFinish(values: z.infer) {
     if (encomiendaIdToEdit) {
       await handleUpdateEncomienda(values);
     } else {
@@ -272,10 +265,10 @@ export function EncomiendasForm({
             remitenteDNI === ""
               ? ""
               : remitenteInformacion?.status === "error"
-              ? "error"
-              : remitenteInformacion?.status === "success"
-              ? "success"
-              : "validating"
+                ? "error"
+                : remitenteInformacion?.status === "success"
+                  ? "success"
+                  : "validating"
           }
           help={
             remitenteDNI === "" ? (
@@ -294,7 +287,7 @@ export function EncomiendasForm({
           }
         >
           <Input
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event: React.ChangeEvent) => {
               setRemitenteDNI(event.target.value);
             }}
             type="number"
@@ -321,10 +314,10 @@ export function EncomiendasForm({
             destinatarioDNI === ""
               ? ""
               : receptorInformacion?.status === "error"
-              ? "error"
-              : receptorInformacion?.status === "success"
-              ? "success"
-              : "validating"
+                ? "error"
+                : receptorInformacion?.status === "success"
+                  ? "success"
+                  : "validating"
           }
           help={
             destinatarioDNI === "" ? (
@@ -343,7 +336,7 @@ export function EncomiendasForm({
           }
         >
           <Input
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(event: React.ChangeEvent) => {
               setDestinatarioDNI(event.target.value);
             }}
             type="number"
@@ -394,7 +387,7 @@ export function EncomiendasForm({
                       hour12: true,
                     })}
                   </Select.Option>
-                )
+                ),
               )}
             </Select>
           </Form.Item>
@@ -483,7 +476,7 @@ export function EncomiendasForm({
             >
               <Input
                 className="w-full lg:w-[505px]"
-                addonBefore={<FaBuilding />}
+                addonBefore={<Building />}
               />
             </Form.Item>
             <Form.Item
@@ -493,7 +486,7 @@ export function EncomiendasForm({
             >
               <Input
                 type="number"
-                addonBefore={<FaBuildingShield />}
+                addonBefore={<Building2 />}
                 maxLength={11}
                 className="w-full lg:w-[505px]"
               />

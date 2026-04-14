@@ -2,8 +2,7 @@ import { useSession } from "@/hooks/use-session";
 import { Button, Divider, Drawer, Flex, Space, Typography } from "antd";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import { TbMenu } from "react-icons/tb";
+import { X, Menu } from "lucide-react";
 const { Text } = Typography;
 
 type NavigationProps = {
@@ -25,9 +24,9 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
         onClick={() => setOpen(true)}
       >
         {open ? (
-          <IoClose className="duration-500 " size={30} />
+          <X className="duration-500 " size={30} />
         ) : (
-          <TbMenu className="duration-500" size={30} />
+          <Menu className="duration-500" size={30} />
         )}
       </button>
 
@@ -40,7 +39,7 @@ export default function MobileNavBar({ navLinks }: NavigationProps) {
                 Sistema de Gestión de Viajes y Encomiendas.
               </Text>
             </div>
-            <IoClose
+            <X
               className="active:opacity-70"
               size={30}
               strokeWidth={2}

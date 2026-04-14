@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { customAlphabet } from "nanoid";
 import React, { useState } from "react";
-import { FaSquare } from "react-icons/fa";
+import { Square } from "lucide-react";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
@@ -24,11 +24,11 @@ const { Title, Text } = Typography;
 export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
+  const [pasajeroDNI, setPasajeroDNI] = useState("");
   const [openRegister, setOpenRegister] = useState(false);
   const { openMessage } = useMessageContext();
   const [form] = Form.useForm();
-  const [selectedSeat, setSelectedSeat] = useState<number>(1);
+  const [selectedSeat, setSelectedSeat] = useState(1);
   const { data: viaje } = api.viajes.getViajeById.useQuery({
     id: viajeId,
   });
@@ -71,7 +71,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     });
   };
 
-  async function onFinish(values: z.infer<typeof boletoSchema>) {
+  async function onFinish(values: z.infer) {
     const n = 1000;
     const nanoid = customAlphabet("0123456789", Math.ceil(Math.log10(n + 1)));
 
@@ -244,7 +244,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   rootClassName="flex gap-1 items-center"
                   type="success"
                 >
-                  <FaSquare className="rounded-md text-green-500" size={15} />
+                  <Square className="rounded-md text-green-500" size={15} />
                   Vendido
                 </Text>
                 <Text
@@ -252,14 +252,14 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   rootClassName="flex gap-1 items-center"
                   type="warning"
                 >
-                  <FaSquare className="rounded-md text-yellow-500" size={15} />
+                  <Square className="rounded-md text-yellow-500" size={15} />
                   Reservado
                 </Text>
                 <Text
                   className="font-normal"
                   rootClassName="flex gap-1 items-center"
                 >
-                  <FaSquare className="rounded-md text-slate-400" size={15} />
+                  <Square className="rounded-md text-slate-400" size={15} />
                   Disponible
                 </Text>
               </Space>
@@ -336,7 +336,7 @@ export const ComprarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               }
             >
               <Input
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                onChange={(event: React.ChangeEvent) => {
                   const dni = event.target.value;
                   setPasajeroDNI(dni);
                 }}

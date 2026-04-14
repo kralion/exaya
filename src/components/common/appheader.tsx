@@ -19,10 +19,7 @@ export default function AppHeader() {
           className=" hover:motion-rotate-in-[-0.5turn]  "
         />
 
-        <Title
-          level={3}
-          className="pt-3 font-['Black_Ops_One',sans-serif]"
-        >
+        <Title level={3} className="pt-3 font-['Black_Ops_One',sans-serif]">
           Exaya
         </Title>
       </div>

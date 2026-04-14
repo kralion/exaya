@@ -1,8 +1,6 @@
 import { FloatButton } from "antd";
 import { useEffect } from "react";
-import { BsPaintBucket } from "react-icons/bs";
-import { IoMdMoon } from "react-icons/io";
-import { TiWeatherSunny } from "react-icons/ti";
+import { Palette, Moon, Sun } from "lucide-react";
 
 export default function ThemeToggle({
   setTheme,
@@ -21,7 +19,7 @@ export default function ThemeToggle({
       trigger="hover"
       className="hidden w-fit lg:block"
       style={{ left: 7, bottom: 7 }}
-      icon={<BsPaintBucket />}
+      icon={<Palette />}
     >
       <FloatButton
         onClick={() => {
@@ -29,7 +27,7 @@ export default function ThemeToggle({
           localStorage.setItem("theme", "dark");
           document.documentElement.classList.toggle("dark");
         }}
-        icon={<IoMdMoon title="Modo Oscuro" />}
+        icon={<Moon title="Modo Oscuro" />}
       />
       <FloatButton
         onClick={() => {
@@ -37,7 +35,7 @@ export default function ThemeToggle({
           localStorage.setItem("theme", "defaultAlgorithm");
           document.documentElement.classList.remove("dark");
         }}
-        icon={<TiWeatherSunny />}
+        icon={<Sun />}
       />
     </FloatButton.Group>
   );

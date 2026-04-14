@@ -4,7 +4,7 @@ import MobileNav from "@/components/ui/landingpage/mobilenav";
 import AOSWrapper from "@/utils/AOS";
 import { Link } from "@tanstack/react-router";
 import { useSession } from "@/hooks/use-session";
-import { BsArrowRight } from "react-icons/bs";
+import { ArrowRight } from "lucide-react";
 import DesktopNavBar from "../ui/landingpage/desktopnav";
 import Footer from "../common/footer";
 
@@ -39,9 +39,7 @@ export default function LandingLayout({
   const { data: session } = useSession();
   return (
     <AOSWrapper>
-      <div
-        className="overflow-x-hidden font-['Inter',sans-serif] dark:bg-zinc-900 dark:text-white"
-      >
+      <div className="overflow-x-hidden font-['Inter',sans-serif] dark:bg-zinc-900 dark:text-white">
         <div
           className="absolute inset-0 bg-cover  bg-center bg-no-repeat opacity-85 "
           style={{
@@ -68,9 +66,7 @@ export default function LandingLayout({
                 className=" drop-shadow-xl"
                 alt="logo"
               />
-              <span
-                className="font-['Black_Ops_One',sans-serif] text-2xl text-zinc-900 dark:text-zinc-200  lg:text-3xl"
-              >
+              <span className="font-['Black_Ops_One',sans-serif] text-2xl text-zinc-900 dark:text-zinc-200  lg:text-3xl">
                 Exaya
               </span>
             </div>
@@ -79,13 +75,10 @@ export default function LandingLayout({
           <MobileNav navLinks={navLinks} />
           <DesktopNavBar navLinks={navLinks} />
           {session ? (
-            <a
-              className="hidden lg:block"
-              href="/dashboard"
-            >
+            <a className="hidden lg:block" href="/dashboard">
               <span className="group flex items-center gap-1 text-sm font-semibold duration-300 hover:underline">
                 Ir al Dashboard{" "}
-                <BsArrowRight
+                <ArrowRight
                   className="duration-300 group-hover:translate-x-2"
                   size={15}
                 />

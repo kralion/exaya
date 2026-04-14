@@ -4,16 +4,15 @@ import { Button, Flex, Input, Space, type InputRef } from "antd";
 import { useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { useHotkeys } from "react-hotkeys-hook";
-import { BsStars } from "react-icons/bs";
-import { IoMic, IoMicOutline } from "react-icons/io5";
+import { Sparkles, Mic, MicOff } from "lucide-react";
 
 export const AIAssistantInput = () => {
-  const inputRef = useRef<InputRef>(null);
+  const inputRef = useRef(null);
   useHotkeys("ctrl+enter", () => {
     inputRef.current?.focus();
   });
   const { openMessage } = useMessageContext();
-  const [audioRecorded, setAudioRecorded] = useState<Blob | null>(null);
+  const [audioRecorded, setAudioRecorded] = useState(null);
   const { startRecording, stopRecording, recordingBlob, isRecording } =
     useAudioRecorder();
   const [generating, setGenerating] = useState(false);
@@ -90,15 +89,12 @@ export const AIAssistantInput = () => {
           onClick={isRecording ? handleStopRecording : handleStartRecording}
           icon={
             isRecording ? (
-              <IoMic
+              <Mic
                 className="animate-pulse text-zinc-500 dark:text-zinc-400 "
                 size={20}
               />
             ) : (
-              <IoMicOutline
-                className="text-zinc-500 dark:text-zinc-400"
-                size={20}
-              />
+              <MicOff className="text-zinc-500 dark:text-zinc-400" size={20} />
             )
           }
         />
@@ -107,7 +103,7 @@ export const AIAssistantInput = () => {
           type="primary"
           className="motion-preset-pop   "
           iconPosition="end"
-          icon={<BsStars size={20} />}
+          icon={<Sparkles size={20} />}
           onClick={handleGenerate}
           loading={generating}
         >

@@ -12,7 +12,7 @@ import {
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useEffect, useState } from "react";
-import { RxDownload } from "react-icons/rx";
+import { Download } from "lucide-react";
 import { EncomiendasManifiestoTable } from "./encomiendas-table";
 import { PasajerosManifiestoTable } from "./pasajeros-table";
 const { Title, Text } = Typography;
@@ -105,7 +105,7 @@ export function Manifiesto({ viajeId }: { viajeId: string }) {
             <Button
               type="primary"
               title="Descargar PDF"
-              icon={<RxDownload />}
+              icon={<Download />}
               onClick={handlePrint}
             >
               Descargar

@@ -17,7 +17,7 @@ import {
 } from "antd";
 import { useSession } from "@/hooks/use-session";
 import React, { useEffect, useRef, useState } from "react";
-import { FaSquare } from "react-icons/fa";
+import { Square } from "lucide-react";
 import type { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { boletoSchema } from "@/schemas";
@@ -29,10 +29,10 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
   const [open, setOpen] = useState(false);
   const [print, setPrint] = useState(false);
   const { openMessage } = useMessageContext();
-  const [pasajeroDNI, setPasajeroDNI] = useState<string>("");
+  const [pasajeroDNI, setPasajeroDNI] = useState("");
   const [openRegister, setOpenRegister] = useState(false);
   const [form] = Form.useForm();
-  const [selectedSeat, setSelectedSeat] = useState<number>(1);
+  const [selectedSeat, setSelectedSeat] = useState(1);
   const { data: viaje, isLoading: isLoadingViaje } =
     api.viajes.getViajeById.useQuery({
       id: viajeId,
@@ -47,8 +47,8 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
       status: "PAGADO",
       viajeId,
     });
-  const [codigoOperacion, setCodigoOperacion] = useState<string>("");
-  const [boletoStatus, setBoletoStatus] = useState<BoletoEstado>("DISPONIBLE");
+  const [codigoOperacion, setCodigoOperacion] = useState("");
+  const [boletoStatus, setBoletoStatus] = useState("DISPONIBLE");
   const { data: boletosReservados, refetch: refetchBoletosReservados } =
     api.boletos.getBoletosByStatusAndViajeId.useQuery({
       status: "RESERVADO",
@@ -90,7 +90,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     { length: viaje?.response?.bus.asientos || 40 },
     (_, i) => i + 1
   );
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef(null);
   const {
     mutateAsync: deleteBoletoMutation,
     isLoading: isLoadingDeleteBoleto,
@@ -135,7 +135,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     printDocument();
   };
 
-  async function createBoleto(values: z.infer<typeof boletoSchema>) {
+  async function createBoleto(values: z.infer) {
     if (boletoStatus === "PAGADO") {
       await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
       await refetchSede();
@@ -189,7 +189,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     );
   }
 
-  async function updateBoleto(values: z.infer<typeof boletoSchema>) {
+  async function updateBoleto(values: z.infer) {
     if (boletoStatus === "PAGADO") {
       await incrementBoletoCounter({ id: sede?.response?.id ?? "" });
       await refetchSede();
@@ -243,7 +243,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
     );
   }
 
-  async function onFinish(values: z.infer<typeof boletoSchema>) {
+  async function onFinish(values: z.infer) {
     if (selectedBoleto) {
       await updateBoleto(values);
     } else {
@@ -394,7 +394,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   rootClassName="flex gap-1 items-center"
                   type="success"
                 >
-                  <FaSquare className="rounded-md text-green-500" size={15} />
+                  <Square className="rounded-md text-green-500" size={15} />
                   Vendidos: {boletosVendidos?.response?.length}
                 </Text>
                 <Text
@@ -402,7 +402,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   rootClassName="flex gap-1 items-center"
                   type="warning"
                 >
-                  <FaSquare className="rounded-md text-yellow-500" size={15} />
+                  <Square className="rounded-md text-yellow-500" size={15} />
                   Reservados: {boletosReservados?.response?.length}
                 </Text>
               </Space>
@@ -411,21 +411,21 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
                   className="font-normal"
                   rootClassName="flex gap-1 items-center"
                 >
-                  <FaSquare className="rounded-md text-purple-500" size={15} />
+                  <Square className="rounded-md text-purple-500" size={15} />
                   Agencia Huanta
                 </Text>
                 <Text
                   className="font-normal"
                   rootClassName="flex gap-1 items-center"
                 >
-                  <FaSquare className="rounded-md text-cyan-500" size={15} />
+                  <Square className="rounded-md text-cyan-500" size={15} />
                   Agencia Ayacucho
                 </Text>
                 <Text
                   className="font-normal"
                   rootClassName="flex gap-1 items-center"
                 >
-                  <FaSquare className="rounded-md text-rose-500" size={15} />
+                  <Square className="rounded-md text-rose-500" size={15} />
                   Agencia Huancayo
                 </Text>
               </Space>
@@ -532,7 +532,7 @@ export const RegistrarPasajeModal = ({ viajeId }: { viajeId: string }) => {
               }
             >
               <Input
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                onChange={(event: React.ChangeEvent) => {
                   const dni = event.target.value;
                   setPasajeroDNI(dni);
                 }}

@@ -1,6 +1,6 @@
 import { api } from "@/utils/api";
 import { Avatar, Empty, List, Steps } from "antd";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { CheckCircle, XCircle } from "lucide-react";
 import ConductorModal from "./conductores/conductor-modal";
 
 const items = [
@@ -76,9 +76,9 @@ export function ConductoresInformacion({
                   />
 
                   {conductor.disponibilidad === true ? (
-                    <AiFillCheckCircle className=" text-green-500" />
+                    <CheckCircle className=" text-green-500" />
                   ) : (
-                    <AiFillCloseCircle className=" text-red-500" />
+                    <XCircle className=" text-red-500" />
                   )}
                 </div>
               }

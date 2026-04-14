@@ -1,4 +1,4 @@
-import { BsTwitterX, BsGithub } from "react-icons/bs";
+import { Twitter, Github } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -32,15 +32,15 @@ export default function Footer() {
             target="_blank"
             className="cursor-pointer hover:opacity-60"
           >
-            <BsTwitterX width={30} height={30} />
-          </a>         
+            <Twitter width={30} height={30} />
+          </a>
           <a
             href="https://github.com/kralion"
             rel="noopener noreferrer"
             target="_blank"
             className="cursor-pointer hover:opacity-60"
           >
-            <BsGithub width={30} height={30} />
+            <Github width={30} height={30} />
           </a>
         </span>
       </div>

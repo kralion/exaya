@@ -17,8 +17,7 @@ import {
 import type { UploadProps } from "antd";
 import { useEffect, useState } from "react";
 import { uploadFileToCloudinary } from "@/utils/cloudinary";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { BsTelephone } from "react-icons/bs";
+import { PlusCircle, Phone } from "lucide-react";
 
 const { Title } = Typography;
 type Props = {
@@ -33,7 +32,7 @@ export function ConductorForm({
   setIsModalOpen,
   isModalOpen,
 }: Props) {
-  const [source, setSource] = useState<string | undefined>();
+  const [source, setSource] = useState();
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const { openMessage } = useMessageContext();
   const utils = api.useUtils();
@@ -44,7 +43,7 @@ export function ConductorForm({
     setSource(undefined);
   };
   const [form] = Form.useForm();
-  const [conductorDNI, setConductorDNI] = useState<string>("");
+  const [conductorDNI, setConductorDNI] = useState("");
   const createConductorMutation = api.conductores.createConductor.useMutation();
   const updateConductorMutation = api.conductores.updateConductor.useMutation();
   const { data: conductorSingle } = api.conductores.getConductorById.useQuery({
@@ -59,7 +58,7 @@ export function ConductorForm({
         enabled: conductorDNI?.length === 8,
       }
     );
-  function handleUpdateConductor(values: z.infer<typeof conductorSchema>) {
+  function handleUpdateConductor(values: z.infer) {
     if (!reniecResponse?.data) {
       return openMessage({
         content: "Verique el DNI del conductor",
@@ -104,7 +103,7 @@ export function ConductorForm({
     );
   }
 
-  function handleCreateConductor(values: z.infer<typeof conductorSchema>) {
+  function handleCreateConductor(values: z.infer) {
     if (!reniecResponse?.data) {
       return openMessage({
         content: "Verique el DNI del conductor",
@@ -148,7 +147,7 @@ export function ConductorForm({
     );
   }
 
-  function onFinish(values: z.infer<typeof conductorSchema>) {
+  function onFinish(values: z.infer) {
     if (conductorIdToEdit) {
       handleUpdateConductor(values);
     } else {
@@ -192,7 +191,7 @@ export function ConductorForm({
   return (
     <>
       <Button
-        icon={<AiOutlinePlusCircle size={15} />}
+        icon={<PlusCircle size={15} />}
         type="primary"
         onClick={() => setIsModalOpen(true)}
       >
@@ -249,7 +248,7 @@ export function ConductorForm({
             }
           >
             <Input
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              onChange={(event: React.ChangeEvent) => {
                 const dni = event.target.value;
                 setConductorDNI(dni);
               }}
@@ -268,7 +267,7 @@ export function ConductorForm({
               type="number"
               maxLength={9}
               placeholder="987654321"
-              addonBefore={<BsTelephone title="N° celular" />}
+              addonBefore={<Phone title="N° celular" />}
             />
           </Form.Item>
           <Form.Item

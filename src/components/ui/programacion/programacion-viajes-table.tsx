@@ -2,9 +2,7 @@ import { useMessageContext } from "@/context/MessageContext";
 import { api } from "@/utils/api";
 import { Button, Popconfirm, Space, Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { FiEdit3 } from "react-icons/fi";
-import { TbBus } from "react-icons/tb";
+import { Trash2, Edit, Bus } from "lucide-react";
 export function ProgramacionTable({
   setIdToEdit,
 }: {
@@ -61,7 +59,7 @@ export function ProgramacionTable({
 
       render: (bus: { placa: string; id: string }) => (
         <Tooltip className="cursor-pointer" key={bus.id} title={bus.placa}>
-          <TbBus
+          <Bus
             strokeWidth={1}
             size={25}
             className="text-zinc-600 dark:text-zinc-400"
@@ -125,7 +123,7 @@ export function ProgramacionTable({
           <Button
             title="Editar"
             onClick={() => setIdToEdit(id)}
-            icon={<FiEdit3 />}
+            icon={<Edit />}
           />
           <Popconfirm
             okButtonProps={{
@@ -136,12 +134,7 @@ export function ProgramacionTable({
             cancelText="No"
             onConfirm={() => handleDeleteViaje(id)}
           >
-            <Button
-              title="Eliminar"
-              icon={<FaRegTrashCan />}
-              type="text"
-              danger
-            />
+            <Button title="Eliminar" icon={<Trash2 />} type="text" danger />
           </Popconfirm>
         </Space>
       ),
