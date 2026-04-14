@@ -15,7 +15,7 @@ import type { CascaderProps } from "antd/lib/cascader";
 import type { UploadProps } from "antd";
 import { useEffect, useState } from "react";
 import { uploadFileToCloudinary } from "@/utils/cloudinary";
-import { PlusCircle, Phone, FileText, Upload } from "lucide-react";
+import { PlusCircle, Phone, FileText } from "lucide-react";
 import type { z } from "zod";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports

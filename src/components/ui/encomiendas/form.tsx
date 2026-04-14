@@ -20,7 +20,7 @@ import type { z } from "zod";
 import { customAlphabet } from "nanoid";
 const { Title } = Typography;
 
-enum SerieEncomienda
+enum SerieEncomienda {}
 
 export function EncomiendasForm({
   encomiendaIdToEdit,
@@ -39,7 +39,7 @@ export function EncomiendasForm({
   const { data: singleEncomienda } = api.encomiendas.getEncomiendaById.useQuery(
     {
       id: encomiendaIdToEdit,
-    },
+    }
   );
   const [remitenteDNI, setRemitenteDNI] = useState("");
 
@@ -71,7 +71,7 @@ export function EncomiendasForm({
       enabled:
         destinatarioDNI.length === 8 &&
         destinatarioDNI !== singleEncomienda?.response?.destinatarioDni,
-    },
+    }
   );
   const { data: remitenteInformacion } = api.clientes.validateDni.useQuery(
     {
@@ -81,7 +81,7 @@ export function EncomiendasForm({
       enabled:
         remitenteDNI.length === 8 &&
         remitenteDNI !== singleEncomienda?.response?.remitenteDni,
-    },
+    }
   );
 
   async function handleUpdateEncomienda(values: z.infer) {
@@ -138,7 +138,7 @@ export function EncomiendasForm({
             duration: 3,
           });
         },
-      },
+      }
     );
   }
   async function handleCreateEncomienda(values: z.infer) {
@@ -193,7 +193,7 @@ export function EncomiendasForm({
             duration: 3,
           });
         },
-      },
+      }
     );
   }
 
@@ -265,10 +265,10 @@ export function EncomiendasForm({
             remitenteDNI === ""
               ? ""
               : remitenteInformacion?.status === "error"
-                ? "error"
-                : remitenteInformacion?.status === "success"
-                  ? "success"
-                  : "validating"
+              ? "error"
+              : remitenteInformacion?.status === "success"
+              ? "success"
+              : "validating"
           }
           help={
             remitenteDNI === "" ? (
@@ -314,10 +314,10 @@ export function EncomiendasForm({
             destinatarioDNI === ""
               ? ""
               : receptorInformacion?.status === "error"
-                ? "error"
-                : receptorInformacion?.status === "success"
-                  ? "success"
-                  : "validating"
+              ? "error"
+              : receptorInformacion?.status === "success"
+              ? "success"
+              : "validating"
           }
           help={
             destinatarioDNI === "" ? (
@@ -387,7 +387,7 @@ export function EncomiendasForm({
                       hour12: true,
                     })}
                   </Select.Option>
-                ),
+                )
               )}
             </Select>
           </Form.Item>
