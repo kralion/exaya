@@ -6,7 +6,7 @@ import { Button, FloatButton, Layout, Menu, theme, Typography } from "antd";
 import { useSignOut, useSession } from "@/hooks/use-session";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import React, { useContext, useEffect } from "react";
-import { AIAssistantInput } from "../ui/panel-de-control/ai-assistant-input";
+import { AIAssistantInput } from "@/features/dashboard/components/ai-assistant-input";
 import { AccountingIcon } from "../ui/icons/accounting-icons";
 import { ChartIcon } from "../ui/icons/chart-icon";
 import { HomeIcon } from "../ui/icons/home-icon";

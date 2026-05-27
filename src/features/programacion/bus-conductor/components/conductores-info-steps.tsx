@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { Avatar, Empty, List, Steps } from "antd";
 import { CheckCircle, XCircle } from "lucide-react";
-import ConductorModal from "./conductores/conductor-modal";
+import ConductorModal from "./conductor-modal";
 
 const items = [
   {

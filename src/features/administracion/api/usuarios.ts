@@ -1,6 +1,6 @@
 import { usuarioSchema } from "@/schemas";
 import { createSupabaseAdminClient } from "@/server/supabase/admin-client";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
 import { usernameToAuthEmail } from "@/shared/auth/auth-email";
 import { hashSync } from "bcrypt";
 import { z } from "zod";

@@ -1,10 +1,10 @@
 export { authRouter } from "./auth";
-export { boletosRouter } from "./boletos";
+export { boletosRouter } from "@/features/pasajes/api/boletos";
 export { clientesRouter } from "./clientes";
-export { viajesRouter } from "./viajes";
+export { viajesRouter } from "@/features/programacion/viajes/api/viajes";
 export { rutasRouter } from "./rutas";
-export { busesRouter } from "./buses";
-export { conductoresRouter } from "./conductores";
-export { usuariosRouter } from "./usuarios";
-export { encomiendasRouter } from "./encomiendas";
+export { busesRouter } from "@/features/programacion/bus-conductor/api/buses";
+export { conductoresRouter } from "@/features/programacion/bus-conductor/api/conductores";
+export { usuariosRouter } from "@/features/administracion/api/usuarios";
+export { encomiendasRouter } from "@/features/encomiendas/api/encomiendas";
 export { sedesRouter } from "./sedes";

@@ -4,7 +4,7 @@ import type { ColumnsType } from "antd/es/table";
 import { type Dayjs } from "dayjs";
 import { useSession } from "@/hooks/use-session";
 import { Filter, Bus, ChevronDown } from "lucide-react";
-import { ComprarPasajeModal } from "../boletos/comprar-pasaje-modal";
+import { ComprarPasajeModal } from "@/components/ui/boletos/comprar-pasaje-modal";
 import { Manifiesto } from "./manifiesto";
 import { MisBoletos } from "./mis-boletos-modal";
 import { RegistrarPasajeModal } from "./registrar-pasaje-modal";

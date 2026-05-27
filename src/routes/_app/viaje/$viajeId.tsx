@@ -1,4 +1,4 @@
-import { Manifiesto } from "@/components/ui/venta-pasajes/manifiesto";
+import { Manifiesto } from "@/features/pasajes/components/manifiesto";
 import { createFileRoute } from "@tanstack/react-router";
 import { Typography } from "antd";
 

@@ -1,5 +1,5 @@
 import LandingLayout from "@/components/landing/landing-layout";
-import { PasajesTable } from "@/components/ui/venta-pasajes/pasajes-table";
+import { PasajesTable } from "@/features/pasajes/components/pasajes-table";
 import { createFileRoute } from "@tanstack/react-router";
 import { DatePicker, Space, Typography } from "antd";
 import dayjs from "dayjs";
